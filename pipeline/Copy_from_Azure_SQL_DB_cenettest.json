@@ -104,7 +104,7 @@
 			},
 			"query": {
 				"type": "string",
-				"defaultValue": "select * from dbo.NationalSample"
+				"defaultValue": "select * from dbo.student"
 			},
 			"sinkFilesystem": {
 				"type": "string",

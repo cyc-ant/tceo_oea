@@ -1021,7 +1021,7 @@
 								]
 							},
 							{
-								"activity": "Copy_from_Azure_SQL_DB",
+								"activity": "Copy_from_Azure_SQL_DB_cenettest",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -1149,13 +1149,13 @@
 						}
 					},
 					{
-						"name": "Copy_from_Azure_SQL_DB",
+						"name": "Copy_from_Azure_SQL_DB_cenettest",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
-								"referenceName": "Copy_from_Azure_SQL_DB",
+								"referenceName": "Copy_from_Azure_SQL_DB_cenettest",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -1195,7 +1195,7 @@
 				"[concat(variables('workspaceId'), '/pipelines/Copy_from_each_URL')]",
 				"[concat(variables('workspaceId'), '/notebooks/OEA_connector')]",
 				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]",
-				"[concat(variables('workspaceId'), '/pipelines/Copy_from_Azure_SQL_DB')]",
+				"[concat(variables('workspaceId'), '/pipelines/Copy_from_Azure_SQL_DB_cenettest')]",
 				"[concat(variables('workspaceId'), '/pipelines/create_sql_db')]",
 				"[concat(variables('workspaceId'), '/pipelines/create_lake_db')]"
 			]
@@ -1919,6 +1919,10 @@
 			"properties": {
 				"nbformat": 4,
 				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
 				"sessionProperties": {
 					"driverMemory": "28g",
 					"driverCores": 4,
@@ -1926,24 +1930,16 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3498af43-8f87-48ae-b177-54f61ce4f948"
-					}
+					"conf": {}
 				},
 				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "python"
 					},
 					"language_info": {
 						"name": "python"
-					},
-					"sessionKeepAliveTimeout": 30
+					}
 				},
 				"cells": [
 					{
@@ -1975,13 +1971,10 @@
 								}
 							}
 						},
-						"source": [
-							""
-						]
+						"source": []
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"# Example #1: End to end (collect, prep, view)\n",
 							"The OEA framework comes with a set of Synapse pipelines that demonstrate how to extract data from data sources with common interfaces.\n",
@@ -4192,6 +4185,140 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Copy_from_Azure_SQL_DB_cenettest')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy from Azure SQL DB",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "@pipeline().parameters.query",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_Azure_SQL_DB",
+								"type": "DatasetReference",
+								"parameters": {
+									"dbServer": {
+										"value": "@pipeline().parameters.dbServer",
+										"type": "Expression"
+									},
+									"dbName": {
+										"value": "@pipeline().parameters.dbName",
+										"type": "Expression"
+									},
+									"userName": {
+										"value": "@pipeline().parameters.userName",
+										"type": "Expression"
+									},
+									"keyVaultSecretName": {
+										"value": "@pipeline().parameters.keyVaultSecretName",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_ADLS_parquet",
+								"type": "DatasetReference",
+								"parameters": {
+									"filesystem": {
+										"value": "@pipeline().parameters.sinkFilesystem",
+										"type": "Expression"
+									},
+									"directory": {
+										"value": "@pipeline().parameters.sinkDirectory",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"dbServer": {
+						"type": "string",
+						"defaultValue": "cenettest.database.windows.net"
+					},
+					"dbName": {
+						"type": "string",
+						"defaultValue": "cenettestdata"
+					},
+					"userName": {
+						"type": "string",
+						"defaultValue": "testadmin"
+					},
+					"keyVaultSecretName": {
+						"type": "string",
+						"defaultValue": "dbpass"
+					},
+					"query": {
+						"type": "string",
+						"defaultValue": "select * from dbo.NationalSample"
+					},
+					"sinkFilesystem": {
+						"type": "string",
+						"defaultValue": "stage1np"
+					},
+					"sinkDirectory": {
+						"type": "string",
+						"defaultValue": "contoso_sis_db/person"
+					}
+				},
+				"folder": {
+					"name": "OEA_Framework/Extracts"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-10-28T06:18:52Z"
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/DS_Azure_SQL_DB')]",
+				"[concat(variables('workspaceId'), '/datasets/DS_ADLS_parquet')]"
+			]
 		}
 	]
 }

@@ -35,7 +35,7 @@
 						]
 					},
 					{
-						"activity": "Copy_from_Azure_SQL_DB",
+						"activity": "Copy_from_Azure_SQL_DB_cenettest",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -163,13 +163,13 @@
 				}
 			},
 			{
-				"name": "Copy_from_Azure_SQL_DB",
+				"name": "Copy_from_Azure_SQL_DB_cenettest",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Copy_from_Azure_SQL_DB",
+						"referenceName": "Copy_from_Azure_SQL_DB_cenettest",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true

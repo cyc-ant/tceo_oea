@@ -360,6 +360,140 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/Copy_from_Azure_SQL_DB_cenettest')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy from Azure SQL DB",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": {
+									"value": "@pipeline().parameters.query",
+									"type": "Expression"
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_Azure_SQL_DB",
+								"type": "DatasetReference",
+								"parameters": {
+									"dbServer": {
+										"value": "@pipeline().parameters.dbServer",
+										"type": "Expression"
+									},
+									"dbName": {
+										"value": "@pipeline().parameters.dbName",
+										"type": "Expression"
+									},
+									"userName": {
+										"value": "@pipeline().parameters.userName",
+										"type": "Expression"
+									},
+									"keyVaultSecretName": {
+										"value": "@pipeline().parameters.keyVaultSecretName",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_ADLS_parquet",
+								"type": "DatasetReference",
+								"parameters": {
+									"filesystem": {
+										"value": "@pipeline().parameters.sinkFilesystem",
+										"type": "Expression"
+									},
+									"directory": {
+										"value": "@pipeline().parameters.sinkDirectory",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"dbServer": {
+						"type": "string",
+						"defaultValue": "cenettest.database.windows.net"
+					},
+					"dbName": {
+						"type": "string",
+						"defaultValue": "cenettestdata"
+					},
+					"userName": {
+						"type": "string",
+						"defaultValue": "testadmin"
+					},
+					"keyVaultSecretName": {
+						"type": "string",
+						"defaultValue": "dbpass"
+					},
+					"query": {
+						"type": "string",
+						"defaultValue": "select * from dbo.student"
+					},
+					"sinkFilesystem": {
+						"type": "string",
+						"defaultValue": "stage1np"
+					},
+					"sinkDirectory": {
+						"type": "string",
+						"defaultValue": "contoso_sis_db/person"
+					}
+				},
+				"folder": {
+					"name": "OEA_Framework/Extracts"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-10-28T06:18:52Z"
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/DS_Azure_SQL_DB')]",
+				"[concat(variables('workspaceId'), '/datasets/DS_ADLS_parquet')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Copy_from_URL')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -990,36 +1124,9 @@
 				"description": "Example pipeline demonstrating typical orchestration of data extraction, landing, ingestion, and creation of lake and sql db's.",
 				"activities": [
 					{
-						"name": "Extract from source - land in stage1np",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "Copy_from_each_URL",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {
-								"endpoints": {
-									"value": "@json('[{\"URL\": \"https://raw.githubusercontent.com/microsoft/OpenEduAnalytics/main/modules/module_catalog/Student_and_School_Data_Systems/test_data/batch1/studentattendance.csv\",\"sinkDirectory\": \"contoso_sis/studentattendance\",\"sinkFilename\": \"part1.csv\"}, {\"URL\": \"https://raw.githubusercontent.com/microsoft/OpenEduAnalytics/main/modules/module_catalog/Student_and_School_Data_Systems/test_data/batch1/studentdemographics.csv\",\"sinkDirectory\": \"contoso_sis/studentdemographics\",\"sinkFilename\": \"part1.csv\"}, {\"URL\": \"https://raw.githubusercontent.com/microsoft/OpenEduAnalytics/main/modules/module_catalog/Student_and_School_Data_Systems/test_data/batch1/studentsectionmark.csv\",\"sinkDirectory\": \"contoso_sis/studentsectionmark\",\"sinkFilename\": \"part1.csv\"}]')",
-									"type": "Expression"
-								},
-								"sinkFilesystem": "stage1np",
-								"timezone": "Eastern Standard Time"
-							}
-						}
-					},
-					{
 						"name": "ingest into stage2p and 2np",
 						"type": "SynapseNotebook",
 						"dependsOn": [
-							{
-								"activity": "Extract from source - land in stage1np",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
 							{
 								"activity": "Copy_from_Azure_SQL_DB_cenettest",
 								"dependencyConditions": [
@@ -1192,7 +1299,6 @@
 				"lastPublishTime": "2022-10-28T06:19:55Z"
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/pipelines/Copy_from_each_URL')]",
 				"[concat(variables('workspaceId'), '/notebooks/OEA_connector')]",
 				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]",
 				"[concat(variables('workspaceId'), '/pipelines/Copy_from_Azure_SQL_DB_cenettest')]",
@@ -1930,39 +2036,16 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c59401c4-8de9-444a-8643-0a2601044122"
-					}
+					"conf": {}
 				},
 				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "python"
 					},
 					"language_info": {
 						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
+					}
 				},
 				"cells": [
 					{
@@ -1994,13 +2077,10 @@
 								}
 							}
 						},
-						"source": [
-							""
-						]
+						"source": []
 					},
 					{
 						"cell_type": "markdown",
-						"metadata": {},
 						"source": [
 							"# Example #1: End to end (collect, prep, view)\n",
 							"The OEA framework comes with a set of Synapse pipelines that demonstrate how to extract data from data sources with common interfaces.\n",
@@ -2073,39 +2153,16 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0a959543-ed10-4e4a-8b89-de3c80d3260d"
-					}
+					"conf": {}
 				},
 				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
+					}
 				},
 				"cells": [
 					{
@@ -2139,8 +2196,7 @@
 						"source": [
 							"%run /OEA_py"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "markdown",
@@ -2172,8 +2228,7 @@
 							"# reset this example (deletes data in stage1np/example, stage2np/example, and stage2p/example)\r\n",
 							"oea.delete_data_source('example')"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2196,8 +2251,7 @@
 							"df = oea.load_csv('stage1np/example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2223,8 +2277,7 @@
 							"df = oea.load_delta('stage2p/example/student_pseudo')\r\n",
 							"df.show()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2247,8 +2300,7 @@
 							"df = oea.load_csv('stage1np/example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2274,8 +2326,7 @@
 							"df.show()\r\n",
 							"df.printSchema()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "markdown",
@@ -2307,8 +2358,7 @@
 							"# reset this example (deletes data in stage1np/example, stage2np/example, and stage2p/example)\r\n",
 							"oea.delete_data_source('delta_example')"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2332,8 +2382,7 @@
 							"df = oea.load_csv('stage1np/delta_example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2359,8 +2408,7 @@
 							"df = oea.load_delta('stage2p/delta_example/student_pseudo')\r\n",
 							"df.show()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2384,8 +2432,7 @@
 							"df = oea.load_csv('stage1np/delta_example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2411,8 +2458,7 @@
 							"df.show()\r\n",
 							"df.printSchema()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "markdown",
@@ -2444,8 +2490,7 @@
 							"# reset this example (deletes data in stage1np/example, stage2np/example, and stage2p/example)\r\n",
 							"oea.delete_data_source('snapshot_example')"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2469,8 +2514,7 @@
 							"df = oea.load_csv('stage1np/snapshot_example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2497,8 +2541,7 @@
 							"df.show()\r\n",
 							"df.printSchema()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2522,8 +2565,7 @@
 							"df = oea.load_csv('stage1np/snapshot_example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2550,8 +2592,7 @@
 							"df.show()\r\n",
 							"df.printSchema()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					}
 				]
 			},
@@ -2575,39 +2616,16 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0a31c93c-31ba-4bae-95a2-957662cd4939"
-					}
+					"conf": {}
 				},
 				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
+					}
 				},
 				"cells": [
 					{
@@ -2643,8 +2661,7 @@
 						"source": [
 							"%run OEA_py"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2662,8 +2679,7 @@
 						"source": [
 							"%run DataGen_py"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -2683,8 +2699,7 @@
 							"writer = DataLakeWriter(oea.stage1np + '/test_data')\r\n",
 							"dg.generate_data(2, writer)"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					}
 				]
 			},
@@ -2712,7 +2727,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8b76d324-e545-41e3-97cf-41e5ece597c5"
+						"spark.autotune.trackingId": "64245a10-67df-410a-8048-19128bcecedb"
 					}
 				},
 				"metadata": {
@@ -2751,26 +2766,7 @@
 							"    def __init__(self, source_folder='contoso_sis', pseudonymize = True):\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\n",
 							"        self.schemas['student'] = [['id', 'string', 'no-op'],\n",
-							"                                            ['name', 'string', 'partition-by']]\n",
-							"\n",
-							"        self.schemas['studentsectionmark'] = [['id', 'string', 'no-op'],\n",
-							"                                            ['student_id', 'string', 'hash'],\n",
-							"                                            ['section_id', 'string', 'no-op'],\n",
-							"                                            ['school_year', 'string', 'partition-by'],\n",
-							"                                            ['term_id', 'string', 'no-op'],\n",
-							"                                            ['numeric_grade_earned', 'short', 'no-op'],\n",
-							"                                            ['alpha_grade_earned', 'string', 'no-op'],\n",
-							"                                            ['is_final_grade', 'string', 'no-op'],\n",
-							"                                            ['credits_attempted', 'short', 'no-op'],\n",
-							"                                            ['credits_earned', 'short', 'no-op'],\n",
-							"                                            ['grad_credit_type', 'string', 'no-op']]\n",
-							"\n",
-							"        self.schemas['studentdemographics'] = [['SIS ID', 'string', 'hash'],\n",
-							"                                            ['FederalRaceCategory', 'string', 'no-op'],\n",
-							"                                            ['PrimaryLanguage', 'string', 'no-op'],\n",
-							"                                            ['ELLStatus', 'string', 'no-op'],\n",
-							"                                            ['SpecialEducation', 'string', 'no-op'],\n",
-							"                                            ['LowIncome', 'boolean', 'no-op']]                                            \n",
+							"                                            ['name', 'string', 'partition-by']]                                          \n",
 							"\n",
 							"    def ingest(self):\n",
 							"        oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\n",
@@ -3566,7 +3562,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7909b45f-9f76-407a-a5a3-c1cfcf8b17a6"
+						"spark.autotune.trackingId": "2c00f9c5-4a39-45b0-9af7-02d299060608"
 					}
 				},
 				"metadata": {
@@ -3714,6 +3710,10 @@
 			"properties": {
 				"nbformat": 4,
 				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
 				"sessionProperties": {
 					"driverMemory": "28g",
 					"driverCores": 4,
@@ -3725,7 +3725,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "054f7507-a8cd-4460-823c-4a3a1a2ac688"
+						"spark.autotune.trackingId": "da873240-7e02-49b6-92d1-1bfb487beb47"
 					}
 				},
 				"metadata": {
@@ -3737,6 +3737,21 @@
 					},
 					"language_info": {
 						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -4322,140 +4337,6 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/Copy_from_Azure_SQL_DB_cenettest')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy from Azure SQL DB",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "@pipeline().parameters.query",
-									"type": "Expression"
-								},
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "ParquetSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "ParquetWriteSettings"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DS_Azure_SQL_DB",
-								"type": "DatasetReference",
-								"parameters": {
-									"dbServer": {
-										"value": "@pipeline().parameters.dbServer",
-										"type": "Expression"
-									},
-									"dbName": {
-										"value": "@pipeline().parameters.dbName",
-										"type": "Expression"
-									},
-									"userName": {
-										"value": "@pipeline().parameters.userName",
-										"type": "Expression"
-									},
-									"keyVaultSecretName": {
-										"value": "@pipeline().parameters.keyVaultSecretName",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DS_ADLS_parquet",
-								"type": "DatasetReference",
-								"parameters": {
-									"filesystem": {
-										"value": "@pipeline().parameters.sinkFilesystem",
-										"type": "Expression"
-									},
-									"directory": {
-										"value": "@pipeline().parameters.sinkDirectory",
-										"type": "Expression"
-									}
-								}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"dbServer": {
-						"type": "string",
-						"defaultValue": "cenettest.database.windows.net"
-					},
-					"dbName": {
-						"type": "string",
-						"defaultValue": "cenettestdata"
-					},
-					"userName": {
-						"type": "string",
-						"defaultValue": "testadmin"
-					},
-					"keyVaultSecretName": {
-						"type": "string",
-						"defaultValue": "dbpass"
-					},
-					"query": {
-						"type": "string",
-						"defaultValue": "select * from dbo.student"
-					},
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage1np"
-					},
-					"sinkDirectory": {
-						"type": "string",
-						"defaultValue": "contoso_sis_db/person"
-					}
-				},
-				"folder": {
-					"name": "OEA_Framework/Extracts"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-10-28T06:18:52Z"
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/DS_Azure_SQL_DB')]",
-				"[concat(variables('workspaceId'), '/datasets/DS_ADLS_parquet')]"
-			]
 		}
 	]
 }

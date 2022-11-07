@@ -4,36 +4,9 @@
 		"description": "Example pipeline demonstrating typical orchestration of data extraction, landing, ingestion, and creation of lake and sql db's.",
 		"activities": [
 			{
-				"name": "Extract from source - land in stage1np",
-				"type": "ExecutePipeline",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "Copy_from_each_URL",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true,
-					"parameters": {
-						"endpoints": {
-							"value": "@json('[{\"URL\": \"https://raw.githubusercontent.com/microsoft/OpenEduAnalytics/main/modules/module_catalog/Student_and_School_Data_Systems/test_data/batch1/studentattendance.csv\",\"sinkDirectory\": \"contoso_sis/studentattendance\",\"sinkFilename\": \"part1.csv\"}, {\"URL\": \"https://raw.githubusercontent.com/microsoft/OpenEduAnalytics/main/modules/module_catalog/Student_and_School_Data_Systems/test_data/batch1/studentdemographics.csv\",\"sinkDirectory\": \"contoso_sis/studentdemographics\",\"sinkFilename\": \"part1.csv\"}, {\"URL\": \"https://raw.githubusercontent.com/microsoft/OpenEduAnalytics/main/modules/module_catalog/Student_and_School_Data_Systems/test_data/batch1/studentsectionmark.csv\",\"sinkDirectory\": \"contoso_sis/studentsectionmark\",\"sinkFilename\": \"part1.csv\"}]')",
-							"type": "Expression"
-						},
-						"sinkFilesystem": "stage1np",
-						"timezone": "Eastern Standard Time"
-					}
-				}
-			},
-			{
 				"name": "ingest into stage2p and 2np",
 				"type": "SynapseNotebook",
 				"dependsOn": [
-					{
-						"activity": "Extract from source - land in stage1np",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
 					{
 						"activity": "Copy_from_Azure_SQL_DB_cenettest",
 						"dependencyConditions": [

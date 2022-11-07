@@ -13,16 +13,40 @@
 			"executorMemory": "28g",
 			"executorCores": 4,
 			"numExecutors": 2,
-			"runAsWorkspaceSystemIdentity": false
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "53ab8952-c5ae-4089-9554-46f2d71c9e29"
+			}
 		},
 		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
 				"display_name": "python"
 			},
 			"language_info": {
 				"name": "python"
-			}
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
 		},
 		"cells": [
 			{
@@ -31,19 +55,8 @@
 					"class ContosoSIS(BaseOEAModule):\n",
 					"    def __init__(self, source_folder='contoso_sis', pseudonymize = True):\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\n",
-					"        self.schemas['studentattendance'] = [['id', 'string', 'no-op'],\n",
-					"                                            ['student_id', 'string', 'hash'],\n",
-					"                                            ['school_year', 'integer', 'partition-by'],\n",
-					"                                            ['school_id', 'string', 'no-op'],\n",
-					"                                            ['attendance_date', 'timestamp', 'no-op'],\n",
-					"                                            ['all_day', 'string', 'no-op'],\n",
-					"                                            ['Period', 'short', 'no-op'],\n",
-					"                                            ['section_id', 'string', 'no-op'],\n",
-					"                                            ['AttendanceCode', 'string', 'no-op'],\n",
-					"                                            ['PresenceFlag', 'boolean', 'no-op'],\n",
-					"                                            ['attendance_status', 'string', 'no-op'],\n",
-					"                                            ['attendance_type', 'string', 'no-op'],\n",
-					"                                            ['attendance_sequence', 'short', 'no-op']]\n",
+					"        self.schemas['student'] = [['id', 'string', 'no-op'],\n",
+					"                                            ['name', 'string', 'partition-by']]\n",
 					"\n",
 					"        self.schemas['studentsectionmark'] = [['id', 'string', 'no-op'],\n",
 					"                                            ['student_id', 'string', 'hash'],\n",
@@ -65,12 +78,13 @@
 					"                                            ['LowIncome', 'boolean', 'no-op']]                                            \n",
 					"\n",
 					"    def ingest(self):\n",
-					"        oea.ingest_incremental_data(self.source_folder, 'studentattendance', self.schemas['studentattendance'], 'school_year', 'id')\n",
-					"        oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\n",
-					"        oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\n",
+					"        oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\n",
+					"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\n",
 					"\n",
 					"contoso_sis = ContosoSIS()"
-				]
+				],
+				"execution_count": null
 			}
 		]
 	}

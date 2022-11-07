@@ -1930,16 +1930,39 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {}
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "99952d96-fc14-411e-9a3f-6b9e93e196f2"
+					}
 				},
 				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "python"
 					},
 					"language_info": {
 						"name": "python"
-					}
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
@@ -1971,10 +1994,13 @@
 								}
 							}
 						},
-						"source": []
+						"source": [
+							""
+						]
 					},
 					{
 						"cell_type": "markdown",
+						"metadata": {},
 						"source": [
 							"# Example #1: End to end (collect, prep, view)\n",
 							"The OEA framework comes with a set of Synapse pipelines that demonstrate how to extract data from data sources with common interfaces.\n",
@@ -2047,16 +2073,39 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {}
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "0c68a349-05c5-4539-b9e4-aa79458e7ab6"
+					}
 				},
 				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "python"
-					}
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
@@ -2090,7 +2139,8 @@
 						"source": [
 							"%run /OEA_py"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -2122,7 +2172,8 @@
 							"# reset this example (deletes data in stage1np/example, stage2np/example, and stage2p/example)\r\n",
 							"oea.delete_data_source('example')"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2145,7 +2196,8 @@
 							"df = oea.load_csv('stage1np/example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2171,7 +2223,8 @@
 							"df = oea.load_delta('stage2p/example/student_pseudo')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2194,7 +2247,8 @@
 							"df = oea.load_csv('stage1np/example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2220,7 +2274,8 @@
 							"df.show()\r\n",
 							"df.printSchema()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -2252,7 +2307,8 @@
 							"# reset this example (deletes data in stage1np/example, stage2np/example, and stage2p/example)\r\n",
 							"oea.delete_data_source('delta_example')"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2276,7 +2332,8 @@
 							"df = oea.load_csv('stage1np/delta_example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2302,7 +2359,8 @@
 							"df = oea.load_delta('stage2p/delta_example/student_pseudo')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2326,7 +2384,8 @@
 							"df = oea.load_csv('stage1np/delta_example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2352,7 +2411,8 @@
 							"df.show()\r\n",
 							"df.printSchema()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -2384,7 +2444,8 @@
 							"# reset this example (deletes data in stage1np/example, stage2np/example, and stage2p/example)\r\n",
 							"oea.delete_data_source('snapshot_example')"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2408,7 +2469,8 @@
 							"df = oea.load_csv('stage1np/snapshot_example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2435,7 +2497,8 @@
 							"df.show()\r\n",
 							"df.printSchema()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2459,7 +2522,8 @@
 							"df = oea.load_csv('stage1np/snapshot_example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2486,7 +2550,8 @@
 							"df.show()\r\n",
 							"df.printSchema()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -2510,16 +2575,39 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {}
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "5df2ee3f-2732-4a23-bfbf-32186bdf7a16"
+					}
 				},
 				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "python"
-					}
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
@@ -2555,7 +2643,8 @@
 						"source": [
 							"%run OEA_py"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2573,7 +2662,8 @@
 						"source": [
 							"%run DataGen_py"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2593,7 +2683,8 @@
 							"writer = DataLakeWriter(oea.stage1np + '/test_data')\r\n",
 							"dg.generate_data(2, writer)"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -2617,37 +2708,50 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {}
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "5a8686d1-e5be-459c-8745-2c00957fd2aa"
+					}
 				},
 				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "python"
 					},
 					"language_info": {
 						"name": "python"
-					}
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class ContosoSIS(BaseOEAModule):\n",
 							"    def __init__(self, source_folder='contoso_sis', pseudonymize = True):\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\n",
-							"        self.schemas['studentattendance'] = [['id', 'string', 'no-op'],\n",
-							"                                            ['student_id', 'string', 'hash'],\n",
-							"                                            ['school_year', 'integer', 'partition-by'],\n",
-							"                                            ['school_id', 'string', 'no-op'],\n",
-							"                                            ['attendance_date', 'timestamp', 'no-op'],\n",
-							"                                            ['all_day', 'string', 'no-op'],\n",
-							"                                            ['Period', 'short', 'no-op'],\n",
-							"                                            ['section_id', 'string', 'no-op'],\n",
-							"                                            ['AttendanceCode', 'string', 'no-op'],\n",
-							"                                            ['PresenceFlag', 'boolean', 'no-op'],\n",
-							"                                            ['attendance_status', 'string', 'no-op'],\n",
-							"                                            ['attendance_type', 'string', 'no-op'],\n",
-							"                                            ['attendance_sequence', 'short', 'no-op']]\n",
+							"        self.schemas['student'] = [['id', 'string', 'no-op'],\n",
+							"                                            ['name', 'string', 'partition-by']]\n",
 							"\n",
 							"        self.schemas['studentsectionmark'] = [['id', 'string', 'no-op'],\n",
 							"                                            ['student_id', 'string', 'hash'],\n",
@@ -2669,13 +2773,14 @@
 							"                                            ['LowIncome', 'boolean', 'no-op']]                                            \n",
 							"\n",
 							"    def ingest(self):\n",
-							"        oea.ingest_incremental_data(self.source_folder, 'studentattendance', self.schemas['studentattendance'], 'school_year', 'id')\n",
-							"        oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\n",
-							"        oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\n",
+							"        oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\n",
+							"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\n",
 							"\n",
 							"contoso_sis = ContosoSIS()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -3457,16 +3562,39 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {}
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "b230c333-2bab-4afa-b6b9-51a537f24b3f"
+					}
 				},
 				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "python"
-					}
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
@@ -3509,7 +3637,8 @@
 							"method_name = ''\r\n",
 							"kwargs = '{}'"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -3528,7 +3657,8 @@
 						"source": [
 							"%run /OEA_py"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -3547,7 +3677,8 @@
 						"source": [
 							"%run /ContosoSIS_py"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -3569,7 +3700,8 @@
 							"result = m(**kwargs)\r\n",
 							"mssparkutils.notebook.exit(result)"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -3582,10 +3714,6 @@
 			"properties": {
 				"nbformat": 4,
 				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
 				"sessionProperties": {
 					"driverMemory": "28g",
 					"driverCores": 4,
@@ -3593,16 +3721,24 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {}
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "b155107c-4667-4994-88e7-d6a2fef152e7"
+					}
 				},
 				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "python"
 					},
 					"language_info": {
 						"name": "python"
-					}
+					},
+					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
@@ -4155,7 +4291,8 @@
 							"\n",
 							"oea = OEA()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},

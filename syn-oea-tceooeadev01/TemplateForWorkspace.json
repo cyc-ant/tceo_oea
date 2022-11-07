@@ -1934,7 +1934,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "99952d96-fc14-411e-9a3f-6b9e93e196f2"
+						"spark.autotune.trackingId": "c59401c4-8de9-444a-8643-0a2601044122"
 					}
 				},
 				"metadata": {
@@ -2077,7 +2077,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0c68a349-05c5-4539-b9e4-aa79458e7ab6"
+						"spark.autotune.trackingId": "0a959543-ed10-4e4a-8b89-de3c80d3260d"
 					}
 				},
 				"metadata": {
@@ -2579,7 +2579,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5df2ee3f-2732-4a23-bfbf-32186bdf7a16"
+						"spark.autotune.trackingId": "0a31c93c-31ba-4bae-95a2-957662cd4939"
 					}
 				},
 				"metadata": {
@@ -2712,7 +2712,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5a8686d1-e5be-459c-8745-2c00957fd2aa"
+						"spark.autotune.trackingId": "8b76d324-e545-41e3-97cf-41e5ece597c5"
 					}
 				},
 				"metadata": {
@@ -3566,7 +3566,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b230c333-2bab-4afa-b6b9-51a537f24b3f"
+						"spark.autotune.trackingId": "7909b45f-9f76-407a-a5a3-c1cfcf8b17a6"
 					}
 				},
 				"metadata": {
@@ -3725,7 +3725,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b155107c-4667-4994-88e7-d6a2fef152e7"
+						"spark.autotune.trackingId": "054f7507-a8cd-4460-823c-4a3a1a2ac688"
 					}
 				},
 				"metadata": {
@@ -4435,7 +4435,7 @@
 					},
 					"query": {
 						"type": "string",
-						"defaultValue": "select * from dbo.NationalSample"
+						"defaultValue": "select * from dbo.student"
 					},
 					"sinkFilesystem": {
 						"type": "string",

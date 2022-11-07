@@ -380,10 +380,6 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureSqlSource",
-								"sqlReaderQuery": {
-									"value": "@pipeline().parameters.query",
-									"type": "Expression"
-								},
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -399,6 +395,32 @@
 							"enableStaging": false,
 							"translator": {
 								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "id",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "id",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "name",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									}
+								],
 								"typeConversion": true,
 								"typeConversionSettings": {
 									"allowDataTruncation": true,
@@ -480,6 +502,10 @@
 					"sinkDirectory": {
 						"type": "string",
 						"defaultValue": "contoso_sis_db/person"
+					},
+					"table": {
+						"type": "string",
+						"defaultValue": "dbo.student"
 					}
 				},
 				"folder": {
@@ -1768,7 +1794,8 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {
-					"schema": []
+					"schema": "dbo",
+					"table": "student"
 				}
 			},
 			"dependsOn": [
@@ -2727,7 +2754,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "64245a10-67df-410a-8048-19128bcecedb"
+						"spark.autotune.trackingId": "262bb5e9-89df-493d-972e-28962e1de134"
 					}
 				},
 				"metadata": {
@@ -3562,7 +3589,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2c00f9c5-4a39-45b0-9af7-02d299060608"
+						"spark.autotune.trackingId": "de089751-19c1-4706-bf18-df2cebc8f8a3"
 					}
 				},
 				"metadata": {
@@ -3725,7 +3752,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "da873240-7e02-49b6-92d1-1bfb487beb47"
+						"spark.autotune.trackingId": "06d28317-279c-4bde-bce2-c1607e5848a0"
 					}
 				},
 				"metadata": {

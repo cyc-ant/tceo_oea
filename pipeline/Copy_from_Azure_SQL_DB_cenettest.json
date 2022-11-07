@@ -17,10 +17,6 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": {
-							"value": "@pipeline().parameters.query",
-							"type": "Expression"
-						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -36,6 +32,32 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "id",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "id",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "name",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
@@ -113,6 +135,10 @@
 			"sinkDirectory": {
 				"type": "string",
 				"defaultValue": "contoso_sis_db/person"
+			},
+			"table": {
+				"type": "string",
+				"defaultValue": "dbo.student"
 			}
 		},
 		"folder": {

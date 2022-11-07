@@ -48,7 +48,8 @@
 		"type": "AzureSqlTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": []
+			"schema": "dbo",
+			"table": "student"
 		}
 	},
 	"type": "Microsoft.Synapse/workspaces/datasets"

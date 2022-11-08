@@ -13,16 +13,40 @@
 			"executorMemory": "28g",
 			"executorCores": 4,
 			"numExecutors": 2,
-			"runAsWorkspaceSystemIdentity": false
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "7897f677-0c0e-40e1-aed9-518d03e69c88"
+			}
 		},
 		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
 				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
 				"name": "python"
-			}
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
 		},
 		"cells": [
 			{
@@ -55,7 +79,8 @@
 				},
 				"source": [
 					"%run /OEA_py"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "markdown",
@@ -86,7 +111,8 @@
 				"source": [
 					"# reset this example (deletes data in stage1np/example, stage2np/example, and stage2p/example)\r\n",
 					"oea.delete_data_source('example')"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -102,13 +128,14 @@
 					}
 				},
 				"source": [
-					"# Land the first batch of test data\r\n",
+					"# Land the first batch of test data (test)\r\n",
 					"df1 = spark.createDataFrame([(1,'Joe','English','2021'), (2,'Helen','English','2021')], ['id', 'name', 'language', 'school_year'])\r\n",
 					"oea.land('example', 'student', df1)\r\n",
 					"# show what's landed in stage1\r\n",
 					"df = oea.load_csv('stage1np/example/student')\r\n",
 					"df.show()"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -133,7 +160,8 @@
 					"df.show()\r\n",
 					"df = oea.load_delta('stage2p/example/student_pseudo')\r\n",
 					"df.show()"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -155,7 +183,8 @@
 					"# show the comprehensive set of data landed in stage1\r\n",
 					"df = oea.load_csv('stage1np/example/student')\r\n",
 					"df.show()"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -180,7 +209,8 @@
 					"df = oea.load_delta('stage2p/example/student_pseudo')\r\n",
 					"df.show()\r\n",
 					"df.printSchema()"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "markdown",
@@ -211,7 +241,8 @@
 				"source": [
 					"# reset this example (deletes data in stage1np/example, stage2np/example, and stage2p/example)\r\n",
 					"oea.delete_data_source('delta_example')"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -234,7 +265,8 @@
 					"# show what's landed in stage1\r\n",
 					"df = oea.load_csv('stage1np/delta_example/student')\r\n",
 					"df.show()"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -259,7 +291,8 @@
 					"df.show()\r\n",
 					"df = oea.load_delta('stage2p/delta_example/student_pseudo')\r\n",
 					"df.show()"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -282,7 +315,8 @@
 					"# show what's landed in stage1\r\n",
 					"df = oea.load_csv('stage1np/delta_example/student')\r\n",
 					"df.show()"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -307,7 +341,8 @@
 					"df = oea.load_delta('stage2p/delta_example/student_pseudo')\r\n",
 					"df.show()\r\n",
 					"df.printSchema()"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "markdown",
@@ -338,7 +373,8 @@
 				"source": [
 					"# reset this example (deletes data in stage1np/example, stage2np/example, and stage2p/example)\r\n",
 					"oea.delete_data_source('snapshot_example')"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -361,7 +397,8 @@
 					"# show what's landed in stage1\r\n",
 					"df = oea.load_csv('stage1np/snapshot_example/student')\r\n",
 					"df.show()"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -387,7 +424,8 @@
 					"df = oea.load_delta('stage2p/snapshot_example/student_pseudo')\r\n",
 					"df.show()\r\n",
 					"df.printSchema()"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -410,7 +448,8 @@
 					"# show what's landed in stage1\r\n",
 					"df = oea.load_csv('stage1np/snapshot_example/student')\r\n",
 					"df.show()"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -436,7 +475,8 @@
 					"df = oea.load_delta('stage2p/snapshot_example/student_pseudo')\r\n",
 					"df.show()\r\n",
 					"df.printSchema()"
-				]
+				],
+				"execution_count": null
 			}
 		]
 	}

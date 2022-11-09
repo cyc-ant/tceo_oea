@@ -134,7 +134,7 @@
 			},
 			"sinkDirectory": {
 				"type": "string",
-				"defaultValue": "contoso_sis_db/person"
+				"defaultValue": "contoso_sis_db"
 			},
 			"table": {
 				"type": "string",

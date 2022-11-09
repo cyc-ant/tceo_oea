@@ -145,7 +145,10 @@
 						"referenceName": "Copy_from_Azure_SQL_DB_cenettest",
 						"type": "PipelineReference"
 					},
-					"waitOnCompletion": true
+					"waitOnCompletion": true,
+					"parameters": {
+						"sinkDirectory": "contoso_sis_db"
+					}
 				}
 			}
 		],
@@ -156,7 +159,7 @@
 			},
 			"sourceDirectory": {
 				"type": "string",
-				"defaultValue": "contoso_sis_db/person"
+				"defaultValue": "contoso_sis_db"
 			},
 			"create_sql_db": {
 				"type": "bool",

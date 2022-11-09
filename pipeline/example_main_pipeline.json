@@ -156,7 +156,7 @@
 			},
 			"sourceDirectory": {
 				"type": "string",
-				"defaultValue": "contoso_sis"
+				"defaultValue": "contoso_sis_db/person"
 			},
 			"create_sql_db": {
 				"type": "bool",

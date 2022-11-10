@@ -34,6 +34,10 @@
 		"syn-oea-tceooeadev01-WorkspaceDefaultStorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://stoeatceooeadev01.dfs.core.windows.net"
+		},
+		"tmp_datablend_dev_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "temp-datablend-db"
 		}
 	},
 	"variables": {
@@ -501,7 +505,7 @@
 					},
 					"sinkDirectory": {
 						"type": "string",
-						"defaultValue": "contoso_sis_db/person"
+						"defaultValue": "contoso_sis_db"
 					},
 					"table": {
 						"type": "string",
@@ -1292,7 +1296,9 @@
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
-							"parameters": {}
+							"parameters": {
+								"sinkDirectory": "contoso_sis_db"
+							}
 						}
 					}
 				],
@@ -1307,7 +1313,7 @@
 					},
 					"sourceDirectory": {
 						"type": "string",
-						"defaultValue": "contoso_sis"
+						"defaultValue": "contoso_sis_db"
 					},
 					"create_sql_db": {
 						"type": "bool",
@@ -1617,6 +1623,917 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/tmp_datablend_dev')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy NAPLAN Student",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "ParquetSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "ParquetWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "BKSourceStudentId",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "BKSourceStudentId",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "BKPersistentStudentId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "BKPersistentStudentId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "SKStudent",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "SKStudent",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "OfficialFirstName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "OfficialFirstName",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "OfficialSurname",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "OfficialSurname",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "PreferredFirstName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "PreferredFirstName",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "PreferredSurname",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "PreferredSurname",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "SingleNameOnly",
+											"type": "Boolean",
+											"physicalType": "bit"
+										},
+										"sink": {
+											"name": "SingleNameOnly",
+											"type": "Boolean",
+											"physicalType": "BOOLEAN"
+										}
+									},
+									{
+										"source": {
+											"name": "GenderId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "GenderId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "DOB",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "DOB",
+											"type": "DateTime",
+											"physicalType": "INT_96"
+										}
+									},
+									{
+										"source": {
+											"name": "AttendanceStatusId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "AttendanceStatusId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "StudentAddressStreet",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "StudentAddressStreet",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "StudentAddressSuburb",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "StudentAddressSuburb",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "StudentAddressState",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "StudentAddressState",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "StudentAddressPostCode",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "StudentAddressPostCode",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "StudentAddressLatitude",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 6,
+											"precision": 9
+										},
+										"sink": {
+											"name": "StudentAddressLatitude",
+											"type": "Decimal",
+											"physicalType": "DECIMAL"
+										}
+									},
+									{
+										"source": {
+											"name": "StudentAddressLongitude",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 6,
+											"precision": 9
+										},
+										"sink": {
+											"name": "StudentAddressLongitude",
+											"type": "Decimal",
+											"physicalType": "DECIMAL"
+										}
+									},
+									{
+										"source": {
+											"name": "HomePhone",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "HomePhone",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "HomeEmail",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "HomeEmail",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "StudentMobile",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "StudentMobile",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "StudentEmail",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "StudentEmail",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "BirthCountryId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "BirthCountryId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "CitizenshipResidencyStatusId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "CitizenshipResidencyStatusId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "PrimaryCitizenshipCountryId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "PrimaryCitizenshipCountryId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "PrimaryPassportIssueCountryId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "PrimaryPassportIssueCountryId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "Boarder",
+											"type": "Boolean",
+											"physicalType": "bit"
+										},
+										"sink": {
+											"name": "Boarder",
+											"type": "Boolean",
+											"physicalType": "BOOLEAN"
+										}
+									},
+									{
+										"source": {
+											"name": "VisaSubClassId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "VisaSubClassId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "VisaSubClassDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "VisaSubClassDesc",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "VisaExpiryData",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "VisaExpiryData",
+											"type": "DateTime",
+											"physicalType": "INT_96"
+										}
+									},
+									{
+										"source": {
+											"name": "VisaEndDate",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "VisaEndDate",
+											"type": "DateTime",
+											"physicalType": "INT_96"
+										}
+									},
+									{
+										"source": {
+											"name": "AtsiId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "AtsiId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "ATSIDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "ATSIDesc",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "ESLYesNo",
+											"type": "Boolean",
+											"physicalType": "bit"
+										},
+										"sink": {
+											"name": "ESLYesNo",
+											"type": "Boolean",
+											"physicalType": "BOOLEAN"
+										}
+									},
+									{
+										"source": {
+											"name": "EslLanguageId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "EslLanguageId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "LBOTEYesNo",
+											"type": "Boolean",
+											"physicalType": "bit"
+										},
+										"sink": {
+											"name": "LBOTEYesNo",
+											"type": "Boolean",
+											"physicalType": "BOOLEAN"
+										}
+									},
+									{
+										"source": {
+											"name": "LBOTELanguageId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "LBOTELanguageId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "FFPOS",
+											"type": "Boolean",
+											"physicalType": "bit"
+										},
+										"sink": {
+											"name": "FFPOS",
+											"type": "Boolean",
+											"physicalType": "BOOLEAN"
+										}
+									},
+									{
+										"source": {
+											"name": "SWDYesNo",
+											"type": "Boolean",
+											"physicalType": "bit"
+										},
+										"sink": {
+											"name": "SWDYesNo",
+											"type": "Boolean",
+											"physicalType": "BOOLEAN"
+										}
+									},
+									{
+										"source": {
+											"name": "SwdSifDesc",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "SwdSifDesc",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian1FirstName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Guardian1FirstName",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian1Surname",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Guardian1Surname",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian1LanguageId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Guardian1LanguageId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian1Email",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Guardian1Email",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian1Phone",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Guardian1Phone",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian1Mobile",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Guardian1Mobile",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian1OccupationalGroupId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Guardian1OccupationalGroupId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian1EducationSchoolLevelId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Guardian1EducationSchoolLevelId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian1EducationNonSchoolLevelId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Guardian1EducationNonSchoolLevelId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian2FirstName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Guardian2FirstName",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian2Surname",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Guardian2Surname",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian2LanguageId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Guardian2LanguageId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian2Email",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Guardian2Email",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian2Phone",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Guardian2Phone",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian2Mobile",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Guardian2Mobile",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian2OccupationalGroupId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Guardian2OccupationalGroupId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian2EducationSchoolLevelId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Guardian2EducationSchoolLevelId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "Guardian2EducationNonSchoolLevelId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Guardian2EducationNonSchoolLevelId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "ReligionId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "ReligionId",
+											"type": "Int32",
+											"physicalType": "INT_32"
+										}
+									},
+									{
+										"source": {
+											"name": "BaptismDate",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "BaptismDate",
+											"type": "DateTime",
+											"physicalType": "INT_96"
+										}
+									},
+									{
+										"source": {
+											"name": "BaptismParish",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "BaptismParish",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									},
+									{
+										"source": {
+											"name": "ConfirmationDate",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "ConfirmationDate",
+											"type": "DateTime",
+											"physicalType": "INT_96"
+										}
+									},
+									{
+										"source": {
+											"name": "FirstEucharistDate",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "FirstEucharistDate",
+											"type": "DateTime",
+											"physicalType": "INT_96"
+										}
+									},
+									{
+										"source": {
+											"name": "FirstReconciliationDate",
+											"type": "DateTime",
+											"physicalType": "date"
+										},
+										"sink": {
+											"name": "FirstReconciliationDate",
+											"type": "DateTime",
+											"physicalType": "INT_96"
+										}
+									},
+									{
+										"source": {
+											"name": "RollGroup",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "RollGroup",
+											"type": "String",
+											"physicalType": "UTF8"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Naplan_Student",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_ADLS_parquet",
+								"type": "DatasetReference",
+								"parameters": {
+									"filesystem": "@pipeline().parameters.sinkFilesystem",
+									"directory": "@pipeline().parameters.sinkDirectory"
+								}
+							}
+						]
+					},
+					{
+						"name": "Ingest to Stage2",
+						"type": "SynapseNotebook",
+						"dependsOn": [
+							{
+								"activity": "Copy NAPLAN Student",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "NAPLAN",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "naplan",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"sinkFilesystem": {
+						"type": "string",
+						"defaultValue": "stage1np"
+					},
+					"sinkDirectory": {
+						"type": "string",
+						"defaultValue": "naplan"
+					}
+				},
+				"folder": {
+					"name": "OEA_Framework"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/Naplan_Student')]",
+				"[concat(variables('workspaceId'), '/datasets/DS_ADLS_parquet')]",
+				"[concat(variables('workspaceId'), '/notebooks/NAPLAN')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DS_ADLS_binary_file')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -1839,6 +2756,309 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/Naplan_Student')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "tmp_datablend_dev",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "BKSourceStudentId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BKPersistentStudentId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SKStudent",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "OfficialFirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OfficialSurname",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PreferredFirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PreferredSurname",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SingleNameOnly",
+						"type": "bit"
+					},
+					{
+						"name": "GenderId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DOB",
+						"type": "date"
+					},
+					{
+						"name": "AttendanceStatusId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "StudentAddressStreet",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StudentAddressSuburb",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StudentAddressState",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StudentAddressPostCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StudentAddressLatitude",
+						"type": "decimal",
+						"precision": 9,
+						"scale": 6
+					},
+					{
+						"name": "StudentAddressLongitude",
+						"type": "decimal",
+						"precision": 9,
+						"scale": 6
+					},
+					{
+						"name": "HomePhone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HomeEmail",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StudentMobile",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StudentEmail",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BirthCountryId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CitizenshipResidencyStatusId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PrimaryCitizenshipCountryId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PrimaryPassportIssueCountryId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Boarder",
+						"type": "bit"
+					},
+					{
+						"name": "VisaSubClassId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "VisaSubClassDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VisaExpiryData",
+						"type": "date"
+					},
+					{
+						"name": "VisaEndDate",
+						"type": "date"
+					},
+					{
+						"name": "AtsiId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ATSIDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ESLYesNo",
+						"type": "bit"
+					},
+					{
+						"name": "EslLanguageId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "LBOTEYesNo",
+						"type": "bit"
+					},
+					{
+						"name": "LBOTELanguageId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FFPOS",
+						"type": "bit"
+					},
+					{
+						"name": "SWDYesNo",
+						"type": "bit"
+					},
+					{
+						"name": "SwdSifDesc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Guardian1FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Guardian1Surname",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Guardian1LanguageId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Guardian1Email",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Guardian1Phone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Guardian1Mobile",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Guardian1OccupationalGroupId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Guardian1EducationSchoolLevelId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Guardian1EducationNonSchoolLevelId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Guardian2FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Guardian2Surname",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Guardian2LanguageId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Guardian2Email",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Guardian2Phone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Guardian2Mobile",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Guardian2OccupationalGroupId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Guardian2EducationSchoolLevelId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Guardian2EducationNonSchoolLevelId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ReligionId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BaptismDate",
+						"type": "date"
+					},
+					{
+						"name": "BaptismParish",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ConfirmationDate",
+						"type": "date"
+					},
+					{
+						"name": "FirstEucharistDate",
+						"type": "date"
+					},
+					{
+						"name": "FirstReconciliationDate",
+						"type": "date"
+					},
+					{
+						"name": "RollGroup",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "NAPLAN",
+					"table": "Student"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/tmp_datablend_dev')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/LS_ADLS_OEA')]",
 			"type": "Microsoft.Synapse/workspaces/linkedServices",
 			"apiVersion": "2019-06-01-preview",
@@ -2017,6 +3237,33 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/tmp_datablend_dev')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "LS_KeyVault_OEA",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('tmp_datablend_dev_properties_typeProperties_connectionString_secretName')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "SelfHostedIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/SelfHostedIntegrationRuntime')]",
+				"[concat(variables('workspaceId'), '/linkedServices/LS_KeyVault_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
 			"type": "Microsoft.Synapse/workspaces/integrationRuntimes",
 			"apiVersion": "2019-06-01-preview",
@@ -2032,6 +3279,17 @@
 						}
 					}
 				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SelfHostedIntegrationRuntime')]",
+			"type": "Microsoft.Synapse/workspaces/integrationRuntimes",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "SelfHosted",
+				"description": "Temporary TCEO Private network access to DEV database",
+				"typeProperties": {}
 			},
 			"dependsOn": []
 		},
@@ -2180,16 +3438,38 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {}
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "7897f677-0c0e-40e1-aed9-518d03e69c88"
+					}
 				},
 				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "python"
-					}
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
@@ -2223,7 +3503,8 @@
 						"source": [
 							"%run /OEA_py"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -2255,7 +3536,8 @@
 							"# reset this example (deletes data in stage1np/example, stage2np/example, and stage2p/example)\r\n",
 							"oea.delete_data_source('example')"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2271,14 +3553,15 @@
 							}
 						},
 						"source": [
-							"# Land the first batch of test data\r\n",
+							"# Land the first batch of test data (test)\r\n",
 							"df1 = spark.createDataFrame([(1,'Joe','English','2021'), (2,'Helen','English','2021')], ['id', 'name', 'language', 'school_year'])\r\n",
 							"oea.land('example', 'student', df1)\r\n",
 							"# show what's landed in stage1\r\n",
 							"df = oea.load_csv('stage1np/example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2304,7 +3587,8 @@
 							"df = oea.load_delta('stage2p/example/student_pseudo')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2327,7 +3611,8 @@
 							"df = oea.load_csv('stage1np/example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2353,7 +3638,8 @@
 							"df.show()\r\n",
 							"df.printSchema()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -2385,7 +3671,8 @@
 							"# reset this example (deletes data in stage1np/example, stage2np/example, and stage2p/example)\r\n",
 							"oea.delete_data_source('delta_example')"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2409,7 +3696,8 @@
 							"df = oea.load_csv('stage1np/delta_example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2435,7 +3723,8 @@
 							"df = oea.load_delta('stage2p/delta_example/student_pseudo')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2459,7 +3748,8 @@
 							"df = oea.load_csv('stage1np/delta_example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2485,7 +3775,8 @@
 							"df.show()\r\n",
 							"df.printSchema()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -2517,7 +3808,8 @@
 							"# reset this example (deletes data in stage1np/example, stage2np/example, and stage2p/example)\r\n",
 							"oea.delete_data_source('snapshot_example')"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2541,7 +3833,8 @@
 							"df = oea.load_csv('stage1np/snapshot_example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2568,7 +3861,8 @@
 							"df.show()\r\n",
 							"df.printSchema()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2592,7 +3886,8 @@
 							"df = oea.load_csv('stage1np/snapshot_example/student')\r\n",
 							"df.show()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -2619,7 +3914,8 @@
 							"df.show()\r\n",
 							"df.printSchema()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -2754,7 +4050,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "262bb5e9-89df-493d-972e-28962e1de134"
+						"spark.autotune.trackingId": "b1f8f17c-b44d-4b74-a6e3-e38848e25b95"
 					}
 				},
 				"metadata": {
@@ -2779,15 +4075,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class ContosoSIS(BaseOEAModule):\n",
 							"    def __init__(self, source_folder='contoso_sis', pseudonymize = True):\n",
@@ -3568,6 +4862,22 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/NAPLAN')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"metadata": {
+					"language_info": {
+						"name": "python"
+					}
+				},
+				"cells": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/OEA_connector')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -3585,39 +4895,16 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "de089751-19c1-4706-bf18-df2cebc8f8a3"
-					}
+					"conf": {}
 				},
 				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
+					}
 				},
 				"cells": [
 					{
@@ -3660,8 +4947,7 @@
 							"method_name = ''\r\n",
 							"kwargs = '{}'"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -3680,8 +4966,7 @@
 						"source": [
 							"%run /OEA_py"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -3700,8 +4985,7 @@
 						"source": [
 							"%run /ContosoSIS_py"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -3723,8 +5007,7 @@
 							"result = m(**kwargs)\r\n",
 							"mssparkutils.notebook.exit(result)"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					}
 				]
 			},
@@ -3748,39 +5031,16 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "06d28317-279c-4bde-bce2-c1607e5848a0"
-					}
+					"conf": {}
 				},
 				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "python"
 					},
 					"language_info": {
 						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
+					}
 				},
 				"cells": [
 					{
@@ -4333,8 +5593,7 @@
 							"\n",
 							"oea = OEA()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					}
 				]
 			},

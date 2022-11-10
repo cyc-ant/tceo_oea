@@ -25,6 +25,9 @@
 		},
 		"syn-oea-tceooeadev01-WorkspaceDefaultStorage_properties_typeProperties_url": {
 			"value": "https://stoeatceooeadev01.dfs.core.windows.net"
+		},
+		"tmp_datablend_dev_properties_typeProperties_connectionString_secretName": {
+			"value": "temp-datablend-db"
 		}
 	}
 }

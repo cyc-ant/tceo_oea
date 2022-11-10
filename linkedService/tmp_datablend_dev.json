@@ -1,0 +1,21 @@
+{
+	"name": "tmp_datablend_dev",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LS_KeyVault_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "temp-datablend-db"
+			}
+		},
+		"connectVia": {
+			"referenceName": "SelfHostedIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

@@ -3,11 +3,50 @@
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
-		"metadata": {
-			"language_info": {
-				"name": "python"
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "566202c0-270f-4ab3-bd9b-1ab15c174a01"
 			}
 		},
-		"cells": []
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"class Naplan(BaseOEAModule):\r\n",
+					"    def __init__(self, source_folder='naplan', pseudonymize = True):\r\n",
+					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+					"        self.schemas['student'] = [['id', 'string', 'no-op'],\r\n",
+					"                                            ['name', 'string', 'partition-by']]                                          \r\n",
+					"\r\n",
+					"    def ingest(self):\r\n",
+					"        oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
+					"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\r\n",
+					"\r\n",
+					"naplan = Naplan()"
+				],
+				"execution_count": null
+			}
+		]
 	}
 }

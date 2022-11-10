@@ -13,16 +13,40 @@
 			"executorMemory": "28g",
 			"executorCores": 4,
 			"numExecutors": 2,
-			"runAsWorkspaceSystemIdentity": false
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "bdf1e4af-658b-44a9-b33c-84dcefb982bf"
+			}
 		},
 		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
 				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
 				"name": "python"
-			}
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
 		},
 		"cells": [
 			{
@@ -64,7 +88,8 @@
 					"object_name = 'oea'\r\n",
 					"method_name = ''\r\n",
 					"kwargs = '{}'"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -82,7 +107,8 @@
 				},
 				"source": [
 					"%run /OEA_py"
-				]
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -99,8 +125,9 @@
 					"collapsed": true
 				},
 				"source": [
-					"%run /ContosoSIS_py"
-				]
+					"%run /Naplan"
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -121,7 +148,8 @@
 					"m = getattr(obj, method_name)\r\n",
 					"result = m(**kwargs)\r\n",
 					"mssparkutils.notebook.exit(result)"
-				]
+				],
+				"execution_count": null
 			}
 		]
 	}

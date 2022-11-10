@@ -1,0 +1,7 @@
+{
+	"name": "SelfHostedIntegrationRuntime",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "Temporary TCEO Private network access to DEV database"
+	}
+}

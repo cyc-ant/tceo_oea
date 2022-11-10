@@ -870,10 +870,26 @@
 						"type": "BigDataPoolReference"
 					},
 					"executorSize": null,
-					"driverSize": null
+					"conf": {
+						"spark.dynamicAllocation.enabled": null,
+						"spark.dynamicAllocation.minExecutors": null,
+						"spark.dynamicAllocation.maxExecutors": null
+					},
+					"driverSize": null,
+					"numExecutors": null
 				}
 			}
 		],
+		"parameters": {
+			"sinkFilesystem": {
+				"type": "string",
+				"defaultValue": "stage1np"
+			},
+			"sinkDirectory": {
+				"type": "string",
+				"defaultValue": "naplan"
+			}
+		},
 		"folder": {
 			"name": "OEA_Framework"
 		},

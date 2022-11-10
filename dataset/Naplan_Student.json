@@ -1,0 +1,298 @@
+{
+	"name": "Naplan_Student",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "tmp_datablend_dev",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "BKSourceStudentId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BKPersistentStudentId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SKStudent",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OfficialFirstName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OfficialSurname",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PreferredFirstName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PreferredSurname",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SingleNameOnly",
+				"type": "bit"
+			},
+			{
+				"name": "GenderId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DOB",
+				"type": "date"
+			},
+			{
+				"name": "AttendanceStatusId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "StudentAddressStreet",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentAddressSuburb",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentAddressState",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentAddressPostCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentAddressLatitude",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 6
+			},
+			{
+				"name": "StudentAddressLongitude",
+				"type": "decimal",
+				"precision": 9,
+				"scale": 6
+			},
+			{
+				"name": "HomePhone",
+				"type": "nvarchar"
+			},
+			{
+				"name": "HomeEmail",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentMobile",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentEmail",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BirthCountryId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CitizenshipResidencyStatusId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PrimaryCitizenshipCountryId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PrimaryPassportIssueCountryId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Boarder",
+				"type": "bit"
+			},
+			{
+				"name": "VisaSubClassId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VisaSubClassDesc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VisaExpiryData",
+				"type": "date"
+			},
+			{
+				"name": "VisaEndDate",
+				"type": "date"
+			},
+			{
+				"name": "AtsiId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ATSIDesc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ESLYesNo",
+				"type": "bit"
+			},
+			{
+				"name": "EslLanguageId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LBOTEYesNo",
+				"type": "bit"
+			},
+			{
+				"name": "LBOTELanguageId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FFPOS",
+				"type": "bit"
+			},
+			{
+				"name": "SWDYesNo",
+				"type": "bit"
+			},
+			{
+				"name": "SwdSifDesc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Guardian1FirstName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Guardian1Surname",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Guardian1LanguageId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Guardian1Email",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Guardian1Phone",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Guardian1Mobile",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Guardian1OccupationalGroupId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Guardian1EducationSchoolLevelId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Guardian1EducationNonSchoolLevelId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Guardian2FirstName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Guardian2Surname",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Guardian2LanguageId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Guardian2Email",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Guardian2Phone",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Guardian2Mobile",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Guardian2OccupationalGroupId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Guardian2EducationSchoolLevelId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Guardian2EducationNonSchoolLevelId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ReligionId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BaptismDate",
+				"type": "date"
+			},
+			{
+				"name": "BaptismParish",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ConfirmationDate",
+				"type": "date"
+			},
+			{
+				"name": "FirstEucharistDate",
+				"type": "date"
+			},
+			{
+				"name": "FirstReconciliationDate",
+				"type": "date"
+			},
+			{
+				"name": "RollGroup",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "NAPLAN",
+			"table": "Student"
+		}
+	}
+}

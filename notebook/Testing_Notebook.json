@@ -1,5 +1,5 @@
 {
-	"name": "Naplan_py",
+	"name": "Testing_Notebook",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "156b6f8e-1698-45e2-8ede-9fd7b040dcc7"
+				"spark.autotune.trackingId": "bd6f10c1-054d-45a3-b487-9b850c4ea9cc"
 			}
 		},
 		"metadata": {
@@ -51,22 +51,9 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"class Naplan(BaseOEAModule):\r\n",
-					"    def __init__(self, source_folder='naplan', pseudonymize = True):\r\n",
-					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-					"        self.schemas['Naplan_Student'] = [['SKStudent', 'int', 'no-op'],\r\n",
-					"                                            ['OfficialFirstName', 'string', 'partition-by']]                                          \r\n",
-					"\r\n",
-					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'Naplan.Student', self.schemas['Naplan_Student'], 'OfficialFirstName', 'SKStudent', 'parquet')\r\n",
-					"\r\n",
-					"        #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
-					"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",
-					"        #oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\r\n",
-					"\r\n",
-					"naplan = Naplan()"
+					""
 				],
-				"execution_count": 1
+				"execution_count": 3
 			}
 		]
 	}

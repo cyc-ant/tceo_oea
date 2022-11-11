@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "bdf1e4af-658b-44a9-b33c-84dcefb982bf"
+				"spark.autotune.trackingId": "0c3c7794-c9c9-45c4-a560-cb9f8c21f224"
 			}
 		},
 		"metadata": {
@@ -125,7 +125,7 @@
 					"collapsed": true
 				},
 				"source": [
-					"%run /Naplan"
+					"%run /NAPLAN"
 				],
 				"execution_count": null
 			},

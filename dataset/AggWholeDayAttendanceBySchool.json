@@ -1,0 +1,121 @@
+{
+	"name": "AggWholeDayAttendanceBySchool",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CeNet_DataBlend",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "SKAggWholeDayAttendanceBySchool",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SKYear",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SKCampus",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SKAttendanceDate",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SKGender",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SKATSI",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SKYearLevel",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TotalSchoolMinutes",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TotalMinutesMissed",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MinutesArrivedLate",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MinutesDepartedEarly",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "UnmarkedMinutes",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "UnscheduledMinutes",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ArrivedLate",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DepartedEarly",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WholeDayAbsence",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PartialAbsence",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NoAbsence",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CountAttended",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "IsCurrent",
+				"type": "bit"
+			},
+			{
+				"name": "Disability",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "vwAggWholeDayAttendanceBySchool"
+		}
+	}
+}

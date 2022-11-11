@@ -48,7 +48,7 @@
 		"parameters": {
 			"sinkFilesystem": {
 				"type": "string",
-				"defaultValue": "stage1np"
+				"defaultValue": "stage2np"
 			},
 			"sinkDirectory": {
 				"type": "string",

@@ -851,7 +851,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "NAPLAN",
+						"referenceName": "Naplan_py",
 						"type": "NotebookReference"
 					},
 					"parameters": {

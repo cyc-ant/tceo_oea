@@ -1,0 +1,21 @@
+{
+	"name": "CeNet_DataBlend",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LS_KeyVault_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "CeNet-Datablend-DB"
+			}
+		},
+		"connectVia": {
+			"referenceName": "SelfHostedIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

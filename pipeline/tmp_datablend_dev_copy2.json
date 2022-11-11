@@ -295,7 +295,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "NAPLAN",
+						"referenceName": "Naplan_py",
 						"type": "NotebookReference"
 					},
 					"parameters": {
@@ -331,7 +331,7 @@
 			},
 			"sinkDirectory": {
 				"type": "string",
-				"defaultValue": "acer"
+				"defaultValue": "acer_test"
 			}
 		},
 		"folder": {

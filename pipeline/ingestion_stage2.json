@@ -52,7 +52,7 @@
 			},
 			"sinkDirectory": {
 				"type": "string",
-				"defaultValue": "naplan"
+				"defaultValue": "naplan2"
 			}
 		},
 		"folder": {

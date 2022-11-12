@@ -1,0 +1,16 @@
+{
+	"name": "SourceDataset_d0j",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CeNet_DataBlend",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "vwDMAEStudent"
+		}
+	}
+}

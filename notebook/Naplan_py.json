@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "074ec1c7-797d-4612-86c7-65770cae5402"
+				"spark.autotune.trackingId": "5066dacb-139c-402b-9e0d-ca84e56c7e22"
 			}
 		},
 		"metadata": {
@@ -58,7 +58,7 @@
 					"                                            ['StudentFirstName', 'string', 'partition-by']]                                          \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'dbo.vwDMAEStudent', self.schemas['dbo.vwDMAEStudent'], 'StudentFirstName', 'SKAEStudentId', 'parquet')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'dbo.vwDMAEStudent', self.schemas['dbo.vwDMAEStudent'], 'StudentFirstName', 'SKAEStudentId', 'csv')\r\n",
 					"\r\n",
 					"        #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
 					"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",

@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "156b6f8e-1698-45e2-8ede-9fd7b040dcc7"
+				"spark.autotune.trackingId": "074ec1c7-797d-4612-86c7-65770cae5402"
 			}
 		},
 		"metadata": {
@@ -52,13 +52,13 @@
 				"cell_type": "code",
 				"source": [
 					"class Naplan(BaseOEAModule):\r\n",
-					"    def __init__(self, source_folder='naplan', pseudonymize = True):\r\n",
+					"    def __init__(self, source_folder='student3', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-					"        self.schemas['Naplan_Student'] = [['SKStudent', 'int', 'no-op'],\r\n",
-					"                                            ['OfficialFirstName', 'string', 'partition-by']]                                          \r\n",
+					"        self.schemas['dbo.vwDMAEStudent'] = [['SKAEStudentId', 'int', 'no-op'],\r\n",
+					"                                            ['StudentFirstName', 'string', 'partition-by']]                                          \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'Naplan.Student', self.schemas['Naplan_Student'], 'OfficialFirstName', 'SKStudent', 'parquet')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'dbo.vwDMAEStudent', self.schemas['dbo.vwDMAEStudent'], 'StudentFirstName', 'SKAEStudentId', 'parquet')\r\n",
 					"\r\n",
 					"        #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
 					"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",

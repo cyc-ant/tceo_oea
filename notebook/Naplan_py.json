@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fabd5093-c479-4c2f-b865-0876b654cb34"
+				"spark.autotune.trackingId": "96e8727c-5b6f-43af-8b3d-7b269b7cd78c"
 			}
 		},
 		"metadata": {
@@ -61,7 +61,7 @@
 					"                                        ['FamilyName', 'string', 'no-op'],\r\n",
 					"                                        ['GivenName', 'string', 'no-op'],\r\n",
 					"                                        ['DateOfBirth', 'date', 'no-op'],\r\n",
-					"                                        ['Gender', 'string', 'partition-by'],\r\n",
+					"                                        ['Gender', 'string', 'no-op'],\r\n",
 					"                                        ['GenderId', 'integer', 'no-op'],\r\n",
 					"                                        ['Username', 'string', 'no-op'],\r\n",
 					"                                        ['Password', 'string', 'no-op'],\r\n",

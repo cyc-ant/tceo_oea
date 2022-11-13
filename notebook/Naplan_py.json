@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "47aa20bf-532b-4b19-b71d-2c8e1dd14c91"
+				"spark.autotune.trackingId": "c2e2481e-3891-49dd-9e24-22f62bda6c06"
 			}
 		},
 		"metadata": {
@@ -52,7 +52,7 @@
 				"cell_type": "code",
 				"source": [
 					"class Naplan(BaseOEAModule):\r\n",
-					"    def __init__(self, source_folder='students/acer', pseudonymize = True):\r\n",
+					"    def __init__(self, source_folder='students\\\\acer', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"        self.schemas['student_acer'] = [['SKACERStudent', 'integer', 'no-op'],\r\n",
 					"                                        ['BKACERStudent', 'string', 'no-op'],\r\n",

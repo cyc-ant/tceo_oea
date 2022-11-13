@@ -6632,7 +6632,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7f8ca925-9922-496d-837e-f4a1413b866f"
+						"spark.autotune.trackingId": "1068ec34-374d-4068-878d-fc7986238997"
 					}
 				},
 				"metadata": {
@@ -6682,10 +6682,10 @@
 							"                                        ['Username', 'string', 'no-op'],\r\n",
 							"                                        ['Password', 'string', 'no-op'],\r\n",
 							"                                        ['CampusId', 'integer', 'partition-by'],\r\n",
-							"                                        ['CreateDate', 'datetime', 'no-op'],\r\n",
-							"                                        ['LastUpdateDate', 'datetime', 'no-op'],\r\n",
-							"                                        ['EffectiveStartDate', 'datetime', 'no-op'],\r\n",
-							"                                        ['EffectiveEndDate', 'datetime', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
 							"                                        ['Iscurrent', 'bit', 'no-op'],\r\n",
 							"                                        ['SCDReason', 'string', 'no-op']]                                          \r\n",
 							"\r\n",

@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a412a6eb-e2f2-4ff7-8561-cc7e7e488175"
+				"spark.autotune.trackingId": "07b7bdd2-5efe-4562-8d5f-0d7aa4a77cd8"
 			}
 		},
 		"metadata": {
@@ -74,7 +74,7 @@
 					"                                        ['SCDReason', 'string', 'no-op']]                                          \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'ACERStudent', self.schemas['student_acer'], 'CampusId', 'SKACERStudent')\r\n",
+					"        oea.ingest_incremental_data(self.source_folder, 'ACERStudent', self.schemas['student_acer'], 'CampusId', 'SKACERStudent')\r\n",
 					"\r\n",
 					"        #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
 					"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",

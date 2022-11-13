@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fab6b5b3-1e97-40d0-957b-74f5b6cb4cb8"
+				"spark.autotune.trackingId": "44b41be2-f3c9-44ed-8374-073ca5570ba0"
 			}
 		},
 		"metadata": {
@@ -70,7 +70,7 @@
 					"                                        ['LastUpdateDate', 'datetime', 'no-op'],\r\n",
 					"                                        ['EffectiveStartDate', 'datetime', 'no-op'],\r\n",
 					"                                        ['EffectiveEndDate', 'datetime', 'no-op'],\r\n",
-					"                                        ['Iscurrent', 'bool', 'no-op'],\r\n",
+					"                                        ['Iscurrent', 'bit', 'no-op'],\r\n",
 					"                                        ['SCDReason', 'string', 'no-op']]                                          \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",

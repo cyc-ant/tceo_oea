@@ -1,5 +1,5 @@
 {
-	"name": "tmp_datablend_dev_copy1",
+	"name": "ingestion_stage2",
 	"properties": {
 		"activities": [
 			{
@@ -52,7 +52,7 @@
 			},
 			"sinkDirectory": {
 				"type": "string",
-				"defaultValue": "naplan"
+				"defaultValue": "student_acer"
 			}
 		},
 		"folder": {

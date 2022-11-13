@@ -1,0 +1,24 @@
+{
+	"name": "DestinationDataset_d0j",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_OEA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "aestudents.csv",
+				"folderPath": "student4",
+				"fileSystem": "stage1np"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

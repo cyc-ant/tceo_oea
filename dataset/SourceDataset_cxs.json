@@ -1,0 +1,96 @@
+{
+	"name": "SourceDataset_cxs",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CeNet_DataBlend",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "SKAEStudentId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BKSourceStudentId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PersistentStudentId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "StudentFirstName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StudentSurname",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DOB",
+				"type": "date"
+			},
+			{
+				"name": "GenderId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ATSIId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LBOTELanguageId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "WholeDaysAbsent",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PartialDaysAbsent",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "LastUpdateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveStartDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveEndDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "IsCurrent",
+				"type": "bit"
+			},
+			{
+				"name": "ScdReason",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "vwDMAEStudent"
+		}
+	}
+}

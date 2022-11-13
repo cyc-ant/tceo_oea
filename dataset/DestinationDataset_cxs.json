@@ -1,0 +1,20 @@
+{
+	"name": "DestinationDataset_cxs",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_OEA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "student3",
+				"fileSystem": "stage1np"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}

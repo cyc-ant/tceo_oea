@@ -6632,7 +6632,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a41ebd4d-b932-429a-960b-975b7714aba2"
+						"spark.autotune.trackingId": "994703a5-b1db-49ba-81ff-3238a02c3fa1"
 					}
 				},
 				"metadata": {
@@ -6677,7 +6677,7 @@
 							"                                        ['FamilyName', 'string', 'no-op'],\r\n",
 							"                                        ['GivenName', 'string', 'no-op'],\r\n",
 							"                                        ['DateOfBirth', 'date', 'no-op'],\r\n",
-							"                                        ['Gender', 'string', 'partition-by'],\r\n",
+							"                                        ['Gender', 'string', 'no-op'],\r\n",
 							"                                        ['GenderId', 'integer', 'no-op'],\r\n",
 							"                                        ['Username', 'string', 'no-op'],\r\n",
 							"                                        ['Password', 'string', 'no-op'],\r\n",
@@ -6727,7 +6727,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3e07106f-9a35-44fa-9e05-f6fbd934787f"
+						"spark.autotune.trackingId": "b6ba9220-b803-450f-a947-d7fb826f5f03"
 					}
 				},
 				"metadata": {
@@ -6886,16 +6886,39 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {}
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "a76b93c7-ac1b-4147-9d52-d62ba4c92d10"
+					}
 				},
 				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "python"
 					},
 					"language_info": {
 						"name": "python"
-					}
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
@@ -7448,7 +7471,8 @@
 							"\n",
 							"oea = OEA()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},

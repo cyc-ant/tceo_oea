@@ -6632,7 +6632,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fab6b5b3-1e97-40d0-957b-74f5b6cb4cb8"
+						"spark.autotune.trackingId": "ba17d180-d694-4f8d-ac12-4b96c63fe2e3"
 					}
 				},
 				"metadata": {
@@ -6657,13 +6657,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Naplan(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='students/acer', pseudonymize = True):\r\n",
@@ -6684,7 +6686,7 @@
 							"                                        ['LastUpdateDate', 'datetime', 'no-op'],\r\n",
 							"                                        ['EffectiveStartDate', 'datetime', 'no-op'],\r\n",
 							"                                        ['EffectiveEndDate', 'datetime', 'no-op'],\r\n",
-							"                                        ['Iscurrent', 'bool', 'no-op'],\r\n",
+							"                                        ['Iscurrent', 'bit', 'no-op'],\r\n",
 							"                                        ['SCDReason', 'string', 'no-op']]                                          \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
@@ -6725,7 +6727,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ed0f32a2-702a-4070-87ef-8e1496f70457"
+						"spark.autotune.trackingId": "a298b9f3-1c7b-412c-b1c8-6a4643e5e0e4"
 					}
 				},
 				"metadata": {
@@ -6750,8 +6752,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -6797,7 +6798,7 @@
 							"kwargs = '{}'"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 15
 					},
 					{
 						"cell_type": "code",
@@ -6817,7 +6818,7 @@
 							"%run /OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 16
 					},
 					{
 						"cell_type": "code",
@@ -6837,7 +6838,7 @@
 							"%run /Naplan_py"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 17
 					},
 					{
 						"cell_type": "code",
@@ -6860,7 +6861,7 @@
 							"mssparkutils.notebook.exit(result)"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 18
 					}
 				]
 			},

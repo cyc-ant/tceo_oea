@@ -6632,7 +6632,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ba17d180-d694-4f8d-ac12-4b96c63fe2e3"
+						"spark.autotune.trackingId": "7f8ca925-9922-496d-837e-f4a1413b866f"
 					}
 				},
 				"metadata": {
@@ -6670,18 +6670,18 @@
 							"class Naplan(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='students/acer', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-							"        self.schemas['student_acer'] = [['SKACERStudent', 'int', 'no-op'],\r\n",
+							"        self.schemas['student_acer'] = [['SKACERStudent', 'integer', 'no-op'],\r\n",
 							"                                        ['BKACERStudent', 'string', 'no-op'],\r\n",
 							"                                        ['SystemID', 'string', 'no-op'],\r\n",
-							"                                        ['PersistentStudentID', 'int', 'no-op'],\r\n",
+							"                                        ['PersistentStudentID', 'integer', 'no-op'],\r\n",
 							"                                        ['FamilyName', 'string', 'no-op'],\r\n",
 							"                                        ['GivenName', 'string', 'no-op'],\r\n",
 							"                                        ['DateOfBirth', 'date', 'no-op'],\r\n",
 							"                                        ['Gender', 'string', 'no-op'],\r\n",
-							"                                        ['GenderId', 'int', 'no-op'],\r\n",
+							"                                        ['GenderId', 'integer', 'no-op'],\r\n",
 							"                                        ['Username', 'string', 'no-op'],\r\n",
 							"                                        ['Password', 'string', 'no-op'],\r\n",
-							"                                        ['CampusId', 'int', 'partition-by'],\r\n",
+							"                                        ['CampusId', 'integer', 'partition-by'],\r\n",
 							"                                        ['CreateDate', 'datetime', 'no-op'],\r\n",
 							"                                        ['LastUpdateDate', 'datetime', 'no-op'],\r\n",
 							"                                        ['EffectiveStartDate', 'datetime', 'no-op'],\r\n",

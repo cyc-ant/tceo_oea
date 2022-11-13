@@ -6632,7 +6632,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c75d821b-e08f-4c28-9818-15727340ab76"
+						"spark.autotune.trackingId": "46f46fd4-9b74-4083-950c-68c13db16231"
 					}
 				},
 				"metadata": {
@@ -6668,7 +6668,7 @@
 						"metadata": {},
 						"source": [
 							"class Naplan(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='students/acer', pseudonymize = True):\r\n",
+							"    def __init__(self, source_folder='students', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"        self.schemas['student_acer'] = [['SKACERStudent', 'integer', 'no-op'],\r\n",
 							"                                        ['BKACERStudent', 'string', 'no-op'],\r\n",
@@ -6690,7 +6690,7 @@
 							"                                        ['SCDReason', 'string', 'no-op']]                                          \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        oea.ingest_incremental_data(self.source_folder, 'ACERStudent', self.schemas['student_acer'], 'CampusId', 'SKACERStudent')\r\n",
+							"        oea.ingest_incremental_data(self.source_folder, 'acer', self.schemas['student_acer'], 'CampusId', 'SKACERStudent')\r\n",
 							"\r\n",
 							"        #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
 							"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",
@@ -6727,7 +6727,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a298b9f3-1c7b-412c-b1c8-6a4643e5e0e4"
+						"spark.autotune.trackingId": "87663b03-2e16-41b7-9e75-d4315cfb0956"
 					}
 				},
 				"metadata": {
@@ -6752,7 +6752,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

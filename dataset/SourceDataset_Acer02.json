@@ -1,0 +1,97 @@
+{
+	"name": "SourceDataset_Acer02",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CeNet_DataBlend",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "SKACERStudent",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BKACERStudent",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SystemId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PersistentStudentId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "FamilyName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GivenName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DateOfBirth",
+				"type": "date"
+			},
+			{
+				"name": "Gender",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GenderId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Username",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Password",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CampusId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "LastUpdateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveStartDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveEndDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "Iscurrent",
+				"type": "bit"
+			},
+			{
+				"name": "SCDReason",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "vwDMACERStudent"
+		}
+	}
+}

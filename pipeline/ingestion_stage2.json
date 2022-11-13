@@ -52,7 +52,7 @@
 			},
 			"sinkDirectory": {
 				"type": "string",
-				"defaultValue": "student4-2"
+				"defaultValue": "student_acer"
 			}
 		},
 		"folder": {

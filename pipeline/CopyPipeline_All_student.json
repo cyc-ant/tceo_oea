@@ -1,0 +1,656 @@
+{
+	"name": "CopyPipeline_All_student",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_xfq",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_xfq",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "@{item().source.schema}.@{item().source.table}"
+								},
+								{
+									"name": "Destination",
+									"value": "stage1np//@{item().destination.fileName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"validateDataConsistency": false
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_All_student",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_schema": "@item().source.schema",
+										"cw_table": "@item().source.table"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_All_student",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_fileName": "@item().destination.fileName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwAggWholeDayAttendanceByStudent"
+						},
+						"destination": {
+							"fileName": "dbovwAggWholeDayAttendanceByStudent.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMACERStudent"
+						},
+						"destination": {
+							"fileName": "dbovwDMACERStudent.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMAEStudent"
+						},
+						"destination": {
+							"fileName": "dbovwDMAEStudent.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMAEStudentDescription"
+						},
+						"destination": {
+							"fileName": "dbovwDMAEStudentDescription.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMAEStudentResultId"
+						},
+						"destination": {
+							"fileName": "dbovwDMAEStudentResultId.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMBorrowingStudent"
+						},
+						"destination": {
+							"fileName": "dbovwDMBorrowingStudent.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMCensusStudentWithDisabilityId"
+						},
+						"destination": {
+							"fileName": "dbovwDMCensusStudentWithDisabilityId.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMDetailedStudentPreSubmission"
+						},
+						"destination": {
+							"fileName": "dbovwDMDetailedStudentPreSubmission.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactCensusStudentWithDisability"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactCensusStudentWithDisability.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactDetailedStudentCensusPreSubmission"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactDetailedStudentCensusPreSubmission.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactHSCMinStdStudentItemLevelResult"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactHSCMinStdStudentItemLevelResult.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactHSCMinStdStudentResult"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactHSCMinStdStudentResult.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactMAIStudentGrowthResult"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMAIStudentGrowthResult.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactMAIStudentGrowthResult_new"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMAIStudentGrowthResult_new.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactMySchoolsStudentGain"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsStudentGain.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactMySchoolsStudentGainSameStartingScore"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsStudentGainSameStartingScore.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactMySchoolsStudentGainSimilarSchools"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsStudentGainSimilarSchools.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactNAPLANOnlineStudentItemResponse"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactNAPLANOnlineStudentItemResponse.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactNAPLANOnlineStudentTestResult"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactNAPLANOnlineStudentTestResult.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactNAPLANStudentResponse"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactNAPLANStudentResponse.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactNaplanStudentYearResult"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactNaplanStudentYearResult.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactStudent"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactStudent.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactStudentAEResult"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactStudentAEResult.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactStudentCensusEnrolment"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactStudentCensusEnrolment.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactStudentEnrolment"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactStudentEnrolment.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactStudentEnrolmentCounts"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactStudentEnrolmentCounts.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactStudentLibraryBorrowingHabits"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactStudentLibraryBorrowingHabits.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactStudentWellbeing"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactStudentWellbeing.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMHSCMinStdStudent"
+						},
+						"destination": {
+							"fileName": "dbovwDMHSCMinStdStudent.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMHSCMinStdStudentItemLevelResultId"
+						},
+						"destination": {
+							"fileName": "dbovwDMHSCMinStdStudentItemLevelResultId.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMHSCMinStdStudentResultId"
+						},
+						"destination": {
+							"fileName": "dbovwDMHSCMinStdStudentResultId.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMHSCStudent"
+						},
+						"destination": {
+							"fileName": "dbovwDMHSCStudent.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMHSCStudentCourses"
+						},
+						"destination": {
+							"fileName": "dbovwDMHSCStudentCourses.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMMAIStudent"
+						},
+						"destination": {
+							"fileName": "dbovwDMMAIStudent.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMMAIStudentGrowthResultId"
+						},
+						"destination": {
+							"fileName": "dbovwDMMAIStudentGrowthResultId.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMMySchoolsStudentGainGroup"
+						},
+						"destination": {
+							"fileName": "dbovwDMMySchoolsStudentGainGroup.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANOnlineStudentItemResponse"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANOnlineStudentItemResponse.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANOnlineStudentResult"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANOnlineStudentResult.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANOnlineStudentTestResultId"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANOnlineStudentTestResultId.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANStudent"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANStudent.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANStudentResponseId"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANStudentResponseId.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMPATStudentResponseGrouping"
+						},
+						"destination": {
+							"fileName": "dbovwDMPATStudentResponseGrouping.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMPATStudentTestGrouping"
+						},
+						"destination": {
+							"fileName": "dbovwDMPATStudentTestGrouping.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMPATStudentTestGrouping_bkp_08112019"
+						},
+						"destination": {
+							"fileName": "dbovwDMPATStudentTestGrouping_bkp_08112019.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentAccessRestrictions"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentAccessRestrictions.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentAdditionalNotes"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentAdditionalNotes.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentClass"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentClass.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentClass_backup"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentClass_backup.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentDebtor"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentDebtor.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentImmunisations"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentImmunisations.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentOrganisationDetails"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentOrganisationDetails.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentOutcomes"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentOutcomes.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentRelationships"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentRelationships.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentReligiousMilestones"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentReligiousMilestones.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentSchoolHistory"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentSchoolHistory.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentSubjects"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentSubjects.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentType"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentType.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentVetCourses"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentVetCourses.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMStudentVetUnits"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentVetUnits.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "NAPLAN",
+							"table": "NAPLANStudent"
+						},
+						"destination": {
+							"fileName": "NAPLANNAPLANStudent.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "NAPLAN",
+							"table": "NAPLANStudentView"
+						},
+						"destination": {
+							"fileName": "NAPLANNAPLANStudentView.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "NAPLAN",
+							"table": "Student"
+						},
+						"destination": {
+							"fileName": "NAPLANStudent.txt"
+						}
+					},
+					{
+						"source": {
+							"schema": "NAPLAN",
+							"table": "StudentYearResult"
+						},
+						"destination": {
+							"fileName": "NAPLANStudentYearResult.txt"
+						}
+					}
+				]
+			}
+		},
+		"annotations": []
+	}
+}

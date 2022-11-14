@@ -21,7 +21,7 @@
 					},
 					"parameters": {
 						"object_name": {
-							"value": "naplan",
+							"value": "acer",
 							"type": "string"
 						},
 						"method_name": {

@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "170683dd-5b6a-424b-a440-ba84bad9da84"
+				"spark.autotune.trackingId": "f6a2ad7b-c418-44de-940b-aabb7d644341"
 			}
 		},
 		"metadata": {
@@ -85,7 +85,7 @@
 					"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
 					"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
 					"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-					"object_name = 'naplan'\r\n",
+					"object_name = 'student_test'\r\n",
 					"method_name = 'ingest'\r\n",
 					"kwargs = '{}'"
 				],
@@ -125,7 +125,7 @@
 					"collapsed": true
 				},
 				"source": [
-					"%run /Naplan_py"
+					"%run /Student_py_test"
 				],
 				"execution_count": 17
 			},

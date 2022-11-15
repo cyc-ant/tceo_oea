@@ -493,6 +493,1224 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_All_schools')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach_hwe",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.cw_items",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy_hwe",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "dbo.@{item().source.table}"
+										},
+										{
+											"name": "Destination",
+											"value": "stage1np/schools_all/@{item().destination.fileName}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"validateDataConsistency": false
+									},
+									"inputs": [
+										{
+											"referenceName": "SourceDataset_All_schools",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_table": "@item().source.table"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DestinationDataset_All_schools",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_fileName": "@item().destination.fileName"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"cw_items": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"source": {
+									"table": "vwAggWholeDayAttendanceBySchool"
+								},
+								"destination": {
+									"fileName": "dbovwAggWholeDayAttendanceBySchool.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMEducationNonSchoolLevel"
+								},
+								"destination": {
+									"fileName": "dbovwDMEducationNonSchoolLevel.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMEducationSchoolLevel"
+								},
+								"destination": {
+									"fileName": "dbovwDMEducationSchoolLevel.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsAttendance"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsAttendance.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsEnrolmentsByGrade"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsEnrolmentsByGrade.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsFinance"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsFinance.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsNAPLANResults"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsNAPLANResults.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsNAPLANResultsSimilarSchools"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsNAPLANResultsSimilarSchools.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsProfile"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsProfile.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsSeniorOutcomes"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsSeniorOutcomes.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsStudentGain"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsStudentGain.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsStudentGainSameStartingScore"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsStudentGainSameStartingScore.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsStudentGainSimilarSchools"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsStudentGainSimilarSchools.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsVETInSchools"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsVETInSchools.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsVETSchoolBasedApprenticeshipsTraineeships"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsVETSchoolBasedApprenticeshipsTraineeships.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMHSCSchools"
+								},
+								"destination": {
+									"fileName": "dbovwDMHSCSchools.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMMultipleChoiceAnalysisSchoolCourse"
+								},
+								"destination": {
+									"fileName": "dbovwDMMultipleChoiceAnalysisSchoolCourse.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMMySchoolsStudentGainGroup"
+								},
+								"destination": {
+									"fileName": "dbovwDMMySchoolsStudentGainGroup.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMMySchoolsVETClassification"
+								},
+								"destination": {
+									"fileName": "dbovwDMMySchoolsVETClassification.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMMySchoolsVETStatus"
+								},
+								"destination": {
+									"fileName": "dbovwDMMySchoolsVETStatus.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMSchoolLevel"
+								},
+								"destination": {
+									"fileName": "dbovwDMSchoolLevel.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMSchools"
+								},
+								"destination": {
+									"fileName": "dbovwDMSchools.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMSchoolSubject"
+								},
+								"destination": {
+									"fileName": "dbovwDMSchoolSubject.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMSchoolSubjectQCS"
+								},
+								"destination": {
+									"fileName": "dbovwDMSchoolSubjectQCS.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMSchoolSubLevel"
+								},
+								"destination": {
+									"fileName": "dbovwDMSchoolSubLevel.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMSchoolTerm"
+								},
+								"destination": {
+									"fileName": "dbovwDMSchoolTerm.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMSchoolTermWeek"
+								},
+								"destination": {
+									"fileName": "dbovwDMSchoolTermWeek.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMStatisticallySimilarSchoolsCEnetGroup"
+								},
+								"destination": {
+									"fileName": "dbovwDMStatisticallySimilarSchoolsCEnetGroup.txt"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMStudentSchoolHistory"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentSchoolHistory.txt"
+								}
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_All_schools')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_All_schools')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_All_student')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach_xfq",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.cw_items",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy_xfq",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "@{item().source.schema}.@{item().source.table}"
+										},
+										{
+											"name": "Destination",
+											"value": "stage1np//@{item().destination.fileName}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"validateDataConsistency": false
+									},
+									"inputs": [
+										{
+											"referenceName": "SourceDataset_All_student",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_schema": "@item().source.schema",
+												"cw_table": "@item().source.table"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DestinationDataset_All_student",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_fileName": "@item().destination.fileName"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"cw_items": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwAggWholeDayAttendanceByStudent"
+								},
+								"destination": {
+									"fileName": "dbovwAggWholeDayAttendanceByStudent.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMACERStudent"
+								},
+								"destination": {
+									"fileName": "dbovwDMACERStudent.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMAEStudent"
+								},
+								"destination": {
+									"fileName": "dbovwDMAEStudent.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMAEStudentDescription"
+								},
+								"destination": {
+									"fileName": "dbovwDMAEStudentDescription.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMAEStudentResultId"
+								},
+								"destination": {
+									"fileName": "dbovwDMAEStudentResultId.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMBorrowingStudent"
+								},
+								"destination": {
+									"fileName": "dbovwDMBorrowingStudent.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMCensusStudentWithDisabilityId"
+								},
+								"destination": {
+									"fileName": "dbovwDMCensusStudentWithDisabilityId.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMDetailedStudentPreSubmission"
+								},
+								"destination": {
+									"fileName": "dbovwDMDetailedStudentPreSubmission.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactCensusStudentWithDisability"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactCensusStudentWithDisability.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactDetailedStudentCensusPreSubmission"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactDetailedStudentCensusPreSubmission.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactHSCMinStdStudentItemLevelResult"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactHSCMinStdStudentItemLevelResult.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactHSCMinStdStudentResult"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactHSCMinStdStudentResult.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactMAIStudentGrowthResult"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMAIStudentGrowthResult.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactMAIStudentGrowthResult_new"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMAIStudentGrowthResult_new.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactMySchoolsStudentGain"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsStudentGain.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactMySchoolsStudentGainSameStartingScore"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsStudentGainSameStartingScore.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactMySchoolsStudentGainSimilarSchools"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsStudentGainSimilarSchools.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactNAPLANOnlineStudentItemResponse"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactNAPLANOnlineStudentItemResponse.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactNAPLANOnlineStudentTestResult"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactNAPLANOnlineStudentTestResult.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactNAPLANStudentResponse"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactNAPLANStudentResponse.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactNaplanStudentYearResult"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactNaplanStudentYearResult.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactStudent"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactStudent.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactStudentAEResult"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactStudentAEResult.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactStudentCensusEnrolment"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactStudentCensusEnrolment.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactStudentEnrolment"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactStudentEnrolment.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactStudentEnrolmentCounts"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactStudentEnrolmentCounts.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactStudentLibraryBorrowingHabits"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactStudentLibraryBorrowingHabits.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactStudentWellbeing"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactStudentWellbeing.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMHSCMinStdStudent"
+								},
+								"destination": {
+									"fileName": "dbovwDMHSCMinStdStudent.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMHSCMinStdStudentItemLevelResultId"
+								},
+								"destination": {
+									"fileName": "dbovwDMHSCMinStdStudentItemLevelResultId.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMHSCMinStdStudentResultId"
+								},
+								"destination": {
+									"fileName": "dbovwDMHSCMinStdStudentResultId.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMHSCStudent"
+								},
+								"destination": {
+									"fileName": "dbovwDMHSCStudent.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMHSCStudentCourses"
+								},
+								"destination": {
+									"fileName": "dbovwDMHSCStudentCourses.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMMAIStudent"
+								},
+								"destination": {
+									"fileName": "dbovwDMMAIStudent.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMMAIStudentGrowthResultId"
+								},
+								"destination": {
+									"fileName": "dbovwDMMAIStudentGrowthResultId.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMMySchoolsStudentGainGroup"
+								},
+								"destination": {
+									"fileName": "dbovwDMMySchoolsStudentGainGroup.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANOnlineStudentItemResponse"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANOnlineStudentItemResponse.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANOnlineStudentResult"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANOnlineStudentResult.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANOnlineStudentTestResultId"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANOnlineStudentTestResultId.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANStudent"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANStudent.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANStudentResponseId"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANStudentResponseId.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMPATStudentResponseGrouping"
+								},
+								"destination": {
+									"fileName": "dbovwDMPATStudentResponseGrouping.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMPATStudentTestGrouping"
+								},
+								"destination": {
+									"fileName": "dbovwDMPATStudentTestGrouping.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMPATStudentTestGrouping_bkp_08112019"
+								},
+								"destination": {
+									"fileName": "dbovwDMPATStudentTestGrouping_bkp_08112019.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentAccessRestrictions"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentAccessRestrictions.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentAdditionalNotes"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentAdditionalNotes.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentClass"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentClass.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentClass_backup"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentClass_backup.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentDebtor"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentDebtor.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentImmunisations"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentImmunisations.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentOrganisationDetails"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentOrganisationDetails.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentOutcomes"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentOutcomes.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentRelationships"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentRelationships.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentReligiousMilestones"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentReligiousMilestones.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentSchoolHistory"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentSchoolHistory.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentSubjects"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentSubjects.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentType"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentType.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentVetCourses"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentVetCourses.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMStudentVetUnits"
+								},
+								"destination": {
+									"fileName": "dbovwDMStudentVetUnits.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "NAPLAN",
+									"table": "NAPLANStudent"
+								},
+								"destination": {
+									"fileName": "NAPLANNAPLANStudent.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "NAPLAN",
+									"table": "NAPLANStudentView"
+								},
+								"destination": {
+									"fileName": "NAPLANNAPLANStudentView.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "NAPLAN",
+									"table": "Student"
+								},
+								"destination": {
+									"fileName": "NAPLANStudent.txt"
+								}
+							},
+							{
+								"source": {
+									"schema": "NAPLAN",
+									"table": "StudentYearResult"
+								},
+								"destination": {
+									"fileName": "NAPLANStudentYearResult.txt"
+								}
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_All_student')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_All_student')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_student_test')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_6i6",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "."
+							},
+							{
+								"name": "Destination",
+								"value": "stage1np/students/student_test"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "select\r\nSKStudent,\r\nBKSourceStudentId,\r\nBKPersistentStudentId,\r\nCampusId,\r\nCampusName,\r\nSchoolId,\r\nSchoolName,\r\nDioceseId,\r\nDioceseName,\r\nVisaSubClassId,\r\nVisaSubClassDesc,\r\nVisaIdentificationNumber,\r\nVisaExpiryData,\r\nVisaEndDate,\r\nCitizenshipResidencyStatusId,\r\nCitizenshipResidencyStatusDesc,\r\nBoarder,\r\nSingleNameOnly,\r\nOfficialFirstName,\r\nPreferredFirstName,\r\nOfficialSurname,\r\nPreferredSurname,\r\nDOB,\r\nGenderId,\r\nGenderSifDesc,\r\nBirthCountryId,\r\nBirthCountrySifDesc,\r\nPrimaryCitizenshipCountryId,\r\nPrimaryCitizenshipCountrySifDesc,\r\nPrimaryPassportIssueCountryId,\r\nPrimaryPassportIssueCountrySifDesc,\r\nAttendanceStatusId,\r\nAttendanceStatusSifDesc,\r\nRollGroup,\r\nFFPOS,\r\nESLYesNo,\r\nEslLanguageId,\r\nESLLanguageSifDesc,\r\nLBOTEYesNo,\r\nLBOTELanguageId,\r\nLBOTELanguageSifDesc,\r\nAtsiId,\r\nATSIDesc,\r\nReligionId,\r\nReligionDesc,\r\nSWDYesNo,\r\nSwdId,\r\nSwdSifDesc,\r\nStudentAddressStreet,\r\nStudentAddressSuburb,\r\nStudentAddressPostCode,\r\nBKStudentAddressState,\r\nStudentAddressState,\r\ncast(StudentAddressGeoData as nvarchar),\r\nStudentAddressLongitude,\r\nStudentAddressLatitude,\r\nHomePhone,\r\nHomeEmail,\r\nStudentMobile,\r\nStudentEmail,\r\nGuardian1FirstName,\r\nGuardian1Surname,\r\nGuardian1Phone,\r\nGuardian1Mobile,\r\nGuardian1Email,\r\nGuardian1OccupationalGroupId,\r\nGuardian1OccupationalGroupSifDesc,\r\nGuardian1EducationSchoolLevelId,\r\nGuardian1EducationSchoolLevelSifDesc,\r\nGuardian1EducationNonSchoolLevelId,\r\nGuardian1EducationNonSchoolLevelSifDesc,\r\nGuardian1LanguageId,\r\nGuardian1LanguageSifDesc,\r\nGuardian2FirstName,\r\nGuardian2Surname,\r\nGuardian2Phone,\r\nGuardian2Mobile,\r\nGuardian2Email,\r\nGuardian2OccupationalGroupId,\r\nGuardian2OccupationalGroupSifDesc,\r\nGuardian2EducationSchoolLevelId,\r\nGuardian2EducationSchoolLevelSifDesc,\r\nGuardian2EducationNonSchoolLevelId,\r\nGuardian2EducationNonSchoolLevelSifDesc,\r\nGuardian2LanguageId,\r\nGuardian2LanguageSifDesc,\r\nBaptismDate,\r\nFirstReconciliationDate,\r\nFirstEucharistDate,\r\nConfirmationDate,\r\nBaptismParish,\r\nCreateDate,\r\nEffectiveStartDate,\r\nEffectiveEndDate,\r\nIsCurrent,\r\nScdReason,\r\nLastUpdateDate,\r\nMainCampusId,\r\nOrganisationUserId,\r\nSKPerson,\r\nStudentReportingId,\r\nAccessRestrictions_YN,\r\nAccessRestrictionsInt\r\nfrom dbo.vwDMStudent\r\n",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_vwDMStudent",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_vwDMStudent",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_vwDMStudent')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_vwDMStudent')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_student_test_copy1')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_6i6",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "."
+							},
+							{
+								"name": "Destination",
+								"value": "stage1np/students/student_test_file/student_test"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "select\r\nSKStudent,\r\nBKSourceStudentId,\r\nBKPersistentStudentId,\r\nCampusId,\r\nCampusName,\r\nSchoolId,\r\nSchoolName,\r\nDioceseId,\r\nDioceseName,\r\nVisaSubClassId,\r\nVisaSubClassDesc,\r\nVisaIdentificationNumber,\r\nVisaExpiryData,\r\nVisaEndDate,\r\nCitizenshipResidencyStatusId,\r\nCitizenshipResidencyStatusDesc,\r\nBoarder,\r\nSingleNameOnly,\r\nOfficialFirstName,\r\nPreferredFirstName,\r\nOfficialSurname,\r\nPreferredSurname,\r\nDOB,\r\nGenderId,\r\nGenderSifDesc,\r\nBirthCountryId,\r\nBirthCountrySifDesc,\r\nPrimaryCitizenshipCountryId,\r\nPrimaryCitizenshipCountrySifDesc,\r\nPrimaryPassportIssueCountryId,\r\nPrimaryPassportIssueCountrySifDesc,\r\nAttendanceStatusId,\r\nAttendanceStatusSifDesc,\r\nRollGroup,\r\nFFPOS,\r\nESLYesNo,\r\nEslLanguageId,\r\nESLLanguageSifDesc,\r\nLBOTEYesNo,\r\nLBOTELanguageId,\r\nLBOTELanguageSifDesc,\r\nAtsiId,\r\nATSIDesc,\r\nReligionId,\r\nReligionDesc,\r\nSWDYesNo,\r\nSwdId,\r\nSwdSifDesc,\r\nStudentAddressStreet,\r\nStudentAddressSuburb,\r\nStudentAddressPostCode,\r\nBKStudentAddressState,\r\nStudentAddressState,\r\ncast(StudentAddressGeoData as nvarchar),\r\nStudentAddressLongitude,\r\nStudentAddressLatitude,\r\nHomePhone,\r\nHomeEmail,\r\nStudentMobile,\r\nStudentEmail,\r\nGuardian1FirstName,\r\nGuardian1Surname,\r\nGuardian1Phone,\r\nGuardian1Mobile,\r\nGuardian1Email,\r\nGuardian1OccupationalGroupId,\r\nGuardian1OccupationalGroupSifDesc,\r\nGuardian1EducationSchoolLevelId,\r\nGuardian1EducationSchoolLevelSifDesc,\r\nGuardian1EducationNonSchoolLevelId,\r\nGuardian1EducationNonSchoolLevelSifDesc,\r\nGuardian1LanguageId,\r\nGuardian1LanguageSifDesc,\r\nGuardian2FirstName,\r\nGuardian2Surname,\r\nGuardian2Phone,\r\nGuardian2Mobile,\r\nGuardian2Email,\r\nGuardian2OccupationalGroupId,\r\nGuardian2OccupationalGroupSifDesc,\r\nGuardian2EducationSchoolLevelId,\r\nGuardian2EducationSchoolLevelSifDesc,\r\nGuardian2EducationNonSchoolLevelId,\r\nGuardian2EducationNonSchoolLevelSifDesc,\r\nGuardian2LanguageId,\r\nGuardian2LanguageSifDesc,\r\nBaptismDate,\r\nFirstReconciliationDate,\r\nFirstEucharistDate,\r\nConfirmationDate,\r\nBaptismParish,\r\nCreateDate,\r\nEffectiveStartDate,\r\nEffectiveEndDate,\r\nIsCurrent,\r\nScdReason,\r\nLastUpdateDate,\r\nMainCampusId,\r\nOrganisationUserId,\r\nSKPerson,\r\nStudentReportingId,\r\nAccessRestrictions_YN,\r\nAccessRestrictionsInt\r\nfrom dbo.vwDMStudent\r\n",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_vwDMStudent",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_vwDMStudent",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_vwDMStudent')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_vwDMStudent')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_vuj')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_vuj",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "."
+							},
+							{
+								"name": "Destination",
+								"value": "stage1np/students/student_test_file/student_test"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "select\r\nSKStudent,\r\nBKSourceStudentId,\r\nBKPersistentStudentId,\r\nCampusId,\r\nCampusName,\r\nSchoolId,\r\nSchoolName,\r\nDioceseId,\r\nDioceseName,\r\nVisaSubClassId,\r\nVisaSubClassDesc,\r\nVisaIdentificationNumber,\r\nVisaExpiryData,\r\nVisaEndDate,\r\nCitizenshipResidencyStatusId,\r\nCitizenshipResidencyStatusDesc,\r\nBoarder,\r\nSingleNameOnly,\r\nOfficialFirstName,\r\nPreferredFirstName,\r\nOfficialSurname,\r\nPreferredSurname,\r\nDOB,\r\nGenderId,\r\nGenderSifDesc,\r\nBirthCountryId,\r\nBirthCountrySifDesc,\r\nPrimaryCitizenshipCountryId,\r\nPrimaryCitizenshipCountrySifDesc,\r\nPrimaryPassportIssueCountryId,\r\nPrimaryPassportIssueCountrySifDesc,\r\nAttendanceStatusId,\r\nAttendanceStatusSifDesc,\r\nRollGroup,\r\nFFPOS,\r\nESLYesNo,\r\nEslLanguageId,\r\nESLLanguageSifDesc,\r\nLBOTEYesNo,\r\nLBOTELanguageId,\r\nLBOTELanguageSifDesc,\r\nAtsiId,\r\nATSIDesc,\r\nReligionId,\r\nReligionDesc,\r\nSWDYesNo,\r\nSwdId,\r\nSwdSifDesc,\r\nStudentAddressStreet,\r\nStudentAddressSuburb,\r\nStudentAddressPostCode,\r\nBKStudentAddressState,\r\nStudentAddressState,\r\ncast(StudentAddressGeoData as nvarchar),\r\nStudentAddressLongitude,\r\nStudentAddressLatitude,\r\nHomePhone,\r\nHomeEmail,\r\nStudentMobile,\r\nStudentEmail,\r\nGuardian1FirstName,\r\nGuardian1Surname,\r\nGuardian1Phone,\r\nGuardian1Mobile,\r\nGuardian1Email,\r\nGuardian1OccupationalGroupId,\r\nGuardian1OccupationalGroupSifDesc,\r\nGuardian1EducationSchoolLevelId,\r\nGuardian1EducationSchoolLevelSifDesc,\r\nGuardian1EducationNonSchoolLevelId,\r\nGuardian1EducationNonSchoolLevelSifDesc,\r\nGuardian1LanguageId,\r\nGuardian1LanguageSifDesc,\r\nGuardian2FirstName,\r\nGuardian2Surname,\r\nGuardian2Phone,\r\nGuardian2Mobile,\r\nGuardian2Email,\r\nGuardian2OccupationalGroupId,\r\nGuardian2OccupationalGroupSifDesc,\r\nGuardian2EducationSchoolLevelId,\r\nGuardian2EducationSchoolLevelSifDesc,\r\nGuardian2EducationNonSchoolLevelId,\r\nGuardian2EducationNonSchoolLevelSifDesc,\r\nGuardian2LanguageId,\r\nGuardian2LanguageSifDesc,\r\nBaptismDate,\r\nFirstReconciliationDate,\r\nFirstEucharistDate,\r\nConfirmationDate,\r\nBaptismParish,\r\nCreateDate,\r\nEffectiveStartDate,\r\nEffectiveEndDate,\r\nIsCurrent,\r\nScdReason,\r\nLastUpdateDate,\r\nMainCampusId,\r\nOrganisationUserId,\r\nSKPerson,\r\nStudentReportingId,\r\nAccessRestrictions_YN,\r\nAccessRestrictionsInt\r\nfrom dbo.vwDMStudent\r\n",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_student_test_file",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_student_test_file",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_student_test_file')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_student_test_file')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Copy_all_from_Azure_SQL_DB')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -2117,6 +3335,79 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/notebooks/OEA_connector')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_copy1')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest to Stage2",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_Test",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "student_test",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"sinkFilesystem": {
+						"type": "string",
+						"defaultValue": "stage2np"
+					},
+					"sinkDirectory": {
+						"type": "string",
+						"defaultValue": "student_test"
+					}
+				},
+				"folder": {
+					"name": "OEA_Framework"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Test')]",
 				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
 			]
 		},
@@ -4120,6 +5411,79 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_All_schools')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"folderPath": "schools_all",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_All_student')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_Student')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -4233,6 +5597,64 @@
 						"fileSystem": "stage1np"
 					},
 					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_student_test_file')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "student_test",
+						"folderPath": "students/student_test_file",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_vwDMStudent')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "student_test",
+						"folderPath": "students",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
 				},
 				"schema": []
 			},
@@ -4806,6 +6228,70 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_All_schools')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_All_student')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_schema": {
+						"type": "String"
+					},
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().cw_schema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/SourceDataset_Student')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -4980,6 +6466,42 @@
 						"type": "Expression"
 					}
 				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_student_test_file')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_vwDMStudent')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {}
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
@@ -5893,39 +7415,16 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "87c3b4fd-adda-48e1-a07c-ef76ba2079da"
-					}
+					"conf": {}
 				},
 				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
+					}
 				},
 				"cells": [
 					{
@@ -5961,8 +7460,7 @@
 						"source": [
 							"%run OEA_py"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -5980,8 +7478,7 @@
 						"source": [
 							"%run DataGen_py"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					},
 					{
 						"cell_type": "code",
@@ -6001,8 +7498,7 @@
 							"writer = DataLakeWriter(oea.stage1np + '/test_data')\r\n",
 							"dg.generate_data(2, writer)"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					}
 				]
 			},
@@ -6029,7 +7525,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "cdd44737-d6ff-4471-ab7c-cee403c60a64"
+						"spark.autotune.trackingId": "5238c775-f30c-4684-bce7-e42f7f1ae6a3"
 					}
 				},
 				"metadata": {
@@ -6054,15 +7550,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Acer(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='acer_test', pseudonymize = True):\r\n",
@@ -7049,7 +8543,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4e533e93-ea95-47e0-a8b9-52f966297389"
+						"spark.autotune.trackingId": "094ca8e7-4588-4149-a6fa-c60fdc6ad1fd"
 					}
 				},
 				"metadata": {
@@ -7074,8 +8568,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -7210,7 +8703,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_py')]",
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Test')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -7231,7 +8724,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "717eed4d-e625-4a42-8f7a-4f58ae13b751"
+						"spark.autotune.trackingId": "56827db9-d91a-4df0-a079-ff1553493ffc"
 					}
 				},
 				"metadata": {
@@ -7239,7 +8732,7 @@
 					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
-						"display_name": "python"
+						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "python"
@@ -7256,10 +8749,149 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# OEA connector\n",
+							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
+							"\n",
+							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"tags": [
+								"parameters"
+							]
+						},
+						"source": [
+							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
+							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
+							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
+							"object_name = ''\r\n",
+							"method_name = ''\r\n",
+							"kwargs = '{}'"
+						],
+						"outputs": [],
+						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 16
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /Student_py_test"
+						],
+						"outputs": [],
+						"execution_count": 17
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"obj = eval(object_name)\r\n",
+							"kwargs = eval(kwargs)\r\n",
+							"m = getattr(obj, method_name)\r\n",
+							"result = m(**kwargs)\r\n",
+							"mssparkutils.notebook.exit(result)"
+						],
+						"outputs": [],
+						"execution_count": 18
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/OEA_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"runAsWorkspaceSystemIdentity": false,
+					"conf": {}
+				},
+				"metadata": {
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "python"
+					},
+					"language_info": {
+						"name": "python"
+					}
 				},
 				"cells": [
 					{
@@ -7812,8 +9444,186 @@
 							"\n",
 							"oea = OEA()"
 						],
+						"outputs": []
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Student_py_test')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "8676d494-4906-4f0f-8a7b-487e2ff0fb62"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"source": [
+							"class student_test(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder='students', pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"        self.schemas['student_test'] = [\r\n",
+							"                                        ['SKStudent', 'integer', 'no-op'],\r\n",
+							"                                        ['BKSourceStudentId', 'string', 'no-op'],\r\n",
+							"                                        ['BKPersistentStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusName', 'string', 'no-op'],\r\n",
+							"                                        ['SchoolId', 'integer', 'no-op'],\r\n",
+							"                                        ['SchoolName', 'string', 'no-op'],\r\n",
+							"                                        ['DioceseId', 'integer', 'no-op'],\r\n",
+							"                                        ['DioceseName', 'string', 'no-op'],\r\n",
+							"                                        ['VisaSubClassId', 'integer', 'no-op'],\r\n",
+							"                                        ['VisaSubClassDesc', 'string', 'no-op'],\r\n",
+							"                                        ['VisaIdentificationNumber', 'string', 'no-op'],\r\n",
+							"                                        ['VisaExpiryData', 'date', 'no-op'],\r\n",
+							"                                        ['VisaEndDate', 'date', 'no-op'],\r\n",
+							"                                        ['CitizenshipResidencyStatusId', 'integer', 'no-op'],\r\n",
+							"                                        ['CitizenshipResidencyStatusDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Boarder', 'integer', 'no-op'],\r\n",
+							"                                        ['SingleNameOnly', 'integer', 'no-op'],\r\n",
+							"                                        ['OfficialFirstName', 'string', 'no-op'],\r\n",
+							"                                        ['PreferredFirstName', 'string', 'no-op'],\r\n",
+							"                                        ['OfficialSurname', 'string', 'no-op'],\r\n",
+							"                                        ['PreferredSurname', 'string', 'no-op'],\r\n",
+							"                                        ['DOB', 'date', 'no-op'],\r\n",
+							"                                        ['GenderId', 'integer', 'no-op'],\r\n",
+							"                                        ['GenderSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['BirthCountryId', 'integer', 'no-op'],\r\n",
+							"                                        ['BirthCountrySifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['PrimaryCitizenshipCountryId', 'integer', 'no-op'],\r\n",
+							"                                        ['PrimaryCitizenshipCountrySifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['PrimaryPassportIssueCountryId', 'integer', 'no-op'],\r\n",
+							"                                        ['PrimaryPassportIssueCountrySifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['AttendanceStatusId', 'integer', 'no-op'],\r\n",
+							"                                        ['AttendanceStatusSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['RollGroup', 'string', 'no-op'],\r\n",
+							"                                        ['FFPOS', 'integer', 'no-op'],\r\n",
+							"                                        ['ESLYesNo', 'integer', 'no-op'],\r\n",
+							"                                        ['EslLanguageId', 'integer', 'no-op'],\r\n",
+							"                                        ['ESLLanguageSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['LBOTEYesNo', 'integer', 'no-op'],\r\n",
+							"                                        ['LBOTELanguageId', 'integer', 'no-op'],\r\n",
+							"                                        ['LBOTELanguageSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['AtsiId', 'integer', 'no-op'],\r\n",
+							"                                        ['ATSIDesc', 'string', 'no-op'],\r\n",
+							"                                        ['ReligionId', 'integer', 'no-op'],\r\n",
+							"                                        ['ReligionDesc', 'string', 'no-op'],\r\n",
+							"                                        ['SWDYesNo', 'integer', 'no-op'],\r\n",
+							"                                        ['SwdId', 'integer', 'no-op'],\r\n",
+							"                                        ['SwdSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['StudentAddressStreet', 'string', 'no-op'],\r\n",
+							"                                        ['StudentAddressSuburb', 'string', 'no-op'],\r\n",
+							"                                        ['StudentAddressPostCode', 'string', 'no-op'],\r\n",
+							"                                        ['BKStudentAddressState', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentAddressState', 'string', 'no-op'],\r\n",
+							"                                        ['StudentAddressGeoData', 'string', 'no-op'],\r\n",
+							"                                        ['StudentAddressLongitude', 'decimal', 'no-op'],\r\n",
+							"                                        ['StudentAddressLatitude', 'decimal', 'no-op'],\r\n",
+							"                                        ['HomePhone', 'string', 'no-op'],\r\n",
+							"                                        ['HomeEmail', 'string', 'no-op'],\r\n",
+							"                                        ['StudentMobile', 'string', 'no-op'],\r\n",
+							"                                        ['StudentEmail', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian1FirstName', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian1Surname', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian1Phone', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian1Mobile', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian1Email', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian1OccupationalGroupId', 'integer', 'no-op'],\r\n",
+							"                                        ['Guardian1OccupationalGroupSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian1EducationSchoolLevelId', 'integer', 'no-op'],\r\n",
+							"                                        ['Guardian1EducationSchoolLevelSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian1EducationNonSchoolLevelId', 'integer', 'no-op'],\r\n",
+							"                                        ['Guardian1EducationNonSchoolLevelSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian1LanguageId', 'integer', 'no-op'],\r\n",
+							"                                        ['Guardian1LanguageSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian2FirstName', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian2Surname', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian2Phone', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian2Mobile', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian2Email', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian2OccupationalGroupId', 'integer', 'no-op'],\r\n",
+							"                                        ['Guardian2OccupationalGroupSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian2EducationSchoolLevelId', 'integer', 'no-op'],\r\n",
+							"                                        ['Guardian2EducationSchoolLevelSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian2EducationNonSchoolLevelId', 'integer', 'no-op'],\r\n",
+							"                                        ['Guardian2EducationNonSchoolLevelSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian2LanguageId', 'integer', 'no-op'],\r\n",
+							"                                        ['Guardian2LanguageSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['BaptismDate', 'date', 'no-op'],\r\n",
+							"                                        ['FirstReconciliationDate', 'date', 'no-op'],\r\n",
+							"                                        ['FirstEucharistDate', 'date', 'no-op'],\r\n",
+							"                                        ['ConfirmationDate', 'date', 'no-op'],\r\n",
+							"                                        ['BaptismParish', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['MainCampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['OrganisationUserId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKPerson', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentReportingId', 'string', 'no-op'],\r\n",
+							"                                        ['AccessRestrictions_YN', 'string', 'no-op'],\r\n",
+							"                                        ['AccessRestrictionsInt', 'integer', 'no-op']\r\n",
+							"                                        ]                                          \r\n",
+							"\r\n",
+							"    def ingest(self):\r\n",
+							"        oea.ingest_incremental_data(self.source_folder, 'student_test_file', self.schemas['student_test'], 'CreateDate', 'SKStudent')\r\n",
+							"\r\n",
+							"        #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
+							"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\r\n",
+							"\r\n",
+							"student_test = Student_test()"
+						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 1
 					}
 				]
 			},

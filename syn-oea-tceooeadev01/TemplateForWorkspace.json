@@ -5897,7 +5897,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9ea1c1c6-d665-41a1-98e4-e26d222f5fa7"
+						"spark.autotune.trackingId": "87c3b4fd-adda-48e1-a07c-ef76ba2079da"
 					}
 				},
 				"metadata": {
@@ -6029,7 +6029,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d66a4e1a-16c7-4d45-8369-37702a1f4050"
+						"spark.autotune.trackingId": "cdd44737-d6ff-4471-ab7c-cee403c60a64"
 					}
 				},
 				"metadata": {
@@ -6087,7 +6087,7 @@
 							"                                        ['SCDReason', 'string', 'no-op']]                                          \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        oea.ingest_incremental_data(self.source_folder, 'Dim_AcerStudent', self.schemas['student_acer'], 'Gender', 'SKACERStudent', 'parquet')\r\n",
+							"        oea.ingest_incremental_data(self.source_folder, 'DMAcerStudent', self.schemas['student_acer'], 'Gender', 'SKACERStudent')\r\n",
 							"\r\n",
 							"        #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
 							"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",
@@ -7049,7 +7049,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "695ca02d-a9d1-4a56-997a-b33ef65d1570"
+						"spark.autotune.trackingId": "4e533e93-ea95-47e0-a8b9-52f966297389"
 					}
 				},
 				"metadata": {
@@ -7231,7 +7231,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "dce4e3d2-f633-42fe-9b34-7ea636c0a3ab"
+						"spark.autotune.trackingId": "717eed4d-e625-4a42-8f7a-4f58ae13b751"
 					}
 				},
 				"metadata": {

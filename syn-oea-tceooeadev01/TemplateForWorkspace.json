@@ -8450,7 +8450,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f3d4a7be-e571-4289-b1da-2559bd37b5b9"
+						"spark.autotune.trackingId": "7284fc72-32ae-451a-9ddd-37274b157c51"
 					}
 				},
 				"metadata": {
@@ -8475,13 +8475,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Naplan(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='acer_test', pseudonymize = True):\r\n",
@@ -9471,7 +9473,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8676d494-4906-4f0f-8a7b-487e2ff0fb62"
+						"spark.autotune.trackingId": "3e41d9da-8d9c-4331-b943-35f98ec7617d"
 					}
 				},
 				"metadata": {
@@ -9496,15 +9498,17 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
-							"class student_test(BaseOEAModule):\r\n",
+							"class Student_test(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='students', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"        self.schemas['student_test'] = [\r\n",

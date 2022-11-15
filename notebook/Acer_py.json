@@ -1,5 +1,5 @@
 {
-	"name": "Naplan_py",
+	"name": "Acer_py",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,15 +17,15 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "f3d4a7be-e571-4289-b1da-2559bd37b5b9"
+				"spark.autotune.trackingId": "7248a927-297c-4a56-9d78-bcb53f66dbd9"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
-			"enableDebugMode": false,
+			"enableDebugMode": true,
 			"kernelspec": {
 				"name": "synapse_pyspark",
-				"display_name": "Synapse PySpark"
+				"display_name": "python"
 			},
 			"language_info": {
 				"name": "python"
@@ -51,7 +51,7 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"class Naplan(BaseOEAModule):\r\n",
+					"class Acer(BaseOEAModule):\r\n",
 					"    def __init__(self, source_folder='acer_test', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"        self.schemas['student_acer'] = [['SKACERStudent', 'integer', 'no-op'],\r\n",
@@ -80,9 +80,9 @@
 					"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",
 					"        #oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\r\n",
 					"\r\n",
-					"naplan = Naplan()"
+					"acer = Acer()"
 				],
-				"execution_count": 1
+				"execution_count": null
 			}
 		]
 	}

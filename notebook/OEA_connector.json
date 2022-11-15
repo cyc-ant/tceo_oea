@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5ef40fbe-1ddb-45b0-8698-9d69b005894e"
+				"spark.autotune.trackingId": "025e7d0a-3563-4de1-8c03-69169240d278"
 			}
 		},
 		"metadata": {
@@ -43,7 +43,8 @@
 				"sparkVersion": "3.1",
 				"nodeCount": 3,
 				"cores": 4,
-				"memory": 28
+				"memory": 28,
+				"automaticScaleJobs": false
 			},
 			"sessionKeepAliveTimeout": 30
 		},
@@ -127,6 +128,24 @@
 					"%run /Naplan_py"
 				],
 				"execution_count": 17
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"%run /Acer_py"
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",

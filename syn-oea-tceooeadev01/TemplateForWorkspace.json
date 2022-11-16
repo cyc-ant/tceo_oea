@@ -7692,7 +7692,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f319eed8-3811-4751-af54-31042baa26bc"
+						"spark.autotune.trackingId": "d2f94484-d517-417d-b0e7-3928eedfb517"
 					}
 				},
 				"metadata": {
@@ -7770,9 +7770,10 @@
 							"        for file in file_list:\r\n",
 							"            # if the filename is preceded by 'dbovw', remove it and use the rest of the file name as the directory\r\n",
 							"            if file.name.find('dbovw') == 0:\r\n",
-							"                folder_name = file.name.replace('dbovw', '')\r\n",
-							"                mssparkutils.fs.mkdirs(self.stage1np + '/' + folder_name)\r\n",
-							"                print(self.stage1np + '/' + folder_name)\r\n",
+							"                table_name = file.name.replace('dbovw', '')\r\n",
+							"                tokens = table_name.split(\".\")\r\n",
+							"                mssparkutils.fs.mkdirs(self.stage1np + '/' + tokens[0])\r\n",
+							"                print(self.stage1np + '/' + tokens[0])\r\n",
 							"\r\n",
 							"\r\n",
 							"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
@@ -8663,7 +8664,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ff3082f8-ca59-413b-a7e3-f6371f263826"
+						"spark.autotune.trackingId": "9853abb4-fbf7-4a2f-8243-6bab28facc8a"
 					}
 				},
 				"metadata": {
@@ -8774,7 +8775,7 @@
 							"%run /DataCopy_py"
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": 19
 					},
 					{
 						"cell_type": "code",

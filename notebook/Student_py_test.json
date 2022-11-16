@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "424e296c-581d-4cb4-a681-ca149ea1f54d"
+				"spark.autotune.trackingId": "c427f1f1-a799-4ec2-a3ce-c5b30d3f37bd"
 			}
 		},
 		"metadata": {
@@ -109,8 +109,8 @@
 					"                                        ['BKStudentAddressState', 'integer', 'no-op'],\r\n",
 					"                                        ['StudentAddressState', 'string', 'no-op'],\r\n",
 					"                                        ['StudentAddressGeoData', 'string', 'no-op'],\r\n",
-					"                                        ['StudentAddressLongitude', 'float', 'no-op'],\r\n",
-					"                                        ['StudentAddressLatitude', 'float', 'no-op'],\r\n",
+					"                                        ['StudentAddressLongitude', 'float', 'no-op'], #changed 'decimal' to 'float'\r\n",
+					"                                        ['StudentAddressLatitude', 'float', 'no-op'], #changed 'decimal' to 'float'\r\n",
 					"                                        ['HomePhone', 'string', 'no-op'],\r\n",
 					"                                        ['HomeEmail', 'string', 'no-op'],\r\n",
 					"                                        ['StudentMobile', 'string', 'no-op'],\r\n",
@@ -146,7 +146,7 @@
 					"                                        ['FirstEucharistDate', 'date', 'no-op'],\r\n",
 					"                                        ['ConfirmationDate', 'date', 'no-op'],\r\n",
 					"                                        ['BaptismParish', 'string', 'no-op'],\r\n",
-					"                                        ['CreateDate', 'timestamp', 'no-op'],\r\n",
+					"                                        ['CreateDate', 'timestamp', 'no-op'], #changed 'string' to 'timestamp'\r\n",
 					"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
 					"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
 					"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",

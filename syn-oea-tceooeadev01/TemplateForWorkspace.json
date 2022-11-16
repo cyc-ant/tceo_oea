@@ -7692,7 +7692,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "471575f0-1ac0-455b-8d05-c26505889fab"
+						"spark.autotune.trackingId": "4f79e65e-b75e-46c3-aba4-96fbffe0b35d"
 					}
 				},
 				"metadata": {
@@ -7778,7 +7778,7 @@
 							"\r\n",
 							"    def _copyToFolder(self, file, destination):\r\n",
 							"        \"\"\" Moves the file to a folder that is based on the filename without its file extension\"\"\"\r\n",
-							"        tokens = table_name.split(\".\")\r\n",
+							"        tokens = destination.split(\".\")\r\n",
 							"        target = self.stage1np + '/' + tokens[0] +'/' + file.name\r\n",
 							"        mssparkutils.fs.mv(file.path, target, True) # will create the new dir and move file into it\r\n",
 							"\r\n",
@@ -8673,7 +8673,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fbd922c0-4551-4b07-b46a-29a7d645aafa"
+						"spark.autotune.trackingId": "fd4d6847-1ce7-44d5-b6c5-fc8edb2fa4c7"
 					}
 				},
 				"metadata": {
@@ -8784,7 +8784,7 @@
 							"%run /DataCopy_py"
 						],
 						"outputs": [],
-						"execution_count": 26
+						"execution_count": 27
 					},
 					{
 						"cell_type": "code",

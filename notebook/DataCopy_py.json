@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d8618810-d70e-4f92-b6c9-804a66b0e6e6"
+				"spark.autotune.trackingId": "5a1e7ff5-849e-4a7f-b4eb-af0c6498e696"
 			}
 		},
 		"metadata": {
@@ -92,6 +92,10 @@
 					"        print(\"Copying files from: \", self.stage1np)\r\n",
 					"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
 					"        for file in file_list:\r\n",
+					"            # ignore subfolders\r\n",
+					"            if file.isDir:\r\n",
+					"                continue\r\n",
+					"                \r\n",
 					"            # if the filename is preceded by 'dbovw', remove it and use the rest of the file name as the directory\r\n",
 					"            if file.name.find('dbovw') == 0:\r\n",
 					"                destination = file.name.replace('dbovw', '')\r\n",

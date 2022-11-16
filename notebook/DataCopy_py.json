@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b6a7a7ec-a083-4579-83d3-d322b4ae3bef"
+				"spark.autotune.trackingId": "02b8ceff-4485-4f23-ad0e-3296137ce637"
 			}
 		},
 		"metadata": {
@@ -87,7 +87,7 @@
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"        \r\n",
 					"    def moveAllToFolder(self):\r\n",
-					"        print(\"hello\")\r\n",
+					"        print(self.stage1np)\r\n",
 					"\r\n",
 					"\r\n",
 					"datacopy = DataCopy('testing_folder')\r\n",
@@ -98,7 +98,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 3
+				"execution_count": 1
 			}
 		]
 	}

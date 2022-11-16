@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "02b8ceff-4485-4f23-ad0e-3296137ce637"
+				"spark.autotune.trackingId": "246a059f-b058-4b74-8630-d16ebc214b8a"
 			}
 		},
 		"metadata": {
@@ -82,17 +82,25 @@
 					}
 				},
 				"source": [
+					"import os\r\n",
+					"import subprocess\r\n",
+					"\r\n",
 					"class DataCopy(BaseOEAModule):\r\n",
 					"    def __init__(self, source_folder, pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"        \r\n",
-					"    def moveAllToFolder(self):\r\n",
-					"        print(self.stage1np)\r\n",
+					"    def createFoldersForAll(self):\r\n",
+					"        print(\"Copying files from: \", self.stage1np)\r\n",
+					"        cmd = 'hdfs dfs -ls /user/path'\r\n",
+					"        files = subprocess.check_output(cmd, shell=True).strip().split('\\n')\r\n",
+					"        for path in files:\r\n",
+					"        print path\r\n",
 					"\r\n",
 					"\r\n",
+					"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
 					"datacopy = DataCopy('testing_folder')\r\n",
 					"\r\n",
-					"datacopy.moveAllToFolder()\r\n",
+					"datacopy.createFoldersForAll()\r\n",
 					"\r\n",
 					"\r\n",
 					"\r\n",

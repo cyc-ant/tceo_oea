@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "10c2e1e5-23e9-41be-b590-3610da0f83d4"
+				"spark.autotune.trackingId": "7e5927cb-e6b3-4092-a5dc-730a976be943"
 			}
 		},
 		"metadata": {
@@ -97,7 +97,7 @@
 					"                table_name = file.name.replace('dbovw', '')\r\n",
 					"                tokens = table_name.split(\".\")\r\n",
 					"                target_folder = self.stage1np + '/' + tokens[0]\r\n",
-					"                mssparkutils.fs.mv(file.path_and_filename, target_folder, True) # will create the new dir and move file into it\r\n",
+					"                mssparkutils.fs.mv(file.path, target_folder, True) # will create the new dir and move file into it\r\n",
 					"                print(self.stage1np + '/' + tokens[0])\r\n",
 					"\r\n",
 					"\r\n",

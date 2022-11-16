@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3f21b3a8-354d-4a11-95a5-09a40976aa09"
+				"spark.autotune.trackingId": "b84c2907-8d51-442a-8462-0b2480bc3731"
 			}
 		},
 		"metadata": {
@@ -89,7 +89,7 @@
 					"method_name = 'ingest'\r\n",
 					"kwargs = '{}'"
 				],
-				"execution_count": 1
+				"execution_count": 8
 			},
 			{
 				"cell_type": "code",
@@ -108,7 +108,7 @@
 				"source": [
 					"%run /OEA_py"
 				],
-				"execution_count": 2
+				"execution_count": 9
 			},
 			{
 				"cell_type": "code",
@@ -127,7 +127,7 @@
 				"source": [
 					"%run /DataCopy_py"
 				],
-				"execution_count": 7
+				"execution_count": 10
 			},
 			{
 				"cell_type": "code",

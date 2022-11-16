@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "09a55e41-8b82-4c61-8c17-0a3b71c9bc47"
+				"spark.autotune.trackingId": "0445ab1d-26a0-451d-833b-733005360e4d"
 			}
 		},
 		"metadata": {
@@ -161,7 +161,7 @@
 					"                                        ]                                          \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_incremental_data(self.source_folder, 'student_test_file', self.schemas['student_test'], 'CreateDate', 'SKStudent')\r\n",
+					"        oea.ingest_incremental_data(self.source_folder, 'student_test_file', self.schemas['student_test'], 'LastUpdateDate', 'SKStudent') # try to partition by LastUpdateDate instead of CreateDate\r\n",
 					"\r\n",
 					"        #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
 					"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",

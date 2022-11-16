@@ -7692,7 +7692,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "148d8309-703a-4171-992b-521c1490aaea"
+						"spark.autotune.trackingId": "45be13d8-5be5-4976-8287-c5378d2e12cd"
 					}
 				},
 				"metadata": {
@@ -7772,8 +7772,8 @@
 							"            if file.name.find('dbovw') == 0:\r\n",
 							"                table_name = file.name.replace('dbovw', '')\r\n",
 							"                tokens = table_name.split(\".\")\r\n",
-							"                target_folder = self.stage1np + '/' + tokens[0]\r\n",
-							"                mssparkutils.fs.mv(file.path, target_folder, True) # will create the new dir and move file into it\r\n",
+							"                target = self.stage1np + '/' + tokens[0] +'/' + file.name\r\n",
+							"                mssparkutils.fs.mv(file.path, target, True) # will create the new dir and move file into it\r\n",
 							"                print(self.stage1np + '/' + tokens[0])\r\n",
 							"\r\n",
 							"\r\n",
@@ -8665,7 +8665,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "70b054bd-54eb-475e-927c-bf741a4a06a6"
+						"spark.autotune.trackingId": "77a1fc7b-b5c6-4663-b8fd-28e9f613db1e"
 					}
 				},
 				"metadata": {
@@ -8776,7 +8776,7 @@
 							"%run /DataCopy_py"
 						],
 						"outputs": [],
-						"execution_count": 22
+						"execution_count": 23
 					},
 					{
 						"cell_type": "code",

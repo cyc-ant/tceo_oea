@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c252f533-b5cd-431a-b79a-0d5ae5c1c615"
+				"spark.autotune.trackingId": "62972604-f64b-42cc-8013-34b518c0b74d"
 			}
 		},
 		"metadata": {
@@ -92,7 +92,8 @@
 					"        print(\"Copying files from: \", self.stage1np)\r\n",
 					"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
 					"        for file in file_list:\r\n",
-					"            print(file.name)\r\n",
+					"            if(file.name[0:4] == 'dbovw')\r\n",
+					"                print(file.name)\r\n",
 					"\r\n",
 					"\r\n",
 					"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",

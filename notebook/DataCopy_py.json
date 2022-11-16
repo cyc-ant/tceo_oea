@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3ec9ee25-2d19-4b76-9671-386d1b21b21c"
+				"spark.autotune.trackingId": "4ba2b121-1ea1-4d93-8cfb-5a618ddcd06d"
 			}
 		},
 		"metadata": {
@@ -92,7 +92,7 @@
 					"        print(\"Copying files from: \", self.stage1np)\r\n",
 					"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
 					"        for file in file_list:\r\n",
-					"            if(file.name[0:4] == 'dbovw'):\r\n",
+					"            if file.name.find('dbovw') == 0:\r\n",
 					"                print(file.name)\r\n",
 					"\r\n",
 					"\r\n",

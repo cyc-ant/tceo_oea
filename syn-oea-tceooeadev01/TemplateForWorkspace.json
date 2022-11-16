@@ -7692,7 +7692,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b6a7a7ec-a083-4579-83d3-d322b4ae3bef"
+						"spark.autotune.trackingId": "02b8ceff-4485-4f23-ad0e-3296137ce637"
 					}
 				},
 				"metadata": {
@@ -7762,7 +7762,7 @@
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"        \r\n",
 							"    def moveAllToFolder(self):\r\n",
-							"        print(\"hello\")\r\n",
+							"        print(self.stage1np)\r\n",
 							"\r\n",
 							"\r\n",
 							"datacopy = DataCopy('testing_folder')\r\n",
@@ -7774,7 +7774,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 1
 					}
 				]
 			},
@@ -8652,7 +8652,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "20823f3f-a83b-4571-acfa-f43e5a338aa5"
+						"spark.autotune.trackingId": "2214fb14-2e2f-45b6-940f-16963e28b5a2"
 					}
 				},
 				"metadata": {
@@ -8764,7 +8764,7 @@
 							"%run /DataCopy_py"
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 6
 					},
 					{
 						"cell_type": "code",

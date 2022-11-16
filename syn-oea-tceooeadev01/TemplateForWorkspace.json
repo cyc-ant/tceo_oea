@@ -7692,7 +7692,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "45be13d8-5be5-4976-8287-c5378d2e12cd"
+						"spark.autotune.trackingId": "e094ef9e-3ea2-49d5-a41c-aaaa07d90d99"
 					}
 				},
 				"metadata": {
@@ -7770,11 +7770,19 @@
 							"        for file in file_list:\r\n",
 							"            # if the filename is preceded by 'dbovw', remove it and use the rest of the file name as the directory\r\n",
 							"            if file.name.find('dbovw') == 0:\r\n",
-							"                table_name = file.name.replace('dbovw', '')\r\n",
-							"                tokens = table_name.split(\".\")\r\n",
-							"                target = self.stage1np + '/' + tokens[0] +'/' + file.name\r\n",
-							"                mssparkutils.fs.mv(file.path, target, True) # will create the new dir and move file into it\r\n",
-							"                print(self.stage1np + '/' + tokens[0])\r\n",
+							"                destination = file.name.replace('dbovw', '')\r\n",
+							"                copyToFolder(file, destination)\r\n",
+							"            else:\r\n",
+							"                copyToFolder(file, file.name)\r\n",
+							"\r\n",
+							"\r\n",
+							"    def copyToFolder(self, file, destination):\r\n",
+							"        \"\"\" Moves the file to a folder that is based on the filename without its file extension\"\"\"\r\n",
+							"        tokens = table_name.split(\".\")\r\n",
+							"        target = self.stage1np + '/' + tokens[0] +'/' + file.name\r\n",
+							"        mssparkutils.fs.mv(file.path, target, True) # will create the new dir and move file into it\r\n",
+							"\r\n",
+							"\r\n",
 							"\r\n",
 							"\r\n",
 							"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
@@ -8665,7 +8673,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "77a1fc7b-b5c6-4663-b8fd-28e9f613db1e"
+						"spark.autotune.trackingId": "3b0b3659-a6e9-4b38-a24f-b5286319d33a"
 					}
 				},
 				"metadata": {
@@ -8776,7 +8784,7 @@
 							"%run /DataCopy_py"
 						],
 						"outputs": [],
-						"execution_count": 23
+						"execution_count": 24
 					},
 					{
 						"cell_type": "code",

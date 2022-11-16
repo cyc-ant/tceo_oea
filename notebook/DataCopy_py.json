@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "7ba9e7af-3852-4e10-a820-cd136ea48e10"
+				"spark.autotune.trackingId": "0c208464-6574-4717-9d84-2cf4aca2de75"
 			}
 		},
 		"metadata": {
@@ -82,8 +82,7 @@
 					}
 				},
 				"source": [
-					"from os import listdir\r\n",
-					"from os.path import isfile, join\r\n",
+					"\r\n",
 					"\r\n",
 					"class DataCopy(BaseOEAModule):\r\n",
 					"    def __init__(self, source_folder, pseudonymize = True):\r\n",
@@ -91,7 +90,7 @@
 					"        \r\n",
 					"    def createFoldersForAll(self):\r\n",
 					"        print(\"Copying files from: \", self.stage1np)\r\n",
-					"        file_list = [f for f in listdir(self.stage1np) if isfile(join(self.stage1np, f))]\r\n",
+					"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
 					"        for file in file_list:\r\n",
 					"            print(file)\r\n",
 					"\r\n",

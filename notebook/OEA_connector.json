@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a09fb614-708b-4425-91a5-2f38810e91d3"
+				"spark.autotune.trackingId": "92bf7219-de34-4bc3-aa57-5dc796fd26a5"
 			}
 		},
 		"metadata": {
@@ -127,7 +127,7 @@
 				"source": [
 					"%run /DataCopy_py"
 				],
-				"execution_count": 12
+				"execution_count": 13
 			},
 			{
 				"cell_type": "code",

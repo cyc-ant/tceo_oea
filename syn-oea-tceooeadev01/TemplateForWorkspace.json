@@ -7692,7 +7692,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6e198f06-f9db-49f6-bdfa-8be1a9dce366"
+						"spark.autotune.trackingId": "40619284-c52e-4203-aacd-c01e7429a542"
 					}
 				},
 				"metadata": {
@@ -7768,7 +7768,7 @@
 							"        print(\"Copying files from: \", self.stage1np)\r\n",
 							"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
 							"        for file in file_list:\r\n",
-							"            print(file)\r\n",
+							"            print(file.name)\r\n",
 							"\r\n",
 							"\r\n",
 							"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
@@ -8659,7 +8659,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "34b1efe6-8382-47d6-bf62-fb5e95ae4b72"
+						"spark.autotune.trackingId": "aeeaae78-8ad4-40fb-8c99-c8033ef72253"
 					}
 				},
 				"metadata": {
@@ -8684,8 +8684,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -8771,7 +8770,7 @@
 							"%run /DataCopy_py"
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 14
 					},
 					{
 						"cell_type": "code",
@@ -8999,39 +8998,16 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a5c77671-e2af-400e-a47a-bbaf1f5db37c"
-					}
+					"conf": {}
 				},
 				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "python"
 					},
 					"language_info": {
 						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
+					}
 				},
 				"cells": [
 					{
@@ -9584,8 +9560,7 @@
 							"\n",
 							"oea = OEA()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					}
 				]
 			},

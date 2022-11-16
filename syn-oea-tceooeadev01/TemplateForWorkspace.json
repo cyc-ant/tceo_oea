@@ -8450,7 +8450,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7284fc72-32ae-451a-9ddd-37274b157c51"
+						"spark.autotune.trackingId": "6443651f-e872-49ee-8756-eb8dce3500d4"
 					}
 				},
 				"metadata": {
@@ -9473,7 +9473,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3e41d9da-8d9c-4331-b943-35f98ec7617d"
+						"spark.autotune.trackingId": "7252e3ac-8710-4de9-8670-7e3cac3fd098"
 					}
 				},
 				"metadata": {
@@ -9566,8 +9566,8 @@
 							"                                        ['BKStudentAddressState', 'integer', 'no-op'],\r\n",
 							"                                        ['StudentAddressState', 'string', 'no-op'],\r\n",
 							"                                        ['StudentAddressGeoData', 'string', 'no-op'],\r\n",
-							"                                        ['StudentAddressLongitude', 'decimal', 'no-op'],\r\n",
-							"                                        ['StudentAddressLatitude', 'decimal', 'no-op'],\r\n",
+							"                                        ['StudentAddressLongitude', 'float', 'no-op'], #changed 'decimal' to 'float'\r\n",
+							"                                        ['StudentAddressLatitude', 'float', 'no-op'], #changed 'decimal' to 'float'\r\n",
 							"                                        ['HomePhone', 'string', 'no-op'],\r\n",
 							"                                        ['HomeEmail', 'string', 'no-op'],\r\n",
 							"                                        ['StudentMobile', 'string', 'no-op'],\r\n",
@@ -9603,7 +9603,7 @@
 							"                                        ['FirstEucharistDate', 'date', 'no-op'],\r\n",
 							"                                        ['ConfirmationDate', 'date', 'no-op'],\r\n",
 							"                                        ['BaptismParish', 'string', 'no-op'],\r\n",
-							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'timestamp', 'no-op'], #changed 'string' to 'timestamp'\r\n",
 							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
 							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
 							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",

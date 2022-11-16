@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c427f1f1-a799-4ec2-a3ce-c5b30d3f37bd"
+				"spark.autotune.trackingId": "09a55e41-8b82-4c61-8c17-0a3b71c9bc47"
 			}
 		},
 		"metadata": {
@@ -109,8 +109,8 @@
 					"                                        ['BKStudentAddressState', 'integer', 'no-op'],\r\n",
 					"                                        ['StudentAddressState', 'string', 'no-op'],\r\n",
 					"                                        ['StudentAddressGeoData', 'string', 'no-op'],\r\n",
-					"                                        ['StudentAddressLongitude', 'float', 'no-op'], #changed 'decimal' to 'float'\r\n",
-					"                                        ['StudentAddressLatitude', 'float', 'no-op'], #changed 'decimal' to 'float'\r\n",
+					"                                        ['StudentAddressLongitude', 'double', 'no-op'], #changed 'decimal' to 'double' (float doesn't work)\r\n",
+					"                                        ['StudentAddressLatitude', 'double', 'no-op'], #changed 'decimal' to 'double' (float doesn't work)\r\n",
 					"                                        ['HomePhone', 'string', 'no-op'],\r\n",
 					"                                        ['HomeEmail', 'string', 'no-op'],\r\n",
 					"                                        ['StudentMobile', 'string', 'no-op'],\r\n",

@@ -7692,7 +7692,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "246a059f-b058-4b74-8630-d16ebc214b8a"
+						"spark.autotune.trackingId": "317d6208-72f5-4056-8f47-f30e9306ab09"
 					}
 				},
 				"metadata": {
@@ -7717,7 +7717,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -7769,7 +7770,7 @@
 							"        cmd = 'hdfs dfs -ls /user/path'\r\n",
 							"        files = subprocess.check_output(cmd, shell=True).strip().split('\\n')\r\n",
 							"        for path in files:\r\n",
-							"        print path\r\n",
+							"            print path\r\n",
 							"\r\n",
 							"\r\n",
 							"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
@@ -8660,7 +8661,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ed3e1f71-39a0-4f08-8828-af7018886c64"
+						"spark.autotune.trackingId": "b84c2907-8d51-442a-8462-0b2480bc3731"
 					}
 				},
 				"metadata": {
@@ -8685,8 +8686,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -8732,7 +8732,7 @@
 							"kwargs = '{}'"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -8752,7 +8752,7 @@
 							"%run /OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -8772,7 +8772,7 @@
 							"%run /DataCopy_py"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",

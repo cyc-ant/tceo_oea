@@ -7692,7 +7692,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7df7f137-fbbc-44e2-b3d9-a812d13b11c5"
+						"spark.autotune.trackingId": "2691cef7-9f3b-47a5-b9b0-bb9f4a5b11c4"
 					}
 				},
 				"metadata": {
@@ -7768,7 +7768,7 @@
 							"        print(\"Copying files from: \", self.stage1np)\r\n",
 							"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
 							"        for file in file_list:\r\n",
-							"            if(file.name[0:4] == 'dbovw'):\r\n",
+							"            if file.name.find('dbovw') == 0:\r\n",
 							"                print(file.name)\r\n",
 							"\r\n",
 							"\r\n",
@@ -8660,7 +8660,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "03758ea2-a4fc-4457-ba76-c7bd86a9b0ad"
+						"spark.autotune.trackingId": "a72e28bf-4bb4-47e2-934f-2ae1b82a4e8d"
 					}
 				},
 				"metadata": {
@@ -8771,7 +8771,7 @@
 							"%run /DataCopy_py"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 17
 					},
 					{
 						"cell_type": "code",

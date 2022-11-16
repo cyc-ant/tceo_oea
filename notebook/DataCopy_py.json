@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "246a059f-b058-4b74-8630-d16ebc214b8a"
+				"spark.autotune.trackingId": "6faeb9e7-9f7d-4cbe-89ca-3eb757a74f88"
 			}
 		},
 		"metadata": {
@@ -94,7 +94,7 @@
 					"        cmd = 'hdfs dfs -ls /user/path'\r\n",
 					"        files = subprocess.check_output(cmd, shell=True).strip().split('\\n')\r\n",
 					"        for path in files:\r\n",
-					"        print path\r\n",
+					"            print path\r\n",
 					"\r\n",
 					"\r\n",
 					"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",

@@ -8652,7 +8652,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2214fb14-2e2f-45b6-940f-16963e28b5a2"
+						"spark.autotune.trackingId": "69945c55-f241-4230-a143-06a90c4670a9"
 					}
 				},
 				"metadata": {
@@ -8677,8 +8677,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -9581,7 +9580,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "09a55e41-8b82-4c61-8c17-0a3b71c9bc47"
+						"spark.autotune.trackingId": "0ceeac17-770e-4fab-b923-a55b233df9d7"
 					}
 				},
 				"metadata": {
@@ -9606,13 +9605,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Student_test(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='students', pseudonymize = True):\r\n",
@@ -9724,7 +9725,7 @@
 							"                                        ]                                          \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        oea.ingest_incremental_data(self.source_folder, 'student_test_file', self.schemas['student_test'], 'CreateDate', 'SKStudent')\r\n",
+							"        oea.ingest_incremental_data(self.source_folder, 'student_test_file', self.schemas['student_test'], 'LastUpdateDate', 'SKStudent') # try to partition by LastUpdateDate instead of CreateDate\r\n",
 							"\r\n",
 							"        #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
 							"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",

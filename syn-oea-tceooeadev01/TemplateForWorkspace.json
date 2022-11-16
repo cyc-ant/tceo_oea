@@ -7672,6 +7672,115 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DataCopy_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "b6a7a7ec-a083-4579-83d3-d322b4ae3bef"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# set this value in the base parameters in the pipeline. \r\n",
+							"# this is the source directory (in stage1np) that the files will be moved from\r\n",
+							"source_folder = ''"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"class DataCopy(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder, pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"        \r\n",
+							"    def moveAllToFolder(self):\r\n",
+							"        print(\"hello\")\r\n",
+							"\r\n",
+							"\r\n",
+							"datacopy = DataCopy('testing_folder')\r\n",
+							"\r\n",
+							"datacopy.moveAllToFolder()\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 3
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DataGen_py')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -8450,7 +8559,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "556df2a7-8699-4055-b426-a0287ccd9ebb"
+						"spark.autotune.trackingId": "f3d4a7be-e571-4289-b1da-2559bd37b5b9"
 					}
 				},
 				"metadata": {
@@ -8475,15 +8584,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Naplan(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='acer_test', pseudonymize = True):\r\n",
@@ -8545,7 +8652,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "094ca8e7-4588-4149-a6fa-c60fdc6ad1fd"
+						"spark.autotune.trackingId": "20823f3f-a83b-4571-acfa-f43e5a338aa5"
 					}
 				},
 				"metadata": {
@@ -8570,7 +8677,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -8616,7 +8724,7 @@
 							"kwargs = '{}'"
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -8636,7 +8744,7 @@
 							"%run /OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -8653,10 +8761,10 @@
 							"collapsed": true
 						},
 						"source": [
-							"%run /Naplan_py"
+							"%run /DataCopy_py"
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -9473,7 +9581,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7d06150d-976a-4d03-ad72-01199c519919"
+						"spark.autotune.trackingId": "09a55e41-8b82-4c61-8c17-0a3b71c9bc47"
 					}
 				},
 				"metadata": {
@@ -9498,15 +9606,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Student_test(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='students', pseudonymize = True):\r\n",

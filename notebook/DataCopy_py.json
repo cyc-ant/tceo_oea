@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "00c7d03a-25da-43d8-8036-9fcceac9a4d5"
+				"spark.autotune.trackingId": "d8618810-d70e-4f92-b6c9-804a66b0e6e6"
 			}
 		},
 		"metadata": {
@@ -102,7 +102,7 @@
 					"\r\n",
 					"    def _copyToFolder(self, file, destination):\r\n",
 					"        \"\"\" Moves the file to a folder that is based on the filename without its file extension\"\"\"\r\n",
-					"        tokens = table_name.split(\".\")\r\n",
+					"        tokens = destination.split(\".\")\r\n",
 					"        target = self.stage1np + '/' + tokens[0] +'/' + file.name\r\n",
 					"        mssparkutils.fs.mv(file.path, target, True) # will create the new dir and move file into it\r\n",
 					"\r\n",

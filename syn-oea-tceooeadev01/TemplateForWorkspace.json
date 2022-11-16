@@ -7692,7 +7692,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "02b8ceff-4485-4f23-ad0e-3296137ce637"
+						"spark.autotune.trackingId": "246a059f-b058-4b74-8630-d16ebc214b8a"
 					}
 				},
 				"metadata": {
@@ -7757,17 +7757,25 @@
 							}
 						},
 						"source": [
+							"import os\r\n",
+							"import subprocess\r\n",
+							"\r\n",
 							"class DataCopy(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder, pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"        \r\n",
-							"    def moveAllToFolder(self):\r\n",
-							"        print(self.stage1np)\r\n",
+							"    def createFoldersForAll(self):\r\n",
+							"        print(\"Copying files from: \", self.stage1np)\r\n",
+							"        cmd = 'hdfs dfs -ls /user/path'\r\n",
+							"        files = subprocess.check_output(cmd, shell=True).strip().split('\\n')\r\n",
+							"        for path in files:\r\n",
+							"        print path\r\n",
 							"\r\n",
 							"\r\n",
+							"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
 							"datacopy = DataCopy('testing_folder')\r\n",
 							"\r\n",
-							"datacopy.moveAllToFolder()\r\n",
+							"datacopy.createFoldersForAll()\r\n",
 							"\r\n",
 							"\r\n",
 							"\r\n",
@@ -8652,7 +8660,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "69945c55-f241-4230-a143-06a90c4670a9"
+						"spark.autotune.trackingId": "ed3e1f71-39a0-4f08-8828-af7018886c64"
 					}
 				},
 				"metadata": {
@@ -8677,7 +8685,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -8763,7 +8772,7 @@
 							"%run /DataCopy_py"
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",
@@ -9580,7 +9589,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0ceeac17-770e-4fab-b923-a55b233df9d7"
+						"spark.autotune.trackingId": "0445ab1d-26a0-451d-833b-733005360e4d"
 					}
 				},
 				"metadata": {
@@ -9605,15 +9614,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Student_test(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='students', pseudonymize = True):\r\n",

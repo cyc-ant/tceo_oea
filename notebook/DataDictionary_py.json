@@ -1,0 +1,56 @@
+{
+	"name": "DataDictionary_py",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "dc26109f-6c39-4e1f-8291-4f9bbf60729d"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"class DataDictionary(BaseOEAModule):\r\n",
+					"    def __init__(self, source_folder, pseudonymize = True):\r\n",
+					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+					"        \r\n",
+					"    def createDictionary(self):\r\n",
+					"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
+					"        for file in file_list:\r\n",
+					"            # ignore files\r\n",
+					"            if file.isFile:\r\n",
+					"                continue\r\n",
+					"                \r\n",
+					"            print(file.path)\r\n",
+					"\r\n",
+					"dictionary = DataDictionary(source_folder)\r\n",
+					"\r\n",
+					"dictionary.createDictionary()"
+				],
+				"execution_count": null
+			}
+		]
+	}
+}

@@ -8418,7 +8418,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "41a60bfa-f44c-4bc7-af42-b4038eab141a"
+						"spark.autotune.trackingId": "0752e353-8d11-44e2-8a5d-ba18050f9ec9"
 					}
 				},
 				"metadata": {
@@ -9560,7 +9560,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6a3c50e2-1043-4f13-9e24-1d649fce58c4"
+						"spark.autotune.trackingId": "f9510856-0354-494b-a079-3f6467bff7a5"
 					}
 				},
 				"metadata": {
@@ -10704,6 +10704,10 @@
 			"properties": {
 				"nbformat": 4,
 				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
 				"sessionProperties": {
 					"driverMemory": "28g",
 					"driverCores": 4,
@@ -10714,7 +10718,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0b03c1d0-bf71-4d98-ab43-794111661008"
+						"spark.autotune.trackingId": "5a45cdcc-7f52-4b21-a7f8-2d49a0bfa2a0"
 					}
 				},
 				"metadata": {
@@ -10726,6 +10730,21 @@
 					},
 					"language_info": {
 						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -10744,8 +10763,9 @@
 							"            # ignore files\r\n",
 							"            if file.isFile:\r\n",
 							"                continue\r\n",
-							"                \r\n",
-							"            print(file.path)\r\n",
+							"            \r\n",
+							"            tokens = file.path.split(\"/\")\r\n",
+							"            print(tokens[-1])\r\n",
 							"\r\n",
 							"dictionary = DataDictionary(source_folder)\r\n",
 							"\r\n",

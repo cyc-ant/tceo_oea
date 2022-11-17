@@ -1,0 +1,160 @@
+{
+	"name": "Student_object_copy",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_0qx",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_0qx",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "dbo.@{item().source.table}"
+								},
+								{
+									"name": "Destination",
+									"value": "stage1np/student/@{item().destination.fileName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"validateDataConsistency": false
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_student_object",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_table": "@item().source.table"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_student_object",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_fileName": "@item().destination.fileName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"table": "vwDMDetailedStudentPreSubmission"
+						},
+						"destination": {
+							"fileName": "dbovwDMDetailedStudentPreSubmission.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactPersonMilestone"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactPersonMilestone.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactStudent"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactStudent.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactStudentEnrolment"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactStudentEnrolment.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMPersonDemographic"
+						},
+						"destination": {
+							"fileName": "dbovwDMPersonDemographic.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMStudent"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudent.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMStudentOrganisationDetails"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentOrganisationDetails.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMStudentSchoolHistory"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentSchoolHistory.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMStudentType"
+						},
+						"destination": {
+							"fileName": "dbovwDMStudentType.csv"
+						}
+					}
+				]
+			}
+		},
+		"annotations": []
+	}
+}

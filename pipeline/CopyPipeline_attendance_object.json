@@ -1,0 +1,176 @@
+{
+	"name": "CopyPipeline_attendance_object",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_vrr",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_vrr",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "dbo.@{item().source.table}"
+								},
+								{
+									"name": "Destination",
+									"value": "stage1np/attendance/@{item().destination.fileName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"validateDataConsistency": false
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_attendance_object",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_table": "@item().source.table"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_attendance_object",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_fileName": "@item().destination.fileName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"table": "vwAggWholeDayAttendanceBySchool"
+						},
+						"destination": {
+							"fileName": "dbovwAggWholeDayAttendanceBySchool.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwAggWholeDayAttendanceByStudent"
+						},
+						"destination": {
+							"fileName": "dbovwAggWholeDayAttendanceByStudent.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMAttendanceCode"
+						},
+						"destination": {
+							"fileName": "dbovwDMAttendanceCode.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMAttendanceNote"
+						},
+						"destination": {
+							"fileName": "dbovwDMAttendanceNote.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMAttendanceStatus"
+						},
+						"destination": {
+							"fileName": "dbovwDMAttendanceStatus.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactAttendanceCheckin"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactAttendanceCheckin.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactAttendanceRealTime"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactAttendanceRealTime.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactHalfDayAttendance"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactHalfDayAttendance.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactMySchoolsAttendance"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsAttendance.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactPeriodAttendance"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactPeriodAttendance.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactWholeDayAttendance"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactWholeDayAttendance.csv"
+						}
+					}
+				]
+			}
+		},
+		"annotations": []
+	}
+}

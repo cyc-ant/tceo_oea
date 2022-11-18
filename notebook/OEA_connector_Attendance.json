@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "f50fcd28-0fdd-4e15-bb48-2076a0ed6836"
+				"spark.autotune.trackingId": "819620a4-2f12-4b37-8d29-ccd220f84d6b"
 			}
 		},
 		"metadata": {
@@ -87,6 +87,7 @@
 					"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
 					"object_name = ''\r\n",
 					"method_name = ''\r\n",
+					"source_folder = ''\r\n",
 					"kwargs = '{}'"
 				],
 				"execution_count": 15

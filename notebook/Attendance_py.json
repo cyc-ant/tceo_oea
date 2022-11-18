@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e39ea2fd-e5a7-4a90-8f51-940b50ba7366"
+				"spark.autotune.trackingId": "8c71ca19-e3d1-4150-984b-9658193b8c57"
 			}
 		},
 		"metadata": {
@@ -305,7 +305,7 @@
 					"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",
 					"        #oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\r\n",
 					"\r\n",
-					"student_profile = Student_profile()"
+					"attendance_object = Attendance_object()"
 				],
 				"execution_count": 1
 			}

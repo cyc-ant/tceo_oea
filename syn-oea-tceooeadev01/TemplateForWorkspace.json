@@ -2721,11 +2721,15 @@
 							},
 							"parameters": {
 								"object_name": {
-									"value": "student_test",
+									"value": "attendance_object",
 									"type": "string"
 								},
 								"method_name": {
 									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "attendance",
 									"type": "string"
 								}
 							},
@@ -2753,10 +2757,6 @@
 					"sinkFilesystem": {
 						"type": "string",
 						"defaultValue": "stage2np"
-					},
-					"sinkDirectory": {
-						"type": "string",
-						"defaultValue": "attendance_object"
 					}
 				},
 				"folder": {
@@ -7286,7 +7286,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5d925b2e-c1c7-4ac1-acd2-e0ca5d2eea65"
+						"spark.autotune.trackingId": "4c11176e-3e91-4770-b1a1-1d04fa19bb63"
 					}
 				},
 				"metadata": {
@@ -7311,15 +7311,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Attendance_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='attendance', pseudonymize = True):\r\n",
@@ -8801,7 +8799,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "80ac79a2-5a20-4882-bba8-8ab6d16314d9"
+						"spark.autotune.trackingId": "ecf83f34-3a41-475d-8704-f8047522c023"
 					}
 				},
 				"metadata": {
@@ -8870,6 +8868,7 @@
 							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
 							"object_name = ''\r\n",
 							"method_name = ''\r\n",
+							"source_folder = ''\r\n",
 							"kwargs = '{}'"
 						],
 						"outputs": [],
@@ -8894,6 +8893,25 @@
 						],
 						"outputs": [],
 						"execution_count": 16
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run /DataCopy_py"
+						],
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -8964,7 +8982,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f453687c-d2b1-4039-a8e9-f1adaa81d3c9"
+						"spark.autotune.trackingId": "12b2ec94-7227-497c-85ed-41508d000b19"
 					}
 				},
 				"metadata": {
@@ -8989,8 +9007,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "74850474-e190-4288-a81f-f35a3bb8be72"
+				"spark.autotune.trackingId": "4c11176e-3e91-4770-b1a1-1d04fa19bb63"
 			}
 		},
 		"metadata": {
@@ -287,15 +287,15 @@
 					"                                          \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['AggWholeDayAttendanceBySchool'], None, '<key>')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['AggWholeDayAttendanceByStudent'], None, '<key>')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['AggWholeDayAttendanceBySchool'], 'SKYear', 'SKAggWholeDayAttendanceBySchool')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['AggWholeDayAttendanceByStudent'], 'SKYear', 'SKAggWholeDayAttendanceByStudent')\r\n",
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMAttendanceCode'], '<partition>', '<key>')\r\n",
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMAttendanceNote'], '<partition>', '<key>')\r\n",
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMAttendanceStatus'], '<partition>', '<key>')\r\n",
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactAttendanceCheckin'], '<partition>', '<key>')\r\n",
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactAttendanceRealTime'], '<partition>', '<key>')\r\n",
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactMySchoolsAttendance'], '<partition>', '<key>')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactWholeDayAttendance'], 'LastUpdateDate', '<key>')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactWholeDayAttendance'], 'LastUpdateDate', 'SKWholeDayAttendance')\r\n",
 					"\r\n",
 					"\r\n",
 					"        \r\n",

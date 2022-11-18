@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "ZZZ_OEA_connector_Test",
+						"referenceName": "OEA_connector_Student_Profile",
 						"type": "NotebookReference"
 					},
 					"parameters": {

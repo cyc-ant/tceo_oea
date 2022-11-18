@@ -1,5 +1,5 @@
 {
-	"name": "OEA_connector_Student_Attendance",
+	"name": "OEA_connector_Attendance",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "bda958d8-7c0c-4a5c-9e3d-8af06527eb48"
+				"spark.autotune.trackingId": "da3bb4ce-2869-4886-8856-03abd92479b9"
 			}
 		},
 		"metadata": {

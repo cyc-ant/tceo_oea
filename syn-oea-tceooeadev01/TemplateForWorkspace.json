@@ -7286,7 +7286,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b608b530-511c-41c7-8751-d4caa19e919e"
+						"spark.autotune.trackingId": "47a27f03-35bc-4df1-947a-2e4827463353"
 					}
 				},
 				"metadata": {
@@ -8801,7 +8801,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "32d50b64-2350-4dfd-995e-dbcb87ff551c"
+						"spark.autotune.trackingId": "9ff9b955-f208-458b-b8a4-e9edd8c23843"
 					}
 				},
 				"metadata": {
@@ -8984,7 +8984,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "12b2ec94-7227-497c-85ed-41508d000b19"
+						"spark.autotune.trackingId": "d1e78d15-214e-442a-85c7-09f0d7ca3797"
 					}
 				},
 				"metadata": {
@@ -9009,7 +9009,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -9052,6 +9053,7 @@
 							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
 							"object_name = ''\r\n",
 							"method_name = ''\r\n",
+							"source_folder = ''\r\n",
 							"kwargs = '{}'"
 						],
 						"outputs": [],
@@ -9076,6 +9078,25 @@
 						],
 						"outputs": [],
 						"execution_count": 16
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run /DataCopy_py"
+						],
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -10557,7 +10578,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"notebook": {
-								"referenceName": "OEA_connector",
+								"referenceName": "OEA_connector_Student_Profile",
 								"type": "NotebookReference"
 							},
 							"parameters": {
@@ -10567,6 +10588,10 @@
 								},
 								"method_name": {
 									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "student",
 									"type": "string"
 								}
 							},
@@ -10602,7 +10627,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector')]",
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Student_Profile')]",
 				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
 			]
 		}

@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5c772ccf-2812-45de-b1ff-f3fd07d8d4d5"
+				"spark.autotune.trackingId": "74850474-e190-4288-a81f-f35a3bb8be72"
 			}
 		},
 		"metadata": {
@@ -295,7 +295,7 @@
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactAttendanceCheckin'], '<partition>', '<key>')\r\n",
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactAttendanceRealTime'], '<partition>', '<key>')\r\n",
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactMySchoolsAttendance'], '<partition>', '<key>')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactWholeDayAttendance'], 'CreateDate', '<key>')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactWholeDayAttendance'], 'LastUpdateDate', '<key>')\r\n",
 					"\r\n",
 					"\r\n",
 					"        \r\n",

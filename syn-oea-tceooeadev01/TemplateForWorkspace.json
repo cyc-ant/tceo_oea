@@ -493,13 +493,13 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_All_schools')]",
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_Attendance')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"activities": [
 					{
-						"name": "ForEach_hwe",
+						"name": "ForEach_qee",
 						"type": "ForEach",
 						"dependsOn": [],
 						"userProperties": [],
@@ -510,1003 +510,7 @@
 							},
 							"activities": [
 								{
-									"name": "Copy_hwe",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [
-										{
-											"name": "Source",
-											"value": "dbo.@{item().source.table}"
-										},
-										{
-											"name": "Destination",
-											"value": "stage1np/schools_all/@{item().destination.fileName}"
-										}
-									],
-									"typeProperties": {
-										"source": {
-											"type": "SqlServerSource",
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "DelimitedTextSink",
-											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
-											},
-											"formatSettings": {
-												"type": "DelimitedTextWriteSettings",
-												"quoteAllText": true,
-												"fileExtension": ".txt"
-											}
-										},
-										"enableStaging": false,
-										"validateDataConsistency": false
-									},
-									"inputs": [
-										{
-											"referenceName": "SourceDataset_All_schools",
-											"type": "DatasetReference",
-											"parameters": {
-												"cw_table": "@item().source.table"
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "DestinationDataset_All_schools",
-											"type": "DatasetReference",
-											"parameters": {
-												"cw_fileName": "@item().destination.fileName"
-											}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"cw_items": {
-						"type": "Array",
-						"defaultValue": [
-							{
-								"source": {
-									"table": "vwAggWholeDayAttendanceBySchool"
-								},
-								"destination": {
-									"fileName": "dbovwAggWholeDayAttendanceBySchool.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMEducationNonSchoolLevel"
-								},
-								"destination": {
-									"fileName": "dbovwDMEducationNonSchoolLevel.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMEducationSchoolLevel"
-								},
-								"destination": {
-									"fileName": "dbovwDMEducationSchoolLevel.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactMySchoolsAttendance"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsAttendance.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactMySchoolsEnrolmentsByGrade"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsEnrolmentsByGrade.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactMySchoolsFinance"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsFinance.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactMySchoolsNAPLANResults"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsNAPLANResults.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactMySchoolsNAPLANResultsSimilarSchools"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsNAPLANResultsSimilarSchools.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactMySchoolsProfile"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsProfile.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactMySchoolsSeniorOutcomes"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsSeniorOutcomes.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactMySchoolsStudentGain"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsStudentGain.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactMySchoolsStudentGainSameStartingScore"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsStudentGainSameStartingScore.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactMySchoolsStudentGainSimilarSchools"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsStudentGainSimilarSchools.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactMySchoolsVETInSchools"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsVETInSchools.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactMySchoolsVETSchoolBasedApprenticeshipsTraineeships"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsVETSchoolBasedApprenticeshipsTraineeships.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMHSCSchools"
-								},
-								"destination": {
-									"fileName": "dbovwDMHSCSchools.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMMultipleChoiceAnalysisSchoolCourse"
-								},
-								"destination": {
-									"fileName": "dbovwDMMultipleChoiceAnalysisSchoolCourse.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMMySchoolsStudentGainGroup"
-								},
-								"destination": {
-									"fileName": "dbovwDMMySchoolsStudentGainGroup.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMMySchoolsVETClassification"
-								},
-								"destination": {
-									"fileName": "dbovwDMMySchoolsVETClassification.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMMySchoolsVETStatus"
-								},
-								"destination": {
-									"fileName": "dbovwDMMySchoolsVETStatus.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMSchoolLevel"
-								},
-								"destination": {
-									"fileName": "dbovwDMSchoolLevel.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMSchools"
-								},
-								"destination": {
-									"fileName": "dbovwDMSchools.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMSchoolSubject"
-								},
-								"destination": {
-									"fileName": "dbovwDMSchoolSubject.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMSchoolSubjectQCS"
-								},
-								"destination": {
-									"fileName": "dbovwDMSchoolSubjectQCS.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMSchoolSubLevel"
-								},
-								"destination": {
-									"fileName": "dbovwDMSchoolSubLevel.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMSchoolTerm"
-								},
-								"destination": {
-									"fileName": "dbovwDMSchoolTerm.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMSchoolTermWeek"
-								},
-								"destination": {
-									"fileName": "dbovwDMSchoolTermWeek.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMStatisticallySimilarSchoolsCEnetGroup"
-								},
-								"destination": {
-									"fileName": "dbovwDMStatisticallySimilarSchoolsCEnetGroup.txt"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMStudentSchoolHistory"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentSchoolHistory.txt"
-								}
-							}
-						]
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_All_schools')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_All_schools')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_All_student')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "ForEach_xfq",
-						"type": "ForEach",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@pipeline().parameters.cw_items",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Copy_xfq",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [
-										{
-											"name": "Source",
-											"value": "@{item().source.schema}.@{item().source.table}"
-										},
-										{
-											"name": "Destination",
-											"value": "stage1np//@{item().destination.fileName}"
-										}
-									],
-									"typeProperties": {
-										"source": {
-											"type": "SqlServerSource",
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "DelimitedTextSink",
-											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
-											},
-											"formatSettings": {
-												"type": "DelimitedTextWriteSettings",
-												"quoteAllText": true,
-												"fileExtension": ".txt"
-											}
-										},
-										"enableStaging": false,
-										"validateDataConsistency": false
-									},
-									"inputs": [
-										{
-											"referenceName": "SourceDataset_All_student",
-											"type": "DatasetReference",
-											"parameters": {
-												"cw_schema": "@item().source.schema",
-												"cw_table": "@item().source.table"
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "DestinationDataset_All_student",
-											"type": "DatasetReference",
-											"parameters": {
-												"cw_fileName": "@item().destination.fileName"
-											}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"cw_items": {
-						"type": "Array",
-						"defaultValue": [
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwAggWholeDayAttendanceByStudent"
-								},
-								"destination": {
-									"fileName": "dbovwAggWholeDayAttendanceByStudent.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMACERStudent"
-								},
-								"destination": {
-									"fileName": "dbovwDMACERStudent.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMAEStudent"
-								},
-								"destination": {
-									"fileName": "dbovwDMAEStudent.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMAEStudentDescription"
-								},
-								"destination": {
-									"fileName": "dbovwDMAEStudentDescription.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMAEStudentResultId"
-								},
-								"destination": {
-									"fileName": "dbovwDMAEStudentResultId.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMBorrowingStudent"
-								},
-								"destination": {
-									"fileName": "dbovwDMBorrowingStudent.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMCensusStudentWithDisabilityId"
-								},
-								"destination": {
-									"fileName": "dbovwDMCensusStudentWithDisabilityId.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMDetailedStudentPreSubmission"
-								},
-								"destination": {
-									"fileName": "dbovwDMDetailedStudentPreSubmission.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactCensusStudentWithDisability"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactCensusStudentWithDisability.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactDetailedStudentCensusPreSubmission"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactDetailedStudentCensusPreSubmission.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactHSCMinStdStudentItemLevelResult"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactHSCMinStdStudentItemLevelResult.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactHSCMinStdStudentResult"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactHSCMinStdStudentResult.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactMAIStudentGrowthResult"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMAIStudentGrowthResult.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactMAIStudentGrowthResult_new"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMAIStudentGrowthResult_new.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactMySchoolsStudentGain"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsStudentGain.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactMySchoolsStudentGainSameStartingScore"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsStudentGainSameStartingScore.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactMySchoolsStudentGainSimilarSchools"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsStudentGainSimilarSchools.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactNAPLANOnlineStudentItemResponse"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactNAPLANOnlineStudentItemResponse.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactNAPLANOnlineStudentTestResult"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactNAPLANOnlineStudentTestResult.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactNAPLANStudentResponse"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactNAPLANStudentResponse.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactNaplanStudentYearResult"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactNaplanStudentYearResult.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactStudent"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactStudent.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactStudentAEResult"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactStudentAEResult.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactStudentCensusEnrolment"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactStudentCensusEnrolment.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactStudentEnrolment"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactStudentEnrolment.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactStudentEnrolmentCounts"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactStudentEnrolmentCounts.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactStudentLibraryBorrowingHabits"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactStudentLibraryBorrowingHabits.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMFactStudentWellbeing"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactStudentWellbeing.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMHSCMinStdStudent"
-								},
-								"destination": {
-									"fileName": "dbovwDMHSCMinStdStudent.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMHSCMinStdStudentItemLevelResultId"
-								},
-								"destination": {
-									"fileName": "dbovwDMHSCMinStdStudentItemLevelResultId.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMHSCMinStdStudentResultId"
-								},
-								"destination": {
-									"fileName": "dbovwDMHSCMinStdStudentResultId.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMHSCStudent"
-								},
-								"destination": {
-									"fileName": "dbovwDMHSCStudent.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMHSCStudentCourses"
-								},
-								"destination": {
-									"fileName": "dbovwDMHSCStudentCourses.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMMAIStudent"
-								},
-								"destination": {
-									"fileName": "dbovwDMMAIStudent.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMMAIStudentGrowthResultId"
-								},
-								"destination": {
-									"fileName": "dbovwDMMAIStudentGrowthResultId.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMMySchoolsStudentGainGroup"
-								},
-								"destination": {
-									"fileName": "dbovwDMMySchoolsStudentGainGroup.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMNAPLANOnlineStudentItemResponse"
-								},
-								"destination": {
-									"fileName": "dbovwDMNAPLANOnlineStudentItemResponse.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMNAPLANOnlineStudentResult"
-								},
-								"destination": {
-									"fileName": "dbovwDMNAPLANOnlineStudentResult.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMNAPLANOnlineStudentTestResultId"
-								},
-								"destination": {
-									"fileName": "dbovwDMNAPLANOnlineStudentTestResultId.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMNAPLANStudent"
-								},
-								"destination": {
-									"fileName": "dbovwDMNAPLANStudent.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMNAPLANStudentResponseId"
-								},
-								"destination": {
-									"fileName": "dbovwDMNAPLANStudentResponseId.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMPATStudentResponseGrouping"
-								},
-								"destination": {
-									"fileName": "dbovwDMPATStudentResponseGrouping.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMPATStudentTestGrouping"
-								},
-								"destination": {
-									"fileName": "dbovwDMPATStudentTestGrouping.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMPATStudentTestGrouping_bkp_08112019"
-								},
-								"destination": {
-									"fileName": "dbovwDMPATStudentTestGrouping_bkp_08112019.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentAccessRestrictions"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentAccessRestrictions.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentAdditionalNotes"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentAdditionalNotes.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentClass"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentClass.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentClass_backup"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentClass_backup.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentDebtor"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentDebtor.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentImmunisations"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentImmunisations.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentOrganisationDetails"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentOrganisationDetails.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentOutcomes"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentOutcomes.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentRelationships"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentRelationships.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentReligiousMilestones"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentReligiousMilestones.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentSchoolHistory"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentSchoolHistory.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentSubjects"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentSubjects.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentType"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentType.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentVetCourses"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentVetCourses.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "dbo",
-									"table": "vwDMStudentVetUnits"
-								},
-								"destination": {
-									"fileName": "dbovwDMStudentVetUnits.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "NAPLAN",
-									"table": "NAPLANStudent"
-								},
-								"destination": {
-									"fileName": "NAPLANNAPLANStudent.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "NAPLAN",
-									"table": "NAPLANStudentView"
-								},
-								"destination": {
-									"fileName": "NAPLANNAPLANStudentView.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "NAPLAN",
-									"table": "Student"
-								},
-								"destination": {
-									"fileName": "NAPLANStudent.txt"
-								}
-							},
-							{
-								"source": {
-									"schema": "NAPLAN",
-									"table": "StudentYearResult"
-								},
-								"destination": {
-									"fileName": "NAPLANStudentYearResult.txt"
-								}
-							}
-						]
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_All_student')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_All_student')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_attendance_object')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "ForEach_vrr",
-						"type": "ForEach",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@pipeline().parameters.cw_items",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Copy_vrr",
+									"name": "Copy_qee",
 									"type": "Copy",
 									"dependsOn": [],
 									"policy": {
@@ -1547,7 +551,7 @@
 									},
 									"inputs": [
 										{
-											"referenceName": "SourceDataset_attendance_object",
+											"referenceName": "SourceDataset_Attendance_source",
 											"type": "DatasetReference",
 											"parameters": {
 												"cw_table": "@item().source.table"
@@ -1556,7 +560,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "DestinationDataset_attendance_object",
+											"referenceName": "DestinationDataset_Attendance_dest",
 											"type": "DatasetReference",
 											"parameters": {
 												"cw_fileName": "@item().destination.fileName"
@@ -1594,70 +598,6 @@
 							},
 							{
 								"source": {
-									"table": "vwDMAttendanceCode"
-								},
-								"destination": {
-									"fileName": "dbovwDMAttendanceCode.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMAttendanceNote"
-								},
-								"destination": {
-									"fileName": "dbovwDMAttendanceNote.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMAttendanceStatus"
-								},
-								"destination": {
-									"fileName": "dbovwDMAttendanceStatus.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactAttendanceCheckin"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactAttendanceCheckin.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactAttendanceRealTime"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactAttendanceRealTime.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactHalfDayAttendance"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactHalfDayAttendance.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactMySchoolsAttendance"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactMySchoolsAttendance.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactPeriodAttendance"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactPeriodAttendance.csv"
-								}
-							},
-							{
-								"source": {
 									"table": "vwDMFactWholeDayAttendance"
 								},
 								"destination": {
@@ -1670,8 +610,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_attendance_object')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_attendance_object')]"
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_Attendance_source')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_Attendance_dest')]"
 			]
 		},
 		{
@@ -3776,7 +2716,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"notebook": {
-								"referenceName": "OEA_connector_Student_Profile",
+								"referenceName": "OEA_connector_Attendance",
 								"type": "NotebookReference"
 							},
 							"parameters": {
@@ -3816,7 +2756,7 @@
 					},
 					"sinkDirectory": {
 						"type": "string",
-						"defaultValue": "student_test"
+						"defaultValue": "attendance_object"
 					}
 				},
 				"folder": {
@@ -3825,7 +2765,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Student_Profile')]",
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Attendance')]",
 				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
 			]
 		},
@@ -5902,6 +4842,43 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_Attendance_dest')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"folderPath": "attendance",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_Student')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -6839,6 +5816,35 @@
 						"value": "@dataset().cw_schema",
 						"type": "Expression"
 					},
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_Attendance_source')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
 					"table": {
 						"value": "@dataset().cw_table",
 						"type": "Expression"
@@ -8280,7 +7286,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "74850474-e190-4288-a81f-f35a3bb8be72"
+						"spark.autotune.trackingId": "af25bbcd-025d-4cb9-93cb-3dfab916d323"
 					}
 				},
 				"metadata": {
@@ -8305,13 +7311,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Attendance_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='attendance', pseudonymize = True):\r\n",
@@ -9793,7 +8801,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ba3dbc30-4b5a-4a2d-b17a-31c61fb8f2aa"
+						"spark.autotune.trackingId": "d7025aa0-3dec-4183-bf2f-5575090ceff0"
 					}
 				},
 				"metadata": {
@@ -9903,6 +8911,169 @@
 						},
 						"source": [
 							"%run /Attendance_py"
+						],
+						"outputs": [],
+						"execution_count": 17
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"obj = eval(object_name)\r\n",
+							"kwargs = eval(kwargs)\r\n",
+							"m = getattr(obj, method_name)\r\n",
+							"result = m(**kwargs)\r\n",
+							"mssparkutils.notebook.exit(result)"
+						],
+						"outputs": [],
+						"execution_count": 18
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Student_Profile')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"runAsWorkspaceSystemIdentity": false,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "af6f5cbd-9632-4c6c-8c76-1b2672373680"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# OEA connector\n",
+							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
+							"\n",
+							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"tags": [
+								"parameters"
+							]
+						},
+						"source": [
+							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
+							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
+							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
+							"object_name = ''\r\n",
+							"method_name = ''\r\n",
+							"kwargs = '{}'"
+						],
+						"outputs": [],
+						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 16
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /Student_py_test"
 						],
 						"outputs": [],
 						"execution_count": 17
@@ -11075,168 +10246,6 @@
 						],
 						"outputs": [],
 						"execution_count": 1
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Student_Profile')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "12b2ec94-7227-497c-85ed-41508d000b19"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "markdown",
-						"metadata": {
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"# OEA connector\n",
-							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
-							"\n",
-							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
-						]
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"tags": [
-								"parameters"
-							]
-						},
-						"source": [
-							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
-							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
-							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = ''\r\n",
-							"method_name = ''\r\n",
-							"kwargs = '{}'"
-						],
-						"outputs": [],
-						"execution_count": 15
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 16
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /Student_py_test"
-						],
-						"outputs": [],
-						"execution_count": 17
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"obj = eval(object_name)\r\n",
-							"kwargs = eval(kwargs)\r\n",
-							"m = getattr(obj, method_name)\r\n",
-							"result = m(**kwargs)\r\n",
-							"mssparkutils.notebook.exit(result)"
-						],
-						"outputs": [],
-						"execution_count": 18
 					}
 				]
 			},

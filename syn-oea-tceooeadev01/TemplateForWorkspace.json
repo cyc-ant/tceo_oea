@@ -7286,7 +7286,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9d36d304-2c55-4c8a-8a27-52a12d0b399a"
+						"spark.autotune.trackingId": "0be17ad8-b4de-4ff0-8401-8d10f7e1c375"
 					}
 				},
 				"metadata": {
@@ -8984,7 +8984,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "78fc0709-6b93-4335-ae02-9e51ccc39f01"
+						"spark.autotune.trackingId": "d564eb66-679a-46dd-bef2-fac5307b11bb"
 					}
 				},
 				"metadata": {
@@ -9752,7 +9752,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3c18f338-3ed7-493a-818f-c2a63603c6cd"
+						"spark.autotune.trackingId": "e80ae2b3-fb69-4bc6-b5bd-a17b911eb0ab"
 					}
 				},
 				"metadata": {
@@ -10240,8 +10240,8 @@
 							"                                        ['CompassPersonId', 'string', 'no-op'],\r\n",
 							"                                        ['SchoolName', 'string', 'no-op'],\r\n",
 							"                                        ['SchoolCode', 'string', 'no-op'],\r\n",
-							"                                        ['SchoolStartDate', 'datetime', 'no-op'],\r\n",
-							"                                        ['SchoolEndDate', 'datetime', 'no-op'],\r\n",
+							"                                        ['SchoolStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['SchoolEndDate', 'string', 'no-op'],\r\n",
 							"                                        ['YearLevelFinish', 'string', 'no-op'],\r\n",
 							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
 							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",

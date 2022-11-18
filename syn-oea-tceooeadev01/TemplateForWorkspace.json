@@ -7286,7 +7286,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "af25bbcd-025d-4cb9-93cb-3dfab916d323"
+						"spark.autotune.trackingId": "5d925b2e-c1c7-4ac1-acd2-e0ca5d2eea65"
 					}
 				},
 				"metadata": {
@@ -7557,15 +7557,15 @@
 							"                                          \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['AggWholeDayAttendanceBySchool'], None, '<key>')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['AggWholeDayAttendanceByStudent'], None, '<key>')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['AggWholeDayAttendanceBySchool'], 'SKYear', 'SKAggWholeDayAttendanceBySchool')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['AggWholeDayAttendanceByStudent'], 'SKYear', 'SKAggWholeDayAttendanceByStudent')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMAttendanceCode'], '<partition>', '<key>')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMAttendanceNote'], '<partition>', '<key>')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMAttendanceStatus'], '<partition>', '<key>')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactAttendanceCheckin'], '<partition>', '<key>')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactAttendanceRealTime'], '<partition>', '<key>')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactMySchoolsAttendance'], '<partition>', '<key>')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactWholeDayAttendance'], 'LastUpdateDate', '<key>')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactWholeDayAttendance'], 'LastUpdateDate', 'SKWholeDayAttendance')\r\n",
 							"\r\n",
 							"\r\n",
 							"        \r\n",
@@ -8801,7 +8801,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d7025aa0-3dec-4183-bf2f-5575090ceff0"
+						"spark.autotune.trackingId": "80ac79a2-5a20-4882-bba8-8ab6d16314d9"
 					}
 				},
 				"metadata": {
@@ -8964,7 +8964,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "af6f5cbd-9632-4c6c-8c76-1b2672373680"
+						"spark.autotune.trackingId": "f453687c-d2b1-4039-a8e9-f1adaa81d3c9"
 					}
 				},
 				"metadata": {

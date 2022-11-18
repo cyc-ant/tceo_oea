@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "57cf7b3c-c5a5-4b6b-afb1-647da8f79c85"
+				"spark.autotune.trackingId": "f3914f72-5f5d-47e4-9d31-f564047ccd6a"
 			}
 		},
 		"metadata": {
@@ -504,8 +504,8 @@
 					"                                        ['CompassPersonId', 'string', 'no-op'],\r\n",
 					"                                        ['SchoolName', 'string', 'no-op'],\r\n",
 					"                                        ['SchoolCode', 'string', 'no-op'],\r\n",
-					"                                        ['SchoolStartDate', 'datetime', 'no-op'],\r\n",
-					"                                        ['SchoolEndDate', 'datetime', 'no-op'],\r\n",
+					"                                        ['SchoolStartDate', 'string', 'no-op'],\r\n",
+					"                                        ['SchoolEndDate', 'string', 'no-op'],\r\n",
 					"                                        ['YearLevelFinish', 'string', 'no-op'],\r\n",
 					"                                        ['CreateDate', 'string', 'no-op'],\r\n",
 					"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",

@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "OEA_connector",
+						"referenceName": "OEA_connector_Student_Profile",
 						"type": "NotebookReference"
 					},
 					"parameters": {
@@ -26,6 +26,10 @@
 						},
 						"method_name": {
 							"value": "ingest",
+							"type": "string"
+						},
+						"source_folder": {
+							"value": "student",
 							"type": "string"
 						}
 					},

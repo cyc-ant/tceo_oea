@@ -7286,7 +7286,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "47a27f03-35bc-4df1-947a-2e4827463353"
+						"spark.autotune.trackingId": "a43b57e8-c3fb-4b00-afbf-10a9ebab2c9f"
 					}
 				},
 				"metadata": {
@@ -7557,7 +7557,7 @@
 							"                                          \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'AggWholeDayAttendanceBySchool', self.schemas['AggWholeDayAttendanceBySchool'], 'SKYear', 'SKAggWholeDayAttendanceBySchool')\r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'AggWholeDayAttendanceBySchool', self.schemas['AggWholeDayAttendanceBySchool'], 'SKYear', 'SKAggWholeDayAttendanceBySchool')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'AggWholeDayAttendanceByStudent', self.schemas['AggWholeDayAttendanceByStudent'], 'SKYear', 'SKAggWholeDayAttendanceByStudent')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMAttendanceCode'], '<partition>', '<key>')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMAttendanceNote'], '<partition>', '<key>')\r\n",
@@ -7565,7 +7565,7 @@
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactAttendanceCheckin'], '<partition>', '<key>')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactAttendanceRealTime'], '<partition>', '<key>')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactMySchoolsAttendance'], '<partition>', '<key>')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMFactWholeDayAttendance', self.schemas['DMFactWholeDayAttendance'], 'LastUpdateDate', 'SKWholeDayAttendance')\r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'DMFactWholeDayAttendance', self.schemas['DMFactWholeDayAttendance'], 'LastUpdateDate', 'SKWholeDayAttendance')\r\n",
 							"\r\n",
 							"\r\n",
 							"        \r\n",
@@ -8801,7 +8801,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "11d64029-a532-4094-86a5-4d273f65227a"
+						"spark.autotune.trackingId": "757914f4-d209-44bc-95e5-b99b4bd05f5d"
 					}
 				},
 				"metadata": {
@@ -9753,7 +9753,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "383c4e27-072b-4bb9-b578-ae91263d048a"
+						"spark.autotune.trackingId": "d250c4e6-580f-4ad7-9d74-b57c7359a253"
 					}
 				},
 				"metadata": {

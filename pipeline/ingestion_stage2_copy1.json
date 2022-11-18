@@ -21,11 +21,15 @@
 					},
 					"parameters": {
 						"object_name": {
-							"value": "student_test",
+							"value": "attendance_object",
 							"type": "string"
 						},
 						"method_name": {
 							"value": "ingest",
+							"type": "string"
+						},
+						"source_folder": {
+							"value": "attendance",
 							"type": "string"
 						}
 					},

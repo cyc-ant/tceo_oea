@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ce25cef2-a162-495a-985b-780e3f5f9c82"
+				"spark.autotune.trackingId": "98ea0006-10f9-492e-a99b-6373c17aa99f"
 			}
 		},
 		"metadata": {
@@ -287,7 +287,7 @@
 					"                                          \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'AggWholeDayAttendanceBySchool', self.schemas['AggWholeDayAttendanceBySchool'], 'SKYear', 'SKAggWholeDayAttendanceBySchool')\r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'AggWholeDayAttendanceBySchool', self.schemas['AggWholeDayAttendanceBySchool'], 'SKYear', 'SKAggWholeDayAttendanceBySchool')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'AggWholeDayAttendanceByStudent', self.schemas['AggWholeDayAttendanceByStudent'], 'SKYear', 'SKAggWholeDayAttendanceByStudent')\r\n",
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMAttendanceCode'], '<partition>', '<key>')\r\n",
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMAttendanceNote'], '<partition>', '<key>')\r\n",
@@ -295,7 +295,7 @@
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactAttendanceCheckin'], '<partition>', '<key>')\r\n",
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactAttendanceRealTime'], '<partition>', '<key>')\r\n",
 					"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactMySchoolsAttendance'], '<partition>', '<key>')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'DMFactWholeDayAttendance', self.schemas['DMFactWholeDayAttendance'], 'LastUpdateDate', 'SKWholeDayAttendance')\r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'DMFactWholeDayAttendance', self.schemas['DMFactWholeDayAttendance'], 'LastUpdateDate', 'SKWholeDayAttendance')\r\n",
 					"\r\n",
 					"\r\n",
 					"        \r\n",

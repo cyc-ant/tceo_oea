@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "db1259bb-a640-4a40-8d28-f580ea44709e"
+				"spark.autotune.trackingId": "ce150a39-d138-45ef-9cb5-ae432581bf5f"
 			}
 		},
 		"metadata": {
@@ -530,15 +530,15 @@
 					"                                          \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMDetailedStudentPreSubmission'], '<partition>', '<key>')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMFactPersonMilestone'], '<partition>', '<key>')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMFactStudent'], '<partition>', '<key>')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMFactStudentEnrolment'], '<partition>', '<key>')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMPersonDemographic'], '<partition>', '<key>')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMStudent'], '<partition>', '<key>')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMStudentOrganisationDetails'], '<partition>', '<key>')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMStudentSchoolHistory'], '<partition>', '<key>')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMStudentType'], '<partition>', '<key>')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMDetailedStudentPreSubmission'], 'LastUpdateDate', 'SKDetailedStudentPreSubmission')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMFactPersonMilestone'], 'LastUpdateDate', 'SKPersonMilestone')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMFactStudent'], 'LastUpdateDate', 'FullTimeStudentSummaryId')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMFactStudentEnrolment'], 'LastUpdateDate', 'UIDEnrolmentId')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMPersonDemographic'], 'LastUpdateDate', 'SKPerson')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMStudent'], 'LastUpdateDate', 'SKStudent')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMStudentOrganisationDetails'], 'LastUpdateDate', 'SKStudentOrganisationDetails')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMStudentSchoolHistory'], 'LastUpdateDate', 'SKStudentSchoolHistory')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'student', self.schemas['DMStudentType'], 'LastUpdateDate', 'SKStudentType')\r\n",
 					"\r\n",
 					"\r\n",
 					"        \r\n",

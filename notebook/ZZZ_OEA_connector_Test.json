@@ -1,5 +1,5 @@
 {
-	"name": "OEA_connector_Test",
+	"name": "ZZZ_OEA_connector_Test",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "56827db9-d91a-4df0-a079-ff1553493ffc"
+				"spark.autotune.trackingId": "12b2ec94-7227-497c-85ed-41508d000b19"
 			}
 		},
 		"metadata": {

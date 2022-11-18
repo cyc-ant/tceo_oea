@@ -1,5 +1,5 @@
 {
-	"name": "Student_profile_py",
+	"name": "Attendance_py",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "db1259bb-a640-4a40-8d28-f580ea44709e"
+				"spark.autotune.trackingId": "0d28b708-522e-45d3-b7b4-7975da0022cd"
 			}
 		},
 		"metadata": {
@@ -51,8 +51,8 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"class Student_profile(BaseOEAModule):\r\n",
-					"    def __init__(self, source_folder='student', pseudonymize = True):\r\n",
+					"class Attendance_object(BaseOEAModule):\r\n",
+					"    def __init__(self, source_folder='students', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        self.schemas['DMDetailedStudentPreSubmission'] = [\r\n",

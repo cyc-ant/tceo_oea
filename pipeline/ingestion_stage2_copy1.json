@@ -49,10 +49,6 @@
 			"sinkFilesystem": {
 				"type": "string",
 				"defaultValue": "stage2np"
-			},
-			"sinkDirectory": {
-				"type": "string",
-				"defaultValue": "attendance_object"
 			}
 		},
 		"folder": {

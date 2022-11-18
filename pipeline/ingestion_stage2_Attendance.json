@@ -1,5 +1,5 @@
 {
-	"name": "ingestion_stage2_copy1",
+	"name": "ingestion_stage2_Attendance",
 	"properties": {
 		"activities": [
 			{
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "OEA_connector_Student_Profile",
+						"referenceName": "OEA_connector_Attendance",
 						"type": "NotebookReference"
 					},
 					"parameters": {
@@ -52,7 +52,7 @@
 			},
 			"sinkDirectory": {
 				"type": "string",
-				"defaultValue": "student_test"
+				"defaultValue": "attendance_object"
 			}
 		},
 		"folder": {

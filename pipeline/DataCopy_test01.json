@@ -15,10 +15,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebook": {
-						"referenceName": "OEA_connector2",
-						"type": "NotebookReference"
-					},
 					"parameters": {
 						"source_folder": {
 							"value": "testing_folder",
@@ -31,7 +27,13 @@
 						"type": "BigDataPoolReference"
 					},
 					"executorSize": null,
-					"driverSize": null
+					"conf": {
+						"spark.dynamicAllocation.enabled": null,
+						"spark.dynamicAllocation.minExecutors": null,
+						"spark.dynamicAllocation.maxExecutors": null
+					},
+					"driverSize": null,
+					"numExecutors": null
 				}
 			}
 		],

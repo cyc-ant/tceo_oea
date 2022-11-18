@@ -21,7 +21,7 @@
 					},
 					"parameters": {
 						"object_name": {
-							"value": "acer",
+							"value": "student_profile",
 							"type": "string"
 						},
 						"method_name": {

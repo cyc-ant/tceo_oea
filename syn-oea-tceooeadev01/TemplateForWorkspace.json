@@ -3776,7 +3776,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"notebook": {
-								"referenceName": "ZZZ_OEA_connector_Test",
+								"referenceName": "OEA_connector_Student_Profile",
 								"type": "NotebookReference"
 							},
 							"parameters": {
@@ -3825,7 +3825,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/ZZZ_OEA_connector_Test')]",
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Student_Profile')]",
 				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
 			]
 		},
@@ -9772,7 +9772,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Student_Attendance')]",
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Attendance')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -9793,7 +9793,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3bcc05de-863f-4a8d-b36d-2728ee076e68"
+						"spark.autotune.trackingId": "ba3dbc30-4b5a-4a2d-b17a-31c61fb8f2aa"
 					}
 				},
 				"metadata": {
@@ -11081,7 +11081,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/ZZZ_OEA_connector_Test')]",
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Student_Profile')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {

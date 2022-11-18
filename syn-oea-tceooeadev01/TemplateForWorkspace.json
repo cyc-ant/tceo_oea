@@ -7286,7 +7286,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a43b57e8-c3fb-4b00-afbf-10a9ebab2c9f"
+						"spark.autotune.trackingId": "d5422ede-ebd9-4076-9696-7007cf74c8bb"
 					}
 				},
 				"metadata": {
@@ -8984,7 +8984,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "afe559e6-e4f2-490a-83f8-8080d620d431"
+						"spark.autotune.trackingId": "5c0f1d6d-d274-4c6f-ba6c-f1239ff68082"
 					}
 				},
 				"metadata": {
@@ -9113,7 +9113,6 @@
 							"collapsed": true
 						},
 						"source": [
-							"# %run /Student_py_test\r\n",
 							"%run /Student_profile_py"
 						],
 						"outputs": [],
@@ -9753,7 +9752,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d250c4e6-580f-4ad7-9d74-b57c7359a253"
+						"spark.autotune.trackingId": "ddaa813b-7396-4aea-a25e-06db07ea7a30"
 					}
 				},
 				"metadata": {

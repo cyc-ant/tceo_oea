@@ -18,7 +18,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "12b2ec94-7227-497c-85ed-41508d000b19"
+				"spark.autotune.trackingId": "1f0f768f-0626-43b5-8440-e196e28847e1"
 			}
 		},
 		"metadata": {
@@ -43,7 +43,8 @@
 				"sparkVersion": "3.1",
 				"nodeCount": 3,
 				"cores": 4,
-				"memory": 28
+				"memory": 28,
+				"automaticScaleJobs": false
 			},
 			"sessionKeepAliveTimeout": 30
 		},
@@ -86,6 +87,7 @@
 					"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
 					"object_name = ''\r\n",
 					"method_name = ''\r\n",
+					"source_folder = ''\r\n",
 					"kwargs = '{}'"
 				],
 				"execution_count": 15
@@ -108,6 +110,24 @@
 					"%run /OEA_py"
 				],
 				"execution_count": 16
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"%run /DataCopy_py"
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",

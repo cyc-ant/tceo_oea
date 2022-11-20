@@ -2770,6 +2770,79 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_student_profile')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest to Stage2",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_Student_Profile",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "student_profile",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "student",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"sinkFilesystem": {
+						"type": "string",
+						"defaultValue": "stage2np"
+					}
+				},
+				"folder": {
+					"name": "OEA_Framework"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Student_Profile')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/reset_all_for_source')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -7286,7 +7359,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0be17ad8-b4de-4ff0-8401-8d10f7e1c375"
+						"spark.autotune.trackingId": "fdb5c1df-df75-4ace-96d8-08ed7f52fab6"
 					}
 				},
 				"metadata": {
@@ -7326,7 +7399,7 @@
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
 							"        self.schemas['AggWholeDayAttendanceBySchool'] = [\r\n",
-							"                                        ['SKAggWholeDayAttendanceBySchool', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAggWholeDayAttendanceBySchool', 'integer', 'hash'],\r\n",
 							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
 							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
 							"                                        ['SKAttendanceDate', 'integer', 'no-op'],\r\n",
@@ -7350,7 +7423,7 @@
 							"                                        ]\r\n",
 							"\r\n",
 							"        self.schemas['AggWholeDayAttendanceByStudent'] = [\r\n",
-							"                                        ['SKAggWholeDayAttendanceByStudent', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAggWholeDayAttendanceByStudent', 'integer', 'hash'],\r\n",
 							"                                        ['SKPerson', 'integer', 'no-op'],\r\n",
 							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
 							"                                        ['SKGender', 'integer', 'no-op'],\r\n",
@@ -7513,7 +7586,7 @@
 							"        #                             ] \r\n",
 							"\r\n",
 							"        self.schemas['DMFactWholeDayAttendance'] = [ \r\n",
-							"                                        ['SKWholeDayAttendance', 'integer', 'no-op'],\r\n",
+							"                                        ['SKWholeDayAttendance', 'integer', 'hash'],\r\n",
 							"                                        ['SKPerson', 'integer', 'no-op'],\r\n",
 							"                                        ['SKPersistentStudentId', 'integer', 'no-op'],\r\n",
 							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
@@ -7557,15 +7630,15 @@
 							"                                          \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        #oea.ingest_delta_data(self.source_folder, 'AggWholeDayAttendanceBySchool', self.schemas['AggWholeDayAttendanceBySchool'], 'SKYear', 'SKAggWholeDayAttendanceBySchool')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'AggWholeDayAttendanceByStudent', self.schemas['AggWholeDayAttendanceByStudent'], 'SKYear', 'SKAggWholeDayAttendanceByStudent')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'AggWholeDayAttendanceBySchool', self.schemas['AggWholeDayAttendanceBySchool'], None, 'SKAggWholeDayAttendanceBySchool')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'AggWholeDayAttendanceByStudent', self.schemas['AggWholeDayAttendanceByStudent'], None, 'SKAggWholeDayAttendanceByStudent')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMAttendanceCode'], '<partition>', '<key>')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMAttendanceNote'], '<partition>', '<key>')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMAttendanceStatus'], '<partition>', '<key>')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactAttendanceCheckin'], '<partition>', '<key>')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactAttendanceRealTime'], '<partition>', '<key>')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'attendance', self.schemas['DMFactMySchoolsAttendance'], '<partition>', '<key>')\r\n",
-							"        #oea.ingest_delta_data(self.source_folder, 'DMFactWholeDayAttendance', self.schemas['DMFactWholeDayAttendance'], 'LastUpdateDate', 'SKWholeDayAttendance')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactWholeDayAttendance', self.schemas['DMFactWholeDayAttendance'], None, 'SKWholeDayAttendance')\r\n",
 							"\r\n",
 							"\r\n",
 							"        \r\n",
@@ -8801,7 +8874,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "757914f4-d209-44bc-95e5-b99b4bd05f5d"
+						"spark.autotune.trackingId": "819620a4-2f12-4b37-8d29-ccd220f84d6b"
 					}
 				},
 				"metadata": {
@@ -8826,8 +8899,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -8984,7 +9056,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d564eb66-679a-46dd-bef2-fac5307b11bb"
+						"spark.autotune.trackingId": "c4f4c51c-89fe-4184-89e8-4b24b686f00e"
 					}
 				},
 				"metadata": {
@@ -9009,8 +9081,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -9752,7 +9823,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e80ae2b3-fb69-4bc6-b5bd-a17b911eb0ab"
+						"spark.autotune.trackingId": "f3914f72-5f5d-47e4-9d31-f564047ccd6a"
 					}
 				},
 				"metadata": {
@@ -9777,15 +9848,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Student_profile(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='student', pseudonymize = True):\r\n",
@@ -10559,79 +10628,6 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_student_profile')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Ingest to Stage2",
-						"type": "SynapseNotebook",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebook": {
-								"referenceName": "OEA_connector_Student_Profile",
-								"type": "NotebookReference"
-							},
-							"parameters": {
-								"object_name": {
-									"value": "student_profile",
-									"type": "string"
-								},
-								"method_name": {
-									"value": "ingest",
-									"type": "string"
-								},
-								"source_folder": {
-									"value": "student",
-									"type": "string"
-								}
-							},
-							"snapshot": true,
-							"sparkPool": {
-								"referenceName": "spark3p1sm",
-								"type": "BigDataPoolReference"
-							},
-							"executorSize": null,
-							"conf": {
-								"spark.dynamicAllocation.enabled": null,
-								"spark.dynamicAllocation.minExecutors": null,
-								"spark.dynamicAllocation.maxExecutors": null
-							},
-							"driverSize": null,
-							"numExecutors": null
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage2np"
-					}
-				},
-				"folder": {
-					"name": "OEA_Framework"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Student_Profile')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
-			]
 		}
 	]
 }

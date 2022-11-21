@@ -1,6 +1,9 @@
 {
 	"name": "Student_profile_py",
 	"properties": {
+		"folder": {
+			"name": "Data Objects"
+		},
 		"nbformat": 4,
 		"nbformat_minor": 2,
 		"bigDataPool": {
@@ -17,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "f3914f72-5f5d-47e4-9d31-f564047ccd6a"
+				"spark.autotune.trackingId": "f6955a96-0a63-4b05-8954-2e640dafcb0f"
 			}
 		},
 		"metadata": {

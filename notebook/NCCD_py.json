@@ -1,6 +1,9 @@
 {
 	"name": "NCCD_py",
 	"properties": {
+		"folder": {
+			"name": "Data Objects"
+		},
 		"nbformat": 4,
 		"nbformat_minor": 2,
 		"bigDataPool": {
@@ -17,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "12b60c0d-d518-4f34-977e-8759472eb6fa"
+				"spark.autotune.trackingId": "ee5903af-659a-4586-80a7-10631d5ac20b"
 			}
 		},
 		"metadata": {

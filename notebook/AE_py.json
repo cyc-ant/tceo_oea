@@ -1,6 +1,9 @@
 {
 	"name": "AE_py",
 	"properties": {
+		"folder": {
+			"name": "Data Objects"
+		},
 		"nbformat": 4,
 		"nbformat_minor": 2,
 		"bigDataPool": {
@@ -17,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "f907c095-5be2-460e-9f2e-039b63d53dbb"
+				"spark.autotune.trackingId": "73859bfc-03fb-46ea-b6a7-3413d8c8c4a8"
 			}
 		},
 		"metadata": {

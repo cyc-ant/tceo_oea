@@ -1,6 +1,9 @@
 {
 	"name": "OEA_connector_Student_Profile",
 	"properties": {
+		"folder": {
+			"name": "OEA Connectors"
+		},
 		"nbformat": 4,
 		"nbformat_minor": 2,
 		"bigDataPool": {
@@ -18,7 +21,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c4f4c51c-89fe-4184-89e8-4b24b686f00e"
+				"spark.autotune.trackingId": "ed6ecf81-a647-4108-b214-62ba2f0f9314"
 			}
 		},
 		"metadata": {

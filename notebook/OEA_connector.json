@@ -1,6 +1,9 @@
 {
 	"name": "OEA_connector",
 	"properties": {
+		"folder": {
+			"name": "OEA Connectors"
+		},
 		"nbformat": 4,
 		"nbformat_minor": 2,
 		"bigDataPool": {
@@ -18,7 +21,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "2001c038-dd0c-44ef-9df2-c26b2d5d880b"
+				"spark.autotune.trackingId": "695da1d7-9611-4120-9a7f-4d68c66a108c"
 			}
 		},
 		"metadata": {

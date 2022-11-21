@@ -49,6 +49,290 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_ACER')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach_d1r",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.cw_items",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy_d1r",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "dbo.@{item().source.table}"
+										},
+										{
+											"name": "Destination",
+											"value": "stage1np/ACER/@{item().destination.fileName}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"validateDataConsistency": false
+									},
+									"inputs": [
+										{
+											"referenceName": "SourceDataset_ACER",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_table": "@item().source.table"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DestinationDataset_ACER",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_fileName": "@item().destination.fileName"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"cw_items": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"source": {
+									"table": "vwDMACERStanine"
+								},
+								"destination": {
+									"fileName": "dbovwDMACERStanine.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMACERStudent"
+								},
+								"destination": {
+									"fileName": "dbovwDMACERStudent.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactPATResponse"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactPATResponse.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactPATResults"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactPATResults.csv"
+								}
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_ACER')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_ACER')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_AE')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach_byg",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.cw_items",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy_byg",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "dbo.@{item().source.table}"
+										},
+										{
+											"name": "Destination",
+											"value": "stage1np/AE/@{item().destination.fileName}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"validateDataConsistency": false
+									},
+									"inputs": [
+										{
+											"referenceName": "SourceDataset_AE",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_table": "@item().source.table"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DestinationDataset_AE",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_fileName": "@item().destination.fileName"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"cw_items": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"source": {
+									"table": "vwDMAEStudent"
+								},
+								"destination": {
+									"fileName": "dbovwDMAEStudent.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMAEStudentDescription"
+								},
+								"destination": {
+									"fileName": "dbovwDMAEStudentDescription.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMAEStudentResultId"
+								},
+								"destination": {
+									"fileName": "dbovwDMAEStudentResultId.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMAESubjectCourse"
+								},
+								"destination": {
+									"fileName": "dbovwDMAESubjectCourse.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFACTAEDC"
+								},
+								"destination": {
+									"fileName": "dbovwDMFACTAEDC.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFACTAEDCStrengths"
+								},
+								"destination": {
+									"fileName": "dbovwDMFACTAEDCStrengths.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactStudentAEResult"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactStudentAEResult.csv"
+								}
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_AE')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_AE')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_Attendance')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -168,6 +452,470 @@
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/datasets/SourceDataset_Attendance_source')]",
 				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_Attendance_dest')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_NAPLAN')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach_aa6",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.cw_items",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy_aa6",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "@{item().source.schema}.@{item().source.table}"
+										},
+										{
+											"name": "Destination",
+											"value": "stage1np/NAPLAN/@{item().destination.fileName}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"validateDataConsistency": false
+									},
+									"inputs": [
+										{
+											"referenceName": "SourceDataset_NAPLAN",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_schema": "@item().source.schema",
+												"cw_table": "@item().source.table"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DestinationDataset_NAPLAN",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_fileName": "@item().destination.fileName"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"cw_items": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "NaplanData"
+								},
+								"destination": {
+									"fileName": "dboNaplanData.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "NaplanNational"
+								},
+								"destination": {
+									"fileName": "dboNaplanNational.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "NaplanNationalAverage"
+								},
+								"destination": {
+									"fileName": "dboNaplanNationalAverage.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactMySchoolsNAPLANResults"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsNAPLANResults.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactMySchoolsNAPLANResultsSimilarSchools"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsNAPLANResultsSimilarSchools.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactNAPLANACARABands"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactNAPLANACARABands.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactNAPLANOnlineStudentItemResponse"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactNAPLANOnlineStudentItemResponse.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactNAPLANOnlineStudentTestResult"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactNAPLANOnlineStudentTestResult.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactNAPLANStudentResponse"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactNAPLANStudentResponse.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMFactNaplanStudentYearResult"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactNaplanStudentYearResult.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLAN"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLAN.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANACARAAggregate"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANACARAAggregate.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANAnswer"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANAnswer.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANAssessmentArea"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANAssessmentArea.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANOnlineStudentItemResponse"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANOnlineStudentItemResponse.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANOnlineStudentResult"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANOnlineStudentResult.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANOnlineStudentTestResultId"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANOnlineStudentTestResultId.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANStudent"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANStudent.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANStudentResponseId"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANStudentResponseId.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANTest"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANTest.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMNAPLANTextResponse"
+								},
+								"destination": {
+									"fileName": "dbovwDMNAPLANTextResponse.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "NAPLAN",
+									"table": "AssessmentArea"
+								},
+								"destination": {
+									"fileName": "NAPLANAssessmentArea.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "NAPLAN",
+									"table": "ExamBands"
+								},
+								"destination": {
+									"fileName": "NAPLANExamBands.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "NAPLAN",
+									"table": "NAPLAN"
+								},
+								"destination": {
+									"fileName": "NAPLANNAPLAN.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "NAPLAN",
+									"table": "NAPLANStudentView"
+								},
+								"destination": {
+									"fileName": "NAPLANNAPLANStudentView.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "NAPLAN",
+									"table": "Student"
+								},
+								"destination": {
+									"fileName": "NAPLANStudent.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "NAPLAN",
+									"table": "StudentYearResult"
+								},
+								"destination": {
+									"fileName": "NAPLANStudentYearResult.csv"
+								}
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_NAPLAN')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_NAPLAN')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_NCCD')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach_mg1",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.cw_items",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy_mg1",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "dbo.@{item().source.table}"
+										},
+										{
+											"name": "Destination",
+											"value": "stage1np/NCCD/@{item().destination.fileName}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"validateDataConsistency": false
+									},
+									"inputs": [
+										{
+											"referenceName": "SourceDataset_NCCD",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_table": "@item().source.table"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DestinationDataset_NCCD",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_fileName": "@item().destination.fileName"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"cw_items": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"source": {
+									"table": "vwDMCensusStudentWithDisabilityId"
+								},
+								"destination": {
+									"fileName": "dbovwDMCensusStudentWithDisabilityId.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMDisabilityCategoryAdjustment"
+								},
+								"destination": {
+									"fileName": "dbovwDMDisabilityCategoryAdjustment.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactCensusStudentWithDisability"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactCensusStudentWithDisability.csv"
+								}
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_NCCD')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_NCCD')]"
 			]
 		},
 		{
@@ -2913,6 +3661,43 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_ACER')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"folderPath": "ACER",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_ACERAEStudent')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -2940,6 +3725,43 @@
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_AE')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"folderPath": "AE",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
 				"schema": []
@@ -3074,6 +3896,80 @@
 							"type": "Expression"
 						},
 						"folderPath": "attendance",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_NAPLAN')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"folderPath": "NAPLAN",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_NCCD')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"folderPath": "NCCD",
 						"fileSystem": "stage1np"
 					},
 					"columnDelimiter": ",",
@@ -3841,7 +4737,65 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_ACER')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/SourceDataset_ACERAEStudent')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_AE')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -4037,6 +4991,70 @@
 		},
 		{
 			"name": "[concat(parameters('workspaceName'), '/SourceDataset_Attendance_source')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_NAPLAN')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_schema": {
+						"type": "String"
+					},
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": {
+						"value": "@dataset().cw_schema",
+						"type": "Expression"
+					},
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_NCCD')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -4658,7 +5676,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/Acer_py')]",
+			"name": "[concat(parameters('workspaceName'), '/AE_py')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -4678,7 +5696,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "24e3a54a-23cd-403c-b580-6a0b9ebd18c8"
+						"spark.autotune.trackingId": "f907c095-5be2-460e-9f2e-039b63d53dbb"
 					}
 				},
 				"metadata": {
@@ -4711,36 +5729,442 @@
 					{
 						"cell_type": "code",
 						"source": [
-							"class Acer(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='acer_test', pseudonymize = True):\r\n",
+							"class AE_object(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder='AE', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-							"        self.schemas['student_acer'] = [['SKACERStudent', 'integer', 'no-op'],\r\n",
+							"\r\n",
+							"        self.schemas['DMAEStudent'] = [\r\n",
+							"                                        ['SKAEStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['BKSourceStudentId', 'string', 'no-op'],\r\n",
+							"                                        ['PersistentStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentFirstName', 'string', 'hash'],\r\n",
+							"                                        ['StudentSurname', 'string', 'hash'],\r\n",
+							"                                        ['DOB', 'date', 'hash'],\r\n",
+							"                                        ['GenderId', 'integer', 'hash'],\r\n",
+							"                                        ['ATSIId', 'integer', 'no-op'],\r\n",
+							"                                        ['LBOTELanguageId', 'integer', 'no-op'],\r\n",
+							"                                        ['WholeDaysAbsent', 'integer', 'no-op'],\r\n",
+							"                                        ['PartialDaysAbsent', 'integer', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                                    \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMAEStudentDescription'] = [\r\n",
+							"                                        ['SKAEStudentDescriptionId', 'integer', 'no-op'],\r\n",
+							"                                        ['BKAEStudentDescriptionId', 'string', 'no-op'],\r\n",
+							"                                        ['AESubjectComment', 'string', 'no-op'],\r\n",
+							"                                        ['AESubAreaComment', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                             \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMAEStudentResultId'] = [\r\n",
+							"                                        ['SKAEStudentResultId', 'integer', 'no-op'],\r\n",
+							"                                        ['BKAEStudentResultId', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                              \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMAESubjectCourse'] = [\r\n",
+							"                                        ['SKAESubjectCourseId', 'integer', 'no-op'],\r\n",
+							"                                        ['BKAESubjectCourseId', 'string', 'no-op'],\r\n",
+							"                                        ['AESubjectCode', 'string', 'no-op'],\r\n",
+							"                                        ['AESubjectName', 'string', 'no-op'],\r\n",
+							"                                        ['AECourseCode', 'string', 'no-op'],\r\n",
+							"                                        ['AECourseName', 'string', 'no-op'],\r\n",
+							"                                        ['AESubCourseCode', 'string', 'no-op'],\r\n",
+							"                                        ['AESubCourseName', 'string', 'no-op'],\r\n",
+							"                                        ['SortOrder1', 'double', 'no-op'],\r\n",
+							"                                        ['SortOrder2', 'double', 'no-op'],\r\n",
+							"                                        ['SortOrder3', 'double', 'no-op'],\r\n",
+							"                                        ['BusinessDesc1', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                                                                   \r\n",
+							"                                        ]\r\n",
+							"            \r\n",
+							"        self.schemas['DMFACTAEDC'] = [\r\n",
+							"                                        ['SKAEDC', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAEDCGroupingId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['TotalStudents', 'integer', 'no-op'],\r\n",
+							"                                        ['AverageAge', 'string', 'no-op'],\r\n",
+							"                                        ['Males', 'integer', 'no-op'],\r\n",
+							"                                        ['Females', 'integer', 'no-op'],\r\n",
+							"                                        ['Indigenous', 'integer', 'no-op'],\r\n",
+							"                                        ['ESL', 'integer', 'no-op'],\r\n",
+							"                                        ['LBOTEEnglishProficient', 'integer', 'no-op'],\r\n",
+							"                                        ['LBOTENotEnglishProficient', 'integer', 'no-op'],\r\n",
+							"                                        ['EarlyChildhoodCare', 'integer', 'no-op'],\r\n",
+							"                                        ['EarlyChildhoodCareDaycare', 'integer', 'no-op'],\r\n",
+							"                                        ['EarlyChildhoodCarePreschool', 'integer', 'no-op'],\r\n",
+							"                                        ['EarlyChildhoodCareFamilyDaycare', 'integer', 'no-op'],\r\n",
+							"                                        ['EarlyChildhoodCareGrandparent', 'integer', 'no-op'],\r\n",
+							"                                        ['EarlyChildhoodCareOtherRelative', 'integer', 'no-op'],\r\n",
+							"                                        ['EarlyChildhoodCareNanny', 'integer', 'no-op'],\r\n",
+							"                                        ['EarlyChildhoodCareOther', 'integer', 'no-op'],\r\n",
+							"                                        ['ChildAdaptingToSchoolVeryTrue', 'integer', 'no-op'],\r\n",
+							"                                        ['ChildAdaptingToSchoolVerySomewhatTrue', 'integer', 'no-op'],\r\n",
+							"                                        ['ChildAdaptingToSchoolNotTrue', 'integer', 'no-op'],\r\n",
+							"                                        ['ChildAdaptingToSchoolDontKnow', 'integer', 'no-op'],\r\n",
+							"                                        ['ParentsActivelyEngagedWithschoolVeryTrue', 'integer', 'no-op'],\r\n",
+							"                                        ['ParentsActivelyEngagedWithschoolSomewhatTrue', 'integer', 'no-op'],\r\n",
+							"                                        ['ParentsActivelyEngagedWithschoolNotTrue', 'integer', 'no-op'],\r\n",
+							"                                        ['ParentsActivelyEngagedWithschoolDontKnow', 'integer', 'no-op'],\r\n",
+							"                                        ['ChildRegularlyReadToAtHomeVerytrue', 'integer', 'no-op'],\r\n",
+							"                                        ['ChildRegularlyReadToAtHomeSomewhatTrue', 'integer', 'no-op'],\r\n",
+							"                                        ['ChildRegularlyReadToAtHomeNottrue', 'integer', 'no-op'],\r\n",
+							"                                        ['ChildRegularlyReadToAtHomeDontKnow', 'integer', 'no-op'],\r\n",
+							"                                        ['ChildrenWithSpecialNeeds', 'integer', 'no-op'],\r\n",
+							"                                        ['ChildrenWithFurtherInvestigationRequired', 'integer', 'no-op'],\r\n",
+							"                                        ['ChildrenAttendedEarlyInterventionProgram', 'integer', 'no-op'],\r\n",
+							"                                        ['DaysAbsentSinceStartOfYear0to1Days', 'integer', 'no-op'],\r\n",
+							"                                        ['DaysAbsentSinceStartOfYear2to5Days', 'integer', 'no-op'],\r\n",
+							"                                        ['DaysAbsentSinceStartOfYear6to10Days', 'integer', 'no-op'],\r\n",
+							"                                        ['DaysAbsentSinceStartOfYear10DaysPlus', 'integer', 'no-op'],\r\n",
+							"                                        ['PhysHealthWellbeingTotal', 'integer', 'no-op'],\r\n",
+							"                                        ['SocialCompetenceTotal', 'integer', 'no-op'],\r\n",
+							"                                        ['EmotionalMaturityTotal', 'integer', 'no-op'],\r\n",
+							"                                        ['LanguageCognitiveSkillsTotal', 'integer', 'no-op'],\r\n",
+							"                                        ['CommSkillsAndGeneralKnowledgeTotal', 'integer', 'no-op'],\r\n",
+							"                                        ['PhysHealthWellbeingOnTrackNum', 'integer', 'no-op'],\r\n",
+							"                                        ['SocialCompetenceOnTrackNum', 'integer', 'no-op'],\r\n",
+							"                                        ['EmotionalMaturityOnTrackNum', 'integer', 'no-op'],\r\n",
+							"                                        ['LanguageCognitiveSkillsOnTrackNum', 'integer', 'no-op'],\r\n",
+							"                                        ['CommSkillsAndGeneralKnowledgeOnTrackNum', 'integer', 'no-op'],\r\n",
+							"                                        ['PhysHealthWellbeingOnTrackPer', 'double', 'no-op'],\r\n",
+							"                                        ['SocialCompetenceOnTrackPer', 'double', 'no-op'],\r\n",
+							"                                        ['EmotionalMaturityOnTrackPer', 'double', 'no-op'],\r\n",
+							"                                        ['LanguageCognitiveSkillsOnTrackPer', 'double', 'no-op'],\r\n",
+							"                                        ['CommSkillsAndGeneralKnowledgeOnTrackPer', 'double', 'no-op'],\r\n",
+							"                                        ['PhysHealthWellbeingAtRiskNum', 'integer', 'no-op'],\r\n",
+							"                                        ['SocialCompetenceAtRiskNum', 'integer', 'no-op'],\r\n",
+							"                                        ['EmotionalMaturityAtRiskNum', 'integer', 'no-op'],\r\n",
+							"                                        ['LanguageCognitiveSkillsAtRiskNum', 'integer', 'no-op'],\r\n",
+							"                                        ['CommSkillsAndGeneralKnowledgeAtRiskNum', 'integer', 'no-op'],\r\n",
+							"                                        ['PhysHealthWellbeingAtRiskPer', 'double', 'no-op'],\r\n",
+							"                                        ['SocialCompetenceAtRiskPer', 'double', 'no-op'],\r\n",
+							"                                        ['EmotionalMaturityAtRiskPer', 'double', 'no-op'],\r\n",
+							"                                        ['LanguageCognitiveSkillsAtRiskPer', 'double', 'no-op'],\r\n",
+							"                                        ['CommSkillsAndGeneralKnowledgeAtRiskPer', 'double', 'no-op'],\r\n",
+							"                                        ['PhysHealthWellbeingVulnerableNum', 'integer', 'no-op'],\r\n",
+							"                                        ['SocialCompetenceVulnerableNum', 'integer', 'no-op'],\r\n",
+							"                                        ['EmotionalMaturityVulnerableNum', 'integer', 'no-op'],\r\n",
+							"                                        ['LanguageCognitiveSkillsVulnerableNum', 'integer', 'no-op'],\r\n",
+							"                                        ['CommSkillsAndGeneralKnowledgeVulnerableNum', 'integer', 'no-op'],\r\n",
+							"                                        ['PhysHealthWellbeingVulnerablePer', 'double', 'no-op'],\r\n",
+							"                                        ['SocialCompetenceVulnerablePer', 'double', 'no-op'],\r\n",
+							"                                        ['EmotionalMaturityVulnerablePer', 'double', 'no-op'],\r\n",
+							"                                        ['LanguageCognitiveSkillsVulnerablePer', 'double', 'no-op'],\r\n",
+							"                                        ['CommSkillsAndGeneralKnowledgeVulnerablePer', 'double', 'no-op'],\r\n",
+							"                                        ['DevelopmentallyVulnerableOneDomainTotalwithResults', 'integer', 'no-op'],\r\n",
+							"                                        ['DevelopmentallyVulnerableOneDomainNum', 'integer', 'no-op'],\r\n",
+							"                                        ['DevelopmentallyVulnerableOneDomainPer', 'double', 'no-op'],\r\n",
+							"                                        ['DevelopmentallyVulnerableTwoDomain2TotalwithResults', 'integer', 'no-op'],\r\n",
+							"                                        ['DevelopmentallyVulnerableTwoDomainsNum', 'integer', 'no-op'],\r\n",
+							"                                        ['DevelopmentallyVulnerableTwoDomainsPer', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['Iscurrent', 'integer', 'no-op']                                                                                                   \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFACTAEDCStrengths'] = [\r\n",
+							"                                        ['SKAEDCStrengths', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAEDCStrengthsBK', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['HighlyDeveloped', 'integer', 'no-op'],\r\n",
+							"                                        ['WellDeveloped', 'integer', 'no-op'],\r\n",
+							"                                        ['Emerging', 'integer', 'no-op'],\r\n",
+							"                                        ['Total', 'integer', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['Iscurrent', 'integer', 'no-op']                                                                                                   \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFactStudentAEResult'] = [\r\n",
+							"                                        ['SKFactStudentAEResultId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAEStudentResultId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['SKReportingPeriod', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAECourse', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAESubCourse', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAECourseGrade', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAESubCourseGrade', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAECourseEffort', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAESubCourseEffort', 'integer', 'no-op'],\r\n",
+							"                                        ['SKStudentClass', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAEStudent', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAEStudentDescription', 'integer', 'no-op'],\r\n",
+							"                                        ['SKStudent', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentHeadcount', 'integer', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op']                                                                                                   \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"                                 \r\n",
+							"\r\n",
+							"    def ingest(self):\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMAEStudent', self.schemas['DMAEStudent'], 'LastUpdateDate', 'SKAEStudentId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMAEStudentDescription', self.schemas['DMAEStudentDescription'], 'LastUpdateDate', 'SKAEStudentDescriptionId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMAEStudentResultId', self.schemas['DMAEStudentResultId'], 'LastUpdateDate', 'SKAEStudentResultId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMAESubjectCourse', self.schemas['DMAESubjectCourse'], 'LastUpdateDate', 'SKAESubjectCourseId')\r\n",
+							"\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFACTAEDC', self.schemas['DMFACTAEDC'], 'LastUpdateDate', 'SKAEDC')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFACTAEDCStrengths', self.schemas['DMFACTAEDCStrengths'], 'LastUpdateDate', 'SKAEDCStrengths')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactStudentAEResult', self.schemas['DMFactStudentAEResult'], 'LastUpdateDate', 'SKFactStudentAEResultId')\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"ae_object = AE_object()"
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Acer_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "2b9ebfc0-07a2-4ef7-baeb-82bf0beb220b"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": true,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "python"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"source": [
+							"# class Acer(BaseOEAModule):\r\n",
+							"#     def __init__(self, source_folder='acer_test', pseudonymize = True):\r\n",
+							"#         BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"#         self.schemas['student_acer'] = [['SKACERStudent', 'integer', 'no-op'],\r\n",
+							"#                                         ['BKACERStudent', 'string', 'no-op'],\r\n",
+							"#                                         ['SystemID', 'string', 'no-op'],\r\n",
+							"#                                         ['PersistentStudentID', 'integer', 'no-op'],\r\n",
+							"#                                         ['FamilyName', 'string', 'no-op'],\r\n",
+							"#                                         ['GivenName', 'string', 'no-op'],\r\n",
+							"#                                         ['DateOfBirth', 'date', 'no-op'],\r\n",
+							"#                                         ['Gender', 'string', 'no-op'],\r\n",
+							"#                                         ['GenderId', 'integer', 'no-op'],\r\n",
+							"#                                         ['Username', 'string', 'no-op'],\r\n",
+							"#                                         ['Password', 'string', 'no-op'],\r\n",
+							"#                                         ['CampusId', 'integer', 'no-op'],\r\n",
+							"#                                         ['CreateDate', 'string', 'no-op'],\r\n",
+							"#                                         ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"#                                         ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"#                                         ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"#                                         ['Iscurrent', 'integer', 'no-op'],\r\n",
+							"#                                         ['SCDReason', 'string', 'no-op']]                                          \r\n",
+							"\r\n",
+							"#     def ingest(self):\r\n",
+							"#         oea.ingest_delta_data(self.source_folder, 'DMAcerStudent', self.schemas['student_acer'], None, 'SKACERStudent')\r\n",
+							"\r\n",
+							"#         #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
+							"#         #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",
+							"#         #oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\r\n",
+							"\r\n",
+							"# acer = Acer()\r\n",
+							"\r\n",
+							"class Acer_object(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder='ACER', pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"\r\n",
+							"        self.schemas['DMACERStanine'] = [\r\n",
+							"                                        ['SKACERStanine', 'integer', 'no-op'],\r\n",
+							"                                        ['BKACERStanine', 'integer', 'no-op'],\r\n",
+							"                                        ['StanineNumber', 'integer', 'no-op'],\r\n",
+							"                                        ['StanineNumberDescription', 'string', 'no-op'],\r\n",
+							"                                        ['StanineAchievementDescriptor', 'string', 'no-op'],\r\n",
+							"                                        ['PercentileRank', 'string', 'no-op'],\r\n",
+							"                                        ['PercentageOfStudents', 'double', 'no-op'],\r\n",
+							"                                        ['PrimarySort', 'double', 'no-op'],\r\n",
+							"                                        ['SecondarySort', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                                    \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMACERStudent'] = [\r\n",
+							"                                        ['SKACERStudent', 'integer', 'no-op'],\r\n",
 							"                                        ['BKACERStudent', 'string', 'no-op'],\r\n",
-							"                                        ['SystemID', 'string', 'no-op'],\r\n",
-							"                                        ['PersistentStudentID', 'integer', 'no-op'],\r\n",
-							"                                        ['FamilyName', 'string', 'no-op'],\r\n",
-							"                                        ['GivenName', 'string', 'no-op'],\r\n",
-							"                                        ['DateOfBirth', 'date', 'no-op'],\r\n",
-							"                                        ['Gender', 'string', 'no-op'],\r\n",
-							"                                        ['GenderId', 'integer', 'no-op'],\r\n",
-							"                                        ['Username', 'string', 'no-op'],\r\n",
-							"                                        ['Password', 'string', 'no-op'],\r\n",
+							"                                        ['SystemId', 'string', 'no-op'],\r\n",
+							"                                        ['PersistentStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['FamilyName', 'string', 'hash'],\r\n",
+							"                                        ['GivenName', 'string', 'hash'],\r\n",
+							"                                        ['DateOfBirth', 'date', 'hash'],\r\n",
+							"                                        ['Gender', 'string', 'hash'],\r\n",
+							"                                        ['GenderId', 'integer', 'hash'],\r\n",
+							"                                        ['Username', 'string', 'hash'],\r\n",
+							"                                        ['Password', 'string', 'hash'],\r\n",
 							"                                        ['CampusId', 'integer', 'no-op'],\r\n",
 							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
 							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
 							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
 							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
 							"                                        ['Iscurrent', 'integer', 'no-op'],\r\n",
-							"                                        ['SCDReason', 'string', 'no-op']]                                          \r\n",
+							"                                        ['SCDReason', 'string', 'no-op']                                                                 \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFactPATResponse'] = [\r\n",
+							"                                        ['SKPATResponse', 'integer', 'no-op'],\r\n",
+							"                                        ['SKPATStudentResponseGrouping', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKDate', 'integer', 'no-op'],\r\n",
+							"                                        ['SKACERStudent', 'integer', 'no-op'],\r\n",
+							"                                        ['SKGender', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['SKPATTest', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCorrectAnswer', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentResponse', 'string', 'no-op'],\r\n",
+							"                                        ['AnswerCorrect', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusPercentCorrect', 'double', 'no-op'],\r\n",
+							"                                        ['DiocesePercentCorrect', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['Iscurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['SCDReason', 'string', 'no-op']                                                               \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFactPATResults'] = [\r\n",
+							"                                        ['SKPATResults', 'integer', 'no-op'],\r\n",
+							"                                        ['SKPATStudentTestGrouping', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKDate', 'integer', 'no-op'],\r\n",
+							"                                        ['SKACERStudent', 'integer', 'no-op'],\r\n",
+							"                                        ['SKGender', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['SKPATTest', 'integer', 'no-op'],\r\n",
+							"                                        ['SKACERStanine', 'integer', 'no-op'],\r\n",
+							"                                        ['SKSchoolTermWeek', 'integer', 'no-op'],\r\n",
+							"                                        ['RawScore', 'integer', 'no-op'],\r\n",
+							"                                        ['ScaleScore', 'double', 'no-op'],\r\n",
+							"                                        ['RecentTest', 'integer', 'no-op'],\r\n",
+							"                                        ['ErrorMargin', 'double', 'no-op'],\r\n",
+							"                                        ['Stanine', 'integer', 'no-op'],\r\n",
+							"                                        ['Percentile', 'integer', 'no-op'],\r\n",
+							"                                        ['StanineYear1', 'integer', 'no-op'],\r\n",
+							"                                        ['PercentileYear1', 'integer', 'no-op'],\r\n",
+							"                                        ['StanineYear2', 'integer', 'no-op'],\r\n",
+							"                                        ['PercentileYear2', 'integer', 'no-op'],\r\n",
+							"                                        ['StanineYear3', 'integer', 'no-op'],\r\n",
+							"                                        ['PercentileYear3', 'integer', 'no-op'],\r\n",
+							"                                        ['StanineYear4', 'integer', 'no-op'],\r\n",
+							"                                        ['PercentileYear4', 'integer', 'no-op'],\r\n",
+							"                                        ['StanineYear5', 'integer', 'no-op'],\r\n",
+							"                                        ['PercentileYear5', 'integer', 'no-op'],\r\n",
+							"                                        ['StanineYear6', 'integer', 'no-op'],\r\n",
+							"                                        ['PercentileYear6', 'integer', 'no-op'],\r\n",
+							"                                        ['StanineYear7', 'integer', 'no-op'],\r\n",
+							"                                        ['PercentileYear7', 'integer', 'no-op'],\r\n",
+							"                                        ['StanineYear8', 'integer', 'no-op'],\r\n",
+							"                                        ['PercentileYear8', 'integer', 'no-op'],\r\n",
+							"                                        ['StanineYear9', 'integer', 'no-op'],\r\n",
+							"                                        ['PercentileYear9', 'integer', 'no-op'],\r\n",
+							"                                        ['StanineYear10', 'integer', 'no-op'],\r\n",
+							"                                        ['PercentileYear10', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentTestHeadCount', 'integer', 'no-op'],\r\n",
+							"                                        ['NORMMeanScaledScore', 'double', 'no-op'],\r\n",
+							"                                        ['NORMStandardDeviation', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousYearNORMMeanScaledScore', 'double', 'no-op'],\r\n",
+							"                                        ['NextYearNORMMeanScaledScore', 'double', 'no-op'],\r\n",
+							"                                        ['TestLevelNormMeanScaledScore', 'double', 'no-op'],\r\n",
+							"                                        ['MatchedYearLevelTestLevel', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['Iscurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['SCDReason', 'string', 'no-op']                                                             \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"                                 \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMAcerStudent', self.schemas['student_acer'], None, 'SKACERStudent')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMACERStanine', self.schemas['DMACERStanine'], 'LastUpdateDate', 'SKACERStanine')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMACERStudent', self.schemas['DMACERStudent'], 'LastUpdateDate', 'SKACERStudent')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactPATResponse', self.schemas['DMFactPATResponse'], 'LastUpdateDate', 'SKPATResponse')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactPATResults', self.schemas['DMFactPATResults'], 'LastUpdateDate', 'SKPATResults')\r\n",
 							"\r\n",
-							"        #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
-							"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",
-							"        #oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\r\n",
 							"\r\n",
-							"acer = Acer()"
+							"\r\n",
+							"acer_object = ACER_object()"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -5924,6 +7348,1226 @@
 							"        return result\r\n"
 						],
 						"outputs": []
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/NAPLAN_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "490c9c0c-e15f-403e-a799-408242bffa94"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": true,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "python"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"class NAPLAN_object(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder='NAPLAN', pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"\r\n",
+							"        self.schemas['NaplanData'] = [\r\n",
+							"                                        ['SkPersistentStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusName', 'string', 'no-op'],\r\n",
+							"                                        ['CalendarYear', 'integer', 'no-op'],\r\n",
+							"                                        ['YearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentFirstName', 'string', 'hash'],\r\n",
+							"                                        ['StudentSurname', 'string', 'hash'],\r\n",
+							"                                        ['Test', 'string', 'no-op'],\r\n",
+							"                                        ['Score', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBand', 'integer', 'no-op'],\r\n",
+							"                                        ['Band', 'string', 'no-op']                                                                 \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['NaplanNational'] = [\r\n",
+							"                                        ['CalendarYear', 'integer', 'no-op'],\r\n",
+							"                                        ['YearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['Test', 'string', 'no-op'],\r\n",
+							"                                        ['AverageScoreNational', 'double', 'no-op']                                                               \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['NaplanNationalAverage'] = [\r\n",
+							"                                        ['Year', 'integer', 'no-op'],\r\n",
+							"                                        ['Year Level', 'string', 'no-op'],\r\n",
+							"                                        ['Score', 'float', 'no-op'],\r\n",
+							"                                        ['Test', 'string', 'no-op']                                                             \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFactMySchoolsNAPLANResults'] = [\r\n",
+							"                                        ['SKMySchoolsNAPLANResults', 'integer', 'no-op'],\r\n",
+							"                                        ['BKMySchoolsNAPLANResults', 'string', 'no-op'],\r\n",
+							"                                        ['SKCalendarYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNaplanAssessment', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['ICSEACode', 'integer', 'no-op'],\r\n",
+							"                                        ['MeanNAPLANScore', 'double', 'no-op'],\r\n",
+							"                                        ['SchoolMeanMarginLower', 'double', 'no-op'],\r\n",
+							"                                        ['SchoolMeanMarginUpper', 'double', 'no-op'],\r\n",
+							"                                        ['Band1Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['Band2Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['Band3Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['Band4Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['Band5Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['Band6Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['Band7Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['Band8Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['Band9Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['Band10Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['ParticipationRate', 'double', 'no-op'],\r\n",
+							"                                        ['AssessedPercentage', 'double', 'no-op'],\r\n",
+							"                                        ['ExemptPercentage', 'double', 'no-op'],\r\n",
+							"                                        ['AbsentPercentage', 'double', 'no-op'],\r\n",
+							"                                        ['WithdrawnPercentage', 'double', 'no-op'],\r\n",
+							"                                        ['NationalMeanNAPLANScore', 'double', 'no-op'],\r\n",
+							"                                        ['ColourComparisontoNationalMean', 'string', 'no-op'],\r\n",
+							"                                        ['ComparisontoNationalMeanDescription', 'string', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsMeanNAPLANScore', 'double', 'no-op'],\r\n",
+							"                                        ['ColourComparisontoSimilarSchoolsMean', 'string', 'no-op'],\r\n",
+							"                                        ['ComparisontoSimilarSchoolsMeanDescription', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentCount', 'integer', 'no-op'],\r\n",
+							"                                        ['LocationId', 'integer', 'no-op']                                                            \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFactMySchoolsNAPLANResultsSimilarSchools'] = [\r\n",
+							"                                        ['SKMySchoolsNAPLANResultsSimilarSchools', 'integer', 'no-op'],\r\n",
+							"                                        ['BKMySchoolsNAPLANResultsSimilarSchools', 'string', 'no-op'],\r\n",
+							"                                        ['SKCalendarYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNaplanAssessment', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['ICSEACode', 'integer', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsMeanNAPLANScore', 'double', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsSchoolMeanMarginLower', 'double', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsSchoolMeanMarginUpper', 'double', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsBand1Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsBand2Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsBand3Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsBand4Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsBand5Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsBand6Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsBand7Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsBand8Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsBand9Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['SimilarSchoolsBand10Percentage', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op']                                                            \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"                                 \r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"        self.schemas['DMFactNAPLANACARABands'] = [\r\n",
+							"                                        ['SKNaplanAcaraBands', 'integer', 'no-op'],\r\n",
+							"                                        ['BKNaplanAcaraBandsId', 'string', 'no-op'],\r\n",
+							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKStateTerritory', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNaplanAssesmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKExamBandId', 'integer', 'no-op'],\r\n",
+							"                                        ['AverageAge', 'string', 'no-op'],\r\n",
+							"                                        ['YearsOfSchooling', 'string', 'no-op'],\r\n",
+							"                                        ['ParticipationRate', 'double', 'no-op'],\r\n",
+							"                                        ['Exempt', 'double', 'no-op'],\r\n",
+							"                                        ['BandPercentage', 'double', 'no-op'],\r\n",
+							"                                        ['NationalMinimumStandard', 'double', 'no-op'],\r\n",
+							"                                        ['NationalMinimumStandardCI', 'double', 'no-op'],\r\n",
+							"                                        ['MeanScale', 'double', 'no-op'],\r\n",
+							"                                        ['MeanScaleCI', 'double', 'no-op'],\r\n",
+							"                                        ['NotStatedPercentage', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                              \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFactNAPLANOnlineStudentItemResponse'] = [\r\n",
+							"                                        ['SKFactNAPLANOnlineStudentItemResponse', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANOnlineStudentItemResponse', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANOnlineStudentResult', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNaplanAssessmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANTest', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANOnlineTestPath', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANOnlineTestlet', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANOnlineTestItem', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANParticipationCode', 'integer', 'no-op'],\r\n",
+							"                                        ['SkYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SKExamBandId', 'integer', 'no-op'],\r\n",
+							"                                        ['PersistentIdentifier', 'integer', 'no-op'],\r\n",
+							"                                        ['ResponseCorrectnessBit', 'integer', 'no-op'],\r\n",
+							"                                        ['ResponseCorrectnessInt', 'integer', 'no-op'],\r\n",
+							"                                        ['LapsedTimeItemSeconds', 'double', 'no-op'],\r\n",
+							"                                        ['SequenceNumber', 'integer', 'no-op'],\r\n",
+							"                                        ['ItemWeight', 'integer', 'no-op'],\r\n",
+							"                                        ['TestletSubScore', 'integer', 'no-op'],\r\n",
+							"                                        ['DomainScaledScore', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op']                                                             \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFactNAPLANOnlineStudentTestResult'] = [\r\n",
+							"                                        ['SKFactNAPLANOnlineStudentTestResult', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANOnlineStudentTestResultId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANOnlineStudentResult', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANOnlineTestPath', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNaplanAssessmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKExamBandId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANParticipationCode', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentDomainBand', 'integer', 'no-op'],\r\n",
+							"                                        ['RawScore', 'double', 'no-op'],\r\n",
+							"                                        ['ScaledScoreValue', 'double', 'no-op'],\r\n",
+							"                                        ['ScaledScoreLogitValue', 'double', 'no-op'],\r\n",
+							"                                        ['ScaledScoreStandardError', 'double', 'no-op'],\r\n",
+							"                                        ['ScaledScoreLogitStandardError', 'double', 'no-op'],\r\n",
+							"                                        ['DomainNationalAverage', 'double', 'no-op'],\r\n",
+							"                                        ['DomainSchoolAverage', 'double', 'no-op'],\r\n",
+							"                                        ['DomainJurisdictionAverage', 'double', 'no-op'],\r\n",
+							"                                        ['DomainStateAverage', 'double', 'no-op'],\r\n",
+							"                                        ['DomainTopNational60Percent', 'double', 'no-op'],\r\n",
+							"                                        ['DomainBottomNational60Percent', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ActualStudentGrowth', 'double', 'no-op'],\r\n",
+							"                                        ['ExpectedStudentGrowth', 'double', 'no-op'],\r\n",
+							"                                        ['ActualStateGrowth', 'double', 'no-op'],\r\n",
+							"                                        ['ActualNationalGrowth', 'double', 'no-op'],\r\n",
+							"                                        ['DomainNationalStandardDeviation', 'double', 'no-op'],\r\n",
+							"                                        ['DomainStateStandardDeviation', 'double', 'no-op'],\r\n",
+							"                                        ['DomainJurisdictionStandardDeviation', 'double', 'no-op'],\r\n",
+							"                                        ['DomainSchoolStandardDeviation', 'double', 'no-op'],\r\n",
+							"                                        ['ElapsedTimeSecs', 'double', 'no-op'],\r\n",
+							"                                        ['SKNAPLANTest', 'integer', 'no-op'],\r\n",
+							"                                        ['StatisticallySimilarSchoolsCEnetGroupAverage', 'double', 'no-op']                                                             \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFactNAPLANStudentResponse'] = [\r\n",
+							"                                        ['SKFactNAPLANStudentResponse', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANStudentResponseId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKStudent', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANAssessmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANQuestionId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCorrectAnswer', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANResponse', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNAPLANTextResponse', 'integer', 'no-op'],\r\n",
+							"                                        ['IsCorrectAnswer', 'integer', 'no-op'],\r\n",
+							"                                        ['SchoolPercentCorrect', 'double', 'no-op'],\r\n",
+							"                                        ['DiocesePercentCorrect', 'double', 'no-op'],\r\n",
+							"                                        ['StatePercentCorrect', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['SKExamBandId', 'integer', 'no-op'],\r\n",
+							"                                        ['Score', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreCampus', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreSchool', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreDiocese', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreState', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreNational', 'double', 'no-op'],\r\n",
+							"                                        ['PercentCorrectNSW', 'double', 'no-op'],\r\n",
+							"                                        ['PercentCorrectQLD', 'double', 'no-op'],\r\n",
+							"                                        ['PercentCorrectNational', 'double', 'no-op']                                                              \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFactNaplanStudentYearResult'] = [\r\n",
+							"                                        ['UId', 'integer', 'no-op'],\r\n",
+							"                                        ['SkStudent', 'integer', 'no-op'],\r\n",
+							"                                        ['SkPersistentStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SkCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SkYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SkNaplanStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SkYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['SkExamBandId', 'integer', 'no-op'],\r\n",
+							"                                        ['SkNaplanAssessmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SkNAPLANACARAAggregateId', 'integer', 'no-op'],\r\n",
+							"                                        ['Score', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreCampus', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreSchool', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreDiocese', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreState', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreNational', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreCenetState', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreCenetNational', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNaplanResultId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNaplanSourceId', 'integer', 'no-op'],\r\n",
+							"                                        ['StandardDeviationState', 'double', 'no-op'],\r\n",
+							"                                        ['StandardDeviationNational', 'double', 'no-op'],\r\n",
+							"                                        ['ActualStudentGrowth', 'double', 'no-op'],\r\n",
+							"                                        ['ExpectedStudentGrowth', 'double', 'no-op'],\r\n",
+							"                                        ['ActualStateGrowth', 'double', 'no-op'],\r\n",
+							"                                        ['ActualNationalGrowth', 'double', 'no-op']                                                              \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"        self.schemas['DMNAPLAN'] = [\r\n",
+							"                                        ['SKNaplanResultId', 'integer', 'no-op'],\r\n",
+							"                                        ['uidNaplanResult', 'string', 'no-op'],\r\n",
+							"                                        ['CalendarYear', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusName', 'string', 'no-op'],\r\n",
+							"                                        ['LocalSchoolCode', 'string', 'no-op'],\r\n",
+							"                                        ['StudentFirstName', 'string', 'hash'],\r\n",
+							"                                        ['StudentSurname', 'string', 'hash'],\r\n",
+							"                                        ['YearLevelId', 'integer', 'no-op'],\r\n",
+							"                                        ['SourceSystemStudentId', 'string', 'no-op'],\r\n",
+							"                                        ['PersistentStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['LocalStudentId', 'string', 'no-op'],\r\n",
+							"                                        ['GenderId', 'integer', 'hash'],\r\n",
+							"                                        ['DOB', 'date', 'hash'],\r\n",
+							"                                        ['Indigenous', 'integer', 'hash'],\r\n",
+							"                                        ['LBOTE', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreReading', 'double', 'no-op'],\r\n",
+							"                                        ['BandReading', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreWriting', 'double', 'no-op'],\r\n",
+							"                                        ['BandWriting', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreSpelling', 'double', 'no-op'],\r\n",
+							"                                        ['BandSpelling', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreGrammarPunctuation', 'double', 'no-op'],\r\n",
+							"                                        ['BandGrammarPunctuation', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreNumeracy', 'double', 'no-op'],\r\n",
+							"                                        ['BandNumeracy', 'integer', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
+							"                                        ['PreviousScoreReading', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandReading', 'integer', 'no-op'],\r\n",
+							"                                        ['PreviousScoreWriting', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandWriting', 'integer', 'no-op'],\r\n",
+							"                                        ['PreviousScoreSpelling', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandSpelling', 'integer', 'no-op'],\r\n",
+							"                                        ['PreviousScoreGrammarPunctuation', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandGrammarPunctuation', 'integer', 'no-op'],\r\n",
+							"                                        ['PreviousScoreNumeracy', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandNumeracy', 'integer', 'no-op'],\r\n",
+							"                                        ['SourceSystemStudentDisplayId', 'string', 'no-op'],\r\n",
+							"                                        ['IsOnline', 'integer', 'no-op']                                                   \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMNAPLANACARAAggregate'] = [\r\n",
+							"                                        ['SkNAPLANACARAAggregateId', 'integer', 'no-op'],\r\n",
+							"                                        ['BkNAPLANACARAAggregateId', 'string', 'no-op'],\r\n",
+							"                                        ['BkYear', 'integer', 'no-op'],\r\n",
+							"                                        ['BKYearLevelId', 'integer', 'no-op'],\r\n",
+							"                                        ['BkNaplanAssessmentArea', 'string', 'no-op'],\r\n",
+							"                                        ['ACT', 'double', 'no-op'],\r\n",
+							"                                        ['ACTFemale', 'double', 'no-op'],\r\n",
+							"                                        ['ACTIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['ACTLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['ACTMale', 'double', 'no-op'],\r\n",
+							"                                        ['ACTNonIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['ACTNonLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['ACTParentalEducationBachelor', 'double', 'no-op'],\r\n",
+							"                                        ['ACTParentalEducationCertificate', 'double', 'no-op'],\r\n",
+							"                                        ['ACTParentalEducationDiploma', 'double', 'no-op'],\r\n",
+							"                                        ['ACTParentalEducationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['ACTParentalEducationYear11', 'double', 'no-op'],\r\n",
+							"                                        ['ACTParentalEducationYear12', 'double', 'no-op'],\r\n",
+							"                                        ['ACTParentalOccupationGroup1', 'double', 'no-op'],\r\n",
+							"                                        ['ACTParentalOccupationGroup2', 'double', 'no-op'],\r\n",
+							"                                        ['ACTParentalOccupationGroup3', 'double', 'no-op'],\r\n",
+							"                                        ['ACTParentalOccupationGroup4', 'double', 'no-op'],\r\n",
+							"                                        ['ACTParentalOccupationNotInPaidWork', 'double', 'no-op'],\r\n",
+							"                                        ['ACTParentalOccupationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['Aust', 'double', 'no-op'],\r\n",
+							"                                        ['AustFemale', 'double', 'no-op'],\r\n",
+							"                                        ['AustIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['AustLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['AustMale', 'double', 'no-op'],\r\n",
+							"                                        ['AustNonIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['AustNonLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['AustParentalEducationBachelor', 'double', 'no-op'],\r\n",
+							"                                        ['AustParentalEducationCertificate', 'double', 'no-op'],\r\n",
+							"                                        ['AustParentalEducationDiploma', 'double', 'no-op'],\r\n",
+							"                                        ['AustParentalEducationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['AustParentalEducationYear11', 'double', 'no-op'],\r\n",
+							"                                        ['AustParentalEducationYear12', 'double', 'no-op'],\r\n",
+							"                                        ['AustParentalOccupationGroup1', 'double', 'no-op'],\r\n",
+							"                                        ['AustParentalOccupationGroup2', 'double', 'no-op'],\r\n",
+							"                                        ['AustParentalOccupationGroup3', 'double', 'no-op'],\r\n",
+							"                                        ['AustParentalOccupationGroup4', 'double', 'no-op'],\r\n",
+							"                                        ['AustParentalOccupationNotInPaidWork', 'double', 'no-op'],\r\n",
+							"                                        ['AustParentalOccupationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['NSW', 'double', 'no-op'],\r\n",
+							"                                        ['NSWFemale', 'double', 'no-op'],\r\n",
+							"                                        ['NSWIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['NSWLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['NSWMale', 'double', 'no-op'],\r\n",
+							"                                        ['NSWNonIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['NSWNonLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['NSWParentalEducationBachelor', 'double', 'no-op'],\r\n",
+							"                                        ['NSWParentalEducationCertificate', 'double', 'no-op'],\r\n",
+							"                                        ['NSWParentalEducationDiploma', 'double', 'no-op'],\r\n",
+							"                                        ['NSWParentalEducationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['NSWParentalEducationYear11', 'double', 'no-op'],\r\n",
+							"                                        ['NSWParentalEducationYear12', 'double', 'no-op'],\r\n",
+							"                                        ['NSWParentalOccupationGroup1', 'double', 'no-op'],\r\n",
+							"                                        ['NSWParentalOccupationGroup2', 'double', 'no-op'],\r\n",
+							"                                        ['NSWParentalOccupationGroup3', 'double', 'no-op'],\r\n",
+							"                                        ['NSWParentalOccupationGroup4', 'double', 'no-op'],\r\n",
+							"                                        ['NSWParentalOccupationNotInPaidWork', 'double', 'no-op'],\r\n",
+							"                                        ['NSWParentalOccupationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['NT', 'double', 'no-op'],\r\n",
+							"                                        ['NTFemale', 'double', 'no-op'],\r\n",
+							"                                        ['NTIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['NTLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['NTMale', 'double', 'no-op'],\r\n",
+							"                                        ['NTNonIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['NTNonLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['NTParentalEducationBachelor', 'double', 'no-op'],\r\n",
+							"                                        ['NTParentalEducationCertificate', 'double', 'no-op'],\r\n",
+							"                                        ['NTParentalEducationDiploma', 'double', 'no-op'],\r\n",
+							"                                        ['NTParentalEducationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['NTParentalEducationYear11', 'double', 'no-op'],\r\n",
+							"                                        ['NTParentalEducationYear12', 'double', 'no-op'],\r\n",
+							"                                        ['NTParentalOccupationGroup1', 'double', 'no-op'],\r\n",
+							"                                        ['NTParentalOccupationGroup2', 'double', 'no-op'],\r\n",
+							"                                        ['NTParentalOccupationGroup3', 'double', 'no-op'],\r\n",
+							"                                        ['NTParentalOccupationGroup4', 'double', 'no-op'],\r\n",
+							"                                        ['NTParentalOccupationNotInPaidWork', 'double', 'no-op'],\r\n",
+							"                                        ['NTParentalOccupationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['Qld', 'double', 'no-op'],\r\n",
+							"                                        ['QldFemale', 'double', 'no-op'],\r\n",
+							"                                        ['QldIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['QldLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['QldMale', 'double', 'no-op'],\r\n",
+							"                                        ['QldNonIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['QldNonLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['QldParentalEducationBachelor', 'double', 'no-op'],\r\n",
+							"                                        ['QldParentalEducationCertificate', 'double', 'no-op'],\r\n",
+							"                                        ['QldParentalEducationDiploma', 'double', 'no-op'],\r\n",
+							"                                        ['QldParentalEducationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['QldParentalEducationYear11', 'double', 'no-op'],\r\n",
+							"                                        ['QldParentalEducationYear12', 'double', 'no-op'],\r\n",
+							"                                        ['QldParentalOccupationGroup1', 'double', 'no-op'],\r\n",
+							"                                        ['QldParentalOccupationGroup2', 'double', 'no-op'],\r\n",
+							"                                        ['QldParentalOccupationGroup3', 'double', 'no-op'],\r\n",
+							"                                        ['QldParentalOccupationGroup4', 'double', 'no-op'],\r\n",
+							"                                        ['QldParentalOccupationNotInPaidWork', 'double', 'no-op'],\r\n",
+							"                                        ['QldParentalOccupationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['SA', 'double', 'no-op'],\r\n",
+							"                                        ['SAFemale', 'double', 'no-op'],\r\n",
+							"                                        ['SAIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['SALBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['SAMale', 'double', 'no-op'],\r\n",
+							"                                        ['SANonIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['SANonLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['SAParentalEducationBachelor', 'double', 'no-op'],\r\n",
+							"                                        ['SAParentalEducationCertificate', 'double', 'no-op'],\r\n",
+							"                                        ['SAParentalEducationDiploma', 'double', 'no-op'],\r\n",
+							"                                        ['SAParentalEducationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['SAParentalEducationYear11', 'double', 'no-op'],\r\n",
+							"                                        ['SAParentalEducationYear12', 'double', 'no-op'],\r\n",
+							"                                        ['SAParentalOccupationGroup1', 'double', 'no-op'],\r\n",
+							"                                        ['SAParentalOccupationGroup2', 'double', 'no-op'],\r\n",
+							"                                        ['SAParentalOccupationGroup3', 'double', 'no-op'],\r\n",
+							"                                        ['SAParentalOccupationGroup4', 'double', 'no-op'],\r\n",
+							"                                        ['SAParentalOccupationNotInPaidWork', 'double', 'no-op'],\r\n",
+							"                                        ['SAParentalOccupationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['Tas', 'double', 'no-op'],\r\n",
+							"                                        ['TasFemale', 'double', 'no-op'],\r\n",
+							"                                        ['TasIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['TasLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['TasMale', 'double', 'no-op'],\r\n",
+							"                                        ['TasNonIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['TasNonLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['TasParentalEducationBachelor', 'double', 'no-op'],\r\n",
+							"                                        ['TasParentalEducationCertificate', 'double', 'no-op'],\r\n",
+							"                                        ['TasParentalEducationDiploma', 'double', 'no-op'],\r\n",
+							"                                        ['TasParentalEducationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['TasParentalEducationYear11', 'double', 'no-op'],\r\n",
+							"                                        ['TasParentalEducationYear12', 'double', 'no-op'],\r\n",
+							"                                        ['TasParentalOccupationGroup1', 'double', 'no-op'],\r\n",
+							"                                        ['TasParentalOccupationGroup2', 'double', 'no-op'],\r\n",
+							"                                        ['TasParentalOccupationGroup3', 'double', 'no-op'],\r\n",
+							"                                        ['TasParentalOccupationGroup4', 'double', 'no-op'],\r\n",
+							"                                        ['TasParentalOccupationNotInPaidWork', 'double', 'no-op'],\r\n",
+							"                                        ['TasParentalOccupationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['Vic', 'double', 'no-op'],\r\n",
+							"                                        ['VicFemale', 'double', 'no-op'],\r\n",
+							"                                        ['VicIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['VicLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['VicMale', 'double', 'no-op'],\r\n",
+							"                                        ['VicNonIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['VicNonLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['VicParentalEducationBachelor', 'double', 'no-op'],\r\n",
+							"                                        ['VicParentalEducationCertificate', 'double', 'no-op'],\r\n",
+							"                                        ['VicParentalEducationDiploma', 'double', 'no-op'],\r\n",
+							"                                        ['VicParentalEducationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['VicParentalEducationYear11', 'double', 'no-op'],\r\n",
+							"                                        ['VicParentalEducationYear12', 'double', 'no-op'],\r\n",
+							"                                        ['VicParentalOccupationGroup1', 'double', 'no-op'],\r\n",
+							"                                        ['VicParentalOccupationGroup2', 'double', 'no-op'],\r\n",
+							"                                        ['VicParentalOccupationGroup3', 'double', 'no-op'],\r\n",
+							"                                        ['VicParentalOccupationGroup4', 'double', 'no-op'],\r\n",
+							"                                        ['VicParentalOccupationNotInPaidWork', 'double', 'no-op'],\r\n",
+							"                                        ['VicParentalOccupationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['WA', 'double', 'no-op'],\r\n",
+							"                                        ['WAFemale', 'double', 'no-op'],\r\n",
+							"                                        ['WAIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['WALBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['WAMale', 'double', 'no-op'],\r\n",
+							"                                        ['WANonIndigenous', 'double', 'no-op'],\r\n",
+							"                                        ['WANonLBOTE', 'double', 'no-op'],\r\n",
+							"                                        ['WAParentalEducationBachelor', 'double', 'no-op'],\r\n",
+							"                                        ['WAParentalEducationCertificate', 'double', 'no-op'],\r\n",
+							"                                        ['WAParentalEducationDiploma', 'double', 'no-op'],\r\n",
+							"                                        ['WAParentalEducationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['WAParentalEducationYear11', 'double', 'no-op'],\r\n",
+							"                                        ['WAParentalEducationYear12', 'double', 'no-op'],\r\n",
+							"                                        ['WAParentalOccupationGroup1', 'double', 'no-op'],\r\n",
+							"                                        ['WAParentalOccupationGroup2', 'double', 'no-op'],\r\n",
+							"                                        ['WAParentalOccupationGroup3', 'double', 'no-op'],\r\n",
+							"                                        ['WAParentalOccupationGroup4', 'double', 'no-op'],\r\n",
+							"                                        ['WAParentalOccupationNotInPaidWork', 'double', 'no-op'],\r\n",
+							"                                        ['WAParentalOccupationNotStated', 'double', 'no-op'],\r\n",
+							"                                        ['PrimarySort', 'double', 'no-op'],\r\n",
+							"                                        ['SecondarySort', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                  \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMNAPLANAnswer'] = [\r\n",
+							"                                        ['SKNAPLANAnswerId', 'integer', 'no-op'],\r\n",
+							"                                        ['BKNAPLANAnswerId', 'string', 'no-op'],\r\n",
+							"                                        ['BKNAPLANQuestionId', 'string', 'no-op'],\r\n",
+							"                                        ['Answer', 'string', 'no-op'],\r\n",
+							"                                        ['IsCorrectAnswer', 'integer', 'no-op'],\r\n",
+							"                                        ['SortOrder1', 'double', 'no-op'],\r\n",
+							"                                        ['SortOrder2', 'double', 'no-op'],\r\n",
+							"                                        ['SortOrder3', 'double', 'no-op'],\r\n",
+							"                                        ['BusinessDesc1', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                    \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMNAPLANAssessmentArea'] = [\r\n",
+							"                                        ['SKNaplanAssessmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['BKNaplanAssesmentArea', 'string', 'no-op'],\r\n",
+							"                                        ['NaplanAssesmentAreaDesc', 'string', 'no-op'],\r\n",
+							"                                        ['NaplanAssesmentAreaShortDesc', 'string', 'no-op'],\r\n",
+							"                                        ['NaplanAssesmentAreaBusinessDesc', 'string', 'no-op'],\r\n",
+							"                                        ['PrimarySort', 'double', 'no-op'],\r\n",
+							"                                        ['SecondarySort', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                   \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMNAPLANOnlineStudentItemResponse'] = [\r\n",
+							"                                        ['SKNAPLANOnlineStudentItemResponse', 'integer', 'no-op'],\r\n",
+							"                                        ['BKNAPLANOnlineStudentItemResponse', 'string', 'no-op'],\r\n",
+							"                                        ['NAPLANTestId', 'string', 'no-op'],\r\n",
+							"                                        ['NAPLANOnlineTestletResponseId', 'string', 'no-op'],\r\n",
+							"                                        ['NAPLANOnlineTestItemId', 'string', 'no-op'],\r\n",
+							"                                        ['NAPLANOnlineTestItemLocalId', 'string', 'no-op'],\r\n",
+							"                                        ['Response', 'string', 'no-op'],\r\n",
+							"                                        ['ResponseCorrectness', 'string', 'no-op'],\r\n",
+							"                                        ['ResponseCorrectnessBit', 'integer', 'no-op'],\r\n",
+							"                                        ['ResponseCorrectnessInt', 'integer', 'no-op'],\r\n",
+							"                                        ['Score', 'integer', 'no-op'],\r\n",
+							"                                        ['LapsedTimeItemDisplay', 'string', 'no-op'],\r\n",
+							"                                        ['LapsedTimeSeconds', 'double', 'no-op'],\r\n",
+							"                                        ['Script', 'string', 'no-op'],\r\n",
+							"                                        ['SequenceNumber', 'integer', 'no-op'],\r\n",
+							"                                        ['ItemWeight', 'integer', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                    \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"        self.schemas['DMNAPLANOnlineStudentResult'] = [\r\n",
+							"                                        ['SKNAPLANOnlineStudentResult', 'integer', 'no-op'],\r\n",
+							"                                        ['BKNAPLANOnlineStudentResult', 'string', 'no-op'],\r\n",
+							"                                        ['LocalId', 'string', 'no-op'],\r\n",
+							"                                        ['StateProvinceId', 'string', 'no-op'],\r\n",
+							"                                        ['AcceptableUsePolicy', 'string', 'no-op'],\r\n",
+							"                                        ['EducationSupport', 'string', 'no-op'],\r\n",
+							"                                        ['HomeSchooledStudent', 'string', 'no-op'],\r\n",
+							"                                        ['Sensitive', 'string', 'no-op'],\r\n",
+							"                                        ['OfflineDelivery', 'string', 'no-op'],\r\n",
+							"                                        ['AlertMessages', 'string', 'no-op'],\r\n",
+							"                                        ['MedicalAlertMessages', 'string', 'no-op'],\r\n",
+							"                                        ['NameType', 'string', 'no-op'],\r\n",
+							"                                        ['FamilyName', 'string', 'hash'],\r\n",
+							"                                        ['GivenName', 'string', 'hash'],\r\n",
+							"                                        ['MiddleName', 'string', 'hash'],\r\n",
+							"                                        ['PreferredGivenName', 'string', 'no-op'],\r\n",
+							"                                        ['BKAtsiId', 'integer', 'no-op'],\r\n",
+							"                                        ['ATSISifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['GenderSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['GenderSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['BirthDate', 'datetime', 'hash'],\r\n",
+							"                                        ['TestYear', 'integer', 'no-op'],\r\n",
+							"                                        ['PlatformStudentIdentifier', 'string', 'no-op'],\r\n",
+							"                                        ['PersistentIdentifier', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreReading', 'double', 'no-op'],\r\n",
+							"                                        ['BandReading', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreWriting', 'double', 'no-op'],\r\n",
+							"                                        ['BandWriting', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreSpelling', 'double', 'no-op'],\r\n",
+							"                                        ['BandSpelling', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreGrammarPunctuation', 'double', 'no-op'],\r\n",
+							"                                        ['BandGrammarPunctuation', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreNumeracy', 'double', 'no-op'],\r\n",
+							"                                        ['BandNumeracy', 'integer', 'no-op'],\r\n",
+							"                                        ['CountryOfBirthCode', 'string', 'no-op'],\r\n",
+							"                                        ['CountryOfBirthSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['CitizenShipStatusSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['CitizenShipStatusSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['EnglishProficiencyCode', 'string', 'no-op'],\r\n",
+							"                                        ['VisaSubClassSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['VisaSubClassSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['LBOTE', 'integer', 'no-op'],\r\n",
+							"                                        ['VisaStatisticalCode', 'string', 'no-op'],\r\n",
+							"                                        ['DwellingArrangementCode', 'string', 'no-op'],\r\n",
+							"                                        ['PermanentResident', 'string', 'no-op'],\r\n",
+							"                                        ['SchoolLocalId', 'string', 'no-op'],\r\n",
+							"                                        ['HomeroomLocalId', 'string', 'no-op'],\r\n",
+							"                                        ['BKYearLevelId', 'integer', 'no-op'],\r\n",
+							"                                        ['YearLevelSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['YearLevelSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['FTE', 'string', 'no-op'],\r\n",
+							"                                        ['Parent1LanguageSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['Parent1LanguageSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Parent2LanguageSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['Parent2LanguageSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Parent1EmploymentTypeSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['Parent1EmploymentTypeSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Parent2EmploymentTypeSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['Parent2EmploymentTypeSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Parent1EducationSchoolLevelSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['Parent1EducationSchoolLevelSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Parent2EducationSchoolLevelSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['Parent2EducationSchoolLevelSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Parent1EducationNonSchoolLevelSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['Parent1EducationNonSchoolLevelSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Parent2EducationNonSchoolLevelSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['Parent2EducationNonSchoolLevelSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['LocalCampusId', 'string', 'no-op'],\r\n",
+							"                                        ['SchoolACARAId', 'string', 'no-op'],\r\n",
+							"                                        ['Homegroup', 'string', 'no-op'],\r\n",
+							"                                        ['ClassCode', 'string', 'no-op'],\r\n",
+							"                                        ['MembershipType', 'string', 'no-op'],\r\n",
+							"                                        ['FFPOS', 'string', 'no-op'],\r\n",
+							"                                        ['ReportingSchoolId', 'string', 'no-op'],\r\n",
+							"                                        ['OtherEnrollmentSchoolACARAId', 'string', 'no-op'],\r\n",
+							"                                        ['AddressType', 'string', 'no-op'],\r\n",
+							"                                        ['AddressRole', 'string', 'no-op'],\r\n",
+							"                                        ['AddressStreetLine1', 'string', 'hash'],\r\n",
+							"                                        ['AddressStreetLine2', 'string', 'hash'],\r\n",
+							"                                        ['AddressCity', 'string', 'hash'],\r\n",
+							"                                        ['AddressStateProvince', 'string', 'hash'],\r\n",
+							"                                        ['AddressPostalCode', 'string', 'hash'],\r\n",
+							"                                        ['AddressCountry', 'string', 'hash'],\r\n",
+							"                                        ['CountryOfCitizenshipSifCode', 'string', 'hash'],\r\n",
+							"                                        ['CountryOfCitizenshipSifDesc', 'string', 'hash'],\r\n",
+							"                                        ['CountryOfResidencySifCode', 'string', 'hash'],\r\n",
+							"                                        ['CountryOfResidencySifDesc', 'string', 'hash'],\r\n",
+							"                                        ['LanguageSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['LanguageSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['EmailAddressType', 'string', 'hash'],\r\n",
+							"                                        ['EmailAddressValue', 'string', 'hash'],\r\n",
+							"                                        ['PhoneNumberType', 'string', 'hash'],\r\n",
+							"                                        ['PhoneNumber', 'string', 'hash'],\r\n",
+							"                                        ['PhoneNumberListedStatus', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
+							"                                        ['IsOnline', 'integer', 'no-op'],\r\n",
+							"                                        ['PreviousScoreReading', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandReading', 'integer', 'no-op'],\r\n",
+							"                                        ['PreviousScoreWriting', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandWriting', 'integer', 'no-op'],\r\n",
+							"                                        ['PreviousScoreSpelling', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandSpelling', 'integer', 'no-op'],\r\n",
+							"                                        ['PreviousScoreGrammarPunctuation', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandGrammarPunctuation', 'integer', 'no-op'],\r\n",
+							"                                        ['PreviousScoreNumeracy', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandNumeracy', 'integer', 'no-op'],\r\n",
+							"                                        ['LBOTEDescription', 'string', 'no-op'],\r\n",
+							"                                        ['IsOnlineDesc', 'string', 'no-op'],\r\n",
+							"                                        ['ConcatenatedName', 'string', 'no-op']                                               \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMNAPLANOnlineStudentTestResultId'] = [\r\n",
+							"                                        ['SKNAPLANOnlineStudentTestResultId', 'integer', 'no-op'],\r\n",
+							"                                        ['BKNAPLANOnlineStudentTestResultId', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                               \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMNAPLANStudent'] = [\r\n",
+							"                                        ['SkNaplanStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['uidNaplanResult', 'string', 'no-op'],\r\n",
+							"                                        ['StudentFirstName', 'string', 'hash'],\r\n",
+							"                                        ['StudentSurname', 'string', 'hash'],\r\n",
+							"                                        ['YearLevelId', 'integer', 'no-op'],\r\n",
+							"                                        ['SourceSystemStudentId', 'string', 'no-op'],\r\n",
+							"                                        ['PersistentStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['LocalSchoolCode', 'string', 'no-op'],\r\n",
+							"                                        ['LocalStudentId', 'string', 'no-op'],\r\n",
+							"                                        ['GenderId', 'integer', 'hash'],\r\n",
+							"                                        ['DOB', 'date', 'hash'],\r\n",
+							"                                        ['Indigenous', 'integer', 'hash'],\r\n",
+							"                                        ['LBOTE', 'integer', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
+							"                                        ['GenderGroupDesc', 'string', 'no-op'],\r\n",
+							"                                        ['IndigenousGroupDesc', 'string', 'no-op'],\r\n",
+							"                                        ['LBOTEGroupDesc', 'string', 'no-op'],\r\n",
+							"                                        ['SourceSystemStudentDisplayId', 'string', 'no-op']                                               \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMNAPLANStudentResponseId'] = [\r\n",
+							"                                        ['SKNAPLANStudentResponseId', 'integer', 'no-op'],\r\n",
+							"                                        ['BKNAPLANStudentResponseId', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMNAPLANTest'] = [\r\n",
+							"                                        ['SKNAPLANTest', 'integer', 'no-op'],\r\n",
+							"                                        ['BKNAPLANTest', 'string', 'no-op'],\r\n",
+							"                                        ['TestYear', 'integer', 'no-op'],\r\n",
+							"                                        ['NAPTestLocalId', 'string', 'no-op'],\r\n",
+							"                                        ['TestName', 'string', 'no-op'],\r\n",
+							"                                        ['TestLevelCode', 'integer', 'no-op'],\r\n",
+							"                                        ['TestType', 'string', 'no-op'],\r\n",
+							"                                        ['StagesCount', 'string', 'no-op'],\r\n",
+							"                                        ['Domain', 'string', 'no-op'],\r\n",
+							"                                        ['IsOnline', 'integer', 'no-op'],\r\n",
+							"                                        ['IsOnlineDesc', 'string', 'no-op'],\r\n",
+							"                                        ['BusinessDesc1', 'string', 'no-op'],\r\n",
+							"                                        ['BusinessDesc2', 'string', 'no-op'],\r\n",
+							"                                        ['SortOrder1', 'double', 'no-op'],\r\n",
+							"                                        ['SortOrder2', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['SCDReason', 'string', 'no-op'],\r\n",
+							"                                        ['TestRefId', 'string', 'no-op']                                                 \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"        self.schemas['DMNAPLANTextResponse'] = [\r\n",
+							"                                        ['SKNAPLANTextResponse', 'integer', 'no-op'],\r\n",
+							"                                        ['BKNAPLANTextResponse', 'string', 'no-op'],\r\n",
+							"                                        ['BKNAPLANQuestionId', 'string', 'no-op'],\r\n",
+							"                                        ['TextResponse', 'string', 'no-op'],\r\n",
+							"                                        ['IsCorrectAnswer', 'integer', 'no-op'],\r\n",
+							"                                        ['SortOrder1', 'double', 'no-op'],\r\n",
+							"                                        ['SortOrder2', 'double', 'no-op'],\r\n",
+							"                                        ['SortOrder3', 'double', 'no-op'],\r\n",
+							"                                        ['BusinessDesc1', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
+							"                                        ['ResponseCode', 'string', 'no-op'],\r\n",
+							"                                        ['ResponseDescription', 'string', 'no-op']                                              \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['AssessmentArea'] = [\r\n",
+							"                                        ['SKNaplanAssessmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['BKNaplanAssesmentArea', 'string', 'no-op'],\r\n",
+							"                                        ['NaplanAssesmentAreaDesc', 'string', 'no-op'],\r\n",
+							"                                        ['NaplanAssesmentAreaShortDesc', 'string', 'no-op'],\r\n",
+							"                                        ['NaplanAssesmentAreaBusinessDesc', 'string', 'no-op'],\r\n",
+							"                                        ['PrimarySort', 'double', 'no-op'],\r\n",
+							"                                        ['SecondarySort', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                               \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['ExamBands'] = [\r\n",
+							"                                        ['SKExamBandId', 'integer', 'no-op'],\r\n",
+							"                                        ['BKExamBandId', 'integer', 'no-op'],\r\n",
+							"                                        ['YearLevelId', 'integer', 'no-op'],\r\n",
+							"                                        ['Band', 'string', 'no-op'],\r\n",
+							"                                        ['BandDescription', 'string', 'no-op'],\r\n",
+							"                                        ['BandGroup', 'string', 'no-op'],\r\n",
+							"                                        ['ExamGroup', 'string', 'no-op'],\r\n",
+							"                                        ['PrimarySort', 'double', 'no-op'],\r\n",
+							"                                        ['SecondarySort', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
+							"                                        ['BusinessGroup1', 'string', 'no-op'],\r\n",
+							"                                        ['BusinessGroup2', 'string', 'no-op'],\r\n",
+							"                                        ['YearLevelSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['YearLevelSifDesc', 'string', 'no-op']                                               \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['NAPLAN'] = [\r\n",
+							"                                        ['SKNaplanResultId', 'integer', 'no-op'],\r\n",
+							"                                        ['uidNaplanResult', 'string', 'no-op'],\r\n",
+							"                                        ['CalendarYear', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusName', 'string', 'no-op'],\r\n",
+							"                                        ['LocalSchoolCode', 'string', 'no-op'],\r\n",
+							"                                        ['StudentFirstName', 'string', 'no-op'],\r\n",
+							"                                        ['StudentSurname', 'string', 'no-op'],\r\n",
+							"                                        ['YearLevelId', 'integer', 'no-op'],\r\n",
+							"                                        ['SourceSystemStudentId', 'string', 'no-op'],\r\n",
+							"                                        ['PersistentStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['LocalStudentId', 'string', 'no-op'],\r\n",
+							"                                        ['GenderId', 'integer', 'no-op'],\r\n",
+							"                                        ['DOB', 'date', 'no-op'],\r\n",
+							"                                        ['Indigenous', 'integer', 'no-op'],\r\n",
+							"                                        ['LBOTE', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreReading', 'double', 'no-op'],\r\n",
+							"                                        ['BandReading', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreWriting', 'double', 'no-op'],\r\n",
+							"                                        ['BandWriting', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreSpelling', 'double', 'no-op'],\r\n",
+							"                                        ['BandSpelling', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreGrammarPunctuation', 'double', 'no-op'],\r\n",
+							"                                        ['BandGrammarPunctuation', 'integer', 'no-op'],\r\n",
+							"                                        ['ScoreNumeracy', 'double', 'no-op'],\r\n",
+							"                                        ['BandNumeracy', 'integer', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
+							"                                        ['PreviousScoreReading', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandReading', 'integer', 'no-op'],\r\n",
+							"                                        ['PreviousScoreWriting', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandWriting', 'integer', 'no-op'],\r\n",
+							"                                        ['PreviousScoreSpelling', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandSpelling', 'integer', 'no-op'],\r\n",
+							"                                        ['PreviousScoreGrammarPunctuation', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandGrammarPunctuation', 'integer', 'no-op'],\r\n",
+							"                                        ['PreviousScoreNumeracy', 'double', 'no-op'],\r\n",
+							"                                        ['PreviousBandNumeracy', 'integer', 'no-op'],\r\n",
+							"                                        ['SourceSystemStudentDisplayId', 'string', 'no-op'],\r\n",
+							"                                        ['IsOnline', 'integer', 'no-op']                                               \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['NAPLANStudentView'] = [\r\n",
+							"                                        ['SkNaplanStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['uidNaplanResult', 'string', 'no-op'],\r\n",
+							"                                        ['StudentFirstName', 'string', 'no-op'],\r\n",
+							"                                        ['StudentSurname', 'string', 'no-op'],\r\n",
+							"                                        ['YearLevelId', 'integer', 'no-op'],\r\n",
+							"                                        ['SourceSystemStudentId', 'string', 'no-op'],\r\n",
+							"                                        ['PersistentStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['LocalSchoolCode', 'string', 'no-op'],\r\n",
+							"                                        ['LocalStudentId', 'string', 'no-op'],\r\n",
+							"                                        ['GenderId', 'integer', 'no-op'],\r\n",
+							"                                        ['DOB', 'date', 'no-op'],\r\n",
+							"                                        ['Indigenous', 'integer', 'no-op'],\r\n",
+							"                                        ['LBOTE', 'integer', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
+							"                                        ['GenderGroupDesc', 'string', 'no-op'],\r\n",
+							"                                        ['IndigenousGroupDesc', 'string', 'no-op'],\r\n",
+							"                                        ['LBOTEGroupDesc', 'string', 'no-op'],\r\n",
+							"                                        ['SourceSystemStudentDisplayId', 'string', 'no-op']                                               \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['Student'] = [\r\n",
+							"                                        ['BKSourceStudentId', 'string', 'no-op'],\r\n",
+							"                                        ['BKPersistentStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKStudent', 'integer', 'no-op'],\r\n",
+							"                                        ['OfficialFirstName', 'string', 'hash'],\r\n",
+							"                                        ['OfficialSurname', 'string', 'hash'],\r\n",
+							"                                        ['PreferredFirstName', 'string', 'hash'],\r\n",
+							"                                        ['PreferredSurname', 'string', 'hash'],\r\n",
+							"                                        ['SingleNameOnly', 'integer', 'hash'],\r\n",
+							"                                        ['GenderId', 'integer', 'hash'],\r\n",
+							"                                        ['DOB', 'date', 'hash'],\r\n",
+							"                                        ['AttendanceStatusId', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentAddressStreet', 'string', 'hash'],\r\n",
+							"                                        ['StudentAddressSuburb', 'string', 'hash'],\r\n",
+							"                                        ['StudentAddressState', 'string', 'hash'],\r\n",
+							"                                        ['StudentAddressPostCode', 'string', 'hash'],\r\n",
+							"                                        ['StudentAddressLatitude', 'double', 'hash'],\r\n",
+							"                                        ['StudentAddressLongitude', 'double', 'hash'],\r\n",
+							"                                        ['HomePhone', 'string', 'hash'],\r\n",
+							"                                        ['HomeEmail', 'string', 'hash'],\r\n",
+							"                                        ['StudentMobile', 'string', 'hash'],\r\n",
+							"                                        ['StudentEmail', 'string', 'hash'],\r\n",
+							"                                        ['BirthCountryId', 'integer', 'hash'],\r\n",
+							"                                        ['CitizenshipResidencyStatusId', 'integer', 'hash'],\r\n",
+							"                                        ['PrimaryCitizenshipCountryId', 'integer', 'hash'],\r\n",
+							"                                        ['PrimaryPassportIssueCountryId', 'integer', 'hash'],\r\n",
+							"                                        ['Boarder', 'integer', 'hash'],\r\n",
+							"                                        ['VisaSubClassId', 'integer', 'hash'],\r\n",
+							"                                        ['VisaSubClassDesc', 'string', 'hash'],\r\n",
+							"                                        ['VisaExpiryData', 'date', 'hash'],\r\n",
+							"                                        ['VisaEndDate', 'date', 'hash'],\r\n",
+							"                                        ['AtsiId', 'integer', 'no-op'],\r\n",
+							"                                        ['ATSIDesc', 'string', 'no-op'],\r\n",
+							"                                        ['ESLYesNo', 'integer', 'no-op'],\r\n",
+							"                                        ['EslLanguageId', 'integer', 'no-op'],\r\n",
+							"                                        ['LBOTEYesNo', 'integer', 'no-op'],\r\n",
+							"                                        ['LBOTELanguageId', 'integer', 'no-op'],\r\n",
+							"                                        ['FFPOS', 'integer', 'no-op'],\r\n",
+							"                                        ['SWDYesNo', 'integer', 'no-op'],\r\n",
+							"                                        ['SwdSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['Guardian1FirstName', 'string', 'hash'],\r\n",
+							"                                        ['Guardian1Surname', 'string', 'hash'],\r\n",
+							"                                        ['Guardian1LanguageId', 'integer', 'hash'],\r\n",
+							"                                        ['Guardian1Email', 'string', 'hash'],\r\n",
+							"                                        ['Guardian1Phone', 'string', 'hash'],\r\n",
+							"                                        ['Guardian1Mobile', 'string', 'hash'],\r\n",
+							"                                        ['Guardian1OccupationalGroupId', 'integer', 'hash'],\r\n",
+							"                                        ['Guardian1EducationSchoolLevelId', 'integer', 'hash'],\r\n",
+							"                                        ['Guardian1EducationNonSchoolLevelId', 'integer', 'hash'],\r\n",
+							"                                        ['Guardian2FirstName', 'string', 'hash'],\r\n",
+							"                                        ['Guardian2Surname', 'string', 'hash'],\r\n",
+							"                                        ['Guardian2LanguageId', 'integer', 'hash'],\r\n",
+							"                                        ['Guardian2Email', 'string', 'hash'],\r\n",
+							"                                        ['Guardian2Phone', 'string', 'hash'],\r\n",
+							"                                        ['Guardian2Mobile', 'string', 'hash'],\r\n",
+							"                                        ['Guardian2OccupationalGroupId', 'integer', 'hash'],\r\n",
+							"                                        ['Guardian2EducationSchoolLevelId', 'integer', 'hash'],\r\n",
+							"                                        ['Guardian2EducationNonSchoolLevelId', 'integer', 'hash'],\r\n",
+							"                                        ['ReligionId', 'integer', 'hash'],\r\n",
+							"                                        ['BaptismDate', 'date', 'hash'],\r\n",
+							"                                        ['BaptismParish', 'string', 'hash'],\r\n",
+							"                                        ['ConfirmationDate', 'date', 'hash'],\r\n",
+							"                                        ['FirstEucharistDate', 'date', 'hash'],\r\n",
+							"                                        ['FirstReconciliationDate', 'date', 'hash'],\r\n",
+							"                                        ['RollGroup', 'string', 'no-op']                                              \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['StudentYearResult'] = [\r\n",
+							"                                        ['UId', 'integer', 'no-op'],\r\n",
+							"                                        ['SkStudent', 'integer', 'no-op'],\r\n",
+							"                                        ['SkPersistentStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SkCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SkYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SkNaplanStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SkYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['SkExamBandId', 'integer', 'no-op'],\r\n",
+							"                                        ['SkNaplanAssessmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SkNAPLANACARAAggregateId', 'integer', 'no-op'],\r\n",
+							"                                        ['Score', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreCampus', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreSchool', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreDiocese', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreState', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreNational', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreCenetState', 'double', 'no-op'],\r\n",
+							"                                        ['AverageScoreCenetNational', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNaplanResultId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKNaplanSourceId', 'integer', 'no-op'],\r\n",
+							"                                        ['StandardDeviationState', 'double', 'no-op'],\r\n",
+							"                                        ['StandardDeviationNational', 'double', 'no-op'],\r\n",
+							"                                        ['ActualStudentGrowth', 'double', 'no-op'],\r\n",
+							"                                        ['ExpectedStudentGrowth', 'double', 'no-op'],\r\n",
+							"                                        ['ActualStateGrowth', 'double', 'no-op'],\r\n",
+							"                                        ['ActualNationalGrowth', 'double', 'no-op']                                               \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"    def ingest(self):\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'NaplanData', self.schemas['NaplanData'], None, 'SkPersistentStudentId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'NaplanNational', self.schemas['NaplanNational'], None, 'CalendarYear')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'NaplanNationalAverage', self.schemas['NaplanNationalAverage'], None, 'Year')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactMySchoolsNAPLANResults', self.schemas['DMFactMySchoolsNAPLANResults'], 'LastUpdateDate', 'SKMySchoolsNAPLANResults')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactMySchoolsNAPLANResultsSimilarSchools', self.schemas['DMFactMySchoolsNAPLANResultsSimilarSchools'], 'LastUpdateDate', 'SKMySchoolsNAPLANResultsSimilarSchools')\r\n",
+							"\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANACARABands', self.schemas['DMFactNAPLANACARABands'], 'LastUpdateDate', 'SKNaplanAcaraBands')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANOnlineStudentItemResponse', self.schemas['DMFactNAPLANOnlineStudentItemResponse'], 'LastUpdateDate', 'SKFactNAPLANOnlineStudentItemResponse')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANOnlineStudentTestResult', self.schemas['DMFactNAPLANOnlineStudentTestResult'], 'LastUpdateDate', 'SKFactNAPLANOnlineStudentTestResult')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANStudentResponse', self.schemas['DMFactNAPLANStudentResponse'], 'LastUpdateDate', 'SKFactNAPLANStudentResponse')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactNaplanStudentYearResult', self.schemas['DMFactNaplanStudentYearResult'], 'LastUpdateDate', 'UId')\r\n",
+							"\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLAN', self.schemas['DMNAPLAN'], 'LastUpdateDate', 'SKNaplanResultId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANACARAAggregate', self.schemas['DMNAPLANACARAAggregate'], 'LastUpdateDate', 'SkNAPLANACARAAggregateId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANAnswer', self.schemas['DMNAPLANAnswer'], 'LastUpdateDate', 'SKNAPLANAnswerId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANAssessmentArea', self.schemas['DMNAPLANAssessmentArea'], 'LastUpdateDate', 'SKNaplanAssessmentId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANOnlineStudentItemResponse', self.schemas['DMNAPLANOnlineStudentItemResponse'], 'LastUpdateDate', 'SKNAPLANOnlineStudentItemResponse')\r\n",
+							"\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANOnlineStudentResult', self.schemas['DMNAPLANOnlineStudentResult'], 'LastUpdateDate', 'SKNAPLANOnlineStudentResult')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANOnlineStudentTestResultId', self.schemas['DMNAPLANOnlineStudentTestResultId'], 'LastUpdateDate', 'SKNAPLANOnlineStudentTestResultId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANStudent', self.schemas['DMNAPLANStudent'], 'LastUpdateDate', 'SkNaplanStudentId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANStudentResponseId', self.schemas['DMNAPLANStudentResponseId'], 'LastUpdateDate', 'SKNAPLANStudentResponseId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANTest', self.schemas['DMNAPLANTest'], 'LastUpdateDate', 'SKNAPLANTest')\r\n",
+							"\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANTextResponse', self.schemas['DMNAPLANTextResponse'], 'LastUpdateDate', 'SKNAPLANTextResponse')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'AssessmentArea', self.schemas['AssessmentArea'], 'LastUpdateDate', 'SKNaplanAssessmentId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'ExamBands', self.schemas['ExamBands'], 'LastUpdateDate', 'SKExamBandId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'NAPLAN', self.schemas['NAPLAN'], 'LastUpdateDate', 'SKNaplanResultId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'NAPLANStudentView', self.schemas['NAPLANStudentView'], 'LastUpdateDate', 'SkNaplanStudentId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'Student', self.schemas['Student'], None, 'BKSourceStudentId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'StudentYearResult', self.schemas['StudentYearResult'], 'LastUpdateDate', 'UId')\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"naplan_object = NAPLAN_object()"
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/NCCD_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "12b60c0d-d518-4f34-977e-8759472eb6fa"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": true,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "python"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"source": [
+							"class NCCD_object(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder='NCCD', pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"\r\n",
+							"        self.schemas['DMCensusStudentWithDisabilityId'] = [\r\n",
+							"                                        ['SKCensusStudentWithDisabilityId', 'integer', 'no-op'],\r\n",
+							"                                        ['BKCensusStudentWithDisabilityId', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                                   \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMDisabilityCategoryAdjustment'] = [\r\n",
+							"                                        ['SKDisabilityCategoryAdjustment', 'integer', 'no-op'],\r\n",
+							"                                        ['BKDisabilityCategoryAdjustment', 'string', 'no-op'],\r\n",
+							"                                        ['DisabilityCategory', 'string', 'no-op'],\r\n",
+							"                                        ['LevelOfAdjustment', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                                \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFactCensusStudentWithDisability'] = [\r\n",
+							"                                        ['SKFactCensusStudentWithDisability', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCensusStudentWithDisabilityId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['SKDisabilityCategoryAdjustment', 'integer', 'no-op'],\r\n",
+							"                                        ['NumberOfStudents', 'integer', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'integer', 'no-op']                                                             \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"                                 \r\n",
+							"\r\n",
+							"    def ingest(self):\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMCensusStudentWithDisabilityId', self.schemas['DMCensusStudentWithDisabilityId'], 'LastUpdateDate', 'SKCensusStudentWithDisabilityId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMDisabilityCategoryAdjustment', self.schemas['DMDisabilityCategoryAdjustment'], 'LastUpdateDate', 'SKDisabilityCategoryAdjustment')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactCensusStudentWithDisability', self.schemas['DMFactCensusStudentWithDisability'], 'LastUpdateDate', 'SKFactCensusStudentWithDisability')\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"nccd_object = NCCD_object()"
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},

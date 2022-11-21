@@ -7378,7 +7378,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "57151409-3416-427c-9204-54a743aed19e"
+						"spark.autotune.trackingId": "bbdd08e4-443f-4313-a660-bed9e115ee8d"
 					}
 				},
 				"metadata": {
@@ -7440,7 +7440,7 @@
 							"        self.schemas['NaplanNationalAverage'] = [\r\n",
 							"                                        ['Year', 'integer', 'no-op'],\r\n",
 							"                                        ['Year Level', 'string', 'no-op'],\r\n",
-							"                                        ['Score', 'float', 'no-op'],\r\n",
+							"                                        ['Score', 'double', 'no-op'],   #changed float to double\r\n",
 							"                                        ['Test', 'string', 'no-op']                                                             \r\n",
 							"                                        ]\r\n",
 							"\r\n",
@@ -8948,7 +8948,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c4f4c51c-89fe-4184-89e8-4b24b686f00e"
+						"spark.autotune.trackingId": "4bad0343-7547-495f-b9f3-a6e6e344a0b8"
 					}
 				},
 				"metadata": {
@@ -8973,7 +8973,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -9715,7 +9716,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "edc7823b-5584-475f-9064-f83a3f23d5df"
+						"spark.autotune.trackingId": "41e62d46-f511-49a0-9db3-af1e8b43f1d4"
 					}
 				},
 				"metadata": {

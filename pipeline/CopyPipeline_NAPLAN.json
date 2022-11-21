@@ -1,0 +1,332 @@
+{
+	"name": "CopyPipeline_NAPLAN",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_aa6",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_aa6",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "@{item().source.schema}.@{item().source.table}"
+								},
+								{
+									"name": "Destination",
+									"value": "stage1np/NAPLAN/@{item().destination.fileName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"validateDataConsistency": false
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_NAPLAN",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_schema": "@item().source.schema",
+										"cw_table": "@item().source.table"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_NAPLAN",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_fileName": "@item().destination.fileName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "NaplanData"
+						},
+						"destination": {
+							"fileName": "dboNaplanData.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "NaplanNational"
+						},
+						"destination": {
+							"fileName": "dboNaplanNational.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "NaplanNationalAverage"
+						},
+						"destination": {
+							"fileName": "dboNaplanNationalAverage.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactMySchoolsNAPLANResults"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsNAPLANResults.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactMySchoolsNAPLANResultsSimilarSchools"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsNAPLANResultsSimilarSchools.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactNAPLANACARABands"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactNAPLANACARABands.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactNAPLANOnlineStudentItemResponse"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactNAPLANOnlineStudentItemResponse.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactNAPLANOnlineStudentTestResult"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactNAPLANOnlineStudentTestResult.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactNAPLANStudentResponse"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactNAPLANStudentResponse.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMFactNaplanStudentYearResult"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactNaplanStudentYearResult.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLAN"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLAN.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANACARAAggregate"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANACARAAggregate.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANAnswer"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANAnswer.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANAssessmentArea"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANAssessmentArea.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANOnlineStudentItemResponse"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANOnlineStudentItemResponse.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANOnlineStudentResult"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANOnlineStudentResult.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANOnlineStudentTestResultId"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANOnlineStudentTestResultId.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANStudent"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANStudent.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANStudentResponseId"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANStudentResponseId.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANTest"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANTest.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANTextResponse"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANTextResponse.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "NAPLAN",
+							"table": "AssessmentArea"
+						},
+						"destination": {
+							"fileName": "NAPLANAssessmentArea.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "NAPLAN",
+							"table": "ExamBands"
+						},
+						"destination": {
+							"fileName": "NAPLANExamBands.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "NAPLAN",
+							"table": "NAPLAN"
+						},
+						"destination": {
+							"fileName": "NAPLANNAPLAN.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "NAPLAN",
+							"table": "NAPLANStudentView"
+						},
+						"destination": {
+							"fileName": "NAPLANNAPLANStudentView.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "NAPLAN",
+							"table": "Student"
+						},
+						"destination": {
+							"fileName": "NAPLANStudent.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "NAPLAN",
+							"table": "StudentYearResult"
+						},
+						"destination": {
+							"fileName": "NAPLANStudentYearResult.csv"
+						}
+					}
+				]
+			}
+		},
+		"annotations": []
+	}
+}

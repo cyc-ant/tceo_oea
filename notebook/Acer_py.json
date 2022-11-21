@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "2b9ebfc0-07a2-4ef7-baeb-82bf0beb220b"
+				"spark.autotune.trackingId": "b7ebd525-f8aa-4c41-a7e0-52c6ff3638c5"
 			}
 		},
 		"metadata": {
@@ -211,7 +211,7 @@
 					"\r\n",
 					"\r\n",
 					"\r\n",
-					"acer_object = ACER_object()"
+					"acer_object = Acer_object()"
 				],
 				"execution_count": null
 			}

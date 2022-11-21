@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5fca3ec7-aed0-4058-8bf5-033a1afc00f3"
+				"spark.autotune.trackingId": "ab1cfb8b-6c7d-47f4-80e2-2345faeba4f9"
 			}
 		},
 		"metadata": {
@@ -648,7 +648,7 @@
 					"                                        ['ATSISifDesc', 'string', 'no-op'],\r\n",
 					"                                        ['GenderSifCode', 'string', 'no-op'],\r\n",
 					"                                        ['GenderSifDesc', 'string', 'no-op'],\r\n",
-					"                                        ['BirthDate', 'datetime', 'hash'],\r\n",
+					"                                        ['BirthDate', 'string', 'hash'],   #replaced datetime with string\r\n",
 					"                                        ['TestYear', 'integer', 'no-op'],\r\n",
 					"                                        ['PlatformStudentIdentifier', 'string', 'no-op'],\r\n",
 					"                                        ['PersistentIdentifier', 'integer', 'no-op'],\r\n",

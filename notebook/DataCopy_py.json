@@ -1,6 +1,9 @@
 {
 	"name": "DataCopy_py",
 	"properties": {
+		"folder": {
+			"name": "Stage1"
+		},
 		"nbformat": 4,
 		"nbformat_minor": 2,
 		"bigDataPool": {
@@ -17,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e81d2bdc-b20a-4c62-ae42-2c7b921a4130"
+				"spark.autotune.trackingId": "6d238d30-e068-49b6-a4cf-83805015b547"
 			}
 		},
 		"metadata": {

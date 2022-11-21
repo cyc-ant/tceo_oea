@@ -5971,7 +5971,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "793b1c8b-0d54-4998-a5c9-9ca43cd3c69c"
+						"spark.autotune.trackingId": "06d4b991-fb02-4524-b1de-996824dfc9bf"
 					}
 				},
 				"metadata": {
@@ -6166,7 +6166,7 @@
 							"\r\n",
 							"\r\n",
 							"\r\n",
-							"acer_object = ACER_object()"
+							"acer_object = Acer_object()"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -9711,7 +9711,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "33f3799b-99d0-4b4f-9ccd-18f0542a6358"
+						"spark.autotune.trackingId": "5bcbfeb1-a96d-4a1c-9dc9-8cc00243323c"
 					}
 				},
 				"metadata": {

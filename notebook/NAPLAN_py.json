@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "116c1db1-baeb-494d-921a-2e1e05f71182"
+				"spark.autotune.trackingId": "1a6f01f1-eaa0-4696-992e-dcb65d28056a"
 			}
 		},
 		"metadata": {
@@ -347,15 +347,15 @@
 					"                                        ['CampusId', 'integer', 'no-op'],\r\n",
 					"                                        ['CampusName', 'string', 'no-op'],\r\n",
 					"                                        ['LocalSchoolCode', 'string', 'no-op'],\r\n",
-					"                                        ['StudentFirstName', 'string', 'no-op'],\r\n",
-					"                                        ['StudentSurname', 'string', 'no-op'],\r\n",
+					"                                        ['StudentFirstName', 'string', 'hash'],\r\n",
+					"                                        ['StudentSurname', 'string', 'hash'],\r\n",
 					"                                        ['YearLevelId', 'integer', 'no-op'],\r\n",
 					"                                        ['SourceSystemStudentId', 'string', 'no-op'],\r\n",
 					"                                        ['PersistentStudentId', 'integer', 'no-op'],\r\n",
 					"                                        ['LocalStudentId', 'string', 'no-op'],\r\n",
-					"                                        ['GenderId', 'integer', 'no-op'],\r\n",
-					"                                        ['DOB', 'date', 'no-op'],\r\n",
-					"                                        ['Indigenous', 'integer', 'no-op'],\r\n",
+					"                                        ['GenderId', 'integer', 'hash'],\r\n",
+					"                                        ['DOB', 'date', 'hash'],\r\n",
+					"                                        ['Indigenous', 'integer', 'hash'],\r\n",
 					"                                        ['LBOTE', 'integer', 'no-op'],\r\n",
 					"                                        ['ScoreReading', 'double', 'no-op'],\r\n",
 					"                                        ['BandReading', 'integer', 'no-op'],\r\n",

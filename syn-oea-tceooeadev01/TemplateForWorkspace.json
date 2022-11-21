@@ -5971,7 +5971,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2b9ebfc0-07a2-4ef7-baeb-82bf0beb220b"
+						"spark.autotune.trackingId": "793b1c8b-0d54-4998-a5c9-9ca43cd3c69c"
 					}
 				},
 				"metadata": {
@@ -5996,13 +5996,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"# class Acer(BaseOEAModule):\r\n",
 							"#     def __init__(self, source_folder='acer_test', pseudonymize = True):\r\n",
@@ -9709,7 +9711,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f3914f72-5f5d-47e4-9d31-f564047ccd6a"
+						"spark.autotune.trackingId": "33f3799b-99d0-4b4f-9ccd-18f0542a6358"
 					}
 				},
 				"metadata": {
@@ -9734,13 +9736,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Student_profile(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='student', pseudonymize = True):\r\n",
@@ -11004,6 +11008,79 @@
 				]
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_acer')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest to Stage2",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_Acer",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "acer_object",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "ACER",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"sinkFilesystem": {
+						"type": "string",
+						"defaultValue": "stage2np"
+					}
+				},
+				"folder": {
+					"name": "OEA_Framework"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Acer')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
 		}
 	]
 }

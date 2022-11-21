@@ -1,0 +1,112 @@
+{
+	"name": "NCCD_py",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spark3p1sm",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "12b60c0d-d518-4f34-977e-8759472eb6fa"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": true,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"class NCCD_object(BaseOEAModule):\r\n",
+					"    def __init__(self, source_folder='NCCD', pseudonymize = True):\r\n",
+					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+					"\r\n",
+					"        self.schemas['DMCensusStudentWithDisabilityId'] = [\r\n",
+					"                                        ['SKCensusStudentWithDisabilityId', 'integer', 'no-op'],\r\n",
+					"                                        ['BKCensusStudentWithDisabilityId', 'string', 'no-op'],\r\n",
+					"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+					"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+					"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+					"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+					"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+					"                                        ['ScdReason', 'string', 'no-op']                                                                   \r\n",
+					"                                        ]\r\n",
+					"\r\n",
+					"        self.schemas['DMDisabilityCategoryAdjustment'] = [\r\n",
+					"                                        ['SKDisabilityCategoryAdjustment', 'integer', 'no-op'],\r\n",
+					"                                        ['BKDisabilityCategoryAdjustment', 'string', 'no-op'],\r\n",
+					"                                        ['DisabilityCategory', 'string', 'no-op'],\r\n",
+					"                                        ['LevelOfAdjustment', 'string', 'no-op'],\r\n",
+					"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+					"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+					"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+					"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+					"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+					"                                        ['ScdReason', 'string', 'no-op']                                                                \r\n",
+					"                                        ]\r\n",
+					"\r\n",
+					"        self.schemas['DMFactCensusStudentWithDisability'] = [\r\n",
+					"                                        ['SKFactCensusStudentWithDisability', 'integer', 'no-op'],\r\n",
+					"                                        ['SKCensusStudentWithDisabilityId', 'integer', 'no-op'],\r\n",
+					"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+					"                                        ['SKYear', 'integer', 'no-op'],\r\n",
+					"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+					"                                        ['SKDisabilityCategoryAdjustment', 'integer', 'no-op'],\r\n",
+					"                                        ['NumberOfStudents', 'integer', 'no-op'],\r\n",
+					"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+					"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+					"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+					"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+					"                                        ['IsCurrent', 'integer', 'no-op']                                                             \r\n",
+					"                                        ]\r\n",
+					"\r\n",
+					"                                 \r\n",
+					"\r\n",
+					"    def ingest(self):\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'DMCensusStudentWithDisabilityId', self.schemas['DMCensusStudentWithDisabilityId'], 'LastUpdateDate', 'SKCensusStudentWithDisabilityId')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'DMDisabilityCategoryAdjustment', self.schemas['DMDisabilityCategoryAdjustment'], 'LastUpdateDate', 'SKDisabilityCategoryAdjustment')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'DMFactCensusStudentWithDisability', self.schemas['DMFactCensusStudentWithDisability'], 'LastUpdateDate', 'SKFactCensusStudentWithDisability')\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"nccd_object = NCCD_object()"
+				],
+				"execution_count": null
+			}
+		]
+	}
+}

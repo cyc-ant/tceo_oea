@@ -2086,6 +2086,44 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/Create_SQLDB')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Create SQL DB",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "create_sql_db",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"storageAccount": "stoeatceooeadev01",
+								"sourceDirectory": ".\\",
+								"stage": "3"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "OEA_Framework"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/pipelines/create_sql_db')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Ingestion_Pipeline')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -6918,7 +6956,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4b34ca1f-8819-4530-8e70-40796df27e71"
+						"spark.autotune.trackingId": "bfce1eda-5d64-4ed8-bf0b-60e46f85bcfb"
 					}
 				},
 				"metadata": {
@@ -6943,8 +6981,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -9531,39 +9568,16 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d126f9c7-81c8-4315-8a4b-7b6a003f7a49"
-					}
+					"conf": {}
 				},
 				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "python"
 					},
 					"language_info": {
 						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
+					}
 				},
 				"cells": [
 					{
@@ -10116,8 +10130,7 @@
 							"\n",
 							"oea = OEA()"
 						],
-						"outputs": [],
-						"execution_count": null
+						"outputs": []
 					}
 				]
 			},
@@ -10710,7 +10723,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "37d40094-7796-4250-8535-2ee939de9190"
+						"spark.autotune.trackingId": "f6fd9664-88fa-4e61-ae71-cb128164b215"
 					}
 				},
 				"metadata": {
@@ -10735,8 +10748,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -10833,7 +10845,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9c5eb3ad-6a46-4665-9503-95051098b245"
+						"spark.autotune.trackingId": "9672ebd6-6ec9-4274-b527-24ba82cbea4c"
 					}
 				},
 				"metadata": {
@@ -10858,8 +10870,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -11071,44 +11082,6 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/Create_SQLDB')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Create SQL DB",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "create_sql_db",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {
-								"storageAccount": "stoeatceooeadev01",
-								"sourceDirectory": "/",
-								"stage": "3"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "OEA_Framework"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/pipelines/create_sql_db')]"
-			]
 		}
 	]
 }

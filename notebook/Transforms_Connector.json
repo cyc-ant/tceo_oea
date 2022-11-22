@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b2cd9bd1-1982-4ef5-bc42-763648d4ca31"
+				"spark.autotune.trackingId": "19ab366a-0e99-441c-9abb-812ea564b7a5"
 			}
 		},
 		"metadata": {
@@ -180,7 +180,7 @@
 					"            if transformed_df:\r\n",
 					"                saveToTarget(transformed_df, destination, f'{folder.name}/{subfolder.name}')\r\n",
 					"            else:\r\n",
-					"                print(f'Errors in Transform - Skipping: {subfolder.name}')\r\n",
+					"                print(f'Errors in Transform - Skipping: {folder.name}/{subfolder.name}')\r\n",
 					"\r\n",
 					"\r\n",
 					""

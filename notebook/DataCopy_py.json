@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "6d238d30-e068-49b6-a4cf-83805015b547"
+				"spark.autotune.trackingId": "bfce1eda-5d64-4ed8-bf0b-60e46f85bcfb"
 			}
 		},
 		"metadata": {
@@ -79,9 +79,17 @@
 					"            # if the filename is preceded by 'dbovw', remove it and use the rest of the file name as the directory\r\n",
 					"            if file.name.find('dbovw') == 0:\r\n",
 					"                destination = file.name.replace('dbovw', '')\r\n",
-					"                self._copyToFolder(file, destination)\r\n",
+					"            elif file.name.find('dbo.vw') == 0:\r\n",
+					"                destination = file.name.replace('dbo.vw', '')\r\n",
+					"            elif file.name.find('dbo.') == 0:\r\n",
+					"                destination = file.name.replace('dbo.', '')\r\n",
+					"            elif file.name.find('dbo') == 0:\r\n",
+					"                destination = file.name.replace('dbo', '')\r\n",
 					"            else:\r\n",
-					"                self._copyToFolder(file, file.name)\r\n",
+					"                destination = file.name\r\n",
+					"            \r\n",
+					"            # copy the file to the created folder\r\n",
+					"            self._copyToFolder(file, destination)\r\n",
 					"\r\n",
 					"\r\n",
 					"    def _copyToFolder(self, file, destination):\r\n",

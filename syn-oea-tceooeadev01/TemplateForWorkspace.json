@@ -2774,6 +2774,152 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_acer')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest to Stage2",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_Acer",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "acer_object",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "ACER",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"sinkFilesystem": {
+						"type": "string",
+						"defaultValue": "stage2np"
+					}
+				},
+				"folder": {
+					"name": "OEA_Framework"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Acer')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_ae')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest to Stage2",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_AE",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "ae_object",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "AE",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"sinkFilesystem": {
+						"type": "string",
+						"defaultValue": "stage2np"
+					}
+				},
+				"folder": {
+					"name": "OEA_Framework"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_AE')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_attendance')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -2916,6 +3062,152 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Attendance')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_naplan')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest to Stage2",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_NAPLAN",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "naplan_object",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "NAPLAN",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"sinkFilesystem": {
+						"type": "string",
+						"defaultValue": "stage2np"
+					}
+				},
+				"folder": {
+					"name": "OEA_Framework"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_NAPLAN')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_nccd')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest to Stage2",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_NCCD",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "nccd_object",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "NCCD",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"sinkFilesystem": {
+						"type": "string",
+						"defaultValue": "stage2np"
+					}
+				},
+				"folder": {
+					"name": "OEA_Framework"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_NCCD')]",
 				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
 			]
 		},
@@ -5680,6 +5972,9 @@
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
+				"folder": {
+					"name": "Data Objects"
+				},
 				"nbformat": 4,
 				"nbformat_minor": 2,
 				"bigDataPool": {
@@ -5696,7 +5991,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b60e323f-f9e9-47ad-8d1e-0b023cfd7791"
+						"spark.autotune.trackingId": "73859bfc-03fb-46ea-b6a7-3413d8c8c4a8"
 					}
 				},
 				"metadata": {
@@ -5721,15 +6016,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AE_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='AE', pseudonymize = True):\r\n",
@@ -5957,6 +6250,9 @@
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
+				"folder": {
+					"name": "Data Objects"
+				},
 				"nbformat": 4,
 				"nbformat_minor": 2,
 				"bigDataPool": {
@@ -5973,7 +6269,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2fd93deb-de47-4c97-8189-2c01c0b79c9d"
+						"spark.autotune.trackingId": "c5190df2-1cb4-4b6b-9aed-760fe0c95c8c"
 					}
 				},
 				"metadata": {
@@ -5998,15 +6294,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"# class Acer(BaseOEAModule):\r\n",
 							"#     def __init__(self, source_folder='acer_test', pseudonymize = True):\r\n",
@@ -6182,6 +6476,9 @@
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
+				"folder": {
+					"name": "Data Objects"
+				},
 				"nbformat": 4,
 				"nbformat_minor": 2,
 				"bigDataPool": {
@@ -6499,6 +6796,9 @@
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
+				"folder": {
+					"name": "Stage1"
+				},
 				"nbformat": 4,
 				"nbformat_minor": 2,
 				"bigDataPool": {
@@ -6515,7 +6815,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e81d2bdc-b20a-4c62-ae42-2c7b921a4130"
+						"spark.autotune.trackingId": "c5142f50-2d26-4683-ad9a-da6850308ab1"
 					}
 				},
 				"metadata": {
@@ -6540,7 +6840,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -6573,9 +6874,17 @@
 							"            # if the filename is preceded by 'dbovw', remove it and use the rest of the file name as the directory\r\n",
 							"            if file.name.find('dbovw') == 0:\r\n",
 							"                destination = file.name.replace('dbovw', '')\r\n",
-							"                self._copyToFolder(file, destination)\r\n",
+							"            elif file.name.find('dbo.vw') == 0:\r\n",
+							"                destination = file.name.replace('dbo.vw', '')\r\n",
+							"            elif file.name.find('dbo.') == 0:\r\n",
+							"                destination = file.name.replace('dbo.', '')\r\n",
+							"            elif file.name.find('dbo') == 0:\r\n",
+							"                destination = file.name.replace('dbo', '')\r\n",
 							"            else:\r\n",
-							"                self._copyToFolder(file, file.name)\r\n",
+							"                destination = file.name\r\n",
+							"            \r\n",
+							"            # copy the file to the created folder\r\n",
+							"            self._copyToFolder(file, destination)\r\n",
 							"\r\n",
 							"\r\n",
 							"    def _copyToFolder(self, file, destination):\r\n",
@@ -6600,768 +6909,13 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/DataGen_py')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"runAsWorkspaceSystemIdentity": false,
-					"conf": {}
-				},
-				"metadata": {
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "python"
-					},
-					"language_info": {
-						"name": "python"
-					}
-				},
-				"cells": [
-					{
-						"cell_type": "code",
-						"source": [
-							"import random\r\n",
-							"import json\r\n",
-							"from faker import Faker\r\n",
-							"\r\n",
-							"\"\"\" From DataGenUtil.py \"\"\"\r\n",
-							"def list_of_dict_to_csv(list_of_dict, includeHeaders = True):\r\n",
-							"    csv_str = ''\r\n",
-							"    if includeHeaders == True:\r\n",
-							"        header = []\r\n",
-							"        for column_name in list_of_dict[0].keys(): \r\n",
-							"            if not column_name.startswith('_'): header.append(column_name)\r\n",
-							"        csv_str += \",\".join(header) + \"\\n\"\r\n",
-							"\r\n",
-							"    for row in list_of_dict:\r\n",
-							"        csv_str += obj_to_csv(row) + \"\\n\"\r\n",
-							"\r\n",
-							"    return csv_str\r\n",
-							"\r\n",
-							"def obj_to_csv(obj):\r\n",
-							"    csv = ''\r\n",
-							"    for key in obj:\r\n",
-							"        if not (key.startswith('_')): csv += str(obj[key]) + ','\r\n",
-							"    return csv[:-1]\r\n",
-							"\r\n",
-							"def list_of_dict_to_json(list_of_dict):\r\n",
-							"    json_str = '['\r\n",
-							"    for row in list_of_dict:\r\n",
-							"        json_str += obj_to_json(row) + \",\\n\"\r\n",
-							"    return json_str[:-2] + ']'\r\n",
-							"\r\n",
-							"def obj_to_json(obj):\r\n",
-							"    json_dict = {}\r\n",
-							"    for key in obj:\r\n",
-							"        if not (key.startswith('_')): json_dict[key] = obj[key]\r\n",
-							"    return json.dumps(json_dict)\r\n",
-							"\r\n",
-							"\"\"\" From EdFiDataGenerator.py \"\"\"\r\n",
-							"GENDER = ['Male','Female']\r\n",
-							"BOOLEAN = [True, False]\r\n",
-							"OPERATIONAL_STATUS = ['Active','Inactive']\r\n",
-							"CHARTER_STATUS = ['School Charter', 'Open Enrollment Charter', 'Not a Charter School']\r\n",
-							"GRADE_LEVEL = ['First Grade','Second Grade','Third Grade','Fourth Grade','Fifth Grade','Sixth Grade','Seventh Grade','Eighth Grade','Ninth Grade','Tenth Grade','Eleventh Grade','Twelfth Grade']\r\n",
-							"SCHOOL_TYPES = ['High School', 'Middle School', 'Elementary School']\r\n",
-							"SUBJECT_NAMES = [('Math','Algebra'), ('Math','Geometry'), ('Language','English'), ('History','World History'),('Science','Biology'), ('Science','Health'), ('Technology',' Programming'), ('Physical Education','Sports'), ('Arts','Music')]\r\n",
-							"LEVELS_OF_EDUCATION = ['Some College No Degree', 'Doctorate', 'Bachelor\\'s','Master\\'s']\r\n",
-							"PERSONAL_INFORMATION_VERIFICATION_DESCRIPTIONS = ['Entry in family Bible', 'Other official document', 'State-issued ID', 'Hospital certificate', 'Passport', 'Parents affidavit', 'Immigration document/visa', 'Drivers license']\r\n",
-							"RACES = ['Asian' , 'Native Hawaiian - Pacific Islander', 'American Indian - Alaska Native', 'White']\r\n",
-							"\r\n",
-							"class EdFiDataGenerator:\r\n",
-							"    def __init__(self,number_students_per_school=100, include_optional_fields=True, school_year='2021', credit_conversion_factor = 2.0, number_of_grades_per_school = 5, is_current_school_year = True, graduation_plans_per_school = 10, unique_id_length = 5, number_staffs_per_school = 50, number_sections_per_school = 10):\r\n",
-							"        # Set a seed value in Faker so it generates same values every run.\r\n",
-							"        self.faker = Faker('en_US')\r\n",
-							"        Faker.seed(1)\r\n",
-							"\r\n",
-							"        self.include_optional_fields = include_optional_fields\r\n",
-							"        self.graduation_plans_per_school = graduation_plans_per_school\r\n",
-							"        self.school_year = school_year\r\n",
-							"        self.country = 'United States of America'\r\n",
-							"        self.number_students_per_school = number_students_per_school\r\n",
-							"        self.credit_conversion_factor = credit_conversion_factor\r\n",
-							"        self.number_of_grades_per_school = number_of_grades_per_school\r\n",
-							"        self.is_current_school_year = is_current_school_year\r\n",
-							"        self.unique_id_length = unique_id_length\r\n",
-							"        self.number_staffs_per_school = number_staffs_per_school\r\n",
-							"        self.number_sections_per_school = number_sections_per_school\r\n",
-							"\r\n",
-							"    def get_descriptor_string(self, key, value):\r\n",
-							"        return \"uri://ed-fi.org/{}#{}\".format(key,value)\r\n",
-							"\r\n",
-							"    def generate_data(self, num_of_schools, writer):\r\n",
-							"        edfi_data = [self.create_school() for _ in range(num_of_schools)]\r\n",
-							"        edfi_data_formatted = self.format_edfi_data(edfi_data)\r\n",
-							"\r\n",
-							"\r\n",
-							"        writer.write(f'EdFi/School.json',list_of_dict_to_json(edfi_data_formatted['Schools']))\r\n",
-							"        writer.write(f'EdFi/Student.json',list_of_dict_to_json(edfi_data_formatted['Students']))\r\n",
-							"        writer.write(f'EdFi/StudentSchoolAssociation.json',list_of_dict_to_json(edfi_data_formatted['StudentSchoolAssociations']))\r\n",
-							"        writer.write(f'EdFi/Course.json',list_of_dict_to_json(edfi_data_formatted['Courses']))\r\n",
-							"        writer.write(f'EdFi/Calendar.json',list_of_dict_to_json(edfi_data_formatted['Calendars']))\r\n",
-							"        writer.write(f'EdFi/Sessions.json',list_of_dict_to_json(edfi_data_formatted['Sessions']))\r\n",
-							"        writer.write(f'EdFi/StaffSchoolAssociations.json',list_of_dict_to_json(edfi_data_formatted['StaffSchoolAssociations']))\r\n",
-							"        writer.write(f'EdFi/Sections.json',list_of_dict_to_json(edfi_data_formatted['Sections']))\r\n",
-							"        writer.write(f'EdFi/Staffs.json',list_of_dict_to_json(edfi_data_formatted['Staffs']))\r\n",
-							"        writer.write(f'EdFi/StudentSectionAssociations.json',list_of_dict_to_json(edfi_data_formatted['StudentSectionAssociations']))\r\n",
-							"        writer.write(f'EdFi/StaffSectionAssociations.json',list_of_dict_to_json(edfi_data_formatted['StaffSectionAssociations']))\r\n",
-							"\r\n",
-							"\r\n",
-							"    def create_school(self):\r\n",
-							"        school_type = random.choice(SCHOOL_TYPES)\r\n",
-							"        school_name = self.faker.city() + ' ' + school_type\r\n",
-							"        school = {\r\n",
-							"            'Id': self.faker.uuid4().replace('-',''),\r\n",
-							"            'SchoolId': self.faker.random_number(digits = self.unique_id_length),\r\n",
-							"            'NameOfInstitution': school_name,\r\n",
-							"            'OperationalStatusDescriptor': self.get_descriptor_string('OperationalStatusDescriptor',random.choice(OPERATIONAL_STATUS)),\r\n",
-							"            'ShortNameOfInstitution': ''.join([word[0] for word in school_name.split()]),\r\n",
-							"            'Website':''.join(['www.',school_name.lower().replace(' ',''),'.com']),\r\n",
-							"            'AdministrativeFundingControlDescriptor': self.get_descriptor_string('AdministrativeFundingControlDescriptor',random.choice(['public', 'private']) + ' School'),\r\n",
-							"            'CharterStatusDescriptor': self.get_descriptor_string('CharterStatusDescriptor',random.choice(CHARTER_STATUS)),\r\n",
-							"            'SchoolTypeDescriptor': self.get_descriptor_string('SchoolTypeDescriptor','Regular'),\r\n",
-							"            'TitleIPartASchoolDesignationDescriptor': self.get_descriptor_string('TitleIPartASchoolDesignationDescriptor','Not A Title I School'),\r\n",
-							"            'Addresses': self.create_address() if self.include_optional_fields else '',\r\n",
-							"            'EducationOrganizationCategories':[{'EducationOrganizationCategoryDescriptor': self.get_descriptor_string('educationOrganizationCategoryDescriptor','School')}],\r\n",
-							"            'IdentificationCodes': [\r\n",
-							"                {\r\n",
-							"                    'educationOrganizationIdentificationSystemDescriptor': self.get_descriptor_string('educationOrganizationIdentificationSystemDescriptor','SEA'),\r\n",
-							"                    'identificationCode': self.faker.random_number(digits=10)\r\n",
-							"                }\r\n",
-							"            ],\r\n",
-							"            'InstitutionTelephones': self.create_telephones(),\r\n",
-							"            'InternationalAddresses': [],\r\n",
-							"            'SchoolCategories': [\r\n",
-							"                {\r\n",
-							"                    'SchoolCategoryDescriptor': self.get_descriptor_string('SchoolCategoryDescriptor',school_type)\r\n",
-							"                }\r\n",
-							"            ],\r\n",
-							"            'gradeLevels': [\r\n",
-							"                {'gradeLevelDescriptor': self.get_descriptor_string('GradeLevelDescriptor',random.choice(GRADE_LEVEL))} for _ in range(4)\r\n",
-							"            ]\r\n",
-							"        }\r\n",
-							"\r\n",
-							"        school['_SchoolYears'] = self.create_school_years()\r\n",
-							"        school['_Calendars'] = self.create_calendars(school)\r\n",
-							"        school['_Students'] = self.create_students()\r\n",
-							"        school['_Courses'] = self.create_courses(school['SchoolId'],school['Id'],school_name)\r\n",
-							"        school['_GraduationPlans'] = self.create_graduation_plans(school)\r\n",
-							"        school['_StudentAssociations'] = self.create_student_school_associations(school)\r\n",
-							"        school['_Staffs'] = self.create_staffs()\r\n",
-							"        school['_StaffSchoolAssociations'] = self.create_staff_school_associations(school)\r\n",
-							"        school['_Sessions'] = self.create_sessions(school)\r\n",
-							"        school['_Sections'] = self.create_sections(school)\r\n",
-							"        school['_StaffSectionAssociations'] = self.create_staff_section_associations(school)\r\n",
-							"        school['_StudentSectionAssociations'] = self.create_student_section_associations(school)\r\n",
-							"        return school\r\n",
-							"\r\n",
-							"    def create_students(self):\r\n",
-							"        students = []\r\n",
-							"        for _ in range(self.number_students_per_school):\r\n",
-							"            gender = random.choice(GENDER)\r\n",
-							"            fname = self.faker.first_name_male() if gender == 'Male' else self.faker.first_name_female()\r\n",
-							"            students.append({\r\n",
-							"                'Id': self.faker.uuid4().replace('-',''),\r\n",
-							"                'StudentUniqueId': self.faker.random_number(digits = self.unique_id_length),\r\n",
-							"                \"BirthCity\": self.faker.city(),\r\n",
-							"                \"BirthDate\": str(self.faker.date_between(start_date='-18y',end_date='-5y')),\r\n",
-							"                \"BirthSexDescriptor\": self.get_descriptor_string('birthStateAbbreviationDescriptor', gender),\r\n",
-							"                \"FirstName\": fname,\r\n",
-							"                \"IdentificationDocuments\": [],\r\n",
-							"                \"LastSurname\": self.faker.last_name(),\r\n",
-							"                \"OtherNames\": [\r\n",
-							"                    {\r\n",
-							"                        \"OtherNameTypeDescriptor\": self.get_descriptor_string('otherNameTypeDescriptor','Nickname'),\r\n",
-							"                        \"FirstName\": self.faker.first_name_male() if gender == 'Male' else self.faker.first_name_female(),\r\n",
-							"                        \"PersonalTitlePrefix\": 'Mr' if gender == 'Male' else 'Ms'\r\n",
-							"                    }\r\n",
-							"                ],\r\n",
-							"                \"PersonalIdentificationDocuments\": [],\r\n",
-							"                \"PersonalTitlePrefix\": 'Mr' if gender == 'Male' else 'Ms',\r\n",
-							"                \"Visas\": [],\r\n",
-							"                \"_etag\": self.faker.random_number(digits=10)\r\n",
-							"        })\r\n",
-							"        return students\r\n",
-							"\r\n",
-							"\r\n",
-							"    def create_student_school_associations(self,school):\r\n",
-							"        result = []\r\n",
-							"        graduation_plan_ids = [gp['Id'] for gp in school['_GraduationPlans']]\r\n",
-							"        for student in school['_Students']:\r\n",
-							"            result.append({\r\n",
-							"                'Id': self.faker.uuid4().replace('-',''),\r\n",
-							"                \"GraduationPlanReference\": {\r\n",
-							"                    \"EducationOrganizationId\": school['SchoolId'],\r\n",
-							"                    \"GraduationPlanTypeDescriptor\": \"uri://ed-fi.org/GraduationPlanTypeDescriptor#Minimum\",\r\n",
-							"                    \"GraduationSchoolYear\": self.school_year,\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"GraduationPlan\",\r\n",
-							"                        \"href\": '/ed-fi/graduationPlans/{}'.format(random.choice(graduation_plan_ids))\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                \"SchoolReference\": {\r\n",
-							"                    \"SchoolId\": school['SchoolId'],\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"School\",\r\n",
-							"                        \"href\": '/ed-fi/schools/{}'.format(school['Id'])\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                \"StudentReference\": {\r\n",
-							"                    \"StudentUniqueId\": student['StudentUniqueId'],\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"Student\",\r\n",
-							"                        \"href\": \"/ed-fi/students/{}\".format(student['Id'])\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                \"EntryDate\": str(self.faker.date_between(start_date='-5y',end_date='today')),\r\n",
-							"                \"EntryGradeLevelDescriptor\": \"uri://ed-fi.org/GradeLevelDescriptor#{}\".format(random.choice(GRADE_LEVEL)),\r\n",
-							"                \"AlternativeGraduationPlans\": [],\r\n",
-							"                \"EducationPlans\": [],\r\n",
-							"                \"_etag\": self.faker.random_number(digits=10)\r\n",
-							"            })\r\n",
-							"        return result\r\n",
-							"\r\n",
-							"    def create_calendars(self,school):\r\n",
-							"        return {\r\n",
-							"            'Id': self.faker.uuid4().replace('-',''),\r\n",
-							"            'CalendarCode':self.faker.random_number(digits = self.unique_id_length),\r\n",
-							"            \"SchoolReference\": {\r\n",
-							"                \"SchoolId\": school['SchoolId'],\r\n",
-							"                \"Link\": {\r\n",
-							"                    \"rel\": \"School\",\r\n",
-							"                    \"href\": \"/ed-fi/schools/{}\".format(school['Id'])\r\n",
-							"                }\r\n",
-							"            },\r\n",
-							"            \"SchoolYearTypeReference\": {\r\n",
-							"                \"SchoolYear\": self.school_year,\r\n",
-							"                \"Link\": {\r\n",
-							"                    \"rel\": \"SchoolYearType\",\r\n",
-							"                    \"href\": \"/ed-fi/schoolYearTypes/{}\".format(school['_SchoolYears']['Id'])\r\n",
-							"                }\r\n",
-							"            },\r\n",
-							"            'CalendarTypeDescriptor': self.get_descriptor_string('calendarTypeDescriptor','Student Specific'),\r\n",
-							"            'GradeLevel': []\r\n",
-							"        }\r\n",
-							"\r\n",
-							"    def create_address(self):\r\n",
-							"        address = []\r\n",
-							"        state = self.faker.state_abbr()\r\n",
-							"        for n in ['Physical', 'Mailing']:\r\n",
-							"            address.append({\r\n",
-							"                'AddressType':n,\r\n",
-							"                'City':self.faker.city(),\r\n",
-							"                'PostalCode':self.faker.postcode(),\r\n",
-							"                'StateAbbreviation':state,\r\n",
-							"                'StreetNumberName':self.faker.street_name()\r\n",
-							"            })\r\n",
-							"        return address\r\n",
-							"\r\n",
-							"    def create_courses(self,school_id,id,school_name):\r\n",
-							"        courses = []\r\n",
-							"        for subject,course_name in SUBJECT_NAMES:\r\n",
-							"            courseCode = '{}-{}'.format(course_name[0:3].upper(),random.choice(range(1,5)))\r\n",
-							"            courses.append({\r\n",
-							"                \"Id\": self.faker.uuid4().replace('-',''),\r\n",
-							"                \"EducationOrganizationReference\": {\r\n",
-							"                    \"EducationOrganizationId\": school_id,\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"School\",\r\n",
-							"                        \"href\": \"/ed-fi/schools/{}\".format(id)\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                \"CourseCode\": courseCode,\r\n",
-							"                \"AcademicSubjectDescriptor\": self.get_descriptor_string('academicSubjectDescriptor', subject),\r\n",
-							"                \"CourseDefinedByDescriptor\": self.get_descriptor_string('CourseDefinedByDescriptor','SEA'),\r\n",
-							"                \"CourseDescription\": 'Description about {}'.format(course_name),\r\n",
-							"                \"CourseGPAApplicabilityDescriptor\": self.get_descriptor_string('CourseGPAApplicabilityDescriptor',random.choice(['Applicable','Not Applicable'])),\r\n",
-							"                \"CourseTitle\": course_name,\r\n",
-							"                \"HighSchoolCourseRequirement\": random.choice(BOOLEAN),\r\n",
-							"                \"NumberOfParts\": 1,\r\n",
-							"                \"CompetencyLevels\": [],\r\n",
-							"                \"IdentificationCodes\": [\r\n",
-							"                    {\r\n",
-							"                        \"CourseIdentificationSystemDescriptor\": self.get_descriptor_string('CourseIdentificationSystemDescriptor','LEA course code'),\r\n",
-							"                        \"CourseCatalogURL\": \"http://www.{}.edu/coursecatalog\".format(school_name.lower().replace(' ','')),\r\n",
-							"                        \"IdentificationCode\": courseCode\r\n",
-							"                    },\r\n",
-							"                    {\r\n",
-							"                        \"CourseIdentificationSystemDescriptor\": self.get_descriptor_string('CourseIdentificationSystemDescriptor','State course code'),\r\n",
-							"                        \"IdentificationCode\": self.faker.random_number(digits = self.unique_id_length)\r\n",
-							"                    }\r\n",
-							"                ],\r\n",
-							"                \"LearningObjectives\": [],\r\n",
-							"                \"LearningStandards\": [\r\n",
-							"                    {\r\n",
-							"                        \"LearningStandardReference\": {\r\n",
-							"                            \"LearningStandardId\": self.faker.random_number(digits = self.unique_id_length),\r\n",
-							"                            \"Link\": {\r\n",
-							"                                \"rel\": \"LearningStandard\",\r\n",
-							"                                \"href\": \"/ed-fi/learningStandards/{}\".format(self.faker.uuid4().replace('-',''))\r\n",
-							"                            }\r\n",
-							"                        }\r\n",
-							"                    }\r\n",
-							"                ],\r\n",
-							"                \"LevelCharacteristics\": [\r\n",
-							"                    {\r\n",
-							"                        \"CourseLevelCharacteristicDescriptor\": self.get_descriptor_string('CourseLevelCharacteristicDescriptor','Core Subject')\r\n",
-							"                    }\r\n",
-							"                ],\r\n",
-							"                \"OfferedGradeLevels\": [],\r\n",
-							"                \"_etag\": self.faker.random_number(digits=10)\r\n",
-							"            })\r\n",
-							"        return courses\r\n",
-							"\r\n",
-							"\r\n",
-							"    def create_graduation_plans(self, school):\r\n",
-							"        graduation_plans = []\r\n",
-							"        for _ in range(self.graduation_plans_per_school):\r\n",
-							"            graduation_plans.append({\r\n",
-							"                'Id': self.faker.uuid4().replace('-',''),\r\n",
-							"                \"EducationOrganizationReference\": {\r\n",
-							"                    \"EducationOrganizationId\": school['SchoolId'],\r\n",
-							"                    \"link\": {\r\n",
-							"                        \"rel\": \"School\",\r\n",
-							"                        \"href\": \"/ed-fi/schools/{}\".format(school['Id'])\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                \"GraduationSchoolYearTypeReference\": {\r\n",
-							"                    \"SchoolYear\": self.school_year,\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"SchoolYearType\",\r\n",
-							"                        \"href\": \"/ed-fi/schoolYearTypes/{}\".format(school['_SchoolYears']['Id'])\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                \"GraduationPlanTypeDescriptor\": self.get_descriptor_string('GraduationPlanTypeDescriptor', random.choice(['Minimum','Recommended'])),\r\n",
-							"                \"TotalRequiredCredits\": random.choice(range(20,30)),\r\n",
-							"                \"CreditsByCourses\": [],\r\n",
-							"                \"CreditsByCreditCategories\": [\r\n",
-							"                    {\r\n",
-							"                        \"CreditCategoryDescriptor\": self.get_descriptor_string('CreditCategoryDescriptor','Honors'),\r\n",
-							"                        \"Credits\": random.choice(range(5,15))\r\n",
-							"                    }\r\n",
-							"                ],\r\n",
-							"                \"CreditsBySubjects\": [],\r\n",
-							"                \"RequiredAssessments\": [],\r\n",
-							"                \"_etag\": self.faker.random_number(digits=10)\r\n",
-							"            })\r\n",
-							"        return graduation_plans\r\n",
-							"\r\n",
-							"    def create_school_years(self):\r\n",
-							"        return {\r\n",
-							"            'Id': self.faker.uuid4().replace('-',''),\r\n",
-							"            'SchoolYear': self.school_year,\r\n",
-							"            'CurrentSchoolYear': self.is_current_school_year,\r\n",
-							"            'schoolYearDescription': 'Description about school year',\r\n",
-							"            '_etag': self.faker.random_number(digits=10)\r\n",
-							"        }\r\n",
-							"\r\n",
-							"    def create_telephones(self):\r\n",
-							"        return [\r\n",
-							"            {\r\n",
-							"                'InstitutionTelephoneNumberTypeDescriptor': self.get_descriptor_string('InstitutionTelephoneNumberTypeDescriptor', _),\r\n",
-							"                \"TelephoneNumber\": self.faker.phone_number()\r\n",
-							"            }\r\n",
-							"            for _ in ['Fax','Main']\r\n",
-							"        ]\r\n",
-							"\r\n",
-							"    def create_staffs(self):\r\n",
-							"        staffs = []\r\n",
-							"        for _ in range(self.number_staffs_per_school):\r\n",
-							"            gender = random.choice(GENDER)\r\n",
-							"            fname = self.faker.first_name_male() if gender == 'Male' else self.faker.first_name_female()\r\n",
-							"            lname = self.faker.last_name()\r\n",
-							"            staffs.append({\r\n",
-							"                \"Id\": self.faker.uuid4().replace('-',''),\r\n",
-							"                \"StaffUniqueId\": self.faker.random_number(digits = self.unique_id_length),\r\n",
-							"                \"BirthDate\": str(self.faker.date_between(start_date='-60y',end_date='-30y')),\r\n",
-							"                \"FirstName\": fname,\r\n",
-							"                \"HighestCompletedLevelOfEducationDescriptor\": self.get_descriptor_string('LevelOfEducationDescriptor', value = random.choice(LEVELS_OF_EDUCATION)),\r\n",
-							"                \"HispanicLatinoEthnicity\": random.choice(BOOLEAN),\r\n",
-							"                \"LastSurname\": lname,\r\n",
-							"                \"LoginId\": '{}{}'.format(fname[0],lname.lower()),\r\n",
-							"                \"PersonalTitlePrefix\": 'Mr' if gender == 'Male' else 'Ms',\r\n",
-							"                \"SexDescriptor\": self.get_descriptor_string('SexDescriptor', value = gender),\r\n",
-							"                \"YearsOfPriorProfessionalExperience\": random.choice(range(50)),\r\n",
-							"                \"Addresses\": self.create_address(),\r\n",
-							"                \"AncestryEthnicOrigins\": [],\r\n",
-							"                \"Credentials\": [\r\n",
-							"                    {\r\n",
-							"                        \"CredentialReference\": {\r\n",
-							"                            \"CredentialIdentifier\": self.faker.random_number(digits = 10),\r\n",
-							"                            \"StateOfIssueStateAbbreviationDescriptor\": self.get_descriptor_string('StateAbbreviationDescriptor', 'TX'),\r\n",
-							"                            \"Link\": {\r\n",
-							"                                \"rel\": \"Credential\",\r\n",
-							"                                \"href\": \"/ed-fi/credentials/\" + self.faker.uuid4().replace('-','')\r\n",
-							"                            }\r\n",
-							"                        }\r\n",
-							"                    }\r\n",
-							"                ],\r\n",
-							"                \"ElectronicMails\": [\r\n",
-							"                    {\r\n",
-							"                        \"ElectronicMailAddress\": \"{}{}@edfi.org\".format(fname,lname),\r\n",
-							"                        \"ElectronicMailTypeDescriptor\": self.get_descriptor_string('ElectronicMailTypeDescriptor','Work')\r\n",
-							"                    }\r\n",
-							"                ],\r\n",
-							"                \"IdentificationCodes\": [\r\n",
-							"                    {\r\n",
-							"                        \"StaffIdentificationSystemDescriptor\": self.get_descriptor_string('StaffIdentificationSystemDescriptor','State'),\r\n",
-							"                        \"IdentificationCode\": self.faker.random_number(digits = self.unique_id_length)\r\n",
-							"                    }\r\n",
-							"                ],\r\n",
-							"                \"IdentificationDocuments\": [],\r\n",
-							"                \"InternationalAddresses\": self.create_address(),\r\n",
-							"                \"Languages\": [],\r\n",
-							"                \"OtherNames\": [self.faker.first_name_male() if gender == 'Male' else self.faker.first_name_female()],\r\n",
-							"                \"PersonalIdentificationDocuments\": [\r\n",
-							"                    {\r\n",
-							"                        \"IdentificationDocumentUseDescriptor\": \"uri://ed-fi.org/IdentificationDocumentUseDescriptor#Personal Information Verification\",\r\n",
-							"                        \"PersonalInformationVerificationDescriptor\": self.get_descriptor_string('PersonalInformationVerificationDescriptor', value = random.choice(PERSONAL_INFORMATION_VERIFICATION_DESCRIPTIONS))\r\n",
-							"                    }\r\n",
-							"                ],\r\n",
-							"                \"Races\": [\r\n",
-							"                    {\r\n",
-							"                        \"RaceDescriptor\": self.get_descriptor_string('RaceDescriptor', value = random.choice(RACES))\r\n",
-							"                    }\r\n",
-							"                ],\r\n",
-							"                \"_etag\": self.faker.random_number(digits=10)\r\n",
-							"            })\r\n",
-							"        return staffs\r\n",
-							"\r\n",
-							"    def create_sessions(self, school):\r\n",
-							"\r\n",
-							"        return [{\r\n",
-							"            \"Id\": self.faker.uuid4().replace('-',''),\r\n",
-							"            \"SchoolReference\":{\r\n",
-							"                \"SchoolId\":school['SchoolId'],\r\n",
-							"                \"Link\":{\r\n",
-							"                    \"rel\":\"School\",\r\n",
-							"                    \"href\":\"/ed-fi/schools/{}\".format(school['Id'])\r\n",
-							"                }\r\n",
-							"            },\r\n",
-							"            \"SchoolYearTypeReference\": {\r\n",
-							"                \"SchoolYear\": self.school_year,\r\n",
-							"                \"Link\": {\r\n",
-							"                    \"rel\": \"SchoolYearType\",\r\n",
-							"                    \"href\": \"/ed-fi/schoolYearTypes/{}\".format(school['_SchoolYears']['Id'])\r\n",
-							"                }\r\n",
-							"            },\r\n",
-							"            \"SessionName\": \"{} - {} Fall Semester\".format(int(self.school_year) - 1, self.school_year ),\r\n",
-							"            \"BeginDate\": \"{}-08-{}\".format(int(self.school_year) - 1, random.randint(1,30)),\r\n",
-							"            \"EndDate\": \"{}-12-{}\".format(int(self.school_year) - 1, random.randint(1,30)),\r\n",
-							"            \"TermDescriptor\": self.get_descriptor_string('TermDescriptor', 'Fall Semester'),\r\n",
-							"            \"TotalInstructionalDays\": random.randint(60,130),\r\n",
-							"            \"GradingPeriods\": [\r\n",
-							"                {\r\n",
-							"                    \"GradingPeriodReference\": {\r\n",
-							"                    \"SchoolId\": school['SchoolId'],\r\n",
-							"                    \"SchoolYear\": self.school_year,\r\n",
-							"                    \"GradingPeriodDescriptor\": \"uri://ed-fi.org/GradingPeriodDescriptor#First Six Weeks\",\r\n",
-							"                    \"PeriodSequence\": 1,\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"GradingPeriod\",\r\n",
-							"                        \"href\": \"/ed-fi/gradingPeriods/{}\".format(self.faker.uuid4().replace('-',''))\r\n",
-							"                    }\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                {\r\n",
-							"                    \"GradingPeriodReference\": {\r\n",
-							"                    \"SchoolId\": school['SchoolId'],\r\n",
-							"                    \"SchoolYear\": self.school_year,\r\n",
-							"                    \"GradingPeriodDescriptor\": \"uri://ed-fi.org/GradingPeriodDescriptor#Second Six Weeks\",\r\n",
-							"                    \"PeriodSequence\": 2,\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"GradingPeriod\",\r\n",
-							"                        \"href\": \"/ed-fi/gradingPeriods/{}\".format(self.faker.uuid4().replace('-',''))\r\n",
-							"                    }\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                {\r\n",
-							"                    \"GradingPeriodReference\": {\r\n",
-							"                    \"SchoolId\": school['SchoolId'],\r\n",
-							"                    \"SchoolYear\": self.school_year,\r\n",
-							"                    \"GradingPeriodDescriptor\": \"uri://ed-fi.org/GradingPeriodDescriptor#Third Six Weeks\",\r\n",
-							"                    \"PeriodSequence\": 3,\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"GradingPeriod\",\r\n",
-							"                        \"href\": \"/ed-fi/gradingPeriods/{}\".format(self.faker.uuid4().replace('-',''))\r\n",
-							"                    }\r\n",
-							"                    }\r\n",
-							"                }\r\n",
-							"            ],\r\n",
-							"            \"_etag\": self.faker.random_number(digits=10)\r\n",
-							"        },\r\n",
-							"        {\r\n",
-							"            \"Id\": self.faker.uuid4().replace('-',''),\r\n",
-							"            \"SchoolReference\":{\r\n",
-							"                \"SchoolId\":school['SchoolId'],\r\n",
-							"                \"Link\":{\r\n",
-							"                    \"rel\":\"School\",\r\n",
-							"                    \"href\":\"/ed-fi/schools/{}\".format(school['Id'])\r\n",
-							"                }\r\n",
-							"            },\r\n",
-							"            \"SchoolYearTypeReference\": {\r\n",
-							"                \"SchoolYear\": self.school_year,\r\n",
-							"                \"Link\": {\r\n",
-							"                    \"rel\": \"SchoolYearType\",\r\n",
-							"                    \"href\": \"/ed-fi/schoolYearTypes/{}\".format(school['_SchoolYears']['Id'])\r\n",
-							"                }\r\n",
-							"            },\r\n",
-							"            \"SessionName\": \"{} - {} Spring Semester\".format(int(self.school_year) - 1, self.school_year),\r\n",
-							"            \"BeginDate\": \"{}-01-{}\".format(self.school_year, random.randint(1,30)),\r\n",
-							"            \"EndDate\": \"{}-05-{}\".format(self.school_year, random.randint(1,30)),\r\n",
-							"            \"TermDescriptor\": self.get_descriptor_string('TermDescriptor', 'Spring Semester'),\r\n",
-							"            \"TotalInstructionalDays\": random.randint(60,130),\r\n",
-							"            \"GradingPeriods\": [\r\n",
-							"                {\r\n",
-							"                    \"GradingPeriodReference\": {\r\n",
-							"                    \"SchoolId\": school['SchoolId'],\r\n",
-							"                    \"SchoolYear\": self.school_year,\r\n",
-							"                    \"GradingPeriodDescriptor\": \"uri://ed-fi.org/GradingPeriodDescriptor#Fourth Six Weeks\",\r\n",
-							"                    \"PeriodSequence\": 4,\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"GradingPeriod\",\r\n",
-							"                        \"href\": \"/ed-fi/gradingPeriods/{}\".format(self.faker.uuid4().replace('-',''))\r\n",
-							"                    }\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                {\r\n",
-							"                    \"GradingPeriodReference\": {\r\n",
-							"                    \"SchoolId\": school['SchoolId'],\r\n",
-							"                    \"SchoolYear\": self.school_year,\r\n",
-							"                    \"GradingPeriodDescriptor\": \"uri://ed-fi.org/GradingPeriodDescriptor#Fifth Six Weeks\",\r\n",
-							"                    \"PeriodSequence\": 5,\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"GradingPeriod\",\r\n",
-							"                        \"href\": \"/ed-fi/gradingPeriods/{}\".format(self.faker.uuid4().replace('-',''))\r\n",
-							"                    }\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                {\r\n",
-							"                    \"GradingPeriodReference\": {\r\n",
-							"                    \"SchoolId\": school['SchoolId'],\r\n",
-							"                    \"SchoolYear\": self.school_year,\r\n",
-							"                    \"GradingPeriodDescriptor\": \"uri://ed-fi.org/GradingPeriodDescriptor#Sixth Six Weeks\",\r\n",
-							"                    \"PeriodSequence\": 6,\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"GradingPeriod\",\r\n",
-							"                        \"href\": \"/ed-fi/gradingPeriods/{}\".format(self.faker.uuid4().replace('-',''))\r\n",
-							"                    }\r\n",
-							"                    }\r\n",
-							"                }\r\n",
-							"            ],\r\n",
-							"            \"_etag\": self.faker.random_number(digits=10)\r\n",
-							"        }]\r\n",
-							"\r\n",
-							"    def create_sections(self, school):\r\n",
-							"        sections = []\r\n",
-							"        for _ in range(self.number_sections_per_school):\r\n",
-							"            semesterType = random.choice(['Spring', 'Fall'])\r\n",
-							"            subjectName = random.choice(SUBJECT_NAMES)[1]\r\n",
-							"            subjectNumber = random.randint(1,5)\r\n",
-							"            sections.append({\r\n",
-							"                \"Id\": self.faker.uuid4().replace('-',''),\r\n",
-							"                \"CourseOfferingReference\": {\r\n",
-							"                    \"LocalCourseCode\": \"{}-{}\".format(subjectName[0:3].upper(), subjectNumber),\r\n",
-							"                    \"SchoolId\": school['SchoolId'],\r\n",
-							"                    \"SchoolYear\": self.school_year,\r\n",
-							"                    \"SessionName\": \"{} - {} {} Semester\".format(int(self.school_year) - 1, semesterType, self.school_year),\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"CourseOffering\",\r\n",
-							"                        \"href\": \"/ed-fi/courseOfferings/{}\".format(self.faker.uuid4().replace('-',''))\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                \"LocationReference\": {\r\n",
-							"                    \"ClassroomIdentificationCode\": self.faker.random_number(digits = 3),\r\n",
-							"                    \"SchoolId\": school['SchoolId'],\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"Location\",\r\n",
-							"                        \"href\": \"/ed-fi/locations/{}\".format(self.faker.uuid4().replace('-',''))\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                \"LocationSchoolReference\": {\r\n",
-							"                    \"SchoolId\": school['SchoolId'],\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"School\",\r\n",
-							"                        \"href\": \"/ed-fi/schools/{}\".format(school['Id'])\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                \"SectionIdentifier\": self.faker.uuid4().replace('-',''),\r\n",
-							"                \"AvailableCredits\": random.randint(1,4),\r\n",
-							"                \"EducationalEnvironmentDescriptor\": self.get_descriptor_string('EducationalEnvironmentDescriptor','Classroom'),\r\n",
-							"                \"SectionName\": \"{} {}\".format(subjectName, subjectNumber),\r\n",
-							"                \"SequenceOfCourse\": random.randint(1,5),\r\n",
-							"                \"Characteristics\": [],\r\n",
-							"                \"ClassPeriods\": [\r\n",
-							"                {\r\n",
-							"                    \"ClassPeriodReference\": {\r\n",
-							"                    \"SchoolId\": school['SchoolId'],\r\n",
-							"                    \"ClassPeriodName\": \"{} - Traditional\".format(random.randint(1,5)),\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"ClassPeriod\",\r\n",
-							"                        \"href\": \"/ed-fi/classPeriods/{}\".format(self.faker.uuid4().replace('-',''))\r\n",
-							"                    }\r\n",
-							"                    }\r\n",
-							"                }\r\n",
-							"                ],\r\n",
-							"                \"CourseLevelCharacteristics\": [],\r\n",
-							"                \"OfferedGradeLevels\": [],\r\n",
-							"                \"Programs\": [],\r\n",
-							"                \"_etag\": self.faker.random_number(digits=10)\r\n",
-							"            })\r\n",
-							"        return sections\r\n",
-							"\r\n",
-							"    def create_student_section_associations(self, school):\r\n",
-							"        student_section_associations = []\r\n",
-							"        session = random.choice(school['_Sessions'])\r\n",
-							"        for student in school['_Students']:\r\n",
-							"            course = random.choice(school['_Courses'])\r\n",
-							"            section = random.choice(school['_Sections'])\r\n",
-							"            student_section_associations.append({\r\n",
-							"                    \"Id\": self.faker.uuid4().replace('-',''),\r\n",
-							"                    \"SectionReference\": {\r\n",
-							"                        \"LocalCourseCode\": course['CourseCode'],\r\n",
-							"                        \"SchoolId\": school['SchoolId'],\r\n",
-							"                        \"SchoolYear\": self.school_year,\r\n",
-							"                        \"SectionIdentifier\": section['SectionIdentifier'],\r\n",
-							"                        \"SessionName\": session['SessionName'],\r\n",
-							"                        \"Link\": {\r\n",
-							"                            \"rel\": \"Section\",\r\n",
-							"                            \"href\": \"/ed-fi/sections/{}\".format(section['Id'])\r\n",
-							"                        }\r\n",
-							"                    },\r\n",
-							"                    \"StudentReference\": {\r\n",
-							"                        \"StudentUniqueId\": student['StudentUniqueId'],\r\n",
-							"                        \"Link\": {\r\n",
-							"                            \"rel\": \"Student\",\r\n",
-							"                            \"href\": \"/ed-fi/students/{}\".format(student['Id'])\r\n",
-							"                        }\r\n",
-							"                    },\r\n",
-							"                    \"BeginDate\": session['BeginDate'],\r\n",
-							"                    \"EndDate\": session['EndDate'],\r\n",
-							"                    \"HomeroomIndicator\": random.choice(BOOLEAN),\r\n",
-							"                    \"_etag\": self.faker.random_number(digits = 10)\r\n",
-							"                })\r\n",
-							"        return student_section_associations\r\n",
-							"\r\n",
-							"    def create_staff_section_associations(self,school):\r\n",
-							"        staff_section_associations = []\r\n",
-							"        for staff in school['_Staffs']:\r\n",
-							"            session = random.choice(school['_Sessions'])\r\n",
-							"            section = random.choice(school['_Sections'])\r\n",
-							"            staff_section_associations.append({\r\n",
-							"                \"Id\": self.faker.uuid4().replace('-',''),\r\n",
-							"                \"SectionReference\": {\r\n",
-							"                    \"LocalCourseCode\": section['CourseOfferingReference']['LocalCourseCode'],\r\n",
-							"                    \"SchoolId\": school['SchoolId'],\r\n",
-							"                    \"SchoolYear\": self.school_year,\r\n",
-							"                    \"SectionIdentifier\": section['SectionIdentifier'],\r\n",
-							"                    \"SessionName\": session['SessionName'],\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"Section\",\r\n",
-							"                        \"href\": \"/ed-fi/sections/{}\".format(section['Id'])\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                \"StaffReference\": {\r\n",
-							"                    \"StaffUniqueId\": staff['StaffUniqueId'],\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"Staff\",\r\n",
-							"                        \"href\": \"/ed-fi/staffs/{}\".format(staff['Id'])\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                \"BeginDate\": session['BeginDate'],\r\n",
-							"                \"ClassroomPositionDescriptor\": \"uri://ed-fi.org/ClassroomPositionDescriptor#Teacher of Record\",\r\n",
-							"                \"EndDate\": session['EndDate'],\r\n",
-							"                \"_etag\": self.faker.uuid4().replace('-','')\r\n",
-							"            })\r\n",
-							"        return staff_section_associations\r\n",
-							"\r\n",
-							"\r\n",
-							"    def create_staff_school_associations(self, school):\r\n",
-							"        staff_school_associations = []\r\n",
-							"        for staff in school['_Staffs']:\r\n",
-							"            staff_school_associations.append({\r\n",
-							"                \"Id\": self.faker.uuid4().replace('-',''),\r\n",
-							"                \"SchoolReference\": {\r\n",
-							"                    \"SchoolId\": school['SchoolId'],\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"School\",\r\n",
-							"                        \"href\": \"/ed-fi/schools/{}\".format(school['Id'])\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                \"StaffReference\": {\r\n",
-							"                    \"StaffUniqueId\": staff['StaffUniqueId'],\r\n",
-							"                    \"Link\": {\r\n",
-							"                        \"rel\": \"Staff\",\r\n",
-							"                        \"href\": \"/ed-fi/staffs/{}\".format(staff['Id'])\r\n",
-							"                    }\r\n",
-							"                },\r\n",
-							"                \"ProgramAssignmentDescriptor\": self.get_descriptor_string('ProgramAssignmentDescriptor','Regular Education'),\r\n",
-							"                \"AcademicSubjects\": [\r\n",
-							"                    {\r\n",
-							"                        \"AcademicSubjectDescriptor\": self.get_descriptor_string('AcademicSubjectDescriptor',random.choice(SUBJECT_NAMES)[0])\r\n",
-							"                    }\r\n",
-							"                ],\r\n",
-							"                \"GradeLevels\": [\r\n",
-							"                    {'GradeLevelDescriptor': self.get_descriptor_string('GradeLevelDescriptor',random.choice(GRADE_LEVEL))} for _ in range(4)\r\n",
-							"            ],\r\n",
-							"                \"_etag\": self.faker.random_number(digits=10)\r\n",
-							"            })\r\n",
-							"        return staff_school_associations\r\n",
-							"\r\n",
-							"    def format_edfi_data(self,data):\r\n",
-							"        result = {\r\n",
-							"            'Schools':[],\r\n",
-							"            'Students':[],\r\n",
-							"            'Calendars':[],\r\n",
-							"            'Courses':[],\r\n",
-							"            'StudentSchoolAssociations':[],\r\n",
-							"            'Staffs':[],\r\n",
-							"            'Sections': [],\r\n",
-							"            'StaffSchoolAssociations':[],\r\n",
-							"            'Sessions':[],\r\n",
-							"            'StudentSectionAssociations':[],\r\n",
-							"            'StaffSectionAssociations':[]\r\n",
-							"\r\n",
-							"        }\r\n",
-							"        for school in data:\r\n",
-							"            result['Schools'].append({key: school[key] for key in school if not (key.startswith('_')) })\r\n",
-							"            result['Students'] += school['_Students']\r\n",
-							"            result['Courses'] += school['_Courses']\r\n",
-							"            result['StudentSchoolAssociations'] += school['_StudentAssociations']\r\n",
-							"            result['Calendars'].append(school['_Calendars'])\r\n",
-							"            result['Staffs'] += school['_Staffs']\r\n",
-							"            result['Sections'] += school['_Sections']\r\n",
-							"            result['StaffSchoolAssociations'] += school['_StaffSchoolAssociations']\r\n",
-							"            result['Sessions'] += school['_Sessions']\r\n",
-							"            result['StudentSectionAssociations'] += school['_StudentSectionAssociations']\r\n",
-							"            result['StaffSectionAssociations'] += school['_StaffSectionAssociations']\r\n",
-							"\r\n",
-							"\r\n",
-							"        return result\r\n"
-						],
-						"outputs": []
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/NAPLAN_py')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
+				"folder": {
+					"name": "Data Objects"
+				},
 				"nbformat": 4,
 				"nbformat_minor": 2,
 				"bigDataPool": {
@@ -7378,7 +6932,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b021687e-da7a-4b0f-8a12-643157c4fdca"
+						"spark.autotune.trackingId": "4efa7b06-663f-4d69-ad3c-a0821ad1e5d7"
 					}
 				},
 				"metadata": {
@@ -8467,6 +8021,9 @@
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
+				"folder": {
+					"name": "Data Objects"
+				},
 				"nbformat": 4,
 				"nbformat_minor": 2,
 				"bigDataPool": {
@@ -8483,7 +8040,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "04edf5ce-6d46-4196-8fea-631c27255adc"
+						"spark.autotune.trackingId": "ee5903af-659a-4586-80a7-10631d5ac20b"
 					}
 				},
 				"metadata": {
@@ -8508,15 +8065,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class NCCD_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NCCD', pseudonymize = True):\r\n",
@@ -8584,6 +8139,9 @@
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
 				"nbformat": 4,
 				"nbformat_minor": 2,
 				"bigDataPool": {
@@ -8601,7 +8159,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2001c038-dd0c-44ef-9df2-c26b2d5d880b"
+						"spark.autotune.trackingId": "695da1d7-9611-4120-9a7f-4d68c66a108c"
 					}
 				},
 				"metadata": {
@@ -8745,10 +8303,383 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_AE')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"runAsWorkspaceSystemIdentity": false,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "1661f434-f0e0-4806-95cb-a166e39c14ce"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# OEA connector\n",
+							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
+							"\n",
+							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"tags": [
+								"parameters"
+							]
+						},
+						"source": [
+							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
+							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
+							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
+							"object_name = ''\r\n",
+							"method_name = ''\r\n",
+							"source_folder = ''\r\n",
+							"kwargs = '{}'"
+						],
+						"outputs": [],
+						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 16
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run /DataCopy_py"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /AE_py"
+						],
+						"outputs": [],
+						"execution_count": 17
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"obj = eval(object_name)\r\n",
+							"kwargs = eval(kwargs)\r\n",
+							"m = getattr(obj, method_name)\r\n",
+							"result = m(**kwargs)\r\n",
+							"mssparkutils.notebook.exit(result)"
+						],
+						"outputs": [],
+						"execution_count": 18
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Acer')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"runAsWorkspaceSystemIdentity": false,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "ce6cdc53-0d9f-4037-b3c2-9c3eb5e7f528"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# OEA connector\n",
+							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
+							"\n",
+							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"tags": [
+								"parameters"
+							]
+						},
+						"source": [
+							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
+							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
+							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
+							"object_name = ''\r\n",
+							"method_name = ''\r\n",
+							"source_folder = ''\r\n",
+							"kwargs = '{}'"
+						],
+						"outputs": [],
+						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 16
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run /DataCopy_py"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /Acer_py"
+						],
+						"outputs": [],
+						"execution_count": 17
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"obj = eval(object_name)\r\n",
+							"kwargs = eval(kwargs)\r\n",
+							"m = getattr(obj, method_name)\r\n",
+							"result = m(**kwargs)\r\n",
+							"mssparkutils.notebook.exit(result)"
+						],
+						"outputs": [],
+						"execution_count": 18
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Attendance')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
 				"nbformat": 4,
 				"nbformat_minor": 2,
 				"bigDataPool": {
@@ -8927,10 +8858,13 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Student_Profile')]",
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_NAPLAN')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
 				"nbformat": 4,
 				"nbformat_minor": 2,
 				"bigDataPool": {
@@ -8948,7 +8882,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "23fb2d5c-bd64-4e45-bb67-099c5ab56eb8"
+						"spark.autotune.trackingId": "899b20d1-d9ab-4864-9d7f-8e556e707875"
 					}
 				},
 				"metadata": {
@@ -8975,6 +8909,376 @@
 						"cores": 4,
 						"memory": 28,
 						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# OEA connector\n",
+							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
+							"\n",
+							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"tags": [
+								"parameters"
+							]
+						},
+						"source": [
+							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
+							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
+							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
+							"object_name = ''\r\n",
+							"method_name = ''\r\n",
+							"source_folder = ''\r\n",
+							"kwargs = '{}'"
+						],
+						"outputs": [],
+						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 16
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run /DataCopy_py"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /NAPLAN_py"
+						],
+						"outputs": [],
+						"execution_count": 17
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"obj = eval(object_name)\r\n",
+							"kwargs = eval(kwargs)\r\n",
+							"m = getattr(obj, method_name)\r\n",
+							"result = m(**kwargs)\r\n",
+							"mssparkutils.notebook.exit(result)"
+						],
+						"outputs": [],
+						"execution_count": 18
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_NCCD')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"runAsWorkspaceSystemIdentity": false,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "c25f5ecd-0140-4ab3-aa42-643d84b2dfe4"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# OEA connector\n",
+							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
+							"\n",
+							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"tags": [
+								"parameters"
+							]
+						},
+						"source": [
+							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
+							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
+							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
+							"object_name = ''\r\n",
+							"method_name = ''\r\n",
+							"source_folder = ''\r\n",
+							"kwargs = '{}'"
+						],
+						"outputs": [],
+						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 16
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run /DataCopy_py"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /NCCD_py"
+						],
+						"outputs": [],
+						"execution_count": 17
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"obj = eval(object_name)\r\n",
+							"kwargs = eval(kwargs)\r\n",
+							"m = getattr(obj, method_name)\r\n",
+							"result = m(**kwargs)\r\n",
+							"mssparkutils.notebook.exit(result)"
+						],
+						"outputs": [],
+						"execution_count": 18
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Student_Profile')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"runAsWorkspaceSystemIdentity": false,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "ed6ecf81-a647-4108-b214-62ba2f0f9314"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -9700,6 +10004,9 @@
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
+				"folder": {
+					"name": "Data Objects"
+				},
 				"nbformat": 4,
 				"nbformat_minor": 2,
 				"bigDataPool": {
@@ -9716,7 +10023,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d46d1170-e780-416c-917b-7980eb9625de"
+						"spark.autotune.trackingId": "f6955a96-0a63-4b05-8954-2e640dafcb0f"
 					}
 				},
 				"metadata": {
@@ -9741,15 +10048,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Student_profile(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='student', pseudonymize = True):\r\n",
@@ -10283,28 +10588,26 @@
 			"location": "australiasoutheast"
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Acer')]",
+			"name": "[concat(parameters('workspaceName'), '/Data_Transformations')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
+				"folder": {
+					"name": "Stage3"
+				},
 				"nbformat": 4,
 				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
 				"sessionProperties": {
 					"driverMemory": "28g",
 					"driverCores": 4,
 					"executorMemory": "28g",
 					"executorCores": 4,
 					"numExecutors": 2,
-					"runAsWorkspaceSystemIdentity": false,
 					"conf": {
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "cdc51f50-4797-4692-9d0a-792df669b85e"
+						"spark.autotune.trackingId": "2f9c4227-d777-4de7-9c7f-e03cb4616912"
 					}
 				},
 				"metadata": {
@@ -10312,25 +10615,10 @@
 					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
+						"display_name": "python"
 					},
 					"language_info": {
 						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -10345,10 +10633,7 @@
 							}
 						},
 						"source": [
-							"# OEA connector\n",
-							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
-							"\n",
-							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
+							"# Load data from Stage2"
 						]
 					},
 					{
@@ -10362,114 +10647,26 @@
 								"transient": {
 									"deleting": false
 								}
-							},
-							"tags": [
-								"parameters"
-							]
-						},
-						"source": [
-							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
-							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
-							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = ''\r\n",
-							"method_name = ''\r\n",
-							"source_folder = ''\r\n",
-							"kwargs = '{}'"
-						],
-						"outputs": [],
-						"execution_count": 15
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 16
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
 							}
 						},
 						"source": [
-							"%run /DataCopy_py"
+							""
 						],
 						"outputs": [],
 						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /Acer_py"
-						],
-						"outputs": [],
-						"execution_count": 17
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"obj = eval(object_name)\r\n",
-							"kwargs = eval(kwargs)\r\n",
-							"m = getattr(obj, method_name)\r\n",
-							"result = m(**kwargs)\r\n",
-							"mssparkutils.notebook.exit(result)"
-						],
-						"outputs": [],
-						"execution_count": 18
 					}
 				]
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_AE')]",
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_NAPLAN_Copy1')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
 				"nbformat": 4,
 				"nbformat_minor": 2,
 				"bigDataPool": {
@@ -10487,7 +10684,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1661f434-f0e0-4806-95cb-a166e39c14ce"
+						"spark.autotune.trackingId": "bf292a14-bd57-44fe-8e00-a77ef2b5ce8a"
 					}
 				},
 				"metadata": {
@@ -10556,11 +10753,11 @@
 							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
 							"object_name = ''\r\n",
 							"method_name = ''\r\n",
-							"source_folder = ''\r\n",
+							"source_folder = 'NAPLAN'\r\n",
 							"kwargs = '{}'"
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -10580,7 +10777,7 @@
 							"%run /OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -10599,190 +10796,7 @@
 							"%run /DataCopy_py"
 						],
 						"outputs": [],
-						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /AE_py"
-						],
-						"outputs": [],
-						"execution_count": 17
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"obj = eval(object_name)\r\n",
-							"kwargs = eval(kwargs)\r\n",
-							"m = getattr(obj, method_name)\r\n",
-							"result = m(**kwargs)\r\n",
-							"mssparkutils.notebook.exit(result)"
-						],
-						"outputs": [],
-						"execution_count": 18
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_NAPLAN')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "89f4139f-91c0-44c5-90b6-e2d7ff054d63"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "markdown",
-						"metadata": {
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"# OEA connector\n",
-							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
-							"\n",
-							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
-						]
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"tags": [
-								"parameters"
-							]
-						},
-						"source": [
-							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
-							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
-							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = ''\r\n",
-							"method_name = ''\r\n",
-							"source_folder = ''\r\n",
-							"kwargs = '{}'"
-						],
-						"outputs": [],
-						"execution_count": 15
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 16
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"%run /DataCopy_py"
-						],
-						"outputs": [],
-						"execution_count": null
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -10830,481 +10844,6 @@
 				]
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_NCCD')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c25f5ecd-0140-4ab3-aa42-643d84b2dfe4"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "markdown",
-						"metadata": {
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"# OEA connector\n",
-							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
-							"\n",
-							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
-						]
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"tags": [
-								"parameters"
-							]
-						},
-						"source": [
-							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
-							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
-							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = ''\r\n",
-							"method_name = ''\r\n",
-							"source_folder = ''\r\n",
-							"kwargs = '{}'"
-						],
-						"outputs": [],
-						"execution_count": 15
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 16
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"%run /DataCopy_py"
-						],
-						"outputs": [],
-						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /NCCD_py"
-						],
-						"outputs": [],
-						"execution_count": 17
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"obj = eval(object_name)\r\n",
-							"kwargs = eval(kwargs)\r\n",
-							"m = getattr(obj, method_name)\r\n",
-							"result = m(**kwargs)\r\n",
-							"mssparkutils.notebook.exit(result)"
-						],
-						"outputs": [],
-						"execution_count": 18
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_acer')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Ingest to Stage2",
-						"type": "SynapseNotebook",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebook": {
-								"referenceName": "OEA_connector_Acer",
-								"type": "NotebookReference"
-							},
-							"parameters": {
-								"object_name": {
-									"value": "acer_object",
-									"type": "string"
-								},
-								"method_name": {
-									"value": "ingest",
-									"type": "string"
-								},
-								"source_folder": {
-									"value": "ACER",
-									"type": "string"
-								}
-							},
-							"snapshot": true,
-							"sparkPool": {
-								"referenceName": "spark3p1sm",
-								"type": "BigDataPoolReference"
-							},
-							"executorSize": null,
-							"conf": {
-								"spark.dynamicAllocation.enabled": null,
-								"spark.dynamicAllocation.minExecutors": null,
-								"spark.dynamicAllocation.maxExecutors": null
-							},
-							"driverSize": null,
-							"numExecutors": null
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage2np"
-					}
-				},
-				"folder": {
-					"name": "OEA_Framework"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Acer')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_ae')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Ingest to Stage2",
-						"type": "SynapseNotebook",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebook": {
-								"referenceName": "OEA_connector_AE",
-								"type": "NotebookReference"
-							},
-							"parameters": {
-								"object_name": {
-									"value": "ae_object",
-									"type": "string"
-								},
-								"method_name": {
-									"value": "ingest",
-									"type": "string"
-								},
-								"source_folder": {
-									"value": "AE",
-									"type": "string"
-								}
-							},
-							"snapshot": true,
-							"sparkPool": {
-								"referenceName": "spark3p1sm",
-								"type": "BigDataPoolReference"
-							},
-							"executorSize": null,
-							"conf": {
-								"spark.dynamicAllocation.enabled": null,
-								"spark.dynamicAllocation.minExecutors": null,
-								"spark.dynamicAllocation.maxExecutors": null
-							},
-							"driverSize": null,
-							"numExecutors": null
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage2np"
-					}
-				},
-				"folder": {
-					"name": "OEA_Framework"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_AE')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_nccd')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Ingest to Stage2",
-						"type": "SynapseNotebook",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebook": {
-								"referenceName": "OEA_connector_NCCD",
-								"type": "NotebookReference"
-							},
-							"parameters": {
-								"object_name": {
-									"value": "nccd_object",
-									"type": "string"
-								},
-								"method_name": {
-									"value": "ingest",
-									"type": "string"
-								},
-								"source_folder": {
-									"value": "NCCD",
-									"type": "string"
-								}
-							},
-							"snapshot": true,
-							"sparkPool": {
-								"referenceName": "spark3p1sm",
-								"type": "BigDataPoolReference"
-							},
-							"executorSize": null,
-							"conf": {
-								"spark.dynamicAllocation.enabled": null,
-								"spark.dynamicAllocation.minExecutors": null,
-								"spark.dynamicAllocation.maxExecutors": null
-							},
-							"driverSize": null,
-							"numExecutors": null
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage2np"
-					}
-				},
-				"folder": {
-					"name": "OEA_Framework"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_NCCD')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_naplan')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Ingest to Stage2",
-						"type": "SynapseNotebook",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebook": {
-								"referenceName": "OEA_connector_NAPLAN",
-								"type": "NotebookReference"
-							},
-							"parameters": {
-								"object_name": {
-									"value": "naplan_object",
-									"type": "string"
-								},
-								"method_name": {
-									"value": "ingest",
-									"type": "string"
-								},
-								"source_folder": {
-									"value": "NAPLAN",
-									"type": "string"
-								}
-							},
-							"snapshot": true,
-							"sparkPool": {
-								"referenceName": "spark3p1sm",
-								"type": "BigDataPoolReference"
-							},
-							"executorSize": null,
-							"conf": {
-								"spark.dynamicAllocation.enabled": null,
-								"spark.dynamicAllocation.minExecutors": null,
-								"spark.dynamicAllocation.maxExecutors": null
-							},
-							"driverSize": null,
-							"numExecutors": null
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage2np"
-					}
-				},
-				"folder": {
-					"name": "OEA_Framework"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_NAPLAN')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
-			]
 		}
 	]
 }

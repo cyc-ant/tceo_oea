@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ab1cfb8b-6c7d-47f4-80e2-2345faeba4f9"
+				"spark.autotune.trackingId": "d6efdd6e-be91-44b1-a9b5-ffab200e1333"
 			}
 		},
 		"metadata": {
@@ -45,7 +45,8 @@
 				"sparkVersion": "3.1",
 				"nodeCount": 3,
 				"cores": 4,
-				"memory": 28
+				"memory": 28,
+				"automaticScaleJobs": false
 			},
 			"sessionKeepAliveTimeout": 30
 		},
@@ -57,7 +58,7 @@
 					"    def __init__(self, source_folder='NAPLAN', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
-					"        self.schemas['NaplanData'] = [\r\n",
+					"        self.schemas['dboNaplanData'] = [\r\n",
 					"                                        ['SkPersistentStudentId', 'integer', 'no-op'],\r\n",
 					"                                        ['CampusName', 'string', 'no-op'],\r\n",
 					"                                        ['CalendarYear', 'integer', 'no-op'],\r\n",
@@ -1059,7 +1060,7 @@
 					"                                        ]\r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'NaplanData', self.schemas['NaplanData'], None, 'SkPersistentStudentId')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'dboNaplanData', self.schemas['dboNaplanData'], None, 'SkPersistentStudentId')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'NaplanNational', self.schemas['NaplanNational'], None, 'CalendarYear')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'NaplanNationalAverage', self.schemas['NaplanNationalAverage'], None, 'Year')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMFactMySchoolsNAPLANResults', self.schemas['DMFactMySchoolsNAPLANResults'], 'LastUpdateDate', 'SKMySchoolsNAPLANResults')\r\n",

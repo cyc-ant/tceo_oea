@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "19ab366a-0e99-441c-9abb-812ea564b7a5"
+				"spark.autotune.trackingId": "fc3229fd-f3a7-4376-9e2e-96d29f0bccfb"
 			}
 		},
 		"metadata": {
@@ -80,7 +80,7 @@
 				"source": [
 					"%run OEA_py"
 				],
-				"execution_count": 1
+				"execution_count": 30
 			},
 			{
 				"cell_type": "code",
@@ -98,7 +98,7 @@
 				"source": [
 					"%run Stage3/Transformations_py"
 				],
-				"execution_count": 2
+				"execution_count": 31
 			},
 			{
 				"cell_type": "code",
@@ -121,9 +121,12 @@
 					"# stage3 locations defined in OEA\r\n",
 					"destination_p = oea.stage3p\r\n",
 					"destination_np = oea.stage3np\r\n",
+					"\r\n",
+					"# stage3 version (eg. pilot)\r\n",
+					"version = 'pilot'\r\n",
 					""
 				],
-				"execution_count": 24
+				"execution_count": 37
 			},
 			{
 				"cell_type": "code",
@@ -143,7 +146,7 @@
 					"    path = f'{target_system}/{target_path}'\r\n",
 					"    df.write.format('delta').save(path, header=True, mode=\"overwrite\")"
 				],
-				"execution_count": 26
+				"execution_count": 33
 			},
 			{
 				"cell_type": "code",
@@ -178,14 +181,14 @@
 					"            transformed_df = transform(subfolder)\r\n",
 					"            # if transformation has worked..\r\n",
 					"            if transformed_df:\r\n",
-					"                saveToTarget(transformed_df, destination, f'{folder.name}/{subfolder.name}')\r\n",
+					"                saveToTarget(transformed_df, destination, f'{version}/{subfolder.name}')\r\n",
 					"            else:\r\n",
 					"                print(f'Errors in Transform - Skipping: {folder.name}/{subfolder.name}')\r\n",
 					"\r\n",
 					"\r\n",
 					""
 				],
-				"execution_count": 27
+				"execution_count": 38
 			},
 			{
 				"cell_type": "code",
@@ -203,7 +206,7 @@
 				"source": [
 					"stage3Transform(source_p, destination_p)"
 				],
-				"execution_count": 28
+				"execution_count": 39
 			},
 			{
 				"cell_type": "code",
@@ -221,7 +224,7 @@
 				"source": [
 					"stage3Transform(source_np, destination_np)"
 				],
-				"execution_count": 29
+				"execution_count": 40
 			}
 		]
 	}

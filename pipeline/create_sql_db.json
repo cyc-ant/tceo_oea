@@ -274,15 +274,15 @@
 		"parameters": {
 			"storageAccount": {
 				"type": "string",
-				"defaultValue": "stoeacisd3gg1"
+				"defaultValue": "stoeatceooeadev01"
 			},
 			"sourceDirectory": {
 				"type": "string",
-				"defaultValue": "contoso_sis"
+				"defaultValue": "pilot"
 			},
 			"stage": {
 				"type": "string",
-				"defaultValue": "2"
+				"defaultValue": "3"
 			}
 		},
 		"variables": {

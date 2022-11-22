@@ -1,0 +1,28 @@
+{
+	"name": "Create_LakeDB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "create_lake_db",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"stageNum": "3",
+						"sourceDirectory": "pilot"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "OEA_Framework"
+		},
+		"annotations": []
+	}
+}

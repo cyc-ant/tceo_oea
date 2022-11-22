@@ -57,11 +57,11 @@
 		"parameters": {
 			"stageNum": {
 				"type": "string",
-				"defaultValue": "2"
+				"defaultValue": "3"
 			},
 			"sourceDirectory": {
 				"type": "string",
-				"defaultValue": "contoso_sis"
+				"defaultValue": "pilot"
 			}
 		},
 		"folder": {

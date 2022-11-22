@@ -251,6 +251,200 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_ACER_part1')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach_ymt",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.cw_items",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy_ymt",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "dbo.@{item().source.table}"
+										},
+										{
+											"name": "Destination",
+											"value": "stage1np/ACER/@{item().destination.fileName}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"validateDataConsistency": false
+									},
+									"inputs": [
+										{
+											"referenceName": "SourceDataset_ACER_part1",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_table": "@item().source.table"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DestinationDataset_ACER_part1",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_fileName": "@item().destination.fileName"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"cw_items": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"source": {
+									"table": "vwDMACERStanine"
+								},
+								"destination": {
+									"fileName": "dbovwDMACERStanine.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMACERStudent"
+								},
+								"destination": {
+									"fileName": "dbovwDMACERStudent.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMCalendarYear"
+								},
+								"destination": {
+									"fileName": "dbovwDMCalendarYear.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMDate"
+								},
+								"destination": {
+									"fileName": "dbovwDMDate.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactPATResponse"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactPATResponse.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactPATResults"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactPATResults.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMGender"
+								},
+								"destination": {
+									"fileName": "dbovwDMGender.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMPATStudentTestGrouping"
+								},
+								"destination": {
+									"fileName": "dbovwDMPATStudentTestGrouping.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMPATTest"
+								},
+								"destination": {
+									"fileName": "dbovwDMPATTest.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMPersonDemographic"
+								},
+								"destination": {
+									"fileName": "dbovwDMPersonDemographic.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMSchoolTermWeek"
+								},
+								"destination": {
+									"fileName": "dbovwDMSchoolTermWeek.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMYearLevel"
+								},
+								"destination": {
+									"fileName": "dbovwDMYearLevel.csv"
+								}
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_ACER_part1')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_ACER_part1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_AE')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -4276,6 +4470,43 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_ACER_part1')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"folderPath": "ACER",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_AE')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -5309,6 +5540,35 @@
 		},
 		{
 			"name": "[concat(parameters('workspaceName'), '/SourceDataset_ACERAEStudent')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_ACER_part1')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {

@@ -2156,11 +2156,60 @@
 							"driverSize": null,
 							"numExecutors": null
 						}
+					},
+					{
+						"name": "IF create_sql_db",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "Transform and Move to Stage3",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.create_sql_db",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "create_sql_db",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "create_sql_db",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"storageAccount": "stoeatceooeadev01",
+											"sourceDirectory": "\\",
+											"stage": "3"
+										}
+									}
+								}
+							]
+						}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
+				},
+				"parameters": {
+					"create_sql_db": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"create_lake_db": {
+						"type": "bool",
+						"defaultValue": true
+					}
 				},
 				"folder": {
 					"name": "OEA_Framework"
@@ -2169,7 +2218,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/notebooks/Transforms_Connector')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]",
+				"[concat(variables('workspaceId'), '/pipelines/create_sql_db')]"
 			]
 		},
 		{
@@ -2551,7 +2601,7 @@
 				"variables": {
 					"sqlDBName": {
 						"type": "String",
-						"defaultValue": "sqls2_mydb"
+						"defaultValue": "sqls2_dev"
 					}
 				},
 				"folder": {
@@ -6868,7 +6918,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "99fd8b1f-a6ee-479e-944b-864f1b7b0594"
+						"spark.autotune.trackingId": "cbd5b2d4-c2be-494e-a432-af6161b5553a"
 					}
 				},
 				"metadata": {
@@ -9485,7 +9535,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7d7798be-01c3-46aa-94f9-7d180859e1f3"
+						"spark.autotune.trackingId": "af7df7bf-5329-4112-a09a-5223634c0999"
 					}
 				},
 				"metadata": {
@@ -10660,7 +10710,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "80ec872e-67c8-4a29-a8b8-61ea3208c94d"
+						"spark.autotune.trackingId": "4992ccc0-16e4-4d06-91ef-08104cf5a998"
 					}
 				},
 				"metadata": {
@@ -10783,7 +10833,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "cc9db864-a5e6-47e9-be9a-085f06f258e6"
+						"spark.autotune.trackingId": "0dc856a5-3ee0-490b-9f1b-f5707ca876f8"
 					}
 				},
 				"metadata": {
@@ -11021,6 +11071,44 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Create_SQLDB')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Create SQL DB",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "create_sql_db",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"storageAccount": "stoeatceooeadev01",
+								"sourceDirectory": "\\",
+								"stage": "3"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "OEA_Framework"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/pipelines/create_sql_db')]"
+			]
 		}
 	]
 }

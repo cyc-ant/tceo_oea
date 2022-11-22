@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "beb546d6-5317-4815-bb8b-1abe85dd904a"
+				"spark.autotune.trackingId": "14fed709-5549-4595-8005-55d63111212d"
 			}
 		},
 		"metadata": {
@@ -78,26 +78,6 @@
 					}
 				},
 				"source": [
-					"# stage2 source locations defined in the base OEA\r\n",
-					"source_p = oea.stage2p \r\n",
-					"source_np = oea.stage2np"
-				],
-				"execution_count": null
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
 					"%run OEA_py"
 				],
 				"execution_count": null
@@ -117,6 +97,26 @@
 				},
 				"source": [
 					"%run Stage3/Transformations_py"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# stage2 source locations defined in the base OEA\r\n",
+					"source_p = oea.stage2p \r\n",
+					"source_np = oea.stage2np"
 				],
 				"execution_count": null
 			},

@@ -2086,6 +2086,43 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/Create_LakeDB')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execute Pipeline1",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "create_lake_db",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"stageNum": "3",
+								"sourceDirectory": "pilot"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "OEA_Framework"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/pipelines/create_lake_db')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Create_SQLDB')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -2325,11 +2362,11 @@
 				"parameters": {
 					"stageNum": {
 						"type": "string",
-						"defaultValue": "2"
+						"defaultValue": "3"
 					},
 					"sourceDirectory": {
 						"type": "string",
-						"defaultValue": "contoso_sis"
+						"defaultValue": "pilot"
 					}
 				},
 				"folder": {
@@ -2625,15 +2662,15 @@
 				"parameters": {
 					"storageAccount": {
 						"type": "string",
-						"defaultValue": "stoeacisd3gg1"
+						"defaultValue": "stoeatceooeadev01"
 					},
 					"sourceDirectory": {
 						"type": "string",
-						"defaultValue": "contoso_sis"
+						"defaultValue": "pilot"
 					},
 					"stage": {
 						"type": "string",
-						"defaultValue": "2"
+						"defaultValue": "3"
 					}
 				},
 				"variables": {

@@ -1,0 +1,184 @@
+{
+	"name": "CopyPipeline_ACER_part1",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_ymt",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_ymt",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "dbo.@{item().source.table}"
+								},
+								{
+									"name": "Destination",
+									"value": "stage1np/ACER/@{item().destination.fileName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"validateDataConsistency": false
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_ACER_part1",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_table": "@item().source.table"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_ACER_part1",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_fileName": "@item().destination.fileName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"table": "vwDMACERStanine"
+						},
+						"destination": {
+							"fileName": "dbovwDMACERStanine.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMACERStudent"
+						},
+						"destination": {
+							"fileName": "dbovwDMACERStudent.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMCalendarYear"
+						},
+						"destination": {
+							"fileName": "dbovwDMCalendarYear.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMDate"
+						},
+						"destination": {
+							"fileName": "dbovwDMDate.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactPATResponse"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactPATResponse.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactPATResults"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactPATResults.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMGender"
+						},
+						"destination": {
+							"fileName": "dbovwDMGender.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMPATStudentTestGrouping"
+						},
+						"destination": {
+							"fileName": "dbovwDMPATStudentTestGrouping.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMPATTest"
+						},
+						"destination": {
+							"fileName": "dbovwDMPATTest.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMPersonDemographic"
+						},
+						"destination": {
+							"fileName": "dbovwDMPersonDemographic.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMSchoolTermWeek"
+						},
+						"destination": {
+							"fileName": "dbovwDMSchoolTermWeek.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMYearLevel"
+						},
+						"destination": {
+							"fileName": "dbovwDMYearLevel.csv"
+						}
+					}
+				]
+			}
+		},
+		"annotations": []
+	}
+}

@@ -167,6 +167,78 @@
 								"destination": {
 									"fileName": "dbovwDMFactPATResults.csv"
 								}
+							},
+							{
+								"source": {
+									"table": "vwDMPersonDemographic"
+								},
+								"destination": {
+									"fileName": "dbovwDMPersonDemographic.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMPATStudentTestGrouping"
+								},
+								"destination": {
+									"fileName": "dbovwDMPATStudentTestGrouping.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMPATTest"
+								},
+								"destination": {
+									"fileName": "dbovwDMPATTest.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMCampus"
+								},
+								"destination": {
+									"fileName": "dbovwDMCampus.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMCalendarYear"
+								},
+								"destination": {
+									"fileName": "dbovwDMCalendarYear.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMGender"
+								},
+								"destination": {
+									"fileName": "dbovwDMGender.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMYearLevel"
+								},
+								"destination": {
+									"fileName": "dbovwDMYearLevel.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMDate"
+								},
+								"destination": {
+									"fileName": "dbovwDMDate.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMSchoolTermWeek"
+								},
+								"destination": {
+									"fileName": "dbovwDMSchoolTermWeek.csv"
+								}
 							}
 						]
 					}

@@ -15,7 +15,7 @@
 					"waitOnCompletion": true,
 					"parameters": {
 						"storageAccount": "stoeatceooeadev01",
-						"sourceDirectory": "\\",
+						"sourceDirectory": "/",
 						"stage": "3"
 					}
 				}

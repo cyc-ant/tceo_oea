@@ -6815,7 +6815,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c5142f50-2d26-4683-ad9a-da6850308ab1"
+						"spark.autotune.trackingId": "bfce1eda-5d64-4ed8-bf0b-60e46f85bcfb"
 					}
 				},
 				"metadata": {
@@ -6840,8 +6840,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -6909,6 +6908,78 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/Data_Transformations')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Stage3"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "7d26a20c-c9fa-427a-b283-951ad2c40333"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "python"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# Load data from Stage2"
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/NAPLAN_py')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -6932,7 +7003,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4efa7b06-663f-4d69-ad3c-a0821ad1e5d7"
+						"spark.autotune.trackingId": "ad63a50a-8628-407e-bccf-5ef33666bae0"
 					}
 				},
 				"metadata": {
@@ -6971,7 +7042,7 @@
 							"    def __init__(self, source_folder='NAPLAN', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
-							"        self.schemas['NaplanData'] = [\r\n",
+							"        self.schemas['dboNaplanData'] = [\r\n",
 							"                                        ['SkPersistentStudentId', 'integer', 'no-op'],\r\n",
 							"                                        ['CampusName', 'string', 'no-op'],\r\n",
 							"                                        ['CalendarYear', 'integer', 'no-op'],\r\n",
@@ -6984,14 +7055,14 @@
 							"                                        ['Band', 'string', 'no-op']                                                                 \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['NaplanNational'] = [\r\n",
+							"        self.schemas['dboNaplanNational'] = [\r\n",
 							"                                        ['CalendarYear', 'integer', 'no-op'],\r\n",
 							"                                        ['YearLevel', 'integer', 'no-op'],\r\n",
 							"                                        ['Test', 'string', 'no-op'],\r\n",
 							"                                        ['AverageScoreNational', 'double', 'no-op']                                                               \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['NaplanNationalAverage'] = [\r\n",
+							"        self.schemas['dboNaplanNationalAverage'] = [\r\n",
 							"                                        ['Year', 'integer', 'no-op'],\r\n",
 							"                                        ['Year Level', 'string', 'no-op'],\r\n",
 							"                                        ['Score', 'double', 'no-op'],   #changed float to double\r\n",
@@ -7759,7 +7830,7 @@
 							"                                        ['ResponseDescription', 'string', 'no-op']                                              \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['AssessmentArea'] = [\r\n",
+							"        self.schemas['NAPLANAssessmentArea'] = [\r\n",
 							"                                        ['SKNaplanAssessmentId', 'integer', 'no-op'],\r\n",
 							"                                        ['BKNaplanAssesmentArea', 'string', 'no-op'],\r\n",
 							"                                        ['NaplanAssesmentAreaDesc', 'string', 'no-op'],\r\n",
@@ -7775,7 +7846,7 @@
 							"                                        ['ScdReason', 'string', 'no-op']                                               \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['ExamBands'] = [\r\n",
+							"        self.schemas['NAPLANExamBands'] = [\r\n",
 							"                                        ['SKExamBandId', 'integer', 'no-op'],\r\n",
 							"                                        ['BKExamBandId', 'integer', 'no-op'],\r\n",
 							"                                        ['YearLevelId', 'integer', 'no-op'],\r\n",
@@ -7797,7 +7868,7 @@
 							"                                        ['YearLevelSifDesc', 'string', 'no-op']                                               \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['NAPLAN'] = [\r\n",
+							"        self.schemas['NAPLANNAPLAN'] = [\r\n",
 							"                                        ['SKNaplanResultId', 'integer', 'no-op'],\r\n",
 							"                                        ['uidNaplanResult', 'string', 'no-op'],\r\n",
 							"                                        ['CalendarYear', 'integer', 'no-op'],\r\n",
@@ -7844,7 +7915,7 @@
 							"                                        ['IsOnline', 'integer', 'no-op']                                               \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['NAPLANStudentView'] = [\r\n",
+							"        self.schemas['NAPLANNAPLANStudentView'] = [\r\n",
 							"                                        ['SkNaplanStudentId', 'integer', 'no-op'],\r\n",
 							"                                        ['uidNaplanResult', 'string', 'no-op'],\r\n",
 							"                                        ['StudentFirstName', 'string', 'no-op'],\r\n",
@@ -7871,7 +7942,7 @@
 							"                                        ['SourceSystemStudentDisplayId', 'string', 'no-op']                                               \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['Student'] = [\r\n",
+							"        self.schemas['NAPLANStudent'] = [\r\n",
 							"                                        ['BKSourceStudentId', 'string', 'no-op'],\r\n",
 							"                                        ['BKPersistentStudentId', 'integer', 'no-op'],\r\n",
 							"                                        ['SKStudent', 'integer', 'no-op'],\r\n",
@@ -7938,7 +8009,7 @@
 							"                                        ['RollGroup', 'string', 'no-op']                                              \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['StudentYearResult'] = [\r\n",
+							"        self.schemas['NAPLANStudentYearResult'] = [\r\n",
 							"                                        ['UId', 'integer', 'no-op'],\r\n",
 							"                                        ['SkStudent', 'integer', 'no-op'],\r\n",
 							"                                        ['SkPersistentStudentId', 'integer', 'no-op'],\r\n",
@@ -7973,9 +8044,9 @@
 							"                                        ]\r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'NaplanData', self.schemas['NaplanData'], None, 'SkPersistentStudentId')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'NaplanNational', self.schemas['NaplanNational'], None, 'CalendarYear')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'NaplanNationalAverage', self.schemas['NaplanNationalAverage'], None, 'Year')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'dboNaplanData', self.schemas['dboNaplanData'], None, 'SkPersistentStudentId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'dboNaplanNational', self.schemas['dboNaplanNational'], None, 'CalendarYear')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'dboNaplanNationalAverage', self.schemas['dboNaplanNationalAverage'], None, 'Year')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMFactMySchoolsNAPLANResults', self.schemas['DMFactMySchoolsNAPLANResults'], 'LastUpdateDate', 'SKMySchoolsNAPLANResults')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMFactMySchoolsNAPLANResultsSimilarSchools', self.schemas['DMFactMySchoolsNAPLANResultsSimilarSchools'], 'LastUpdateDate', 'SKMySchoolsNAPLANResultsSimilarSchools')\r\n",
 							"\r\n",
@@ -7998,12 +8069,12 @@
 							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANTest', self.schemas['DMNAPLANTest'], 'LastUpdateDate', 'SKNAPLANTest')\r\n",
 							"\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANTextResponse', self.schemas['DMNAPLANTextResponse'], 'LastUpdateDate', 'SKNAPLANTextResponse')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'AssessmentArea', self.schemas['AssessmentArea'], 'LastUpdateDate', 'SKNaplanAssessmentId')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'ExamBands', self.schemas['ExamBands'], 'LastUpdateDate', 'SKExamBandId')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'NAPLAN', self.schemas['NAPLAN'], 'LastUpdateDate', 'SKNaplanResultId')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'NAPLANStudentView', self.schemas['NAPLANStudentView'], 'LastUpdateDate', 'SkNaplanStudentId')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'Student', self.schemas['Student'], None, 'BKSourceStudentId')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'StudentYearResult', self.schemas['StudentYearResult'], 'LastUpdateDate', 'UId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'NAPLANAssessmentArea', self.schemas['NAPLANAssessmentArea'], 'LastUpdateDate', 'SKNaplanAssessmentId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'NAPLANExamBands', self.schemas['NAPLANExamBands'], 'LastUpdateDate', 'SKExamBandId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'NAPLANNAPLAN', self.schemas['NAPLANNAPLAN'], 'LastUpdateDate', 'SKNaplanResultId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'NAPLANNAPLANStudentView', self.schemas['NAPLANNAPLANStudentView'], 'LastUpdateDate', 'SkNaplanStudentId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'NAPLANStudent', self.schemas['NAPLANStudent'], None, 'BKSourceStudentId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'NAPLANStudentYearResult', self.schemas['NAPLANStudentYearResult'], 'LastUpdateDate', 'UId')\r\n",
 							"\r\n",
 							"\r\n",
 							"\r\n",
@@ -8882,7 +8953,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "899b20d1-d9ab-4864-9d7f-8e556e707875"
+						"spark.autotune.trackingId": "89f4139f-91c0-44c5-90b6-e2d7ff054d63"
 					}
 				},
 				"metadata": {
@@ -8907,8 +8978,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -8995,6 +9065,191 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /NAPLAN_py"
+						],
+						"outputs": [],
+						"execution_count": 17
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"obj = eval(object_name)\r\n",
+							"kwargs = eval(kwargs)\r\n",
+							"m = getattr(obj, method_name)\r\n",
+							"result = m(**kwargs)\r\n",
+							"mssparkutils.notebook.exit(result)"
+						],
+						"outputs": [],
+						"execution_count": 18
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_NAPLAN_Copy1')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"runAsWorkspaceSystemIdentity": false,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "5fb9dfb2-c1a5-4e10-a193-05a2e52d406c"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# OEA connector\n",
+							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
+							"\n",
+							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"tags": [
+								"parameters"
+							]
+						},
+						"source": [
+							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
+							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
+							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
+							"object_name = ''\r\n",
+							"method_name = ''\r\n",
+							"source_folder = 'NAPLAN'\r\n",
+							"kwargs = '{}'"
+						],
+						"outputs": [],
+						"execution_count": 1
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 2
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run /DataCopy_py"
+						],
+						"outputs": [],
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -10586,264 +10841,6 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/Data_Transformations')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "Stage3"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2f9c4227-d777-4de7-9c7f-e03cb4616912"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "python"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "markdown",
-						"metadata": {
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"# Load data from Stage2"
-						]
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							""
-						],
-						"outputs": [],
-						"execution_count": null
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_NAPLAN_Copy1')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "OEA Connectors"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "bf292a14-bd57-44fe-8e00-a77ef2b5ce8a"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "markdown",
-						"metadata": {
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"# OEA connector\n",
-							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
-							"\n",
-							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
-						]
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"tags": [
-								"parameters"
-							]
-						},
-						"source": [
-							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
-							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
-							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = ''\r\n",
-							"method_name = ''\r\n",
-							"source_folder = 'NAPLAN'\r\n",
-							"kwargs = '{}'"
-						],
-						"outputs": [],
-						"execution_count": 1
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 2
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"%run /DataCopy_py"
-						],
-						"outputs": [],
-						"execution_count": 3
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /NAPLAN_py"
-						],
-						"outputs": [],
-						"execution_count": 17
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"obj = eval(object_name)\r\n",
-							"kwargs = eval(kwargs)\r\n",
-							"m = getattr(obj, method_name)\r\n",
-							"result = m(**kwargs)\r\n",
-							"mssparkutils.notebook.exit(result)"
-						],
-						"outputs": [],
-						"execution_count": 18
-					}
-				]
-			},
-			"dependsOn": []
 		}
 	]
 }

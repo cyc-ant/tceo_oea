@@ -6868,7 +6868,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "bfce1eda-5d64-4ed8-bf0b-60e46f85bcfb"
+						"spark.autotune.trackingId": "99fd8b1f-a6ee-479e-944b-864f1b7b0594"
 					}
 				},
 				"metadata": {
@@ -6893,7 +6893,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -9093,191 +9094,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_NAPLAN_Copy1')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "OEA Connectors"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5fb9dfb2-c1a5-4e10-a193-05a2e52d406c"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "markdown",
-						"metadata": {
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"# OEA connector\n",
-							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
-							"\n",
-							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
-						]
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"tags": [
-								"parameters"
-							]
-						},
-						"source": [
-							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
-							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
-							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = ''\r\n",
-							"method_name = ''\r\n",
-							"source_folder = 'NAPLAN'\r\n",
-							"kwargs = '{}'"
-						],
-						"outputs": [],
-						"execution_count": 1
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 2
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"%run /DataCopy_py"
-						],
-						"outputs": [],
-						"execution_count": 3
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /NAPLAN_py"
-						],
-						"outputs": [],
-						"execution_count": 17
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"obj = eval(object_name)\r\n",
-							"kwargs = eval(kwargs)\r\n",
-							"m = getattr(obj, method_name)\r\n",
-							"result = m(**kwargs)\r\n",
-							"mssparkutils.notebook.exit(result)"
-						],
-						"outputs": [],
-						"execution_count": 18
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/OEA_connector_NCCD')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -9665,16 +9481,39 @@
 					"executorCores": 4,
 					"numExecutors": 2,
 					"runAsWorkspaceSystemIdentity": false,
-					"conf": {}
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "7d7798be-01c3-46aa-94f9-7d180859e1f3"
+					}
 				},
 				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
 						"display_name": "python"
 					},
 					"language_info": {
 						"name": "python"
-					}
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
@@ -10227,7 +10066,8 @@
 							"\n",
 							"oea = OEA()"
 						],
-						"outputs": []
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -10820,7 +10660,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "652ca080-b758-4e77-9555-687a8c328dc0"
+						"spark.autotune.trackingId": "80ec872e-67c8-4a29-a8b8-61ea3208c94d"
 					}
 				},
 				"metadata": {
@@ -10878,14 +10718,34 @@
 							}
 						},
 						"source": [
+							"def transformation(df, name):\r\n",
+							"    final_df = df\r\n",
+							"\r\n",
+							"    return final_df"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
 							"# call this function with the name of the table to transform\r\n",
 							"def transform(tableName):\r\n",
-							"    print(tableName)\r\n",
 							"\r\n",
 							"    try:\r\n",
 							"        df = spark.read.load(f\"{tableName.path}\", format='delta')\r\n",
-							"\r\n",
-							"        return df\r\n",
+							"        return transformation(df, tableName.name)\r\n",
 							"\r\n",
 							"    except AnalysisException as e:\r\n",
 							"        raise ValueError(f\"Failed to load {tableName.path}. Check the paths.\\nMore info below:\\n\" + str(e)) \r\n",
@@ -10923,7 +10783,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8964f991-013d-4cbf-812e-2a086ba7a676"
+						"spark.autotune.trackingId": "cc9db864-a5e6-47e9-be9a-085f06f258e6"
 					}
 				},
 				"metadata": {
@@ -10931,7 +10791,7 @@
 					"enableDebugMode": false,
 					"kernelspec": {
 						"name": "synapse_pyspark",
-						"display_name": "python"
+						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "python"
@@ -10984,7 +10844,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -11003,7 +10863,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -11019,12 +10879,17 @@
 							}
 						},
 						"source": [
-							"# stage2 source locations defined in the base OEA\r\n",
+							"# stage2 locations defined in the base OEA\r\n",
 							"source_p = oea.stage2p \r\n",
-							"source_np = oea.stage2np"
+							"source_np = oea.stage2np\r\n",
+							"\r\n",
+							"# stage3 locations defined in OEA\r\n",
+							"destination_p = oea.stage3p\r\n",
+							"destination_np = oea.stage3np\r\n",
+							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 24
 					},
 					{
 						"cell_type": "code",
@@ -11041,10 +10906,11 @@
 						},
 						"source": [
 							"def saveToTarget(df, target_system, target_path):\r\n",
-							"    df.write.format('delta').save(oea.path(target_system, target_path), header=True, mode=\"overwrite\")"
+							"    path = f'{target_system}/{target_path}'\r\n",
+							"    df.write.format('delta').save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 26
 					},
 					{
 						"cell_type": "code",
@@ -11060,30 +10926,72 @@
 							}
 						},
 						"source": [
-							"# load data, transform then save from each source\r\n",
-							"\r\n",
-							"# source_p - for each major folder, iterate through each subfolder\r\n",
-							"folders = mssparkutils.fs.ls(oea.stage2p)\r\n",
-							"for folder in folders:\r\n",
-							"    #ignore files\r\n",
-							"    if folder.isFile:\r\n",
-							"        continue\r\n",
-							"    # iterate through each subfolder\r\n",
-							"    subfolders = mssparkutils.fs.ls(oea.stage2p + '/' + folder)\r\n",
-							"    for subfolder in subfolders:\r\n",
+							"# load data, transform then save from each source folder to the destination \r\n",
+							"def stage3Transform(source, destination):\r\n",
+							"    # source - for each major folder, iterate through each subfolder\r\n",
+							"    folders = mssparkutils.fs.ls(source)\r\n",
+							"    for folder in folders:\r\n",
 							"        #ignore files\r\n",
 							"        if folder.isFile:\r\n",
 							"            continue\r\n",
-							"        #transformations on table\r\n",
-							"        transformed_df = transform(subfolder)\r\n",
-							"        if transformed_df:\r\n",
-							"            saveToTarget(transformed_df)\r\n",
+							"        # iterate through each subfolder\r\n",
+							"        subfolders = mssparkutils.fs.ls(folder.path)\r\n",
+							"        for subfolder in subfolders:\r\n",
+							"            #There shouldn't be any files at this directory level \r\n",
+							"            if subfolder.isFile:\r\n",
+							"                continue\r\n",
+							"\r\n",
+							"            # run transformations\r\n",
+							"            transformed_df = transform(subfolder)\r\n",
+							"            # if transformation has worked..\r\n",
+							"            if transformed_df:\r\n",
+							"                saveToTarget(transformed_df, destination, subfolder.name)\r\n",
+							"            else:\r\n",
+							"                print(f'Errors in Transform - Skipping: {subfolder.name}')\r\n",
 							"\r\n",
 							"\r\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 27
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"stage3Transform(source_p, destination_p)"
+						],
+						"outputs": [],
+						"execution_count": 28
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"stage3Transform(source_np, destination_np)"
+						],
+						"outputs": [],
+						"execution_count": 29
 					}
 				]
 			},

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "41440b34-7eea-406c-b73b-e4fd0a57e56d"
+				"spark.autotune.trackingId": "f6fd9664-88fa-4e61-ae71-cb128164b215"
 			}
 		},
 		"metadata": {
@@ -78,14 +78,33 @@
 					}
 				},
 				"source": [
+					"def transformation(df, name):\r\n",
+					"    final_df = df\r\n",
+					"\r\n",
+					"    return final_df"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
 					"# call this function with the name of the table to transform\r\n",
 					"def transform(tableName):\r\n",
-					"    print(tableName)\r\n",
 					"\r\n",
 					"    try:\r\n",
 					"        df = spark.read.load(f\"{tableName.path}\", format='delta')\r\n",
-					"\r\n",
-					"        return df\r\n",
+					"        return transformation(df, tableName.name)\r\n",
 					"\r\n",
 					"    except AnalysisException as e:\r\n",
 					"        raise ValueError(f\"Failed to load {tableName.path}. Check the paths.\\nMore info below:\\n\" + str(e)) \r\n",

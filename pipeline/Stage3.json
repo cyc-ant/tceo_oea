@@ -25,10 +25,65 @@
 						"type": "BigDataPoolReference"
 					},
 					"executorSize": null,
-					"driverSize": null
+					"conf": {
+						"spark.dynamicAllocation.enabled": null,
+						"spark.dynamicAllocation.minExecutors": null,
+						"spark.dynamicAllocation.maxExecutors": null
+					},
+					"driverSize": null,
+					"numExecutors": null
+				}
+			},
+			{
+				"name": "IF create_sql_db",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Transform and Move to Stage3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.create_sql_db",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "create_sql_db",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "create_sql_db",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"storageAccount": "stoeatceooeadev01",
+									"sourceDirectory": "\\",
+									"stage": "3"
+								}
+							}
+						}
+					]
 				}
 			}
 		],
+		"parameters": {
+			"create_sql_db": {
+				"type": "bool",
+				"defaultValue": true
+			},
+			"create_lake_db": {
+				"type": "bool",
+				"defaultValue": true
+			}
+		},
 		"folder": {
 			"name": "OEA_Framework"
 		},

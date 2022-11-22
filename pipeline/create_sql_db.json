@@ -288,7 +288,7 @@
 		"variables": {
 			"sqlDBName": {
 				"type": "String",
-				"defaultValue": "sqls2_mydb"
+				"defaultValue": "sqls2_dev"
 			}
 		},
 		"folder": {

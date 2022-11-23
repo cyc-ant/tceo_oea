@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "678831c2-955c-49e0-8d32-14a5210c2237"
+				"spark.autotune.trackingId": "7ab366ec-842b-4c4f-9e6a-25069bec28c6"
 			}
 		},
 		"metadata": {
@@ -394,13 +394,13 @@
 					"                                        ['DateSchoolClosed', 'date', 'no-op'],\r\n",
 					"                                        ['IsSchoolOpen', 'integer', 'no-op'],\r\n",
 					"                                        ['CampusStateCode', 'integer', 'no-op'],\r\n",
-					"                                        ['StatisticalArea1', 'bigint', 'no-op'],\r\n",
+					"                                        ['StatisticalArea1', 'integer', 'no-op'], #updated bigint to integer\r\n",
 					"                                        ['NameofStatisticalArea1', 'string', 'no-op'],\r\n",
-					"                                        ['StatisticalArea2', 'bigint', 'no-op'],\r\n",
+					"                                        ['StatisticalArea2', 'integer', 'no-op'], #updated bigint to integer\r\n",
 					"                                        ['NameofStatisticalArea2', 'string', 'no-op'],\r\n",
-					"                                        ['StatisticalArea3', 'bigint', 'no-op'],\r\n",
+					"                                        ['StatisticalArea3', 'integer', 'no-op'], #updated bigint to integer\r\n",
 					"                                        ['NameofStatisticalArea3', 'string', 'no-op'],\r\n",
-					"                                        ['StatisticalArea4', 'bigint', 'no-op'],\r\n",
+					"                                        ['StatisticalArea4', 'integer', 'no-op'], #updated bigint to integer\r\n",
 					"                                        ['NameofStatisticalArea4', 'string', 'no-op'],\r\n",
 					"                                        ['ABSRemotenessArea', 'string', 'no-op'],\r\n",
 					"                                        ['Geolocation', 'string', 'no-op'],\r\n",

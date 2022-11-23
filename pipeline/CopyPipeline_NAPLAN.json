@@ -336,10 +336,10 @@
 					{
 						"source": {
 							"schema": "dbo",
-							"table": "vwDMNAPLANOnlineTestPath"
+							"table": "vwDMNAPLANParticipationCode"
 						},
 						"destination": {
-							"fileName": "dbovwDMNAPLANOnlineTestPath.csv"
+							"fileName": "dbovwDMNAPLANParticipationCode.csv"
 						}
 					},
 					{

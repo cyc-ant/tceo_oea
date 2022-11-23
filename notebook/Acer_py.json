@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "2ef8dd87-f028-4f0f-8f1d-4e0ed44e9875"
+				"spark.autotune.trackingId": "678831c2-955c-49e0-8d32-14a5210c2237"
 			}
 		},
 		"metadata": {
@@ -303,7 +303,7 @@
 					"                                        ['BKPATStudentTestGrouping', 'string', 'no-op'],\r\n",
 					"                                        ['SystemId', 'string', 'no-op'],\r\n",
 					"                                        ['DateComplete', 'date', 'no-op'],\r\n",
-					"                                        ['TimeComplete', 'time', 'no-op'],\r\n",
+					"                                        ['TimeComplete', 'string', 'no-op'],  # converted time type to string\r\n",
 					"                                        ['TestName', 'string', 'no-op'],\r\n",
 					"                                        ['TestLevel', 'string', 'no-op'],\r\n",
 					"                                        ['CreateDate', 'string', 'no-op'],\r\n",

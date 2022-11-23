@@ -1,0 +1,83 @@
+{
+	"name": "SourceDataset_Bit_Test",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CeNet_DataBlend",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "SKAttendanceStatusId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BKAttendanceStatusId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AttendanceStatusSifCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AttendanceStatusSifDesc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PrimarySort",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 5
+			},
+			{
+				"name": "SecondarySort",
+				"type": "decimal",
+				"precision": 18,
+				"scale": 5
+			},
+			{
+				"name": "CreateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "LastUpdateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveStartDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveEndDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "IsCurrent",
+				"type": "bit"
+			},
+			{
+				"name": "ScdReason",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BusinessDesc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AttendanceStatusGroup",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "vwDMAttendanceStatus"
+		}
+	}
+}

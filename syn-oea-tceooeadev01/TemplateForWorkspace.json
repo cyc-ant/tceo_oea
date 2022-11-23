@@ -7982,7 +7982,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f0b30c5d-8ed4-4407-8c1b-f274537df9de"
+						"spark.autotune.trackingId": "f53e6301-619b-4f07-b66f-f26e965be7fd"
 					}
 				},
 				"metadata": {
@@ -8007,15 +8007,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class NAPLAN_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NAPLAN', pseudonymize = True):\r\n",
@@ -11736,7 +11734,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2dc3c60d-6249-4d49-9906-fe9b3a0a24dd"
+						"spark.autotune.trackingId": "95ed31ba-cf93-46aa-b32a-808ebb9d350f"
 					}
 				},
 				"metadata": {
@@ -11761,7 +11759,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -11858,7 +11857,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fc3229fd-f3a7-4376-9e2e-96d29f0bccfb"
+						"spark.autotune.trackingId": "b4494169-6520-45e9-8e6b-b1dcef61e5e3"
 					}
 				},
 				"metadata": {
@@ -11883,7 +11882,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -11918,7 +11918,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 30
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -11937,7 +11937,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 31
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -11966,7 +11966,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 37
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -11984,10 +11984,10 @@
 						"source": [
 							"def saveToTarget(df, target_system, target_path):\r\n",
 							"    path = f'{target_system}/{target_path}'\r\n",
-							"    df.write.format('delta').save(path, header=True, mode=\"overwrite\")"
+							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 33
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -12030,7 +12030,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 38
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -12049,7 +12049,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 39
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -12068,7 +12068,7 @@
 							"stage3Transform(source_np, destination_np)"
 						],
 						"outputs": [],
-						"execution_count": 40
+						"execution_count": 13
 					}
 				]
 			},

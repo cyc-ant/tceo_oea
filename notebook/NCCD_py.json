@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ee5903af-659a-4586-80a7-10631d5ac20b"
+				"spark.autotune.trackingId": "165b89a1-0a56-4cea-9a39-518599805848"
 			}
 		},
 		"metadata": {
@@ -65,7 +65,7 @@
 					"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
 					"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
 					"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
-					"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+					"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
 					"                                        ['ScdReason', 'string', 'no-op']                                                                   \r\n",
 					"                                        ]\r\n",
 					"\r\n",
@@ -78,7 +78,7 @@
 					"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
 					"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
 					"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
-					"                                        ['IsCurrent', 'integer', 'no-op'],\r\n",
+					"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
 					"                                        ['ScdReason', 'string', 'no-op']                                                                \r\n",
 					"                                        ]\r\n",
 					"\r\n",
@@ -94,7 +94,7 @@
 					"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
 					"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
 					"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
-					"                                        ['IsCurrent', 'integer', 'no-op']                                                             \r\n",
+					"                                        ['IsCurrent', 'string', 'no-op']                                                             \r\n",
 					"                                        ]\r\n",
 					"\r\n",
 					"                                 \r\n",

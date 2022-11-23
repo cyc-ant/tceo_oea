@@ -323,6 +323,42 @@
 						"destination": {
 							"fileName": "NAPLANStudentYearResult.csv"
 						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANOnlineTestPath"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANOnlineTestPath.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNAPLANOnlineTestPath"
+						},
+						"destination": {
+							"fileName": "dbovwDMNAPLANOnlineTestPath.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMNaplanSourceID"
+						},
+						"destination": {
+							"fileName": "dbovwDMNaplanSourceID.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "dbo.vwDMStateTerritory"
+						},
+						"destination": {
+							"fileName": "dbodbo.vwDMStateTerritory.csv"
+						}
 					}
 				]
 			}

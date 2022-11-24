@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "66daecd0-f08a-4bc5-8977-7f4623def3b5"
+				"spark.autotune.trackingId": "b33c4324-f54c-42df-be2a-f54ac9b8cc94"
 			}
 		},
 		"metadata": {
@@ -1163,7 +1163,7 @@
 					"        oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANACARABands', self.schemas['DMFactNAPLANACARABands'], 'LastUpdateDate', 'SKNaplanAcaraBands')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANOnlineStudentItemResponse', self.schemas['DMFactNAPLANOnlineStudentItemResponse'], 'LastUpdateDate', 'SKFactNAPLANOnlineStudentItemResponse')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANOnlineStudentTestResult', self.schemas['DMFactNAPLANOnlineStudentTestResult'], 'LastUpdateDate', 'SKFactNAPLANOnlineStudentTestResult')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANStudentResponse', self.schemas['DMFactNAPLANStudentResponse'], 'LastUpdateDate', 'SKFactNAPLANStudentResponse')\r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANStudentResponse', self.schemas['DMFactNAPLANStudentResponse'], 'LastUpdateDate', 'SKFactNAPLANStudentResponse')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMFactNaplanStudentYearResult', self.schemas['DMFactNaplanStudentYearResult'], 'LastUpdateDate', 'UId')\r\n",
 					"\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMNAPLAN', self.schemas['DMNAPLAN'], 'LastUpdateDate', 'SKNaplanResultId')\r\n",

@@ -3620,6 +3620,79 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_bit_test')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest to Stage2",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_Bit_Test",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "bit_test_object",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "test_bit",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"sinkFilesystem": {
+						"type": "string",
+						"defaultValue": "stage2np"
+					}
+				},
+				"folder": {
+					"name": "OEA_Framework"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Bit_Test')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_copy1')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -6848,7 +6921,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a32f017f-cd19-470d-b40c-99ef2922e692"
+						"spark.autotune.trackingId": "f2e19299-e157-406e-bc22-94fa2980d6c8"
 					}
 				},
 				"metadata": {
@@ -6873,15 +6946,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AE_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='AE', pseudonymize = True):\r\n",
@@ -7128,7 +7199,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2b210c45-1eb5-4675-979e-96c74b746d39"
+						"spark.autotune.trackingId": "fdfc9967-0897-4c76-82da-4bbd1863d46d"
 					}
 				},
 				"metadata": {
@@ -7153,15 +7224,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"# class Acer(BaseOEAModule):\r\n",
 							"#     def __init__(self, source_folder='acer_test', pseudonymize = True):\r\n",
@@ -7740,7 +7809,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7f72510a-bc63-4be4-84b2-f5b3072dc15c"
+						"spark.autotune.trackingId": "ea706f74-efb2-46ea-9b71-ecb8fef25246"
 					}
 				},
 				"metadata": {
@@ -7765,15 +7834,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Attendance_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='attendance', pseudonymize = True):\r\n",
@@ -8039,6 +8106,101 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/Bit_test_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Data Objects"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "a3172b2e-1ea4-4a15-b748-0bbec54c0b8f"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": true,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "python"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"source": [
+							"class Bit_Test_object(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder='test_bit', pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"\r\n",
+							"        self.schemas['DMAttendanceStatus'] = [\r\n",
+							"                                        ['SKAttendanceStatusId', 'integer', 'no-op'],\r\n",
+							"                                        ['BKAttendanceStatusId', 'integer', 'no-op'],\r\n",
+							"                                        ['AttendanceStatusSifCode', 'string', 'no-op'],\r\n",
+							"                                        ['AttendanceStatusSifDesc', 'string', 'no-op'],\r\n",
+							"                                        ['PrimarySort', 'double', 'no-op'],\r\n",
+							"                                        ['SecondarySort', 'double', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'bool', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
+							"                                        ['BusinessDesc', 'string', 'no-op'],\r\n",
+							"                                        ['AttendanceStatusGroup', 'string', 'no-op']                                                               \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"\r\n",
+							"                                 \r\n",
+							"\r\n",
+							"    def ingest(self):\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMAttendanceStatus', self.schemas['DMAttendanceStatus'], 'LastUpdateDate', 'SKAttendanceStatusId')\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"bit_test_object = Bit_Test_object()"
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DataCopy_py')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -8062,7 +8224,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5e42a889-4a50-4e5a-bced-416fb428b85c"
+						"spark.autotune.trackingId": "bfce1eda-5d64-4ed8-bf0b-60e46f85bcfb"
 					}
 				},
 				"metadata": {
@@ -8087,8 +8249,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -8179,7 +8340,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "dcd4545b-cbb5-4a2c-af3c-2451502840de"
+						"spark.autotune.trackingId": "47f642aa-4bf8-4269-ad45-fcfb7e641f80"
 					}
 				},
 				"metadata": {
@@ -9323,7 +9484,7 @@
 							"        oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANACARABands', self.schemas['DMFactNAPLANACARABands'], 'LastUpdateDate', 'SKNaplanAcaraBands')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANOnlineStudentItemResponse', self.schemas['DMFactNAPLANOnlineStudentItemResponse'], 'LastUpdateDate', 'SKFactNAPLANOnlineStudentItemResponse')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANOnlineStudentTestResult', self.schemas['DMFactNAPLANOnlineStudentTestResult'], 'LastUpdateDate', 'SKFactNAPLANOnlineStudentTestResult')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANStudentResponse', self.schemas['DMFactNAPLANStudentResponse'], 'LastUpdateDate', 'SKFactNAPLANStudentResponse')\r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'DMFactNAPLANStudentResponse', self.schemas['DMFactNAPLANStudentResponse'], 'LastUpdateDate', 'SKFactNAPLANStudentResponse')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMFactNaplanStudentYearResult', self.schemas['DMFactNaplanStudentYearResult'], 'LastUpdateDate', 'UId')\r\n",
 							"\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLAN', self.schemas['DMNAPLAN'], 'LastUpdateDate', 'SKNaplanResultId')\r\n",
@@ -9388,7 +9549,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "27ab7f75-b7d8-493e-8dcf-f2da0a66e15a"
+						"spark.autotune.trackingId": "165b89a1-0a56-4cea-9a39-518599805848"
 					}
 				},
 				"metadata": {
@@ -9413,15 +9574,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class NCCD_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NCCD', pseudonymize = True):\r\n",
@@ -10176,6 +10335,191 @@
 						},
 						"source": [
 							"%run /Attendance_py"
+						],
+						"outputs": [],
+						"execution_count": 17
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"obj = eval(object_name)\r\n",
+							"kwargs = eval(kwargs)\r\n",
+							"m = getattr(obj, method_name)\r\n",
+							"result = m(**kwargs)\r\n",
+							"mssparkutils.notebook.exit(result)"
+						],
+						"outputs": [],
+						"execution_count": 18
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Bit_Test')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"runAsWorkspaceSystemIdentity": false,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "63ae5508-cb21-4255-b42d-8b0119dc9eb0"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# OEA connector\n",
+							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
+							"\n",
+							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"tags": [
+								"parameters"
+							]
+						},
+						"source": [
+							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
+							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
+							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
+							"object_name = ''\r\n",
+							"method_name = ''\r\n",
+							"source_folder = ''\r\n",
+							"kwargs = '{}'"
+						],
+						"outputs": [],
+						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 16
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run /DataCopy_py"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /Bit_test_py"
 						],
 						"outputs": [],
 						"execution_count": 17
@@ -11372,7 +11716,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f4c6a782-16e6-4f37-a80b-4f25447c5a98"
+						"spark.autotune.trackingId": "0bc65855-1008-4c40-acfb-1887702d3874"
 					}
 				},
 				"metadata": {
@@ -11397,15 +11741,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Student_profile(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='student', pseudonymize = True):\r\n",
@@ -12299,362 +12641,6 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/Bit_test_py')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "Data Objects"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ab4a5b3c-d2ca-407d-933c-a4eda108ffa1"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": true,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "python"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "code",
-						"metadata": {},
-						"source": [
-							"class Bit_Test_object(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='test_bit', pseudonymize = True):\r\n",
-							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-							"\r\n",
-							"        self.schemas['DMAttendanceStatus'] = [\r\n",
-							"                                        ['SKAttendanceStatusId', 'integer', 'no-op'],\r\n",
-							"                                        ['BKAttendanceStatusId', 'integer', 'no-op'],\r\n",
-							"                                        ['AttendanceStatusSifCode', 'string', 'no-op'],\r\n",
-							"                                        ['AttendanceStatusSifDesc', 'string', 'no-op'],\r\n",
-							"                                        ['PrimarySort', 'double', 'no-op'],\r\n",
-							"                                        ['SecondarySort', 'double', 'no-op'],\r\n",
-							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
-							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
-							"                                        ['IsCurrent', 'bool', 'no-op'],\r\n",
-							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
-							"                                        ['BusinessDesc', 'string', 'no-op'],\r\n",
-							"                                        ['AttendanceStatusGroup', 'string', 'no-op']                                                               \r\n",
-							"                                        ]\r\n",
-							"\r\n",
-							"\r\n",
-							"                                 \r\n",
-							"\r\n",
-							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMAttendanceStatus', self.schemas['DMAttendanceStatus'], 'LastUpdateDate', 'SKAttendanceStatusId')\r\n",
-							"\r\n",
-							"\r\n",
-							"\r\n",
-							"bit_test_object = Bit_Test_object()"
-						],
-						"outputs": [],
-						"execution_count": null
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Bit_Test')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "OEA Connectors"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a6693de5-74f7-4a48-bd0e-68cc31d639cc"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "markdown",
-						"metadata": {
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"# OEA connector\n",
-							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
-							"\n",
-							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
-						]
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"tags": [
-								"parameters"
-							]
-						},
-						"source": [
-							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
-							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
-							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = ''\r\n",
-							"method_name = ''\r\n",
-							"source_folder = ''\r\n",
-							"kwargs = '{}'"
-						],
-						"outputs": [],
-						"execution_count": 15
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 16
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"%run /DataCopy_py"
-						],
-						"outputs": [],
-						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /Bit_test_py"
-						],
-						"outputs": [],
-						"execution_count": 17
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"obj = eval(object_name)\r\n",
-							"kwargs = eval(kwargs)\r\n",
-							"m = getattr(obj, method_name)\r\n",
-							"result = m(**kwargs)\r\n",
-							"mssparkutils.notebook.exit(result)"
-						],
-						"outputs": [],
-						"execution_count": 18
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_bit_test')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Ingest to Stage2",
-						"type": "SynapseNotebook",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebook": {
-								"referenceName": "OEA_connector_Bit_Test",
-								"type": "NotebookReference"
-							},
-							"parameters": {
-								"object_name": {
-									"value": "bit_test_object",
-									"type": "string"
-								},
-								"method_name": {
-									"value": "ingest",
-									"type": "string"
-								},
-								"source_folder": {
-									"value": "test_bit",
-									"type": "string"
-								}
-							},
-							"snapshot": true,
-							"sparkPool": {
-								"referenceName": "spark3p1sm",
-								"type": "BigDataPoolReference"
-							},
-							"executorSize": null,
-							"conf": {
-								"spark.dynamicAllocation.enabled": null,
-								"spark.dynamicAllocation.minExecutors": null,
-								"spark.dynamicAllocation.maxExecutors": null
-							},
-							"driverSize": null,
-							"numExecutors": null
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage2np"
-					}
-				},
-				"folder": {
-					"name": "OEA_Framework"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Bit_Test')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
-			]
 		}
 	]
 }

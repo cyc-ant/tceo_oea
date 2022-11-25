@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e5dd54ce-7eff-4c1e-9858-6aee556be7c1"
+				"spark.autotune.trackingId": "2a587bcf-2163-4ef0-9cfc-a61e5aa92db4"
 			}
 		},
 		"metadata": {
@@ -415,7 +415,7 @@
 					"                                        ['ScdReason', 'string', 'no-op']                                                                                               \r\n",
 					"                                        ]\r\n",
 					"\r\n",
-					"                                        \r\n",
+					"\r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMFactMySchoolsAttendance', self.schemas['DMFactMySchoolsAttendance'], 'LastUpdateDate', 'SKMySchoolsAttendance')\r\n",

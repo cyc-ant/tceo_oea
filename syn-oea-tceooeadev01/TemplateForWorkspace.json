@@ -868,6 +868,224 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_MySchools')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach_3hr",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.cw_items",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy_3hr",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "dbo.@{item().source.table}"
+										},
+										{
+											"name": "Destination",
+											"value": "stage1np/MySchools/@{item().destination.fileName}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"validateDataConsistency": false
+									},
+									"inputs": [
+										{
+											"referenceName": "SourceDataset_MySchools",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_table": "@item().source.table"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DestinationDataset_MySchools",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_fileName": "@item().destination.fileName"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"cw_items": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsAttendance"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsAttendance.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsEnrolmentsByGrade"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsEnrolmentsByGrade.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsFinance"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsFinance.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsNAPLANResults"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsNAPLANResults.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsNAPLANResultsSimilarSchools"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsNAPLANResultsSimilarSchools.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsProfile"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsProfile.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsSeniorOutcomes"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsSeniorOutcomes.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsStudentGain"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsStudentGain.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsStudentGainSameStartingScore"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsStudentGainSameStartingScore.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsStudentGainSimilarSchools"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsStudentGainSimilarSchools.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsVETInSchools"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsVETInSchools.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactMySchoolsVETSchoolBasedApprenticeshipsTraineeships"
+								},
+								"destination": {
+									"fileName": "dbovwDMFactMySchoolsVETSchoolBasedApprenticeshipsTraineeships.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMMySchoolsStudentGainGroup"
+								},
+								"destination": {
+									"fileName": "dbovwDMMySchoolsStudentGainGroup.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMMySchoolsVETClassification"
+								},
+								"destination": {
+									"fileName": "dbovwDMMySchoolsVETClassification.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMMySchoolsVETStatus"
+								},
+								"destination": {
+									"fileName": "dbovwDMMySchoolsVETStatus.csv"
+								}
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_MySchools')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_MySchools')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_NAPLAN')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -3912,6 +4130,79 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_enrolment')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest to Stage2",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_Enrolment",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "enrolment_object",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "enrolment",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"sinkFilesystem": {
+						"type": "string",
+						"defaultValue": "stage2np"
+					}
+				},
+				"folder": {
+					"name": "OEA_Framework"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Enrolment')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_naplan')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -5129,6 +5420,43 @@
 						"type": "AzureBlobFSLocation",
 						"fileName": "dbovwDMAttendanceStatus.csv",
 						"folderPath": "test_bit",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_MySchools')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"folderPath": "MySchools",
 						"fileSystem": "stage1np"
 					},
 					"columnDelimiter": ",",
@@ -6424,6 +6752,35 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_MySchools')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/SourceDataset_NAPLAN')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -7133,7 +7490,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1a47a365-6369-4075-81f4-b02d9d82df8f"
+						"spark.autotune.trackingId": "f2e19299-e157-406e-bc22-94fa2980d6c8"
 					}
 				},
 				"metadata": {
@@ -7158,15 +7515,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AE_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='AE', pseudonymize = True):\r\n",
@@ -8525,6 +8880,224 @@
 						],
 						"outputs": [],
 						"execution_count": 1
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Enrolment_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Data Objects"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "9f886d53-41ae-47ef-a783-1f7b42b98061"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": true,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "python"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"source": [
+							"class Enrolment_object(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder='enrolment', pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"\r\n",
+							"        self.schemas['DMEnrolmentStatus'] = [\r\n",
+							"                                        ['SKEnrolmentStatus', 'integer', 'no-op'],\r\n",
+							"                                        ['BKEnrolmentStatusId', 'integer', 'no-op'],\r\n",
+							"                                        ['EnrolmentStatusDesc', 'string', 'no-op'],\r\n",
+							"                                        ['EnrolmentActive', 'string', 'no-op'],\r\n",
+							"                                        ['EnrolmentActiveYesNo', 'string', 'no-op'],\r\n",
+							"                                        ['EnrolmentGroup', 'string', 'no-op'],\r\n",
+							"                                        ['BusinessDesc', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
+							"                                        ['PrimarySort', 'double', 'no-op'],\r\n",
+							"                                        ['SecondarySort', 'double', 'no-op']                                                                  \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFactStudentEnrolment'] = [\r\n",
+							"                                        ['UIDEnrolmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SkEnrolmentYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKPreEnrolmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SkEnrolmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKStudent', 'integer', 'no-op'],\r\n",
+							"                                        ['SKPersistentStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKGenderId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SKDateEnrolmentSubmitted', 'integer', 'no-op'],\r\n",
+							"                                        ['SKDateEnrolmentStarted', 'integer', 'no-op'],\r\n",
+							"                                        ['SKDateEnrolmentEnded', 'integer', 'no-op'],\r\n",
+							"                                        ['SKEnrolmentStatus', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['FFPOS', 'string', 'no-op'],\r\n",
+							"                                        ['EslYesNo', 'string', 'no-op'],\r\n",
+							"                                        ['LboteYesNo', 'string', 'no-op'],\r\n",
+							"                                        ['SKAtsi', 'integer', 'no-op'],\r\n",
+							"                                        ['SwdYesNo', 'string', 'no-op'],\r\n",
+							"                                        ['SKAttendanceStatusId', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentHeadCount', 'integer', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EnrolmentCount', 'integer', 'no-op'],\r\n",
+							"                                        ['EnrolmentFTE', 'double', 'no-op'],\r\n",
+							"                                        ['SKMainCampus', 'integer', 'no-op']                                                           \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFactStudentEnrolmentCounts'] = [\r\n",
+							"                                        ['SKStudentEnrolmentCount', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['SKRollGroup', 'integer', 'no-op'],\r\n",
+							"                                        ['SKGenderId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKAtsi', 'integer', 'no-op'],\r\n",
+							"                                        ['LBOTE_Int', 'integer', 'no-op'],\r\n",
+							"                                        ['LBOTE_YesNo', 'string', 'no-op'], #converted varchar to string\r\n",
+							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKDate', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentCount', 'integer', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
+							"                                        ['ReceivesESL_Int', 'integer', 'no-op'],\r\n",
+							"                                        ['ReceivesESL_YesNo', 'string', 'no-op'],\r\n",
+							"                                        ['RequiresESL_Int', 'integer', 'no-op'],\r\n",
+							"                                        ['RequiresESL_YesNo', 'string', 'no-op']                                                            \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMFactSubjectEnrolment'] = [\r\n",
+							"                                        ['SKFactSubjectEnrolment', 'integer', 'no-op'],\r\n",
+							"                                        ['SKStudent', 'integer', 'no-op'],\r\n",
+							"                                        ['SKStaff', 'integer', 'no-op'],\r\n",
+							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+							"                                        ['SKStudentOrganisationDetails', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+							"                                        ['SKRollGroup', 'integer', 'no-op'],\r\n",
+							"                                        ['SKSubject', 'integer', 'no-op'],\r\n",
+							"                                        ['SKActivity', 'integer', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
+							"                                        ['EnrolmentCount', 'integer', 'no-op'],\r\n",
+							"                                        ['SKEnrolmentStartDate', 'integer', 'no-op'],\r\n",
+							"                                        ['SKEnrolmentEndDate', 'integer', 'no-op'],\r\n",
+							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
+							"                                        ['SKSchoolTerm', 'integer', 'no-op']                                                                                                 \r\n",
+							"                                        ]\r\n",
+							"            \r\n",
+							"\r\n",
+							"      \r\n",
+							"\r\n",
+							"        self.schemas['DMPreEnrolment'] = [\r\n",
+							"                                        ['SKEnrolmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['EnrolmentYear', 'integer', 'no-op'],\r\n",
+							"                                        ['BKSourceEnrolmentId', 'string', 'no-op'],\r\n",
+							"                                        ['BKSourceStudentId', 'string', 'no-op'],\r\n",
+							"                                        ['BKPersistentStudentId', 'integer', 'no-op'],\r\n",
+							"                                        ['SKPreEnrolmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['DateEnrolmentSubmitted', 'date', 'no-op'],\r\n",
+							"                                        ['DateEnrolmentStarted', 'date', 'no-op'],\r\n",
+							"                                        ['DateEnrolmentEnded', 'date', 'no-op'],\r\n",
+							"                                        ['EnrolmentStatusId', 'integer', 'no-op'],\r\n",
+							"                                        ['YearLevelId', 'integer', 'no-op'],\r\n",
+							"                                        ['FFPOS', 'string', 'no-op'],\r\n",
+							"                                        ['EslYesNo', 'string', 'no-op'],\r\n",
+							"                                        ['LboteYesNo', 'string', 'no-op'],\r\n",
+							"                                        ['AtsiId', 'integer', 'no-op'],\r\n",
+							"                                        ['SwdYesNo', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EnrolmentCount', 'integer', 'no-op'],\r\n",
+							"                                        ['EnrolmentFTE', 'double', 'no-op'],\r\n",
+							"                                        ['MainCampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['AttendanceStatus', 'integer', 'no-op']                                                                                                 \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DMPreEnrolmentId'] = [\r\n",
+							"                                        ['SKPreEnrolmentId', 'integer', 'no-op'],\r\n",
+							"                                        ['BKSourceEnrolmentId', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
+							"                                        ['ScdReason', 'string', 'no-op']                                                                                                  \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"                                 \r\n",
+							"\r\n",
+							"    def ingest(self):\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMEnrolmentStatus', self.schemas['DMEnrolmentStatus'], 'LastUpdateDate', 'SKEnrolmentStatus')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactStudentEnrolment', self.schemas['DMFactStudentEnrolment'], 'LastUpdateDate', 'UIDEnrolmentId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactStudentEnrolmentCounts', self.schemas['DMFactStudentEnrolmentCounts'], None, 'SKStudentEnrolmentCount')\r\n",
+							"\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMFactSubjectEnrolment', self.schemas['DMFactSubjectEnrolment'], 'LastUpdateDate', 'SKFactSubjectEnrolment')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMPreEnrolment', self.schemas['DMPreEnrolment'], 'LastUpdateDate', 'SKEnrolmentId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMPreEnrolmentId', self.schemas['DMPreEnrolmentId'], 'LastUpdateDate', 'SKPreEnrolmentId')\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"enrolment_object = Enrolment_object()"
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -10764,6 +11337,191 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Enrolment')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"runAsWorkspaceSystemIdentity": false,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "5a6fd298-c48c-4cd8-a085-2e96dbbeb0fc"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# OEA connector\n",
+							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
+							"\n",
+							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"tags": [
+								"parameters"
+							]
+						},
+						"source": [
+							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
+							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
+							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
+							"object_name = ''\r\n",
+							"method_name = ''\r\n",
+							"source_folder = ''\r\n",
+							"kwargs = '{}'"
+						],
+						"outputs": [],
+						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 16
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run /DataCopy_py"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /Enrolment_py"
+						],
+						"outputs": [],
+						"execution_count": 17
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"obj = eval(object_name)\r\n",
+							"kwargs = eval(kwargs)\r\n",
+							"m = getattr(obj, method_name)\r\n",
+							"result = m(**kwargs)\r\n",
+							"mssparkutils.notebook.exit(result)"
+						],
+						"outputs": [],
+						"execution_count": 18
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/OEA_connector_NAPLAN')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -12853,485 +13611,6 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/Enrolment_py')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "Data Objects"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "804295e7-8c58-4f42-bfe0-2ecda9d3cde9"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": true,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "python"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "code",
-						"metadata": {},
-						"source": [
-							"class Enrolment_object(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='enrolment', pseudonymize = True):\r\n",
-							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-							"\r\n",
-							"        self.schemas['DMEnrolmentStatus'] = [\r\n",
-							"                                        ['SKEnrolmentStatus', 'integer', 'no-op'],\r\n",
-							"                                        ['BKEnrolmentStatusId', 'integer', 'no-op'],\r\n",
-							"                                        ['EnrolmentStatusDesc', 'string', 'no-op'],\r\n",
-							"                                        ['EnrolmentActive', 'string', 'no-op'],\r\n",
-							"                                        ['EnrolmentActiveYesNo', 'string', 'no-op'],\r\n",
-							"                                        ['EnrolmentGroup', 'string', 'no-op'],\r\n",
-							"                                        ['BusinessDesc', 'string', 'no-op'],\r\n",
-							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
-							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
-							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
-							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
-							"                                        ['PrimarySort', 'double', 'no-op'],\r\n",
-							"                                        ['SecondarySort', 'double', 'no-op']                                                                  \r\n",
-							"                                        ]\r\n",
-							"\r\n",
-							"        self.schemas['DMFactStudentEnrolment'] = [\r\n",
-							"                                        ['UIDEnrolmentId', 'integer', 'no-op'],\r\n",
-							"                                        ['SkEnrolmentYear', 'integer', 'no-op'],\r\n",
-							"                                        ['SKPreEnrolmentId', 'integer', 'no-op'],\r\n",
-							"                                        ['SkEnrolmentId', 'integer', 'no-op'],\r\n",
-							"                                        ['SKStudent', 'integer', 'no-op'],\r\n",
-							"                                        ['SKPersistentStudentId', 'integer', 'no-op'],\r\n",
-							"                                        ['SKGenderId', 'integer', 'no-op'],\r\n",
-							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
-							"                                        ['SKDateEnrolmentSubmitted', 'integer', 'no-op'],\r\n",
-							"                                        ['SKDateEnrolmentStarted', 'integer', 'no-op'],\r\n",
-							"                                        ['SKDateEnrolmentEnded', 'integer', 'no-op'],\r\n",
-							"                                        ['SKEnrolmentStatus', 'integer', 'no-op'],\r\n",
-							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
-							"                                        ['FFPOS', 'string', 'no-op'],\r\n",
-							"                                        ['EslYesNo', 'string', 'no-op'],\r\n",
-							"                                        ['LboteYesNo', 'string', 'no-op'],\r\n",
-							"                                        ['SKAtsi', 'integer', 'no-op'],\r\n",
-							"                                        ['SwdYesNo', 'string', 'no-op'],\r\n",
-							"                                        ['SKAttendanceStatusId', 'integer', 'no-op'],\r\n",
-							"                                        ['StudentHeadCount', 'integer', 'no-op'],\r\n",
-							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
-							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
-							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
-							"                                        ['EnrolmentCount', 'integer', 'no-op'],\r\n",
-							"                                        ['EnrolmentFTE', 'double', 'no-op'],\r\n",
-							"                                        ['SKMainCampus', 'integer', 'no-op']                                                           \r\n",
-							"                                        ]\r\n",
-							"\r\n",
-							"        self.schemas['DMFactStudentEnrolmentCounts'] = [\r\n",
-							"                                        ['SKStudentEnrolmentCount', 'integer', 'no-op'],\r\n",
-							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
-							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
-							"                                        ['SKRollGroup', 'integer', 'no-op'],\r\n",
-							"                                        ['SKGenderId', 'integer', 'no-op'],\r\n",
-							"                                        ['SKAtsi', 'integer', 'no-op'],\r\n",
-							"                                        ['LBOTE_Int', 'integer', 'no-op'],\r\n",
-							"                                        ['LBOTE_YesNo', 'string', 'no-op'], #converted varchar to string\r\n",
-							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
-							"                                        ['SKDate', 'integer', 'no-op'],\r\n",
-							"                                        ['StudentCount', 'integer', 'no-op'],\r\n",
-							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
-							"                                        ['ReceivesESL_Int', 'integer', 'no-op'],\r\n",
-							"                                        ['ReceivesESL_YesNo', 'string', 'no-op'],\r\n",
-							"                                        ['RequiresESL_Int', 'integer', 'no-op'],\r\n",
-							"                                        ['RequiresESL_YesNo', 'string', 'no-op']                                                            \r\n",
-							"                                        ]\r\n",
-							"\r\n",
-							"        self.schemas['DMFactSubjectEnrolment'] = [\r\n",
-							"                                        ['SKFactSubjectEnrolment', 'integer', 'no-op'],\r\n",
-							"                                        ['SKStudent', 'integer', 'no-op'],\r\n",
-							"                                        ['SKStaff', 'integer', 'no-op'],\r\n",
-							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
-							"                                        ['SKStudentOrganisationDetails', 'integer', 'no-op'],\r\n",
-							"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
-							"                                        ['SKRollGroup', 'integer', 'no-op'],\r\n",
-							"                                        ['SKSubject', 'integer', 'no-op'],\r\n",
-							"                                        ['SKActivity', 'integer', 'no-op'],\r\n",
-							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
-							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
-							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
-							"                                        ['EnrolmentCount', 'integer', 'no-op'],\r\n",
-							"                                        ['SKEnrolmentStartDate', 'integer', 'no-op'],\r\n",
-							"                                        ['SKEnrolmentEndDate', 'integer', 'no-op'],\r\n",
-							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
-							"                                        ['SKSchoolTerm', 'integer', 'no-op']                                                                                                 \r\n",
-							"                                        ]\r\n",
-							"            \r\n",
-							"\r\n",
-							"      \r\n",
-							"\r\n",
-							"        self.schemas['DMPreEnrolment'] = [\r\n",
-							"                                        ['SKEnrolmentId', 'integer', 'no-op'],\r\n",
-							"                                        ['EnrolmentYear', 'integer', 'no-op'],\r\n",
-							"                                        ['BKSourceEnrolmentId', 'string', 'no-op'],\r\n",
-							"                                        ['BKSourceStudentId', 'string', 'no-op'],\r\n",
-							"                                        ['BKPersistentStudentId', 'integer', 'no-op'],\r\n",
-							"                                        ['SKPreEnrolmentId', 'integer', 'no-op'],\r\n",
-							"                                        ['CampusId', 'integer', 'no-op'],\r\n",
-							"                                        ['DateEnrolmentSubmitted', 'date', 'no-op'],\r\n",
-							"                                        ['DateEnrolmentStarted', 'date', 'no-op'],\r\n",
-							"                                        ['DateEnrolmentEnded', 'date', 'no-op'],\r\n",
-							"                                        ['EnrolmentStatusId', 'integer', 'no-op'],\r\n",
-							"                                        ['YearLevelId', 'integer', 'no-op'],\r\n",
-							"                                        ['FFPOS', 'string', 'no-op'],\r\n",
-							"                                        ['EslYesNo', 'string', 'no-op'],\r\n",
-							"                                        ['LboteYesNo', 'string', 'no-op'],\r\n",
-							"                                        ['AtsiId', 'integer', 'no-op'],\r\n",
-							"                                        ['SwdYesNo', 'string', 'no-op'],\r\n",
-							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
-							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
-							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
-							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
-							"                                        ['EnrolmentCount', 'integer', 'no-op'],\r\n",
-							"                                        ['EnrolmentFTE', 'double', 'no-op'],\r\n",
-							"                                        ['MainCampusId', 'integer', 'no-op'],\r\n",
-							"                                        ['AttendanceStatus', 'integer', 'no-op']                                                                                                 \r\n",
-							"                                        ]\r\n",
-							"\r\n",
-							"        self.schemas['DMPreEnrolmentId'] = [\r\n",
-							"                                        ['SKPreEnrolmentId', 'integer', 'no-op'],\r\n",
-							"                                        ['BKSourceEnrolmentId', 'string', 'no-op'],\r\n",
-							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
-							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
-							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
-							"                                        ['ScdReason', 'string', 'no-op']                                                                                                  \r\n",
-							"                                        ]\r\n",
-							"\r\n",
-							"                                 \r\n",
-							"\r\n",
-							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMEnrolmentStatus', self.schemas['DMEnrolmentStatus'], 'LastUpdateDate', 'SKEnrolmentStatus')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMFactStudentEnrolment', self.schemas['DMFactStudentEnrolment'], 'LastUpdateDate', 'UIDEnrolmentId')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMFactStudentEnrolmentCounts', self.schemas['DMFactStudentEnrolmentCounts'], None, 'SKStudentEnrolmentCount')\r\n",
-							"\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMFactSubjectEnrolment', self.schemas['DMFactSubjectEnrolment'], 'LastUpdateDate', 'SKFactSubjectEnrolment')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMPreEnrolment', self.schemas['DMPreEnrolment'], 'LastUpdateDate', 'SKEnrolmentId')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMPreEnrolmentId', self.schemas['DMPreEnrolmentId'], 'LastUpdateDate', 'SKPreEnrolmentId')\r\n",
-							"\r\n",
-							"\r\n",
-							"\r\n",
-							"\r\n",
-							"enrolment_object = Enrolment_object()"
-						],
-						"outputs": [],
-						"execution_count": null
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Enrolment')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "OEA Connectors"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a36bdea5-8b6e-405f-b795-2fa3cecbacf2"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "markdown",
-						"metadata": {
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"# OEA connector\n",
-							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
-							"\n",
-							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
-						]
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"tags": [
-								"parameters"
-							]
-						},
-						"source": [
-							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
-							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
-							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = ''\r\n",
-							"method_name = ''\r\n",
-							"source_folder = ''\r\n",
-							"kwargs = '{}'"
-						],
-						"outputs": [],
-						"execution_count": 15
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 16
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"%run /DataCopy_py"
-						],
-						"outputs": [],
-						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /Enrolment_py"
-						],
-						"outputs": [],
-						"execution_count": 17
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"obj = eval(object_name)\r\n",
-							"kwargs = eval(kwargs)\r\n",
-							"m = getattr(obj, method_name)\r\n",
-							"result = m(**kwargs)\r\n",
-							"mssparkutils.notebook.exit(result)"
-						],
-						"outputs": [],
-						"execution_count": 18
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_enrolment')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Ingest to Stage2",
-						"type": "SynapseNotebook",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebook": {
-								"referenceName": "OEA_connector_Enrolment",
-								"type": "NotebookReference"
-							},
-							"parameters": {
-								"object_name": {
-									"value": "enrolment_object",
-									"type": "string"
-								},
-								"method_name": {
-									"value": "ingest",
-									"type": "string"
-								},
-								"source_folder": {
-									"value": "enrolment",
-									"type": "string"
-								}
-							},
-							"snapshot": true,
-							"sparkPool": {
-								"referenceName": "spark3p1sm",
-								"type": "BigDataPoolReference"
-							},
-							"executorSize": null,
-							"conf": {
-								"spark.dynamicAllocation.enabled": null,
-								"spark.dynamicAllocation.minExecutors": null,
-								"spark.dynamicAllocation.maxExecutors": null
-							},
-							"driverSize": null,
-							"numExecutors": null
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage2np"
-					}
-				},
-				"folder": {
-					"name": "OEA_Framework"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Enrolment')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
-			]
 		}
 	]
 }

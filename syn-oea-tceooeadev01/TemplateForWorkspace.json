@@ -7133,7 +7133,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "57880945-a1a5-4165-9c9a-b5e786e39413"
+						"spark.autotune.trackingId": "1a47a365-6369-4075-81f4-b02d9d82df8f"
 					}
 				},
 				"metadata": {
@@ -12878,7 +12878,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "63291db5-dda3-4689-b3ed-31c1d6fcf420"
+						"spark.autotune.trackingId": "804295e7-8c58-4f42-bfe0-2ecda9d3cde9"
 					}
 				},
 				"metadata": {
@@ -12974,7 +12974,7 @@
 							"                                        ['SKGenderId', 'integer', 'no-op'],\r\n",
 							"                                        ['SKAtsi', 'integer', 'no-op'],\r\n",
 							"                                        ['LBOTE_Int', 'integer', 'no-op'],\r\n",
-							"                                        ['LBOTE_YesNo', 'varchar', 'no-op'],\r\n",
+							"                                        ['LBOTE_YesNo', 'string', 'no-op'], #converted varchar to string\r\n",
 							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
 							"                                        ['SKDate', 'integer', 'no-op'],\r\n",
 							"                                        ['StudentCount', 'integer', 'no-op'],\r\n",
@@ -13099,7 +13099,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "89627f2e-9993-4165-8b53-eaf7f6da2aa1"
+						"spark.autotune.trackingId": "a36bdea5-8b6e-405f-b795-2fa3cecbacf2"
 					}
 				},
 				"metadata": {

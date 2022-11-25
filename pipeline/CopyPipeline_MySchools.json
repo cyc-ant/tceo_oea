@@ -1,0 +1,208 @@
+{
+	"name": "CopyPipeline_MySchools",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_3hr",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_3hr",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "dbo.@{item().source.table}"
+								},
+								{
+									"name": "Destination",
+									"value": "stage1np/MySchools/@{item().destination.fileName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"validateDataConsistency": false
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_MySchools",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_table": "@item().source.table"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_MySchools",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_fileName": "@item().destination.fileName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"table": "vwDMFactMySchoolsAttendance"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsAttendance.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactMySchoolsEnrolmentsByGrade"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsEnrolmentsByGrade.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactMySchoolsFinance"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsFinance.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactMySchoolsNAPLANResults"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsNAPLANResults.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactMySchoolsNAPLANResultsSimilarSchools"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsNAPLANResultsSimilarSchools.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactMySchoolsProfile"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsProfile.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactMySchoolsSeniorOutcomes"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsSeniorOutcomes.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactMySchoolsStudentGain"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsStudentGain.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactMySchoolsStudentGainSameStartingScore"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsStudentGainSameStartingScore.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactMySchoolsStudentGainSimilarSchools"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsStudentGainSimilarSchools.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactMySchoolsVETInSchools"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsVETInSchools.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMFactMySchoolsVETSchoolBasedApprenticeshipsTraineeships"
+						},
+						"destination": {
+							"fileName": "dbovwDMFactMySchoolsVETSchoolBasedApprenticeshipsTraineeships.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMMySchoolsStudentGainGroup"
+						},
+						"destination": {
+							"fileName": "dbovwDMMySchoolsStudentGainGroup.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMMySchoolsVETClassification"
+						},
+						"destination": {
+							"fileName": "dbovwDMMySchoolsVETClassification.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMMySchoolsVETStatus"
+						},
+						"destination": {
+							"fileName": "dbovwDMMySchoolsVETStatus.csv"
+						}
+					}
+				]
+			}
+		},
+		"annotations": []
+	}
+}

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "85f2996a-cee1-4e02-a44b-a65c18cd5991"
+				"spark.autotune.trackingId": "9f886d53-41ae-47ef-a783-1f7b42b98061"
 			}
 		},
 		"metadata": {
@@ -115,7 +115,7 @@
 					"                                        ['SKGenderId', 'integer', 'no-op'],\r\n",
 					"                                        ['SKAtsi', 'integer', 'no-op'],\r\n",
 					"                                        ['LBOTE_Int', 'integer', 'no-op'],\r\n",
-					"                                        ['LBOTE_YesNo', 'varchar', 'no-op'],\r\n",
+					"                                        ['LBOTE_YesNo', 'string', 'no-op'], #converted varchar to string\r\n",
 					"                                        ['SKYear', 'integer', 'no-op'],\r\n",
 					"                                        ['SKDate', 'integer', 'no-op'],\r\n",
 					"                                        ['StudentCount', 'integer', 'no-op'],\r\n",

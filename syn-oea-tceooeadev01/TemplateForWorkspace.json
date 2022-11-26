@@ -8451,7 +8451,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "52c5dfd7-39a3-4570-b35c-d8ca79f8200b"
+						"spark.autotune.trackingId": "e79bd1e9-1035-4260-9d7b-8aa7f3028aa0"
 					}
 				},
 				"metadata": {
@@ -8476,20 +8476,22 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Attendance_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='attendance', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
 							"        self.schemas['AggWholeDayAttendanceBySchool'] = [\r\n",
-							"                                        ['SKAggWholeDayAttendanceBySchool', 'integer', 'hash'],\r\n",
+							"                                        ['SKAggWholeDayAttendanceBySchool', 'integer', 'no-op'],\r\n",
 							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
 							"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
 							"                                        ['SKAttendanceDate', 'integer', 'no-op'],\r\n",
@@ -8513,7 +8515,7 @@
 							"                                        ]\r\n",
 							"\r\n",
 							"        self.schemas['AggWholeDayAttendanceByStudent'] = [\r\n",
-							"                                        ['SKAggWholeDayAttendanceByStudent', 'integer', 'hash'],\r\n",
+							"                                        ['SKAggWholeDayAttendanceByStudent', 'integer', 'no-op'],\r\n",
 							"                                        ['SKPerson', 'integer', 'no-op'],\r\n",
 							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
 							"                                        ['SKGender', 'integer', 'no-op'],\r\n",
@@ -8740,7 +8742,7 @@
 							"\r\n",
 							"\r\n",
 							"        self.schemas['DMFactWholeDayAttendance'] = [ \r\n",
-							"                                        ['SKWholeDayAttendance', 'integer', 'hash'],\r\n",
+							"                                        ['SKWholeDayAttendance', 'integer', 'no-op'],\r\n",
 							"                                        ['SKPerson', 'integer', 'no-op'],\r\n",
 							"                                        ['SKPersistentStudentId', 'integer', 'no-op'],\r\n",
 							"                                        ['SKYear', 'integer', 'no-op'],\r\n",
@@ -14026,7 +14028,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3d6d748a-e209-4bcd-a81e-bd56ebf18448"
+						"spark.autotune.trackingId": "88a2199c-cc24-4a7f-99f4-f87e9a6bdd79"
 					}
 				},
 				"metadata": {
@@ -14102,6 +14104,32 @@
 						],
 						"outputs": [],
 						"execution_count": 3
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def DMCampus_pseudo(df):\r\n",
+							"    df = df.filter(df.DioceseName == 'Townsville' \r\n",
+							"                    and df.SchoolName !=  'Townsville Catholic Education Office'\r\n",
+							"                    and df.SchoolName !=  'Canossa Convent School'\r\n",
+							"                    and df.SchoolName !=  'St Patrick\\'s College Townsville')\r\n",
+							"\r\n",
+							"    return df\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -14131,7 +14159,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "39b43370-9a95-433c-b643-1fc0c0c3cbdd"
+						"spark.autotune.trackingId": "73a7f6fb-6009-40be-80a5-e9574da9ede6"
 					}
 				},
 				"metadata": {
@@ -14156,7 +14184,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14276,7 +14305,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "83c7731d-7087-4de9-8bf2-f72ebf9adc7d"
+						"spark.autotune.trackingId": "0f181f1c-e3a0-4b90-ac43-53626e631d41"
 					}
 				},
 				"metadata": {
@@ -14301,7 +14330,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14336,7 +14366,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": 28
 					},
 					{
 						"cell_type": "code",
@@ -14355,7 +14385,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 22
+						"execution_count": 29
 					},
 					{
 						"cell_type": "code",
@@ -14374,7 +14404,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 23
+						"execution_count": 30
 					},
 					{
 						"cell_type": "code",
@@ -14403,7 +14433,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 24
+						"execution_count": 31
 					},
 					{
 						"cell_type": "code",
@@ -14424,7 +14454,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 25
+						"execution_count": 32
 					},
 					{
 						"cell_type": "code",
@@ -14467,7 +14497,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 26
+						"execution_count": 33
 					},
 					{
 						"cell_type": "code",
@@ -14486,7 +14516,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 27
+						"execution_count": 34
 					},
 					{
 						"cell_type": "code",
@@ -14505,7 +14535,7 @@
 							"stage3Transform(source_np, destination_np)"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 35
 					}
 				]
 			},
@@ -14535,6 +14565,128 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL Notebook')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Stage3"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "a915a251-40c0-4341-9793-6f20d882b8e6"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "sql"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {
+							"microsoft": {
+								"language": "python"
+							}
+						},
+						"source": [
+							"%%pyspark\r\n",
+							"\r\n",
+							"data = [(\"James\",\"M\",60000),(\"Michael\",\"M\",70000),\r\n",
+							"        (\"Robert\",None,400000),(\"Maria\",\"F\",500000),\r\n",
+							"        (\"Jen\",\"\",None)]\r\n",
+							"\r\n",
+							"columns = [\"name\",\"gender\",\"salary\"]\r\n",
+							"df = spark.createDataFrame(data = data, schema = columns)\r\n",
+							"\r\n",
+							"df.createOrReplaceTempView('vw_df')"
+						],
+						"outputs": [],
+						"execution_count": 5
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"microsoft": {}
+						},
+						"source": [
+							"df = df.filter(df.gender == 'M' and df.name != \"James\")\r\n",
+							"df.show()"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"SELECT * from vw_df"
+						],
+						"outputs": [],
+						"execution_count": 4
+					}
+				]
+			},
+			"dependsOn": []
 		}
 	]
 }

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "544b6750-a4cc-4ce3-9d59-f5c6757934d8"
+				"spark.autotune.trackingId": "cc63ef6a-3776-49fc-b2c2-dce20eb208d7"
 			}
 		},
 		"metadata": {
@@ -57,7 +57,7 @@
 					"from pyspark.sql.functions import when\r\n",
 					""
 				],
-				"execution_count": 1
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
@@ -75,7 +75,7 @@
 				"source": [
 					"def DMYearLevel_pseudo(df):\r\n",
 					"\r\n",
-					"    df = df.withColumn(\"Display Name\", when(df.BusinessDesc == \"Unknown\", \"\")\r\n",
+					"    df = df.withColumn(\"DisplayName\", when(df.BusinessDesc == \"Unknown\", \"\")\r\n",
 					"                                        .when(df.BusinessDesc == \"\", \"\")\r\n",
 					"                                        .when(df.BusinessDesc == \"Ungraded\", \"\")\r\n",
 					"                                        .when(df.BusinessDesc == \"SecondaryUngraded\", \"\")\r\n",
@@ -92,7 +92,7 @@
 					"\r\n",
 					"    return df"
 				],
-				"execution_count": null
+				"execution_count": 3
 			}
 		]
 	}

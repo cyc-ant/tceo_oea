@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "760df9ee-1a71-4ab7-a56b-b7c0fae3f19c"
+				"spark.autotune.trackingId": "544b6750-a4cc-4ce3-9d59-f5c6757934d8"
 			}
 		},
 		"metadata": {
@@ -28,7 +28,7 @@
 			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
-				"display_name": "python"
+				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
 				"name": "python"
@@ -54,6 +54,25 @@
 			{
 				"cell_type": "code",
 				"source": [
+					"from pyspark.sql.functions import when\r\n",
+					""
+				],
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
 					"def DMYearLevel_pseudo(df):\r\n",
 					"\r\n",
 					"    df = df.withColumn(\"Display Name\", when(df.BusinessDesc == \"Unknown\", \"\")\r\n",
@@ -71,28 +90,7 @@
 					"                                        .otherwise(df.BusinessDesc)\r\n",
 					"                                        )\r\n",
 					"\r\n",
-					"    return df\r\n",
-					"\r\n",
-					"\r\n",
-					""
-				],
-				"execution_count": null
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					""
+					"    return df"
 				],
 				"execution_count": null
 			}

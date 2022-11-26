@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "52c5dfd7-39a3-4570-b35c-d8ca79f8200b"
+				"spark.autotune.trackingId": "1e7502a8-240d-4b53-b2c9-954913c1401c"
 			}
 		},
 		"metadata": {
@@ -59,7 +59,7 @@
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        self.schemas['AggWholeDayAttendanceBySchool'] = [\r\n",
-					"                                        ['SKAggWholeDayAttendanceBySchool', 'integer', 'hash'],\r\n",
+					"                                        ['SKAggWholeDayAttendanceBySchool', 'integer', 'no-op'],\r\n",
 					"                                        ['SKYear', 'integer', 'no-op'],\r\n",
 					"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
 					"                                        ['SKAttendanceDate', 'integer', 'no-op'],\r\n",
@@ -83,7 +83,7 @@
 					"                                        ]\r\n",
 					"\r\n",
 					"        self.schemas['AggWholeDayAttendanceByStudent'] = [\r\n",
-					"                                        ['SKAggWholeDayAttendanceByStudent', 'integer', 'hash'],\r\n",
+					"                                        ['SKAggWholeDayAttendanceByStudent', 'integer', 'no-op'],\r\n",
 					"                                        ['SKPerson', 'integer', 'no-op'],\r\n",
 					"                                        ['SKYear', 'integer', 'no-op'],\r\n",
 					"                                        ['SKGender', 'integer', 'no-op'],\r\n",
@@ -310,7 +310,7 @@
 					"\r\n",
 					"\r\n",
 					"        self.schemas['DMFactWholeDayAttendance'] = [ \r\n",
-					"                                        ['SKWholeDayAttendance', 'integer', 'hash'],\r\n",
+					"                                        ['SKWholeDayAttendance', 'integer', 'no-op'],\r\n",
 					"                                        ['SKPerson', 'integer', 'no-op'],\r\n",
 					"                                        ['SKPersistentStudentId', 'integer', 'no-op'],\r\n",
 					"                                        ['SKYear', 'integer', 'no-op'],\r\n",

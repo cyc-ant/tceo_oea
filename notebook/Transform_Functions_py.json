@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "cc63ef6a-3776-49fc-b2c2-dce20eb208d7"
+				"spark.autotune.trackingId": "0d4dc045-016a-4010-9cb8-5500389d1c16"
 			}
 		},
 		"metadata": {
@@ -93,6 +93,31 @@
 					"    return df"
 				],
 				"execution_count": 3
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def DMCampus_pseudo(df):\r\n",
+					"    df = df.filter(df.DioceseName == 'Townsville' \r\n",
+					"                    and df.SchoolName !=  'Townsville Catholic Education Office'\r\n",
+					"                    and df.SchoolName !=  'Canossa Convent School'\r\n",
+					"                    and df.SchoolName !=  'St Patrick\\'s College Townsville')\r\n",
+					"\r\n",
+					"    return df\r\n",
+					""
+				],
+				"execution_count": null
 			}
 		]
 	}

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "0d4dc045-016a-4010-9cb8-5500389d1c16"
+				"spark.autotune.trackingId": "7c89fb92-4972-47b5-b1c7-6a15fb11040e"
 			}
 		},
 		"metadata": {
@@ -109,10 +109,10 @@
 				},
 				"source": [
 					"def DMCampus_pseudo(df):\r\n",
-					"    df = df.filter(df.DioceseName == 'Townsville' \r\n",
-					"                    and df.SchoolName !=  'Townsville Catholic Education Office'\r\n",
-					"                    and df.SchoolName !=  'Canossa Convent School'\r\n",
-					"                    and df.SchoolName !=  'St Patrick\\'s College Townsville')\r\n",
+					"    df = df.filter(df.DioceseName == 'Townsville') \\ \r\n",
+					"            .filter(df.SchoolName !=  'Townsville Catholic Education Office') \\\r\n",
+					"            .filter(df.SchoolName !=  'Canossa Convent School') \\\r\n",
+					"            .filter(df.SchoolName !=  'St Patrick\\'s College Townsville')\r\n",
 					"\r\n",
 					"    return df\r\n",
 					""

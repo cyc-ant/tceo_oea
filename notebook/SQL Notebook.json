@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "1d7a2259-e504-4c37-9541-522d6e082a7d"
+				"spark.autotune.trackingId": "e10d5f18-16bc-4e14-a521-d6b1b7a69cbf"
 			}
 		},
 		"metadata": {
@@ -70,7 +70,7 @@
 					"\r\n",
 					"df.createOrReplaceTempView('vw_df')"
 				],
-				"execution_count": 5
+				"execution_count": 6
 			},
 			{
 				"cell_type": "code",
@@ -83,13 +83,21 @@
 						"transient": {
 							"deleting": false
 						}
+					},
+					"microsoft": {
+						"language": "python"
 					}
 				},
 				"source": [
-					"df = df.filter(df.gender == 'M' and df.name != \"James\")\r\n",
-					"df.show()"
+					"%%pyspark\r\n",
+					"\r\n",
+					"df = df.filter(df.gender == 'M') \\\r\n",
+					"        .filter(df.name != 'James')\r\n",
+					"\r\n",
+					"df.show()\r\n",
+					""
 				],
-				"execution_count": null
+				"execution_count": 17
 			},
 			{
 				"cell_type": "code",

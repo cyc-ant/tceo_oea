@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "355a7166-22e5-49fa-8534-a09ef05a351b"
+				"spark.autotune.trackingId": "71978925-a61b-4772-934f-6bdca5baa737"
 			}
 		},
 		"metadata": {
@@ -146,7 +146,7 @@
 					"    path = f'{target_system}/{target_path}'\r\n",
 					"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 				],
-				"execution_count": 10
+				"execution_count": 4
 			},
 			{
 				"cell_type": "code",
@@ -188,7 +188,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 11
+				"execution_count": 5
 			},
 			{
 				"cell_type": "code",
@@ -206,7 +206,7 @@
 				"source": [
 					"stage3Transform(source_p, destination_p)"
 				],
-				"execution_count": 12
+				"execution_count": 6
 			},
 			{
 				"cell_type": "code",
@@ -224,7 +224,7 @@
 				"source": [
 					"stage3Transform(source_np, destination_np)"
 				],
-				"execution_count": 13
+				"execution_count": 7
 			}
 		]
 	}

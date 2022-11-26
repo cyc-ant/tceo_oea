@@ -14154,7 +14154,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7c89fb92-4972-47b5-b1c7-6a15fb11040e"
+						"spark.autotune.trackingId": "08fbf61f-aa9b-44fe-9a05-ae6e06782e6e"
 					}
 				},
 				"metadata": {
@@ -14179,13 +14179,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when\r\n",
 							""
@@ -14244,7 +14246,7 @@
 						},
 						"source": [
 							"def DMCampus_pseudo(df):\r\n",
-							"    df = df.filter(df.DioceseName == 'Townsville') \\ \r\n",
+							"    df = df.filter(df.DioceseName == 'Townsville') \\\r\n",
 							"            .filter(df.SchoolName !=  'Townsville Catholic Education Office') \\\r\n",
 							"            .filter(df.SchoolName !=  'Canossa Convent School') \\\r\n",
 							"            .filter(df.SchoolName !=  'St Patrick\\'s College Townsville')\r\n",
@@ -14283,7 +14285,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b06c75e9-47f3-42f3-816d-2cac4e200d86"
+						"spark.autotune.trackingId": "cae09a0a-5364-4761-9b36-9ec6baa1a5ab"
 					}
 				},
 				"metadata": {
@@ -14308,8 +14310,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14431,7 +14432,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8a891395-815f-416b-bbec-0a63911c60d8"
+						"spark.autotune.trackingId": "2b43a764-e6de-4b86-865b-6b6c261929b0"
 					}
 				},
 				"metadata": {
@@ -14491,7 +14492,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 28
+						"execution_count": 36
 					},
 					{
 						"cell_type": "code",
@@ -14510,7 +14511,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 29
+						"execution_count": 37
 					},
 					{
 						"cell_type": "code",
@@ -14529,7 +14530,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 30
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -14558,7 +14559,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 31
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -14579,7 +14580,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 32
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -14622,7 +14623,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 33
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -14641,7 +14642,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 34
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -14660,7 +14661,7 @@
 							"stage3Transform(source_np, destination_np)"
 						],
 						"outputs": [],
-						"execution_count": 35
+						"execution_count": null
 					}
 				]
 			},

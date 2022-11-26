@@ -7563,7 +7563,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6291f396-3a99-44cd-813d-f2263f8a6a61"
+						"spark.autotune.trackingId": "f2e19299-e157-406e-bc22-94fa2980d6c8"
 					}
 				},
 				"metadata": {
@@ -7588,15 +7588,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AE_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='AE', pseudonymize = True):\r\n",
@@ -7843,7 +7841,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1ace751f-f18b-46c2-bdaa-cf3e8c9fbc29"
+						"spark.autotune.trackingId": "f17259bf-f416-4b9d-9974-7e930532db0e"
 					}
 				},
 				"metadata": {
@@ -7868,15 +7866,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"# class Acer(BaseOEAModule):\r\n",
 							"#     def __init__(self, source_folder='acer_test', pseudonymize = True):\r\n",
@@ -8455,7 +8451,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c1934e2b-23ad-47c1-93c8-75e4bd3592b9"
+						"spark.autotune.trackingId": "52c5dfd7-39a3-4570-b35c-d8ca79f8200b"
 					}
 				},
 				"metadata": {
@@ -8480,15 +8476,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Attendance_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='attendance', pseudonymize = True):\r\n",
@@ -9725,7 +9719,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "bced7c9b-6b24-47b8-9e3b-ff97da087d0e"
+						"spark.autotune.trackingId": "f0cabdd2-5e1a-4aab-ad40-3778db88741d"
 					}
 				},
 				"metadata": {
@@ -9750,15 +9744,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class NAPLAN_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NAPLAN', pseudonymize = True):\r\n",
@@ -10934,7 +10926,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5cf7ced0-487c-4b55-93a3-ea548a82ceab"
+						"spark.autotune.trackingId": "165b89a1-0a56-4cea-9a39-518599805848"
 					}
 				},
 				"metadata": {
@@ -10959,15 +10951,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class NCCD_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NCCD', pseudonymize = True):\r\n",
@@ -13473,7 +13463,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "384c1951-1d3e-453f-9e98-720949af90c7"
+						"spark.autotune.trackingId": "f4678c40-7bba-4b1e-84c3-4524bfed8f77"
 					}
 				},
 				"metadata": {
@@ -13498,15 +13488,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Student_profile(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='student', pseudonymize = True):\r\n",
@@ -14015,6 +14003,111 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/Transform_Functions_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Stage3"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "760df9ee-1a71-4ab7-a56b-b7c0fae3f19c"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "python"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"source": [
+							"def DMYearLevel_pseudo(df):\r\n",
+							"\r\n",
+							"    df = df.withColumn(\"Display Name\", when(df.BusinessDesc == \"Unknown\", \"\")\r\n",
+							"                                        .when(df.BusinessDesc == \"\", \"\")\r\n",
+							"                                        .when(df.BusinessDesc == \"Ungraded\", \"\")\r\n",
+							"                                        .when(df.BusinessDesc == \"SecondaryUngraded\", \"\")\r\n",
+							"                                        .when(df.BusinessDesc == \"PrimaryUngraded\", \"\")\r\n",
+							"                                        .when(df.BusinessDesc == \"Childcare\", \"\")\r\n",
+							"                                        .when(df.BusinessDesc == \"4yo Kindergarten\", \"\")\r\n",
+							"                                        .when(df.BusinessDesc == \"3yo Kindergarten\", \"\")\r\n",
+							"                                        .when(df.BusinessDesc == \"TwoYearsBeforeYear1\", \"\")\r\n",
+							"                                        .when(df.BusinessDesc == \"Pre-Year 1\", \"Prep\")\r\n",
+							"                                        .when(df.BusinessDesc == \"Pre-School\", \"Prep\")\r\n",
+							"                                        .when(df.BusinessDesc == \"OneYearBeforeYear1\", \"Prep\")\r\n",
+							"                                        .otherwise(df.BusinessDesc)\r\n",
+							"                                        )\r\n",
+							"\r\n",
+							"    return df\r\n",
+							"\r\n",
+							"\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Transformations_py')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -14038,7 +14131,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2dc3c60d-6249-4d49-9906-fe9b3a0a24dd"
+						"spark.autotune.trackingId": "0af82cd0-19ab-41f6-834d-fe722359d3c8"
 					}
 				},
 				"metadata": {
@@ -14095,8 +14188,31 @@
 							}
 						},
 						"source": [
+							"%run Stage3/Transform_Functions_py"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
 							"def transformation(df, name):\r\n",
-							"    final_df = df\r\n",
+							"\r\n",
+							"    if name == \"DMYearLevel_pseudo\":\r\n",
+							"        final_df = DMYearLevel_pseudo(df)\r\n",
+							"    else:  \r\n",
+							"        final_df = df\r\n",
 							"\r\n",
 							"    return final_df"
 						],
@@ -14160,7 +14276,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "355a7166-22e5-49fa-8534-a09ef05a351b"
+						"spark.autotune.trackingId": "70790821-bf59-4a6d-b632-05eb8638d015"
 					}
 				},
 				"metadata": {
@@ -14185,7 +14301,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14220,7 +14337,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -14289,7 +14406,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -14332,7 +14449,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -14351,7 +14468,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 6
 					},
 					{
 						"cell_type": "code",
@@ -14370,7 +14487,7 @@
 							"stage3Transform(source_np, destination_np)"
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 7
 					}
 				]
 			},

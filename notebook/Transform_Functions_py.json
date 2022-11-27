@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "91dd1956-b8ab-4770-bbc0-14ac7300cb34"
+				"spark.autotune.trackingId": "dfb07c48-4c28-41a2-b133-2f962ed8c240"
 			}
 		},
 		"metadata": {
@@ -116,6 +116,32 @@
 					"\r\n",
 					"    return df\r\n",
 					""
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# example of SQL \r\n",
+					"\r\n",
+					"def DMStudent(df):\r\n",
+					"\r\n",
+					"    df.createOrReplaceTempView('vw_df')\r\n",
+					"\r\n",
+					"    final_df = spark.sql()\r\n",
+					"\r\n",
+					"    return final_df"
 				],
 				"execution_count": null
 			}

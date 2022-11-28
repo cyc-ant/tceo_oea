@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c0cfb1c6-86da-4d58-a8c3-99ed60dba8e6"
+				"spark.autotune.trackingId": "d9cf766c-8304-48cc-9092-350b19d9d28f"
 			}
 		},
 		"metadata": {
@@ -135,9 +135,11 @@
 				"source": [
 					"def DMDate_pseudo(df):\r\n",
 					"\r\n",
+					"    sourcep = oea.stage2p\r\n",
+					"\r\n",
 					"    df.createOrReplaceTempView('vw_df_dmdate_pseudo')\r\n",
 					"\r\n",
-					"    calendar_df = spark.read.load(\"abfss://stage2p@stoeatceooeadev01.dfs.core.windows.net/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
+					"    calendar_df = spark.read.load(sourcep + \"/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
 					"\r\n",
 					"    calendar_df.createOrReplaceTempView('vw_df_dmdate_pseudo')\r\n",
 					"\r\n",

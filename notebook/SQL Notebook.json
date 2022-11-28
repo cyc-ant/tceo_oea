@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e8076fe5-c018-40df-bace-08e077827464"
+				"spark.autotune.trackingId": "6025f00d-a15b-48fa-a375-8f431aa66fcc"
 			}
 		},
 		"metadata": {
@@ -142,6 +142,24 @@
 					"SELECT * from vw_df"
 				],
 				"execution_count": 4
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				],
+				"execution_count": null
 			}
 		]
 	}

@@ -13463,7 +13463,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e8076fe5-c018-40df-bace-08e077827464"
+						"spark.autotune.trackingId": "b8f755de-5911-4391-be3b-ba0117c675ba"
 					}
 				},
 				"metadata": {
@@ -13588,6 +13588,25 @@
 						],
 						"outputs": [],
 						"execution_count": 4
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							""
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -14180,7 +14199,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d9c80248-92ac-438d-b14e-04150fee6d4b"
+						"spark.autotune.trackingId": "3a8bf1ba-0dbb-4f63-a71a-bf2cfc11213a"
 					}
 				},
 				"metadata": {
@@ -14299,11 +14318,15 @@
 						"source": [
 							"def DMDate_pseudo(df):\r\n",
 							"\r\n",
+							"    sourcep = oea.stage2p\r\n",
+							"\r\n",
 							"    df.createOrReplaceTempView('vw_df_dmdate_pseudo')\r\n",
 							"\r\n",
-							"    calendar_df = spark.read.load(\"abfss://stage2p@stoeatceooeadev01.dfs.core.windows.net/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
+							"    calendar_df = spark.read.load(sourcep + \"/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
 							"\r\n",
-							"    final_df = spark.sql(\"select d.*, c.skyear from vw_df_dmdate_pseudo d left join calendar_df c on d.year = c.year where d.year >= 2008 and d.year <= 2030\")\r\n",
+							"    calendar_df.createOrReplaceTempView('vw_df_calendar')\r\n",
+							"\r\n",
+							"    final_df = spark.sql(\"select d.*, c.skyear from vw_df_dmdate_pseudo d left join vw_df_calendar c on d.year = c.year where d.year >= 2008 and d.year <= 2030\")\r\n",
 							"\r\n",
 							"    return final_df"
 						],
@@ -14365,7 +14388,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5fd4e648-586c-422a-bfe8-a959eac9f711"
+						"spark.autotune.trackingId": "3931fb5b-1abf-41ba-990f-60dd8b3bc397"
 					}
 				},
 				"metadata": {
@@ -14390,8 +14413,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14515,7 +14537,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d1683fbc-c294-4571-9851-3d67a6ea7d97"
+						"spark.autotune.trackingId": "1a614916-1866-4659-a589-ab2abbf056c7"
 					}
 				},
 				"metadata": {
@@ -14540,8 +14562,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "6d3cf4b6-98b4-4b9d-871a-bc32aa1d07e3"
+				"spark.autotune.trackingId": "6f026b34-de3e-4bb1-a70e-da217a0ce122"
 			}
 		},
 		"metadata": {
@@ -159,15 +159,15 @@
 					}
 				},
 				"source": [
-					"# example of SQL \r\n",
+					"# # example of SQL \r\n",
 					"\r\n",
-					"def DMStudent(df):\r\n",
+					"# def DMStudent(df):\r\n",
 					"\r\n",
-					"    df.createOrReplaceTempView('vw_df')\r\n",
+					"#     df.createOrReplaceTempView('vw_df')\r\n",
 					"\r\n",
-					"    final_df = spark.sql()\r\n",
+					"#     final_df = spark.sql()\r\n",
 					"\r\n",
-					"    return final_df"
+					"#     return final_df"
 				],
 				"execution_count": null
 			}

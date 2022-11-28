@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d9cf766c-8304-48cc-9092-350b19d9d28f"
+				"spark.autotune.trackingId": "137ff18f-b6dd-4898-8f15-060b4410b3aa"
 			}
 		},
 		"metadata": {
@@ -141,9 +141,9 @@
 					"\r\n",
 					"    calendar_df = spark.read.load(sourcep + \"/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
 					"\r\n",
-					"    calendar_df.createOrReplaceTempView('vw_df_dmdate_pseudo')\r\n",
+					"    calendar_df.createOrReplaceTempView('vw_df_calendar')\r\n",
 					"\r\n",
-					"    final_df = spark.sql(\"select d.*, c.skyear from vw_df_dmdate_pseudo d left join calendar_df c on d.year = c.year where d.year >= 2008 and d.year <= 2030\")\r\n",
+					"    final_df = spark.sql(\"select d.*, c.skyear from vw_df_dmdate_pseudo d left join vw_df_calendar c on d.year = c.year where d.year >= 2008 and d.year <= 2030\")\r\n",
 					"\r\n",
 					"    return final_df"
 				],

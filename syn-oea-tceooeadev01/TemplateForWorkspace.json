@@ -13463,7 +13463,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6927b641-20b5-4d7e-9fac-860c9c39de4e"
+						"spark.autotune.trackingId": "f91a67a5-9b25-4831-a74d-8716c34ebe56"
 					}
 				},
 				"metadata": {
@@ -14182,7 +14182,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e1925602-07c4-4532-acb6-36701b20d07c"
+						"spark.autotune.trackingId": "d5d0f4e3-7682-40f3-a589-243bea6414aa"
 					}
 				},
 				"metadata": {
@@ -14326,15 +14326,15 @@
 							}
 						},
 						"source": [
-							"# example of SQL \r\n",
+							"# # example of SQL \r\n",
 							"\r\n",
-							"def DMStudent(df):\r\n",
+							"# def DMStudent(df):\r\n",
 							"\r\n",
-							"    df.createOrReplaceTempView('vw_df')\r\n",
+							"#     df.createOrReplaceTempView('vw_df')\r\n",
 							"\r\n",
-							"    final_df = spark.sql()\r\n",
+							"#     final_df = spark.sql()\r\n",
 							"\r\n",
-							"    return final_df"
+							"#     return final_df"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -14367,7 +14367,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "65c82d06-d530-4d37-9311-8b062a8ee84d"
+						"spark.autotune.trackingId": "8cfa36d0-b40d-4548-ad4b-9bce33fd042d"
 					}
 				},
 				"metadata": {

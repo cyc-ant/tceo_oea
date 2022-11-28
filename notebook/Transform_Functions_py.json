@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "dfb07c48-4c28-41a2-b133-2f962ed8c240"
+				"spark.autotune.trackingId": "113c7002-1a06-4284-b32c-6fd3d5a6c836"
 			}
 		},
 		"metadata": {
@@ -116,6 +116,30 @@
 					"\r\n",
 					"    return df\r\n",
 					""
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def DMDate_pseudo(df):\r\n",
+					"\r\n",
+					"    df.createOrReplaceTempView('vw_df_dmdate_pseudo')\r\n",
+					"\r\n",
+					"    final_df = spark.sql(\"select * from vw_df_dmdate_pseudo where year >= 2008 and year <= 2030\")\r\n",
+					"\r\n",
+					"    return final_df"
 				],
 				"execution_count": null
 			},

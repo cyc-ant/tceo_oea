@@ -1,0 +1,132 @@
+{
+	"name": "Class_period_py",
+	"properties": {
+		"folder": {
+			"name": "Data Objects"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spark3p1sm",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "2657bd02-dcdf-4610-9dd2-cbdc7058b3b9"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": true,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"class Class_period_object(BaseOEAModule):\r\n",
+					"    def __init__(self, source_folder='class_period', pseudonymize = True):\r\n",
+					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+					"\r\n",
+					"        self.schemas['DMFactPeriodAttendance'] = [\r\n",
+					"                                        ['SKPeriodAttendance', 'integer', 'no-op'],\r\n",
+					"                                        ['SKPerson', 'integer', 'no-op'],\r\n",
+					"                                        ['SKPersistentStudentId', 'integer', 'no-op'],\r\n",
+					"                                        ['SKYear', 'integer', 'no-op'],\r\n",
+					"                                        ['SKCampus', 'integer', 'no-op'],\r\n",
+					"                                        ['SKAttendanceDate', 'integer', 'no-op'],\r\n",
+					"                                        ['SKSchoolTerm', 'integer', 'no-op'],\r\n",
+					"                                        ['SKGender', 'integer', 'no-op'],\r\n",
+					"                                        ['SKATSI', 'integer', 'no-op'],\r\n",
+					"                                        ['SKYearLevel', 'integer', 'no-op'],\r\n",
+					"                                        ['SKRollGroup', 'integer', 'no-op'],\r\n",
+					"                                        ['SKPeriodStartTime', 'integer', 'no-op'],\r\n",
+					"                                        ['SKPeriodEndTime', 'integer', 'no-op'],\r\n",
+					"                                        ['SKAttendanceCodePrevalent', 'integer', 'no-op'],\r\n",
+					"                                        ['SKAttendanceCodeCounted', 'integer', 'no-op'],\r\n",
+					"                                        ['SKArrivalTime', 'integer', 'no-op'],\r\n",
+					"                                        ['SKDepartureTime', 'integer', 'no-op'],\r\n",
+					"                                        ['SKSchoolTermWeek', 'integer', 'no-op'],\r\n",
+					"                                        ['SKStudentType', 'integer', 'no-op'],\r\n",
+					"                                        ['SKPersonImportIdentifier', 'integer', 'no-op'],\r\n",
+					"                                        ['TotalSchoolMinutes', 'integer', 'no-op'],\r\n",
+					"                                        ['TotalMinutesMissed', 'integer', 'no-op'],\r\n",
+					"                                        ['MinutesArrivedLate', 'integer', 'no-op'],\r\n",
+					"                                        ['MinutesDepartedEarly', 'integer', 'no-op'],\r\n",
+					"                                        ['UnmarkedMinutes', 'integer', 'no-op'],\r\n",
+					"                                        ['UnscheduledMinutes', 'integer', 'no-op'],\r\n",
+					"                                        ['ArrivedLate', 'string', 'no-op'],\r\n",
+					"                                        ['DepartedEarly', 'string', 'no-op'],\r\n",
+					"                                        ['HasNote', 'string', 'no-op'],\r\n",
+					"                                        ['SliceRecordCount', 'integer', 'no-op'],\r\n",
+					"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+					"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+					"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+					"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+					"                                        ['Iscurrent', 'string', 'no-op'],\r\n",
+					"                                        ['SKStudentOrganisationDetails', 'integer', 'no-op']                                                                  \r\n",
+					"                                        ]\r\n",
+					"\r\n",
+					"        self.schemas['DMClass'] = [\r\n",
+					"                                        ['SKClass', 'integer', 'no-op'],\r\n",
+					"                                        ['BKClassId', 'integer', 'no-op'],\r\n",
+					"                                        ['ClassSifCode', 'string', 'no-op'],\r\n",
+					"                                        ['ClassSifDesc', 'string', 'no-op'],\r\n",
+					"                                        ['PrimarySort', 'double', 'no-op'],\r\n",
+					"                                        ['SecondarySort', 'double', 'no-op'],\r\n",
+					"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+					"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+					"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+					"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+					"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
+					"                                        ['ScdReason', 'string', 'no-op'],\r\n",
+					"                                        ['BusinessDesc', 'string', 'no-op'],\r\n",
+					"                                        ['ClassGroup', 'string', 'no-op']                                                                 \r\n",
+					"                                        ]\r\n",
+					"\r\n",
+					"                                 \r\n",
+					"\r\n",
+					"    def ingest(self):\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'DMFactPeriodAttendance', self.schemas['DMFactPeriodAttendance'], 'LastUpdateDate', 'SKPeriodAttendance')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'DMClass', self.schemas['DMClass'], 'LastUpdateDate', 'SKClass')\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"class_period_object = Class_period_object()"
+				],
+				"execution_count": null
+			}
+		]
+	}
+}

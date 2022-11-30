@@ -36,26 +36,6 @@
 											},
 											"waitOnCompletion": true
 										}
-									},
-									{
-										"name": "CopyPipeline_ACER_part2",
-										"type": "ExecutePipeline",
-										"dependsOn": [
-											{
-												"activity": "CopyPipeline_ACER_part1",
-												"dependencyConditions": [
-													"Succeeded"
-												]
-											}
-										],
-										"userProperties": [],
-										"typeProperties": {
-											"pipeline": {
-												"referenceName": "CopyPipeline_ACER_part2",
-												"type": "PipelineReference"
-											},
-											"waitOnCompletion": true
-										}
 									}
 								]
 							}

@@ -179,6 +179,9 @@
 				]
 			}
 		},
+		"folder": {
+			"name": "Data Copy Pipelines"
+		},
 		"annotations": []
 	}
 }

@@ -1,5 +1,5 @@
 {
-	"name": "Stage1_copy1",
+	"name": "Stage1",
 	"properties": {
 		"activities": [
 			{
@@ -23,7 +23,7 @@
 									"referenceName": "CopyPipeline_ACER_part1",
 									"type": "PipelineReference"
 								},
-								"waitOnCompletion": true
+								"waitOnCompletion": false
 							}
 						}
 					]

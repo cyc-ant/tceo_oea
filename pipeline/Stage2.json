@@ -3,41 +3,27 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "For Each Data Object",
-				"type": "ForEach",
+				"name": "If acer",
+				"type": "IfCondition",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
-					"items": {
-						"value": "@activity('Ingest ACER to Stage2').output",
+					"expression": {
+						"value": "@pipeline().parameters.acer",
 						"type": "Expression"
 					},
-					"activities": [
+					"ifTrueActivities": [
 						{
-							"name": "If Acer",
-							"type": "IfCondition",
+							"name": "ingestion_stage2_acer",
+							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
-								"expression": {
-									"value": "@pipeline().parameters.acer",
-									"type": "Expression"
+								"pipeline": {
+									"referenceName": "ingestion_stage2_acer",
+									"type": "PipelineReference"
 								},
-								"ifTrueActivities": [
-									{
-										"name": "Ingest ACER to Stage2",
-										"type": "ExecutePipeline",
-										"dependsOn": [],
-										"userProperties": [],
-										"typeProperties": {
-											"pipeline": {
-												"referenceName": "ingestion_stage2_acer",
-												"type": "PipelineReference"
-											},
-											"waitOnCompletion": true
-										}
-									}
-								]
+								"waitOnCompletion": true
 							}
 						}
 					]

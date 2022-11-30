@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Ingest to Stage2",
+				"name": "Ingest Acer to Stage2",
 				"type": "SynapseNotebook",
 				"dependsOn": [],
 				"policy": {

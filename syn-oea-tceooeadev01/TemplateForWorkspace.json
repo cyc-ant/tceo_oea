@@ -2774,6 +2774,27 @@
 							"waitOnCompletion": true,
 							"parameters": {}
 						}
+					},
+					{
+						"name": "Transformations and Stage3",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Move Data to Stage2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Stage3",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
 					}
 				],
 				"policy": {
@@ -2787,7 +2808,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/pipelines/Stage1')]",
-				"[concat(variables('workspaceId'), '/pipelines/Stage2')]"
+				"[concat(variables('workspaceId'), '/pipelines/Stage2')]",
+				"[concat(variables('workspaceId'), '/pipelines/Stage3')]"
 			]
 		},
 		{
@@ -12013,7 +12035,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "29c9bf73-9961-411d-96a2-352dce0964e0"
+						"spark.autotune.trackingId": "b6e49be1-f6e5-4ab1-a944-4ab137eb35b3"
 					}
 				},
 				"metadata": {

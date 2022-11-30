@@ -8,9 +8,13 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('Ingest ACER to Stage2').output",
+						"type": "Expression"
+					},
 					"activities": [
 						{
-							"name": "If Condition1",
+							"name": "If Acer",
 							"type": "IfCondition",
 							"dependsOn": [],
 							"userProperties": [],

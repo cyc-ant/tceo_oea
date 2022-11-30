@@ -1,0 +1,23 @@
+{
+	"name": "DestinationDataset_op9",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_OEA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "testenroldata.csv",
+				"folderPath": "test_enrolment ",
+				"fileSystem": "stage1np"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

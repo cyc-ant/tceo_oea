@@ -2797,7 +2797,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "If Condition1",
+						"name": "If Acer",
 						"type": "IfCondition",
 						"dependsOn": [],
 						"userProperties": [],
@@ -2808,7 +2808,7 @@
 							},
 							"ifTrueActivities": [
 								{
-									"name": "Stage1_copy1",
+									"name": "Copy ACER part1",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
 									"userProperties": [],
@@ -2818,6 +2818,272 @@
 											"type": "PipelineReference"
 										},
 										"waitOnCompletion": false,
+										"parameters": {}
+									}
+								},
+								{
+									"name": "Copy ACER part2",
+									"type": "ExecutePipeline",
+									"dependsOn": [
+										{
+											"activity": "Copy ACER part1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "CopyPipeline_ACER_part2",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "If AE",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.ae",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "Copy Pipeline AE",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "CopyPipeline_AE",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "If attendance",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.attendance",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "Copy Pipeline Attendance",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "CopyPipeline_Attendance",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "If Class-Period",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.class_period",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "Copy Pipeline class_period",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "CopyPipeline_class_period",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "If Enrolment",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.enrolment",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "Copy Pipeline enrolment",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "CopyPipeline_enrolment",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "If MySchools",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.myschools",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "Copy Pipeline MySchools",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "CopyPipeline_MySchools",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "If Naplan",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.naplan",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "Copy Pipeline NAPLAN",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "CopyPipeline_NAPLAN",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "If NCCD",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.nccd",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "Copy Pipeline NCCD",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "CopyPipeline_NCCD",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "If Student",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.student",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "CopyPipeline student_object",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "CopyPipeline_student_object",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								},
+								{
+									"name": "CopyPipeline student_object_2",
+									"type": "ExecutePipeline",
+									"dependsOn": [
+										{
+											"activity": "CopyPipeline student_object",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "CopyPipeline_student_object_2",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
 										"parameters": {}
 									}
 								}
@@ -2833,6 +3099,38 @@
 					"acer": {
 						"type": "bool",
 						"defaultValue": true
+					},
+					"ae": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"attendance": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"class_period": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"enrolment": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"myschools": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"naplan": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"nccd": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"student": {
+						"type": "bool",
+						"defaultValue": true
 					}
 				},
 				"folder": {
@@ -2841,7 +3139,17 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ACER_part1')]"
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ACER_part1')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ACER_part2')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_AE')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_Attendance')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_class_period')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_enrolment')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_MySchools')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_NAPLAN')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_NCCD')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_student_object')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_student_object_2')]"
 			]
 		},
 		{
@@ -2877,6 +3185,62 @@
 								}
 							]
 						}
+					},
+					{
+						"name": "If AE",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.ae",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "ingestion_stage2_ae",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "ingestion_stage2_ae",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "If attendance",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.attendance",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "ingestion_stage2_attendance",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "ingestion_stage2_attendance",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
 					}
 				],
 				"policy": {
@@ -2887,6 +3251,38 @@
 					"acer": {
 						"type": "bool",
 						"defaultValue": true
+					},
+					"ae": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"attendance": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"class_period": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"enrolment": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"myschools": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"naplan": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"nccd": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"student": {
+						"type": "bool",
+						"defaultValue": true
 					}
 				},
 				"folder": {
@@ -2895,7 +3291,9 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_acer')]"
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_acer')]",
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_ae')]",
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_attendance')]"
 			]
 		},
 		{
@@ -3779,12 +4177,6 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
-				"parameters": {
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage2np"
-					}
-				},
 				"folder": {
 					"name": "OEA_Framework"
 				},
@@ -3852,12 +4244,6 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
-				"parameters": {
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage2np"
-					}
-				},
 				"folder": {
 					"name": "OEA_Framework"
 				},
@@ -3924,12 +4310,6 @@
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
-				},
-				"parameters": {
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage2np"
-					}
 				},
 				"folder": {
 					"name": "OEA_Framework"
@@ -11530,7 +11910,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ca9752eb-ae96-4cdc-aa43-15a29ad0e23b"
+						"spark.autotune.trackingId": "6e677d33-cdc7-4c48-a217-59bc7c888f8f"
 					}
 				},
 				"metadata": {

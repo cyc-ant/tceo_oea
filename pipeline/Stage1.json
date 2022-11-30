@@ -1,0 +1,78 @@
+{
+	"name": "Stage1",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('CopyPipeline_ACER_part2').output",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "If Acer",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@pipeline().parameters.acer",
+									"type": "Expression"
+								},
+								"ifTrueActivities": [
+									{
+										"name": "CopyPipeline_ACER_part1",
+										"type": "ExecutePipeline",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"pipeline": {
+												"referenceName": "CopyPipeline_ACER_part1",
+												"type": "PipelineReference"
+											},
+											"waitOnCompletion": true
+										}
+									},
+									{
+										"name": "CopyPipeline_ACER_part2",
+										"type": "ExecutePipeline",
+										"dependsOn": [
+											{
+												"activity": "CopyPipeline_ACER_part1",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"userProperties": [],
+										"typeProperties": {
+											"pipeline": {
+												"referenceName": "CopyPipeline_ACER_part2",
+												"type": "PipelineReference"
+											},
+											"waitOnCompletion": true
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"acer": {
+				"type": "bool",
+				"defaultValue": true
+			}
+		},
+		"folder": {
+			"name": "Main Pipeline"
+		},
+		"annotations": []
+	}
+}

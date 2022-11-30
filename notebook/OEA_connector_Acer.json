@@ -21,7 +21,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ce6cdc53-0d9f-4037-b3c2-9c3eb5e7f528"
+				"spark.autotune.trackingId": "282abfbc-24e5-4d75-b318-0ccfce562d0a"
 			}
 		},
 		"metadata": {
@@ -94,25 +94,6 @@
 					"kwargs = '{}'"
 				],
 				"execution_count": 15
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"outputs_hidden": false,
-						"source_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": true
-				},
-				"source": [
-					"%run /OEA_py"
-				],
-				"execution_count": 16
 			},
 			{
 				"cell_type": "code",

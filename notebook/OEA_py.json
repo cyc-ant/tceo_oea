@@ -13,16 +13,40 @@
 			"executorMemory": "28g",
 			"executorCores": 4,
 			"numExecutors": 2,
-			"runAsWorkspaceSystemIdentity": false
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "27b938df-7b10-45e1-bcd3-384ce12ea1d2"
+			}
 		},
 		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
 				"display_name": "python"
 			},
 			"language_info": {
 				"name": "python"
-			}
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
 		},
 		"cells": [
 			{
@@ -434,6 +458,16 @@
 					"        self.create_lake_views(db_name, self.path(f'stage{stage_num}np', source_dir), source_format)\n",
 					"        result = \"Database created: \" + db_name\n",
 					"        logger.info(result)\n",
+					"        return result       \n",
+					"\n",
+					"    def create_lake_db_nohashing(self, stage_num, source_dir, source_format='DELTA'):\n",
+					"        \"\"\" Creates the lake db as above but ingores the np folder (for no hashing) \"\"\"\n",
+					"        \n",
+					"        db_name = f's{stage_num}_{source_dir}'\n",
+					"        spark.sql(f'CREATE DATABASE IF NOT EXISTS {db_name}')\n",
+					"        self.create_lake_views(db_name, self.path(f'stage{stage_num}p', source_dir), source_format)\n",
+					"        result = \"Database created: \" + db_name\n",
+					"        logger.info(result)\n",
 					"        return result        \n",
 					"\n",
 					"    def create_lake_views(self, db_name, source_path, source_format):\n",
@@ -574,7 +608,8 @@
 					"        mssparkutils.fs.append(f\"{self.root_destination}/{path_and_filename}\", data_str, True) # Set the last parameter as True to create the file if it does not exist\n",
 					"\n",
 					"oea = OEA()"
-				]
+				],
+				"execution_count": null
 			}
 		]
 	}

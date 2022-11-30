@@ -1,0 +1,29 @@
+{
+	"name": "Create_SQLDB_nohashing",
+	"properties": {
+		"activities": [
+			{
+				"name": "Create SQL DB",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "create_sql_db_nohashing",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"storageAccount": "stoeatceooeadev01",
+						"sourceDirectory": "pilot",
+						"stage": "3"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "Main Pipeline"
+		},
+		"annotations": []
+	}
+}

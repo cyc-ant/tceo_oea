@@ -1,0 +1,28 @@
+{
+	"name": "Create_LakeDB_nohashing",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "create_lake_db_nohashing",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"stageNum": "3",
+						"sourceDirectory": "pilot"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "Main Pipeline"
+		},
+		"annotations": []
+	}
+}

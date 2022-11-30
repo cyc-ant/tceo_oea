@@ -2906,17 +2906,31 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "CopyPipeline_ACER_part1",
-						"type": "ExecutePipeline",
+						"name": "If Condition1",
+						"type": "IfCondition",
 						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
-							"pipeline": {
-								"referenceName": "CopyPipeline_ACER_part1",
-								"type": "PipelineReference"
+							"expression": {
+								"value": "@pipeline().parameters.acer",
+								"type": "Expression"
 							},
-							"waitOnCompletion": true,
-							"parameters": {}
+							"ifTrueActivities": [
+								{
+									"name": "Stage1_copy1",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "CopyPipeline_ACER_part1",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
 						}
 					}
 				],

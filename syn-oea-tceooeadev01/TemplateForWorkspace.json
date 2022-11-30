@@ -2844,7 +2844,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('CopyPipeline_ACER_part2').output",
+								"value": "@activity('CopyPipeline_ACER_part1').outputactivity('CopyPipeline_ACER_part2').output",
 								"type": "Expression"
 							},
 							"activities": [
@@ -2867,27 +2867,6 @@
 												"typeProperties": {
 													"pipeline": {
 														"referenceName": "CopyPipeline_ACER_part1",
-														"type": "PipelineReference"
-													},
-													"waitOnCompletion": true,
-													"parameters": {}
-												}
-											},
-											{
-												"name": "CopyPipeline_ACER_part2",
-												"type": "ExecutePipeline",
-												"dependsOn": [
-													{
-														"activity": "CopyPipeline_ACER_part1",
-														"dependencyConditions": [
-															"Succeeded"
-														]
-													}
-												],
-												"userProperties": [],
-												"typeProperties": {
-													"pipeline": {
-														"referenceName": "CopyPipeline_ACER_part2",
 														"type": "PipelineReference"
 													},
 													"waitOnCompletion": true,
@@ -2917,8 +2896,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ACER_part1')]",
-				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ACER_part2')]"
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ACER_part1')]"
 			]
 		},
 		{

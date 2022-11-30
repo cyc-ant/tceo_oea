@@ -49,208 +49,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_ACER')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "ForEach_d1r",
-						"type": "ForEach",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@pipeline().parameters.cw_items",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Copy_d1r",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [
-										{
-											"name": "Source",
-											"value": "dbo.@{item().source.table}"
-										},
-										{
-											"name": "Destination",
-											"value": "stage1np/ACER/@{item().destination.fileName}"
-										}
-									],
-									"typeProperties": {
-										"source": {
-											"type": "SqlServerSource",
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "DelimitedTextSink",
-											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
-											},
-											"formatSettings": {
-												"type": "DelimitedTextWriteSettings",
-												"quoteAllText": true,
-												"fileExtension": ".txt"
-											}
-										},
-										"enableStaging": false,
-										"validateDataConsistency": false
-									},
-									"inputs": [
-										{
-											"referenceName": "SourceDataset_ACER",
-											"type": "DatasetReference",
-											"parameters": {
-												"cw_table": "@item().source.table"
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "DestinationDataset_ACER",
-											"type": "DatasetReference",
-											"parameters": {
-												"cw_fileName": "@item().destination.fileName"
-											}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"cw_items": {
-						"type": "Array",
-						"defaultValue": [
-							{
-								"source": {
-									"table": "vwDMACERStanine"
-								},
-								"destination": {
-									"fileName": "dbovwDMACERStanine.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMACERStudent"
-								},
-								"destination": {
-									"fileName": "dbovwDMACERStudent.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactPATResponse"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactPATResponse.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactPATResults"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactPATResults.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMPersonDemographic"
-								},
-								"destination": {
-									"fileName": "dbovwDMPersonDemographic.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMPATStudentTestGrouping"
-								},
-								"destination": {
-									"fileName": "dbovwDMPATStudentTestGrouping.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMPATTest"
-								},
-								"destination": {
-									"fileName": "dbovwDMPATTest.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMCampus"
-								},
-								"destination": {
-									"fileName": "dbovwDMCampus.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMCalendarYear"
-								},
-								"destination": {
-									"fileName": "dbovwDMCalendarYear.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMGender"
-								},
-								"destination": {
-									"fileName": "dbovwDMGender.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMYearLevel"
-								},
-								"destination": {
-									"fileName": "dbovwDMYearLevel.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMDate"
-								},
-								"destination": {
-									"fileName": "dbovwDMDate.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMSchoolTermWeek"
-								},
-								"destination": {
-									"fileName": "dbovwDMSchoolTermWeek.csv"
-								}
-							}
-						]
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_ACER')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_ACER')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_ACER_part1')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -437,6 +235,9 @@
 						]
 					}
 				},
+				"folder": {
+					"name": "Data Copy Pipelines"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -510,6 +311,9 @@
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Data Copy Pipelines"
 				},
 				"annotations": []
 			},
@@ -665,6 +469,9 @@
 						]
 					}
 				},
+				"folder": {
+					"name": "Data Copy Pipelines"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -787,84 +594,14 @@
 						]
 					}
 				},
+				"folder": {
+					"name": "Data Copy Pipelines"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/datasets/SourceDataset_Attendance_source')]",
 				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_Attendance_dest')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_Bit_Test')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_oam",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "dbo.vwDMAttendanceStatus"
-							},
-							{
-								"name": "Destination",
-								"value": "stage1np/test_bit/dbovwDMAttendanceStatus.csv"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"validateDataConsistency": false
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_Bit_Test",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_Bit_Test",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_Bit_Test')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_Bit_Test')]"
 			]
 		},
 		{
@@ -1077,6 +814,9 @@
 							}
 						]
 					}
+				},
+				"folder": {
+					"name": "Data Copy Pipelines"
 				},
 				"annotations": []
 			},
@@ -1456,6 +1196,9 @@
 						]
 					}
 				},
+				"folder": {
+					"name": "Data Copy Pipelines"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -1578,6 +1321,9 @@
 						]
 					}
 				},
+				"folder": {
+					"name": "Data Copy Pipelines"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -1691,6 +1437,9 @@
 							}
 						]
 					}
+				},
+				"folder": {
+					"name": "Data Copy Pipelines"
 				},
 				"annotations": []
 			},
@@ -1837,6 +1586,9 @@
 							}
 						]
 					}
+				},
+				"folder": {
+					"name": "Data Copy Pipelines"
 				},
 				"annotations": []
 			},
@@ -2000,6 +1752,9 @@
 						]
 					}
 				},
+				"folder": {
+					"name": "Data Copy Pipelines"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -2074,159 +1829,14 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
+				"folder": {
+					"name": "Data Copy Pipelines"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/datasets/SourceDataset_student_profile_object_2')]",
 				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_student_profile_object_2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_student_test')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_6i6",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "."
-							},
-							{
-								"name": "Destination",
-								"value": "stage1np/students/student_test"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"sqlReaderQuery": "select\r\nSKStudent,\r\nBKSourceStudentId,\r\nBKPersistentStudentId,\r\nCampusId,\r\nCampusName,\r\nSchoolId,\r\nSchoolName,\r\nDioceseId,\r\nDioceseName,\r\nVisaSubClassId,\r\nVisaSubClassDesc,\r\nVisaIdentificationNumber,\r\nVisaExpiryData,\r\nVisaEndDate,\r\nCitizenshipResidencyStatusId,\r\nCitizenshipResidencyStatusDesc,\r\nBoarder,\r\nSingleNameOnly,\r\nOfficialFirstName,\r\nPreferredFirstName,\r\nOfficialSurname,\r\nPreferredSurname,\r\nDOB,\r\nGenderId,\r\nGenderSifDesc,\r\nBirthCountryId,\r\nBirthCountrySifDesc,\r\nPrimaryCitizenshipCountryId,\r\nPrimaryCitizenshipCountrySifDesc,\r\nPrimaryPassportIssueCountryId,\r\nPrimaryPassportIssueCountrySifDesc,\r\nAttendanceStatusId,\r\nAttendanceStatusSifDesc,\r\nRollGroup,\r\nFFPOS,\r\nESLYesNo,\r\nEslLanguageId,\r\nESLLanguageSifDesc,\r\nLBOTEYesNo,\r\nLBOTELanguageId,\r\nLBOTELanguageSifDesc,\r\nAtsiId,\r\nATSIDesc,\r\nReligionId,\r\nReligionDesc,\r\nSWDYesNo,\r\nSwdId,\r\nSwdSifDesc,\r\nStudentAddressStreet,\r\nStudentAddressSuburb,\r\nStudentAddressPostCode,\r\nBKStudentAddressState,\r\nStudentAddressState,\r\ncast(StudentAddressGeoData as nvarchar),\r\nStudentAddressLongitude,\r\nStudentAddressLatitude,\r\nHomePhone,\r\nHomeEmail,\r\nStudentMobile,\r\nStudentEmail,\r\nGuardian1FirstName,\r\nGuardian1Surname,\r\nGuardian1Phone,\r\nGuardian1Mobile,\r\nGuardian1Email,\r\nGuardian1OccupationalGroupId,\r\nGuardian1OccupationalGroupSifDesc,\r\nGuardian1EducationSchoolLevelId,\r\nGuardian1EducationSchoolLevelSifDesc,\r\nGuardian1EducationNonSchoolLevelId,\r\nGuardian1EducationNonSchoolLevelSifDesc,\r\nGuardian1LanguageId,\r\nGuardian1LanguageSifDesc,\r\nGuardian2FirstName,\r\nGuardian2Surname,\r\nGuardian2Phone,\r\nGuardian2Mobile,\r\nGuardian2Email,\r\nGuardian2OccupationalGroupId,\r\nGuardian2OccupationalGroupSifDesc,\r\nGuardian2EducationSchoolLevelId,\r\nGuardian2EducationSchoolLevelSifDesc,\r\nGuardian2EducationNonSchoolLevelId,\r\nGuardian2EducationNonSchoolLevelSifDesc,\r\nGuardian2LanguageId,\r\nGuardian2LanguageSifDesc,\r\nBaptismDate,\r\nFirstReconciliationDate,\r\nFirstEucharistDate,\r\nConfirmationDate,\r\nBaptismParish,\r\nCreateDate,\r\nEffectiveStartDate,\r\nEffectiveEndDate,\r\nIsCurrent,\r\nScdReason,\r\nLastUpdateDate,\r\nMainCampusId,\r\nOrganisationUserId,\r\nSKPerson,\r\nStudentReportingId,\r\nAccessRestrictions_YN,\r\nAccessRestrictionsInt\r\nfrom dbo.vwDMStudent\r\n",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"validateDataConsistency": false
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_vwDMStudent",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_vwDMStudent",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_vwDMStudent')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_vwDMStudent')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_student_test_copy1')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_6i6",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "."
-							},
-							{
-								"name": "Destination",
-								"value": "stage1np/students/student_test_file/student_test"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"sqlReaderQuery": "select\r\nSKStudent,\r\nBKSourceStudentId,\r\nBKPersistentStudentId,\r\nCampusId,\r\nCampusName,\r\nSchoolId,\r\nSchoolName,\r\nDioceseId,\r\nDioceseName,\r\nVisaSubClassId,\r\nVisaSubClassDesc,\r\nVisaIdentificationNumber,\r\nVisaExpiryData,\r\nVisaEndDate,\r\nCitizenshipResidencyStatusId,\r\nCitizenshipResidencyStatusDesc,\r\nBoarder,\r\nSingleNameOnly,\r\nOfficialFirstName,\r\nPreferredFirstName,\r\nOfficialSurname,\r\nPreferredSurname,\r\nDOB,\r\nGenderId,\r\nGenderSifDesc,\r\nBirthCountryId,\r\nBirthCountrySifDesc,\r\nPrimaryCitizenshipCountryId,\r\nPrimaryCitizenshipCountrySifDesc,\r\nPrimaryPassportIssueCountryId,\r\nPrimaryPassportIssueCountrySifDesc,\r\nAttendanceStatusId,\r\nAttendanceStatusSifDesc,\r\nRollGroup,\r\nFFPOS,\r\nESLYesNo,\r\nEslLanguageId,\r\nESLLanguageSifDesc,\r\nLBOTEYesNo,\r\nLBOTELanguageId,\r\nLBOTELanguageSifDesc,\r\nAtsiId,\r\nATSIDesc,\r\nReligionId,\r\nReligionDesc,\r\nSWDYesNo,\r\nSwdId,\r\nSwdSifDesc,\r\nStudentAddressStreet,\r\nStudentAddressSuburb,\r\nStudentAddressPostCode,\r\nBKStudentAddressState,\r\nStudentAddressState,\r\ncast(StudentAddressGeoData as nvarchar),\r\nStudentAddressLongitude,\r\nStudentAddressLatitude,\r\nHomePhone,\r\nHomeEmail,\r\nStudentMobile,\r\nStudentEmail,\r\nGuardian1FirstName,\r\nGuardian1Surname,\r\nGuardian1Phone,\r\nGuardian1Mobile,\r\nGuardian1Email,\r\nGuardian1OccupationalGroupId,\r\nGuardian1OccupationalGroupSifDesc,\r\nGuardian1EducationSchoolLevelId,\r\nGuardian1EducationSchoolLevelSifDesc,\r\nGuardian1EducationNonSchoolLevelId,\r\nGuardian1EducationNonSchoolLevelSifDesc,\r\nGuardian1LanguageId,\r\nGuardian1LanguageSifDesc,\r\nGuardian2FirstName,\r\nGuardian2Surname,\r\nGuardian2Phone,\r\nGuardian2Mobile,\r\nGuardian2Email,\r\nGuardian2OccupationalGroupId,\r\nGuardian2OccupationalGroupSifDesc,\r\nGuardian2EducationSchoolLevelId,\r\nGuardian2EducationSchoolLevelSifDesc,\r\nGuardian2EducationNonSchoolLevelId,\r\nGuardian2EducationNonSchoolLevelSifDesc,\r\nGuardian2LanguageId,\r\nGuardian2LanguageSifDesc,\r\nBaptismDate,\r\nFirstReconciliationDate,\r\nFirstEucharistDate,\r\nConfirmationDate,\r\nBaptismParish,\r\nCreateDate,\r\nEffectiveStartDate,\r\nEffectiveEndDate,\r\nIsCurrent,\r\nScdReason,\r\nLastUpdateDate,\r\nMainCampusId,\r\nOrganisationUserId,\r\nSKPerson,\r\nStudentReportingId,\r\nAccessRestrictions_YN,\r\nAccessRestrictionsInt\r\nfrom dbo.vwDMStudent\r\n",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"validateDataConsistency": false
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_vwDMStudent",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_vwDMStudent",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_vwDMStudent')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_vwDMStudent')]"
 			]
 		},
 		{
@@ -2296,85 +1906,14 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
+				"folder": {
+					"name": "Data Copy Pipelines"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/datasets/SourceDataset_op9')]",
 				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_op9')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_vuj')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_vuj",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "."
-							},
-							{
-								"name": "Destination",
-								"value": "stage1np/students/student_test_file/student_test"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"sqlReaderQuery": "select\r\nSKStudent,\r\nBKSourceStudentId,\r\nBKPersistentStudentId,\r\nCampusId,\r\nCampusName,\r\nSchoolId,\r\nSchoolName,\r\nDioceseId,\r\nDioceseName,\r\nVisaSubClassId,\r\nVisaSubClassDesc,\r\nVisaIdentificationNumber,\r\nVisaExpiryData,\r\nVisaEndDate,\r\nCitizenshipResidencyStatusId,\r\nCitizenshipResidencyStatusDesc,\r\nBoarder,\r\nSingleNameOnly,\r\nOfficialFirstName,\r\nPreferredFirstName,\r\nOfficialSurname,\r\nPreferredSurname,\r\nDOB,\r\nGenderId,\r\nGenderSifDesc,\r\nBirthCountryId,\r\nBirthCountrySifDesc,\r\nPrimaryCitizenshipCountryId,\r\nPrimaryCitizenshipCountrySifDesc,\r\nPrimaryPassportIssueCountryId,\r\nPrimaryPassportIssueCountrySifDesc,\r\nAttendanceStatusId,\r\nAttendanceStatusSifDesc,\r\nRollGroup,\r\nFFPOS,\r\nESLYesNo,\r\nEslLanguageId,\r\nESLLanguageSifDesc,\r\nLBOTEYesNo,\r\nLBOTELanguageId,\r\nLBOTELanguageSifDesc,\r\nAtsiId,\r\nATSIDesc,\r\nReligionId,\r\nReligionDesc,\r\nSWDYesNo,\r\nSwdId,\r\nSwdSifDesc,\r\nStudentAddressStreet,\r\nStudentAddressSuburb,\r\nStudentAddressPostCode,\r\nBKStudentAddressState,\r\nStudentAddressState,\r\ncast(StudentAddressGeoData as nvarchar),\r\nStudentAddressLongitude,\r\nStudentAddressLatitude,\r\nHomePhone,\r\nHomeEmail,\r\nStudentMobile,\r\nStudentEmail,\r\nGuardian1FirstName,\r\nGuardian1Surname,\r\nGuardian1Phone,\r\nGuardian1Mobile,\r\nGuardian1Email,\r\nGuardian1OccupationalGroupId,\r\nGuardian1OccupationalGroupSifDesc,\r\nGuardian1EducationSchoolLevelId,\r\nGuardian1EducationSchoolLevelSifDesc,\r\nGuardian1EducationNonSchoolLevelId,\r\nGuardian1EducationNonSchoolLevelSifDesc,\r\nGuardian1LanguageId,\r\nGuardian1LanguageSifDesc,\r\nGuardian2FirstName,\r\nGuardian2Surname,\r\nGuardian2Phone,\r\nGuardian2Mobile,\r\nGuardian2Email,\r\nGuardian2OccupationalGroupId,\r\nGuardian2OccupationalGroupSifDesc,\r\nGuardian2EducationSchoolLevelId,\r\nGuardian2EducationSchoolLevelSifDesc,\r\nGuardian2EducationNonSchoolLevelId,\r\nGuardian2EducationNonSchoolLevelSifDesc,\r\nGuardian2LanguageId,\r\nGuardian2LanguageSifDesc,\r\nBaptismDate,\r\nFirstReconciliationDate,\r\nFirstEucharistDate,\r\nConfirmationDate,\r\nBaptismParish,\r\nCreateDate,\r\nEffectiveStartDate,\r\nEffectiveEndDate,\r\nIsCurrent,\r\nScdReason,\r\nLastUpdateDate,\r\nMainCampusId,\r\nOrganisationUserId,\r\nSKPerson,\r\nStudentReportingId,\r\nAccessRestrictions_YN,\r\nAccessRestrictionsInt\r\nfrom dbo.vwDMStudent\r\n",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"validateDataConsistency": false
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_student_test_file",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_student_test_file",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_student_test_file')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_student_test_file')]"
 			]
 		},
 		{
@@ -3196,6 +2735,261 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/Main Pipeline')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Run OEA Framework",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_py",
+								"type": "NotebookReference"
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					},
+					{
+						"name": "Copy Data to Stage1",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Run OEA Framework",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Stage1",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Move Data to Stage2",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Copy Data to Stage1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Stage2",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Main Pipeline"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_py')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]",
+				"[concat(variables('workspaceId'), '/pipelines/Stage1')]",
+				"[concat(variables('workspaceId'), '/pipelines/Stage2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Stage1')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('CopyPipeline_ACER_part2').output",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "If Acer",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@pipeline().parameters.acer",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "CopyPipeline_ACER_part1",
+												"type": "ExecutePipeline",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "CopyPipeline_ACER_part1",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true,
+													"parameters": {}
+												}
+											},
+											{
+												"name": "CopyPipeline_ACER_part2",
+												"type": "ExecutePipeline",
+												"dependsOn": [
+													{
+														"activity": "CopyPipeline_ACER_part1",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "CopyPipeline_ACER_part2",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true,
+													"parameters": {}
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"acer": {
+						"type": "bool",
+						"defaultValue": true
+					}
+				},
+				"folder": {
+					"name": "Main Pipeline"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ACER_part1')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ACER_part2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Stage2')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "For Each Data Object",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Ingest ACER to Stage2').output",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "If Acer",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@pipeline().parameters.acer",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "Ingest ACER to Stage2",
+												"type": "ExecutePipeline",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"pipeline": {
+														"referenceName": "ingestion_stage2_acer",
+														"type": "PipelineReference"
+													},
+													"waitOnCompletion": true,
+													"parameters": {}
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"acer": {
+						"type": "bool",
+						"defaultValue": true
+					}
+				},
+				"folder": {
+					"name": "Main Pipeline"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_acer')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Stage3')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -4009,12 +3803,6 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
-				"parameters": {
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage2np"
-					}
-				},
 				"folder": {
 					"name": "OEA_Framework"
 				},
@@ -4168,79 +3956,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Attendance')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_bit_test')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Ingest to Stage2",
-						"type": "SynapseNotebook",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebook": {
-								"referenceName": "OEA_connector_Bit_Test",
-								"type": "NotebookReference"
-							},
-							"parameters": {
-								"object_name": {
-									"value": "bit_test_object",
-									"type": "string"
-								},
-								"method_name": {
-									"value": "ingest",
-									"type": "string"
-								},
-								"source_folder": {
-									"value": "test_bit",
-									"type": "string"
-								}
-							},
-							"snapshot": true,
-							"sparkPool": {
-								"referenceName": "spark3p1sm",
-								"type": "BigDataPoolReference"
-							},
-							"executorSize": null,
-							"conf": {
-								"spark.dynamicAllocation.enabled": null,
-								"spark.dynamicAllocation.minExecutors": null,
-								"spark.dynamicAllocation.maxExecutors": null
-							},
-							"driverSize": null,
-							"numExecutors": null
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage2np"
-					}
-				},
-				"folder": {
-					"name": "OEA_Framework"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_Bit_Test')]",
 				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
 			]
 		},
@@ -7936,7 +7651,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ce936a5c-1eed-4c4e-abe4-fcfbfd3c4fa7"
+						"spark.autotune.trackingId": "adc6eb51-08b6-42c2-bf03-ff3fbf03824f"
 					}
 				},
 				"metadata": {
@@ -7961,15 +7676,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AE_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='AE', pseudonymize = True):\r\n",
@@ -8216,7 +7929,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1b645ec0-bb0e-4b43-94d4-5d5616f27328"
+						"spark.autotune.trackingId": "ee07f638-a70c-4d51-89c9-4350ae05ab15"
 					}
 				},
 				"metadata": {
@@ -8241,15 +7954,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"# class Acer(BaseOEAModule):\r\n",
 							"#     def __init__(self, source_folder='acer_test', pseudonymize = True):\r\n",
@@ -8828,7 +8539,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "506e06d3-f3e3-460c-a167-4ac9c61ba627"
+						"spark.autotune.trackingId": "1e7502a8-240d-4b53-b2c9-954913c1401c"
 					}
 				},
 				"metadata": {
@@ -8853,15 +8564,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Attendance_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='attendance', pseudonymize = True):\r\n",
@@ -9217,7 +8926,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b9070e75-f5fb-4db2-95d0-51c0c67d7532"
+						"spark.autotune.trackingId": "a3172b2e-1ea4-4a15-b748-0bbec54c0b8f"
 					}
 				},
 				"metadata": {
@@ -9242,15 +8951,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Bit_Test_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='test_bit', pseudonymize = True):\r\n",
@@ -9314,7 +9021,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4e62b2cb-370a-4989-9c48-80ffed1fe846"
+						"spark.autotune.trackingId": "2657bd02-dcdf-4610-9dd2-cbdc7058b3b9"
 					}
 				},
 				"metadata": {
@@ -9339,15 +9046,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Class_period_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='class_period', pseudonymize = True):\r\n",
@@ -9567,7 +9272,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4427e555-0921-4ae7-ae36-2cdf7e90dfaa"
+						"spark.autotune.trackingId": "9f886d53-41ae-47ef-a783-1f7b42b98061"
 					}
 				},
 				"metadata": {
@@ -9592,15 +9297,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Enrolment_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='enrolment', pseudonymize = True):\r\n",
@@ -9787,7 +9490,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2122210f-69be-49e4-bcb0-a5747069a874"
+						"spark.autotune.trackingId": "2a587bcf-2163-4ef0-9cfc-a61e5aa92db4"
 					}
 				},
 				"metadata": {
@@ -9812,15 +9515,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class MySchools_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='MySchools', pseudonymize = True):\r\n",
@@ -10241,7 +9942,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d9f7d364-9b13-4216-aabd-047368e58e34"
+						"spark.autotune.trackingId": "468e1164-5224-4fc3-afca-22e7668b0853"
 					}
 				},
 				"metadata": {
@@ -10266,15 +9967,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class NAPLAN_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NAPLAN', pseudonymize = True):\r\n",
@@ -11450,7 +11149,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c71120a1-5717-42e8-b7d1-528c1bf13744"
+						"spark.autotune.trackingId": "165b89a1-0a56-4cea-9a39-518599805848"
 					}
 				},
 				"metadata": {
@@ -11475,15 +11174,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class NCCD_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NCCD', pseudonymize = True):\r\n",
@@ -11924,7 +11621,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ce6cdc53-0d9f-4037-b3c2-9c3eb5e7f528"
+						"spark.autotune.trackingId": "282abfbc-24e5-4d75-b318-0ccfce562d0a"
 					}
 				},
 				"metadata": {
@@ -11997,26 +11694,6 @@
 						],
 						"outputs": [],
 						"execution_count": 15
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 16
 					},
 					{
 						"cell_type": "code",
@@ -12238,191 +11915,6 @@
 						},
 						"source": [
 							"%run /Attendance_py"
-						],
-						"outputs": [],
-						"execution_count": 17
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"obj = eval(object_name)\r\n",
-							"kwargs = eval(kwargs)\r\n",
-							"m = getattr(obj, method_name)\r\n",
-							"result = m(**kwargs)\r\n",
-							"mssparkutils.notebook.exit(result)"
-						],
-						"outputs": [],
-						"execution_count": 18
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Bit_Test')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "OEA Connectors"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "63ae5508-cb21-4255-b42d-8b0119dc9eb0"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "markdown",
-						"metadata": {
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"# OEA connector\n",
-							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
-							"\n",
-							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
-						]
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"tags": [
-								"parameters"
-							]
-						},
-						"source": [
-							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
-							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
-							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = ''\r\n",
-							"method_name = ''\r\n",
-							"source_folder = ''\r\n",
-							"kwargs = '{}'"
-						],
-						"outputs": [],
-						"execution_count": 15
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 16
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"%run /DataCopy_py"
-						],
-						"outputs": [],
-						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /Bit_test_py"
 						],
 						"outputs": [],
 						"execution_count": 17
@@ -14347,7 +13839,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8cc83254-786f-41ab-bc09-21ca87b0d8d2"
+						"spark.autotune.trackingId": "d94fff14-b5ff-444d-9bd4-120b857950bf"
 					}
 				},
 				"metadata": {
@@ -14372,15 +13864,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Student_profile(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='student', pseudonymize = True):\r\n",
@@ -15248,7 +14738,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e952569b-5073-4cc0-94b6-416243abca58"
+						"spark.autotune.trackingId": "1a614916-1866-4659-a589-ab2abbf056c7"
 					}
 				},
 				"metadata": {
@@ -15273,8 +14763,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

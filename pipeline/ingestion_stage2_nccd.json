@@ -49,14 +49,8 @@
 				}
 			}
 		],
-		"parameters": {
-			"sinkFilesystem": {
-				"type": "string",
-				"defaultValue": "stage2np"
-			}
-		},
 		"folder": {
-			"name": "OEA_Framework"
+			"name": "Stage2 Ingestion Pipelines"
 		},
 		"annotations": []
 	}

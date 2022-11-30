@@ -35,7 +35,7 @@
 				}
 			},
 			{
-				"name": "IF create_sql_db",
+				"name": "If create_sql_db",
 				"type": "IfCondition",
 				"dependsOn": [
 					{
@@ -53,21 +53,50 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "create_sql_db",
+							"name": "Create_SQLDB",
 							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "create_sql_db",
+									"referenceName": "Create_SQLDB",
 									"type": "PipelineReference"
 								},
-								"waitOnCompletion": true,
-								"parameters": {
-									"storageAccount": "stoeatceooeadev01",
-									"sourceDirectory": "\\",
-									"stage": "3"
-								}
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "If create_lake_db",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Transform and Move to Stage3",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.create_lake_db",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Create_LakeDB",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "Create_LakeDB",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
 							}
 						}
 					]
@@ -85,7 +114,7 @@
 			}
 		},
 		"folder": {
-			"name": "OEA_Framework"
+			"name": "Main Pipeline"
 		},
 		"annotations": []
 	}

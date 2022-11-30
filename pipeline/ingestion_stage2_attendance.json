@@ -49,12 +49,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"sinkFilesystem": {
-				"type": "string",
-				"defaultValue": "stage2np"
-			}
-		},
 		"folder": {
 			"name": "OEA_Framework"
 		},

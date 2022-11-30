@@ -28,10 +28,96 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "If AE",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.ae",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "ingestion_stage2_ae",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "ingestion_stage2_ae",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "If attendance",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.attendance",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "ingestion_stage2_attendance",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "ingestion_stage2_attendance",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
 			}
 		],
 		"parameters": {
 			"acer": {
+				"type": "bool",
+				"defaultValue": true
+			},
+			"ae": {
+				"type": "bool",
+				"defaultValue": true
+			},
+			"attendance": {
+				"type": "bool",
+				"defaultValue": true
+			},
+			"class_period": {
+				"type": "bool",
+				"defaultValue": true
+			},
+			"enrolment": {
+				"type": "bool",
+				"defaultValue": true
+			},
+			"myschools": {
+				"type": "bool",
+				"defaultValue": true
+			},
+			"naplan": {
+				"type": "bool",
+				"defaultValue": true
+			},
+			"nccd": {
+				"type": "bool",
+				"defaultValue": true
+			},
+			"student": {
 				"type": "bool",
 				"defaultValue": true
 			}

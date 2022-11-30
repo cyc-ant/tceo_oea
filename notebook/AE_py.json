@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "f2e19299-e157-406e-bc22-94fa2980d6c8"
+				"spark.autotune.trackingId": "adc6eb51-08b6-42c2-bf03-ff3fbf03824f"
 			}
 		},
 		"metadata": {
@@ -62,10 +62,10 @@
 					"                                        ['SKAEStudentId', 'integer', 'no-op'],\r\n",
 					"                                        ['BKSourceStudentId', 'string', 'no-op'],\r\n",
 					"                                        ['PersistentStudentId', 'integer', 'no-op'],\r\n",
-					"                                        ['StudentFirstName', 'string', 'hash'],\r\n",
-					"                                        ['StudentSurname', 'string', 'hash'],\r\n",
-					"                                        ['DOB', 'date', 'hash'],\r\n",
-					"                                        ['GenderId', 'integer', 'hash'],\r\n",
+					"                                        ['StudentFirstName', 'string', 'no-op'],\r\n",
+					"                                        ['StudentSurname', 'string', 'no-op'],\r\n",
+					"                                        ['DOB', 'date', 'no-op'],\r\n",
+					"                                        ['GenderId', 'integer', 'no-op'],\r\n",
 					"                                        ['ATSIId', 'integer', 'no-op'],\r\n",
 					"                                        ['LBOTELanguageId', 'integer', 'no-op'],\r\n",
 					"                                        ['WholeDaysAbsent', 'integer', 'no-op'],\r\n",

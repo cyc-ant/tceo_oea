@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('CopyPipeline_ACER_part1').outputactivity('CopyPipeline_ACER_part2').output",
+						"value": "@activity('CopyPipeline_ACER_part1').output",
 						"type": "Expression"
 					},
 					"activities": [

@@ -2853,14 +2853,7 @@
 					{
 						"name": "If acer",
 						"type": "IfCondition",
-						"dependsOn": [
-							{
-								"activity": "Run OEA",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
+						"dependsOn": [],
 						"userProperties": [],
 						"typeProperties": {
 							"expression": {
@@ -2884,38 +2877,6 @@
 								}
 							]
 						}
-					},
-					{
-						"name": "Run OEA",
-						"type": "SynapseNotebook",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebook": {
-								"referenceName": "OEA_py",
-								"type": "NotebookReference"
-							},
-							"snapshot": true,
-							"sparkPool": {
-								"referenceName": "spark3p1sm",
-								"type": "BigDataPoolReference"
-							},
-							"executorSize": null,
-							"conf": {
-								"spark.dynamicAllocation.enabled": null,
-								"spark.dynamicAllocation.minExecutors": null,
-								"spark.dynamicAllocation.maxExecutors": null
-							},
-							"driverSize": null,
-							"numExecutors": null
-						}
 					}
 				],
 				"policy": {
@@ -2934,8 +2895,6 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_py')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]",
 				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_acer')]"
 			]
 		},
@@ -3703,7 +3662,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Ingest to Stage2",
+						"name": "Ingest Acer to Stage2",
 						"type": "SynapseNotebook",
 						"dependsOn": [],
 						"policy": {
@@ -11571,7 +11530,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "282abfbc-24e5-4d75-b318-0ccfce562d0a"
+						"spark.autotune.trackingId": "ca9752eb-ae96-4cdc-aa43-15a29ad0e23b"
 					}
 				},
 				"metadata": {
@@ -11596,7 +11555,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -11644,6 +11604,25 @@
 						],
 						"outputs": [],
 						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run OEA_py"
+						],
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",

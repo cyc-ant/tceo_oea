@@ -2091,7 +2091,7 @@
 					}
 				},
 				"folder": {
-					"name": "Stage2 Ingestion Pipelines/Extracts"
+					"name": "External Extraction Pipelines"
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-10-28T06:19:07Z"
@@ -2225,167 +2225,7 @@
 					}
 				},
 				"folder": {
-					"name": "Stage2 Ingestion Pipelines/Extracts"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-10-28T06:18:52Z"
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/DS_Azure_SQL_DB')]",
-				"[concat(variables('workspaceId'), '/datasets/DS_ADLS_parquet')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/Copy_from_Azure_SQL_DB_cenettest')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy from Azure SQL DB",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "ParquetSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "ParquetWriteSettings"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "id",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "id",
-											"type": "String",
-											"physicalType": "UTF8"
-										}
-									},
-									{
-										"source": {
-											"name": "name",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String",
-											"physicalType": "UTF8"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "DS_Azure_SQL_DB",
-								"type": "DatasetReference",
-								"parameters": {
-									"dbServer": {
-										"value": "@pipeline().parameters.dbServer",
-										"type": "Expression"
-									},
-									"dbName": {
-										"value": "@pipeline().parameters.dbName",
-										"type": "Expression"
-									},
-									"userName": {
-										"value": "@pipeline().parameters.userName",
-										"type": "Expression"
-									},
-									"keyVaultSecretName": {
-										"value": "@pipeline().parameters.keyVaultSecretName",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DS_ADLS_parquet",
-								"type": "DatasetReference",
-								"parameters": {
-									"filesystem": {
-										"value": "@pipeline().parameters.sinkFilesystem",
-										"type": "Expression"
-									},
-									"directory": {
-										"value": "@pipeline().parameters.sinkDirectory",
-										"type": "Expression"
-									}
-								}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"dbServer": {
-						"type": "string",
-						"defaultValue": "cenettest.database.windows.net"
-					},
-					"dbName": {
-						"type": "string",
-						"defaultValue": "cenettestdata"
-					},
-					"userName": {
-						"type": "string",
-						"defaultValue": "testadmin"
-					},
-					"keyVaultSecretName": {
-						"type": "string",
-						"defaultValue": "dbpass"
-					},
-					"query": {
-						"type": "string",
-						"defaultValue": "select * from dbo.student"
-					},
-					"sinkFilesystem": {
-						"type": "string",
-						"defaultValue": "stage1np"
-					},
-					"sinkDirectory": {
-						"type": "string",
-						"defaultValue": "contoso_sis_db"
-					},
-					"table": {
-						"type": "string",
-						"defaultValue": "dbo.student"
-					}
-				},
-				"folder": {
-					"name": "Stage2 Ingestion Pipelines/Extracts"
+					"name": "External Extraction Pipelines"
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-10-28T06:18:52Z"
@@ -2495,7 +2335,7 @@
 					}
 				},
 				"folder": {
-					"name": "Stage2 Ingestion Pipelines/Extracts"
+					"name": "External Extraction Pipelines"
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-10-28T06:18:26Z"
@@ -2616,7 +2456,7 @@
 					}
 				},
 				"folder": {
-					"name": "Stage2 Ingestion Pipelines/Extracts"
+					"name": "External Extraction Pipelines"
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-10-28T06:18:41Z"
@@ -2663,6 +2503,43 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/Create_LakeDB_nohashing')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execute Pipeline1",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "create_lake_db_nohashing",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"stageNum": "3",
+								"sourceDirectory": "pilot"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Main Pipeline"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/pipelines/create_lake_db_nohashing')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Create_SQLDB')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -2698,6 +2575,44 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/pipelines/create_sql_db')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Create_SQLDB_nohashing')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Create SQL DB",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "create_sql_db_nohashing",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"storageAccount": "stoeatceooeadev01",
+								"sourceDirectory": "pilot",
+								"stage": "3"
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Main Pipeline"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/pipelines/create_sql_db_nohashing')]"
 			]
 		},
 		{
@@ -3700,7 +3615,90 @@
 					}
 				},
 				"folder": {
-					"name": "Stage2 Ingestion Pipelines/Ingest"
+					"name": "Data Lake Ingestion Pipelines"
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-10-28T06:19:28Z"
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/create_lake_db_nohashing')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "create_lake_db_nohashing",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "kwargs",
+								"value": "{'stage_num':@{pipeline().parameters.stageNum},'source_dir':@{pipeline().parameters.sourceDirectory}"
+							}
+						],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "oea",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "create_lake_db_nohashing",
+									"type": "string"
+								},
+								"kwargs": {
+									"value": {
+										"value": "{'stage_num':@{pipeline().parameters.stageNum},'source_dir':'@{pipeline().parameters.sourceDirectory}'}",
+										"type": "Expression"
+									},
+									"type": "string"
+								}
+							},
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"stageNum": {
+						"type": "string",
+						"defaultValue": "3"
+					},
+					"sourceDirectory": {
+						"type": "string",
+						"defaultValue": "pilot"
+					}
+				},
+				"folder": {
+					"name": "Data Lake Ingestion Pipelines"
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-10-28T06:19:28Z"
@@ -4010,7 +4008,7 @@
 					}
 				},
 				"folder": {
-					"name": "Stage2 Ingestion Pipelines/Ingest"
+					"name": "Data Lake Ingestion Pipelines"
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-10-28T06:19:39Z"
@@ -4021,18 +4019,30 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/example_main_pipeline')]",
+			"name": "[concat(parameters('workspaceName'), '/create_sql_db_nohashing')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
-				"description": "Example pipeline demonstrating typical orchestration of data extraction, landing, ingestion, and creation of lake and sql db's.",
 				"activities": [
 					{
-						"name": "ingest into stage2p and 2np",
-						"type": "SynapseNotebook",
+						"name": "set sqlDBName",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "sqlDBName",
+							"value": {
+								"value": "sqls@{pipeline().parameters.stage}_@{pipeline().parameters.sourceDirectory}",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Stored procedure1",
+						"type": "SqlServerStoredProcedure",
 						"dependsOn": [
 							{
-								"activity": "Copy_from_Azure_SQL_DB_cenettest",
+								"activity": "set sqlDBName",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -4047,83 +4057,78 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"notebook": {
-								"referenceName": "OEA_connector",
-								"type": "NotebookReference"
-							},
-							"parameters": {
-								"object_name": {
-									"value": "contoso_sis",
-									"type": "string"
-								},
-								"method_name": {
-									"value": "ingest",
-									"type": "string"
+							"storedProcedureName": "[dbo].[sp_executesql]",
+							"storedProcedureParameters": {
+								"command": {
+									"value": {
+										"value": "IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = '@{variables('sqlDBName')}') \nBEGIN\n  CREATE DATABASE @{variables('sqlDBName')}; \nEND;",
+										"type": "Expression"
+									},
+									"type": "String"
 								}
-							},
-							"sparkPool": {
-								"referenceName": "spark3p1sm",
-								"type": "BigDataPoolReference"
-							},
-							"conf": {
-								"spark.dynamicAllocation.enabled": null,
-								"spark.dynamicAllocation.minExecutors": null,
-								"spark.dynamicAllocation.maxExecutors": null
-							},
-							"numExecutors": null
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "LS_SQL_Serverless_OEA",
+							"type": "LinkedServiceReference",
+							"parameters": {
+								"dbName": "master"
+							}
 						}
 					},
 					{
-						"name": "If create_sql_db",
-						"type": "IfCondition",
+						"name": "get folders in stageXp",
+						"type": "GetMetadata",
 						"dependsOn": [
 							{
-								"activity": "ingest into stage2p and 2np",
+								"activity": "Stored procedure1",
 								"dependencyConditions": [
 									"Succeeded"
 								]
 							}
 						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
-							"expression": {
-								"value": "@pipeline().parameters.create_sql_db",
-								"type": "Expression"
-							},
-							"ifTrueActivities": [
-								{
-									"name": "create_sql_db",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "create_sql_db",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {
-											"storageAccount": {
-												"value": "@pipeline().parameters.storageAccount",
-												"type": "Expression"
-											},
-											"sourceDirectory": {
-												"value": "@pipeline().parameters.sourceDirectory",
-												"type": "Expression"
-											},
-											"stage": "2"
-										}
+							"dataset": {
+								"referenceName": "DS_ADLS_binary_folder",
+								"type": "DatasetReference",
+								"parameters": {
+									"filesystem": {
+										"value": "stage@{pipeline().parameters.stage}p",
+										"type": "Expression"
+									},
+									"directory": {
+										"value": "@pipeline().parameters.sourceDirectory",
+										"type": "Expression"
 									}
 								}
-							]
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "BinaryReadSettings"
+							}
 						}
 					},
 					{
-						"name": "If create_lake_db",
-						"type": "IfCondition",
+						"name": "ForEach1",
+						"type": "ForEach",
 						"dependsOn": [
 							{
-								"activity": "ingest into stage2p and 2np",
+								"activity": "get folders in stageXp",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -4131,48 +4136,52 @@
 						],
 						"userProperties": [],
 						"typeProperties": {
-							"expression": {
-								"value": "@pipeline().parameters.create_lake_db",
+							"items": {
+								"value": "@activity('get folders in stageXp').output.childItems",
 								"type": "Expression"
 							},
-							"ifTrueActivities": [
+							"activities": [
 								{
-									"name": "create_lake_db",
-									"type": "ExecutePipeline",
+									"name": "create or alter view for pseduonymized tables",
+									"type": "SqlServerStoredProcedure",
 									"dependsOn": [],
-									"userProperties": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "command",
+											"value": "CREATE OR ALTER VIEW @{item().name} AS SELECT * FROM OPENROWSET( BULK 'https://@{pipeline().parameters.storageAccount}.dfs.core.windows.net/stage@{pipeline().parameters.stage}p/@{pipeline().parameters.sourceDirectory}/@{item().name}', FORMAT='DELTA' ) AS [r]"
+										}
+									],
 									"typeProperties": {
-										"pipeline": {
-											"referenceName": "create_lake_db",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
+										"storedProcedureName": "[dbo].[sp_executesql]",
+										"storedProcedureParameters": {
+											"command": {
+												"value": {
+													"value": "CREATE OR ALTER VIEW @{item().name} AS\nSELECT * FROM OPENROWSET(\nBULK 'https://@{pipeline().parameters.storageAccount}.dfs.core.windows.net/stage@{pipeline().parameters.stage}p/@{pipeline().parameters.sourceDirectory}/@{item().name}',\nFORMAT='DELTA'\n) AS [r]",
+													"type": "Expression"
+												},
+												"type": "String"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "LS_SQL_Serverless_OEA",
+										"type": "LinkedServiceReference",
 										"parameters": {
-											"stageNum": "2",
-											"sourceDirectory": {
-												"value": "@pipeline().parameters.sourceDirectory",
+											"dbName": {
+												"value": "@variables('sqlDBName')",
 												"type": "Expression"
 											}
 										}
 									}
 								}
 							]
-						}
-					},
-					{
-						"name": "Copy_from_Azure_SQL_DB_cenettest",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "Copy_from_Azure_SQL_DB_cenettest",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {
-								"sinkDirectory": "contoso_sis_db"
-							}
 						}
 					}
 				],
@@ -4187,29 +4196,28 @@
 					},
 					"sourceDirectory": {
 						"type": "string",
-						"defaultValue": "contoso_sis_db"
+						"defaultValue": "pilot"
 					},
-					"create_sql_db": {
-						"type": "bool",
-						"defaultValue": true
-					},
-					"create_lake_db": {
-						"type": "bool",
-						"defaultValue": true
+					"stage": {
+						"type": "string",
+						"defaultValue": "3"
+					}
+				},
+				"variables": {
+					"sqlDBName": {
+						"type": "String",
+						"defaultValue": "sqls2_dev"
 					}
 				},
 				"folder": {
-					"name": "Stage2 Ingestion Pipelines"
+					"name": "Data Lake Ingestion Pipelines"
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-10-28T06:19:55Z"
+				"lastPublishTime": "2022-10-28T06:19:39Z"
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]",
-				"[concat(variables('workspaceId'), '/pipelines/Copy_from_Azure_SQL_DB_cenettest')]",
-				"[concat(variables('workspaceId'), '/pipelines/create_sql_db')]",
-				"[concat(variables('workspaceId'), '/pipelines/create_lake_db')]"
+				"[concat(variables('workspaceId'), '/linkedServices/LS_SQL_Serverless_OEA')]",
+				"[concat(variables('workspaceId'), '/datasets/DS_ADLS_binary_folder')]"
 			]
 		},
 		{
@@ -4999,7 +5007,7 @@
 					}
 				},
 				"folder": {
-					"name": "Stage2 Ingestion Pipelines/Reset"
+					"name": "Data Reset Pipelines"
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-10-28T06:20:10Z"
@@ -5159,7 +5167,7 @@
 					}
 				},
 				"folder": {
-					"name": "Stage2 Ingestion Pipelines/Reset"
+					"name": "Data Reset Pipelines"
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-10-28T06:20:24Z"
@@ -8065,7 +8073,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c2b95290-e8ac-4c21-ad79-872def86f056"
+						"spark.autotune.trackingId": "5efbc363-7762-4194-9619-8a2e25ea9909"
 					}
 				},
 				"metadata": {
@@ -8090,15 +8098,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AE_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='AE', pseudonymize = True):\r\n",
@@ -8347,7 +8353,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f7a36052-09e9-43bf-96ee-ef5ea3de5ea5"
+						"spark.autotune.trackingId": "92b103dd-a3ff-4645-b946-de3706d68ed6"
 					}
 				},
 				"metadata": {
@@ -8372,15 +8378,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Acer_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='ACER', pseudonymize = True):\r\n",
@@ -10237,7 +10241,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "89646433-f747-4980-932a-c7bfdfe950b8"
+						"spark.autotune.trackingId": "b5e349a2-32c6-49e0-b9ba-76756f37c900"
 					}
 				},
 				"metadata": {
@@ -10262,15 +10266,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class NAPLAN_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NAPLAN', pseudonymize = True):\r\n",
@@ -13396,7 +13398,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d112a746-93ee-485b-809b-ede820efbd55"
+						"spark.autotune.trackingId": "27b938df-7b10-45e1-bcd3-384ce12ea1d2"
 					}
 				},
 				"metadata": {
@@ -13421,8 +13423,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14191,7 +14192,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ea820f9b-04d8-4fe1-a8c4-57f97f0c0b28"
+						"spark.autotune.trackingId": "bf16226e-ea33-43d4-b993-b34c77becad1"
 					}
 				},
 				"metadata": {
@@ -14216,15 +14217,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Student_profile(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='student', pseudonymize = True):\r\n",
@@ -15343,366 +15342,6 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/Create_SQLDB_nohashing')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Create SQL DB",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "create_sql_db_nohashing",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {
-								"storageAccount": "stoeatceooeadev01",
-								"sourceDirectory": "pilot",
-								"stage": "3"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "Main Pipeline"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/pipelines/create_sql_db_nohashing')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/create_sql_db_nohashing')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "set sqlDBName",
-						"type": "SetVariable",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "sqlDBName",
-							"value": {
-								"value": "sqls@{pipeline().parameters.stage}_@{pipeline().parameters.sourceDirectory}",
-								"type": "Expression"
-							}
-						}
-					},
-					{
-						"name": "Stored procedure1",
-						"type": "SqlServerStoredProcedure",
-						"dependsOn": [
-							{
-								"activity": "set sqlDBName",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"storedProcedureName": "[dbo].[sp_executesql]",
-							"storedProcedureParameters": {
-								"command": {
-									"value": {
-										"value": "IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = '@{variables('sqlDBName')}') \nBEGIN\n  CREATE DATABASE @{variables('sqlDBName')}; \nEND;",
-										"type": "Expression"
-									},
-									"type": "String"
-								}
-							}
-						},
-						"linkedServiceName": {
-							"referenceName": "LS_SQL_Serverless_OEA",
-							"type": "LinkedServiceReference",
-							"parameters": {
-								"dbName": "master"
-							}
-						}
-					},
-					{
-						"name": "get folders in stageXp",
-						"type": "GetMetadata",
-						"dependsOn": [
-							{
-								"activity": "Stored procedure1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "DS_ADLS_binary_folder",
-								"type": "DatasetReference",
-								"parameters": {
-									"filesystem": {
-										"value": "stage@{pipeline().parameters.stage}p",
-										"type": "Expression"
-									},
-									"directory": {
-										"value": "@pipeline().parameters.sourceDirectory",
-										"type": "Expression"
-									}
-								}
-							},
-							"fieldList": [
-								"childItems"
-							],
-							"storeSettings": {
-								"type": "AzureBlobFSReadSettings",
-								"recursive": true,
-								"enablePartitionDiscovery": false
-							},
-							"formatSettings": {
-								"type": "BinaryReadSettings"
-							}
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "get folders in stageXp",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('get folders in stageXp').output.childItems",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "create or alter view for pseduonymized tables",
-									"type": "SqlServerStoredProcedure",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [
-										{
-											"name": "command",
-											"value": "CREATE OR ALTER VIEW @{item().name} AS SELECT * FROM OPENROWSET( BULK 'https://@{pipeline().parameters.storageAccount}.dfs.core.windows.net/stage@{pipeline().parameters.stage}p/@{pipeline().parameters.sourceDirectory}/@{item().name}', FORMAT='DELTA' ) AS [r]"
-										}
-									],
-									"typeProperties": {
-										"storedProcedureName": "[dbo].[sp_executesql]",
-										"storedProcedureParameters": {
-											"command": {
-												"value": {
-													"value": "CREATE OR ALTER VIEW @{item().name} AS\nSELECT * FROM OPENROWSET(\nBULK 'https://@{pipeline().parameters.storageAccount}.dfs.core.windows.net/stage@{pipeline().parameters.stage}p/@{pipeline().parameters.sourceDirectory}/@{item().name}',\nFORMAT='DELTA'\n) AS [r]",
-													"type": "Expression"
-												},
-												"type": "String"
-											}
-										}
-									},
-									"linkedServiceName": {
-										"referenceName": "LS_SQL_Serverless_OEA",
-										"type": "LinkedServiceReference",
-										"parameters": {
-											"dbName": {
-												"value": "@variables('sqlDBName')",
-												"type": "Expression"
-											}
-										}
-									}
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"storageAccount": {
-						"type": "string",
-						"defaultValue": "stoeatceooeadev01"
-					},
-					"sourceDirectory": {
-						"type": "string",
-						"defaultValue": "pilot"
-					},
-					"stage": {
-						"type": "string",
-						"defaultValue": "3"
-					}
-				},
-				"variables": {
-					"sqlDBName": {
-						"type": "String",
-						"defaultValue": "sqls2_dev"
-					}
-				},
-				"folder": {
-					"name": "Stage2 Ingestion Pipelines/Ingest"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-10-28T06:19:39Z"
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/LS_SQL_Serverless_OEA')]",
-				"[concat(variables('workspaceId'), '/datasets/DS_ADLS_binary_folder')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/create_lake_db_nohashing')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "create_lake_db_nohashing",
-						"type": "SynapseNotebook",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "kwargs",
-								"value": "{'stage_num':@{pipeline().parameters.stageNum},'source_dir':@{pipeline().parameters.sourceDirectory}"
-							}
-						],
-						"typeProperties": {
-							"notebook": {
-								"referenceName": "OEA_connector",
-								"type": "NotebookReference"
-							},
-							"parameters": {
-								"object_name": {
-									"value": "oea",
-									"type": "string"
-								},
-								"method_name": {
-									"value": "create_lake_db_nohashing",
-									"type": "string"
-								},
-								"kwargs": {
-									"value": {
-										"value": "{'stage_num':@{pipeline().parameters.stageNum},'source_dir':'@{pipeline().parameters.sourceDirectory}'}",
-										"type": "Expression"
-									},
-									"type": "string"
-								}
-							},
-							"sparkPool": {
-								"referenceName": "spark3p1sm",
-								"type": "BigDataPoolReference"
-							},
-							"conf": {
-								"spark.dynamicAllocation.enabled": null,
-								"spark.dynamicAllocation.minExecutors": null,
-								"spark.dynamicAllocation.maxExecutors": null
-							},
-							"numExecutors": null
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"stageNum": {
-						"type": "string",
-						"defaultValue": "3"
-					},
-					"sourceDirectory": {
-						"type": "string",
-						"defaultValue": "pilot"
-					}
-				},
-				"folder": {
-					"name": "Stage2 Ingestion Pipelines/Ingest"
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-10-28T06:19:28Z"
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/Create_LakeDB_nohashing')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Execute Pipeline1",
-						"type": "ExecutePipeline",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "create_lake_db_nohashing",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": true,
-							"parameters": {
-								"stageNum": "3",
-								"sourceDirectory": "pilot"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "Main Pipeline"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/pipelines/create_lake_db_nohashing')]"
-			]
 		}
 	]
 }

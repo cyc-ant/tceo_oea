@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "adc6eb51-08b6-42c2-bf03-ff3fbf03824f"
+				"spark.autotune.trackingId": "5efbc363-7762-4194-9619-8a2e25ea9909"
 			}
 		},
 		"metadata": {
@@ -261,8 +261,10 @@
 					"        oea.ingest_delta_data(self.source_folder, 'DMAESubjectCourse', self.schemas['DMAESubjectCourse'], 'LastUpdateDate', 'SKAESubjectCourseId')\r\n",
 					"\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMFACTAEDC', self.schemas['DMFACTAEDC'], 'LastUpdateDate', 'SKAEDC')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'DMFACTAEDCStrengths', self.schemas['DMFACTAEDCStrengths'], 'LastUpdateDate', 'SKAEDCStrengths')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'DMFactStudentAEResult', self.schemas['DMFactStudentAEResult'], 'LastUpdateDate', 'SKFactStudentAEResultId')\r\n",
+					"        \r\n",
+					"        # empty tables \r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'DMFACTAEDCStrengths', self.schemas['DMFACTAEDCStrengths'], 'LastUpdateDate', 'SKAEDCStrengths')\r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'DMFactStudentAEResult', self.schemas['DMFactStudentAEResult'], 'LastUpdateDate', 'SKFactStudentAEResultId')\r\n",
 					"\r\n",
 					"\r\n",
 					"\r\n",

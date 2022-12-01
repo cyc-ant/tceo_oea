@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d94fff14-b5ff-444d-9bd4-120b857950bf"
+				"spark.autotune.trackingId": "bf16226e-ea33-43d4-b993-b34c77becad1"
 			}
 		},
 		"metadata": {
@@ -542,14 +542,6 @@
 					"        oea.ingest_delta_data(self.source_folder, 'DMStudentOrganisationDetails', self.schemas['DMStudentOrganisationDetails'], 'LastUpdateDate', 'SKStudentOrganisationDetails')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMStudentSchoolHistory', self.schemas['DMStudentSchoolHistory'], 'LastUpdateDate', 'SKStudentSchoolHistory')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMStudentType', self.schemas['DMStudentType'], 'LastUpdateDate', 'SKStudentType')\r\n",
-					"\r\n",
-					"\r\n",
-					"        \r\n",
-					"        #oea.ingest_incremental_data(self.source_folder, 'student_test_file', self.schemas['student_test'], 'LastUpdateDate', 'SKStudent') # try to partition by LastUpdateDate instead of CreateDate\r\n",
-					"\r\n",
-					"        #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
-					"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",
-					"        #oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\r\n",
 					"\r\n",
 					"student_profile = Student_profile()"
 				],

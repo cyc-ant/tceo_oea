@@ -8065,7 +8065,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "adc6eb51-08b6-42c2-bf03-ff3fbf03824f"
+						"spark.autotune.trackingId": "c2b95290-e8ac-4c21-ad79-872def86f056"
 					}
 				},
 				"metadata": {
@@ -8090,13 +8090,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class AE_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='AE', pseudonymize = True):\r\n",
@@ -8305,8 +8307,10 @@
 							"        oea.ingest_delta_data(self.source_folder, 'DMAESubjectCourse', self.schemas['DMAESubjectCourse'], 'LastUpdateDate', 'SKAESubjectCourseId')\r\n",
 							"\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMFACTAEDC', self.schemas['DMFACTAEDC'], 'LastUpdateDate', 'SKAEDC')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMFACTAEDCStrengths', self.schemas['DMFACTAEDCStrengths'], 'LastUpdateDate', 'SKAEDCStrengths')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMFactStudentAEResult', self.schemas['DMFactStudentAEResult'], 'LastUpdateDate', 'SKFactStudentAEResultId')\r\n",
+							"        \r\n",
+							"        # empty tables \r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'DMFACTAEDCStrengths', self.schemas['DMFACTAEDCStrengths'], 'LastUpdateDate', 'SKAEDCStrengths')\r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'DMFactStudentAEResult', self.schemas['DMFactStudentAEResult'], 'LastUpdateDate', 'SKFactStudentAEResultId')\r\n",
 							"\r\n",
 							"\r\n",
 							"\r\n",
@@ -8343,7 +8347,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ee07f638-a70c-4d51-89c9-4350ae05ab15"
+						"spark.autotune.trackingId": "f7a36052-09e9-43bf-96ee-ef5ea3de5ea5"
 					}
 				},
 				"metadata": {
@@ -8368,45 +8372,16 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
-							"# class Acer(BaseOEAModule):\r\n",
-							"#     def __init__(self, source_folder='acer_test', pseudonymize = True):\r\n",
-							"#         BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-							"#         self.schemas['student_acer'] = [['SKACERStudent', 'integer', 'no-op'],\r\n",
-							"#                                         ['BKACERStudent', 'string', 'no-op'],\r\n",
-							"#                                         ['SystemID', 'string', 'no-op'],\r\n",
-							"#                                         ['PersistentStudentID', 'integer', 'no-op'],\r\n",
-							"#                                         ['FamilyName', 'string', 'no-op'],\r\n",
-							"#                                         ['GivenName', 'string', 'no-op'],\r\n",
-							"#                                         ['DateOfBirth', 'date', 'no-op'],\r\n",
-							"#                                         ['Gender', 'string', 'no-op'],\r\n",
-							"#                                         ['GenderId', 'integer', 'no-op'],\r\n",
-							"#                                         ['Username', 'string', 'no-op'],\r\n",
-							"#                                         ['Password', 'string', 'no-op'],\r\n",
-							"#                                         ['CampusId', 'integer', 'no-op'],\r\n",
-							"#                                         ['CreateDate', 'string', 'no-op'],\r\n",
-							"#                                         ['LastUpdateDate', 'string', 'no-op'],\r\n",
-							"#                                         ['EffectiveStartDate', 'string', 'no-op'],\r\n",
-							"#                                         ['EffectiveEndDate', 'string', 'no-op'],\r\n",
-							"#                                         ['IsCurrent', 'string', 'no-op'],\r\n",
-							"#                                         ['SCDReason', 'string', 'no-op']]                                          \r\n",
-							"\r\n",
-							"#     def ingest(self):\r\n",
-							"#         oea.ingest_delta_data(self.source_folder, 'DMAcerStudent', self.schemas['student_acer'], None, 'SKACERStudent')\r\n",
-							"\r\n",
-							"#         #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
-							"#         #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",
-							"#         #oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\r\n",
-							"\r\n",
-							"# acer = Acer()\r\n",
-							"\r\n",
 							"class Acer_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='ACER', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
@@ -8910,7 +8885,8 @@
 							"        oea.ingest_delta_data(self.source_folder, 'DMPATTest', self.schemas['DMPATTest'], 'LastUpdateDate', 'SKPATTest')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMCampus', self.schemas['DMCampus'], 'LastUpdateDate', 'SKCampus')\r\n",
 							"\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMCalendarYear', self.schemas['DMCalendarYear'], 'LastUpdateDate', 'SkYear')\r\n",
+							"        # duplicate table - use DMDate instead\r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'DMCalendarYear', self.schemas['DMCalendarYear'], 'LastUpdateDate', 'SkYear')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMGender', self.schemas['DMGender'], 'LastUpdateDate', 'SKGenderId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMYearLevel', self.schemas['DMYearLevel'], 'LastUpdateDate', 'SKYearLevel')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMDate', self.schemas['DMDate'], 'LastUpdateDate', 'SKDate')\r\n",
@@ -9311,101 +9287,6 @@
 						],
 						"outputs": [],
 						"execution_count": 1
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/Bit_test_py')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "Data Objects"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a3172b2e-1ea4-4a15-b748-0bbec54c0b8f"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": true,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "python"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "code",
-						"source": [
-							"class Bit_Test_object(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='test_bit', pseudonymize = True):\r\n",
-							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-							"\r\n",
-							"        self.schemas['DMAttendanceStatus'] = [\r\n",
-							"                                        ['SKAttendanceStatusId', 'integer', 'no-op'],\r\n",
-							"                                        ['BKAttendanceStatusId', 'integer', 'no-op'],\r\n",
-							"                                        ['AttendanceStatusSifCode', 'string', 'no-op'],\r\n",
-							"                                        ['AttendanceStatusSifDesc', 'string', 'no-op'],\r\n",
-							"                                        ['PrimarySort', 'double', 'no-op'],\r\n",
-							"                                        ['SecondarySort', 'double', 'no-op'],\r\n",
-							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
-							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
-							"                                        ['IsCurrent', 'bool', 'no-op'],\r\n",
-							"                                        ['ScdReason', 'string', 'no-op'],\r\n",
-							"                                        ['BusinessDesc', 'string', 'no-op'],\r\n",
-							"                                        ['AttendanceStatusGroup', 'string', 'no-op']                                                               \r\n",
-							"                                        ]\r\n",
-							"\r\n",
-							"\r\n",
-							"                                 \r\n",
-							"\r\n",
-							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMAttendanceStatus', self.schemas['DMAttendanceStatus'], 'LastUpdateDate', 'SKAttendanceStatusId')\r\n",
-							"\r\n",
-							"\r\n",
-							"\r\n",
-							"bit_test_object = Bit_Test_object()"
-						],
-						"outputs": [],
-						"execution_count": null
 					}
 				]
 			},
@@ -10356,7 +10237,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "468e1164-5224-4fc3-afca-22e7668b0853"
+						"spark.autotune.trackingId": "89646433-f747-4980-932a-c7bfdfe950b8"
 					}
 				},
 				"metadata": {
@@ -10381,13 +10262,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class NAPLAN_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NAPLAN', pseudonymize = True):\r\n",
@@ -11519,7 +11402,9 @@
 							"        oea.ingest_delta_data(self.source_folder, 'NAPLANNAPLAN', self.schemas['NAPLANNAPLAN'], 'LastUpdateDate', 'SKNaplanResultId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'NAPLANNAPLANStudentView', self.schemas['NAPLANNAPLANStudentView'], 'LastUpdateDate', 'SkNaplanStudentId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'NAPLANStudent', self.schemas['NAPLANStudent'], None, 'BKSourceStudentId')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'NAPLANStudentYearResult', self.schemas['NAPLANStudentYearResult'], 'LastUpdateDate', 'UId')\r\n",
+							"        \r\n",
+							"        # empty table - investigate possible issue \r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'NAPLANStudentYearResult', self.schemas['NAPLANStudentYearResult'], 'LastUpdateDate', 'UId')\r\n",
 							"\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANOnlineTestPath', self.schemas['DMNAPLANOnlineTestPath'], 'LastUpdateDate', 'SKNAPLANOnlineTestPath')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANParticipationCode', self.schemas['DMNAPLANParticipationCode'], 'LastUpdateDate', 'SKNAPLANParticipationCode')\r\n",
@@ -13511,7 +13396,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a660b34f-8a3c-44cf-87d3-e10086fb7b14"
+						"spark.autotune.trackingId": "d112a746-93ee-485b-809b-ede820efbd55"
 					}
 				},
 				"metadata": {
@@ -14306,7 +14191,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d94fff14-b5ff-444d-9bd4-120b857950bf"
+						"spark.autotune.trackingId": "ea820f9b-04d8-4fe1-a8c4-57f97f0c0b28"
 					}
 				},
 				"metadata": {
@@ -14331,13 +14216,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Student_profile(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='student', pseudonymize = True):\r\n",
@@ -14827,14 +14714,6 @@
 							"        oea.ingest_delta_data(self.source_folder, 'DMStudentOrganisationDetails', self.schemas['DMStudentOrganisationDetails'], 'LastUpdateDate', 'SKStudentOrganisationDetails')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMStudentSchoolHistory', self.schemas['DMStudentSchoolHistory'], 'LastUpdateDate', 'SKStudentSchoolHistory')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMStudentType', self.schemas['DMStudentType'], 'LastUpdateDate', 'SKStudentType')\r\n",
-							"\r\n",
-							"\r\n",
-							"        \r\n",
-							"        #oea.ingest_incremental_data(self.source_folder, 'student_test_file', self.schemas['student_test'], 'LastUpdateDate', 'SKStudent') # try to partition by LastUpdateDate instead of CreateDate\r\n",
-							"\r\n",
-							"        #oea.ingest_incremental_data(self.source_folder, 'student', self.schemas['student'], 'name', 'id')\r\n",
-							"        #oea.ingest_snapshot_data(self.source_folder, 'studentsectionmark', self.schemas['studentsectionmark'], 'school_year', 'id')\r\n",
-							"        #oea.ingest_delta_data(self.source_folder, 'studentdemographics', self.schemas['studentdemographics'], 'school_year', 'id')\r\n",
 							"\r\n",
 							"student_profile = Student_profile()"
 						],

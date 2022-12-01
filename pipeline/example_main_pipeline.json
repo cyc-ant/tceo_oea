@@ -141,10 +141,6 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "Copy_from_Azure_SQL_DB_cenettest",
-						"type": "PipelineReference"
-					},
 					"waitOnCompletion": true,
 					"parameters": {
 						"sinkDirectory": "contoso_sis_db"

@@ -143,7 +143,7 @@
 			}
 		},
 		"folder": {
-			"name": "Stage2 Ingestion Pipelines/Reset"
+			"name": "Data Reset Pipelines"
 		},
 		"annotations": [],
 		"lastPublishTime": "2022-10-28T06:20:24Z"

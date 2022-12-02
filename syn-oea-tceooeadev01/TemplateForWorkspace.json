@@ -14812,7 +14812,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "23351fd2-b837-474b-8639-3d1152a1b863"
+						"spark.autotune.trackingId": "d89abda4-4627-434e-8d2a-851865071e71"
 					}
 				},
 				"metadata": {
@@ -14984,8 +14984,7 @@
 							"\r\n",
 							"    query = \"\"\" USE DBTOW\r\n",
 							"\r\n",
-							"                SELECT \r\n",
-							"                cy.Year AS CalendarYear,\r\n",
+							"                SELECT cy.Year AS CalendarYear,\r\n",
 							"                C.SchoolId AS AGEID,\r\n",
 							"                c.CampusSuburbAndName,\r\n",
 							"                student.FirstName  AS  StudentFirstName,\r\n",
@@ -15001,8 +15000,7 @@
 							"                staff.LastName AS StaffLastName,\r\n",
 							"                c.CompassSchoolURL\r\n",
 							"\r\n",
-							"                FROM \r\n",
-							"                vw_factsubjectenrolment f\r\n",
+							"                FROM vw_factsubjectenrolment f\r\n",
 							"                JOIN vw_dmactivity a ON f.SKActivity = a.SKActivity\r\n",
 							"                AND a.ActivityTypeDescription = 'Standard Class'\r\n",
 							"                JOIN vw_dmsubject s ON f.SKSubject = s.SKSubject\r\n",
@@ -15208,7 +15206,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2de2814c-4390-4ac8-ab37-39891cd4bc1a"
+						"spark.autotune.trackingId": "de8d8d62-98f2-4758-bb88-f491f66f353d"
 					}
 				},
 				"metadata": {
@@ -15287,7 +15285,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 15
 					},
 					{
 						"cell_type": "code",
@@ -15306,7 +15304,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 16
 					},
 					{
 						"cell_type": "code",
@@ -15335,7 +15333,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 17
 					},
 					{
 						"cell_type": "code",
@@ -15356,7 +15354,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 18
 					},
 					{
 						"cell_type": "code",
@@ -15475,7 +15473,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 19
 					}
 				]
 			},

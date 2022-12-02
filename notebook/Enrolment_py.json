@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "886f16e7-53b7-46ec-b2b1-acee2fbe77e9"
+				"spark.autotune.trackingId": "7662e6ca-6561-45ad-8a20-cbe04874188d"
 			}
 		},
 		"metadata": {
@@ -240,10 +240,9 @@
 					"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
 					"                                        ['Iscurrent', 'string', 'no-op'],\r\n",
 					"                                        ['SCDReason', 'string', 'no-op']\r\n",
-					"        ]\r\n",
+					"                                        ]\r\n",
 					"\r\n",
 					"                             \r\n",
-					"\r\n",
 					"    def ingest(self):\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMEnrolmentStatus', self.schemas['DMEnrolmentStatus'], 'LastUpdateDate', 'SKEnrolmentStatus')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMFactStudentEnrolment', self.schemas['DMFactStudentEnrolment'], 'LastUpdateDate', 'UIDEnrolmentId')\r\n",

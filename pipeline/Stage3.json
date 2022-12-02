@@ -59,7 +59,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "Create_SQLDB",
+									"referenceName": "Create_SQLDB_nohashing",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true
@@ -93,7 +93,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "Create_LakeDB",
+									"referenceName": "Create_LakeDB_nohashing",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true

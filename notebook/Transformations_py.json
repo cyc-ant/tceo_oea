@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3931fb5b-1abf-41ba-990f-60dd8b3bc397"
+				"spark.autotune.trackingId": "f35a51c8-3271-4da9-a0ba-87c11264ae5c"
 			}
 		},
 		"metadata": {
@@ -136,6 +136,25 @@
 					"        raise ValueError(f\"Failed to load {tableName.path}. Check the paths.\\nMore info below:\\n\" + str(e)) \r\n",
 					"    \r\n",
 					"    return None"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def createAdditionalViews():\r\n",
+					"    "
 				],
 				"execution_count": null
 			}

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "1a614916-1866-4659-a589-ab2abbf056c7"
+				"spark.autotune.trackingId": "4bd3bb29-cf5e-44f0-8f41-1ebac1ba8c23"
 			}
 		},
 		"metadata": {
@@ -243,6 +243,42 @@
 					"stage3Transform(source_np, destination_np)"
 				],
 				"execution_count": 45
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"## Creation of additional views"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# now run all of the transformations that create additional views\r\n",
+					"\r\n",
+					"# Class enrolments\r\n",
+					"path = f'{destination_p}/{version}/_DMClassEnrolments_pseudo'\r\n",
+					"df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")\r\n",
+					""
+				],
+				"execution_count": null
 			}
 		]
 	}

@@ -14812,7 +14812,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "dc74be45-6496-4383-a459-a27d25f82788"
+						"spark.autotune.trackingId": "23351fd2-b837-474b-8639-3d1152a1b863"
 					}
 				},
 				"metadata": {
@@ -14837,13 +14837,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when\r\n",
 							""
@@ -14964,10 +14966,10 @@
 							"    factsubjectenrolment_df = spark.read.load(sourcep + \"/enrolment/DMFactSubjectEnrolment_pseudo\", format='delta')\r\n",
 							"    dmactivity_df = spark.read.load(sourcep + \"/enrolment/DMActivity_pseudo\", format='delta')\r\n",
 							"    dmsubject_df = spark.read.load(sourcep + \"/enrolment/DMSubject_pseudo\", format='delta')\r\n",
-							"    dmpersondemographic_df = spark.read.load(sourcep + \"/enrolment/DMPersonDemographic_pseudo\", format='delta')\r\n",
-							"    dmyearlevel_df = spark.read.load(sourcep + \"/enrolment/DMYearLevel_pseudo\", format='delta')\r\n",
-							"    dmcampus_df = spark.read.load(sourcep + \"/enrolment/DMCampus_pseudo\", format='delta')\r\n",
-							"    dmdate_df = spark.read.load(sourcep + \"/enrolment/DMDate_pseudo\", format='delta')\r\n",
+							"    dmpersondemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
+							"    dmyearlevel_df = spark.read.load(sourcep + \"/ACER/DMYearLevel_pseudo\", format='delta')\r\n",
+							"    dmcampus_df = spark.read.load(sourcep + \"/ACER/DMCampus_pseudo\", format='delta')\r\n",
+							"    dmdate_df = spark.read.load(sourcep + \"/ACER/DMDate_pseudo\", format='delta')\r\n",
 							"    dmcalendaryear = spark.read.load(sourcep + \"/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"    # create temp sql views\r\n",
@@ -15206,7 +15208,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "967e14e1-4c2d-4f08-83c4-d7fae57aec24"
+						"spark.autotune.trackingId": "2de2814c-4390-4ac8-ab37-39891cd4bc1a"
 					}
 				},
 				"metadata": {
@@ -15231,8 +15233,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15286,7 +15287,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -15305,7 +15306,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -15334,7 +15335,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -15355,7 +15356,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -15474,7 +15475,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 14
 					}
 				]
 			},

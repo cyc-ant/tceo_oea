@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "92b103dd-a3ff-4645-b946-de3706d68ed6"
+				"spark.autotune.trackingId": "95a0319a-047f-4032-9895-82230f2e3c6b"
 			}
 		},
 		"metadata": {
@@ -557,8 +557,7 @@
 					"        oea.ingest_delta_data(self.source_folder, 'DMPATTest', self.schemas['DMPATTest'], 'LastUpdateDate', 'SKPATTest')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMCampus', self.schemas['DMCampus'], 'LastUpdateDate', 'SKCampus')\r\n",
 					"\r\n",
-					"        # duplicate table - use DMDate instead\r\n",
-					"        #oea.ingest_delta_data(self.source_folder, 'DMCalendarYear', self.schemas['DMCalendarYear'], 'LastUpdateDate', 'SkYear')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'DMCalendarYear', self.schemas['DMCalendarYear'], 'LastUpdateDate', 'SkYear')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMGender', self.schemas['DMGender'], 'LastUpdateDate', 'SKGenderId')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMYearLevel', self.schemas['DMYearLevel'], 'LastUpdateDate', 'SKYearLevel')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMDate', self.schemas['DMDate'], 'LastUpdateDate', 'SKDate')\r\n",

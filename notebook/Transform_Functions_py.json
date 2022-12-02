@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "cebbfce4-d6c9-45b0-a1ce-ea61de3c422b"
+				"spark.autotune.trackingId": "6f7d35b0-39aa-4a07-b6cc-7654ffadf808"
 			}
 		},
 		"metadata": {
@@ -163,15 +163,9 @@
 					}
 				},
 				"source": [
-					"# # example of SQL \r\n",
-					"\r\n",
-					"# def DMStudent(df):\r\n",
-					"\r\n",
-					"#     df.createOrReplaceTempView('vw_df')\r\n",
-					"\r\n",
-					"#     final_df = spark.sql()\r\n",
-					"\r\n",
-					"#     return final_df"
+					"def _DMClassEnrolments_pseudo():\r\n",
+					"    sourcep = oea.stage2p\r\n",
+					""
 				],
 				"execution_count": null
 			}

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "be9d77f7-cddc-4a47-8f2e-f7262c50521f"
+				"spark.autotune.trackingId": "c92dd79d-f8ed-46da-b303-be6c18e82f11"
 			}
 		},
 		"metadata": {
@@ -187,8 +187,7 @@
 					"\r\n",
 					"    query = \"\"\" USE DBTOW\r\n",
 					"\r\n",
-					"                SELECT \r\n",
-					"                cy.Year AS CalendarYear,\r\n",
+					"                SELECT cy.Year AS CalendarYear,\r\n",
 					"                C.SchoolId AS AGEID,\r\n",
 					"                c.CampusSuburbAndName,\r\n",
 					"                student.FirstName  AS  StudentFirstName,\r\n",
@@ -204,8 +203,7 @@
 					"                staff.LastName AS StaffLastName,\r\n",
 					"                c.CompassSchoolURL\r\n",
 					"\r\n",
-					"                FROM \r\n",
-					"                vw_factsubjectenrolment f\r\n",
+					"                FROM vw_factsubjectenrolment f\r\n",
 					"                JOIN vw_dmactivity a ON f.SKActivity = a.SKActivity\r\n",
 					"                AND a.ActivityTypeDescription = 'Standard Class'\r\n",
 					"                JOIN vw_dmsubject s ON f.SKSubject = s.SKSubject\r\n",

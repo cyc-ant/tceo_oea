@@ -3480,7 +3480,7 @@
 							},
 							"ifTrueActivities": [
 								{
-									"name": "Create_SQLDB",
+									"name": "Create_SQLDB_nohashing",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
 									"userProperties": [],
@@ -3515,7 +3515,7 @@
 							},
 							"ifTrueActivities": [
 								{
-									"name": "Create_LakeDB",
+									"name": "Create_LakeDB_nohashing",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
 									"userProperties": [],
@@ -15226,7 +15226,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "cd808efe-9c86-4c3a-8d5b-ad7ae66b652f"
+						"spark.autotune.trackingId": "16c89009-ecd4-430c-917c-009bf69c6de7"
 					}
 				},
 				"metadata": {
@@ -15251,8 +15251,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

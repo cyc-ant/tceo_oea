@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "47432c82-2af5-47ea-9adc-369bd234ef6f"
+				"spark.autotune.trackingId": "6097437d-d6a2-4936-9f5e-1627d848fe67"
 			}
 		},
 		"metadata": {
@@ -98,7 +98,7 @@
 				"source": [
 					"%run Stage3/Transformations_py"
 				],
-				"execution_count": 20
+				"execution_count": 26
 			},
 			{
 				"cell_type": "code",
@@ -116,7 +116,7 @@
 				"source": [
 					"%run Stage3/Transform_Functions_py"
 				],
-				"execution_count": 21
+				"execution_count": 27
 			},
 			{
 				"cell_type": "code",
@@ -164,7 +164,7 @@
 					"    path = f'{target_system}/{target_path}'\r\n",
 					"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 				],
-				"execution_count": 23
+				"execution_count": 28
 			},
 			{
 				"cell_type": "code",
@@ -271,15 +271,9 @@
 					}
 				},
 				"source": [
-					"# now run all of the transformations that create additional views\r\n",
-					"\r\n",
-					"# Class enrolments\r\n",
-					"new_df = _DMClassEnrolments_pseudo()\r\n",
-					"saveToTarget(new_df, destination_p, f'{version}/_DMClassEnrolments_pseudo')\r\n",
-					"\r\n",
-					""
+					"%run Stage3/SQL_Transforms"
 				],
-				"execution_count": 24
+				"execution_count": null
 			}
 		]
 	}

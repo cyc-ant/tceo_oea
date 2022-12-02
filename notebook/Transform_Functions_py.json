@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "7a7ade87-ecc3-40ab-abf4-ec50b5210e27"
+				"spark.autotune.trackingId": "223d152f-6e88-4a3d-9022-141fc8d88d1b"
 			}
 		},
 		"metadata": {
@@ -185,7 +185,7 @@
 					"    dmdate_df.createOrReplaceTempView('vw_dmdate')\r\n",
 					"    dmcalendaryear.createOrReplaceTempView('vw_dmcalendaryear')\r\n",
 					"\r\n",
-					"    query = \"\"\" USE DBTOW\r\n",
+					"    query = \"\"\"USE DBTOW\r\n",
 					"\r\n",
 					"    SELECT cy.Year AS CalendarYear,\r\n",
 					"    C.SchoolId AS AGEID,\r\n",
@@ -220,7 +220,7 @@
 					"    WHERE ClassEndDate.date > GETDATE() \r\n",
 					"    AND s.SubjectShortName <> 'Unknown'\r\n",
 					"    ORDER BY\r\n",
-					"    AGEID, YearLevel, StudentFirstName, StudentLastName,Ceider  \r\n",
+					"    AGEID, YearLevel, StudentFirstName, StudentLastName,Ceider\r\n",
 					"    \"\"\"\r\n",
 					"\r\n",
 					"    final_df = spark.sql(query)\r\n",
@@ -229,7 +229,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": null
+				"execution_count": 9
 			}
 		]
 	}

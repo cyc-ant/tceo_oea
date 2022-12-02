@@ -14812,7 +14812,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d89abda4-4627-434e-8d2a-851865071e71"
+						"spark.autotune.trackingId": "7c5df0c8-0ea6-4b6f-bac7-2a0cb1b1d4ea"
 					}
 				},
 				"metadata": {
@@ -14984,41 +14984,41 @@
 							"\r\n",
 							"    query = \"\"\" USE DBTOW\r\n",
 							"\r\n",
-							"                SELECT cy.Year AS CalendarYear,\r\n",
-							"                C.SchoolId AS AGEID,\r\n",
-							"                c.CampusSuburbAndName,\r\n",
-							"                student.FirstName  AS  StudentFirstName,\r\n",
-							"                student.LastName AS StudentLastName,\r\n",
-							"                Student.Ceider,\r\n",
-							"                yl.YearLevelSifDesc AS YearLevel,\r\n",
-							"                s.SubjectShortName AS [Subject],\r\n",
-							"                a.ActivityName AS  ClassName,\r\n",
-							"                a.ActivityCode AS ClassCode,\r\n",
-							"                ClassStartDate.date AS ClassStartDate,\r\n",
-							"                ClassEndDate.date AS ClassEndDate,\r\n",
-							"                staff.FirstName AS StaffFirstName,\r\n",
-							"                staff.LastName AS StaffLastName,\r\n",
-							"                c.CompassSchoolURL\r\n",
+							"    SELECT cy.Year AS CalendarYear,\r\n",
+							"    C.SchoolId AS AGEID,\r\n",
+							"    c.CampusSuburbAndName,\r\n",
+							"    student.FirstName  AS  StudentFirstName,\r\n",
+							"    student.LastName AS StudentLastName,\r\n",
+							"    Student.Ceider,\r\n",
+							"    yl.YearLevelSifDesc AS YearLevel,\r\n",
+							"    s.SubjectShortName AS [Subject],\r\n",
+							"    a.ActivityName AS  ClassName,\r\n",
+							"    a.ActivityCode AS ClassCode,\r\n",
+							"    ClassStartDate.date AS ClassStartDate,\r\n",
+							"    ClassEndDate.date AS ClassEndDate,\r\n",
+							"    staff.FirstName AS StaffFirstName,\r\n",
+							"    staff.LastName AS StaffLastName,\r\n",
+							"    c.CompassSchoolURL\r\n",
 							"\r\n",
-							"                FROM vw_factsubjectenrolment f\r\n",
-							"                JOIN vw_dmactivity a ON f.SKActivity = a.SKActivity\r\n",
-							"                AND a.ActivityTypeDescription = 'Standard Class'\r\n",
-							"                JOIN vw_dmsubject s ON f.SKSubject = s.SKSubject\r\n",
-							"                JOIN vw_dmpersondemographic student ON f.SKStudent = student.SKPerson\r\n",
-							"                JOIN vw_dmpersondemographic staff ON f.SKStaff = staff.SKPerson\r\n",
-							"                JOIN vw_dmyearlevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
-							"                JOIN vw_dmcampus c ON f.SKCampus = c.SKCampus\r\n",
-							"                JOIN vw_dmdate ClassStartDate ON f.SKEnrolmentStartDate = ClassStartDate.SKDate\r\n",
-							"                \r\n",
-							"                JOIN vw_dmdate ClassEndDate ON f.SKEnrolmentEndDate = ClassEndDate.SKDate\r\n",
-							"                JOIN vw_dmcalendaryear cy ON f.SKYear = cy.SKYear\r\n",
-							"                \r\n",
-							"                AND cy.Year = 2022\r\n",
-							"                WHERE ClassEndDate.date > GETDATE() \r\n",
-							"                AND s.SubjectShortName <> 'Unknown'\r\n",
-							"                ORDER BY\r\n",
-							"                AGEID, YearLevel, StudentFirstName, StudentLastName,Ceider  \r\n",
-							"            \"\"\"\r\n",
+							"    FROM vw_factsubjectenrolment f\r\n",
+							"    JOIN vw_dmactivity a ON f.SKActivity = a.SKActivity\r\n",
+							"    AND a.ActivityTypeDescription = 'Standard Class'\r\n",
+							"    JOIN vw_dmsubject s ON f.SKSubject = s.SKSubject\r\n",
+							"    JOIN vw_dmpersondemographic student ON f.SKStudent = student.SKPerson\r\n",
+							"    JOIN vw_dmpersondemographic staff ON f.SKStaff = staff.SKPerson\r\n",
+							"    JOIN vw_dmyearlevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
+							"    JOIN vw_dmcampus c ON f.SKCampus = c.SKCampus\r\n",
+							"    JOIN vw_dmdate ClassStartDate ON f.SKEnrolmentStartDate = ClassStartDate.SKDate\r\n",
+							"\r\n",
+							"    JOIN vw_dmdate ClassEndDate ON f.SKEnrolmentEndDate = ClassEndDate.SKDate\r\n",
+							"    JOIN vw_dmcalendaryear cy ON f.SKYear = cy.SKYear\r\n",
+							"\r\n",
+							"    AND cy.Year = 2022\r\n",
+							"    WHERE ClassEndDate.date > GETDATE() \r\n",
+							"    AND s.SubjectShortName <> 'Unknown'\r\n",
+							"    ORDER BY\r\n",
+							"    AGEID, YearLevel, StudentFirstName, StudentLastName,Ceider  \r\n",
+							"    \"\"\"\r\n",
 							"\r\n",
 							"    final_df = spark.sql(query)\r\n",
 							"\r\n",
@@ -15206,7 +15206,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "de8d8d62-98f2-4758-bb88-f491f66f353d"
+						"spark.autotune.trackingId": "47432c82-2af5-47ea-9adc-369bd234ef6f"
 					}
 				},
 				"metadata": {
@@ -15285,7 +15285,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 20
 					},
 					{
 						"cell_type": "code",
@@ -15304,7 +15304,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 21
 					},
 					{
 						"cell_type": "code",
@@ -15333,7 +15333,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 22
 					},
 					{
 						"cell_type": "code",
@@ -15354,7 +15354,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": 23
 					},
 					{
 						"cell_type": "code",
@@ -15473,7 +15473,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 19
+						"execution_count": 24
 					}
 				]
 			},

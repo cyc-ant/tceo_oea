@@ -122,6 +122,22 @@
 					},
 					{
 						"source": {
+							"table": "vwDMActivity"
+						},
+						"destination": {
+							"fileName": "dbovwDMActivity.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMSubject"
+						},
+						"destination": {
+							"fileName": "dbovwDMSubject.csv"
+						}
+					},
+					{
+						"source": {
 							"table": "vwDMPreEnrolmentId"
 						},
 						"destination": {

@@ -1578,6 +1578,22 @@
 							},
 							{
 								"source": {
+									"table": "vwDMActivity"
+								},
+								"destination": {
+									"fileName": "dbovwDMActivity.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMSubject"
+								},
+								"destination": {
+									"fileName": "dbovwDMSubject.csv"
+								}
+							},
+							{
+								"source": {
 									"table": "vwDMPreEnrolmentId"
 								},
 								"destination": {
@@ -8353,7 +8369,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "92b103dd-a3ff-4645-b946-de3706d68ed6"
+						"spark.autotune.trackingId": "95a0319a-047f-4032-9895-82230f2e3c6b"
 					}
 				},
 				"metadata": {
@@ -8889,8 +8905,7 @@
 							"        oea.ingest_delta_data(self.source_folder, 'DMPATTest', self.schemas['DMPATTest'], 'LastUpdateDate', 'SKPATTest')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMCampus', self.schemas['DMCampus'], 'LastUpdateDate', 'SKCampus')\r\n",
 							"\r\n",
-							"        # duplicate table - use DMDate instead\r\n",
-							"        #oea.ingest_delta_data(self.source_folder, 'DMCalendarYear', self.schemas['DMCalendarYear'], 'LastUpdateDate', 'SkYear')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMCalendarYear', self.schemas['DMCalendarYear'], 'LastUpdateDate', 'SkYear')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMGender', self.schemas['DMGender'], 'LastUpdateDate', 'SKGenderId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMYearLevel', self.schemas['DMYearLevel'], 'LastUpdateDate', 'SKYearLevel')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMDate', self.schemas['DMDate'], 'LastUpdateDate', 'SKDate')\r\n",
@@ -14747,7 +14762,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "cebbfce4-d6c9-45b0-a1ce-ea61de3c422b"
+						"spark.autotune.trackingId": "6f7d35b0-39aa-4a07-b6cc-7654ffadf808"
 					}
 				},
 				"metadata": {
@@ -14893,15 +14908,9 @@
 							}
 						},
 						"source": [
-							"# # example of SQL \r\n",
-							"\r\n",
-							"# def DMStudent(df):\r\n",
-							"\r\n",
-							"#     df.createOrReplaceTempView('vw_df')\r\n",
-							"\r\n",
-							"#     final_df = spark.sql()\r\n",
-							"\r\n",
-							"#     return final_df"
+							"def _DMClassEnrolments_pseudo():\r\n",
+							"    sourcep = oea.stage2p\r\n",
+							""
 						],
 						"outputs": [],
 						"execution_count": null

@@ -3486,7 +3486,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
-											"referenceName": "Create_SQLDB",
+											"referenceName": "Create_SQLDB_nohashing",
 											"type": "PipelineReference"
 										},
 										"waitOnCompletion": true,
@@ -3521,7 +3521,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
-											"referenceName": "Create_LakeDB",
+											"referenceName": "Create_LakeDB_nohashing",
 											"type": "PipelineReference"
 										},
 										"waitOnCompletion": true,
@@ -3554,8 +3554,8 @@
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/notebooks/Transforms_Connector')]",
 				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]",
-				"[concat(variables('workspaceId'), '/pipelines/Create_SQLDB')]",
-				"[concat(variables('workspaceId'), '/pipelines/Create_LakeDB')]"
+				"[concat(variables('workspaceId'), '/pipelines/Create_SQLDB_nohashing')]",
+				"[concat(variables('workspaceId'), '/pipelines/Create_LakeDB_nohashing')]"
 			]
 		},
 		{
@@ -9586,7 +9586,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1137d190-fe9f-44af-9229-2a6cd97fe028"
+						"spark.autotune.trackingId": "7662e6ca-6561-45ad-8a20-cbe04874188d"
 					}
 				},
 				"metadata": {
@@ -9611,15 +9611,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Enrolment_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='enrolment', pseudonymize = True):\r\n",
@@ -14814,7 +14812,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6f7d35b0-39aa-4a07-b6cc-7654ffadf808"
+						"spark.autotune.trackingId": "76c01d23-b37c-422d-90a5-7007ae19c538"
 					}
 				},
 				"metadata": {
@@ -14962,6 +14960,70 @@
 						"source": [
 							"def _DMClassEnrolments_pseudo():\r\n",
 							"    sourcep = oea.stage2p\r\n",
+							"\r\n",
+							"    factsubjectenrolment_df = spark.read.load(sourcep + \"/enrolment/DMFactSubjectEnrolment_pseudo\", format='delta')\r\n",
+							"    dmactivity_df = spark.read.load(sourcep + \"/enrolment/DMCActivity_pseudo\", format='delta')\r\n",
+							"    dmsubject_df = spark.read.load(sourcep + \"/enrolment/DMSubject_pseudo\", format='delta')\r\n",
+							"    dmpersondemographic_df = spark.read.load(sourcep + \"/enrolment/DMPersonDemographic_pseudo\", format='delta')\r\n",
+							"    dmyearlevel_df = spark.read.load(sourcep + \"/enrolment/DMYearLevel_pseudo\", format='delta')\r\n",
+							"    dmcampus_df = spark.read.load(sourcep + \"/enrolment/DMCampus_pseudo\", format='delta')\r\n",
+							"    dmdate_df = spark.read.load(sourcep + \"/enrolment/DMDate_pseudo\", format='delta')\r\n",
+							"    dmcalendaryear = spark.read.load(sourcep + \"/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"    # create temp sql views\r\n",
+							"    factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
+							"    dmactivity_df.createOrReplaceTempView('vw_dmactivity')\r\n",
+							"    dmsubject_df.createOrReplaceTempView('vw_dmsubject')\r\n",
+							"    dmpersondemographic_df.createOrReplaceTempView('vw_dmpersondemographic')\r\n",
+							"    dmyearlevel_df.createOrReplaceTempView('vw_dmyearlevel')\r\n",
+							"    dmcampus_df.createOrReplaceTempView('vw_dmcampus')\r\n",
+							"    dmdate_df.createOrReplaceTempView('vw_dmdate')\r\n",
+							"    dmcalendaryear.createOrReplaceTempView('vw_dmcalendaryear')\r\n",
+							"\r\n",
+							"    query = \"\"\" USE DBTOW\r\n",
+							"\r\n",
+							"                SELECT \r\n",
+							"                cy.Year AS CalendarYear,\r\n",
+							"                C.SchoolId AS AGEID,\r\n",
+							"                c.CampusSuburbAndName,\r\n",
+							"                student.FirstName  AS  StudentFirstName,\r\n",
+							"                student.LastName AS StudentLastName,\r\n",
+							"                Student.Ceider,\r\n",
+							"                yl.YearLevelSifDesc AS YearLevel,\r\n",
+							"                s.SubjectShortName AS [Subject],\r\n",
+							"                a.ActivityName AS  ClassName,\r\n",
+							"                a.ActivityCode AS ClassCode,\r\n",
+							"                ClassStartDate.date AS ClassStartDate,\r\n",
+							"                ClassEndDate.date AS ClassEndDate,\r\n",
+							"                staff.FirstName AS StaffFirstName,\r\n",
+							"                staff.LastName AS StaffLastName,\r\n",
+							"                c.CompassSchoolURL\r\n",
+							"\r\n",
+							"                FROM \r\n",
+							"                vw_factsubjectenrolment f\r\n",
+							"                JOIN vw_dmactivity a ON f.SKActivity = a.SKActivity\r\n",
+							"                AND a.ActivityTypeDescription = 'Standard Class'\r\n",
+							"                JOIN vw_dmsubject s ON f.SKSubject = s.SKSubject\r\n",
+							"                JOIN vw_dmpersondemographic student ON f.SKStudent = student.SKPerson\r\n",
+							"                JOIN vw_dmpersondemographic staff ON f.SKStaff = staff.SKPerson\r\n",
+							"                JOIN vw_dmyearlevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
+							"                JOIN vw_dmcampus c ON f.SKCampus = c.SKCampus\r\n",
+							"                JOIN vw_dmdate ClassStartDate ON f.SKEnrolmentStartDate = ClassStartDate.SKDate\r\n",
+							"                \r\n",
+							"                JOIN vw_dmdate ClassEndDate ON f.SKEnrolmentEndDate = ClassEndDate.SKDate\r\n",
+							"                JOIN vw_dmcalendaryear cy ON f.SKYear = cy.SKYear\r\n",
+							"                \r\n",
+							"                AND cy.Year = 2022\r\n",
+							"                WHERE ClassEndDate.date > GETDATE() \r\n",
+							"                AND s.SubjectShortName <> 'Unknown'\r\n",
+							"                ORDER BY\r\n",
+							"                AGEID, YearLevel, StudentFirstName, StudentLastName,Ceider  \r\n",
+							"            \"\"\"\r\n",
+							"\r\n",
+							"    final_df = spark.sql(query)\r\n",
+							"\r\n",
+							"    return final_df\r\n",
+							"\r\n",
 							""
 						],
 						"outputs": [],
@@ -14995,7 +15057,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3931fb5b-1abf-41ba-990f-60dd8b3bc397"
+						"spark.autotune.trackingId": "f35a51c8-3271-4da9-a0ba-87c11264ae5c"
 					}
 				},
 				"metadata": {
@@ -15115,6 +15177,26 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def createAdditionalViews():\r\n",
+							"    "
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -15144,7 +15226,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1a614916-1866-4659-a589-ab2abbf056c7"
+						"spark.autotune.trackingId": "4bd3bb29-cf5e-44f0-8f41-1ebac1ba8c23"
 					}
 				},
 				"metadata": {
@@ -15374,6 +15456,43 @@
 						],
 						"outputs": [],
 						"execution_count": 45
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"## Creation of additional views"
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# now run all of the transformations that create additional views\r\n",
+							"\r\n",
+							"# Class enrolments\r\n",
+							"path = f'{destination_p}/{version}/_DMClassEnrolments_pseudo'\r\n",
+							"df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},

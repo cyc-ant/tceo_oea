@@ -14084,15 +14084,15 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b8f755de-5911-4391-be3b-ba0117c675ba"
+						"spark.autotune.trackingId": "5764197e-3edb-4b60-a4ec-e27a3147c6f0"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
+						"name": "synapse_sparksql",
+						"display_name": "sql"
 					},
 					"language_info": {
 						"name": "sql"
@@ -14209,6 +14209,134 @@
 						],
 						"outputs": [],
 						"execution_count": 4
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL_Transforms')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Stage3"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "2c679b3f-d83a-40d5-bc2a-0fd60df7d6e6"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "python"
+					},
+					"language_info": {
+						"name": "sql"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"## This note book contains data transformations using SQL"
+						]
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"#### This will create a class enrolments table"
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"microsoft": {
+								"language": "python"
+							}
+						},
+						"source": [
+							"%%pyspark\r\n",
+							"\r\n",
+							"# setup the temp tables we need for the classenrolments table\r\n",
+							"sourcep = oea.stage2p\r\n",
+							"\r\n",
+							"factsubjectenrolment_df = spark.read.load(sourcep + \"/enrolment/DMFactSubjectEnrolment_pseudo\", format='delta')\r\n",
+							"dmactivity_df = spark.read.load(sourcep + \"/enrolment/DMActivity_pseudo\", format='delta')\r\n",
+							"dmsubject_df = spark.read.load(sourcep + \"/enrolment/DMSubject_pseudo\", format='delta')\r\n",
+							"dmpersondemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
+							"dmyearlevel_df = spark.read.load(sourcep + \"/ACER/DMYearLevel_pseudo\", format='delta')\r\n",
+							"dmcampus_df = spark.read.load(sourcep + \"/ACER/DMCampus_pseudo\", format='delta')\r\n",
+							"dmdate_df = spark.read.load(sourcep + \"/ACER/DMDate_pseudo\", format='delta')\r\n",
+							"dmcalendaryear = spark.read.load(sourcep + \"/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"# create temp sql views\r\n",
+							"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
+							"dmactivity_df.createOrReplaceTempView('vw_dmactivity')\r\n",
+							"dmsubject_df.createOrReplaceTempView('vw_dmsubject')\r\n",
+							"dmpersondemographic_df.createOrReplaceTempView('vw_dmpersondemographic')\r\n",
+							"dmyearlevel_df.createOrReplaceTempView('vw_dmyearlevel')\r\n",
+							"dmcampus_df.createOrReplaceTempView('vw_dmcampus')\r\n",
+							"dmdate_df.createOrReplaceTempView('vw_dmdate')\r\n",
+							"dmcalendaryear.createOrReplaceTempView('vw_dmcalendaryear')"
+						],
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -14224,7 +14352,69 @@
 							}
 						},
 						"source": [
-							""
+							"CREATE TEMP VIEW vw_classenrolment\r\n",
+							"AS\r\n",
+							"SELECT cy.Year AS CalendarYear,\r\n",
+							"    C.SchoolId AS AGEID,\r\n",
+							"    c.CampusSuburbAndName,\r\n",
+							"    student.FirstName  AS  StudentFirstName,\r\n",
+							"    student.LastName AS StudentLastName,\r\n",
+							"    Student.Ceider,\r\n",
+							"    yl.YearLevelSifDesc AS YearLevel,\r\n",
+							"    s.SubjectShortName AS Subject,\r\n",
+							"    a.ActivityName AS  ClassName,\r\n",
+							"    a.ActivityCode AS ClassCode,\r\n",
+							"    ClassStartDate.date AS ClassStartDate,\r\n",
+							"    ClassEndDate.date AS ClassEndDate,\r\n",
+							"    staff.FirstName AS StaffFirstName,\r\n",
+							"    staff.LastName AS StaffLastName,\r\n",
+							"    c.CompassSchoolURL\r\n",
+							"\r\n",
+							"    FROM vw_factsubjectenrolment f\r\n",
+							"    JOIN vw_dmactivity a ON f.SKActivity = a.SKActivity\r\n",
+							"    AND a.ActivityTypeDescription = 'Standard Class'\r\n",
+							"    JOIN vw_dmsubject s ON f.SKSubject = s.SKSubject\r\n",
+							"    JOIN vw_dmpersondemographic student ON f.SKStudent = student.SKPerson\r\n",
+							"    JOIN vw_dmpersondemographic staff ON f.SKStaff = staff.SKPerson\r\n",
+							"    JOIN vw_dmyearlevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
+							"    JOIN vw_dmcampus c ON f.SKCampus = c.SKCampus\r\n",
+							"    JOIN vw_dmdate ClassStartDate ON f.SKEnrolmentStartDate = ClassStartDate.SKDate\r\n",
+							"\r\n",
+							"    JOIN vw_dmdate ClassEndDate ON f.SKEnrolmentEndDate = ClassEndDate.SKDate\r\n",
+							"    JOIN vw_dmcalendaryear cy ON f.SKYear = cy.SKYear\r\n",
+							"\r\n",
+							"    AND cy.Year = 2022\r\n",
+							"    WHERE ClassEndDate.date > current_date() -- spark sql uses current_date() instead of GETDATE()\r\n",
+							"    AND s.SubjectShortName <> 'Unknown'\r\n",
+							"    ORDER BY\r\n",
+							"    AGEID, YearLevel, StudentFirstName, StudentLastName,Ceider"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"microsoft": {
+								"language": "python"
+							}
+						},
+						"source": [
+							"%%pyspark\r\n",
+							"\r\n",
+							"# now save the table\r\n",
+							"classenrolment_df = spark.read.table('vw_classenrolment')\r\n",
+							"\r\n",
+							"saveToTarget(classenrolment_df, destination_p, f'{version}/_DMClassEnrolment')"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -14812,7 +15002,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7c5df0c8-0ea6-4b6f-bac7-2a0cb1b1d4ea"
+						"spark.autotune.trackingId": "223d152f-6e88-4a3d-9022-141fc8d88d1b"
 					}
 				},
 				"metadata": {
@@ -14837,15 +15027,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when\r\n",
 							""
@@ -14982,7 +15170,7 @@
 							"    dmdate_df.createOrReplaceTempView('vw_dmdate')\r\n",
 							"    dmcalendaryear.createOrReplaceTempView('vw_dmcalendaryear')\r\n",
 							"\r\n",
-							"    query = \"\"\" USE DBTOW\r\n",
+							"    query = \"\"\"USE DBTOW\r\n",
 							"\r\n",
 							"    SELECT cy.Year AS CalendarYear,\r\n",
 							"    C.SchoolId AS AGEID,\r\n",
@@ -15017,7 +15205,7 @@
 							"    WHERE ClassEndDate.date > GETDATE() \r\n",
 							"    AND s.SubjectShortName <> 'Unknown'\r\n",
 							"    ORDER BY\r\n",
-							"    AGEID, YearLevel, StudentFirstName, StudentLastName,Ceider  \r\n",
+							"    AGEID, YearLevel, StudentFirstName, StudentLastName,Ceider\r\n",
 							"    \"\"\"\r\n",
 							"\r\n",
 							"    final_df = spark.sql(query)\r\n",
@@ -15027,7 +15215,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 9
 					}
 				]
 			},
@@ -15206,7 +15394,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "47432c82-2af5-47ea-9adc-369bd234ef6f"
+						"spark.autotune.trackingId": "8f42b904-53a7-4582-ab20-28c9bb0fa7bc"
 					}
 				},
 				"metadata": {
@@ -15231,7 +15419,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15285,7 +15474,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 20
+						"execution_count": 26
 					},
 					{
 						"cell_type": "code",
@@ -15304,7 +15493,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": 27
 					},
 					{
 						"cell_type": "code",
@@ -15354,7 +15543,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 23
+						"execution_count": 28
 					},
 					{
 						"cell_type": "code",
@@ -15464,16 +15653,10 @@
 							}
 						},
 						"source": [
-							"# now run all of the transformations that create additional views\r\n",
-							"\r\n",
-							"# Class enrolments\r\n",
-							"new_df = _DMClassEnrolments_pseudo()\r\n",
-							"saveToTarget(new_df, destination_p, f'{version}/_DMClassEnrolments_pseudo')\r\n",
-							"\r\n",
-							""
+							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 24
+						"execution_count": null
 					}
 				]
 			},

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "4bd3bb29-cf5e-44f0-8f41-1ebac1ba8c23"
+				"spark.autotune.trackingId": "16c89009-ecd4-430c-917c-009bf69c6de7"
 			}
 		},
 		"metadata": {
@@ -274,8 +274,9 @@
 					"# now run all of the transformations that create additional views\r\n",
 					"\r\n",
 					"# Class enrolments\r\n",
-					"path = f'{destination_p}/{version}/_DMClassEnrolments_pseudo'\r\n",
-					"df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")\r\n",
+					"new_df = _DMClassEnrolments_pseudo()\r\n",
+					"saveToTarget(new_df, destination_p, f'{version}/_DMClassEnrolments_pseudo')\r\n",
+					"\r\n",
 					""
 				],
 				"execution_count": null

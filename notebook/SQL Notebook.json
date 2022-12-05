@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "8ee758a8-6779-49dd-aae3-7cd4874fcca7"
+				"spark.autotune.trackingId": "5fdef8aa-5a56-40ae-82fb-71b47e4aa5af"
 			}
 		},
 		"metadata": {
@@ -132,81 +132,17 @@
 				"execution_count": 4
 			},
 			{
-				"cell_type": "code",
+				"cell_type": "markdown",
 				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
 					"nteract": {
 						"transient": {
 							"deleting": false
 						}
-					},
-					"collapsed": false
+					}
 				},
 				"source": [
-					"SELECT * from test_dmstudent_df"
-				],
-				"execution_count": 5
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"select bksourcestudentid, length(bksourcestudentid) from test_dmstudent_df"
-				],
-				"execution_count": 7
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"select length(bksourcestudentid), count(*) from test_dmstudent_df group by length(bksourcestudentid)"
-				],
-				"execution_count": 8
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"select count(*) from test_dmstudent_df\r\n",
-					"where length(bksourcestudentid) = 36"
-				],
-				"execution_count": 10
+					"Testing Transform_Functions functions"
+				]
 			},
 			{
 				"cell_type": "code",
@@ -227,17 +163,52 @@
 				"source": [
 					"%%pyspark\r\n",
 					"\r\n",
+					"## Put test function here\r\n",
+					"\r\n",
+					"def DMStudent_pseudo(df):\r\n",
+					"\r\n",
+					"    sourcep = oea.stage2p\r\n",
+					"\r\n",
+					"    df.createOrReplaceTempView('vw_df_dmstudent_pseudo')\r\n",
+					"\r\n",
+					"    final_df = spark.sql(\"select * from vw_df_dmstudent_pseudo where length(bksourcestudentid) = 36\")\r\n",
+					"\r\n",
+					"    return final_df"
+				],
+				"execution_count": 14
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
+					"## Test \r\n",
+					"\r\n",
 					"sourcep = oea.stage2p\r\n",
 					"test_df = spark.read.load(sourcep + \"/student/DMStudent_pseudo\", format='delta')\r\n",
 					"\r\n",
 					"result_test = DMStudent_pseudo(test_df)\r\n",
-					"result_test.show()\r\n",
+					"# result_test.show()\r\n",
 					"\r\n",
 					"result_test.createOrReplaceTempView('vw_df_test_checkresult2')\r\n",
 					"\r\n",
 					""
 				],
-				"execution_count": 11
+				"execution_count": 21
 			},
 			{
 				"cell_type": "code",
@@ -253,12 +224,35 @@
 					},
 					"microsoft": {
 						"language": "sparksql"
-					}
+					},
+					"collapsed": false
 				},
 				"source": [
 					"%%sql\r\n",
-					"select distinct year from vw_df_test_checkresult\r\n",
-					"order by year"
+					"\r\n",
+					"-- check sql results\r\n",
+					"\r\n",
+					"select count(*) from vw_df_test_checkresult2\r\n",
+					"where length(bksourcestudentid) = 36\r\n",
+					""
+				],
+				"execution_count": 22
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
 				],
 				"execution_count": null
 			}

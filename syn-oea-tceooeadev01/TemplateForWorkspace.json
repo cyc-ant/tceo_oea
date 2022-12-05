@@ -14084,15 +14084,15 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5764197e-3edb-4b60-a4ec-e27a3147c6f0"
+						"spark.autotune.trackingId": "a29c1067-dab3-4c1c-b956-3f80ed8672b9"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_sparksql",
-						"display_name": "sql"
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "sql"
@@ -14109,18 +14109,26 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {
+							"microsoft": {
+								"language": "python"
+							}
+						},
 						"source": [
+							"%%pyspark\r\n",
+							"\r\n",
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -14185,10 +14193,10 @@
 							"test_df = spark.read.load(f\"{test_source}\", format='delta')\r\n",
 							"\r\n",
 							"# create a sql view of the dataframe\r\n",
-							"test_df.createOrReplaceTempView('test_df')"
+							"test_df.createOrReplaceTempView('test_dmstudent_df')"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -14205,10 +14213,127 @@
 							"collapsed": false
 						},
 						"source": [
-							"SELECT * from vw_df"
+							"SELECT * from test_dmstudent_df"
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 5
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select bksourcestudentid, length(bksourcestudentid) from test_dmstudent_df"
+						],
+						"outputs": [],
+						"execution_count": 7
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select length(bksourcestudentid), count(*) from test_dmstudent_df group by length(bksourcestudentid)"
+						],
+						"outputs": [],
+						"execution_count": 8
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from test_dmstudent_df\r\n",
+							"where length(bksourcestudentid) = 36"
+						],
+						"outputs": [],
+						"execution_count": 10
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"microsoft": {
+								"language": "python"
+							}
+						},
+						"source": [
+							"%%pyspark\r\n",
+							"\r\n",
+							"sourcep = oea.stage2p\r\n",
+							"test_df = spark.read.load(sourcep + \"/student/DMStudent_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"result_test = DMStudent_pseudo(test_df)\r\n",
+							"result_test.show()\r\n",
+							"\r\n",
+							"result_test.createOrReplaceTempView('vw_df_test_checkresult2')\r\n",
+							"\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 11
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"microsoft": {
+								"language": "sparksql"
+							}
+						},
+						"source": [
+							"%%sql\r\n",
+							"select distinct year from vw_df_test_checkresult\r\n",
+							"order by year"
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -15002,7 +15127,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "223d152f-6e88-4a3d-9022-141fc8d88d1b"
+						"spark.autotune.trackingId": "44c8a5ce-c5db-4668-84ff-1919612c7019"
 					}
 				},
 				"metadata": {
@@ -15027,13 +15152,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when\r\n",
 							""
@@ -15216,6 +15343,33 @@
 						],
 						"outputs": [],
 						"execution_count": 9
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def DMStudent_pseudo(df):\r\n",
+							"\r\n",
+							"    sourcep = oea.stage2p\r\n",
+							"\r\n",
+							"    df.createOrReplaceTempView('vw_df_dmstudent_pseudo')\r\n",
+							"\r\n",
+							"    final_df = spark.sql(\"select * from vw_df_dmstudent_pseudo where length(bksourcestudentid) = 36\")\r\n",
+							"\r\n",
+							"    return final_df"
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -15394,7 +15548,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8f42b904-53a7-4582-ab20-28c9bb0fa7bc"
+						"spark.autotune.trackingId": "6097437d-d6a2-4936-9f5e-1627d848fe67"
 					}
 				},
 				"metadata": {
@@ -15419,8 +15573,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

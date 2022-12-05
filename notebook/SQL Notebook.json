@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "85b46c0d-a9c9-4865-a696-c202ba54f569"
+				"spark.autotune.trackingId": "8ee758a8-6779-49dd-aae3-7cd4874fcca7"
 			}
 		},
 		"metadata": {
@@ -219,10 +219,46 @@
 						"transient": {
 							"deleting": false
 						}
+					},
+					"microsoft": {
+						"language": "python"
 					}
 				},
 				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
+					"sourcep = oea.stage2p\r\n",
+					"test_df = spark.read.load(sourcep + \"/student/DMStudent_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"result_test = DMStudent_pseudo(test_df)\r\n",
+					"result_test.show()\r\n",
+					"\r\n",
+					"result_test.createOrReplaceTempView('vw_df_test_checkresult2')\r\n",
+					"\r\n",
 					""
+				],
+				"execution_count": 11
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "sparksql"
+					}
+				},
+				"source": [
+					"%%sql\r\n",
+					"select distinct year from vw_df_test_checkresult\r\n",
+					"order by year"
 				],
 				"execution_count": null
 			}

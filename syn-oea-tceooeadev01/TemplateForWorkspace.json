@@ -14084,7 +14084,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "661e5027-ce4c-4255-9bbd-f5178040264f"
+						"spark.autotune.trackingId": "5fdef8aa-5a56-40ae-82fb-71b47e4aa5af"
 					}
 				},
 				"metadata": {
@@ -14109,8 +14109,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15119,7 +15118,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "889a121a-b153-4d17-a1ac-83e06f21e3bc"
+						"spark.autotune.trackingId": "8b9ba0a3-6775-4214-b473-f38015035944"
 					}
 				},
 				"metadata": {
@@ -15144,15 +15143,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when\r\n",
 							""
@@ -15391,7 +15388,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "42a60f1d-fe68-4926-a313-bc0aa4829c7d"
+						"spark.autotune.trackingId": "e197ac75-aac8-4494-94c0-373dad849dd4"
 					}
 				},
 				"metadata": {
@@ -15416,7 +15413,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15475,6 +15473,8 @@
 							"        final_df = DMCampus_pseudo(df)\r\n",
 							"    elif name == \"DMDate_pseudo\":\r\n",
 							"        final_df = DMDate_pseudo(df)\r\n",
+							"    elif name == \"DMStudent_pseudo\":\r\n",
+							"        final_df = DMStudent_pseudo(df)\r\n",
 							"    else:  \r\n",
 							"        final_df = df\r\n",
 							"\r\n",

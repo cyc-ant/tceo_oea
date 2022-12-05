@@ -20,15 +20,15 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5764197e-3edb-4b60-a4ec-e27a3147c6f0"
+				"spark.autotune.trackingId": "85b46c0d-a9c9-4865-a696-c202ba54f569"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
 			"enableDebugMode": false,
 			"kernelspec": {
-				"name": "synapse_sparksql",
-				"display_name": "sql"
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
 				"name": "sql"
@@ -53,10 +53,17 @@
 		"cells": [
 			{
 				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "python"
+					}
+				},
 				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 1
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
@@ -120,9 +127,9 @@
 					"test_df = spark.read.load(f\"{test_source}\", format='delta')\r\n",
 					"\r\n",
 					"# create a sql view of the dataframe\r\n",
-					"test_df.createOrReplaceTempView('test_df')"
+					"test_df.createOrReplaceTempView('test_dmstudent_df')"
 				],
-				"execution_count": null
+				"execution_count": 4
 			},
 			{
 				"cell_type": "code",
@@ -139,9 +146,85 @@
 					"collapsed": false
 				},
 				"source": [
-					"SELECT * from vw_df"
+					"SELECT * from test_dmstudent_df"
 				],
-				"execution_count": 4
+				"execution_count": 5
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select bksourcestudentid, length(bksourcestudentid) from test_dmstudent_df"
+				],
+				"execution_count": 7
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select length(bksourcestudentid), count(*) from test_dmstudent_df group by length(bksourcestudentid)"
+				],
+				"execution_count": 8
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select count(*) from test_dmstudent_df\r\n",
+					"where length(bksourcestudentid) = 36"
+				],
+				"execution_count": 10
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				],
+				"execution_count": null
 			}
 		]
 	}

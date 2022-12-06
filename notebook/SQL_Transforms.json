@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e691c2b9-91e3-4c29-ac7a-ec5595eb8435"
+				"spark.autotune.trackingId": "9252c3fa-596b-460a-af36-28fe691837e7"
 			}
 		},
 		"metadata": {
@@ -111,6 +111,7 @@
 					"\r\n",
 					"# used for active student view\r\n",
 					"factpersonmilestone_df = spark.read.load(sourcep + \"/student/DMFactPersonMilestone_pseudo\", format='delta')\r\n",
+					"dmrollgroup_df = spark.read.load(sourcep + \"/enrolment/DMRollGroup_pseudo\", format='delta')\r\n",
 					"\r\n",
 					"# create temp sql views\r\n",
 					"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
@@ -122,6 +123,7 @@
 					"dmdate_df.createOrReplaceTempView('vw_dmdate')\r\n",
 					"dmcalendaryear_df.createOrReplaceTempView('vw_dmcalendaryear')\r\n",
 					"factpersonmilestone_df.createOrReplaceTempView('vw_factpersonmilestone')\r\n",
+					"dmrollgroup_df.createOrReplaceTempView('vw_dmrollgroup')\r\n",
 					"\r\n",
 					""
 				],
@@ -218,16 +220,16 @@
 					"    rg.RollGroupDesc AS RollGroup,\r\n",
 					"    pd.Ceider\r\n",
 					"\r\n",
-					"FROM dbo.vwDMFactPersonMilestone f\r\n",
-					"JOIN dbo.vwDMPersonDemographic pd ON f.SKPerson = pd.SKPerson\r\n",
-					"JOIN dbo.vwDMCampus c ON f.SKCampus = c.SKCampus\r\n",
-					"JOIN dbo.vwDMYearLevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
-					"JOIN dbo.vwDMRollGroup rg ON f.SKRollGroup = rg.SKRollGroup\r\n",
+					"FROM vw_factpersonmilestone f\r\n",
+					"JOIN vw_dmpersondemographic pd ON f.SKPerson = pd.SKPerson\r\n",
+					"JOIN vw_dmcampus c ON f.SKCampus = c.SKCampus\r\n",
+					"JOIN vw_dmyearlevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
+					"JOIN vw_dmrollgroup rg ON f.SKRollGroup = rg.SKRollGroup\r\n",
 					"WHERE \r\n",
 					"    f.IsCurrentMilestone = 1\r\n",
 					"    AND f.IsActiveMilestone = 1\r\n",
 					"    AND pd.PersonType = 'Student'\r\n",
-					"ORDER BY SchoolAGEID,yl.YearLevelSifDesc, pd.FirstName,pd.LastName\r\n",
+					"ORDER BY SchoolAGEID, yl.YearLevelSifDesc, pd.FirstName, pd.LastName\r\n",
 					""
 				],
 				"execution_count": null

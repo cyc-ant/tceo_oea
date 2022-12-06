@@ -143,6 +143,14 @@
 						"destination": {
 							"fileName": "dbovwDMPreEnrolmentId.csv"
 						}
+					},
+					{
+						"source": {
+							"table": "vwDMRollGroup"
+						},
+						"destination": {
+							"fileName": "dbovwDMRollGroup.csv"
+						}
 					}
 				]
 			}

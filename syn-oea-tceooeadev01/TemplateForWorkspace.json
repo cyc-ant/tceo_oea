@@ -3059,19 +3059,19 @@
 				"parameters": {
 					"acer": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"ae": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"attendance": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"class_period": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"enrolment": {
 						"type": "bool",
@@ -3079,19 +3079,19 @@
 					},
 					"myschools": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"naplan": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"nccd": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"student": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					}
 				},
 				"folder": {
@@ -3379,19 +3379,19 @@
 				"parameters": {
 					"acer": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"ae": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"attendance": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"class_period": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"enrolment": {
 						"type": "bool",
@@ -3399,19 +3399,19 @@
 					},
 					"myschools": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"naplan": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"nccd": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"student": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					}
 				},
 				"folder": {
@@ -9594,7 +9594,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "69791987-b6a4-425b-bfbb-b5b5c417ddde"
+						"spark.autotune.trackingId": "64435fca-494f-435e-a88f-31d0aba15c20"
 					}
 				},
 				"metadata": {
@@ -12565,7 +12565,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "50440a93-4398-4a76-bd8d-b7b3027d6a0c"
+						"spark.autotune.trackingId": "307310c3-2365-46ad-9403-52bd0e4b83d3"
 					}
 				},
 				"metadata": {
@@ -14379,7 +14379,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "933b1f8b-9119-4702-be6a-94c379025ca8"
+						"spark.autotune.trackingId": "57947fdb-13fe-411b-baec-dcb41b3c3852"
 					}
 				},
 				"metadata": {

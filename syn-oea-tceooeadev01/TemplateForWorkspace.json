@@ -10328,7 +10328,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b5e349a2-32c6-49e0-b9ba-76756f37c900"
+						"spark.autotune.trackingId": "992e15d3-067b-4e3d-9b2f-3100143afffe"
 					}
 				},
 				"metadata": {
@@ -10353,13 +10353,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class NAPLAN_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NAPLAN', pseudonymize = True):\r\n",
@@ -11153,21 +11155,21 @@
 							"                                        ['ResponseDescription', 'string', 'no-op']                                              \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['NAPLANAssessmentArea'] = [\r\n",
-							"                                        ['SKNaplanAssessmentId', 'integer', 'no-op'],\r\n",
-							"                                        ['BKNaplanAssesmentArea', 'string', 'no-op'],\r\n",
-							"                                        ['NaplanAssesmentAreaDesc', 'string', 'no-op'],\r\n",
-							"                                        ['NaplanAssesmentAreaShortDesc', 'string', 'no-op'],\r\n",
-							"                                        ['NaplanAssesmentAreaBusinessDesc', 'string', 'no-op'],\r\n",
-							"                                        ['PrimarySort', 'double', 'no-op'],\r\n",
-							"                                        ['SecondarySort', 'double', 'no-op'],\r\n",
-							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
-							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
-							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
-							"                                        ['ScdReason', 'string', 'no-op']                                               \r\n",
-							"                                        ]\r\n",
+							"        # self.schemas['NAPLANAssessmentArea'] = [\r\n",
+							"        #                                 ['SKNaplanAssessmentId', 'integer', 'no-op'],\r\n",
+							"        #                                 ['BKNaplanAssesmentArea', 'string', 'no-op'],\r\n",
+							"        #                                 ['NaplanAssesmentAreaDesc', 'string', 'no-op'],\r\n",
+							"        #                                 ['NaplanAssesmentAreaShortDesc', 'string', 'no-op'],\r\n",
+							"        #                                 ['NaplanAssesmentAreaBusinessDesc', 'string', 'no-op'],\r\n",
+							"        #                                 ['PrimarySort', 'double', 'no-op'],\r\n",
+							"        #                                 ['SecondarySort', 'double', 'no-op'],\r\n",
+							"        #                                 ['CreateDate', 'string', 'no-op'],\r\n",
+							"        #                                 ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"        #                                 ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"        #                                 ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"        #                                 ['IsCurrent', 'string', 'no-op'],\r\n",
+							"        #                                 ['ScdReason', 'string', 'no-op']                                               \r\n",
+							"        #                                 ]\r\n",
 							"\r\n",
 							"        self.schemas['NAPLANExamBands'] = [\r\n",
 							"                                        ['SKExamBandId', 'integer', 'no-op'],\r\n",
@@ -11486,7 +11488,7 @@
 							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANTest', self.schemas['DMNAPLANTest'], 'LastUpdateDate', 'SKNAPLANTest')\r\n",
 							"\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANTextResponse', self.schemas['DMNAPLANTextResponse'], 'LastUpdateDate', 'SKNAPLANTextResponse')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'NAPLANAssessmentArea', self.schemas['NAPLANAssessmentArea'], 'LastUpdateDate', 'SKNaplanAssessmentId')\r\n",
+							"        # oea.ingest_delta_data(self.source_folder, 'NAPLANAssessmentArea', self.schemas['NAPLANAssessmentArea'], 'LastUpdateDate', 'SKNaplanAssessmentId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'NAPLANExamBands', self.schemas['NAPLANExamBands'], 'LastUpdateDate', 'SKExamBandId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'NAPLANNAPLAN', self.schemas['NAPLANNAPLAN'], 'LastUpdateDate', 'SKNaplanResultId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'NAPLANNAPLANStudentView', self.schemas['NAPLANNAPLANStudentView'], 'LastUpdateDate', 'SkNaplanStudentId')\r\n",
@@ -13485,7 +13487,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "27b938df-7b10-45e1-bcd3-384ce12ea1d2"
+						"spark.autotune.trackingId": "1c158338-b4ba-4920-b991-dec1f19ba7ec"
 					}
 				},
 				"metadata": {
@@ -13510,7 +13512,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14464,7 +14467,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1296709a-7d55-4ba0-9063-862adb4aa61a"
+						"spark.autotune.trackingId": "13977316-6534-4b31-bebd-15d1d98799cd"
 					}
 				},
 				"metadata": {
@@ -14489,8 +14492,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

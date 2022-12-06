@@ -289,19 +289,19 @@
 		"parameters": {
 			"acer": {
 				"type": "bool",
-				"defaultValue": true
+				"defaultValue": false
 			},
 			"ae": {
 				"type": "bool",
-				"defaultValue": true
+				"defaultValue": false
 			},
 			"attendance": {
 				"type": "bool",
-				"defaultValue": true
+				"defaultValue": false
 			},
 			"class_period": {
 				"type": "bool",
-				"defaultValue": true
+				"defaultValue": false
 			},
 			"enrolment": {
 				"type": "bool",
@@ -309,19 +309,19 @@
 			},
 			"myschools": {
 				"type": "bool",
-				"defaultValue": true
+				"defaultValue": false
 			},
 			"naplan": {
 				"type": "bool",
-				"defaultValue": true
+				"defaultValue": false
 			},
 			"nccd": {
 				"type": "bool",
-				"defaultValue": true
+				"defaultValue": false
 			},
 			"student": {
 				"type": "bool",
-				"defaultValue": true
+				"defaultValue": false
 			}
 		},
 		"folder": {

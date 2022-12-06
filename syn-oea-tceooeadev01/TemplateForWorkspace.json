@@ -9594,7 +9594,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7662e6ca-6561-45ad-8a20-cbe04874188d"
+						"spark.autotune.trackingId": "69791987-b6a4-425b-bfbb-b5b5c417ddde"
 					}
 				},
 				"metadata": {
@@ -9619,13 +9619,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Enrolment_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='enrolment', pseudonymize = True):\r\n",
@@ -9815,6 +9817,18 @@
 							"                                        ['SCDReason', 'string', 'no-op']\r\n",
 							"                                        ]\r\n",
 							"\r\n",
+							"        self.schemas['DMRollGroup'] = [\r\n",
+							"                                        ['SKRollGroup', 'integer', 'no-op'],\r\n",
+							"                                        ['BKRollGroup', 'string', 'no-op'],\r\n",
+							"                                        ['RollGroupDesc', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['Iscurrent', 'string', 'no-op'],\r\n",
+							"                                        ['SCDReason', 'string', 'no-op']\r\n",
+							"                                        ]\r\n",
+							"\r\n",
 							"                             \r\n",
 							"    def ingest(self):\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMEnrolmentStatus', self.schemas['DMEnrolmentStatus'], 'LastUpdateDate', 'SKEnrolmentStatus')\r\n",
@@ -9825,8 +9839,10 @@
 							"        oea.ingest_delta_data(self.source_folder, 'DMPreEnrolment', self.schemas['DMPreEnrolment'], 'LastUpdateDate', 'SKEnrolmentId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMPreEnrolmentId', self.schemas['DMPreEnrolmentId'], 'LastUpdateDate', 'SKPreEnrolmentId')\r\n",
 							"\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMActivity', self.schemas['DMActivity'], None, 'SKActivity')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DMSubject', self.schemas['DMSubject'], None, 'SKSubject')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMActivity', self.schemas['DMActivity'], 'LastUpdateDate', 'SKActivity')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMSubject', self.schemas['DMSubject'], 'LastUpdateDate', 'SKSubject')\r\n",
+							"\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMRollGroup', self.schemas['DMRollGroup'], 'LastUpdateDate', 'SKRollGroup')\r\n",
 							"\r\n",
 							"\r\n",
 							"enrolment_object = Enrolment_object()"
@@ -12549,7 +12565,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5a6fd298-c48c-4cd8-a085-2e96dbbeb0fc"
+						"spark.autotune.trackingId": "50440a93-4398-4a76-bd8d-b7b3027d6a0c"
 					}
 				},
 				"metadata": {
@@ -12574,7 +12590,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14362,7 +14379,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6733ce53-91a1-4129-bb5e-36cdc0c756b9"
+						"spark.autotune.trackingId": "933b1f8b-9119-4702-be6a-94c379025ca8"
 					}
 				},
 				"metadata": {

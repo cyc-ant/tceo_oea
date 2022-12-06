@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "9252c3fa-596b-460a-af36-28fe691837e7"
+				"spark.autotune.trackingId": "13977316-6534-4b31-bebd-15d1d98799cd"
 			}
 		},
 		"metadata": {
@@ -226,8 +226,8 @@
 					"JOIN vw_dmyearlevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
 					"JOIN vw_dmrollgroup rg ON f.SKRollGroup = rg.SKRollGroup\r\n",
 					"WHERE \r\n",
-					"    f.IsCurrentMilestone = 1\r\n",
-					"    AND f.IsActiveMilestone = 1\r\n",
+					"    f.IsCurrentMilestone = 'True'\r\n",
+					"    AND f.IsActiveMilestone = 'True'\r\n",
 					"    AND pd.PersonType = 'Student'\r\n",
 					"ORDER BY SchoolAGEID, yl.YearLevelSifDesc, pd.FirstName, pd.LastName\r\n",
 					""

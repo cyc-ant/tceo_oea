@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5fdef8aa-5a56-40ae-82fb-71b47e4aa5af"
+				"spark.autotune.trackingId": "971402ab-33bc-4712-98e8-5fad5a6b6aca"
 			}
 		},
 		"metadata": {
@@ -63,7 +63,7 @@
 					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 2
+				"execution_count": 1
 			},
 			{
 				"cell_type": "code",
@@ -237,6 +237,92 @@
 					""
 				],
 				"execution_count": 22
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
+					"# setup the temp tables we need for the classenrolments table\r\n",
+					"sourcep = oea.stage2p\r\n",
+					"\r\n",
+					"# used for classenrolment view\r\n",
+					"factsubjectenrolment_df = spark.read.load(sourcep + \"/enrolment/DMFactSubjectEnrolment_pseudo\", format='delta')\r\n",
+					"dmactivity_df = spark.read.load(sourcep + \"/enrolment/DMActivity_pseudo\", format='delta')\r\n",
+					"dmsubject_df = spark.read.load(sourcep + \"/enrolment/DMSubject_pseudo\", format='delta')\r\n",
+					"dmpersondemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
+					"dmyearlevel_df = spark.read.load(sourcep + \"/ACER/DMYearLevel_pseudo\", format='delta')\r\n",
+					"dmcampus_df = spark.read.load(sourcep + \"/ACER/DMCampus_pseudo\", format='delta')\r\n",
+					"dmdate_df = spark.read.load(sourcep + \"/ACER/DMDate_pseudo\", format='delta')\r\n",
+					"dmcalendaryear_df = spark.read.load(sourcep + \"/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"# used for active student view\r\n",
+					"factpersonmilestone_df = spark.read.load(sourcep + \"/student/DMFactPersonMilestone_pseudo\", format='delta')\r\n",
+					"dmrollgroup_df = spark.read.load(sourcep + \"/enrolment/DMRollGroup_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"# create temp sql views\r\n",
+					"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
+					"dmactivity_df.createOrReplaceTempView('vw_dmactivity')\r\n",
+					"dmsubject_df.createOrReplaceTempView('vw_dmsubject')\r\n",
+					"dmpersondemographic_df.createOrReplaceTempView('vw_dmpersondemographic')\r\n",
+					"dmyearlevel_df.createOrReplaceTempView('vw_dmyearlevel')\r\n",
+					"dmcampus_df.createOrReplaceTempView('vw_dmcampus')\r\n",
+					"dmdate_df.createOrReplaceTempView('vw_dmdate')\r\n",
+					"dmcalendaryear_df.createOrReplaceTempView('vw_dmcalendaryear')\r\n",
+					"factpersonmilestone_df.createOrReplaceTempView('vw_factpersonmilestone')\r\n",
+					"dmrollgroup_df.createOrReplaceTempView('vw_dmrollgroup')"
+				],
+				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"SELECT SchoolID AS SchoolAGEID,\r\n",
+					"    LocationID AS LocationAGEID,\r\n",
+					"    c.CampusSuburbAndName,\r\n",
+					"    pd.FirstName,\r\n",
+					"    pd.LastName,\r\n",
+					"    yl.YearLevelSifDesc AS YearLevel,\r\n",
+					"    rg.RollGroupDesc AS RollGroup,\r\n",
+					"    pd.Ceider\r\n",
+					"\r\n",
+					"FROM vw_factpersonmilestone f\r\n",
+					"JOIN vw_dmpersondemographic pd ON f.SKPerson = pd.SKPerson\r\n",
+					"JOIN vw_dmcampus c ON f.SKCampus = c.SKCampus\r\n",
+					"JOIN vw_dmyearlevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
+					"JOIN vw_dmrollgroup rg ON f.SKRollGroup = rg.SKRollGroup\r\n",
+					"WHERE f.IsCurrentMilestone = 'True'\r\n",
+					"    AND f.IsActiveMilestone = 'True'\r\n",
+					"    AND pd.PersonType = 'Student'\r\n",
+					"ORDER BY SchoolAGEID, yl.YearLevelSifDesc, pd.FirstName, pd.LastName"
+				],
+				"execution_count": 6
 			},
 			{
 				"cell_type": "code",

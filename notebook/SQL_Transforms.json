@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "13977316-6534-4b31-bebd-15d1d98799cd"
+				"spark.autotune.trackingId": "710a669d-d262-47c2-9573-5a4e310540fe"
 			}
 		},
 		"metadata": {
@@ -216,7 +216,7 @@
 					"    c.CampusSuburbAndName,\r\n",
 					"    pd.FirstName,\r\n",
 					"    pd.LastName,\r\n",
-					"    yl.YearLevelSifDesc AS YearLevel,\r\n",
+					"    yl.SKYearLevel,\r\n",
 					"    rg.RollGroupDesc AS RollGroup,\r\n",
 					"    pd.Ceider\r\n",
 					"\r\n",

@@ -10328,7 +10328,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "992e15d3-067b-4e3d-9b2f-3100143afffe"
+						"spark.autotune.trackingId": "d9f607b3-411f-4434-906a-6e9f36593e71"
 					}
 				},
 				"metadata": {
@@ -10353,15 +10353,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class NAPLAN_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NAPLAN', pseudonymize = True):\r\n",
@@ -13487,7 +13485,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1c158338-b4ba-4920-b991-dec1f19ba7ec"
+						"spark.autotune.trackingId": "27b938df-7b10-45e1-bcd3-384ce12ea1d2"
 					}
 				},
 				"metadata": {
@@ -13512,8 +13510,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14467,7 +14464,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "13977316-6534-4b31-bebd-15d1d98799cd"
+						"spark.autotune.trackingId": "89ac71c9-8246-4e91-8bf9-bd72fb7cff65"
 					}
 				},
 				"metadata": {
@@ -14492,7 +14489,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14664,7 +14662,7 @@
 							"    c.CampusSuburbAndName,\r\n",
 							"    pd.FirstName,\r\n",
 							"    pd.LastName,\r\n",
-							"    yl.YearLevelSifDesc AS YearLevel,\r\n",
+							"    yl.SKYearLevel,\r\n",
 							"    rg.RollGroupDesc AS RollGroup,\r\n",
 							"    pd.Ceider\r\n",
 							"\r\n",

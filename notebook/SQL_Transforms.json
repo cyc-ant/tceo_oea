@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "710a669d-d262-47c2-9573-5a4e310540fe"
+				"spark.autotune.trackingId": "5f950e62-45e6-4bc1-8f6a-48fda7913135"
 			}
 		},
 		"metadata": {
@@ -218,7 +218,8 @@
 					"    pd.LastName,\r\n",
 					"    yl.SKYearLevel,\r\n",
 					"    rg.RollGroupDesc AS RollGroup,\r\n",
-					"    pd.Ceider\r\n",
+					"    pd.Ceider,\r\n",
+					"    pd.SKPerson\r\n",
 					"\r\n",
 					"FROM vw_factpersonmilestone f\r\n",
 					"JOIN vw_dmpersondemographic pd ON f.SKPerson = pd.SKPerson\r\n",

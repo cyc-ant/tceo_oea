@@ -14106,7 +14106,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "971402ab-33bc-4712-98e8-5fad5a6b6aca"
+						"spark.autotune.trackingId": "5f277290-c849-474d-ac9a-6caa9bfd35de"
 					}
 				},
 				"metadata": {
@@ -14149,7 +14149,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -14402,7 +14402,8 @@
 							"    pd.LastName,\r\n",
 							"    yl.YearLevelSifDesc AS YearLevel,\r\n",
 							"    rg.RollGroupDesc AS RollGroup,\r\n",
-							"    pd.Ceider\r\n",
+							"    pd.Ceider,\r\n",
+							"    pd.SKPerson\r\n",
 							"\r\n",
 							"FROM vw_factpersonmilestone f\r\n",
 							"JOIN vw_dmpersondemographic pd ON f.SKPerson = pd.SKPerson\r\n",
@@ -14415,7 +14416,60 @@
 							"ORDER BY SchoolAGEID, yl.YearLevelSifDesc, pd.FirstName, pd.LastName"
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 3
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"SELECT cy.Year AS CalendarYear,\r\n",
+							"    C.SchoolId AS AGEID,\r\n",
+							"    c.CampusSuburbAndName,\r\n",
+							"    student.FirstName  AS  StudentFirstName,\r\n",
+							"    student.LastName AS StudentLastName,\r\n",
+							"    Student.Ceider,\r\n",
+							"    yl.YearLevelSifDesc AS YearLevel,\r\n",
+							"    s.SubjectShortName AS Subject,\r\n",
+							"    a.ActivityName AS  ClassName,\r\n",
+							"    a.ActivityCode AS ClassCode,\r\n",
+							"    ClassStartDate.date AS ClassStartDate,\r\n",
+							"    ClassEndDate.date AS ClassEndDate,\r\n",
+							"    staff.FirstName AS StaffFirstName,\r\n",
+							"    staff.LastName AS StaffLastName,\r\n",
+							"    c.CompassSchoolURL\r\n",
+							"\r\n",
+							"    FROM vw_factsubjectenrolment f\r\n",
+							"    JOIN vw_dmactivity a ON f.SKActivity = a.SKActivity\r\n",
+							"    AND a.ActivityTypeDescription = 'Standard Class'\r\n",
+							"    JOIN vw_dmsubject s ON f.SKSubject = s.SKSubject\r\n",
+							"    JOIN vw_dmpersondemographic student ON f.SKStudent = student.SKPerson\r\n",
+							"    JOIN vw_dmpersondemographic staff ON f.SKStaff = staff.SKPerson\r\n",
+							"    JOIN vw_dmyearlevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
+							"    JOIN vw_dmcampus c ON f.SKCampus = c.SKCampus\r\n",
+							"    JOIN vw_dmdate ClassStartDate ON f.SKEnrolmentStartDate = ClassStartDate.SKDate\r\n",
+							"\r\n",
+							"    JOIN vw_dmdate ClassEndDate ON f.SKEnrolmentEndDate = ClassEndDate.SKDate\r\n",
+							"    JOIN vw_dmcalendaryear cy ON f.SKYear = cy.SKYear\r\n",
+							"\r\n",
+							"    AND cy.Year = 2022\r\n",
+							"    --WHERE ClassEndDate.date > date_format('1/10/2022', 'd/mm/yyyy') --current_date() -- spark sql uses current_date() instead of GETDATE()\r\n",
+							"    --AND s.SubjectShortName <> 'Unknown'\r\n",
+							"    ORDER BY\r\n",
+							"    AGEID, YearLevel, StudentFirstName, StudentLastName,Ceider"
+						],
+						"outputs": [],
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",
@@ -14464,7 +14518,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "89ac71c9-8246-4e91-8bf9-bd72fb7cff65"
+						"spark.autotune.trackingId": "24b11840-e3ab-4d7d-98c6-848ab521fad4"
 					}
 				},
 				"metadata": {
@@ -14664,7 +14718,8 @@
 							"    pd.LastName,\r\n",
 							"    yl.SKYearLevel,\r\n",
 							"    rg.RollGroupDesc AS RollGroup,\r\n",
-							"    pd.Ceider\r\n",
+							"    pd.Ceider,\r\n",
+							"    pd.SKPerson\r\n",
 							"\r\n",
 							"FROM vw_factpersonmilestone f\r\n",
 							"JOIN vw_dmpersondemographic pd ON f.SKPerson = pd.SKPerson\r\n",

@@ -10331,7 +10331,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d9f607b3-411f-4434-906a-6e9f36593e71"
+						"spark.autotune.trackingId": "0aed8f34-1f87-4f62-808c-12faf2e2a76e"
 					}
 				},
 				"metadata": {
@@ -10356,13 +10356,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class NAPLAN_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NAPLAN', pseudonymize = True):\r\n",
@@ -11172,7 +11174,7 @@
 							"        #                                 ['ScdReason', 'string', 'no-op']                                               \r\n",
 							"        #                                 ]\r\n",
 							"\r\n",
-							"        self.schemas['NAPLANExamBands'] = [\r\n",
+							"        self.schemas['DMExamBands'] = [\r\n",
 							"                                        ['SKExamBandId', 'integer', 'no-op'],\r\n",
 							"                                        ['BKExamBandId', 'integer', 'no-op'],\r\n",
 							"                                        ['YearLevelId', 'integer', 'no-op'],\r\n",
@@ -11191,7 +11193,7 @@
 							"                                        ['BusinessGroup1', 'string', 'no-op'],\r\n",
 							"                                        ['BusinessGroup2', 'string', 'no-op'],\r\n",
 							"                                        ['YearLevelSifCode', 'string', 'no-op'],\r\n",
-							"                                        ['YearLevelSifDesc', 'string', 'no-op']                                               \r\n",
+							"                                        ['YearLevelSifDesc', 'string', 'no-op']                                             \r\n",
 							"                                        ]\r\n",
 							"\r\n",
 							"        self.schemas['NAPLANNAPLAN'] = [\r\n",
@@ -11490,7 +11492,7 @@
 							"\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMNAPLANTextResponse', self.schemas['DMNAPLANTextResponse'], 'LastUpdateDate', 'SKNAPLANTextResponse')\r\n",
 							"        # oea.ingest_delta_data(self.source_folder, 'NAPLANAssessmentArea', self.schemas['NAPLANAssessmentArea'], 'LastUpdateDate', 'SKNaplanAssessmentId')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'NAPLANExamBands', self.schemas['NAPLANExamBands'], 'LastUpdateDate', 'SKExamBandId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMExamBands', self.schemas['DMExamBands'], 'LastUpdateDate', 'SKExamBandId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'NAPLANNAPLAN', self.schemas['NAPLANNAPLAN'], 'LastUpdateDate', 'SKNaplanResultId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'NAPLANNAPLANStudentView', self.schemas['NAPLANNAPLANStudentView'], 'LastUpdateDate', 'SkNaplanStudentId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'NAPLANStudent', self.schemas['NAPLANStudent'], None, 'BKSourceStudentId')\r\n",

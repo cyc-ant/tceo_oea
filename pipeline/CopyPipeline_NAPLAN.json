@@ -282,15 +282,6 @@
 					{
 						"source": {
 							"schema": "NAPLAN",
-							"table": "ExamBands"
-						},
-						"destination": {
-							"fileName": "NAPLANExamBands.csv"
-						}
-					},
-					{
-						"source": {
-							"schema": "NAPLAN",
 							"table": "NAPLAN"
 						},
 						"destination": {
@@ -358,6 +349,15 @@
 						},
 						"destination": {
 							"fileName": "dbovwDMStateTerritory.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "dbo",
+							"table": "vwDMExamBands"
+						},
+						"destination": {
+							"fileName": "dbovwDMExamBands.csv"
 						}
 					}
 				]

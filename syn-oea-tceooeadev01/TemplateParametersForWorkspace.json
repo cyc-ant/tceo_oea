@@ -6,13 +6,13 @@
 			"value": "syn-oea-tceooeadev01"
 		},
 		"LS_Azure_SQL_DB_connectionString": {
-			"value": ""
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=@{linkedService().dbServer};Initial Catalog=@{linkedService().dbName};User ID=@{linkedService().userName}"
 		},
 		"LS_SQL_Serverless_OEA_connectionString": {
-			"value": ""
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=syn-oea-tceooeadev01-ondemand.sql.azuresynapse.net;Initial Catalog=@{linkedService().dbName}"
 		},
 		"syn-oea-tceooeadev01-WorkspaceDefaultSqlServer_connectionString": {
-			"value": ""
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:syn-oea-tceooeadev01.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
 		"CeNet_DataBlend_properties_typeProperties_connectionString_secretName": {
 			"value": "CeNet-Datablend-DB"

@@ -9,15 +9,18 @@
 		},
 		"LS_Azure_SQL_DB_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LS_Azure_SQL_DB'"
+			"metadata": "Secure string for 'connectionString' of 'LS_Azure_SQL_DB'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=@{linkedService().dbServer};Initial Catalog=@{linkedService().dbName};User ID=@{linkedService().userName}"
 		},
 		"LS_SQL_Serverless_OEA_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'LS_SQL_Serverless_OEA'"
+			"metadata": "Secure string for 'connectionString' of 'LS_SQL_Serverless_OEA'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=syn-oea-tceooeadev01-ondemand.sql.azuresynapse.net;Initial Catalog=@{linkedService().dbName}"
 		},
 		"syn-oea-tceooeadev01-WorkspaceDefaultSqlServer_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'syn-oea-tceooeadev01-WorkspaceDefaultSqlServer'"
+			"metadata": "Secure string for 'connectionString' of 'syn-oea-tceooeadev01-WorkspaceDefaultSqlServer'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:syn-oea-tceooeadev01.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
 		"CeNet_DataBlend_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
@@ -1115,15 +1118,6 @@
 							{
 								"source": {
 									"schema": "NAPLAN",
-									"table": "ExamBands"
-								},
-								"destination": {
-									"fileName": "NAPLANExamBands.csv"
-								}
-							},
-							{
-								"source": {
-									"schema": "NAPLAN",
 									"table": "NAPLAN"
 								},
 								"destination": {
@@ -1191,6 +1185,15 @@
 								},
 								"destination": {
 									"fileName": "dbovwDMStateTerritory.csv"
+								}
+							},
+							{
+								"source": {
+									"schema": "dbo",
+									"table": "vwDMExamBands"
+								},
+								"destination": {
+									"fileName": "dbovwDMExamBands.csv"
 								}
 							}
 						]
@@ -14518,7 +14521,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "24b11840-e3ab-4d7d-98c6-848ab521fad4"
+						"spark.autotune.trackingId": "5f950e62-45e6-4bc1-8f6a-48fda7913135"
 					}
 				},
 				"metadata": {
@@ -14543,8 +14546,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

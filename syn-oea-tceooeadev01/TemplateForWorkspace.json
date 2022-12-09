@@ -3398,7 +3398,7 @@
 					},
 					"enrolment": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"myschools": {
 						"type": "bool",
@@ -3406,7 +3406,7 @@
 					},
 					"naplan": {
 						"type": "bool",
-						"defaultValue": false
+						"defaultValue": true
 					},
 					"nccd": {
 						"type": "bool",
@@ -10331,7 +10331,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2f4d1e63-280b-490a-be2a-d09b7f63f095"
+						"spark.autotune.trackingId": "c9c76ebb-b8ec-4156-be30-a922a1e495c2"
 					}
 				},
 				"metadata": {
@@ -14111,7 +14111,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "78256572-6d68-436c-8752-0996de0b2cd8"
+						"spark.autotune.trackingId": "eefb7dc6-e9a5-4a11-abaf-8d0895983038"
 					}
 				},
 				"metadata": {
@@ -14524,7 +14524,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fe6060a8-726d-4012-8b02-960727941399"
+						"spark.autotune.trackingId": "535244a6-06ef-4464-aaf4-0e501f4a2b31"
 					}
 				},
 				"metadata": {
@@ -15368,7 +15368,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0adcf976-022b-4275-ad06-fea65a891723"
+						"spark.autotune.trackingId": "1cf06a6f-1570-46d4-855e-aa03d2ca630d"
 					}
 				},
 				"metadata": {

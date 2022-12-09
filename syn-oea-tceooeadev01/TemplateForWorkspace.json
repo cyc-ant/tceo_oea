@@ -3078,7 +3078,7 @@
 					},
 					"enrolment": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"myschools": {
 						"type": "bool",
@@ -3086,7 +3086,7 @@
 					},
 					"naplan": {
 						"type": "bool",
-						"defaultValue": false
+						"defaultValue": true
 					},
 					"nccd": {
 						"type": "bool",
@@ -10331,7 +10331,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0aed8f34-1f87-4f62-808c-12faf2e2a76e"
+						"spark.autotune.trackingId": "2f4d1e63-280b-490a-be2a-d09b7f63f095"
 					}
 				},
 				"metadata": {
@@ -14111,15 +14111,15 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5f277290-c849-474d-ac9a-6caa9bfd35de"
+						"spark.autotune.trackingId": "78256572-6d68-436c-8752-0996de0b2cd8"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
+						"name": "synapse_sparksql",
+						"display_name": "sql"
 					},
 					"language_info": {
 						"name": "sql"
@@ -14136,7 +14136,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14523,7 +14524,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5f950e62-45e6-4bc1-8f6a-48fda7913135"
+						"spark.autotune.trackingId": "fe6060a8-726d-4012-8b02-960727941399"
 					}
 				},
 				"metadata": {
@@ -14548,7 +14549,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15366,7 +15368,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8b9ba0a3-6775-4214-b473-f38015035944"
+						"spark.autotune.trackingId": "0adcf976-022b-4275-ad06-fea65a891723"
 					}
 				},
 				"metadata": {
@@ -15391,13 +15393,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when\r\n",
 							""
@@ -15607,6 +15611,33 @@
 						],
 						"outputs": [],
 						"execution_count": 1
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def DMNAPLAN_pseudo(df):\r\n",
+							"\r\n",
+							"    sourcep = oea.stage2p\r\n",
+							"\r\n",
+							"    df.createOrReplaceTempView('vw_df_dmnaplan_pseudo')\r\n",
+							"\r\n",
+							"    final_df = spark.sql(\"select * from vw_df_dmnaplan_pseudo where length(bksourcestudentid) = 36\")\r\n",
+							"\r\n",
+							"    return final_df"
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},

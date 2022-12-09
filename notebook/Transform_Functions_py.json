@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "f5a8cdc0-7555-48fd-aa2c-1a649b1634f3"
+				"spark.autotune.trackingId": "c38c0b4f-945c-41a6-a506-ef815df18f8f"
 			}
 		},
 		"metadata": {
@@ -268,16 +268,21 @@
 						"transient": {
 							"deleting": false
 						}
+					},
+					"microsoft": {
+						"language": "python"
 					}
 				},
 				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
 					"def DMNAPLAN_pseudo(df):\r\n",
 					"\r\n",
 					"    sourcep = oea.stage2p\r\n",
 					"\r\n",
 					"    df.createOrReplaceTempView('vw_df_dmnaplan_pseudo')\r\n",
 					"\r\n",
-					"    final_df = spark.sql(\"select * from vw_df_dmnaplan_pseudo where length(bksourcestudentid) = 36\")\r\n",
+					"    final_df = spark.sql(\"select * from vw_df_dmnaplan_pseudo where PersistentStudentID <> -1\")\r\n",
 					"\r\n",
 					"    return final_df"
 				],

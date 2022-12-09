@@ -10331,7 +10331,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c9c76ebb-b8ec-4156-be30-a922a1e495c2"
+						"spark.autotune.trackingId": "e2c8144d-ae22-4abb-ac5a-c6d9e10e3a8a"
 					}
 				},
 				"metadata": {
@@ -10356,15 +10356,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class NAPLAN_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NAPLAN', pseudonymize = True):\r\n",
@@ -14111,15 +14109,15 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "eefb7dc6-e9a5-4a11-abaf-8d0895983038"
+						"spark.autotune.trackingId": "5f277290-c849-474d-ac9a-6caa9bfd35de"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_sparksql",
-						"display_name": "sql"
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "sql"
@@ -14136,8 +14134,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14524,7 +14521,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "535244a6-06ef-4464-aaf4-0e501f4a2b31"
+						"spark.autotune.trackingId": "5f950e62-45e6-4bc1-8f6a-48fda7913135"
 					}
 				},
 				"metadata": {
@@ -14549,8 +14546,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15368,7 +15364,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1cf06a6f-1570-46d4-855e-aa03d2ca630d"
+						"spark.autotune.trackingId": "39050c1a-317f-424e-8ac6-49f69d07fde0"
 					}
 				},
 				"metadata": {
@@ -15393,15 +15389,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when\r\n",
 							""
@@ -15632,7 +15626,7 @@
 							"\r\n",
 							"    df.createOrReplaceTempView('vw_df_dmnaplan_pseudo')\r\n",
 							"\r\n",
-							"    final_df = spark.sql(\"select * from vw_df_dmnaplan_pseudo where length(bksourcestudentid) = 36\")\r\n",
+							"    final_df = spark.sql(\"select * from vw_df_dmnaplan_pseudo where PersistentStudentID <> -1\")\r\n",
 							"\r\n",
 							"    return final_df"
 						],
@@ -15667,7 +15661,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0da5fe9f-a5a7-4909-a807-8dd0ca52f028"
+						"spark.autotune.trackingId": "1b714b3d-44c7-4c64-894c-5b463952787f"
 					}
 				},
 				"metadata": {
@@ -15692,7 +15686,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15753,6 +15748,8 @@
 							"        final_df = DMDate_pseudo(df)\r\n",
 							"    elif name == \"DMStudent_pseudo\":\r\n",
 							"        final_df = DMStudent_pseudo(df)\r\n",
+							"    elif name == \"DMNAPLAN_pseudo\":\r\n",
+							"        final_df = DMNAPLAN_pseudo(df)\r\n",
 							"    else:  \r\n",
 							"        final_df = df\r\n",
 							"\r\n",

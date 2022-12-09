@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "0da5fe9f-a5a7-4909-a807-8dd0ca52f028"
+				"spark.autotune.trackingId": "44bf5fc6-0136-4aa0-a294-793b1adb1735"
 			}
 		},
 		"metadata": {
@@ -106,6 +106,8 @@
 					"        final_df = DMDate_pseudo(df)\r\n",
 					"    elif name == \"DMStudent_pseudo\":\r\n",
 					"        final_df = DMStudent_pseudo(df)\r\n",
+					"    elif name == \"DMNAPLAN_pseudo\":\r\n",
+					"        final_df = DMNAPLAN_pseudo(df)\r\n",
 					"    else:  \r\n",
 					"        final_df = df\r\n",
 					"\r\n",

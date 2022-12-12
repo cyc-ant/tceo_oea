@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "39050c1a-317f-424e-8ac6-49f69d07fde0"
+				"spark.autotune.trackingId": "0f935cd2-0278-4a2b-bae9-82531136fede"
 			}
 		},
 		"metadata": {
@@ -278,6 +278,32 @@
 					"    df.createOrReplaceTempView('vw_df_dmnaplan_pseudo')\r\n",
 					"\r\n",
 					"    final_df = spark.sql(\"select * from vw_df_dmnaplan_pseudo where PersistentStudentID <> -1\")\r\n",
+					"\r\n",
+					"    return final_df"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def DMPersonDemographic_pseudo(df):\r\n",
+					"\r\n",
+					"    sourcep = oea.stage2p\r\n",
+					"\r\n",
+					"    df.createOrReplaceTempView('vw_df_dmpersondemographic_pseudo')\r\n",
+					"\r\n",
+					"    final_df = spark.sql(\"select * from vw_df_dmpersondemographic_pseudo where PersonType = 'Student' or PersonType = 'Staff'\")\r\n",
 					"\r\n",
 					"    return final_df"
 				],

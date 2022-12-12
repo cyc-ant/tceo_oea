@@ -14109,7 +14109,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fe3fd236-64e6-4701-9d7e-b184eb860cb8"
+						"spark.autotune.trackingId": "05fc61a1-f16e-479e-a74a-a30d48d11165"
 					}
 				},
 				"metadata": {
@@ -14560,16 +14560,20 @@
 							"\r\n",
 							"#aggdf = df.groupBy(\"SKCampus\", \"SKYearLevel\", \"SKDate\", \"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"newNormMean\"))\r\n",
 							"aggdf = df.groupBy(\"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"NormMeanScaledScore_cleaned\"))\r\n",
+							"aggdf = aggdf.withColumnRenamed(\"SKPATTest\", \"xSKPATTest\")\r\n",
 							"\r\n",
-							"#aggdf.show(truncate=False)\r\n",
+							"final_df = aggdf.join(df, df.SKPATTest == aggdf.xSKPATTest, \"inner\")\r\n",
+							"final_df = final_df.drop(\"xSKPATTest\")\r\n",
+							"\r\n",
+							"final_df.show(truncate=False)\r\n",
 							"\r\n",
 							"#column=[\"newNormMean\"]\r\n",
-							"#aggdf.select([count(when(isnan(c) | col(c).isNull(), c)).alias(c) for c in column]).show()\r\n",
+							"#aggdf.select([count(when(isnan(c) | col(c).isNull(), c)).alias(c) for c in aggdf.columns]).show()\r\n",
 							"\r\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": 43
+						"execution_count": 9
 					}
 				]
 			},
@@ -15488,7 +15492,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8ab8d1f1-cd3e-4c97-862a-4585a1404490"
+						"spark.autotune.trackingId": "8c505e5e-9398-479f-b2d2-93debac334e1"
 					}
 				},
 				"metadata": {
@@ -15513,13 +15517,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max\r\n",
 							""
@@ -15716,7 +15722,12 @@
 						},
 						"source": [
 							"def DMFactPATResults_pseudo(df):\r\n",
-							"    return df.groupBy(\"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"NormMeanScaledScore_cleaned\"))"
+							"    aggdf = df.groupBy(\"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"NormMeanScaledScore_cleaned\"))\r\n",
+							"    aggdf = aggdf.withColumnRenamed(\"SKPATTest\", \"xSKPATTest\")\r\n",
+							"\r\n",
+							"    final_df = aggdf.join(df, df.SKPATTest == aggdf.xSKPATTest, \"inner\")\r\n",
+							"    final_df = final_df.drop(\"xSKPATTest\")\r\n",
+							"    return final_df"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -15749,7 +15760,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "91722990-f7a5-474b-ae0e-dbb40dc58550"
+						"spark.autotune.trackingId": "58af3ba3-69e1-4b47-a5f0-234242528ac6"
 					}
 				},
 				"metadata": {
@@ -15774,8 +15785,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

@@ -14109,7 +14109,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "dd2d7d95-32c1-4103-8f4f-73183a74e29b"
+						"spark.autotune.trackingId": "f1873616-2773-45d6-9e70-ee8d602e980f"
 					}
 				},
 				"metadata": {
@@ -14134,7 +14134,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14152,7 +14153,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -14256,18 +14257,28 @@
 							"\r\n",
 							"## Put test function here\r\n",
 							"\r\n",
-							"def DMStudent_pseudo(df):\r\n",
+							"# def DMStudent_pseudo(df):\r\n",
+							"\r\n",
+							"#     sourcep = oea.stage2p\r\n",
+							"\r\n",
+							"#     df.createOrReplaceTempView('vw_df_dmstudent_pseudo')\r\n",
+							"\r\n",
+							"#     final_df = spark.sql(\"select * from vw_df_dmstudent_pseudo where length(bksourcestudentid) = 36\")\r\n",
+							"\r\n",
+							"#     return final_df\r\n",
+							"\r\n",
+							"def DMPersonDemographic_pseudo(df):\r\n",
 							"\r\n",
 							"    sourcep = oea.stage2p\r\n",
 							"\r\n",
-							"    df.createOrReplaceTempView('vw_df_dmstudent_pseudo')\r\n",
+							"    df.createOrReplaceTempView('vw_df_dmpersondemographic_pseudo')\r\n",
 							"\r\n",
-							"    final_df = spark.sql(\"select * from vw_df_dmstudent_pseudo where length(bksourcestudentid) = 36\")\r\n",
+							"    final_df = spark.sql(\"select * from vw_df_dmpersondemographic_pseudo where PersonType = 'Student' or PersonType = 'Staff'\")\r\n",
 							"\r\n",
 							"    return final_df"
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -14290,18 +14301,24 @@
 							"\r\n",
 							"## Test \r\n",
 							"\r\n",
-							"sourcep = oea.stage2p\r\n",
-							"test_df = spark.read.load(sourcep + \"/student/DMStudent_pseudo\", format='delta')\r\n",
+							"# sourcep = oea.stage2p\r\n",
+							"# test_df = spark.read.load(sourcep + \"/student/DMStudent_pseudo\", format='delta')\r\n",
 							"\r\n",
-							"result_test = DMStudent_pseudo(test_df)\r\n",
+							"# result_test = DMStudent_pseudo(test_df)\r\n",
+							"# # result_test.show()\r\n",
+							"\r\n",
+							"# result_test.createOrReplaceTempView('vw_df_test_checkresult2')\r\n",
+							"\r\n",
+							"sourcep = oea.stage2p\r\n",
+							"test_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"result_test = DMPersonDemographic_pseudo(test_df)\r\n",
 							"# result_test.show()\r\n",
 							"\r\n",
-							"result_test.createOrReplaceTempView('vw_df_test_checkresult2')\r\n",
-							"\r\n",
-							""
+							"result_test.createOrReplaceTempView('vw_df_test_checkresult3')"
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -14325,12 +14342,13 @@
 							"\r\n",
 							"-- check sql results\r\n",
 							"\r\n",
-							"select count(*) from vw_df_test_checkresult2\r\n",
-							"where length(bksourcestudentid) = 36\r\n",
-							""
+							"-- select count(*) from vw_df_test_checkresult2\r\n",
+							"-- where length(bksourcestudentid) = 36\r\n",
+							"\r\n",
+							"select persontype, count(*) from vw_df_test_checkresult3 group by persontype"
 						],
 						"outputs": [],
-						"execution_count": 22
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -14544,15 +14562,15 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d94474fd-bd6f-4a9a-803b-ce1c1ba651e5"
+						"spark.autotune.trackingId": "14116815-64b1-4dfe-a1b7-c9de3a40bdc3"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_sparksql",
-						"display_name": "sql"
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "sql"
@@ -14569,8 +14587,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15434,7 +15451,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "39050c1a-317f-424e-8ac6-49f69d07fde0"
+						"spark.autotune.trackingId": "3dc6cf65-ffa7-4ed3-8224-c3c3e98aa9fd"
 					}
 				},
 				"metadata": {
@@ -15459,13 +15476,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when\r\n",
 							""
@@ -15702,6 +15721,33 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def DMPersonDemographic_pseudo(df):\r\n",
+							"\r\n",
+							"    sourcep = oea.stage2p\r\n",
+							"\r\n",
+							"    df.createOrReplaceTempView('vw_df_dmpersondemographic_pseudo')\r\n",
+							"\r\n",
+							"    final_df = spark.sql(\"select * from vw_df_dmpersondemographic_pseudo where PersonType = 'Student' or PersonType = 'Staff'\")\r\n",
+							"\r\n",
+							"    return final_df"
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -15731,7 +15777,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "44bf5fc6-0136-4aa0-a294-793b1adb1735"
+						"spark.autotune.trackingId": "c848e48d-d2ad-42d0-b7f1-bc16880ca2eb"
 					}
 				},
 				"metadata": {
@@ -15756,7 +15802,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15819,6 +15866,8 @@
 							"        final_df = DMStudent_pseudo(df)\r\n",
 							"    elif name == \"DMNAPLAN_pseudo\":\r\n",
 							"        final_df = DMNAPLAN_pseudo(df)\r\n",
+							"    elif name == \"DMPersonDemographic_pseudo\":\r\n",
+							"        final_df = DMPersonDemographic_pseudo(df)\r\n",
 							"    else:  \r\n",
 							"        final_df = df\r\n",
 							"\r\n",

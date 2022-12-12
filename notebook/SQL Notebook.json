@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fe3fd236-64e6-4701-9d7e-b184eb860cb8"
+				"spark.autotune.trackingId": "05fc61a1-f16e-479e-a74a-a30d48d11165"
 			}
 		},
 		"metadata": {
@@ -462,15 +462,19 @@
 					"\r\n",
 					"#aggdf = df.groupBy(\"SKCampus\", \"SKYearLevel\", \"SKDate\", \"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"newNormMean\"))\r\n",
 					"aggdf = df.groupBy(\"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"NormMeanScaledScore_cleaned\"))\r\n",
+					"aggdf = aggdf.withColumnRenamed(\"SKPATTest\", \"xSKPATTest\")\r\n",
 					"\r\n",
-					"#aggdf.show(truncate=False)\r\n",
+					"final_df = aggdf.join(df, df.SKPATTest == aggdf.xSKPATTest, \"inner\")\r\n",
+					"final_df = final_df.drop(\"xSKPATTest\")\r\n",
+					"\r\n",
+					"final_df.show(truncate=False)\r\n",
 					"\r\n",
 					"#column=[\"newNormMean\"]\r\n",
-					"#aggdf.select([count(when(isnan(c) | col(c).isNull(), c)).alias(c) for c in column]).show()\r\n",
+					"#aggdf.select([count(when(isnan(c) | col(c).isNull(), c)).alias(c) for c in aggdf.columns]).show()\r\n",
 					"\r\n",
 					""
 				],
-				"execution_count": 43
+				"execution_count": 9
 			}
 		]
 	}

@@ -15749,7 +15749,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "552ce59d-2696-4587-9470-da1a2f982630"
+						"spark.autotune.trackingId": "6ba5806b-5bad-4f82-83f7-189ab50fffe9"
 					}
 				},
 				"metadata": {
@@ -15774,7 +15774,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15838,6 +15839,8 @@
 							"    elif name == \"DMNAPLAN_pseudo\":\r\n",
 							"        final_df = DMNAPLAN_pseudo(df)\r\n",
 							"    elif name == \"DMPersonDemographic_pseudo\":\r\n",
+							"        final_df = DMPersonDemographic_pseudo(df)\r\n",
+							"    elif name == \"DMFactPATResults_pseudo\":\r\n",
 							"        final_df = DMPersonDemographic_pseudo(df)\r\n",
 							"    else:  \r\n",
 							"        final_df = df\r\n",
@@ -15904,7 +15907,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "08bf7eb6-290b-462f-9ee0-9caf418812f8"
+						"spark.autotune.trackingId": "9a98b030-6735-4029-a56e-3d4a4cf5fe24"
 					}
 				},
 				"metadata": {
@@ -15929,8 +15932,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5f277290-c849-474d-ac9a-6caa9bfd35de"
+				"spark.autotune.trackingId": "dd2d7d95-32c1-4103-8f4f-73183a74e29b"
 			}
 		},
 		"metadata": {
@@ -63,7 +63,7 @@
 					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 9
+				"execution_count": 10
 			},
 			{
 				"cell_type": "code",
@@ -323,7 +323,7 @@
 					"    AND pd.PersonType = 'Student'\r\n",
 					"ORDER BY SchoolAGEID, yl.YearLevelSifDesc, pd.FirstName, pd.LastName"
 				],
-				"execution_count": 3
+				"execution_count": 8
 			},
 			{
 				"cell_type": "code",
@@ -388,12 +388,35 @@
 						"transient": {
 							"deleting": false
 						}
-					}
+					},
+					"collapsed": false
 				},
 				"source": [
-					""
+					"SELECT SchoolID AS SchoolAGEID,\r\n",
+					"    LocationID AS LocationAGEID,\r\n",
+					"    c.CampusSuburbAndName,\r\n",
+					"    pd.FirstName,\r\n",
+					"    pd.LastName,\r\n",
+					"    yl.YearLevelSifDesc AS YearLevel,\r\n",
+					"    rg.RollGroupDesc AS RollGroup,\r\n",
+					"    pd.Ceider,\r\n",
+					"    d.date AS DateLeft\r\n",
+					"FROM\r\n",
+					"    vw_factpersonmilestone f\r\n",
+					"JOIN vw_dmdate d ON f.SKMilestoneStartDate = d.SKDate\r\n",
+					"JOIN vw_dmpersondemographic pd ON f.SKPerson = pd.SKPerson\r\n",
+					"JOIN vw_dmcampus c ON f.SKCampus = c.SKCampus\r\n",
+					"JOIN vw_dmyearlevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
+					"JOIN vw_dmrollgroup rg ON f.SKRollGroup = rg.SKRollGroup\r\n",
+					"\r\n",
+					"WHERE \r\n",
+					"    f.IsCurrentMilestone = 'True'\r\n",
+					"    AND f.IsActiveMilestone = 'False'\r\n",
+					"    AND pd.PersonType = 'Student'\r\n",
+					"    AND Date < current_date()\r\n",
+					"ORDER BY SchoolAGEID,yl.YearLevelSifDesc, pd.FirstName,pd.LastName"
 				],
-				"execution_count": null
+				"execution_count": 7
 			}
 		]
 	}

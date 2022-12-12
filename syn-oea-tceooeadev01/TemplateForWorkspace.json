@@ -14109,7 +14109,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f1873616-2773-45d6-9e70-ee8d602e980f"
+						"spark.autotune.trackingId": "fe3fd236-64e6-4701-9d7e-b184eb860cb8"
 					}
 				},
 				"metadata": {
@@ -14134,8 +14134,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14533,6 +14532,44 @@
 						],
 						"outputs": [],
 						"execution_count": 7
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"microsoft": {
+								"language": "python"
+							}
+						},
+						"source": [
+							"%%pyspark\r\n",
+							"\r\n",
+							"from pyspark.sql.functions import max\r\n",
+							"\r\n",
+							"\r\n",
+							"sourcep = oea.stage2p\r\n",
+							"df = spark.read.load(sourcep + \"/ACER/DMFactPATResults_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"#aggdf = df.groupBy(\"SKCampus\", \"SKYearLevel\", \"SKDate\", \"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"newNormMean\"))\r\n",
+							"aggdf = df.groupBy(\"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"NormMeanScaledScore_cleaned\"))\r\n",
+							"\r\n",
+							"#aggdf.show(truncate=False)\r\n",
+							"\r\n",
+							"#column=[\"newNormMean\"]\r\n",
+							"#aggdf.select([count(when(isnan(c) | col(c).isNull(), c)).alias(c) for c in column]).show()\r\n",
+							"\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 43
 					}
 				]
 			},
@@ -15451,7 +15488,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3dc6cf65-ffa7-4ed3-8224-c3c3e98aa9fd"
+						"spark.autotune.trackingId": "8ab8d1f1-cd3e-4c97-862a-4585a1404490"
 					}
 				},
 				"metadata": {
@@ -15476,17 +15513,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
-							"from pyspark.sql.functions import when\r\n",
+							"from pyspark.sql.functions import when, max\r\n",
 							""
 						],
 						"outputs": [],
@@ -15599,89 +15634,6 @@
 							}
 						},
 						"source": [
-							"def _DMClassEnrolments_pseudo():\r\n",
-							"    sourcep = oea.stage2p\r\n",
-							"\r\n",
-							"    factsubjectenrolment_df = spark.read.load(sourcep + \"/enrolment/DMFactSubjectEnrolment_pseudo\", format='delta')\r\n",
-							"    dmactivity_df = spark.read.load(sourcep + \"/enrolment/DMActivity_pseudo\", format='delta')\r\n",
-							"    dmsubject_df = spark.read.load(sourcep + \"/enrolment/DMSubject_pseudo\", format='delta')\r\n",
-							"    dmpersondemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
-							"    dmyearlevel_df = spark.read.load(sourcep + \"/ACER/DMYearLevel_pseudo\", format='delta')\r\n",
-							"    dmcampus_df = spark.read.load(sourcep + \"/ACER/DMCampus_pseudo\", format='delta')\r\n",
-							"    dmdate_df = spark.read.load(sourcep + \"/ACER/DMDate_pseudo\", format='delta')\r\n",
-							"    dmcalendaryear = spark.read.load(sourcep + \"/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
-							"\r\n",
-							"    # create temp sql views\r\n",
-							"    factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
-							"    dmactivity_df.createOrReplaceTempView('vw_dmactivity')\r\n",
-							"    dmsubject_df.createOrReplaceTempView('vw_dmsubject')\r\n",
-							"    dmpersondemographic_df.createOrReplaceTempView('vw_dmpersondemographic')\r\n",
-							"    dmyearlevel_df.createOrReplaceTempView('vw_dmyearlevel')\r\n",
-							"    dmcampus_df.createOrReplaceTempView('vw_dmcampus')\r\n",
-							"    dmdate_df.createOrReplaceTempView('vw_dmdate')\r\n",
-							"    dmcalendaryear.createOrReplaceTempView('vw_dmcalendaryear')\r\n",
-							"\r\n",
-							"    query = \"\"\"USE DBTOW\r\n",
-							"\r\n",
-							"    SELECT cy.Year AS CalendarYear,\r\n",
-							"    C.SchoolId AS AGEID,\r\n",
-							"    c.CampusSuburbAndName,\r\n",
-							"    student.FirstName  AS  StudentFirstName,\r\n",
-							"    student.LastName AS StudentLastName,\r\n",
-							"    Student.Ceider,\r\n",
-							"    yl.YearLevelSifDesc AS YearLevel,\r\n",
-							"    s.SubjectShortName AS [Subject],\r\n",
-							"    a.ActivityName AS  ClassName,\r\n",
-							"    a.ActivityCode AS ClassCode,\r\n",
-							"    ClassStartDate.date AS ClassStartDate,\r\n",
-							"    ClassEndDate.date AS ClassEndDate,\r\n",
-							"    staff.FirstName AS StaffFirstName,\r\n",
-							"    staff.LastName AS StaffLastName,\r\n",
-							"    c.CompassSchoolURL\r\n",
-							"\r\n",
-							"    FROM vw_factsubjectenrolment f\r\n",
-							"    JOIN vw_dmactivity a ON f.SKActivity = a.SKActivity\r\n",
-							"    AND a.ActivityTypeDescription = 'Standard Class'\r\n",
-							"    JOIN vw_dmsubject s ON f.SKSubject = s.SKSubject\r\n",
-							"    JOIN vw_dmpersondemographic student ON f.SKStudent = student.SKPerson\r\n",
-							"    JOIN vw_dmpersondemographic staff ON f.SKStaff = staff.SKPerson\r\n",
-							"    JOIN vw_dmyearlevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
-							"    JOIN vw_dmcampus c ON f.SKCampus = c.SKCampus\r\n",
-							"    JOIN vw_dmdate ClassStartDate ON f.SKEnrolmentStartDate = ClassStartDate.SKDate\r\n",
-							"\r\n",
-							"    JOIN vw_dmdate ClassEndDate ON f.SKEnrolmentEndDate = ClassEndDate.SKDate\r\n",
-							"    JOIN vw_dmcalendaryear cy ON f.SKYear = cy.SKYear\r\n",
-							"\r\n",
-							"    AND cy.Year = 2022\r\n",
-							"    WHERE ClassEndDate.date > GETDATE() \r\n",
-							"    AND s.SubjectShortName <> 'Unknown'\r\n",
-							"    ORDER BY\r\n",
-							"    AGEID, YearLevel, StudentFirstName, StudentLastName,Ceider\r\n",
-							"    \"\"\"\r\n",
-							"\r\n",
-							"    final_df = spark.sql(query)\r\n",
-							"\r\n",
-							"    return final_df\r\n",
-							"\r\n",
-							""
-						],
-						"outputs": [],
-						"execution_count": 9
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
 							"def DMStudent_pseudo(df):\r\n",
 							"\r\n",
 							"    sourcep = oea.stage2p\r\n",
@@ -15748,6 +15700,26 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def DMFactPATResults_pseudo(df):\r\n",
+							"    return df.groupBy(\"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"NormMeanScaledScore_cleaned\"))"
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -15777,7 +15749,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c848e48d-d2ad-42d0-b7f1-bc16880ca2eb"
+						"spark.autotune.trackingId": "552ce59d-2696-4587-9470-da1a2f982630"
 					}
 				},
 				"metadata": {
@@ -15802,8 +15774,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15933,7 +15904,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5f107f8a-509c-4b10-9901-16f04a07fc4f"
+						"spark.autotune.trackingId": "08bf7eb6-290b-462f-9ee0-9caf418812f8"
 					}
 				},
 				"metadata": {
@@ -15958,7 +15929,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

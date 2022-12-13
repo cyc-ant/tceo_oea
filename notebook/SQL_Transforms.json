@@ -20,15 +20,15 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "14116815-64b1-4dfe-a1b7-c9de3a40bdc3"
+				"spark.autotune.trackingId": "748aaa6d-2d7f-45c5-8ce9-b5f1066ec2d2"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
 			"enableDebugMode": false,
 			"kernelspec": {
-				"name": "synapse_pyspark",
-				"display_name": "Synapse PySpark"
+				"name": "synapse_sparksql",
+				"display_name": "sql"
 			},
 			"language_info": {
 				"name": "sql"
@@ -219,7 +219,9 @@
 					"    yl.SKYearLevel,\r\n",
 					"    rg.RollGroupDesc AS RollGroup,\r\n",
 					"    pd.Ceider,\r\n",
-					"    pd.SKPerson\r\n",
+					"    pd.SKPerson, \r\n",
+					"    pd.Disability,\r\n",
+					"    pd.ATSIId\r\n",
 					"\r\n",
 					"FROM vw_factpersonmilestone f\r\n",
 					"JOIN vw_dmpersondemographic pd ON f.SKPerson = pd.SKPerson\r\n",
@@ -259,7 +261,11 @@
 					"    yl.YearLevelSifDesc AS YearLevel,\r\n",
 					"    rg.RollGroupDesc AS RollGroup,\r\n",
 					"    pd.Ceider,\r\n",
+					"    pd.SKPerson, \r\n",
+					"    pd.Disability,\r\n",
+					"    pd.ATSIId,\r\n",
 					"    d.date AS DateLeft\r\n",
+					"    \r\n",
 					"FROM\r\n",
 					"    vw_factpersonmilestone f\r\n",
 					"JOIN vw_dmdate d ON f.SKMilestoneStartDate = d.SKDate\r\n",

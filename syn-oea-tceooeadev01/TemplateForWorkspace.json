@@ -14109,7 +14109,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "05fc61a1-f16e-479e-a74a-a30d48d11165"
+						"spark.autotune.trackingId": "55e832d2-d783-4b8a-9b79-fe16bc781392"
 					}
 				},
 				"metadata": {
@@ -14134,7 +14134,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14272,7 +14273,11 @@
 							"\r\n",
 							"    df.createOrReplaceTempView('vw_df_dmpersondemographic_pseudo')\r\n",
 							"\r\n",
-							"    final_df = spark.sql(\"select * from vw_df_dmpersondemographic_pseudo where PersonType = 'Student' or PersonType = 'Staff'\")\r\n",
+							"    final_df = spark.sql(\"select SKPerson,BKPerson,PersonType,Ceider,CompassPersonId,Title,FirstName,PreferredFirstName,LastName,PreferredLastName,MiddleName,SecondMiddleName,EmailAddress,HomePhoneNumber,MobileNumber,DateOfDeath,DateOfBirth,RecievesESL,RequiresESL,LBOTE,\\\r\n",
+							"    InterpreterRequired,GenderId,GenderDesc,ATSIId,ATSIDesc,ReligionId,ReligionDesc,BirthCountryId,BirthCountryDesc,NationalityId,NationalityDesc,ArrivalDate,VisaSubClassCode,VisaSubClassName,VisaExpiryDate,YouthAllowance,GovernmentFunded,GovCode2,Disability,DisabilityFunded,\\\r\n",
+							"    LivingArrangements,ResidentialStatus,RefugeeStatus,AmbulanceSubscriber,UserName,Occupation,OccupationGroup,Employer,SchoolEducation,NonSchoolEducation,EarliestMilestoneDate,Contactable,EmailAllowed,SMSAllowed,PublishPhotoToMedia,PublishPhotoToInternal,AuthenticationMode, \\\r\n",
+							"    FeeMode,ImportMode,CreateDate,LastUpdateDate,EffectiveStartDate,EffectiveEndDate,IsCurrent,SCDReason,DisabilityInt,StudentReportingId,CommunicationPreference,AccessRestrictionsInt,DioceseId,ReligiousOrLay,Parish,ImmunisationRecordSighted,HomeTown,HeadLiceCheckAllowed, \\\r\n",
+							"    TownOfBirth from vw_df_dmpersondemographic_pseudo where PersonType = 'Student' or PersonType = 'Staff'\")\r\n",
 							"\r\n",
 							"    return final_df"
 						],
@@ -14314,7 +14319,7 @@
 							"result_test = DMPersonDemographic_pseudo(test_df)\r\n",
 							"# result_test.show()\r\n",
 							"\r\n",
-							"result_test.createOrReplaceTempView('vw_df_test_checkresult3')"
+							"result_test.createOrReplaceTempView('vw_df_test_checkresult4')"
 						],
 						"outputs": [],
 						"execution_count": 3
@@ -14344,10 +14349,10 @@
 							"-- select count(*) from vw_df_test_checkresult2\r\n",
 							"-- where length(bksourcestudentid) = 36\r\n",
 							"\r\n",
-							"select persontype, count(*) from vw_df_test_checkresult3 group by persontype"
+							"select * from vw_df_test_checkresult4 limit 10"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -14603,7 +14608,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "89039f65-13ce-4b88-b48a-c27adf77e0fd"
+						"spark.autotune.trackingId": "aeb9b05e-d876-4dc1-82d5-e7426b07490c"
 					}
 				},
 				"metadata": {
@@ -14628,8 +14633,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15501,7 +15505,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7aca5f76-f5b2-482d-a9d2-f7a614061b97"
+						"spark.autotune.trackingId": "c5fcf9e7-9ae7-4e44-98d5-6fb5b1a9be78"
 					}
 				},
 				"metadata": {
@@ -15526,13 +15530,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace"
 						],
@@ -15706,7 +15712,12 @@
 							"\r\n",
 							"    df.createOrReplaceTempView('vw_df_dmpersondemographic_pseudo')\r\n",
 							"\r\n",
-							"    final_df = spark.sql(\"select * from vw_df_dmpersondemographic_pseudo where PersonType = 'Student' or PersonType = 'Staff'\")\r\n",
+							"    # final_df = spark.sql(\"select * from vw_df_dmpersondemographic_pseudo where PersonType = 'Student' or PersonType = 'Staff'\")\r\n",
+							"    final_df = spark.sql(\"select SKPerson,BKPerson,PersonType,Ceider,CompassPersonId,Title,FirstName,PreferredFirstName,LastName,PreferredLastName,MiddleName,SecondMiddleName,EmailAddress,HomePhoneNumber,MobileNumber,DateOfDeath,DateOfBirth,RecievesESL,RequiresESL,LBOTE,\\\r\n",
+							"    InterpreterRequired,GenderId,GenderDesc,ATSIId,ATSIDesc,ReligionId,ReligionDesc,BirthCountryId,BirthCountryDesc,NationalityId,NationalityDesc,ArrivalDate,VisaSubClassCode,VisaSubClassName,VisaExpiryDate,YouthAllowance,GovernmentFunded,GovCode2,Disability,DisabilityFunded,\\\r\n",
+							"    LivingArrangements,ResidentialStatus,RefugeeStatus,AmbulanceSubscriber,UserName,Occupation,OccupationGroup,Employer,SchoolEducation,NonSchoolEducation,EarliestMilestoneDate,Contactable,EmailAllowed,SMSAllowed,PublishPhotoToMedia,PublishPhotoToInternal,AuthenticationMode, \\\r\n",
+							"    FeeMode,ImportMode,CreateDate,LastUpdateDate,EffectiveStartDate,EffectiveEndDate,IsCurrent,SCDReason,DisabilityInt,StudentReportingId,CommunicationPreference,AccessRestrictionsInt,DioceseId,ReligiousOrLay,Parish,ImmunisationRecordSighted,HomeTown,HeadLiceCheckAllowed, \\\r\n",
+							"    TownOfBirth from vw_df_dmpersondemographic_pseudo where PersonType = 'Student' or PersonType = 'Staff'\")\r\n",
 							"\r\n",
 							"    return final_df"
 						],

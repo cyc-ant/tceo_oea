@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "7aca5f76-f5b2-482d-a9d2-f7a614061b97"
+				"spark.autotune.trackingId": "2348ffd4-fd2b-4f8d-85c7-3aa1bdc72850"
 			}
 		},
 		"metadata": {
@@ -220,7 +220,12 @@
 					"\r\n",
 					"    df.createOrReplaceTempView('vw_df_dmpersondemographic_pseudo')\r\n",
 					"\r\n",
-					"    final_df = spark.sql(\"select * from vw_df_dmpersondemographic_pseudo where PersonType = 'Student' or PersonType = 'Staff'\")\r\n",
+					"    # final_df = spark.sql(\"select * from vw_df_dmpersondemographic_pseudo where PersonType = 'Student' or PersonType = 'Staff'\")\r\n",
+					"    final_df = spark.sql(\"select SKPerson,BKPerson,PersonType,Ceider,CompassPersonId,Title,FirstName,PreferredFirstName,LastName,PreferredLastName,MiddleName,SecondMiddleName,EmailAddress,HomePhoneNumber,MobileNumber,DateOfDeath,DateOfBirth,RecievesESL,RequiresESL,LBOTE,\\\r\n",
+					"    InterpreterRequired,GenderId,GenderDesc,ATSIId,ATSIDesc,ReligionId,ReligionDesc,BirthCountryId,BirthCountryDesc,NationalityId,NationalityDesc,ArrivalDate,VisaSubClassCode,VisaSubClassName,VisaExpiryDate,YouthAllowance,GovernmentFunded,GovCode2,Disability,DisabilityFunded,\\\r\n",
+					"    LivingArrangements,ResidentialStatus,RefugeeStatus,AmbulanceSubscriber,UserName,Occupation,OccupationGroup,Employer,SchoolEducation,NonSchoolEducation,EarliestMilestoneDate,Contactable,EmailAllowed,SMSAllowed,PublishPhotoToMedia,PublishPhotoToInternal,AuthenticationMode, \\\r\n",
+					"    FeeMode,ImportMode,CreateDate,LastUpdateDate,EffectiveStartDate,EffectiveEndDate,IsCurrent,SCDReason,DisabilityInt,StudentReportingId,CommunicationPreference,AccessRestrictionsInt,DioceseId,ReligiousOrLay,Parish,ImmunisationRecordSighted,HomeTown,HeadLiceCheckAllowed, \\\r\n",
+					"    TownOfBirth from vw_df_dmpersondemographic_pseudo where PersonType = 'Student' or PersonType = 'Staff'\")\r\n",
 					"\r\n",
 					"    return final_df"
 				],

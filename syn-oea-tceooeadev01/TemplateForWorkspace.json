@@ -14603,7 +14603,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "748aaa6d-2d7f-45c5-8ce9-b5f1066ec2d2"
+						"spark.autotune.trackingId": "89039f65-13ce-4b88-b48a-c27adf77e0fd"
 					}
 				},
 				"metadata": {
@@ -14628,7 +14628,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14805,7 +14806,8 @@
 							"    pd.Ceider,\r\n",
 							"    pd.SKPerson, \r\n",
 							"    pd.Disability,\r\n",
-							"    pd.ATSIId\r\n",
+							"    pd.ATSIId,\r\n",
+							"    pd.LBOTE\r\n",
 							"\r\n",
 							"FROM vw_factpersonmilestone f\r\n",
 							"JOIN vw_dmpersondemographic pd ON f.SKPerson = pd.SKPerson\r\n",
@@ -14849,6 +14851,7 @@
 							"    pd.SKPerson, \r\n",
 							"    pd.Disability,\r\n",
 							"    pd.ATSIId,\r\n",
+							"    pd.LBOTE,\r\n",
 							"    d.date AS DateLeft\r\n",
 							"    \r\n",
 							"FROM\r\n",
@@ -15940,7 +15943,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c1a3db91-d313-4c33-9f9d-b3bc24222d44"
+						"spark.autotune.trackingId": "08ae7da6-8181-4b2c-b685-a8ce8a7ea442"
 					}
 				},
 				"metadata": {
@@ -15965,8 +15968,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

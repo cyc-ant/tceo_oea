@@ -178,10 +178,10 @@
 					},
 					{
 						"source": {
-							"table": "vwDMPATData"
+							"table": "vwPATData"
 						},
 						"destination": {
-							"fileName": "dbovwDMPATData.csv"
+							"fileName": "dbovwPATData.csv"
 						}
 					}
 				]

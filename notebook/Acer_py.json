@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "1be67f65-0ae0-4908-9916-1c62f915a5a6"
+				"spark.autotune.trackingId": "db3b5708-8120-4210-86d7-72eb2414d81b"
 			}
 		},
 		"metadata": {
@@ -559,7 +559,7 @@
 					"                                        ['TestLevel', 'string', 'no-op'],\r\n",
 					"                                        ['YearCompleted', 'integer', 'no-op'],\r\n",
 					"                                        ['DateComplete', 'date', 'no-op'],\r\n",
-					"                                        ['TimeComplete', 'time', 'no-op'],\r\n",
+					"                                        ['TimeComplete', 'string', 'no-op'],\r\n",
 					"                                        ['RawScore', 'integer', 'no-op'],\r\n",
 					"                                        ['ScaleScore', 'double', 'no-op'],\r\n",
 					"                                        ['Percentile', 'integer', 'no-op'],\r\n",

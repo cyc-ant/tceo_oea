@@ -3070,7 +3070,7 @@
 				"parameters": {
 					"acer": {
 						"type": "bool",
-						"defaultValue": false
+						"defaultValue": true
 					},
 					"ae": {
 						"type": "bool",
@@ -3094,7 +3094,7 @@
 					},
 					"naplan": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"nccd": {
 						"type": "bool",
@@ -3390,7 +3390,7 @@
 				"parameters": {
 					"acer": {
 						"type": "bool",
-						"defaultValue": false
+						"defaultValue": true
 					},
 					"ae": {
 						"type": "bool",
@@ -3414,7 +3414,7 @@
 					},
 					"naplan": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"nccd": {
 						"type": "bool",

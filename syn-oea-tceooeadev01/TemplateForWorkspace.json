@@ -8388,7 +8388,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "833731d7-5e44-4585-9e02-795ada1fcd52"
+						"spark.autotune.trackingId": "3e41146c-6659-43f8-b773-2d34512e461a"
 					}
 				},
 				"metadata": {
@@ -8928,7 +8928,7 @@
 							"                                        ['TestLevel', 'string', 'no-op'],\r\n",
 							"                                        ['YearCompleted', 'integer', 'no-op'],\r\n",
 							"                                        ['DateComplete', 'date', 'no-op'],\r\n",
-							"                                        ['TimeComplete', 'time', 'no-op'],\r\n",
+							"                                        ['TimeComplete', 'string', 'no-op'],\r\n",
 							"                                        ['RawScore', 'integer', 'no-op'],\r\n",
 							"                                        ['ScaleScore', 'double', 'no-op'],\r\n",
 							"                                        ['Percentile', 'integer', 'no-op'],\r\n",
@@ -12046,7 +12046,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5ecc3942-817a-4fa8-9c0e-c00b6fd28876"
+						"spark.autotune.trackingId": "7dc37897-ae99-41e5-9dee-639e1a684a3b"
 					}
 				},
 				"metadata": {
@@ -12071,7 +12071,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

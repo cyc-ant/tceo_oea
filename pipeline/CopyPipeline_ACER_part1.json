@@ -175,6 +175,14 @@
 						"destination": {
 							"fileName": "dbovwDMYearLevel.csv"
 						}
+					},
+					{
+						"source": {
+							"table": "vwDMPATData"
+						},
+						"destination": {
+							"fileName": "dbovwDMPATData.csv"
+						}
 					}
 				]
 			}

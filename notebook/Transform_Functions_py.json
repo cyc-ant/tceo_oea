@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "2348ffd4-fd2b-4f8d-85c7-3aa1bdc72850"
+				"spark.autotune.trackingId": "d3f2d629-6529-4e0e-9b19-1039b4b6c624"
 			}
 		},
 		"metadata": {
@@ -245,13 +245,13 @@
 					}
 				},
 				"source": [
-					"def DMFactPATResults_pseudo(df):\r\n",
-					"    aggdf = df.groupBy(\"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"NormMeanScaledScore_cleaned\"))\r\n",
-					"    aggdf = aggdf.withColumnRenamed(\"SKPATTest\", \"xSKPATTest\")\r\n",
+					"# def DMFactPATResults_pseudo(df):\r\n",
+					"#     aggdf = df.groupBy(\"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"NormMeanScaledScore_cleaned\"))\r\n",
+					"#     aggdf = aggdf.withColumnRenamed(\"SKPATTest\", \"xSKPATTest\")\r\n",
 					"\r\n",
-					"    final_df = aggdf.join(df, df.SKPATTest == aggdf.xSKPATTest, \"inner\")\r\n",
-					"    final_df = final_df.drop(\"xSKPATTest\")\r\n",
-					"    return final_df"
+					"#     final_df = aggdf.join(df, df.SKPATTest == aggdf.xSKPATTest, \"inner\")\r\n",
+					"#     final_df = final_df.drop(\"xSKPATTest\")\r\n",
+					"#     return final_df"
 				],
 				"execution_count": null
 			},
@@ -269,7 +269,19 @@
 					}
 				},
 				"source": [
+					"def DMFactPATResults_pseudo(df):\r\n",
 					"\r\n",
+					"    sourcep = oea.stage2p\r\n",
+					"\r\n",
+					"    df.createOrReplaceTempView('vw_df_dmfactpatresults_pseudo')\r\n",
+					"\r\n",
+					"    datedetails_df = spark.read.load(sourcep + \"/ACER/DMPATStudentTestGrouping_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"    datedetails_df.createOrReplaceTempView('vw_df_dmpatstudenttestgrouping')\r\n",
+					"\r\n",
+					"    final_df = spark.sql(\"select * from vw_df_dmfactpatresults_pseudo\")\r\n",
+					"\r\n",
+					"    return final_df\r\n",
 					""
 				],
 				"execution_count": null

@@ -14141,7 +14141,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "259df67f-63ec-4835-8982-b24c3417a1c3"
+						"spark.autotune.trackingId": "b36f5206-175c-4445-93cb-ef956b380d28"
 					}
 				},
 				"metadata": {
@@ -14347,7 +14347,32 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"microsoft": {
+								"language": "python"
+							},
+							"collapsed": false
+						},
+						"source": [
+							"%%pyspark\r\n",
+							"\r\n",
+							"%run Transform_Functions_py"
+						],
+						"outputs": [],
+						"execution_count": 16
 					},
 					{
 						"cell_type": "code",
@@ -14379,7 +14404,7 @@
 							"result_test.createOrReplaceTempView('vw_df_test_checkresult4')"
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 17
 					},
 					{
 						"cell_type": "code",
@@ -14741,7 +14766,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "aeb9b05e-d876-4dc1-82d5-e7426b07490c"
+						"spark.autotune.trackingId": "7f37f2a9-b027-42ce-94e3-9d4b995002d5"
 					}
 				},
 				"metadata": {
@@ -14766,7 +14791,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15638,7 +15664,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7feff7fc-67ae-4114-8312-e2abe6fb3a2f"
+						"spark.autotune.trackingId": "3e27b241-8f96-4aeb-b7ac-ced5ee7bb672"
 					}
 				},
 				"metadata": {

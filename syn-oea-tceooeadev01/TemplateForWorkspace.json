@@ -8388,7 +8388,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3e41146c-6659-43f8-b773-2d34512e461a"
+						"spark.autotune.trackingId": "db3b5708-8120-4210-86d7-72eb2414d81b"
 					}
 				},
 				"metadata": {
@@ -8413,15 +8413,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Acer_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='ACER', pseudonymize = True):\r\n",
@@ -12046,7 +12044,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7dc37897-ae99-41e5-9dee-639e1a684a3b"
+						"spark.autotune.trackingId": "5ecc3942-817a-4fa8-9c0e-c00b6fd28876"
 					}
 				},
 				"metadata": {
@@ -12071,8 +12069,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15571,7 +15568,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2348ffd4-fd2b-4f8d-85c7-3aa1bdc72850"
+						"spark.autotune.trackingId": "2a50fa66-2fbc-4a7c-acad-e895a3f4f464"
 					}
 				},
 				"metadata": {
@@ -15596,13 +15593,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace"
 						],
@@ -15802,13 +15801,13 @@
 							}
 						},
 						"source": [
-							"def DMFactPATResults_pseudo(df):\r\n",
-							"    aggdf = df.groupBy(\"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"NormMeanScaledScore_cleaned\"))\r\n",
-							"    aggdf = aggdf.withColumnRenamed(\"SKPATTest\", \"xSKPATTest\")\r\n",
+							"# def DMFactPATResults_pseudo(df):\r\n",
+							"#     aggdf = df.groupBy(\"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"NormMeanScaledScore_cleaned\"))\r\n",
+							"#     aggdf = aggdf.withColumnRenamed(\"SKPATTest\", \"xSKPATTest\")\r\n",
 							"\r\n",
-							"    final_df = aggdf.join(df, df.SKPATTest == aggdf.xSKPATTest, \"inner\")\r\n",
-							"    final_df = final_df.drop(\"xSKPATTest\")\r\n",
-							"    return final_df"
+							"#     final_df = aggdf.join(df, df.SKPATTest == aggdf.xSKPATTest, \"inner\")\r\n",
+							"#     final_df = final_df.drop(\"xSKPATTest\")\r\n",
+							"#     return final_df"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -15827,7 +15826,19 @@
 							}
 						},
 						"source": [
+							"def DMFactPATResults_pseudo(df):\r\n",
 							"\r\n",
+							"    sourcep = oea.stage2p\r\n",
+							"\r\n",
+							"    df.createOrReplaceTempView('vw_df_dmfactpatresults_pseudo')\r\n",
+							"\r\n",
+							"    datedetails_df = spark.read.load(sourcep + \"/ACER/DMPATStudentTestGrouping_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"    datedetails_df.createOrReplaceTempView('vw_df_dmpatstudenttestgrouping')\r\n",
+							"\r\n",
+							"    final_df = spark.sql(\"select * from vw_df_dmfactpatresults_pseudo\")\r\n",
+							"\r\n",
+							"    return final_df\r\n",
 							""
 						],
 						"outputs": [],

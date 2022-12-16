@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e02e4b45-d942-4109-8559-508caf49b747"
+				"spark.autotune.trackingId": "e5015f70-3ff9-402d-94fd-bf119bb07fb7"
 			}
 		},
 		"metadata": {
@@ -63,7 +63,7 @@
 					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 8
+				"execution_count": 1
 			},
 			{
 				"cell_type": "code",
@@ -186,6 +186,112 @@
 					"    return final_df"
 				],
 				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
+					"def DMFactPATResults_pseudo(df):\r\n",
+					"\r\n",
+					"    sourcep = oea.stage2p\r\n",
+					"\r\n",
+					"    df.createOrReplaceTempView('vw_df_dmfactpatresults_pseudo')\r\n",
+					"\r\n",
+					"    datedetails_df = spark.read.load(sourcep + \"/ACER/DMPATStudentTestGrouping_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"    datedetails_df.createOrReplaceTempView('vw_df_dmpatstudenttestgrouping')\r\n",
+					"\r\n",
+					"    final_df = spark.sql(\"select a.*, CAST(b.datecomplete as DATETIME) + CAST(convert(time, right(left(b.timecomplete, 10), 8)) as DATETIME) as combineddatetime from vw_df_dmfactpatresults_pseudo a \\\r\n",
+					"    left join vw_df_dmpatstudenttestgrouping b on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping \\\r\n",
+					"    inner join \\\r\n",
+					"    (select skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime, max(skpatresults) as maxskpatresults \\ from (select a.skpatresults, a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, CAST(b.datecomplete as DATETIME) + CAST(convert(time, right(left(b.timecomplete, 10), 8)) as DATETIME) as combineddatetime \\\r\n",
+					"     from vw_df_dmfactpatresults_pseudo a \\\r\n",
+					"     left join vw_df_dmpatstudenttestgrouping b on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping \\\r\n",
+					"     inner join (select skyear, skacerstudent, skpattest, skcampus, combineddatetime, max(scalescore) as maxscalescore \\\r\n",
+					"     from (select a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, CAST(b.datecomplete as DATETIME) + CAST(convert(time, right(left(b.timecomplete, 10), 8)) as DATETIME) as combineddatetime \\\r\n",
+					"     from vw_df_dmfactpatresults_pseudo a \\\r\n",
+					"     left join vw_df_dmpatstudenttestgrouping b on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping \\\r\n",
+					"     inner join \\\r\n",
+					"     (select skyear, skacerstudent, skpattest, skcampus, max(CAST(datecomplete as DATETIME) + CAST(convert(time, right(left(timecomplete, 10), 8)) as DATETIME)) as latestdate \\\r\n",
+					"     from (select a.*, orig.skpatstudenttestgrouping, orig.skacerstanine, ScaleScore, skpatresults, \\\r\n",
+					"     b.datecomplete, b.timecomplete, CAST(b.datecomplete as DATETIME) + CAST(convert(time, right(left(b.timecomplete, 10), 8)) as DATETIME) as combineddatetime \\\r\n",
+					"     from (select skyear, skacerstudent, skpattest, skcampus, count(*) as counttotal from vw_df_dmfactpatresults_pseudo \\\r\n",
+					"     where skpattest not in (43, 54, 65, 66, 76, 79, 92, 93, 94, 95, 96, 97, 98, 99, 100, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112)\\\r\n",
+					"     group by skyear, skacerstudent, skpattest, skcampus) a \\\r\n",
+					"     left join vw_df_dmfactpatresults_pseudo orig \\\r\n",
+					"     on a.skyear = orig.skyear and a.skacerstudent = orig.skacerstudent and a.skpattest = orig.skpattest and a.skcampus = orig.skcampus \\\r\n",
+					"     left join vw_df_dmpatstudenttestgrouping b \\\r\n",
+					"     on orig.skpatstudenttestgrouping = b.skpatstudenttestgrouping) total \\\r\n",
+					"     group by skyear, skacerstudent, skpattest, skcampus) inner1 \\\r\n",
+					"     on a.skyear = inner1.skyear \\\r\n",
+					"     and a.skacerstudent = inner1.SKACERStudent \\\r\n",
+					"     and a.SKPATTest = inner1.SKPATTest \\\r\n",
+					"     and a.SKCampus = inner1.SKCampus \\\r\n",
+					"     and CAST(b.datecomplete as DATETIME) + CAST(convert(time, right(left(b.timecomplete, 10), 8)) as DATETIME) = inner1.latestdate) inner2 \\\r\n",
+					"     group by skyear, skacerstudent, skpattest, skcampus, combineddatetime) inner3 \\\r\n",
+					"     on a.skyear = inner3.skyear \\\r\n",
+					"     and a.skacerstudent = inner3.SKACERStudent \\\r\n",
+					"     and a.SKPATTest = inner3.SKPATTest \\\r\n",
+					"     and a.SKCampus = inner3.SKCampus \\\r\n",
+					"     and CAST(b.datecomplete as DATETIME) + CAST(convert(time, right(left(b.timecomplete, 10), 8)) as DATETIME) = inner3.combineddatetime) inner4 \\\r\n",
+					"     group by skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime ) inner5 \\\r\n",
+					"     on a.skyear = inner5.skyear \\\r\n",
+					"     and a.skacerstudent = inner5.SKACERStudent \\\r\n",
+					"     and a.SKPATTest = inner5.SKPATTest \\\r\n",
+					"     and a.SKCampus = inner5.SKCampus \\\r\n",
+					"     and CAST(b.datecomplete as DATETIME) + CAST(convert(time, right(left(b.timecomplete, 10), 8)) as DATETIME) = inner5.combineddatetime \\\r\n",
+					"     and a.SKPATResults = inner5.maxskpatresults\")\r\n",
+					"\r\n",
+					"    return final_df\r\n",
+					""
+				],
+				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
+					"## Test \r\n",
+					"\r\n",
+					"sourcep = oea.stage2p\r\n",
+					"test_df = spark.read.load(sourcep + \"/ACER/DMFactPATResults_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"result_test = DMFactPATResults_pseudo(test_df)\r\n",
+					"# result_test.show()\r\n",
+					"\r\n",
+					"result_test.createOrReplaceTempView('vw_df_test_checkresult4')"
+				],
+				"execution_count": 3
 			},
 			{
 				"cell_type": "code",

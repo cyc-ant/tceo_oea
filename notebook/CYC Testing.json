@@ -1,0 +1,288 @@
+{
+	"name": "CYC Testing",
+	"properties": {
+		"folder": {
+			"name": "Stage3"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spark3p1sm",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "34e234e5-f7e5-498f-88db-ccd1690c3f6a"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "sql"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
+					"%run OEA_py"
+				],
+				"execution_count": 5
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
+					"sourcep = oea.stage2p\r\n",
+					"df1 = spark.read.load(sourcep + \"/ACER/DMFactPATResults_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"df1.createOrReplaceTempView('vw_df_dmfactpatresults_pseudo')"
+				],
+				"execution_count": 10
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select count(*) from vw_df_dmfactpatresults_pseudo;"
+				],
+				"execution_count": 11
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
+					"sourcep = oea.stage2p\r\n",
+					"df2 = spark.read.load(sourcep + \"/ACER/DMPATStudentTestGrouping_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"df2.createOrReplaceTempView('vw_df_dmpatstudenttestgrouping')"
+				],
+				"execution_count": 12
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select count(*) from vw_df_dmpatstudenttestgrouping;"
+				],
+				"execution_count": 13
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"-- select max(combineddatetime) from (\r\n",
+					"-- select datecomplete, timecomplete, right(left(timecomplete, 10), 8), concat(datecomplete, ' ', right(left(timecomplete, 10), 8)) as combineddatetime from vw_df_dmpatstudenttestgrouping \r\n",
+					"-- --limit 10 \r\n",
+					"-- order by datecomplete desc, timecomplete desc\r\n",
+					"-- ) innerquery;\r\n",
+					"\r\n",
+					"select min(combineddatetime) from (\r\n",
+					"select datecomplete, timecomplete, right(left(timecomplete, 10), 8), concat(datecomplete, ' ', right(left(timecomplete, 10), 8)) as combineddatetime from vw_df_dmpatstudenttestgrouping \r\n",
+					"--limit 10 \r\n",
+					"order by datecomplete asc, timecomplete asc\r\n",
+					") innerquery;\r\n",
+					"\r\n",
+					"\r\n",
+					"--select min(datecomplete), max(datecomplete) from vw_df_dmpatstudenttestgrouping ;\r\n",
+					"--select min(timecomplete), max(timecomplete) from vw_df_dmpatstudenttestgrouping ;\r\n",
+					""
+				],
+				"execution_count": 34
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"--concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8))\r\n",
+					"\r\n",
+					"select \r\n",
+					"a.*, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime\r\n",
+					"from vw_df_dmfactpatresults_pseudo a\r\n",
+					"left join vw_df_dmpatstudenttestgrouping b\r\n",
+					"on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping\r\n",
+					"\r\n",
+					"inner join \r\n",
+					"\r\n",
+					"(\r\n",
+					"select skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime, max(skpatresults) as maxskpatresults\r\n",
+					"from\r\n",
+					"(\r\n",
+					"select a.skpatresults, a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime\r\n",
+					"from vw_df_dmfactpatresults_pseudo a\r\n",
+					"left join vw_df_dmpatstudenttestgrouping b\r\n",
+					"on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping\r\n",
+					"\r\n",
+					"\r\n",
+					"inner join \r\n",
+					"(\r\n",
+					"select skyear, skacerstudent, skpattest, skcampus, combineddatetime, max(scalescore) as maxscalescore\r\n",
+					"from\r\n",
+					"(\r\n",
+					"select a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime\r\n",
+					"from vw_df_dmfactpatresults_pseudo a\r\n",
+					"left join vw_df_dmpatstudenttestgrouping b\r\n",
+					"on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping\r\n",
+					"\r\n",
+					"inner join\r\n",
+					"(select \r\n",
+					"\t\t\tskyear, skacerstudent, skpattest, skcampus, \r\n",
+					"\t\t\tmax(concat(datecomplete, ' ', right(left(timecomplete, 10), 8))) as latestdate\r\n",
+					"\t\t\tfrom\r\n",
+					"\t\t\t\t(\r\n",
+					"\t\t\t\tselect a.*, orig.skpatstudenttestgrouping, orig.skacerstanine, ScaleScore, skpatresults\r\n",
+					"\t\t\t\t, b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime\r\n",
+					"\t\t\t\t\tfrom (\r\n",
+					"\t\t\t\t\tselect skyear, skacerstudent, skpattest, skcampus, count(*) as counttotal \r\n",
+					"\t\t\t\t\tfrom vw_df_dmfactpatresults_pseudo\r\n",
+					"\t\t\t\t\twhere skpattest not in (43, 54, 65, 66, 76, 79, 92, 93, 94, 95, 96, 97, 98, 99, 100, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112)\r\n",
+					"\t\t\t\t\tgroup by skyear, skacerstudent, skpattest, skcampus\r\n",
+					"\t\t\t\t\t--having count(*) = 1\r\n",
+					"\t\t\t\t\t) a\r\n",
+					"\t\t\t\tleft join vw_df_dmfactpatresults_pseudo orig\r\n",
+					"\t\t\t\ton a.skyear = orig.skyear and a.skacerstudent = orig.skacerstudent and a.skpattest = orig.skpattest and a.skcampus = orig.skcampus\r\n",
+					"\t\t\t\tleft join vw_df_dmpatstudenttestgrouping b\r\n",
+					"\t\t\t\ton orig.skpatstudenttestgrouping = b.skpatstudenttestgrouping\r\n",
+					"\t\t\t\t) total\r\n",
+					"\t\t\tgroup by skyear, skacerstudent, skpattest, skcampus\r\n",
+					"\t\t\t) inner1\r\n",
+					"\r\n",
+					"on a.skyear = inner1.skyear\r\n",
+					"and a.skacerstudent = inner1.SKACERStudent\r\n",
+					"and a.SKPATTest = inner1.SKPATTest\r\n",
+					"and a.SKCampus = inner1.SKCampus\r\n",
+					"and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner1.latestdate\r\n",
+					") inner2\r\n",
+					"group by skyear, skacerstudent, skpattest, skcampus, combineddatetime\r\n",
+					") inner3\r\n",
+					"on a.skyear = inner3.skyear\r\n",
+					"and a.skacerstudent = inner3.SKACERStudent\r\n",
+					"and a.SKPATTest = inner3.SKPATTest\r\n",
+					"and a.SKCampus = inner3.SKCampus\r\n",
+					"and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner3.combineddatetime\r\n",
+					") inner4\r\n",
+					"group by skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime\r\n",
+					") inner5\r\n",
+					"on a.skyear = inner5.skyear\r\n",
+					"and a.skacerstudent = inner5.SKACERStudent\r\n",
+					"and a.SKPATTest = inner5.SKPATTest\r\n",
+					"and a.SKCampus = inner5.SKCampus\r\n",
+					"and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner5.combineddatetime\r\n",
+					"and a.SKPATResults = inner5.maxskpatresults;\r\n",
+					""
+				],
+				"execution_count": 37
+			}
+		]
+	}
+}

@@ -14439,7 +14439,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f7314213-3716-49db-8739-74eb21b21478"
+						"spark.autotune.trackingId": "7c2e6f62-b443-452b-8796-86ddf4db2d4e"
 					}
 				},
 				"metadata": {
@@ -14645,7 +14645,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": 23
 					},
 					{
 						"cell_type": "code",
@@ -14702,7 +14702,27 @@
 							"result_test.createOrReplaceTempView('vw_df_test_checkresult4')"
 						],
 						"outputs": [],
-						"execution_count": 22
+						"execution_count": 24
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_df_test_checkresult4"
+						],
+						"outputs": [],
+						"execution_count": 26
 					},
 					{
 						"cell_type": "code",
@@ -15961,7 +15981,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d684afb1-6df4-47c2-be40-b14ce96f925e"
+						"spark.autotune.trackingId": "901b3a1f-ef79-44ae-807f-cbd6dbd9860b"
 					}
 				},
 				"metadata": {
@@ -16234,7 +16254,7 @@
 							"\r\n",
 							"    datedetails_df.createOrReplaceTempView('vw_df_dmpatstudenttestgrouping')\r\n",
 							"\r\n",
-							"    final_df = spark.sql(\"select a.*, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime from vw_df_dmfactpatresults_pseudo a left join vw_df_dmpatstudenttestgrouping b on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping inner join (select skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime, max(skpatresults) as maxskpatresults from(select a.skpatresults, a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime from vw_df_dmfactpatresults_pseudo a left join vw_df_dmpatstudenttestgrouping b on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping inner join (select skyear, skacerstudent, skpattest, skcampus, combineddatetime, max(scalescore) as maxscalescore from(select a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetimefrom vw_df_dmfactpatresults_pseudo a left join vw_df_dmpatstudenttestgrouping b on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping inner join (select \t\t\tskyear, skacerstudent, skpattest, skcampus, \t\t\tmax(concat(datecomplete, ' ', right(left(timecomplete, 10), 8))) as latestdate\t\t\tfrom\t\t\t\t(\t\t\t\tselect a.*, orig.skpatstudenttestgrouping, orig.skacerstanine, ScaleScore, skpatresults\t\t\t\t, b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime\t\t\t\t\tfrom (\t\t\t\t\tselect skyear, skacerstudent, skpattest, skcampus, count(*) as counttotal \t\t\t\t\tfrom vw_df_dmfactpatresults_pseudo\t\t\t\t\twhere skpattest not in (43, 54, 65, 66, 76, 79, 92, 93, 94, 95, 96, 97, 98, 99, 100, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112)\t\t\t\t\tgroup by skyear, skacerstudent, skpattest, skcampus\t\t\t\t\t\t\t\t) a\t\t\t\tleft join vw_df_dmfactpatresults_pseudo orig\t\t\t\ton a.skyear = orig.skyear and a.skacerstudent = orig.skacerstudent and a.skpattest = orig.skpattest and a.skcampus = orig.skcampus\t\t\t\tleft join vw_df_dmpatstudenttestgrouping b\t\t\t\ton orig.skpatstudenttestgrouping = b.skpatstudenttestgrouping\t\t\t\t) total\t\t\tgroup by skyear, skacerstudent, skpattest, skcampus\t\t\t) inner1 on a.skyear = inner1.skyear and a.skacerstudent = inner1.SKACERStudent and a.SKPATTest = inner1.SKPATTest and a.SKCampus = inner1.SKCampus and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner1.latestdate) inner2 group by skyear, skacerstudent, skpattest, skcampus, combineddatetime) inner3 on a.skyear = inner3.skyearand a.skacerstudent = inner3.SKACERStudent and a.SKPATTest = inner3.SKPATTest and a.SKCampus = inner3.SKCampus and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner3.combineddatetime) inner4 group by skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime) inner5 on a.skyear = inner5.skyear and a.skacerstudent = inner5.SKACERStudent and a.SKPATTest = inner5.SKPATTest and a.SKCampus = inner5.SKCampus and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner5.combineddatetime and a.SKPATResults = inner5.maxskpatresults\")\r\n",
+							"    final_df = spark.sql(\"select a.*, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime from vw_df_dmfactpatresults_pseudo a left join vw_df_dmpatstudenttestgrouping b on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping inner join (select skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime, max(skpatresults) as maxskpatresults from (select a.skpatresults, a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime from vw_df_dmfactpatresults_pseudo a left join vw_df_dmpatstudenttestgrouping b on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping inner join (select skyear, skacerstudent, skpattest, skcampus, combineddatetime, max(scalescore) as maxscalescore from (select a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime from vw_df_dmfactpatresults_pseudo a left join vw_df_dmpatstudenttestgrouping b on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping inner join (select skyear, skacerstudent, skpattest, skcampus, max(concat(datecomplete, ' ', right(left(timecomplete, 10), 8))) as latestdate from (select a.*, orig.skpatstudenttestgrouping, orig.skacerstanine, ScaleScore, skpatresults, b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime from (select skyear, skacerstudent, skpattest, skcampus, count(*) as counttotal from vw_df_dmfactpatresults_pseudo where skpattest not in (43, 54, 65, 66, 76, 79, 92, 93, 94, 95, 96, 97, 98, 99, 100, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112) group by skyear, skacerstudent, skpattest, skcampus) a left join vw_df_dmfactpatresults_pseudo orig on a.skyear = orig.skyear and a.skacerstudent = orig.skacerstudent and a.skpattest = orig.skpattest and a.skcampus = orig.skcampus left join vw_df_dmpatstudenttestgrouping b on orig.skpatstudenttestgrouping = b.skpatstudenttestgrouping) total group by skyear, skacerstudent, skpattest, skcampus) inner1 on a.skyear = inner1.skyear and a.skacerstudent = inner1.SKACERStudent and a.SKPATTest = inner1.SKPATTest and a.SKCampus = inner1.SKCampus and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner1.latestdate ) inner2 group by skyear, skacerstudent, skpattest, skcampus, combineddatetime ) inner3 on a.skyear = inner3.skyear and a.skacerstudent = inner3.SKACERStudent and a.SKPATTest = inner3.SKPATTest and a.SKCampus = inner3.SKCampus and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner3.combineddatetime ) inner4 group by skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime ) inner5 on a.skyear = inner5.skyear and a.skacerstudent = inner5.SKACERStudent and a.SKPATTest = inner5.SKPATTest and a.SKCampus = inner5.SKCampus and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner5.combineddatetime and a.SKPATResults = inner5.maxskpatresults\")\r\n",
 							"\r\n",
 							"    return final_df\r\n",
 							""
@@ -16270,7 +16290,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "58af3ba3-69e1-4b47-a5f0-234242528ac6"
+						"spark.autotune.trackingId": "312a0fc8-1e52-49dd-8e0a-622d6315a414"
 					}
 				},
 				"metadata": {
@@ -16295,7 +16315,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

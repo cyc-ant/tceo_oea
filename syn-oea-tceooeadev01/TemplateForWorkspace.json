@@ -14438,7 +14438,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e8de8817-b177-4305-8e43-49bac6217ba5"
+						"spark.autotune.trackingId": "eec716d8-fd34-460f-b26a-6f8d8e6a171d"
 					}
 				},
 				"metadata": {
@@ -15979,7 +15979,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3bf4fff8-fb54-427a-94a7-f74e2b951d10"
+						"spark.autotune.trackingId": "781de7c9-778c-4a95-9ad1-6791b5b8e341"
 					}
 				},
 				"metadata": {
@@ -16232,6 +16232,8 @@
 							"                .drop(\"LBOTE_YN\") \\\r\n",
 							"                .drop(\"LBOTEInt\") \\\r\n",
 							"                .drop(\"AccessRestrictions_YN\")\r\n",
+							"\r\n",
+							"    return final_df\r\n",
 							""
 						],
 						"outputs": [],

@@ -9378,15 +9378,15 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "498d1f18-26ea-4061-838b-7c27391ec743"
+						"spark.autotune.trackingId": "34e234e5-f7e5-498f-88db-ccd1690c3f6a"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_sparksql",
-						"display_name": "sql"
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "sql"
@@ -9403,8 +9403,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14439,7 +14438,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7c2e6f62-b443-452b-8796-86ddf4db2d4e"
+						"spark.autotune.trackingId": "e8de8817-b177-4305-8e43-49bac6217ba5"
 					}
 				},
 				"metadata": {
@@ -14464,8 +14463,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -15981,7 +15979,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "901b3a1f-ef79-44ae-807f-cbd6dbd9860b"
+						"spark.autotune.trackingId": "3bf4fff8-fb54-427a-94a7-f74e2b951d10"
 					}
 				},
 				"metadata": {
@@ -16182,6 +16180,7 @@
 							}
 						},
 						"source": [
+							"\"\"\"\r\n",
 							"def DMPersonDemographic_pseudo(df):\r\n",
 							"\r\n",
 							"    sourcep = oea.stage2p\r\n",
@@ -16195,7 +16194,45 @@
 							"    FeeMode,ImportMode,CreateDate,LastUpdateDate,EffectiveStartDate,EffectiveEndDate,IsCurrent,SCDReason,DisabilityInt,StudentReportingId,CommunicationPreference,AccessRestrictionsInt,DioceseId,ReligiousOrLay,Parish,ImmunisationRecordSighted,HomeTown,HeadLiceCheckAllowed, \\\r\n",
 							"    TownOfBirth from vw_df_dmpersondemographic_pseudo where PersonType = 'Student' or PersonType = 'Staff'\")\r\n",
 							"\r\n",
-							"    return final_df"
+							"    return final_df\r\n",
+							"\"\"\""
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def DMPersonDemographic_pseudo(df):\r\n",
+							"\r\n",
+							"    final_df = df.filter(df.Ceider != -1) \\\r\n",
+							"                .filter( (df.PersonType == \"Student\") or (df.PeronType == \"Staff\") ) \\\r\n",
+							"                .drop(\"UsualTransport\") \\\r\n",
+							"                .drop(\"ContactNotesBH\") \\\r\n",
+							"                .drop(\"ContactNotesAH\") \\\r\n",
+							"                .drop(\"OrganisationUserId\") \\\r\n",
+							"                .drop(\"ProgramCode\") \\\r\n",
+							"                .drop(\"Disability_YN\") \\\r\n",
+							"                .drop(\"DisabilityFundedInt\") \\\r\n",
+							"                .drop(\"ReceivesESL_YN\") \\\r\n",
+							"                .drop(\"ReceivesESLInt\") \\\r\n",
+							"                .drop(\"RequiresESL_YN\") \\\r\n",
+							"                .drop(\"RequresESLInt\") \\\r\n",
+							"                .drop(\"LBOTE_YN\") \\\r\n",
+							"                .drop(\"LBOTEInt\") \\\r\n",
+							"                .drop(\"AccessRestrictions_YN\")\r\n",
+							""
 						],
 						"outputs": [],
 						"execution_count": null
@@ -16290,7 +16327,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "312a0fc8-1e52-49dd-8e0a-622d6315a414"
+						"spark.autotune.trackingId": "58af3ba3-69e1-4b47-a5f0-234242528ac6"
 					}
 				},
 				"metadata": {
@@ -16315,8 +16352,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

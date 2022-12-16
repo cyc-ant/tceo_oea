@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fe655244-16b4-4ceb-81d4-9f8709ca86d6"
+				"spark.autotune.trackingId": "eee29de6-f7c4-4632-9b58-fed6bcc4c7ef"
 			}
 		},
 		"metadata": {
@@ -221,7 +221,31 @@
 					"    return final_df\r\n",
 					""
 				],
-				"execution_count": 10
+				"execution_count": 15
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "python"
+					},
+					"collapsed": false
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
+					"%run Transform_Functions_py"
+				],
+				"execution_count": 16
 			},
 			{
 				"cell_type": "code",
@@ -252,7 +276,7 @@
 					"\r\n",
 					"result_test.createOrReplaceTempView('vw_df_test_checkresult4')"
 				],
-				"execution_count": 11
+				"execution_count": 17
 			},
 			{
 				"cell_type": "code",

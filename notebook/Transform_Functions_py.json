@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ec0890a6-9f94-4b36-916e-12d002a4dce4"
+				"spark.autotune.trackingId": "a43d3206-2209-4e7c-b111-53374e8bf960"
 			}
 		},
 		"metadata": {
@@ -214,6 +214,7 @@
 					}
 				},
 				"source": [
+					"\"\"\"\r\n",
 					"def DMPersonDemographic_pseudo(df):\r\n",
 					"\r\n",
 					"    sourcep = oea.stage2p\r\n",
@@ -227,7 +228,44 @@
 					"    FeeMode,ImportMode,CreateDate,LastUpdateDate,EffectiveStartDate,EffectiveEndDate,IsCurrent,SCDReason,DisabilityInt,StudentReportingId,CommunicationPreference,AccessRestrictionsInt,DioceseId,ReligiousOrLay,Parish,ImmunisationRecordSighted,HomeTown,HeadLiceCheckAllowed, \\\r\n",
 					"    TownOfBirth from vw_df_dmpersondemographic_pseudo where PersonType = 'Student' or PersonType = 'Staff'\")\r\n",
 					"\r\n",
-					"    return final_df"
+					"    return final_df\r\n",
+					"\"\"\""
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def DMPersonDemographic_pseudo(df):\r\n",
+					"\r\n",
+					"    final_df = df.filter(df.Ceider != -1) \\\r\n",
+					"                .filter( (df.PersonType == \"Student\") or (df.PeronType == \"Staff\") ) \\\r\n",
+					"                .drop(\"UsualTransport\") \\\r\n",
+					"                .drop(\"ContactNotesBH\") \\\r\n",
+					"                .drop(\"ContactNotesAH\") \\\r\n",
+					"                .drop(\"OrganisationUserId\") \\\r\n",
+					"                .drop(\"ProgramCode\") \\\r\n",
+					"                .drop(\"Disability_YN\") \\\r\n",
+					"                .drop(\"DisabilityFundedInt\") \\\r\n",
+					"                .drop(\"ReceivesESL_YN\") \\\r\n",
+					"                .drop(\"ReceivesESLInt\") \\\r\n",
+					"                .drop(\"RequiresESL_YN\") \\\r\n",
+					"                .drop(\"RequresESLInt\") \\\r\n",
+					"                .drop(\"LBOTE_YN\") \\\r\n",
+					"                .drop(\"LBOTEInt\") \\\r\n",
+					"                .drop(\"AccessRestrictions_YN\")\r\n",
+					""
 				],
 				"execution_count": null
 			},

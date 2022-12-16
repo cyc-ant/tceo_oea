@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a43d3206-2209-4e7c-b111-53374e8bf960"
+				"spark.autotune.trackingId": "374a352d-4ea6-453e-832c-5536886b8f05"
 			}
 		},
 		"metadata": {
@@ -265,6 +265,8 @@
 					"                .drop(\"LBOTE_YN\") \\\r\n",
 					"                .drop(\"LBOTEInt\") \\\r\n",
 					"                .drop(\"AccessRestrictions_YN\")\r\n",
+					"\r\n",
+					"    return final_df\r\n",
 					""
 				],
 				"execution_count": null

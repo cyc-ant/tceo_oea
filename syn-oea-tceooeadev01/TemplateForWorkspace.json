@@ -15979,7 +15979,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f6deccb2-1d1f-4d32-8bd8-e61d1f438a35"
+						"spark.autotune.trackingId": "a347c275-0272-415a-a4cc-be436f4c3b46"
 					}
 				},
 				"metadata": {
@@ -16217,7 +16217,7 @@
 							"def DMPersonDemographic_pseudo(df):\r\n",
 							"\r\n",
 							"    final_df = df.filter(df.Ceider != -1) \\\r\n",
-							"                .filter( (df.PersonType == \"Student\") or (df.PersonType == \"Staff\") ) \\\r\n",
+							"                .filter( (df.PersonType == \"Student\") | (df.PersonType == \"Staff\") ) \\\r\n",
 							"                .drop(\"UsualTransport\") \\\r\n",
 							"                .drop(\"ContactNotesBH\") \\\r\n",
 							"                .drop(\"ContactNotesAH\") \\\r\n",

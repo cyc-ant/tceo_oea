@@ -16,7 +16,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "f9e2605e-9ae3-47aa-a6e5-cfd44b6b1665"
+				"spark.autotune.trackingId": "c465aa12-0d2f-4144-9b95-8337b90f62b9"
 			}
 		},
 		"metadata": {
@@ -111,7 +111,7 @@
 				"source": [
 					"# Clean up the table and remove null and unnecessary columns\r\n",
 					"\r\n",
-					"cleaned_df = DMPersonDemographic_df.filter(df.Ceider != -1) \\\r\n",
+					"cleaned_df = DMPersonDemographic_df.filter(DMPersonDemographic_df.Ceider != -1) \\\r\n",
 					"                .drop(\"UsualTransport\") \\\r\n",
 					"                .drop(\"ContactNotesBH\") \\\r\n",
 					"                .drop(\"ContactNotesAH\") \\\r\n",
@@ -128,8 +128,8 @@
 					"                .drop(\"AccessRestrictions_YN\")\r\n",
 					"\r\n",
 					"# now split the demographic information into two tables \r\n",
-					"DMStudentDemographic_df = cleaned_df.filter((df.PersonType == \"Student\"))\r\n",
-					"DMStaffDemographic_df = cleaned_df.filter((df.PersonType == \"Staff\"))"
+					"DMStudentDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Student\"))\r\n",
+					"DMStaffDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Staff\"))"
 				],
 				"execution_count": null
 			},

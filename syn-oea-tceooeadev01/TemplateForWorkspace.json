@@ -14434,7 +14434,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f9e2605e-9ae3-47aa-a6e5-cfd44b6b1665"
+						"spark.autotune.trackingId": "09cc3b87-5d30-4518-b8e7-0fa9274577b3"
 					}
 				},
 				"metadata": {
@@ -14530,7 +14530,7 @@
 						"source": [
 							"# Clean up the table and remove null and unnecessary columns\r\n",
 							"\r\n",
-							"cleaned_df = DMPersonDemographic_df.filter(df.Ceider != -1) \\\r\n",
+							"cleaned_df = DMPersonDemographic_df.filter(DMPersonDemographic_df.Ceider != -1) \\\r\n",
 							"                .drop(\"UsualTransport\") \\\r\n",
 							"                .drop(\"ContactNotesBH\") \\\r\n",
 							"                .drop(\"ContactNotesAH\") \\\r\n",
@@ -14547,8 +14547,8 @@
 							"                .drop(\"AccessRestrictions_YN\")\r\n",
 							"\r\n",
 							"# now split the demographic information into two tables \r\n",
-							"DMStudentDemographic_df = cleaned_df.filter((df.PersonType == \"Student\"))\r\n",
-							"DMStaffDemographic_df = cleaned_df.filter((df.PersonType == \"Staff\"))"
+							"DMStudentDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Student\"))\r\n",
+							"DMStaffDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Staff\"))"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -16156,7 +16156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c71ec88b-2cfe-4ea7-809f-8e2d132a068f"
+						"spark.autotune.trackingId": "4b546b8c-1cce-427f-98dd-b843649405ae"
 					}
 				},
 				"metadata": {
@@ -16181,15 +16181,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace"
 						],
@@ -16638,7 +16636,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "032dd3fc-7f01-4ff6-b173-41993b6c2ccf"
+						"spark.autotune.trackingId": "a4db6bd7-4a1a-4e58-b60b-b478df2fcec0"
 					}
 				},
 				"metadata": {
@@ -16919,7 +16917,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 7
 					}
 				]
 			},

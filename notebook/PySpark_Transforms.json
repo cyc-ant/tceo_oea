@@ -1,0 +1,170 @@
+{
+	"name": "PySpark_Transforms",
+	"properties": {
+		"folder": {
+			"name": "Stage3"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "f9e2605e-9ae3-47aa-a6e5-cfd44b6b1665"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"## This note book contains data transformations using Python (PySpark)\r\n",
+					"\r\n",
+					"This notebook should not be run on its own, rather it is run as part of the Transforms_Connector notebook"
+				]
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"#### Load all required dataframes"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"sourcep = oea.stage2p\r\n",
+					"\r\n",
+					"DMPersonDemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
+					"\r\n",
+					""
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"#### Split the DMPersonDemographic into DMStudentDemographic and DMStaffDemographic"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Clean up the table and remove null and unnecessary columns\r\n",
+					"\r\n",
+					"cleaned_df = DMPersonDemographic_df.filter(df.Ceider != -1) \\\r\n",
+					"                .drop(\"UsualTransport\") \\\r\n",
+					"                .drop(\"ContactNotesBH\") \\\r\n",
+					"                .drop(\"ContactNotesAH\") \\\r\n",
+					"                .drop(\"OrganisationUserId\") \\\r\n",
+					"                .drop(\"ProgramCode\") \\\r\n",
+					"                .drop(\"Disability_YN\") \\\r\n",
+					"                .drop(\"DisabilityFundedInt\") \\\r\n",
+					"                .drop(\"ReceivesESL_YN\") \\\r\n",
+					"                .drop(\"ReceivesESLInt\") \\\r\n",
+					"                .drop(\"RequiresESL_YN\") \\\r\n",
+					"                .drop(\"RequresESLInt\") \\\r\n",
+					"                .drop(\"LBOTE_YN\") \\\r\n",
+					"                .drop(\"LBOTEInt\") \\\r\n",
+					"                .drop(\"AccessRestrictions_YN\")\r\n",
+					"\r\n",
+					"# now split the demographic information into two tables \r\n",
+					"DMStudentDemographic_df = cleaned_df.filter((df.PersonType == \"Student\"))\r\n",
+					"DMStaffDemographic_df = cleaned_df.filter((df.PersonType == \"Staff\"))"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"#### Save the new tables "
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"saveToTarget(DMStudentDemographic_df, destination_p, f'{version}/DMStudentDemographic_pseudo')\r\n",
+					"saveToTarget(DMStaffDemographic_df, destination_p, f'{version}/DMStaffDemographic_pseudo')"
+				],
+				"execution_count": null
+			}
+		]
+	}
+}

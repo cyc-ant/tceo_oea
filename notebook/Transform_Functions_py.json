@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "760ae629-46ce-46ed-8b3c-d4c0b8be7ca9"
+				"spark.autotune.trackingId": "4b546b8c-1cce-427f-98dd-b843649405ae"
 			}
 		},
 		"metadata": {
@@ -268,30 +268,6 @@
 					"\r\n",
 					"    return final_df\r\n",
 					""
-				],
-				"execution_count": null
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					"# def DMFactPATResults_pseudo(df):\r\n",
-					"#     aggdf = df.groupBy(\"SKPATTest\").agg(max(\"NormMeanScaledScore\").alias(\"NormMeanScaledScore_cleaned\"))\r\n",
-					"#     aggdf = aggdf.withColumnRenamed(\"SKPATTest\", \"xSKPATTest\")\r\n",
-					"\r\n",
-					"#     final_df = aggdf.join(df, df.SKPATTest == aggdf.xSKPATTest, \"inner\")\r\n",
-					"#     final_df = final_df.drop(\"xSKPATTest\")\r\n",
-					"#     return final_df"
 				],
 				"execution_count": null
 			},

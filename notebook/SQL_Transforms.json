@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "aeb9b05e-d876-4dc1-82d5-e7426b07490c"
+				"spark.autotune.trackingId": "004b1028-f28d-476f-9f62-c391381cda7a"
 			}
 		},
 		"metadata": {
@@ -61,7 +61,8 @@
 					}
 				},
 				"source": [
-					"## This note book contains data transformations using SQL"
+					"## This note book contains data transformations using SQL\r\n",
+					"This notebook should not be run on its own, rather it is run as part of the Transforms_Connector notebook"
 				]
 			},
 			{
@@ -96,7 +97,7 @@
 				"source": [
 					"%%pyspark\r\n",
 					"\r\n",
-					"# setup the temp tables we need for the classenrolments table\r\n",
+					"# setup the temp tables we need\r\n",
 					"sourcep = oea.stage2p\r\n",
 					"\r\n",
 					"# used for classenrolment view\r\n",

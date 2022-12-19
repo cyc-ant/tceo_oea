@@ -2,6 +2,6 @@
 	"name": "SelfHostedIntegrationRuntime",
 	"properties": {
 		"type": "SelfHosted",
-		"description": "Temporary TCEO Private network access to DEV database"
+		"description": "TCEO Private network access to Data Blend"
 	}
 }

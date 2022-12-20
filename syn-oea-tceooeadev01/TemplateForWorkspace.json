@@ -3467,6 +3467,34 @@
 								}
 							]
 						}
+					},
+					{
+						"name": "If AE Manual",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.ae_manual",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "ingestion_stage2_ae_manual",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "ingestion_stage2_ae_manual",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
 					}
 				],
 				"policy": {
@@ -3476,7 +3504,7 @@
 				"parameters": {
 					"acer": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"ae": {
 						"type": "bool",
@@ -3509,6 +3537,10 @@
 					"student": {
 						"type": "bool",
 						"defaultValue": false
+					},
+					"ae_manual": {
+						"type": "bool",
+						"defaultValue": true
 					}
 				},
 				"folder": {
@@ -3525,7 +3557,8 @@
 				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_myschools')]",
 				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_naplan')]",
 				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_nccd')]",
-				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_student_profile')]"
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_student_profile')]",
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_ae_manual')]"
 			]
 		},
 		{
@@ -4542,6 +4575,118 @@
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_AE')]",
 				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_ae_manual')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest to Stage2 AE Manual",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_AE_Manual",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "ae_sr_object",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "_AE_ManualUploadRawFiles",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					},
+					{
+						"name": "Ingest to Stage2 AE_Manual 2",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_AE_Manual_2",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "ae_lt_object",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "_AE_ManualUploadRawFiles",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Stage2 Ingestion Pipelines"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_AE_Manual')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]",
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_AE_Manual_2')]"
 			]
 		},
 		{
@@ -8434,7 +8579,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5d2473e7-01a4-44ec-bbad-2f2ca9ca04a9"
+						"spark.autotune.trackingId": "b0cd7ce5-8fcb-40fd-a258-4aab334535f6"
 					}
 				},
 				"metadata": {
@@ -8459,8 +8604,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -12918,7 +13062,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_AE_LT')]",
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_AE_Manual')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -12942,7 +13086,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "35553dd3-2ebe-46c5-8a59-d82784ef99de"
+						"spark.autotune.trackingId": "0adf07d0-08e4-452f-b826-61bade4a1ada"
 					}
 				},
 				"metadata": {
@@ -13050,7 +13194,7 @@
 							}
 						},
 						"source": [
-							"%run /DataCopy_py"
+							"%run Stage1/AE_ManualCopy_py"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -13070,7 +13214,7 @@
 							"collapsed": true
 						},
 						"source": [
-							"%run /AE_LT_py"
+							"%run /AE_SR_py"
 						],
 						"outputs": [],
 						"execution_count": 17
@@ -13103,7 +13247,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_AE_SR')]",
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_AE_Manual_2')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -13127,7 +13271,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "18b7b4b9-9a7e-47ed-8f29-c8aa4c36873f"
+						"spark.autotune.trackingId": "49be14a7-cd83-4316-839d-d78f079d051f"
 					}
 				},
 				"metadata": {
@@ -13235,30 +13379,10 @@
 							}
 						},
 						"source": [
-							"%run /DataCopy_py"
+							"%run /AE_LT_py"
 						],
 						"outputs": [],
 						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /AE_SR_py"
-						],
-						"outputs": [],
-						"execution_count": 17
 					},
 					{
 						"cell_type": "code",

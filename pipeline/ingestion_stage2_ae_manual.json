@@ -61,10 +61,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebook": {
-						"referenceName": "OEA_connector_AE_Manual_2",
-						"type": "NotebookReference"
-					},
 					"parameters": {
 						"object_name": {
 							"value": "ae_lt_object",
@@ -83,7 +79,13 @@
 					"sparkPool": {
 						"referenceName": "spark3p1sm",
 						"type": "BigDataPoolReference"
-					}
+					},
+					"conf": {
+						"spark.dynamicAllocation.enabled": null,
+						"spark.dynamicAllocation.minExecutors": null,
+						"spark.dynamicAllocation.maxExecutors": null
+					},
+					"numExecutors": null
 				}
 			}
 		],

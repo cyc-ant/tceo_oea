@@ -21,7 +21,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "0adf07d0-08e4-452f-b826-61bade4a1ada"
+				"spark.autotune.trackingId": "a5c9d929-172e-4f23-a163-6500b9a3db66"
 			}
 		},
 		"metadata": {
@@ -147,7 +147,7 @@
 					"collapsed": true
 				},
 				"source": [
-					"%run /AE_SR_py"
+					"%run /AE_manual_py"
 				],
 				"execution_count": 17
 			},

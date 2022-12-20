@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "AE_ManualUploads",
+				"folderPath": "_AE_ManualUploadRawFiles",
 				"fileSystem": "stage1np"
 			},
 			"columnDelimiter": ",",

@@ -20,15 +20,15 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b75ef2c8-e589-4910-ace1-f557ba1fdf9e"
+				"spark.autotune.trackingId": "0bb2d177-de95-4c60-844e-001b65ded026"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
 			"enableDebugMode": false,
 			"kernelspec": {
-				"name": "synapse_sparksql",
-				"display_name": "sql"
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
 				"name": "sql"
@@ -116,7 +116,7 @@
 					"dmrollgroup_df = spark.read.load(sourcep + \"/enrolment/DMRollGroup_pseudo\", format='delta')\r\n",
 					"\r\n",
 					"# used for naplan and acer participation view\r\n",
-					"factstudentenrolmentcounts_df = spark.read.load(sourcep + \"/enrolment/DMFactEnrolmentCounts_pseudo\", format='delta')\r\n",
+					"factstudentenrolmentcounts_df = spark.read.load(sourcep + \"/enrolment/DMFactStudentEnrolmentCounts_pseudo\", format='delta')\r\n",
 					"#dmdate_df = spark.read.load(sourcep + \"/ACER/DMDate_pseudo\", format='delta')\r\n",
 					"factnaplanstudentyearresult_df = spark.read.load(source3p + \"/pilot/DMFactNaplanStudentYearResult_pseudo\", format='delta')\r\n",
 					"factpatresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
@@ -137,7 +137,7 @@
 					"factnaplanstudentyearresult_df.createOrReplaceTempView('vw_factnaplanstudentyearresult')\r\n",
 					"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')"
 				],
-				"execution_count": 1
+				"execution_count": 5
 			},
 			{
 				"cell_type": "markdown",
@@ -307,40 +307,41 @@
 						"transient": {
 							"deleting": false
 						}
-					}
+					},
+					"collapsed": false
 				},
 				"source": [
 					"CREATE TEMP VIEW vw_naplanparticipation\r\n",
 					"as\r\n",
 					"select \r\n",
 					"*\r\n",
-					", round(cast(#naplan_enrolled as float) / cast(#students_enrolled as float), 2) as participation_perc \r\n",
+					"--, round(cast(#naplan_enrolled as float) / cast(#students_enrolled as float), 2) as participation_perc \r\n",
+					", round(naplan_enrolled / students_enrolled , 2) as participation_perc \r\n",
 					"from \r\n",
 					"(select \r\n",
 					"a.skcampus\r\n",
 					", a.skyear\r\n",
 					", a.skyearlevel\r\n",
-					", sum(studentcount) as #students_enrolled\r\n",
-					", innerquery.#naplan_enrolled from vw_factstudentenrolmentcounts a\r\n",
+					", sum(studentcount) as students_enrolled\r\n",
+					", innerquery.naplan_enrolled from vw_factstudentenrolmentcounts a\r\n",
 					"left join vw_dmdate b on a.skdate = b.skdate\r\n",
 					"left join \r\n",
 					"\t(select \r\n",
 					"\t\tskcampus\r\n",
 					"\t\t, skyear\r\n",
 					"\t\t, skyearlevel\r\n",
-					"\t\t, count(distinct skpersistentstudentid) as #naplan_enrolled \r\n",
+					"\t\t, count(distinct skpersistentstudentid) as naplan_enrolled \r\n",
 					"\t\tfrom vw_factnaplanstudentyearresult\r\n",
 					"\t\t\tgroup by skcampus, skyear, skyearlevel) innerquery\r\n",
 					"on a.skcampus = innerquery.skcampus and a.skyear = innerquery.skyear and a.skyearlevel = innerquery.skyearlevel\r\n",
 					"where a.skyearlevel in (11, 2, 12, 3) \r\n",
 					"and b.MonthNumberOfYear = 5\r\n",
-					"group by a.skcampus, a.skyear, a.skyearlevel, innerquery.#naplan_enrolled\r\n",
+					"group by a.skcampus, a.skyear, a.skyearlevel, innerquery.naplan_enrolled\r\n",
 					") wholequery\r\n",
-					"order by skcampus, skyear, skyearlevel\r\n",
-					";\r\n",
+					"--order by skcampus, skyear, skyearlevel\r\n",
 					""
 				],
-				"execution_count": null
+				"execution_count": 9
 			},
 			{
 				"cell_type": "code",
@@ -353,14 +354,16 @@
 						"transient": {
 							"deleting": false
 						}
-					}
+					},
+					"collapsed": false
 				},
 				"source": [
 					"CREATE TEMP VIEW vw_acerparticipation\r\n",
 					"as\r\n",
 					"select \r\n",
 					"*\r\n",
-					", round(cast(count_of_tests as float) / (cast(#students_enrolled as float) * 2), 2) as participation_perc \r\n",
+					"--, round(cast(count_of_tests as float) / (cast(#students_enrolled as float) * 2), 2) as participation_perc \r\n",
+					", round(count_of_tests /(students_enrolled  * 2), 2) as participation_perc \r\n",
 					"from\r\n",
 					"(\r\n",
 					"select \r\n",
@@ -369,13 +372,13 @@
 					"\t, a.skyear\r\n",
 					"\t, a.skdate\r\n",
 					"\t, a.skyearlevel\r\n",
-					"\t, sum(studentcount) as #students_enrolled\r\n",
+					"\t, sum(studentcount) as students_enrolled\r\n",
 					"\t, innerquery.count_of_tests \r\n",
 					"from vw_factstudentenrolmentcounts a\r\n",
 					"\r\n",
 					"left join \r\n",
 					"\t(\t\r\n",
-					"\t\tselect innerinner.skcampus, innerinner.skyear, innerinner.skdate, innerinner.SKYearLevel, sum(#acer_tests) as count_of_tests from \r\n",
+					"\t\tselect innerinner.skcampus, innerinner.skyear, innerinner.skdate, innerinner.SKYearLevel, sum(acer_tests) as count_of_tests from \r\n",
 					"\t\t\t(\r\n",
 					"\t\t\t\tselect \r\n",
 					"\t\t\t\t\t\tskcampus\r\n",
@@ -383,7 +386,7 @@
 					"\t\t\t\t\t\t, SKDate\r\n",
 					"\t\t\t\t\t\t, skyearlevel\r\n",
 					"\t\t\t\t\t\t, SKACERStudent\r\n",
-					"\t\t\t\t\t\t, count(distinct skpattest) as #acer_tests\r\n",
+					"\t\t\t\t\t\t, count(distinct skpattest) as acer_tests\r\n",
 					"\t\t\t\t\t\tfrom vw_factpatresults_df\r\n",
 					"\t\t\t\t\t\t\tgroup by skcampus, skyear, skdate, skyearlevel, SKACERStudent --9\r\n",
 					"\t\t\t) innerinner\r\n",
@@ -395,7 +398,7 @@
 					"group by a.skcampus, a.skyear, a.skdate, a.skyearlevel, innerquery.count_of_tests\r\n",
 					") wholequery"
 				],
-				"execution_count": null
+				"execution_count": 11
 			},
 			{
 				"cell_type": "markdown",

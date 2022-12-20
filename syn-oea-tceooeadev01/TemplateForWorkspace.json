@@ -4655,7 +4655,7 @@
 							},
 							"parameters": {
 								"object_name": {
-									"value": "ae_sr_object",
+									"value": "ae_lt_object",
 									"type": "string"
 								},
 								"method_name": {

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a53afced-3841-41e6-afd1-4cae350cbcc9"
+				"spark.autotune.trackingId": "bec00881-bb44-4a41-96ba-89db5edc8d23"
 			}
 		},
 		"metadata": {
@@ -54,11 +54,11 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"class AE_lt_object(BaseOEAModule):\r\n",
-					"    def __init__(self, source_folder='AE_ManualLearningTasks', pseudonymize = True):\r\n",
+					"class AE_manual_object(BaseOEAModule):\r\n",
+					"    def __init__(self, source_folder='AE_Manual', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
-					"        self.schemas['TBC'] = [\r\n",
+					"        self.schemas['AE_ManualLearningTasks'] = [\r\n",
 					"                                        ['School Name', 'string', 'no-op'],\r\n",
 					"                                        ['Area', 'string', 'no-op'],\r\n",
 					"                                        ['Semester', 'integer', 'no-op'],\r\n",
@@ -90,17 +90,38 @@
 					"                                        ['ReceiptTime', 'string', 'no-op']                                                                 \r\n",
 					"                                        ]\r\n",
 					"\r\n",
+					"        self.schemas['AE_ManualSemesterReports'] = [\r\n",
+					"                                        ['School Name', 'string', 'no-op'],\r\n",
+					"                                        ['Area', 'string', 'no-op'],\r\n",
+					"                                        ['Semester', 'integer', 'no-op'],\r\n",
+					"                                        ['Year', 'integer', 'no-op'],\r\n",
+					"                                        ['StudentFirstName', 'string', 'no-op'],\r\n",
+					"                                        ['StudentLastName', 'string', 'no-op'],\r\n",
+					"                                        ['StudentCode', 'string', 'no-op'],\r\n",
+					"                                        ['GovtCode1', 'integer', 'no-op'],\r\n",
+					"                                        ['StudentYearLevel', 'string', 'no-op'],\r\n",
+					"                                        ['StudentFormGroup', 'string', 'no-op'],\r\n",
+					"                                        ['StudentHouseGroup', 'string', 'no-op'],\r\n",
+					"                                        ['Subject', 'string', 'no-op'],\r\n",
+					"                                        ['ClassCode', 'string', 'no-op'],\r\n",
+					"                                        ['Teacher', 'string', 'no-op'],\r\n",
+					"                                        ['AssessmentType', 'string', 'no-op'],\r\n",
+					"                                        ['AssessmentArea', 'string', 'no-op'],\r\n",
+					"                                        ['Result', 'string', 'no-op']                                                              \r\n",
+					"                                        ]\r\n",
+					"\r\n",
 					"\r\n",
 					"\r\n",
 					"                                 \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'TBC', self.schemas['TBC'], None, 'tobeconfirmed')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'AE_ManualLearningTasks', self.schemas['AE_ManualLearningTasks'], None, 'BKID')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'AE_ManualSemesterReports', self.schemas['AE_ManualSemesterReports'], None, 'BKID')\r\n",
 					"\r\n",
 					"\r\n",
 					"\r\n",
 					"\r\n",
-					"ae_lt_object = AE_lt_object()"
+					"ae_manual_object = AE_manual_object()"
 				],
 				"execution_count": null
 			}

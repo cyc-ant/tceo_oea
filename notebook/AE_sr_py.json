@@ -1,5 +1,5 @@
 {
-	"name": "AE_manual_py",
+	"name": "AE_sr_py",
 	"properties": {
 		"folder": {
 			"name": "Data Objects"
@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "bec00881-bb44-4a41-96ba-89db5edc8d23"
+				"spark.autotune.trackingId": "2322cdd2-f388-425b-9943-5e7b24391d0d"
 			}
 		},
 		"metadata": {
@@ -58,38 +58,6 @@
 					"    def __init__(self, source_folder='AE_Manual', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
-					"        self.schemas['AE_ManualLearningTasks'] = [\r\n",
-					"                                        ['School Name', 'string', 'no-op'],\r\n",
-					"                                        ['Area', 'string', 'no-op'],\r\n",
-					"                                        ['Semester', 'integer', 'no-op'],\r\n",
-					"                                        ['Year', 'integer', 'no-op'],\r\n",
-					"                                        ['SubjectName', 'string', 'no-op'],\r\n",
-					"                                        ['Code', 'string', 'no-op'],\r\n",
-					"                                        ['TeacherImportIdentifier', 'string', 'no-op'],\r\n",
-					"                                        ['TaskId', 'integer', 'no-op'],\r\n",
-					"                                        ['IsSubjectWide', 'string', 'no-op'],\r\n",
-					"                                        ['TaskName', 'string', 'no-op'],\r\n",
-					"                                        ['StudentCode', 'string', 'no-op'],\r\n",
-					"                                        ['GovtCode1', 'integer', 'no-op'],\r\n",
-					"                                        ['StudentLastName', 'string', 'no-op'],\r\n",
-					"                                        ['StudentFirstName', 'string', 'no-op'],\r\n",
-					"                                        ['YearLevel', 'string', 'no-op'],\r\n",
-					"                                        ['ResultType', 'string', 'no-op'],\r\n",
-					"                                        ['PrimaryGrade', 'string', 'no-op'],\r\n",
-					"                                        ['CommentTimestamp', 'string', 'no-op'],\r\n",
-					"                                        ['CommentPosterCode', 'string', 'no-op'],\r\n",
-					"                                        ['CommentPosterName', 'string', 'no-op'],\r\n",
-					"                                        ['Result', 'string', 'no-op'],\r\n",
-					"                                        ['ComponentName', 'string', 'no-op'],\r\n",
-					"                                        ['ComponentType', 'string', 'no-op'],\r\n",
-					"                                        ['IsIncludedInReport', 'string', 'no-op'],\r\n",
-					"                                        ['ReportCycleName', 'string', 'no-op'],\r\n",
-					"                                        ['DueDate', 'string', 'no-op'],\r\n",
-					"                                        ['Category', 'string', 'no-op'],\r\n",
-					"                                        ['SubmissionStatus', 'string', 'no-op'],\r\n",
-					"                                        ['ReceiptTime', 'string', 'no-op']                                                                 \r\n",
-					"                                        ]\r\n",
-					"\r\n",
 					"        self.schemas['AE_ManualSemesterReports'] = [\r\n",
 					"                                        ['School Name', 'string', 'no-op'],\r\n",
 					"                                        ['Area', 'string', 'no-op'],\r\n",
@@ -109,19 +77,12 @@
 					"                                        ['AssessmentArea', 'string', 'no-op'],\r\n",
 					"                                        ['Result', 'string', 'no-op']                                                              \r\n",
 					"                                        ]\r\n",
-					"\r\n",
-					"\r\n",
-					"\r\n",
-					"                                 \r\n",
+					"                                \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'AE_ManualLearningTasks', self.schemas['AE_ManualLearningTasks'], None, 'BKID')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'AE_ManualSemesterReports', self.schemas['AE_ManualSemesterReports'], None, 'BKID')\r\n",
 					"\r\n",
-					"\r\n",
-					"\r\n",
-					"\r\n",
-					"ae_manual_object = AE_manual_object()"
+					"ae_sr_object = AE_manual_object()"
 				],
 				"execution_count": null
 			}

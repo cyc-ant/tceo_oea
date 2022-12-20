@@ -1,5 +1,5 @@
 {
-	"name": "OEA_connector_AE_Manual",
+	"name": "OEA_connector_AE_Manual_2",
 	"properties": {
 		"folder": {
 			"name": "OEA Connectors"
@@ -21,7 +21,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a75a75d6-a6ac-4c23-ad16-b8408ba82083"
+				"spark.autotune.trackingId": "2225727b-e1e7-4d05-a211-860b61ffe25d"
 			}
 		},
 		"metadata": {
@@ -118,24 +118,6 @@
 				"cell_type": "code",
 				"metadata": {
 					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					"%run Stage1/AE_ManualCopy_py"
-				],
-				"execution_count": null
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
 						"outputs_hidden": false,
 						"source_hidden": false
 					},
@@ -147,7 +129,7 @@
 					"collapsed": true
 				},
 				"source": [
-					"%run /AE_sr_py"
+					"%run /AE_lt_py"
 				],
 				"execution_count": 17
 			},

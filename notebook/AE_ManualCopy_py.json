@@ -1,0 +1,105 @@
+{
+	"name": "AE_ManualCopy_py",
+	"properties": {
+		"folder": {
+			"name": "Stage1"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spark3p1sm",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "c8e8bd30-a1e8-49b1-aac4-b16f6e29ac29"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"class AEManualCopy(BaseOEAModule):\r\n",
+					"    def __init__(self, source_folder, pseudonymize = True):\r\n",
+					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+					"        locationDir = \"/_AE_ManualUploadRawFiles\"\r\n",
+					"        \r\n",
+					"    def mergeAll(self):\r\n",
+					"        \r\n",
+					"        # for each file location in this manual upload directory..\r\n",
+					"        file_list = mssparkutils.fs.ls(self.stage1np + self.locationDir)\r\n",
+					"        for file in file_list:\r\n",
+					"            # ignore subfolders\r\n",
+					"            if file.isDir:\r\n",
+					"                continue\r\n",
+					"                \r\n",
+					"            # .. we need to dissect the filename to get the school name, area, semester number and year\r\n",
+					"            tokens = file.name.split(\"-\")\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"    def _copyToFolder(self, file, destination):\r\n",
+					"        \"\"\" Moves the file to a folder that is based on the filename without its file extension\"\"\"\r\n",
+					"        tokens = destination.split(\".\")\r\n",
+					"        target = self.stage1np + '/' + tokens[0] +'/' + file.name\r\n",
+					"        mssparkutils.fs.mv(file.path, target, True) # will create the new dir and move file into it\r\n",
+					"\r\n",
+					"\r\n",
+					"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
+					"datacopy = DataCopy(source_folder)\r\n",
+					"\r\n",
+					"datacopy.createFoldersForAll()\r\n",
+					"\r\n",
+					""
+				],
+				"execution_count": 1
+			}
+		]
+	}
+}

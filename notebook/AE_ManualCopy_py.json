@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "1ccfd5f8-6903-49c8-968b-963eedf2e40d"
+				"spark.autotune.trackingId": "c526c012-6ff0-4821-9765-0d9256f2dc46"
 			}
 		},
 		"metadata": {
@@ -164,7 +164,7 @@
 					"\r\n",
 					"\r\n",
 					"# instantiate the AE Manual Data Copy with a source folder that contains all the ingested data files \r\n",
-					"aecopy = AEManualCopy('_AE_ManualUploadRawFiles')\r\n",
+					"aecopy = AEManualCopy(source_folder)\r\n",
 					"\r\n",
 					"aecopy.mergeAll()\r\n",
 					"\r\n",

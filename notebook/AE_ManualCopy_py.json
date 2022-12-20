@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b9f42aff-e54d-42ad-92a8-eab1fedf8039"
+				"spark.autotune.trackingId": "f9e831c0-2a84-4505-9d76-0cc0596f03f9"
 			}
 		},
 		"metadata": {
@@ -88,11 +88,11 @@
 					"class AEManualCopy(BaseOEAModule):\r\n",
 					"    def __init__(self, source_folder, pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-					"        locationDir = source_folder #\"/_AE_ManualUploadRawFiles\"\r\n",
+					"        \r\n",
 					"        \r\n",
 					"    def mergeAll(self):\r\n",
 					"\r\n",
-					"        root_dir = f'{self.stage1np}/{self.locationDir}'\r\n",
+					"        root_dir = f'{self.stage1np}/{self.source_folder}' #\"/_AE_ManualUploadRawFiles\"\r\n",
 					"        primaryreport_list = []\r\n",
 					"        learningreport_list = []\r\n",
 					"        \r\n",

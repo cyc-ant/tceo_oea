@@ -244,12 +244,39 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "If AE Manual",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.ae_manual",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "ingestion_stage2_ae_manual",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "ingestion_stage2_ae_manual",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
 			}
 		],
 		"parameters": {
 			"acer": {
 				"type": "bool",
-				"defaultValue": true
+				"defaultValue": false
 			},
 			"ae": {
 				"type": "bool",
@@ -282,6 +309,10 @@
 			"student": {
 				"type": "bool",
 				"defaultValue": false
+			},
+			"ae_manual": {
+				"type": "bool",
+				"defaultValue": true
 			}
 		},
 		"folder": {

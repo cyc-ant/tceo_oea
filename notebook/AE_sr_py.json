@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "2322cdd2-f388-425b-9943-5e7b24391d0d"
+				"spark.autotune.trackingId": "05923c2a-8548-499b-a7a2-3c5c24050a2d"
 			}
 		},
 		"metadata": {
@@ -55,7 +55,7 @@
 				"cell_type": "code",
 				"source": [
 					"class AE_manual_object(BaseOEAModule):\r\n",
-					"    def __init__(self, source_folder='AE_Manual', pseudonymize = True):\r\n",
+					"    def __init__(self, source_folder='_AE_ManualUploadRawFiles', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        self.schemas['AE_ManualSemesterReports'] = [\r\n",

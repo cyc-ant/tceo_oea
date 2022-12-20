@@ -1,0 +1,23 @@
+{
+	"name": "DestinationDataset_AE_Manual",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_OEA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "AE_ManualUploads",
+				"fileSystem": "stage1np"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

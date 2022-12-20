@@ -74,7 +74,7 @@
 					},
 					"parameters": {
 						"object_name": {
-							"value": "as_sr_object",
+							"value": "ae_sr_object",
 							"type": "string"
 						},
 						"method_name": {
@@ -90,7 +90,13 @@
 					"sparkPool": {
 						"referenceName": "spark3p1sm",
 						"type": "BigDataPoolReference"
-					}
+					},
+					"conf": {
+						"spark.dynamicAllocation.enabled": null,
+						"spark.dynamicAllocation.minExecutors": null,
+						"spark.dynamicAllocation.maxExecutors": null
+					},
+					"numExecutors": null
 				}
 			}
 		],

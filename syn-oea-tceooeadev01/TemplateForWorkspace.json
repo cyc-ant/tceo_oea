@@ -8474,7 +8474,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1ccfd5f8-6903-49c8-968b-963eedf2e40d"
+						"spark.autotune.trackingId": "c526c012-6ff0-4821-9765-0d9256f2dc46"
 					}
 				},
 				"metadata": {
@@ -8618,7 +8618,7 @@
 							"\r\n",
 							"\r\n",
 							"# instantiate the AE Manual Data Copy with a source folder that contains all the ingested data files \r\n",
-							"aecopy = AEManualCopy('_AE_ManualUploadRawFiles')\r\n",
+							"aecopy = AEManualCopy(source_folder)\r\n",
 							"\r\n",
 							"aecopy.mergeAll()\r\n",
 							"\r\n",
@@ -9044,7 +9044,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "079ca796-8381-4aee-9c10-fe6db60591a1"
+						"spark.autotune.trackingId": "05923c2a-8548-499b-a7a2-3c5c24050a2d"
 					}
 				},
 				"metadata": {
@@ -9069,15 +9069,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AE_manual_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_AE_ManualUploadRawFiles', pseudonymize = True):\r\n",

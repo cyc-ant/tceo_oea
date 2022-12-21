@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "106ac883-6102-4897-ad4c-058659ae4714"
+				"spark.autotune.trackingId": "bf42eb68-a617-457a-9e6a-a6c4782c4dfd"
 			}
 		},
 		"metadata": {
@@ -63,7 +63,7 @@
 					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 163
+				"execution_count": 202
 			},
 			{
 				"cell_type": "code",
@@ -413,7 +413,7 @@
 					"factpersonmilestone_df.createOrReplaceTempView('vw_factpersonmilestone')\r\n",
 					"dmrollgroup_df.createOrReplaceTempView('vw_dmrollgroup')"
 				],
-				"execution_count": 2
+				"execution_count": 203
 			},
 			{
 				"cell_type": "code",
@@ -866,7 +866,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 169
+				"execution_count": 205
 			},
 			{
 				"cell_type": "code",
@@ -927,15 +927,16 @@
 				},
 				"source": [
 					"select \r\n",
-					"--* \r\n",
-					"lower(m.studentfirstname)\r\n",
-					", lower(innerquery.firstname)\r\n",
-					", lower(m.studentlastname)\r\n",
-					", lower(innerquery.lastname)\r\n",
-					", lower(m.studentyearlevel)\r\n",
-					", lower(innerquery.businessdesc)\r\n",
-					", lower(m.school_name)\r\n",
-					", lower(innerquery.schoolname)\r\n",
+					"m.* \r\n",
+					"-- lower(m.studentfirstname)\r\n",
+					"-- , lower(innerquery.firstname)\r\n",
+					"-- , lower(m.studentlastname)\r\n",
+					"-- , lower(innerquery.lastname)\r\n",
+					"-- , lower(m.studentyearlevel)\r\n",
+					"-- , lower(innerquery.businessdesc)\r\n",
+					"-- , lower(m.school_name)\r\n",
+					"-- , lower(innerquery.schoolname)\r\n",
+					", innerquery.ceider\r\n",
 					"from vw_aemanualsemesterreports m\r\n",
 					"\r\n",
 					"left join \r\n",
@@ -958,50 +959,7 @@
 					"where m.studentfirstname = 'Austin' and m.studentlastname = 'Anoop'\r\n",
 					"and m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N') "
 				],
-				"execution_count": 199
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"select * from vw_aemanualsemesterreports\r\n",
-					"where \r\n",
-					"studentyearlevel = 'Bentley' or \r\n",
-					"studentyearlevel = 'Year 6'\r\n",
-					"order by studentyearlevel"
-				],
-				"execution_count": 182
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"select count(*) from vw_aemanualsemesterreports\r\n",
-					"where studentyearlevel = 'Bentley' and studentformgroup = 'Slatter'"
-				],
-				"execution_count": 183
+				"execution_count": 207
 			}
 		]
 	}

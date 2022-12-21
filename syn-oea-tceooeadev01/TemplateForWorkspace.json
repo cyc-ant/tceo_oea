@@ -16723,7 +16723,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "65540625-8b26-4519-a602-c6b13adc1715"
+						"spark.autotune.trackingId": "332cd6e7-5725-4e51-9885-2caa833db7a4"
 					}
 				},
 				"metadata": {
@@ -16766,7 +16766,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 226
+						"execution_count": 270
 					},
 					{
 						"cell_type": "code",
@@ -17126,7 +17126,7 @@
 							"dmrollgroup_df.createOrReplaceTempView('vw_dmrollgroup')"
 						],
 						"outputs": [],
-						"execution_count": 203
+						"execution_count": 271
 					},
 					{
 						"cell_type": "code",
@@ -17412,7 +17412,7 @@
 							"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')"
 						],
 						"outputs": [],
-						"execution_count": 227
+						"execution_count": 272
 					},
 					{
 						"cell_type": "code",
@@ -17465,7 +17465,7 @@
 							"test_df_sm.createOrReplaceTempView('vw_aemanuallearningtasks')"
 						],
 						"outputs": [],
-						"execution_count": 228
+						"execution_count": 273
 					},
 					{
 						"cell_type": "code",
@@ -17538,7 +17538,7 @@
 							"and m.studentfirstname = 'Rebecca' and m.studentlastname = 'VERNON'"
 						],
 						"outputs": [],
-						"execution_count": 198
+						"execution_count": 282
 					},
 					{
 						"cell_type": "code",
@@ -17570,7 +17570,27 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 229
+						"execution_count": 298
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_aemanualsemesterreports"
+						],
+						"outputs": [],
+						"execution_count": 299
 					},
 					{
 						"cell_type": "code",
@@ -17611,13 +17631,13 @@
 							"-- as\r\n",
 							"\r\n",
 							"select \r\n",
-							"count(*)\r\n",
+							"--count(*)\r\n",
 							"\r\n",
-							"-- blanks.ceider\r\n",
-							"-- ,blanks.studentfirstname\r\n",
-							"-- ,blanks.studentlastname\r\n",
-							"-- ,blanks.yearlevel\r\n",
-							"-- ,blanks.school_name\r\n",
+							"blanks.ceider\r\n",
+							",blanks.studentfirstname\r\n",
+							",blanks.studentlastname\r\n",
+							",blanks.yearlevel\r\n",
+							",blanks.school_name\r\n",
 							"\r\n",
 							" from (\r\n",
 							"select \r\n",
@@ -17645,11 +17665,86 @@
 							") blanks\r\n",
 							"\r\n",
 							"\r\n",
-							"where yearlevel is null\r\n",
-							"--where blanks.ceider is null"
+							"--where yearlevel is null\r\n",
+							"where blanks.ceider is null"
 						],
 						"outputs": [],
-						"execution_count": 250
+						"execution_count": 295
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select \r\n",
+							"m.* \r\n",
+							", innerquery.ceider\r\n",
+							", innerquery.firstname\r\n",
+							", innerquery.lastname \r\n",
+							", innerquery.schoolname \r\n",
+							", innerquery.yearlevelsifcode\r\n",
+							"from vw_aemanuallearningtasks m\r\n",
+							"\r\n",
+							"left join \r\n",
+							"(\r\n",
+							"    select a.ceider, a.firstname, a.lastname, a.persontype, b.skcampus, c.schoolname, b.skyearlevel, d.yearlevelsifdesc, d.businessdesc, d.yearlevelsifcode\r\n",
+							"    --, concat(lower(a.firstname), lower(a.lastname), lower(c.schoolname), lower(d.businessdesc)) as joinkey\r\n",
+							"    from vw_dmpersondemographic a \r\n",
+							"    left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+							"    left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
+							"    left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
+							"    where a.persontype = 'Student'\r\n",
+							") innerquery\r\n",
+							"\r\n",
+							"on lower(m.studentfirstname) = lower(innerquery.firstname)\r\n",
+							"and lower(m.studentlastname) = lower(innerquery.lastname)\r\n",
+							"and lower(m.school_name) = lower(innerquery.schoolname)\r\n",
+							"and trim(m.yearlevel) = trim(innerquery.yearlevelsifcode)\r\n",
+							"\r\n",
+							"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')\r\n",
+							"and innerquery.firstname = 'Emily'\r\n",
+							"    and innerquery.lastname = 'WATERS'"
+						],
+						"outputs": [],
+						"execution_count": 292
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select a.ceider, a.firstname, a.lastname, a.persontype, b.skcampus, c.schoolname, b.skyearlevel, d.yearlevelsifdesc, d.businessdesc, d.yearlevelsifcode\r\n",
+							"    --, concat(lower(a.firstname), lower(a.lastname), lower(c.schoolname), lower(d.businessdesc)) as joinkey\r\n",
+							"    from vw_dmpersondemographic a \r\n",
+							"    left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+							"    left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
+							"    left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
+							"    where a.persontype = 'Student'\r\n",
+							"        --and a.firstname = 'Emily' \r\n",
+							"            and a.lastname = 'WATERS'"
+						],
+						"outputs": [],
+						"execution_count": 289
 					},
 					{
 						"cell_type": "code",
@@ -17700,7 +17795,7 @@
 							"and m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N') "
 						],
 						"outputs": [],
-						"execution_count": 207
+						"execution_count": 281
 					},
 					{
 						"cell_type": "code",
@@ -17899,7 +17994,7 @@
 							"where blanks.ceider is null --3136"
 						],
 						"outputs": [],
-						"execution_count": 261
+						"execution_count": 279
 					},
 					{
 						"cell_type": "code",
@@ -17916,6 +18011,8 @@
 							"collapsed": false
 						},
 						"source": [
+							"select check.schoolname, count(*) from (\r\n",
+							"\r\n",
 							"select \r\n",
 							"a.ceider\r\n",
 							",a.studentfirstname\r\n",
@@ -17942,10 +18039,53 @@
 							"on lower(a.studentfirstname) = lower(innerquery.firstname)\r\n",
 							"and lower(a.studentlastname) = lower(innerquery.lastname)\r\n",
 							"--and lower(a.school_name) = lower(innerquery.schoolname)\r\n",
-							"and trim(a.studentyearlevel) = trim(innerquery.yearlevelsifdesc)"
+							"and trim(a.studentyearlevel) = trim(innerquery.yearlevelsifdesc)\r\n",
+							"\r\n",
+							") check\r\n",
+							"group by check.schoolname"
 						],
 						"outputs": [],
-						"execution_count": 264
+						"execution_count": 278
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_dmcampus"
+						],
+						"outputs": [],
+						"execution_count": 300
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_ae_manual_semesterreports"
+						],
+						"outputs": [],
+						"execution_count": 297
 					},
 					{
 						"cell_type": "code",
@@ -17973,7 +18113,7 @@
 							"        "
 						],
 						"outputs": [],
-						"execution_count": 256
+						"execution_count": 280
 					}
 				]
 			},
@@ -18003,7 +18143,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "296a168b-4952-4295-b56f-22a0fbf8e94c"
+						"spark.autotune.trackingId": "26411dad-eb49-4737-8a31-9f943218bb55"
 					}
 				},
 				"metadata": {
@@ -18028,7 +18168,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -18087,11 +18228,18 @@
 							"factsubjectenrolment_df = spark.read.load(sourcep + \"/enrolment/DMFactSubjectEnrolment_pseudo\", format='delta')\r\n",
 							"dmactivity_df = spark.read.load(sourcep + \"/enrolment/DMActivity_pseudo\", format='delta')\r\n",
 							"dmsubject_df = spark.read.load(sourcep + \"/enrolment/DMSubject_pseudo\", format='delta')\r\n",
-							"dmpersondemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
-							"dmyearlevel_df = spark.read.load(sourcep + \"/ACER/DMYearLevel_pseudo\", format='delta')\r\n",
-							"dmcampus_df = spark.read.load(sourcep + \"/ACER/DMCampus_pseudo\", format='delta')\r\n",
-							"dmdate_df = spark.read.load(sourcep + \"/ACER/DMDate_pseudo\", format='delta')\r\n",
+							"#dmpersondemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
+							"#dmyearlevel_df = spark.read.load(sourcep + \"/ACER/DMYearLevel_pseudo\", format='delta')\r\n",
+							"#dmcampus_df = spark.read.load(sourcep + \"/ACER/DMCampus_pseudo\", format='delta')\r\n",
+							"#dmdate_df = spark.read.load(sourcep + \"/ACER/DMDate_pseudo\", format='delta')\r\n",
 							"dmcalendaryear_df = spark.read.load(sourcep + \"/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"# stage 3\r\n",
+							"dmyearlevel_df = spark.read.load(source3p + \"/pilot/DMYearLevel_pseudo\", format='delta')\r\n",
+							"dmcampus_df = spark.read.load(source3p + \"/pilot/DMCampus_pseudo\", format='delta')\r\n",
+							"dmdate_df = spark.read.load(source3p + \"/pilot/DMDate_pseudo\", format='delta')\r\n",
+							"dmpersondemographic_df = spark.read.load(source3p + \"/pilot/DMPersonDemographic_pseudo\", format='delta')\r\n",
+							"\r\n",
 							"\r\n",
 							"# used for active student view\r\n",
 							"factpersonmilestone_df = spark.read.load(sourcep + \"/student/DMFactPersonMilestone_pseudo\", format='delta')\r\n",
@@ -18100,6 +18248,7 @@
 							"# used for naplan and acer participation view\r\n",
 							"factstudentenrolmentcounts_df = spark.read.load(sourcep + \"/enrolment/DMFactStudentEnrolmentCounts_pseudo\", format='delta')\r\n",
 							"#dmdate_df = spark.read.load(sourcep + \"/ACER/DMDate_pseudo\", format='delta')\r\n",
+							"# stage 3 naplan and acer participation view\r\n",
 							"factnaplanstudentyearresult_df = spark.read.load(source3p + \"/pilot/DMFactNaplanStudentYearResult_pseudo\", format='delta')\r\n",
 							"factpatresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
 							"\r\n",

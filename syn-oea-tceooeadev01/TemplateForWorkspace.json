@@ -16730,7 +16730,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c70da791-136c-4b63-8280-448d543568ef"
+						"spark.autotune.trackingId": "00e5a214-f90b-4b2c-b1e8-dad6c6fb1a48"
 					}
 				},
 				"metadata": {
@@ -17158,8 +17158,8 @@
 							",m.GovtCode1\r\n",
 							",m.StudentLastName\r\n",
 							",m.StudentFirstName\r\n",
-							"--,m.YearLevel\r\n",
-							",case when m.YearLevel is null then m.YearLevel else concat('Year ' , cast(m.YearLevel as string)) end\r\n",
+							",m.YearLevel\r\n",
+							"--,case when m.YearLevel is null then m.YearLevel else concat('Year ' , cast(m.YearLevel as string)) end\r\n",
 							",m.ResultType\r\n",
 							",m.PrimaryGrade\r\n",
 							",m.CommentTimestamp\r\n",
@@ -18364,7 +18364,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "72670a83-682e-460d-b6d3-1683ce1e49d6"
+						"spark.autotune.trackingId": "f2ff4007-6b35-4e99-ae06-dcd7e41fcede"
 					}
 				},
 				"metadata": {
@@ -18424,7 +18424,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -18443,7 +18443,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -18462,7 +18462,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -18491,7 +18491,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -18512,7 +18512,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -18555,7 +18555,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 6
 					},
 					{
 						"cell_type": "code",
@@ -18626,7 +18626,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",

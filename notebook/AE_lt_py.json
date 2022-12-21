@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "0238c908-fe99-41be-a241-5196608e096a"
+				"spark.autotune.trackingId": "ed01dc63-7141-4878-8fcd-422a6eea92eb"
 			}
 		},
 		"metadata": {
@@ -59,10 +59,6 @@
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        self.schemas['AE_ManualLearningTasks'] = [\r\n",
-					"                                        ['School Name', 'string', 'no-op'],\r\n",
-					"                                        ['Area', 'string', 'no-op'],\r\n",
-					"                                        ['Semester', 'integer', 'no-op'],\r\n",
-					"                                        ['Year', 'integer', 'no-op'],\r\n",
 					"                                        ['SubjectName', 'string', 'no-op'],\r\n",
 					"                                        ['Code', 'string', 'no-op'],\r\n",
 					"                                        ['TeacherImportIdentifier', 'string', 'no-op'],\r\n",
@@ -88,6 +84,10 @@
 					"                                        ['Category', 'string', 'no-op'],\r\n",
 					"                                        ['SubmissionStatus', 'string', 'no-op'],\r\n",
 					"                                        ['ReceiptTime', 'string', 'no-op'],\r\n",
+					"                                        ['School Name', 'string', 'no-op'],\r\n",
+					"                                        ['Area', 'string', 'no-op'],\r\n",
+					"                                        ['Semester', 'integer', 'no-op'],\r\n",
+					"                                        ['Year', 'integer', 'no-op'],\r\n",
 					"                                        ['BKID', 'integer', 'no-op']                                                                  \r\n",
 					"                                        ]\r\n",
 					"\r\n",

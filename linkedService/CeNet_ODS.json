@@ -1,0 +1,22 @@
+{
+	"name": "CeNet_ODS",
+	"properties": {
+		"description": "CeNet ODS",
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LS_KeyVault_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "CeNet-ODS"
+			}
+		},
+		"connectVia": {
+			"referenceName": "SelfHostedIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

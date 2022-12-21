@@ -20,6 +20,9 @@
 		"CeNet_DataBlend_properties_typeProperties_connectionString_secretName": {
 			"value": "CeNet-Datablend-DB"
 		},
+		"CeNet_ODS_properties_typeProperties_connectionString_secretName": {
+			"value": "CeNet-ODS"
+		},
 		"LS_ADLS_OEA_properties_typeProperties_url": {
 			"value": "https://stoeatceooeadev01.dfs.core.windows.net"
 		},

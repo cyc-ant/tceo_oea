@@ -8655,7 +8655,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "18aed337-b4a6-4402-8460-0740b4622c14"
+						"spark.autotune.trackingId": "68763af3-6e50-4636-83ce-dfcff2593ef7"
 					}
 				},
 				"metadata": {
@@ -8680,13 +8680,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class AE_manual_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_AE_ManualUploadRawFiles', pseudonymize = True):\r\n",
@@ -8721,7 +8723,8 @@
 							"                                        ['DueDate', 'string', 'no-op'],\r\n",
 							"                                        ['Category', 'string', 'no-op'],\r\n",
 							"                                        ['SubmissionStatus', 'string', 'no-op'],\r\n",
-							"                                        ['ReceiptTime', 'string', 'no-op']                                                                 \r\n",
+							"                                        ['ReceiptTime', 'string', 'no-op'],\r\n",
+							"                                        ['BKID', 'integer', 'no-op']                                                                  \r\n",
 							"                                        ]\r\n",
 							"\r\n",
 							"\r\n",
@@ -9044,7 +9047,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "05923c2a-8548-499b-a7a2-3c5c24050a2d"
+						"spark.autotune.trackingId": "caccd7ca-353e-4a91-84be-3400ab593584"
 					}
 				},
 				"metadata": {
@@ -9069,23 +9072,21 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class AE_manual_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_AE_ManualUploadRawFiles', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
 							"        self.schemas['AE_ManualSemesterReports'] = [\r\n",
-							"                                        ['School Name', 'string', 'no-op'],\r\n",
-							"                                        ['Area', 'string', 'no-op'],\r\n",
-							"                                        ['Semester', 'integer', 'no-op'],\r\n",
-							"                                        ['Year', 'integer', 'no-op'],\r\n",
 							"                                        ['StudentFirstName', 'string', 'no-op'],\r\n",
 							"                                        ['StudentLastName', 'string', 'no-op'],\r\n",
 							"                                        ['StudentCode', 'string', 'no-op'],\r\n",
@@ -9098,7 +9099,12 @@
 							"                                        ['Teacher', 'string', 'no-op'],\r\n",
 							"                                        ['AssessmentType', 'string', 'no-op'],\r\n",
 							"                                        ['AssessmentArea', 'string', 'no-op'],\r\n",
-							"                                        ['Result', 'string', 'no-op']                                                              \r\n",
+							"                                        ['Result', 'string', 'no-op'],\r\n",
+							"                                        ['School Name', 'string', 'no-op'],\r\n",
+							"                                        ['Area', 'string', 'no-op'],\r\n",
+							"                                        ['Semester', 'integer', 'no-op'],\r\n",
+							"                                        ['Year', 'integer', 'no-op'],  \r\n",
+							"                                        ['BKID', 'integer', 'no-op']                                                            \r\n",
 							"                                        ]\r\n",
 							"                                \r\n",
 							"\r\n",
@@ -15736,15 +15742,15 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5b1d14d9-55ea-4f68-ab4b-3d3a63b2ea67"
+						"spark.autotune.trackingId": "56ecceeb-ba15-40fc-a65c-0d123462410c"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_sparksql",
-						"display_name": "sql"
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "sql"

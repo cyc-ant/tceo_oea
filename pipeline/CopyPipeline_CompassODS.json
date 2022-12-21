@@ -1,0 +1,872 @@
+{
+	"name": "CopyPipeline_CompassODS",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_vdz",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_vdz",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "Compass.@{item().source.table}"
+								},
+								{
+									"name": "Destination",
+									"value": "stage1np/CompassODS/@{item().destination.fileName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"validateDataConsistency": false
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_CompassODS",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_table": "@item().source.table"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_CompassODS",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_fileName": "@item().destination.fileName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"table": "ODSAcademicGroup"
+						},
+						"destination": {
+							"fileName": "CompassODSAcademicGroup.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSActivity"
+						},
+						"destination": {
+							"fileName": "CompassODSActivity.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSActivityEnrolment"
+						},
+						"destination": {
+							"fileName": "CompassODSActivityEnrolment.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSActivityInstance"
+						},
+						"destination": {
+							"fileName": "CompassODSActivityInstance.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSActivityInstance_Current"
+						},
+						"destination": {
+							"fileName": "CompassODSActivityInstance_Current.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSAttendanceNotes"
+						},
+						"destination": {
+							"fileName": "CompassODSAttendanceNotes.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSBehaviourObservation"
+						},
+						"destination": {
+							"fileName": "CompassODSBehaviourObservation.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSBehaviourObservationCommunications"
+						},
+						"destination": {
+							"fileName": "CompassODSBehaviourObservationCommunications.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSBehaviourObservationField"
+						},
+						"destination": {
+							"fileName": "CompassODSBehaviourObservationField.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSBehaviourObservationStudents"
+						},
+						"destination": {
+							"fileName": "CompassODSBehaviourObservationStudents.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSBehaviourObservationSubEntry"
+						},
+						"destination": {
+							"fileName": "CompassODSBehaviourObservationSubEntry.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSBehaviourTemplate"
+						},
+						"destination": {
+							"fileName": "CompassODSBehaviourTemplate.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSBehaviourTemplateCommunications"
+						},
+						"destination": {
+							"fileName": "CompassODSBehaviourTemplateCommunications.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSBehaviourTemplateFields"
+						},
+						"destination": {
+							"fileName": "CompassODSBehaviourTemplateFields.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSCheckinAttendance"
+						},
+						"destination": {
+							"fileName": "CompassODSCheckinAttendance.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSCompassCampus"
+						},
+						"destination": {
+							"fileName": "CompassODSCompassCampus.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSCompassSubject"
+						},
+						"destination": {
+							"fileName": "CompassODSCompassSubject.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSCountryMapping"
+						},
+						"destination": {
+							"fileName": "CompassODSCountryMapping.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSDebtor"
+						},
+						"destination": {
+							"fileName": "CompassODSDebtor.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSDebtorLegacy"
+						},
+						"destination": {
+							"fileName": "CompassODSDebtorLegacy.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSDebtorParent"
+						},
+						"destination": {
+							"fileName": "CompassODSDebtorParent.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSDebtorStudent"
+						},
+						"destination": {
+							"fileName": "CompassODSDebtorStudent.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSDoctors"
+						},
+						"destination": {
+							"fileName": "CompassODSDoctors.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSEnrolmentApplicationDetail"
+						},
+						"destination": {
+							"fileName": "CompassODSEnrolmentApplicationDetail.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSEnrolmentGuardianDetail"
+						},
+						"destination": {
+							"fileName": "CompassODSEnrolmentGuardianDetail.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSEnrolmentGuardianLanguage"
+						},
+						"destination": {
+							"fileName": "CompassODSEnrolmentGuardianLanguage.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSEnrolmentStudentAddress"
+						},
+						"destination": {
+							"fileName": "CompassODSEnrolmentStudentAddress.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSEnrolmentStudentDemographic"
+						},
+						"destination": {
+							"fileName": "CompassODSEnrolmentStudentDemographic.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSEnrolmentStudentLanguage"
+						},
+						"destination": {
+							"fileName": "CompassODSEnrolmentStudentLanguage.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSExtendedStatuses"
+						},
+						"destination": {
+							"fileName": "CompassODSExtendedStatuses.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSLanguageMapping"
+						},
+						"destination": {
+							"fileName": "CompassODSLanguageMapping.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSNationalityMapping"
+						},
+						"destination": {
+							"fileName": "CompassODSNationalityMapping.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSParentAdditionalNotes"
+						},
+						"destination": {
+							"fileName": "CompassODSParentAdditionalNotes.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSParentAddress"
+						},
+						"destination": {
+							"fileName": "CompassODSParentAddress.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSParentCustomFields"
+						},
+						"destination": {
+							"fileName": "CompassODSParentCustomFields.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSParentDemographic"
+						},
+						"destination": {
+							"fileName": "CompassODSParentDemographic.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSParentDoctors"
+						},
+						"destination": {
+							"fileName": "CompassODSParentDoctors.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSParentIdentification"
+						},
+						"destination": {
+							"fileName": "CompassODSParentIdentification.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSParentImportIdentifier"
+						},
+						"destination": {
+							"fileName": "CompassODSParentImportIdentifier.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSParentLanguage"
+						},
+						"destination": {
+							"fileName": "CompassODSParentLanguage.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSParentOrganisationMilestones"
+						},
+						"destination": {
+							"fileName": "CompassODSParentOrganisationMilestones.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSParentRelationships"
+						},
+						"destination": {
+							"fileName": "CompassODSParentRelationships.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSParentSchoolHistory"
+						},
+						"destination": {
+							"fileName": "CompassODSParentSchoolHistory.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSPeriodStructure"
+						},
+						"destination": {
+							"fileName": "CompassODSPeriodStructure.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSPersonPermissions"
+						},
+						"destination": {
+							"fileName": "CompassODSPersonPermissions.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSPersonRoles"
+						},
+						"destination": {
+							"fileName": "CompassODSPersonRoles.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSReligionMapping"
+						},
+						"destination": {
+							"fileName": "CompassODSReligionMapping.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSResults"
+						},
+						"destination": {
+							"fileName": "CompassODSResults.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSSchoolCalendar"
+						},
+						"destination": {
+							"fileName": "CompassODSSchoolCalendar.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSSchoolTerm"
+						},
+						"destination": {
+							"fileName": "CompassODSSchoolTerm.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSSemesterReport"
+						},
+						"destination": {
+							"fileName": "CompassODSSemesterReport.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffAdditionalNotes"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffAdditionalNotes.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffAddress"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffAddress.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffCustomFields"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffCustomFields.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffDemographic"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffDemographic.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffDoctors"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffDoctors.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffEmergencyContact"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffEmergencyContact.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffIdentification"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffIdentification.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffImportIdentifier"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffImportIdentifier.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffLanguage"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffLanguage.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffMedicalConditions"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffMedicalConditions.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffMedicalConditionsAttachments"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffMedicalConditionsAttachments.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffMedicalConditionsMedications"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffMedicalConditionsMedications.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffOrganisationDetails"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffOrganisationDetails.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffOrganisationMilestones"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffOrganisationMilestones.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffOrganisationTitles"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffOrganisationTitles.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffRelationships"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffRelationships.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffSchoolHistory"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffSchoolHistory.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffVehicle"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffVehicle.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentAccessRestrictions"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentAccessRestrictions.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentAdditionalNotes"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentAdditionalNotes.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentAddress"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentAddress.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentCustomFields"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentCustomFields.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentDemographic"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentDemographic.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentDoctors"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentDoctors.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentEmergencyContact"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentEmergencyContact.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentGlobalDetails"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentGlobalDetails.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentIdentification"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentIdentification.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentImmunisations"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentImmunisations.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentImportIdentifier"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentImportIdentifier.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentLanguage"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentLanguage.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentMedicalConditions"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentMedicalConditions.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentMedicalConditionsAttachments"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentMedicalConditionsAttachments.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentMedicalConditionsMedications"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentMedicalConditionsMedications.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentMedicalConsents"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentMedicalConsents.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentOrganisationDetails"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentOrganisationDetails.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentOrganisationMilestones"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentOrganisationMilestones.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentOrganisationMilestones_DM"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentOrganisationMilestones_DM.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentRelationships"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentRelationships.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentReligiousMilestones"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentReligiousMilestones.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentSchoolHistory"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentSchoolHistory.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentVehicle"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentVehicle.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSTimeSliceAttendanceLine"
+						},
+						"destination": {
+							"fileName": "CompassODSTimeSliceAttendanceLine.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSTimeSliceAttendanceLineHalfDay"
+						},
+						"destination": {
+							"fileName": "CompassODSTimeSliceAttendanceLineHalfDay.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSTimeSliceAttendanceLinePeriod"
+						},
+						"destination": {
+							"fileName": "CompassODSTimeSliceAttendanceLinePeriod.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSTimeSliceAttendanceLineRealTimePeriod"
+						},
+						"destination": {
+							"fileName": "CompassODSTimeSliceAttendanceLineRealTimePeriod.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSTimeSliceAttendanceLineWholeDay"
+						},
+						"destination": {
+							"fileName": "CompassODSTimeSliceAttendanceLineWholeDay.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSTimeSliceAttendanceLineWholeDay_DM"
+						},
+						"destination": {
+							"fileName": "CompassODSTimeSliceAttendanceLineWholeDay_DM.csv"
+						}
+					}
+				]
+			}
+		},
+		"annotations": []
+	}
+}

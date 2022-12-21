@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "05923c2a-8548-499b-a7a2-3c5c24050a2d"
+				"spark.autotune.trackingId": "9e25fc2f-f23c-4700-b1aa-a18d97637a1a"
 			}
 		},
 		"metadata": {
@@ -59,10 +59,6 @@
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        self.schemas['AE_ManualSemesterReports'] = [\r\n",
-					"                                        ['School Name', 'string', 'no-op'],\r\n",
-					"                                        ['Area', 'string', 'no-op'],\r\n",
-					"                                        ['Semester', 'integer', 'no-op'],\r\n",
-					"                                        ['Year', 'integer', 'no-op'],\r\n",
 					"                                        ['StudentFirstName', 'string', 'no-op'],\r\n",
 					"                                        ['StudentLastName', 'string', 'no-op'],\r\n",
 					"                                        ['StudentCode', 'string', 'no-op'],\r\n",
@@ -75,7 +71,12 @@
 					"                                        ['Teacher', 'string', 'no-op'],\r\n",
 					"                                        ['AssessmentType', 'string', 'no-op'],\r\n",
 					"                                        ['AssessmentArea', 'string', 'no-op'],\r\n",
-					"                                        ['Result', 'string', 'no-op']                                                              \r\n",
+					"                                        ['Result', 'string', 'no-op'],\r\n",
+					"                                        ['School Name', 'string', 'no-op'],\r\n",
+					"                                        ['Area', 'string', 'no-op'],\r\n",
+					"                                        ['Semester', 'integer', 'no-op'],\r\n",
+					"                                        ['Year', 'integer', 'no-op'],  \r\n",
+					"                                        ['BKID', 'integer', 'no-op']                                                            \r\n",
 					"                                        ]\r\n",
 					"                                \r\n",
 					"\r\n",

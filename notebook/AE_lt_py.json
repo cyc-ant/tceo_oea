@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "18aed337-b4a6-4402-8460-0740b4622c14"
+				"spark.autotune.trackingId": "0238c908-fe99-41be-a241-5196608e096a"
 			}
 		},
 		"metadata": {
@@ -87,7 +87,8 @@
 					"                                        ['DueDate', 'string', 'no-op'],\r\n",
 					"                                        ['Category', 'string', 'no-op'],\r\n",
 					"                                        ['SubmissionStatus', 'string', 'no-op'],\r\n",
-					"                                        ['ReceiptTime', 'string', 'no-op']                                                                 \r\n",
+					"                                        ['ReceiptTime', 'string', 'no-op'],\r\n",
+					"                                        ['BKID', 'integer', 'no-op']                                                                  \r\n",
 					"                                        ]\r\n",
 					"\r\n",
 					"\r\n",

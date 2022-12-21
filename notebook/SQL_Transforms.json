@@ -20,15 +20,15 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "27427d45-1bde-4883-af5c-73871fa2bd28"
+				"spark.autotune.trackingId": "296a168b-4952-4295-b56f-22a0fbf8e94c"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
 			"enableDebugMode": false,
 			"kernelspec": {
-				"name": "synapse_pyspark",
-				"display_name": "Synapse PySpark"
+				"name": "synapse_sparksql",
+				"display_name": "sql"
 			},
 			"language_info": {
 				"name": "sql"
@@ -442,8 +442,8 @@
 					",m.GovtCode1\r\n",
 					",m.StudentLastName\r\n",
 					",m.StudentFirstName\r\n",
-					"--,m.YearLevel\r\n",
-					",case when m.YearLevel is null then m.YearLevel else concat('Year ' , cast(m.YearLevel as string)) end\r\n",
+					",m.YearLevel\r\n",
+					"--,case when m.YearLevel is null then m.YearLevel else concat('Year ' , cast(m.YearLevel as string)) end\r\n",
 					",m.ResultType\r\n",
 					",m.PrimaryGrade\r\n",
 					",m.CommentTimestamp\r\n",

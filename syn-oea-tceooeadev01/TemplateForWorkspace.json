@@ -8655,7 +8655,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "68763af3-6e50-4636-83ce-dfcff2593ef7"
+						"spark.autotune.trackingId": "0238c908-fe99-41be-a241-5196608e096a"
 					}
 				},
 				"metadata": {
@@ -8680,15 +8680,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AE_manual_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_AE_ManualUploadRawFiles', pseudonymize = True):\r\n",
@@ -9047,7 +9045,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "caccd7ca-353e-4a91-84be-3400ab593584"
+						"spark.autotune.trackingId": "9e25fc2f-f23c-4700-b1aa-a18d97637a1a"
 					}
 				},
 				"metadata": {
@@ -9072,15 +9070,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AE_manual_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_AE_ManualUploadRawFiles', pseudonymize = True):\r\n",
@@ -15742,7 +15738,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "56ecceeb-ba15-40fc-a65c-0d123462410c"
+						"spark.autotune.trackingId": "7751f29f-6b2b-40d9-8351-a5f083321794"
 					}
 				},
 				"metadata": {
@@ -15786,7 +15782,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 163
 					},
 					{
 						"cell_type": "code",
@@ -16432,7 +16428,7 @@
 							"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')"
 						],
 						"outputs": [],
-						"execution_count": 29
+						"execution_count": 189
 					},
 					{
 						"cell_type": "code",
@@ -16469,7 +16465,161 @@
 									"deleting": false
 								}
 							},
+							"microsoft": {
+								"language": "python"
+							}
+						},
+						"source": [
+							"%%pyspark\r\n",
+							"\r\n",
+							"sourcep = oea.stage2p\r\n",
+							"test_df_sm = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualLearningTasks_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"#result_test = DMPersonDemographic_pseudo(test_df)\r\n",
+							"# result_test.show()\r\n",
+							"\r\n",
+							"test_df_sm.createOrReplaceTempView('vw_aemanuallearningtasks')"
+						],
+						"outputs": [],
+						"execution_count": 194
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
 							"collapsed": false
+						},
+						"source": [
+							"select \r\n",
+							"m.School_Name\r\n",
+							",m.Area\r\n",
+							",m.Semester\r\n",
+							",m.Year\r\n",
+							",m.SubjectName\r\n",
+							",m.Code\r\n",
+							",m.TeacherImportIdentifier\r\n",
+							",m.TaskId\r\n",
+							",m.IsSubjectWide\r\n",
+							",m.TaskName\r\n",
+							",m.StudentCode\r\n",
+							",m.GovtCode1\r\n",
+							",m.StudentLastName\r\n",
+							",m.StudentFirstName\r\n",
+							"--,m.YearLevel\r\n",
+							",case when m.YearLevel is null then m.YearLevel else concat('Year ' , cast(m.YearLevel as string)) end\r\n",
+							",m.ResultType\r\n",
+							",m.PrimaryGrade\r\n",
+							",m.CommentTimestamp\r\n",
+							",m.CommentPosterCode\r\n",
+							",m.CommentPosterName\r\n",
+							",m.Result\r\n",
+							",m.ComponentName\r\n",
+							",m.ComponentType\r\n",
+							",m.IsIncludedInReport\r\n",
+							",m.ReportCycleName\r\n",
+							",m.DueDate\r\n",
+							",m.Category\r\n",
+							",m.SubmissionStatus\r\n",
+							",m.ReceiptTime\r\n",
+							",m.BKID\r\n",
+							",innerquery.ceider\r\n",
+							"from vw_aemanuallearningtasks m\r\n",
+							"\r\n",
+							"left join \r\n",
+							"(\r\n",
+							"    select a.ceider, a.firstname, a.lastname, a.persontype, b.skcampus, c.schoolname, b.skyearlevel, d.yearlevelsifdesc, d.businessdesc, d.yearlevelsifcode\r\n",
+							"    --, concat(lower(a.firstname), lower(a.lastname), lower(c.schoolname), lower(d.businessdesc)) as joinkey\r\n",
+							"    from vw_dmpersondemographic a \r\n",
+							"    left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+							"    left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
+							"    left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
+							"    where a.persontype = 'Student'\r\n",
+							") innerquery\r\n",
+							"\r\n",
+							"on lower(m.studentfirstname) = lower(innerquery.firstname)\r\n",
+							"and lower(m.studentlastname) = lower(innerquery.lastname)\r\n",
+							"and lower(m.school_name) = lower(innerquery.schoolname)\r\n",
+							"and trim(m.yearlevel) = trim(innerquery.yearlevelsifcode)\r\n",
+							"\r\n",
+							"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')\r\n",
+							"\r\n",
+							"and m.studentfirstname = 'Rebecca' and m.studentlastname = 'VERNON'"
+						],
+						"outputs": [],
+						"execution_count": 198
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"drop view vw_aemanualsemesterreports"
+						],
+						"outputs": [],
+						"execution_count": 168
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"microsoft": {
+								"language": "python"
+							}
+						},
+						"source": [
+							"%%pyspark\r\n",
+							"\r\n",
+							"sourcep = oea.stage2p\r\n",
+							"test_df_sm = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualSemesterReports_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"#result_test = DMPersonDemographic_pseudo(test_df)\r\n",
+							"# result_test.show()\r\n",
+							"\r\n",
+							"test_df_sm.createOrReplaceTempView('vw_aemanualsemesterreports')\r\n",
+							"\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 169
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
 						},
 						"source": [
 							"CREATE TEMP VIEW vw_ae_manual_learningtasks\r\n",
@@ -16500,7 +16650,102 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 134
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select \r\n",
+							"--* \r\n",
+							"lower(m.studentfirstname)\r\n",
+							", lower(innerquery.firstname)\r\n",
+							", lower(m.studentlastname)\r\n",
+							", lower(innerquery.lastname)\r\n",
+							", lower(m.studentyearlevel)\r\n",
+							", lower(innerquery.businessdesc)\r\n",
+							", lower(m.school_name)\r\n",
+							", lower(innerquery.schoolname)\r\n",
+							"from vw_aemanualsemesterreports m\r\n",
+							"\r\n",
+							"left join \r\n",
+							"(\r\n",
+							"    select a.ceider, a.firstname, a.lastname, a.persontype, b.skcampus, c.schoolname, b.skyearlevel, d.yearlevelsifdesc, d.businessdesc, d.yearlevelsifcode\r\n",
+							"    --, concat(lower(a.firstname), lower(a.lastname), lower(c.schoolname), lower(d.businessdesc)) as joinkey\r\n",
+							"    from vw_dmpersondemographic a \r\n",
+							"    left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+							"    left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
+							"    left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
+							"    where a.persontype = 'Student'\r\n",
+							") innerquery\r\n",
+							"\r\n",
+							"on lower(m.studentfirstname) = lower(innerquery.firstname)\r\n",
+							"and lower(m.studentlastname) = lower(innerquery.lastname)\r\n",
+							"and lower(m.school_name) = lower(innerquery.schoolname)\r\n",
+							"and trim(m.studentyearlevel) = trim(innerquery.yearlevelsifdesc)\r\n",
+							"\r\n",
+							"\r\n",
+							"where m.studentfirstname = 'Austin' and m.studentlastname = 'Anoop'\r\n",
+							"and m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N') "
+						],
+						"outputs": [],
+						"execution_count": 199
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_aemanualsemesterreports\r\n",
+							"where \r\n",
+							"studentyearlevel = 'Bentley' or \r\n",
+							"studentyearlevel = 'Year 6'\r\n",
+							"order by studentyearlevel"
+						],
+						"outputs": [],
+						"execution_count": 182
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_aemanualsemesterreports\r\n",
+							"where studentyearlevel = 'Bentley' and studentformgroup = 'Slatter'"
+						],
+						"outputs": [],
+						"execution_count": 183
 					}
 				]
 			},
@@ -16530,7 +16775,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a9a720ad-a47f-448b-a76e-a2d75ae9225a"
+						"spark.autotune.trackingId": "b5990632-9873-4bc2-9062-2509ea9bb4fb"
 					}
 				},
 				"metadata": {
@@ -16555,7 +16800,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -16963,12 +17209,86 @@
 							"collapsed": false
 						},
 						"source": [
+							"-- CREATE TEMP VIEW vw_ae_manual_learningtasks\r\n",
+							"-- as\r\n",
+							"\r\n",
+							"-- select \r\n",
+							"-- m.* \r\n",
+							"-- , innerquery.ceider\r\n",
+							"-- from vw_aemanuallearningtasks m\r\n",
+							"\r\n",
+							"-- left join \r\n",
+							"-- (\r\n",
+							"--     select a.ceider, a.firstname, a.lastname, a.persontype, b.skcampus, c.schoolname, b.skyearlevel, d.yearlevelsifdesc, d.businessdesc, d.yearlevelsifcode\r\n",
+							"--     --, concat(lower(a.firstname), lower(a.lastname), lower(c.schoolname), lower(d.businessdesc)) as joinkey\r\n",
+							"--     from vw_dmpersondemographic a \r\n",
+							"--     left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+							"--     left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
+							"--     left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
+							"--     where a.persontype = 'Student'\r\n",
+							"-- ) innerquery\r\n",
+							"\r\n",
+							"-- on lower(m.studentfirstname) = lower(innerquery.firstname)\r\n",
+							"-- and lower(m.studentlastname) = lower(innerquery.lastname)\r\n",
+							"-- and lower(m.school_name) = lower(innerquery.schoolname)\r\n",
+							"-- and trim(m.yearlevel) = trim(innerquery.yearlevelsifcode)\r\n",
+							"\r\n",
+							"-- where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 3
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
 							"CREATE TEMP VIEW vw_ae_manual_learningtasks\r\n",
 							"as\r\n",
 							"\r\n",
 							"select \r\n",
-							"m.* \r\n",
-							", innerquery.ceider\r\n",
+							"m.School_Name\r\n",
+							",m.Area\r\n",
+							",m.Semester\r\n",
+							",m.Year\r\n",
+							",m.SubjectName\r\n",
+							",m.Code\r\n",
+							",m.TeacherImportIdentifier\r\n",
+							",m.TaskId\r\n",
+							",m.IsSubjectWide\r\n",
+							",m.TaskName\r\n",
+							",m.StudentCode\r\n",
+							",m.GovtCode1\r\n",
+							",m.StudentLastName\r\n",
+							",m.StudentFirstName\r\n",
+							"--,m.YearLevel\r\n",
+							",case when m.YearLevel is null then m.YearLevel else concat('Year ' , cast(m.YearLevel as string)) end\r\n",
+							",m.ResultType\r\n",
+							",m.PrimaryGrade\r\n",
+							",m.CommentTimestamp\r\n",
+							",m.CommentPosterCode\r\n",
+							",m.CommentPosterName\r\n",
+							",m.Result\r\n",
+							",m.ComponentName\r\n",
+							",m.ComponentType\r\n",
+							",m.IsIncludedInReport\r\n",
+							",m.ReportCycleName\r\n",
+							",m.DueDate\r\n",
+							",m.Category\r\n",
+							",m.SubmissionStatus\r\n",
+							",m.ReceiptTime\r\n",
+							",m.BKID\r\n",
+							",innerquery.ceider\r\n",
 							"from vw_aemanuallearningtasks m\r\n",
 							"\r\n",
 							"left join \r\n",
@@ -16987,11 +17307,10 @@
 							"and lower(m.school_name) = lower(innerquery.schoolname)\r\n",
 							"and trim(m.yearlevel) = trim(innerquery.yearlevelsifcode)\r\n",
 							"\r\n",
-							"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')\r\n",
-							""
+							"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",

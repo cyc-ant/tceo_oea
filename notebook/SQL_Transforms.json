@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "6f3dea59-aa05-480c-957b-d6c42cc24931"
+				"spark.autotune.trackingId": "a9a720ad-a47f-448b-a76e-a2d75ae9225a"
 			}
 		},
 		"metadata": {
@@ -97,6 +97,29 @@
 				"source": [
 					"%%pyspark\r\n",
 					"\r\n",
+					"%run OEA_py"
+				],
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
 					"# setup the temp tables we need\r\n",
 					"sourcep = oea.stage2p\r\n",
 					"source3p = oea.stage3p\r\n",
@@ -121,6 +144,13 @@
 					"factnaplanstudentyearresult_df = spark.read.load(source3p + \"/pilot/DMFactNaplanStudentYearResult_pseudo\", format='delta')\r\n",
 					"factpatresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
 					"\r\n",
+					"# used for manual AE Learning Task\r\n",
+					"ae_manuallearningtasks_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualLearningTasks_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
 					"# create temp sql views\r\n",
 					"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
 					"dmactivity_df.createOrReplaceTempView('vw_dmactivity')\r\n",
@@ -135,9 +165,11 @@
 					"\r\n",
 					"factstudentenrolmentcounts_df.createOrReplaceTempView('vw_factstudentenrolmentcounts')\r\n",
 					"factnaplanstudentyearresult_df.createOrReplaceTempView('vw_factnaplanstudentyearresult')\r\n",
-					"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')"
+					"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')\r\n",
+					"\r\n",
+					"ae_manuallearningtasks_df.createOrReplaceTempView('vw_aemanuallearningtasks')"
 				],
-				"execution_count": 5
+				"execution_count": 2
 			},
 			{
 				"cell_type": "markdown",
@@ -401,6 +433,50 @@
 				"execution_count": 11
 			},
 			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"CREATE TEMP VIEW vw_ae_manual_learningtasks\r\n",
+					"as\r\n",
+					"\r\n",
+					"select \r\n",
+					"m.* \r\n",
+					", innerquery.ceider\r\n",
+					"from vw_aemanuallearningtasks m\r\n",
+					"\r\n",
+					"left join \r\n",
+					"(\r\n",
+					"    select a.ceider, a.firstname, a.lastname, a.persontype, b.skcampus, c.schoolname, b.skyearlevel, d.yearlevelsifdesc, d.businessdesc, d.yearlevelsifcode\r\n",
+					"    --, concat(lower(a.firstname), lower(a.lastname), lower(c.schoolname), lower(d.businessdesc)) as joinkey\r\n",
+					"    from vw_dmpersondemographic a \r\n",
+					"    left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+					"    left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
+					"    left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
+					"    where a.persontype = 'Student'\r\n",
+					") innerquery\r\n",
+					"\r\n",
+					"on lower(m.studentfirstname) = lower(innerquery.firstname)\r\n",
+					"and lower(m.studentlastname) = lower(innerquery.lastname)\r\n",
+					"and lower(m.school_name) = lower(innerquery.schoolname)\r\n",
+					"and trim(m.yearlevel) = trim(innerquery.yearlevelsifcode)\r\n",
+					"\r\n",
+					"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')\r\n",
+					""
+				],
+				"execution_count": 3
+			},
+			{
 				"cell_type": "markdown",
 				"metadata": {
 					"nteract": {
@@ -440,13 +516,19 @@
 					"naplanparticipation_df = spark.read.table('vw_naplanparticipation')\r\n",
 					"acerparticipation_df = spark.read.table('vw_acerparticipation')\r\n",
 					"\r\n",
+					"ae_manual_learningtasks_df = spark.read.table('vw_ae_manual_learningtasks')\r\n",
+					"\r\n",
 					"\r\n",
 					"saveToTarget(classenrolment_df, destination_p, f'{version}/_DMClassEnrolment')\r\n",
 					"saveToTarget(activestudent_df, destination_p, f'{version}/_FACTActiveStudent')\r\n",
 					"saveToTarget(inactivestudent_df, destination_p, f'{version}/_FACTInactiveStudent')\r\n",
 					"\r\n",
 					"saveToTarget(naplanparticipation_df, destination_p, f'{version}/_FACTNaplanParticipation')\r\n",
-					"saveToTarget(acerparticipation_df, destination_p, f'{version}/_FACTAcerParticipation')"
+					"saveToTarget(acerparticipation_df, destination_p, f'{version}/_FACTAcerParticipation')\r\n",
+					"\r\n",
+					"saveToTarget(ae_manual_learningtasks_df, destination_p, f'{version}/_FACTAELearningTasks')\r\n",
+					"\r\n",
+					""
 				],
 				"execution_count": null
 			}

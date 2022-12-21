@@ -15535,7 +15535,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c465aa12-0d2f-4144-9b95-8337b90f62b9"
+						"spark.autotune.trackingId": "996a7769-e6cc-4195-8c64-7b759d488ffc"
 					}
 				},
 				"metadata": {
@@ -15593,6 +15593,25 @@
 							}
 						},
 						"source": [
+							"from pyspark.sql.functions import when"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
 							"sourcep = oea.stage2p\r\n",
 							"\r\n",
 							"DMPersonDemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
@@ -15631,7 +15650,7 @@
 						"source": [
 							"# Clean up the table and remove null and unnecessary columns\r\n",
 							"\r\n",
-							"cleaned_df = DMPersonDemographic_df.filter(DMPersonDemographic_df.Ceider != -1) \\\r\n",
+							"df = DMPersonDemographic_df.filter(DMPersonDemographic_df.Ceider != -1) \\\r\n",
 							"                .drop(\"UsualTransport\") \\\r\n",
 							"                .drop(\"ContactNotesBH\") \\\r\n",
 							"                .drop(\"ContactNotesAH\") \\\r\n",
@@ -15646,6 +15665,8 @@
 							"                .drop(\"LBOTE_YN\") \\\r\n",
 							"                .drop(\"LBOTEInt\") \\\r\n",
 							"                .drop(\"AccessRestrictions_YN\")\r\n",
+							"\r\n",
+							"cleaned_df = df.withColumn(\"ATSIId\", when(df.ATSIId > 4, 4).when(df.ATSIId < 1, 4).otherwise(df.ATSIId))\r\n",
 							"\r\n",
 							"# now split the demographic information into two tables \r\n",
 							"DMStudentDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Student\"))\r\n",

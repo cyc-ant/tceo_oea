@@ -271,6 +271,33 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "If SupportingData",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.supportingdata",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "ingestion_stage2_supportingdata",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "ingestion_stage2_supportingdata",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
 			}
 		],
 		"parameters": {

@@ -8,6 +8,9 @@
 		"AzureFileStorage_AEData_connectionString": {
 			"value": ""
 		},
+		"AzureFileStorage_SchoolList_connectionString": {
+			"value": ""
+		},
 		"AzureFileStorage_SupportingData_connectionString": {
 			"value": ""
 		},

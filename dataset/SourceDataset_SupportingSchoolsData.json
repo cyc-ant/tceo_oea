@@ -8,12 +8,12 @@
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
-			"sheetName": "School List",
 			"location": {
 				"type": "AzureFileStorageLocation",
-				"fileName": "TCEO Schools.xlsx",
+				"fileName": "_SchoolList.xlsx",
 				"folderPath": "SupportingData"
 			},
+			"sheetIndex": 0,
 			"firstRowAsHeader": true
 		},
 		"schema": [

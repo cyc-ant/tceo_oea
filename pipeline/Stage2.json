@@ -312,6 +312,10 @@
 			},
 			"ae_manual": {
 				"type": "bool",
+				"defaultValue": false
+			},
+			"supportingdata": {
+				"type": "bool",
 				"defaultValue": true
 			}
 		},

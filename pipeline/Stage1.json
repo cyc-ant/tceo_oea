@@ -284,12 +284,66 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "If AE_Manual",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.ae_manual",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "CopyPipeline_AE_Manual",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "CopyPipeline_AE_Manual",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "If SupportingData",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.supportingdata",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "CopyPipeline_SupportingSchoolsData",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "CopyPipeline_SupportingSchoolsData",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
+				}
 			}
 		],
 		"parameters": {
 			"acer": {
 				"type": "bool",
-				"defaultValue": true
+				"defaultValue": false
 			},
 			"ae": {
 				"type": "bool",
@@ -320,6 +374,14 @@
 				"defaultValue": false
 			},
 			"student": {
+				"type": "bool",
+				"defaultValue": false
+			},
+			"ae_manual": {
+				"type": "bool",
+				"defaultValue": false
+			},
+			"supportingdata": {
 				"type": "bool",
 				"defaultValue": false
 			}

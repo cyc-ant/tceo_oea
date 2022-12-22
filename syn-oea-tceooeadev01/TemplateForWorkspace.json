@@ -6354,7 +6354,7 @@
 									"type": "string"
 								},
 								"source_folder": {
-									"value": "_SupportingData",
+									"value": "_SupportData",
 									"type": "string"
 								}
 							},
@@ -16452,7 +16452,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9faddce0-35ef-4de6-b4e8-2df839ced0cb"
+						"spark.autotune.trackingId": "0607d7ab-da87-4069-bcdd-ba3638883cbc"
 					}
 				},
 				"metadata": {
@@ -16518,8 +16518,8 @@
 							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
 							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
 							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = 'supportingdata_object'\r\n",
-							"method_name = 'ingest'\r\n",
+							"object_name = ''\r\n",
+							"method_name = ''\r\n",
 							"source_folder = ''\r\n",
 							"kwargs = '{}'"
 						],
@@ -20137,7 +20137,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f42779d2-3829-40f9-8de5-6f7ec47b70d4"
+						"spark.autotune.trackingId": "e0c29733-0f06-48af-b840-ce2350dca5eb"
 					}
 				},
 				"metadata": {
@@ -20162,18 +20162,16 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class SupportingData_object(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='_SupportingData', pseudonymize = True):\r\n",
+							"    def __init__(self, source_folder='_SupportData', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
 							"        self.schemas['_SchoolList'] = [\r\n",

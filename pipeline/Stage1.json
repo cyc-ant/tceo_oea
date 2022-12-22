@@ -329,10 +329,6 @@
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
-								"pipeline": {
-									"referenceName": "CopyPipeline_SupportingSchoolsData",
-									"type": "PipelineReference"
-								},
 								"waitOnCompletion": true
 							}
 						}

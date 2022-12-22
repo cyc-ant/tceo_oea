@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "4b546b8c-1cce-427f-98dd-b843649405ae"
+				"spark.autotune.trackingId": "adb8632b-8bf7-49f8-9518-2619f4e1e06d"
 			}
 		},
 		"metadata": {
@@ -111,7 +111,8 @@
 					"    df = df.filter(df.DioceseName == 'Townsville') \\\r\n",
 					"            .filter(df.SchoolName !=  'Townsville Catholic Education Office') \\\r\n",
 					"            .filter(df.SchoolName !=  'Canossa Convent School') \\\r\n",
-					"            .filter(df.SchoolName !=  'St Patrick\\'s College Townsville')\r\n",
+					"            .filter(df.SchoolName !=  'St Patrick\\'s College Townsville') \\\r\n",
+					"            .filter(df.SchoolId != 6814)\r\n",
 					"\r\n",
 					"    return df\r\n",
 					""

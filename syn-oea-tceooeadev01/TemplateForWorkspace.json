@@ -2333,83 +2333,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_SchoolList')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_9s7",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "SupportingData/_SchoolList.xlsx"
-							},
-							{
-								"name": "Destination",
-								"value": "stage1np/_SupportData/"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "ExcelSource",
-								"storeSettings": {
-									"type": "AzureFileStorageReadSettings",
-									"recursive": false,
-									"enablePartitionDiscovery": false
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"validateDataConsistency": false
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_SchoolList",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_SchoolList",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_SchoolList')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_SchoolList')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_SchoolListCSV')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -2483,91 +2406,14 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_SchoolListCSV')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_SchoolListCSV')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_SupportingSchoolsData')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_09s",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "SupportingData/TCEO Schools.xlsx"
-							},
-							{
-								"name": "Destination",
-								"value": "stage1np/SupportingData/"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "ExcelSource",
-								"storeSettings": {
-									"type": "AzureFileStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"validateDataConsistency": false
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_SupportingSchoolsData",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_SupportingSchoolsData",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
 				"folder": {
 					"name": "Data Copy Pipelines"
 				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_SupportingSchoolsData')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_SupportingSchoolsData')]"
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_SchoolListCSV')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_SchoolListCSV')]"
 			]
 		},
 		{
@@ -4317,34 +4163,6 @@
 								}
 							]
 						}
-					},
-					{
-						"name": "If SupportingData",
-						"type": "IfCondition",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"expression": {
-								"value": "@pipeline().parameters.supportingdata",
-								"type": "Expression"
-							},
-							"ifTrueActivities": [
-								{
-									"name": "CopyPipeline_SupportingSchoolsData",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "CopyPipeline_SupportingSchoolsData",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {}
-									}
-								}
-							]
-						}
 					}
 				],
 				"policy": {
@@ -4414,8 +4232,7 @@
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_NCCD')]",
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_student_object')]",
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_student_object_2')]",
-				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_AE_Manual')]",
-				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_SupportingSchoolsData')]"
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_AE_Manual')]"
 			]
 		},
 		{
@@ -16652,7 +16469,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a87be41b-6b57-47d9-81b3-0a7770d1f191"
+						"spark.autotune.trackingId": "f3ab8f4d-fc0a-471a-a1d1-3541a8d0d7fa"
 					}
 				},
 				"metadata": {
@@ -16677,8 +16494,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -17452,7 +17268,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "239a4b34-b27e-4ba8-b6f1-464164e4733c"
+						"spark.autotune.trackingId": "b52e5df6-62b5-47d2-a35b-c1e2a29c6320"
 					}
 				},
 				"metadata": {
@@ -17653,7 +17469,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "332cd6e7-5725-4e51-9885-2caa833db7a4"
+						"spark.autotune.trackingId": "ba0f28e1-0b54-46ec-ac25-e58bc3c3f193"
 					}
 				},
 				"metadata": {
@@ -17696,7 +17512,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 270
+						"execution_count": 334
 					},
 					{
 						"cell_type": "code",
@@ -18342,7 +18158,7 @@
 							"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')"
 						],
 						"outputs": [],
-						"execution_count": 272
+						"execution_count": 335
 					},
 					{
 						"cell_type": "code",
@@ -18395,7 +18211,7 @@
 							"test_df_sm.createOrReplaceTempView('vw_aemanuallearningtasks')"
 						],
 						"outputs": [],
-						"execution_count": 273
+						"execution_count": 336
 					},
 					{
 						"cell_type": "code",
@@ -18412,6 +18228,92 @@
 							"collapsed": false
 						},
 						"source": [
+							"select count(*) from vw_aemanuallearningtasks"
+						],
+						"outputs": [],
+						"execution_count": 338
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_aemanuallearningtasks\r\n",
+							"where result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')"
+						],
+						"outputs": [],
+						"execution_count": 337
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_ae_manual_learningtasks_check_nulls\r\n",
+							"--where ceider is null"
+						],
+						"outputs": [],
+						"execution_count": 346
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"drop view  vw_ae_manual_learningtasks_check_nulls\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 342
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"CREATE TEMP VIEW vw_ae_manual_learningtasks_check_nulls\r\n",
+							"as\r\n",
+							"\r\n",
 							"select \r\n",
 							"m.School_Name\r\n",
 							",m.Area\r\n",
@@ -18427,8 +18329,89 @@
 							",m.GovtCode1\r\n",
 							",m.StudentLastName\r\n",
 							",m.StudentFirstName\r\n",
-							"--,m.YearLevel\r\n",
-							",case when m.YearLevel is null then m.YearLevel else concat('Year ' , cast(m.YearLevel as string)) end\r\n",
+							",m.YearLevel\r\n",
+							"--,case when m.YearLevel is null then m.YearLevel else concat('Year ' , cast(m.YearLevel as string)) end\r\n",
+							"--,case when m.YearLevel is null then -1 else m.YearLevel end as YearLevelNew\r\n",
+							",m.ResultType\r\n",
+							",m.PrimaryGrade\r\n",
+							",m.CommentTimestamp\r\n",
+							",m.CommentPosterCode\r\n",
+							",m.CommentPosterName\r\n",
+							",m.Result\r\n",
+							",m.ComponentName\r\n",
+							",m.ComponentType\r\n",
+							",m.IsIncludedInReport\r\n",
+							",m.ReportCycleName\r\n",
+							",m.DueDate\r\n",
+							",m.Category\r\n",
+							",m.SubmissionStatus\r\n",
+							",m.ReceiptTime\r\n",
+							",m.BKID\r\n",
+							",innerquery.ceider\r\n",
+							"from vw_aemanuallearningtasks m\r\n",
+							"\r\n",
+							"left join \r\n",
+							"(\r\n",
+							"    select a.ceider, a.firstname, a.lastname, a.persontype, b.skcampus, c.schoolname, b.skyearlevel, d.yearlevelsifdesc, d.businessdesc, d.yearlevelsifcode\r\n",
+							"    --, concat(lower(a.firstname), lower(a.lastname), lower(c.schoolname), lower(d.businessdesc)) as joinkey\r\n",
+							"    from vw_dmpersondemographic a \r\n",
+							"    left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+							"    left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
+							"    left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
+							"    where a.persontype = 'Student'\r\n",
+							"        and b.iscurrentmilestone = 'True'\r\n",
+							") innerquery\r\n",
+							"\r\n",
+							"on lower(m.studentfirstname) = lower(innerquery.firstname)\r\n",
+							"and lower(m.studentlastname) = lower(innerquery.lastname)\r\n",
+							"and lower(m.school_name) = lower(innerquery.schoolname)\r\n",
+							"--and trim(m.yearlevel) = trim(innerquery.yearlevelsifcode)\r\n",
+							"and trim(case when m.YearLevel is null then -1 else m.YearLevel end) = trim(innerquery.yearlevelsifcode)\r\n",
+							"\r\n",
+							"\r\n",
+							"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')\r\n",
+							"\r\n",
+							"--and m.studentfirstname = 'Rebecca' and m.studentlastname = 'VERNON'\r\n",
+							"--and innerquery.ceider is null"
+						],
+						"outputs": [],
+						"execution_count": 344
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"CREATE TEMP VIEW vw_ae_manual_learningtasks_original\r\n",
+							"as\r\n",
+							"\r\n",
+							"select \r\n",
+							"m.School_Name\r\n",
+							",m.Area\r\n",
+							",m.Semester\r\n",
+							",m.Year\r\n",
+							",m.SubjectName\r\n",
+							",m.Code\r\n",
+							",m.TeacherImportIdentifier\r\n",
+							",m.TaskId\r\n",
+							",m.IsSubjectWide\r\n",
+							",m.TaskName\r\n",
+							",m.StudentCode\r\n",
+							",m.GovtCode1\r\n",
+							",m.StudentLastName\r\n",
+							",m.StudentFirstName\r\n",
+							",m.YearLevel\r\n",
+							"--,case when m.YearLevel is null then m.YearLevel else concat('Year ' , cast(m.YearLevel as string)) end\r\n",
 							",m.ResultType\r\n",
 							",m.PrimaryGrade\r\n",
 							",m.CommentTimestamp\r\n",
@@ -18463,12 +18446,99 @@
 							"and lower(m.school_name) = lower(innerquery.schoolname)\r\n",
 							"and trim(m.yearlevel) = trim(innerquery.yearlevelsifcode)\r\n",
 							"\r\n",
-							"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')\r\n",
-							"\r\n",
-							"and m.studentfirstname = 'Rebecca' and m.studentlastname = 'VERNON'"
+							"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')"
 						],
 						"outputs": [],
-						"execution_count": 282
+						"execution_count": 315
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							" select a.ceider, a.firstname, a.lastname, a.persontype, b.skcampus, c.schoolname, b.skyearlevel, d.yearlevelsifdesc, d.businessdesc, d.yearlevelsifcode\r\n",
+							"    --, concat(lower(a.firstname), lower(a.lastname), lower(c.schoolname), lower(d.businessdesc)) as joinkey\r\n",
+							"    from vw_dmpersondemographic a \r\n",
+							"    left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+							"    left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
+							"    left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
+							"    where a.persontype = 'Student'"
+						],
+						"outputs": [],
+						"execution_count": 329
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_aemanuallearningtasks\r\n",
+							"where studentfirstname = 'Matilda' and studentlastname = 'WESTLEY'"
+						],
+						"outputs": [],
+						"execution_count": 328
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_ae_manual_learningtasks_check_nulls\r\n",
+							"where studentfirstname = 'Matilda' and studentlastname = 'WESTLEY'"
+						],
+						"outputs": [],
+						"execution_count": 333
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_ae_manual_learningtasks_original\r\n",
+							"where studentfirstname = 'Matilda' and studentlastname = 'WESTLEY'"
+						],
+						"outputs": [],
+						"execution_count": 326
 					},
 					{
 						"cell_type": "code",
@@ -19073,7 +19143,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fede25be-4bca-4561-95d5-eeceb3d5ec60"
+						"spark.autotune.trackingId": "01face35-2640-4741-ba1a-6758a16cd387"
 					}
 				},
 				"metadata": {
@@ -19537,6 +19607,7 @@
 							"    left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
 							"    left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
 							"    where a.persontype = 'Student'\r\n",
+							"        and b.iscurrentmilestone = 'True'\r\n",
 							") innerquery\r\n",
 							"\r\n",
 							"on lower(m.studentfirstname) = lower(innerquery.firstname)\r\n",
@@ -20425,7 +20496,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4b546b8c-1cce-427f-98dd-b843649405ae"
+						"spark.autotune.trackingId": "518cbb2f-c66b-49bd-b8cf-f4c313880ed3"
 					}
 				},
 				"metadata": {
@@ -20514,12 +20585,23 @@
 						},
 						"source": [
 							"def DMCampus_pseudo(df):\r\n",
-							"    df = df.filter(df.DioceseName == 'Townsville') \\\r\n",
-							"            .filter(df.SchoolName !=  'Townsville Catholic Education Office') \\\r\n",
-							"            .filter(df.SchoolName !=  'Canossa Convent School') \\\r\n",
-							"            .filter(df.SchoolName !=  'St Patrick\\'s College Townsville')\r\n",
+							"        df = df.filter(df.DioceseName == 'Townsville') \\\r\n",
+							"                .filter(df.SchoolName !=  'Townsville Catholic Education Office') \\\r\n",
+							"                .filter(df.SchoolName !=  'Canossa Convent School') \\\r\n",
+							"                .filter(df.SchoolName !=  'St Patrick\\'s College Townsville') \\\r\n",
+							"                .filter(df.SchoolId != 6814)\r\n",
+							"        \r\n",
+							"        # load the school list to get the 'area' into DMCampus\r\n",
+							"        sourcep = oea.stage2p\r\n",
+							"        school_df = spark.read.load(sourcep + \"/_SupportData/SchoolList_pseudo\", format='delta')\r\n",
 							"\r\n",
-							"    return df\r\n",
+							"        school_df.withColumnRenamed('SchoolId', 'xSchoolId')\r\n",
+							"\r\n",
+							"        newdf = df.join(school_df, df.SchoolId == school_df.xSchoolId, \"inner\")\r\n",
+							"        \r\n",
+							"        final_df = newdf.drop(\"xSchoolId\")\r\n",
+							"\r\n",
+							"        return final_df\r\n",
 							""
 						],
 						"outputs": [],

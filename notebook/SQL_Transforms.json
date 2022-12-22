@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d96d8b9e-9709-4607-902a-1b898277f72c"
+				"spark.autotune.trackingId": "90c2f348-97df-4b91-9d45-779f74da2a43"
 			}
 		},
 		"metadata": {
@@ -198,8 +198,7 @@
 					"    ClassStartDate.date AS ClassStartDate,\r\n",
 					"    ClassEndDate.date AS ClassEndDate,\r\n",
 					"    staff.FirstName AS StaffFirstName,\r\n",
-					"    staff.LastName AS StaffLastName,\r\n",
-					"    c.CompassSchoolURL\r\n",
+					"    staff.LastName AS StaffLastName\r\n",
 					"\r\n",
 					"    FROM vw_factsubjectenrolment f\r\n",
 					"    JOIN vw_dmactivity a ON f.SKActivity = a.SKActivity\r\n",

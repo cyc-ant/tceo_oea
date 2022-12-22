@@ -17469,7 +17469,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f74fa3d9-5443-456f-b8f4-8b8dad011621"
+						"spark.autotune.trackingId": "554eb58d-1375-45d8-b333-bfdc0f732e9e"
 					}
 				},
 				"metadata": {
@@ -17494,8 +17494,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -19144,7 +19143,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "67c0b405-d7e8-4d4a-bccd-c320d23424b3"
+						"spark.autotune.trackingId": "01face35-2640-4741-ba1a-6758a16cd387"
 					}
 				},
 				"metadata": {
@@ -19169,8 +19168,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -20498,7 +20496,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "518cbb2f-c66b-49bd-b8cf-f4c313880ed3"
+						"spark.autotune.trackingId": "5da34814-64a4-4c5c-8775-a5c8b5327890"
 					}
 				},
 				"metadata": {
@@ -20523,13 +20521,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace"
 						],
@@ -20598,10 +20598,13 @@
 							"        school_df = spark.read.load(sourcep + \"/_SupportData/SchoolList_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"        school_df.withColumnRenamed('SchoolId', 'xSchoolId')\r\n",
+							"        df.withColumnRenamed('SchoolName', 'xSchoolName')\r\n",
 							"\r\n",
 							"        newdf = df.join(school_df, df.SchoolId == school_df.xSchoolId, \"inner\")\r\n",
 							"        \r\n",
-							"        final_df = newdf.drop(\"xSchoolId\")\r\n",
+							"        final_df = newdf.select(col(\"SchoolId\"), col(\"SchoolName\"), col(\"Area\"), col(\"Location\"), \\\r\n",
+							"                                col(\"Team\"), col(\"SchoolType\"), col(\"Boarding\"), col(\"SMYL\"), col(\"LastICSEA\"), \\\r\n",
+							"                                col(\"SKCampus\"), col(\"BKCampus\"), col(\"CampusSuburbAndName\"), col(\"SchoolSuburbAndName\"))\r\n",
 							"\r\n",
 							"        return final_df\r\n",
 							""
@@ -20989,7 +20992,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f2ff4007-6b35-4e99-ae06-dcd7e41fcede"
+						"spark.autotune.trackingId": "efc7ee4a-daae-4b7d-bf5d-4c68baa7be1d"
 					}
 				},
 				"metadata": {
@@ -21014,7 +21017,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

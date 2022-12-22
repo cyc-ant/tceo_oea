@@ -20496,7 +20496,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "78da9f20-2c0c-43bc-b596-972252ec4b22"
+						"spark.autotune.trackingId": "e25ead14-2d5d-4c91-a555-2487c7130dba"
 					}
 				},
 				"metadata": {
@@ -20531,7 +20531,7 @@
 						"cell_type": "code",
 						"metadata": {},
 						"source": [
-							"from pyspark.sql.functions import when, max, regexp_replace"
+							"from pyspark.sql.functions import when, max, regexp_replace, col"
 						],
 						"outputs": [],
 						"execution_count": 2
@@ -20993,7 +20993,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a7f4e190-07f5-4e4e-a876-180ab6eddc9c"
+						"spark.autotune.trackingId": "9f6ae3b1-e5ce-45ed-9814-d8252e46369e"
 					}
 				},
 				"metadata": {
@@ -21053,7 +21053,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 30
+						"execution_count": 37
 					},
 					{
 						"cell_type": "code",
@@ -21072,7 +21072,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 31
+						"execution_count": 38
 					},
 					{
 						"cell_type": "code",
@@ -21091,7 +21091,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 32
+						"execution_count": 39
 					},
 					{
 						"cell_type": "code",
@@ -21120,7 +21120,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 33
+						"execution_count": 40
 					},
 					{
 						"cell_type": "code",
@@ -21141,7 +21141,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 34
+						"execution_count": 41
 					},
 					{
 						"cell_type": "code",
@@ -21184,7 +21184,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 35
+						"execution_count": 42
 					},
 					{
 						"cell_type": "code",
@@ -21204,7 +21204,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 36
+						"execution_count": 43
 					},
 					{
 						"cell_type": "code",

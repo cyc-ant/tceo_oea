@@ -20496,7 +20496,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5454208d-7d4d-45b9-8ad7-665978a5cefe"
+						"spark.autotune.trackingId": "948c80bd-9e01-4cb7-bab2-f8c7955fc009"
 					}
 				},
 				"metadata": {
@@ -20596,6 +20596,8 @@
 							"        # load the school list to get the 'area' into DMCampus\r\n",
 							"        sourcep = oea.stage2p\r\n",
 							"        school_df = spark.read.load(sourcep + \"/_SupportData/SchoolList_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"        display(school_df)\r\n",
 							"\r\n",
 							"        school_df.withColumnRenamed('SchoolId', 'xSchoolId')\r\n",
 							"        df.withColumnRenamed('SchoolName', 'xSchoolName')\r\n",
@@ -20992,7 +20994,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d6183347-51f0-4e43-88a2-5dd6e3eed413"
+						"spark.autotune.trackingId": "954f149c-d282-44da-b38a-0f097939db3c"
 					}
 				},
 				"metadata": {
@@ -21052,7 +21054,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -21071,7 +21073,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -21090,7 +21092,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -21119,7 +21121,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -21140,7 +21142,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -21183,7 +21185,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 14
 					},
 					{
 						"cell_type": "code",
@@ -21202,7 +21204,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 15
 					},
 					{
 						"cell_type": "code",

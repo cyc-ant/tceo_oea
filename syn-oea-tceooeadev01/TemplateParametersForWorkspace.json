@@ -8,6 +8,9 @@
 		"AzureFileStorage_AEData_connectionString": {
 			"value": ""
 		},
+		"AzureFileStorage_SupportingData_connectionString": {
+			"value": ""
+		},
 		"LS_Azure_SQL_DB_connectionString": {
 			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=@{linkedService().dbServer};Initial Catalog=@{linkedService().dbName};User ID=@{linkedService().userName}"
 		},

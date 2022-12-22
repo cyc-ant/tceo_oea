@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "518cbb2f-c66b-49bd-b8cf-f4c313880ed3"
+				"spark.autotune.trackingId": "c7be6741-446c-4cf6-a31d-50f9b0a420d4"
 			}
 		},
 		"metadata": {
@@ -119,10 +119,13 @@
 					"        school_df = spark.read.load(sourcep + \"/_SupportData/SchoolList_pseudo\", format='delta')\r\n",
 					"\r\n",
 					"        school_df.withColumnRenamed('SchoolId', 'xSchoolId')\r\n",
+					"        df.withColumnRenamed('SchoolName', 'xSchoolName')\r\n",
 					"\r\n",
 					"        newdf = df.join(school_df, df.SchoolId == school_df.xSchoolId, \"inner\")\r\n",
 					"        \r\n",
-					"        final_df = newdf.drop(\"xSchoolId\")\r\n",
+					"        final_df = newdf.select(col(\"SchoolId\"), col(\"SchoolName\"), col(\"Area\"), col(\"Location\"), \\\r\n",
+					"                                col(\"Team\"), col(\"SchoolType\"), col(\"Boarding\"), col(\"SMYL\"), col(\"LastICSEA\"), \\\r\n",
+					"                                col(\"SKCampus\"), col(\"BKCampus\"), col(\"CampusSuburbAndName\"), col(\"SchoolSuburbAndName\"))\r\n",
 					"\r\n",
 					"        return final_df\r\n",
 					""

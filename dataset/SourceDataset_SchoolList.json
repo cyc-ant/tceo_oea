@@ -1,0 +1,48 @@
+{
+	"name": "SourceDataset_SchoolList",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureFileStorage_SchoolList",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "School List",
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"fileName": "_SchoolList.xlsx",
+				"folderPath": "SupportingData"
+			}
+		},
+		"schema": [
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			}
+		]
+	}
+}

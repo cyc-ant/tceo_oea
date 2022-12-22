@@ -16652,7 +16652,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0607d7ab-da87-4069-bcdd-ba3638883cbc"
+						"spark.autotune.trackingId": "a87be41b-6b57-47d9-81b3-0a7770d1f191"
 					}
 				},
 				"metadata": {
@@ -16677,7 +16677,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -20337,7 +20338,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e0c29733-0f06-48af-b840-ce2350dca5eb"
+						"spark.autotune.trackingId": "55ae0da6-860d-4b78-89a2-0a6457c5e6f7"
 					}
 				},
 				"metadata": {
@@ -20374,7 +20375,7 @@
 							"    def __init__(self, source_folder='_SupportData', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
-							"        self.schemas['_SchoolList'] = [\r\n",
+							"        self.schemas['SchoolList'] = [\r\n",
 							"                                        ['SchoolId', 'integer', 'no-op'],\r\n",
 							"                                        ['School Name', 'string', 'no-op'],\r\n",
 							"                                        ['Area', 'string', 'no-op'],\r\n",
@@ -20388,7 +20389,7 @@
 							"\r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, '_SchoolList', self.schemas['_SchoolList'], None, 'SchoolId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'SchoolList', self.schemas['SchoolList'], None, 'SchoolId')\r\n",
 							"\r\n",
 							"\r\n",
 							"supportingdata_object = SupportingData_object()"

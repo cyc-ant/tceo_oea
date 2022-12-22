@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "332cd6e7-5725-4e51-9885-2caa833db7a4"
+				"spark.autotune.trackingId": "ba0f28e1-0b54-46ec-ac25-e58bc3c3f193"
 			}
 		},
 		"metadata": {
@@ -63,7 +63,7 @@
 					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 270
+				"execution_count": 334
 			},
 			{
 				"cell_type": "code",
@@ -693,7 +693,7 @@
 					"factnaplanstudentyearresult_df.createOrReplaceTempView('vw_factnaplanstudentyearresult')\r\n",
 					"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')"
 				],
-				"execution_count": 272
+				"execution_count": 335
 			},
 			{
 				"cell_type": "code",
@@ -744,7 +744,7 @@
 					"\r\n",
 					"test_df_sm.createOrReplaceTempView('vw_aemanuallearningtasks')"
 				],
-				"execution_count": 273
+				"execution_count": 336
 			},
 			{
 				"cell_type": "code",
@@ -761,6 +761,88 @@
 					"collapsed": false
 				},
 				"source": [
+					"select count(*) from vw_aemanuallearningtasks"
+				],
+				"execution_count": 338
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select count(*) from vw_aemanuallearningtasks\r\n",
+					"where result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')"
+				],
+				"execution_count": 337
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select count(*) from vw_ae_manual_learningtasks_check_nulls\r\n",
+					"--where ceider is null"
+				],
+				"execution_count": 346
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"drop view  vw_ae_manual_learningtasks_check_nulls\r\n",
+					""
+				],
+				"execution_count": 342
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"CREATE TEMP VIEW vw_ae_manual_learningtasks_check_nulls\r\n",
+					"as\r\n",
+					"\r\n",
 					"select \r\n",
 					"m.School_Name\r\n",
 					",m.Area\r\n",
@@ -776,8 +858,88 @@
 					",m.GovtCode1\r\n",
 					",m.StudentLastName\r\n",
 					",m.StudentFirstName\r\n",
-					"--,m.YearLevel\r\n",
-					",case when m.YearLevel is null then m.YearLevel else concat('Year ' , cast(m.YearLevel as string)) end\r\n",
+					",m.YearLevel\r\n",
+					"--,case when m.YearLevel is null then m.YearLevel else concat('Year ' , cast(m.YearLevel as string)) end\r\n",
+					"--,case when m.YearLevel is null then -1 else m.YearLevel end as YearLevelNew\r\n",
+					",m.ResultType\r\n",
+					",m.PrimaryGrade\r\n",
+					",m.CommentTimestamp\r\n",
+					",m.CommentPosterCode\r\n",
+					",m.CommentPosterName\r\n",
+					",m.Result\r\n",
+					",m.ComponentName\r\n",
+					",m.ComponentType\r\n",
+					",m.IsIncludedInReport\r\n",
+					",m.ReportCycleName\r\n",
+					",m.DueDate\r\n",
+					",m.Category\r\n",
+					",m.SubmissionStatus\r\n",
+					",m.ReceiptTime\r\n",
+					",m.BKID\r\n",
+					",innerquery.ceider\r\n",
+					"from vw_aemanuallearningtasks m\r\n",
+					"\r\n",
+					"left join \r\n",
+					"(\r\n",
+					"    select a.ceider, a.firstname, a.lastname, a.persontype, b.skcampus, c.schoolname, b.skyearlevel, d.yearlevelsifdesc, d.businessdesc, d.yearlevelsifcode\r\n",
+					"    --, concat(lower(a.firstname), lower(a.lastname), lower(c.schoolname), lower(d.businessdesc)) as joinkey\r\n",
+					"    from vw_dmpersondemographic a \r\n",
+					"    left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+					"    left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
+					"    left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
+					"    where a.persontype = 'Student'\r\n",
+					"        and b.iscurrentmilestone = 'True'\r\n",
+					") innerquery\r\n",
+					"\r\n",
+					"on lower(m.studentfirstname) = lower(innerquery.firstname)\r\n",
+					"and lower(m.studentlastname) = lower(innerquery.lastname)\r\n",
+					"and lower(m.school_name) = lower(innerquery.schoolname)\r\n",
+					"--and trim(m.yearlevel) = trim(innerquery.yearlevelsifcode)\r\n",
+					"and trim(case when m.YearLevel is null then -1 else m.YearLevel end) = trim(innerquery.yearlevelsifcode)\r\n",
+					"\r\n",
+					"\r\n",
+					"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')\r\n",
+					"\r\n",
+					"--and m.studentfirstname = 'Rebecca' and m.studentlastname = 'VERNON'\r\n",
+					"--and innerquery.ceider is null"
+				],
+				"execution_count": 344
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"CREATE TEMP VIEW vw_ae_manual_learningtasks_original\r\n",
+					"as\r\n",
+					"\r\n",
+					"select \r\n",
+					"m.School_Name\r\n",
+					",m.Area\r\n",
+					",m.Semester\r\n",
+					",m.Year\r\n",
+					",m.SubjectName\r\n",
+					",m.Code\r\n",
+					",m.TeacherImportIdentifier\r\n",
+					",m.TaskId\r\n",
+					",m.IsSubjectWide\r\n",
+					",m.TaskName\r\n",
+					",m.StudentCode\r\n",
+					",m.GovtCode1\r\n",
+					",m.StudentLastName\r\n",
+					",m.StudentFirstName\r\n",
+					",m.YearLevel\r\n",
+					"--,case when m.YearLevel is null then m.YearLevel else concat('Year ' , cast(m.YearLevel as string)) end\r\n",
 					",m.ResultType\r\n",
 					",m.PrimaryGrade\r\n",
 					",m.CommentTimestamp\r\n",
@@ -812,11 +974,94 @@
 					"and lower(m.school_name) = lower(innerquery.schoolname)\r\n",
 					"and trim(m.yearlevel) = trim(innerquery.yearlevelsifcode)\r\n",
 					"\r\n",
-					"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')\r\n",
-					"\r\n",
-					"and m.studentfirstname = 'Rebecca' and m.studentlastname = 'VERNON'"
+					"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')"
 				],
-				"execution_count": 282
+				"execution_count": 315
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					" select a.ceider, a.firstname, a.lastname, a.persontype, b.skcampus, c.schoolname, b.skyearlevel, d.yearlevelsifdesc, d.businessdesc, d.yearlevelsifcode\r\n",
+					"    --, concat(lower(a.firstname), lower(a.lastname), lower(c.schoolname), lower(d.businessdesc)) as joinkey\r\n",
+					"    from vw_dmpersondemographic a \r\n",
+					"    left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+					"    left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
+					"    left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
+					"    where a.persontype = 'Student'"
+				],
+				"execution_count": 329
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_aemanuallearningtasks\r\n",
+					"where studentfirstname = 'Matilda' and studentlastname = 'WESTLEY'"
+				],
+				"execution_count": 328
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_ae_manual_learningtasks_check_nulls\r\n",
+					"where studentfirstname = 'Matilda' and studentlastname = 'WESTLEY'"
+				],
+				"execution_count": 333
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_ae_manual_learningtasks_original\r\n",
+					"where studentfirstname = 'Matilda' and studentlastname = 'WESTLEY'"
+				],
+				"execution_count": 326
 			},
 			{
 				"cell_type": "code",

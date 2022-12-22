@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fede25be-4bca-4561-95d5-eeceb3d5ec60"
+				"spark.autotune.trackingId": "01face35-2640-4741-ba1a-6758a16cd387"
 			}
 		},
 		"metadata": {
@@ -479,6 +479,7 @@
 					"    left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
 					"    left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
 					"    where a.persontype = 'Student'\r\n",
+					"        and b.iscurrentmilestone = 'True'\r\n",
 					") innerquery\r\n",
 					"\r\n",
 					"on lower(m.studentfirstname) = lower(innerquery.firstname)\r\n",

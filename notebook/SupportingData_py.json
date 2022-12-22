@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "55ae0da6-860d-4b78-89a2-0a6457c5e6f7"
+				"spark.autotune.trackingId": "439c4399-8771-44e1-aa1a-31fe4616b82c"
 			}
 		},
 		"metadata": {
@@ -60,14 +60,14 @@
 					"\r\n",
 					"        self.schemas['SchoolList'] = [\r\n",
 					"                                        ['SchoolId', 'integer', 'no-op'],\r\n",
-					"                                        ['School Name', 'string', 'no-op'],\r\n",
+					"                                        ['SchoolName', 'string', 'no-op'],\r\n",
 					"                                        ['Area', 'string', 'no-op'],\r\n",
 					"                                        ['Location', 'string', 'no-op'],\r\n",
 					"                                        ['Team', 'string', 'no-op'],\r\n",
-					"                                        ['School Type', 'string', 'no-op'],\r\n",
+					"                                        ['SchoolType', 'string', 'no-op'],\r\n",
 					"                                        ['Boarding', 'integer', 'no-op'],\r\n",
 					"                                        ['SMYL', 'integer', 'no-op'],\r\n",
-					"                                        ['Last ICSEA', 'integer', 'no-op']                                                                 \r\n",
+					"                                        ['LastICSEA', 'integer', 'no-op']                                                                 \r\n",
 					"                                        ]\r\n",
 					"\r\n",
 					"\r\n",

@@ -29,7 +29,7 @@
 							"type": "string"
 						},
 						"source_folder": {
-							"value": "_SupportingData",
+							"value": "_SupportData",
 							"type": "string"
 						}
 					},

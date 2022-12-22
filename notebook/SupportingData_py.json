@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "6f4a0951-51ec-42b3-9b71-ad25cb36b67a"
+				"spark.autotune.trackingId": "e0c29733-0f06-48af-b840-ce2350dca5eb"
 			}
 		},
 		"metadata": {
@@ -55,7 +55,7 @@
 				"cell_type": "code",
 				"source": [
 					"class SupportingData_object(BaseOEAModule):\r\n",
-					"    def __init__(self, source_folder='_SupportingData', pseudonymize = True):\r\n",
+					"    def __init__(self, source_folder='_SupportData', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        self.schemas['_SchoolList'] = [\r\n",

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b3aca853-a572-466d-8c49-150f4830ebb6"
+				"spark.autotune.trackingId": "9b54c1b8-7c18-42ae-aaff-ceb840d4cbea"
 			}
 		},
 		"metadata": {
@@ -117,6 +117,8 @@
 					"        # load the school list to get the 'area' into DMCampus\r\n",
 					"        sourcep = oea.stage2p\r\n",
 					"        school_df = spark.read.load(sourcep + \"/_SupportData/SchoolList_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"        display(school_df)\r\n",
 					"\r\n",
 					"        school_df.withColumnRenamed('SchoolId', 'xSchoolId')\r\n",
 					"        df.withColumnRenamed('SchoolName', 'xSchoolName')\r\n",

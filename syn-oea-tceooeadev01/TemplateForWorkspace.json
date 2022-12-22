@@ -2394,6 +2394,9 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
+				"folder": {
+					"name": "Data Copy Pipelines"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -4120,6 +4123,62 @@
 								}
 							]
 						}
+					},
+					{
+						"name": "If AE_Manual",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.ae_manual",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "CopyPipeline_AE_Manual",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "CopyPipeline_AE_Manual",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "If SupportingData",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.supportingdata",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "CopyPipeline_SupportingSchoolsData",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "CopyPipeline_SupportingSchoolsData",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
 					}
 				],
 				"policy": {
@@ -4129,7 +4188,7 @@
 				"parameters": {
 					"acer": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"ae": {
 						"type": "bool",
@@ -4162,6 +4221,14 @@
 					"student": {
 						"type": "bool",
 						"defaultValue": false
+					},
+					"ae_manual": {
+						"type": "bool",
+						"defaultValue": false
+					},
+					"supportingdata": {
+						"type": "bool",
+						"defaultValue": false
 					}
 				},
 				"folder": {
@@ -4180,7 +4247,9 @@
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_NAPLAN')]",
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_NCCD')]",
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_student_object')]",
-				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_student_object_2')]"
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_student_object_2')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_AE_Manual')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_SupportingSchoolsData')]"
 			]
 		},
 		{
@@ -4468,6 +4537,34 @@
 								}
 							]
 						}
+					},
+					{
+						"name": "If SupportingData",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.supportingdata",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "ingestion_stage2_supportingdata",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "ingestion_stage2_supportingdata",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
 					}
 				],
 				"policy": {
@@ -4513,6 +4610,10 @@
 					},
 					"ae_manual": {
 						"type": "bool",
+						"defaultValue": false
+					},
+					"supportingdata": {
+						"type": "bool",
 						"defaultValue": true
 					}
 				},
@@ -4531,7 +4632,8 @@
 				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_naplan')]",
 				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_nccd')]",
 				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_student_profile')]",
-				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_ae_manual')]"
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_ae_manual')]",
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_supportingdata')]"
 			]
 		},
 		{

@@ -5,6 +5,9 @@
 		"workspaceName": {
 			"value": "syn-oea-tceooeadev01"
 		},
+		"AFS_SchoolList_connectionString": {
+			"value": ""
+		},
 		"AzureFileStorage_AEData_connectionString": {
 			"value": ""
 		},

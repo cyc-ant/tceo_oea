@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "cb92d47f-6787-4575-a5cf-35d936f4a583"
+				"spark.autotune.trackingId": "98b01cdb-1520-4225-86c7-3c7cb23744d5"
 			}
 		},
 		"metadata": {
@@ -54,7 +54,7 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"from pyspark.sql.functions import when, max, regexp_replace, col"
+					"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws"
 				],
 				"execution_count": 2
 			},
@@ -127,6 +127,8 @@
 					"        final_df = newdf.select(col(\"SchoolId\"), col(\"SchoolName\"), col(\"Area\"), col(\"Location\"), \\\r\n",
 					"                                col(\"Team\"), col(\"SchoolType\"), col(\"Boarding\"), col(\"SMYL\"), col(\"LastICSEA\"), \\\r\n",
 					"                                col(\"SKCampus\"), col(\"BKCampusId\"), col(\"CampusSuburbAndName\"), col(\"SchoolSuburbAndName\"))\r\n",
+					"\r\n",
+					"        final_df = final_df.withColumn(\"SchoolNameAndArea\", concat_ws(\" - \", \"SchoolName\", \"Area\"))\r\n",
 					"\r\n",
 					"        return final_df\r\n",
 					""

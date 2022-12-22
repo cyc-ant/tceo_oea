@@ -1,0 +1,58 @@
+{
+	"name": "SourceDataset_SupportingSchoolsData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureFileStorage_SupportingData",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "School List",
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"fileName": "TCEO Schools.xlsx",
+				"folderPath": "SupportingData"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Prop_0",
+				"type": "String"
+			},
+			{
+				"name": "Prop_1",
+				"type": "String"
+			},
+			{
+				"name": "Prop_2",
+				"type": "String"
+			},
+			{
+				"name": "Prop_3",
+				"type": "String"
+			},
+			{
+				"name": "Prop_4",
+				"type": "String"
+			},
+			{
+				"name": "Prop_5",
+				"type": "String"
+			},
+			{
+				"name": "Prop_6",
+				"type": "String"
+			},
+			{
+				"name": "Prop_7",
+				"type": "String"
+			},
+			{
+				"name": "Prop_8",
+				"type": "String"
+			}
+		]
+	}
+}

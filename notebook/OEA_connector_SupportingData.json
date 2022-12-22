@@ -21,7 +21,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "9e8b8702-ece8-4149-8852-86ea2415d0b1"
+				"spark.autotune.trackingId": "9faddce0-35ef-4de6-b4e8-2df839ced0cb"
 			}
 		},
 		"metadata": {
@@ -88,12 +88,12 @@
 					"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
 					"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
 					"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-					"object_name = ''\r\n",
-					"method_name = ''\r\n",
+					"object_name = 'supportingdata_object'\r\n",
+					"method_name = 'ingest'\r\n",
 					"source_folder = ''\r\n",
 					"kwargs = '{}'"
 				],
-				"execution_count": 15
+				"execution_count": 1
 			},
 			{
 				"cell_type": "code",
@@ -112,7 +112,7 @@
 				"source": [
 					"%run /OEA_py"
 				],
-				"execution_count": 16
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
@@ -149,7 +149,7 @@
 				"source": [
 					"%run /SupportingData_py"
 				],
-				"execution_count": 17
+				"execution_count": 3
 			},
 			{
 				"cell_type": "code",
@@ -171,7 +171,7 @@
 					"result = m(**kwargs)\r\n",
 					"mssparkutils.notebook.exit(result)"
 				],
-				"execution_count": 18
+				"execution_count": 4
 			}
 		]
 	}

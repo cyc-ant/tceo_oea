@@ -16270,7 +16270,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "05a6966c-091c-4018-8fca-9a4158228c16"
+						"spark.autotune.trackingId": "9faddce0-35ef-4de6-b4e8-2df839ced0cb"
 					}
 				},
 				"metadata": {
@@ -16295,8 +16295,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -16337,13 +16336,13 @@
 							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
 							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
 							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = ''\r\n",
-							"method_name = ''\r\n",
+							"object_name = 'supportingdata_object'\r\n",
+							"method_name = 'ingest'\r\n",
 							"source_folder = ''\r\n",
 							"kwargs = '{}'"
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -16363,7 +16362,7 @@
 							"%run /OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -16402,7 +16401,7 @@
 							"%run /SupportingData_py"
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -16425,7 +16424,7 @@
 							"mssparkutils.notebook.exit(result)"
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": 4
 					}
 				]
 			},
@@ -19956,7 +19955,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f334ff91-8ff3-4475-90b2-c338dd5c05fc"
+						"spark.autotune.trackingId": "1b8e6a7c-c912-4ae6-b4cf-8236dc9fb2eb"
 					}
 				},
 				"metadata": {
@@ -19981,13 +19980,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class SupportingData_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_SupportingData', pseudonymize = True):\r\n",
@@ -19995,6 +19996,7 @@
 							"\r\n",
 							"        self.schemas['_SchoolList'] = [\r\n",
 							"                                        ['SchoolId', 'integer', 'no-op'],\r\n",
+							"                                        ['School Name', 'string', 'no-op'],\r\n",
 							"                                        ['Area', 'string', 'no-op'],\r\n",
 							"                                        ['Location', 'string', 'no-op'],\r\n",
 							"                                        ['Team', 'string', 'no-op'],\r\n",

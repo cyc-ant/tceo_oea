@@ -20409,7 +20409,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "55ae0da6-860d-4b78-89a2-0a6457c5e6f7"
+						"spark.autotune.trackingId": "439c4399-8771-44e1-aa1a-31fe4616b82c"
 					}
 				},
 				"metadata": {
@@ -20448,14 +20448,14 @@
 							"\r\n",
 							"        self.schemas['SchoolList'] = [\r\n",
 							"                                        ['SchoolId', 'integer', 'no-op'],\r\n",
-							"                                        ['School Name', 'string', 'no-op'],\r\n",
+							"                                        ['SchoolName', 'string', 'no-op'],\r\n",
 							"                                        ['Area', 'string', 'no-op'],\r\n",
 							"                                        ['Location', 'string', 'no-op'],\r\n",
 							"                                        ['Team', 'string', 'no-op'],\r\n",
-							"                                        ['School Type', 'string', 'no-op'],\r\n",
+							"                                        ['SchoolType', 'string', 'no-op'],\r\n",
 							"                                        ['Boarding', 'integer', 'no-op'],\r\n",
 							"                                        ['SMYL', 'integer', 'no-op'],\r\n",
-							"                                        ['Last ICSEA', 'integer', 'no-op']                                                                 \r\n",
+							"                                        ['LastICSEA', 'integer', 'no-op']                                                                 \r\n",
 							"                                        ]\r\n",
 							"\r\n",
 							"\r\n",
@@ -20496,7 +20496,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e25ead14-2d5d-4c91-a555-2487c7130dba"
+						"spark.autotune.trackingId": "d61f1eef-c006-4330-b9ef-c8314d2cf0eb"
 					}
 				},
 				"metadata": {
@@ -20521,15 +20521,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col"
 						],
@@ -20993,7 +20991,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9f6ae3b1-e5ce-45ed-9814-d8252e46369e"
+						"spark.autotune.trackingId": "caf30a21-079e-4bb4-af52-125350b0185f"
 					}
 				},
 				"metadata": {
@@ -21053,7 +21051,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 37
+						"execution_count": 44
 					},
 					{
 						"cell_type": "code",
@@ -21072,7 +21070,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 38
+						"execution_count": 45
 					},
 					{
 						"cell_type": "code",
@@ -21091,7 +21089,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 39
+						"execution_count": 46
 					},
 					{
 						"cell_type": "code",
@@ -21120,7 +21118,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 40
+						"execution_count": 47
 					},
 					{
 						"cell_type": "code",
@@ -21141,7 +21139,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 41
+						"execution_count": 48
 					},
 					{
 						"cell_type": "code",
@@ -21184,7 +21182,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 42
+						"execution_count": 49
 					},
 					{
 						"cell_type": "code",
@@ -21204,7 +21202,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 43
+						"execution_count": 50
 					},
 					{
 						"cell_type": "code",

@@ -1,5 +1,5 @@
 {
-	"name": "DataCopy_py",
+	"name": "SupportingDataCopy_py",
 	"properties": {
 		"folder": {
 			"name": "Stage1"
@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "070cf2d9-c734-4da0-ba68-b833b2e0ae65"
+				"spark.autotune.trackingId": "a82dd2db-2096-456c-a6d5-e287b462751a"
 			}
 		},
 		"metadata": {
@@ -65,7 +65,7 @@
 					}
 				},
 				"source": [
-					"class DataCopy(BaseOEAModule):\r\n",
+					"class SupportingDataCopy(BaseOEAModule):\r\n",
 					"    def __init__(self, source_folder, pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"        \r\n",
@@ -75,18 +75,8 @@
 					"            # ignore subfolders\r\n",
 					"            if file.isDir:\r\n",
 					"                continue\r\n",
-					"                \r\n",
-					"            # if the filename is preceded by 'dbovw', remove it and use the rest of the file name as the directory\r\n",
-					"            if file.name.find('dbovw') == 0:\r\n",
-					"                destination = file.name.replace('dbovw', '')\r\n",
-					"            elif file.name.find('dbo.vw') == 0:\r\n",
-					"                destination = file.name.replace('dbo.vw', '')\r\n",
-					"            elif file.name.find('dbo.') == 0:\r\n",
-					"                destination = file.name.replace('dbo.', '')\r\n",
-					"            elif file.name.find('dbo') == 0:\r\n",
-					"                destination = file.name.replace('dbo', '')\r\n",
-					"            else:\r\n",
-					"                destination = file.name\r\n",
+					"\r\n",
+					"            destination = file.name\r\n",
 					"            \r\n",
 					"            # copy the file to the created folder\r\n",
 					"            self._copyToFolder(file, destination)\r\n",
@@ -100,12 +90,11 @@
 					"\r\n",
 					"\r\n",
 					"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
-					"datacopy = DataCopy(source_folder)\r\n",
+					"supportingdatacopy = SupportingDataCopy(source_folder)\r\n",
 					"\r\n",
-					"datacopy.createFoldersForAll()\r\n",
-					""
+					"supportingdatacopy.createFoldersForAll()"
 				],
-				"execution_count": null
+				"execution_count": 28
 			}
 		]
 	}

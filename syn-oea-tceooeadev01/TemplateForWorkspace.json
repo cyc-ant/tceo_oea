@@ -19898,7 +19898,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a2fe6337-5b3b-4524-b698-6bc5053ab001"
+						"spark.autotune.trackingId": "a2696ed6-b0e1-4dfe-bd8e-dfc6f34a2570"
 					}
 				},
 				"metadata": {
@@ -20118,7 +20118,6 @@
 							"CREATE TEMP VIEW vw_activestudent\r\n",
 							"AS\r\n",
 							"SELECT SchoolID AS SchoolAGEID,\r\n",
-							"    LocationID AS LocationAGEID,\r\n",
 							"    c.CampusSuburbAndName,\r\n",
 							"    pd.FirstName,\r\n",
 							"    pd.LastName,\r\n",
@@ -20162,7 +20161,6 @@
 							"CREATE TEMP VIEW vw_inactivestudent\r\n",
 							"AS\r\n",
 							"SELECT SchoolID AS SchoolAGEID,\r\n",
-							"    LocationID AS LocationAGEID,\r\n",
 							"    c.CampusSuburbAndName,\r\n",
 							"    pd.FirstName,\r\n",
 							"    pd.LastName,\r\n",

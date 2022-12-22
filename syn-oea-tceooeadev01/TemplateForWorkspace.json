@@ -20496,7 +20496,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1960279d-535d-45d8-920f-e5cf983d8147"
+						"spark.autotune.trackingId": "ad32f302-556a-4818-bb68-06d4540f6a8b"
 					}
 				},
 				"metadata": {
@@ -20531,7 +20531,7 @@
 						"cell_type": "code",
 						"metadata": {},
 						"source": [
-							"from pyspark.sql.functions import when, max, regexp_replace, col"
+							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws"
 						],
 						"outputs": [],
 						"execution_count": 2
@@ -20606,6 +20606,8 @@
 							"        final_df = newdf.select(col(\"SchoolId\"), col(\"SchoolName\"), col(\"Area\"), col(\"Location\"), \\\r\n",
 							"                                col(\"Team\"), col(\"SchoolType\"), col(\"Boarding\"), col(\"SMYL\"), col(\"LastICSEA\"), \\\r\n",
 							"                                col(\"SKCampus\"), col(\"BKCampusId\"), col(\"CampusSuburbAndName\"), col(\"SchoolSuburbAndName\"))\r\n",
+							"\r\n",
+							"        final_df = final_df.withColumn(\"SchoolNameAndArea\", concat_ws(\" - \", \"SchoolName\", \"Area\"))\r\n",
 							"\r\n",
 							"        return final_df\r\n",
 							""
@@ -20993,7 +20995,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "bb32e85f-0de5-467f-a549-3877dfa7e100"
+						"spark.autotune.trackingId": "2e027f97-20da-4ae0-bd38-8bd9121a99fd"
 					}
 				},
 				"metadata": {
@@ -21053,7 +21055,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 51
+						"execution_count": 58
 					},
 					{
 						"cell_type": "code",
@@ -21072,7 +21074,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 52
+						"execution_count": 59
 					},
 					{
 						"cell_type": "code",
@@ -21091,7 +21093,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 53
+						"execution_count": 60
 					},
 					{
 						"cell_type": "code",
@@ -21120,7 +21122,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 54
+						"execution_count": 61
 					},
 					{
 						"cell_type": "code",
@@ -21141,7 +21143,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 55
+						"execution_count": 62
 					},
 					{
 						"cell_type": "code",
@@ -21184,7 +21186,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 56
+						"execution_count": 63
 					},
 					{
 						"cell_type": "code",
@@ -21204,7 +21206,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 57
+						"execution_count": 64
 					},
 					{
 						"cell_type": "code",

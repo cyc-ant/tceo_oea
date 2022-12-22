@@ -311,29 +311,6 @@
 						}
 					]
 				}
-			},
-			{
-				"name": "If SupportingData",
-				"type": "IfCondition",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"expression": {
-						"value": "@pipeline().parameters.supportingdata",
-						"type": "Expression"
-					},
-					"ifTrueActivities": [
-						{
-							"name": "CopyPipeline_SupportingSchoolsData",
-							"type": "ExecutePipeline",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"waitOnCompletion": true
-							}
-						}
-					]
-				}
 			}
 		],
 		"parameters": {

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "9b54c1b8-7c18-42ae-aaff-ceb840d4cbea"
+				"spark.autotune.trackingId": "6ff4d20b-c709-44c0-9ec8-c17e7573d949"
 			}
 		},
 		"metadata": {
@@ -118,12 +118,13 @@
 					"        sourcep = oea.stage2p\r\n",
 					"        school_df = spark.read.load(sourcep + \"/_SupportData/SchoolList_pseudo\", format='delta')\r\n",
 					"\r\n",
-					"        display(school_df)\r\n",
+					"        #display(school_df)\r\n",
 					"\r\n",
-					"        school_df.withColumnRenamed('SchoolId', 'xSchoolId')\r\n",
+					"        #school_df.withColumnRenamed('SchoolId', 'xSchoolId')\r\n",
 					"        df.withColumnRenamed('SchoolName', 'xSchoolName')\r\n",
+					"        df.withColumnRenamed('SchoolId', 'xSchoolId')\r\n",
 					"\r\n",
-					"        newdf = df.join(school_df, df.SchoolId == school_df.xSchoolId, \"inner\")\r\n",
+					"        newdf = df.join(school_df, df.xSchoolId == school_df.SchoolId, \"inner\")\r\n",
 					"        \r\n",
 					"        final_df = newdf.select(col(\"SchoolId\"), col(\"SchoolName\"), col(\"Area\"), col(\"Location\"), \\\r\n",
 					"                                col(\"Team\"), col(\"SchoolType\"), col(\"Boarding\"), col(\"SMYL\"), col(\"LastICSEA\"), \\\r\n",

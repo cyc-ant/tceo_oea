@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "7861fc21-bb55-4bfb-b441-9f2b6ceafc09"
+				"spark.autotune.trackingId": "15885352-bea9-4403-bd89-82e27867bb23"
 			}
 		},
 		"metadata": {
@@ -118,11 +118,9 @@
 					"        sourcep = oea.stage2p\r\n",
 					"        school_df = spark.read.load(sourcep + \"/_SupportData/SchoolList_pseudo\", format='delta')\r\n",
 					"        \r\n",
-					"        school_df.withColumnRenamed('SchoolId', 'xSchoolId')\r\n",
-					"        display(school_df)\r\n",
+					"        school_df = school_df.withColumnRenamed('SchoolId', 'xSchoolId')\r\n",
 					"\r\n",
-					"        df.withColumnRenamed('SchoolName', 'xSchoolName')\r\n",
-					"        #df.withColumnRenamed('SchoolId', 'xSchoolId')\r\n",
+					"        df = df.withColumnRenamed('SchoolName', 'xSchoolName')\r\n",
 					"\r\n",
 					"        newdf = df.join(school_df, df.SchoolId == school_df.xSchoolId, \"inner\")\r\n",
 					"        \r\n",

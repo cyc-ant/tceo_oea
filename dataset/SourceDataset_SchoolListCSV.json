@@ -1,0 +1,60 @@
+{
+	"name": "SourceDataset_SchoolListCSV",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AFS_SchoolList",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"fileName": "_SchoolList.csv",
+				"folderPath": "SupportingData"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "SchoolId",
+				"type": "String"
+			},
+			{
+				"name": "SchoolName",
+				"type": "String"
+			},
+			{
+				"name": "Area",
+				"type": "String"
+			},
+			{
+				"name": "Location",
+				"type": "String"
+			},
+			{
+				"name": "Team",
+				"type": "String"
+			},
+			{
+				"name": "SchoolType",
+				"type": "String"
+			},
+			{
+				"name": "Boarding",
+				"type": "String"
+			},
+			{
+				"name": "SMYL",
+				"type": "String"
+			},
+			{
+				"name": "LastICSEA",
+				"type": "String"
+			}
+		]
+	}
+}

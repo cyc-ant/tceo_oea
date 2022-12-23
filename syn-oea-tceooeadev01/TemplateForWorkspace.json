@@ -17469,7 +17469,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f90af699-f757-4637-88b9-9c9100c08879"
+						"spark.autotune.trackingId": "56a87d98-6093-4be5-b867-d9cbda6bb771"
 					}
 				},
 				"metadata": {
@@ -19416,7 +19416,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 458
+						"execution_count": 469
 					},
 					{
 						"cell_type": "code",
@@ -19474,10 +19474,10 @@
 							"collapsed": false
 						},
 						"source": [
-							"drop view vw_ae_manual_semesterreports"
+							"drop view vw_ae_manual_semesterreports_test"
 						],
 						"outputs": [],
-						"execution_count": 395
+						"execution_count": 472
 					},
 					{
 						"cell_type": "code",
@@ -19544,7 +19544,7 @@
 							"--and m.studentfirstname = 'Oliver' and m.studentlastname = 'Henderson'"
 						],
 						"outputs": [],
-						"execution_count": 459
+						"execution_count": 473
 					},
 					{
 						"cell_type": "code",
@@ -19561,10 +19561,78 @@
 							"collapsed": false
 						},
 						"source": [
-							"select * from vw_ae_manual_semesterreports_test limit 10"
+							"select * from vw_ae_manual_semesterreports_test \r\n",
+							"where ceider is null"
 						],
 						"outputs": [],
-						"execution_count": 460
+						"execution_count": 492
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"  select \r\n",
+							"  a.studentfirstname, innerquery.firstname\r\n",
+							"  , a.studentlastname, innerquery.lastname\r\n",
+							"  , a.school_name, innerquery.schoolname\r\n",
+							"  , a.area , innerquery.area\r\n",
+							"  , a.studentyearlevel, innerquery.YearLevelSifDesc, innerquery.BusinessDesc\r\n",
+							"  , innerquery.ceider\r\n",
+							"  \r\n",
+							"  from vw_aemanualsemesterreports a\r\n",
+							"\r\n",
+							"\r\n",
+							"  left join (\r\n",
+							"  select a.ceider, a.firstname, a.lastname, b.skcampus, b.skyearlevel, c.YearLevelSifDesc, c.BusinessDesc, d.schoolname , d.area from vw_dmpersondemographic a\r\n",
+							"  left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+							"  left join vw_dmyearlevel c on b.skyearlevel = c.skyearlevel\r\n",
+							"  left join vw_dmcampus d on b.skcampus = d.skcampus\r\n",
+							"  where a.firstname = 'Oliver' and a.lastname = 'Henderson' \r\n",
+							"      and a.persontype = 'Student') innerquery\r\n",
+							"\r\n",
+							"  on a.studentfirstname = innerquery.firstname\r\n",
+							"  and a.studentlastname = innerquery.lastname\r\n",
+							"  and a.school_name = innerquery.schoolname \r\n",
+							"  and a.area = innerquery.area\r\n",
+							"  and a.studentyearlevel = innerquery.YearLevelSifDesc\r\n",
+							"  \r\n",
+							"    where studentfirstname = 'Oliver' and studentlastname = 'Henderson'"
+						],
+						"outputs": [],
+						"execution_count": 476
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select a.persontype from vw_dmpersondemographic a\r\n",
+							"  left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+							"where a.firstname = 'Georgia' and a.lastname = 'Tate' "
+						],
+						"outputs": [],
+						"execution_count": 481
 					},
 					{
 						"cell_type": "code",
@@ -19852,6 +19920,250 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"CREATE TEMP VIEW vw_naplanparticipation\r\n",
+							"as\r\n",
+							"select \r\n",
+							"*\r\n",
+							"--, round(cast(#naplan_enrolled as float) / cast(#students_enrolled as float), 2) as participation_perc \r\n",
+							", round(naplan_enrolled / students_enrolled , 2) as participation_perc \r\n",
+							"from \r\n",
+							"(select \r\n",
+							"a.skcampus\r\n",
+							", a.skyear\r\n",
+							", a.skyearlevel\r\n",
+							", sum(studentcount) as students_enrolled\r\n",
+							", innerquery.naplan_enrolled from vw_factstudentenrolmentcounts a\r\n",
+							"left join vw_dmdate b on a.skdate = b.skdate\r\n",
+							"left join \r\n",
+							"\t(select \r\n",
+							"\t\tskcampus\r\n",
+							"\t\t, skyear\r\n",
+							"\t\t, skyearlevel\r\n",
+							"\t\t, count(distinct skpersistentstudentid) as naplan_enrolled \r\n",
+							"\t\tfrom vw_factnaplanstudentyearresult\r\n",
+							"\t\t\tgroup by skcampus, skyear, skyearlevel) innerquery\r\n",
+							"on a.skcampus = innerquery.skcampus and a.skyear = innerquery.skyear and a.skyearlevel = innerquery.skyearlevel\r\n",
+							"where a.skyearlevel in (11, 2, 12, 3) \r\n",
+							"and b.MonthNumberOfYear = 5\r\n",
+							"group by a.skcampus, a.skyear, a.skyearlevel, innerquery.naplan_enrolled\r\n",
+							") wholequery\r\n",
+							"--order by skcampus, skyear, skyearlevel\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 493
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_naplanparticipation\r\n",
+							"where skyear = 92\r\n",
+							"and skcampus = 9948 \r\n",
+							"--and skyearlevel = 2"
+						],
+						"outputs": [],
+						"execution_count": 517
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select \r\n",
+							"*\r\n",
+							"--, round(cast(#naplan_enrolled as float) / cast(#students_enrolled as float), 2) as participation_perc \r\n",
+							", round(naplan_enrolled / students_enrolled , 2) as participation_perc \r\n",
+							"from \r\n",
+							"(select \r\n",
+							"a.skcampus\r\n",
+							", a.skyear\r\n",
+							", a.skyearlevel\r\n",
+							", sum(studentcount) as students_enrolled\r\n",
+							", innerquery.naplan_enrolled from vw_factstudentenrolmentcounts a\r\n",
+							"left join vw_dmdate b on a.skdate = b.skdate\r\n",
+							"left join \r\n",
+							"\t(select \r\n",
+							"\t\tskcampus\r\n",
+							"\t\t, skyear\r\n",
+							"\t\t, skyearlevel\r\n",
+							"\t\t, count(distinct skpersistentstudentid) as naplan_enrolled \r\n",
+							"\t\tfrom vw_factnaplanstudentyearresult\r\n",
+							"\t\t\tgroup by skcampus, skyear, skyearlevel) innerquery\r\n",
+							"on a.skcampus = innerquery.skcampus and a.skyear = innerquery.skyear and a.skyearlevel = innerquery.skyearlevel\r\n",
+							"--on a.skcampus = innerquery.skcampus and a.skyear = innerquery.skyear and a.skdate = innerquery.skdate and a.skyearlevel = innerquery.skyearlevel \r\n",
+							"where a.skyearlevel in (11, 2, 12, 3) \r\n",
+							"and b.MonthNumberOfYear = 5\r\n",
+							"group by a.skcampus, a.skyear, a.skyearlevel, innerquery.naplan_enrolled\r\n",
+							") wholequery\r\n",
+							"where skcampus = 8769 and skyear = 91 and skyearlevel = 2"
+						],
+						"outputs": [],
+						"execution_count": 510
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select \r\n",
+							"*\r\n",
+							"--, round(cast(count_of_tests as float) / (cast(#students_enrolled as float) * 2), 2) as participation_perc \r\n",
+							", round(count_of_tests /(students_enrolled  * 2), 2) as participation_perc \r\n",
+							"from\r\n",
+							"(\r\n",
+							"select \r\n",
+							"\t--*\r\n",
+							"\ta.skcampus\r\n",
+							"\t, a.skyear\r\n",
+							"\t, a.skdate\r\n",
+							"\t, a.skyearlevel\r\n",
+							"\t, sum(studentcount) as students_enrolled\r\n",
+							"\t, innerquery.count_of_tests \r\n",
+							"from vw_factstudentenrolmentcounts a\r\n",
+							"\r\n",
+							"left join \r\n",
+							"\t(\t\r\n",
+							"\t\tselect innerinner.skcampus, innerinner.skyear, innerinner.skdate, innerinner.SKYearLevel, sum(acer_tests) as count_of_tests from \r\n",
+							"\t\t\t(\r\n",
+							"\t\t\t\tselect \r\n",
+							"\t\t\t\t\t\tskcampus\r\n",
+							"\t\t\t\t\t\t, skyear\r\n",
+							"\t\t\t\t\t\t, SKDate\r\n",
+							"\t\t\t\t\t\t, skyearlevel\r\n",
+							"\t\t\t\t\t\t, SKACERStudent\r\n",
+							"\t\t\t\t\t\t, count(distinct skpattest) as acer_tests\r\n",
+							"\t\t\t\t\t\tfrom vw_factpatresults_df\r\n",
+							"\t\t\t\t\t\t\tgroup by skcampus, skyear, skdate, skyearlevel, SKACERStudent --9\r\n",
+							"\t\t\t) innerinner\r\n",
+							"\tgroup by innerinner.skcampus, innerinner.skyear, innerinner.skdate, innerinner.SKYearLevel\r\n",
+							"\t) innerquery\r\n",
+							"\r\n",
+							"on a.skcampus = innerquery.skcampus and a.skyear = innerquery.skyear and a.skdate = innerquery.skdate and a.skyearlevel = innerquery.skyearlevel \r\n",
+							"where a.skyearlevel in (21, 11, 10, 2, 16, 12, 20, 3, 17) --ACER - year levels 2 to 10\r\n",
+							"group by a.skcampus, a.skyear, a.skdate, a.skyearlevel, innerquery.count_of_tests\r\n",
+							") wholequery\r\n",
+							"where skcampus = 8769 and skyear = 91 and skyearlevel = 2"
+						],
+						"outputs": [],
+						"execution_count": 511
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"Current ACER code"
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select \r\n",
+							"*\r\n",
+							"--, round(cast(count_of_tests as float) / (cast(#students_enrolled as float) * 2), 2) as participation_perc \r\n",
+							", round(count_of_tests /(students_enrolled  * 2), 2) as participation_perc \r\n",
+							"from\r\n",
+							"(\r\n",
+							"select \r\n",
+							"\t--*\r\n",
+							"\ta.skcampus\r\n",
+							"\t, a.skyear\r\n",
+							"\t, a.skdate\r\n",
+							"\t, a.skyearlevel\r\n",
+							"\t, sum(studentcount) as students_enrolled\r\n",
+							"\t, innerquery.count_of_tests \r\n",
+							"from vw_factstudentenrolmentcounts a\r\n",
+							"\r\n",
+							"left join \r\n",
+							"\t(\t\r\n",
+							"\t\tselect innerinner.skcampus, innerinner.skyear, innerinner.skdate, innerinner.SKYearLevel, sum(acer_tests) as count_of_tests from \r\n",
+							"\t\t\t(\r\n",
+							"\t\t\t\tselect \r\n",
+							"\t\t\t\t\t\tskcampus\r\n",
+							"\t\t\t\t\t\t, skyear\r\n",
+							"\t\t\t\t\t\t, SKDate\r\n",
+							"\t\t\t\t\t\t, skyearlevel\r\n",
+							"\t\t\t\t\t\t, SKACERStudent\r\n",
+							"\t\t\t\t\t\t, count(distinct skpattest) as acer_tests\r\n",
+							"\t\t\t\t\t\tfrom vw_factpatresults_df\r\n",
+							"\t\t\t\t\t\t\tgroup by skcampus, skyear, skdate, skyearlevel, SKACERStudent --9\r\n",
+							"\t\t\t) innerinner\r\n",
+							"\tgroup by innerinner.skcampus, innerinner.skyear, innerinner.skdate, innerinner.SKYearLevel\r\n",
+							"\t) innerquery\r\n",
+							"\r\n",
+							"on a.skcampus = innerquery.skcampus and a.skyear = innerquery.skyear and a.skdate = innerquery.skdate and a.skyearlevel = innerquery.skyearlevel \r\n",
+							"where a.skyearlevel in (21, 11, 10, 2, 16, 12, 20, 3, 17) --ACER - year levels 2 to 10\r\n",
+							"group by a.skcampus, a.skyear, a.skdate, a.skyearlevel, innerquery.count_of_tests\r\n",
+							") wholequery\r\n",
+							"where skyear = 92"
+						],
+						"outputs": [],
+						"execution_count": 514
 					}
 				]
 			},
@@ -19881,7 +20193,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a0c72c14-9a83-4136-892f-953f82def05e"
+						"spark.autotune.trackingId": "9260a610-931f-4918-a5b0-c26d68060b8c"
 					}
 				},
 				"metadata": {

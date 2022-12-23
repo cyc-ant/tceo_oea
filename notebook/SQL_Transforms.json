@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3d2a4641-2851-40b5-babf-0e4cfac5ec61"
+				"spark.autotune.trackingId": "c01501ec-94e9-4681-bb7c-346b126ed10c"
 			}
 		},
 		"metadata": {
@@ -466,6 +466,7 @@
 					",m.BKID\r\n",
 					",innerquery.ceider\r\n",
 					",innerquery.schoolid\r\n",
+					",innerquery.skcampus\r\n",
 					"from vw_aemanuallearningtasks m\r\n",
 					"\r\n",
 					"left join \r\n",
@@ -513,6 +514,7 @@
 					"m.* \r\n",
 					", innerquery.ceider\r\n",
 					", innerquery.schoolid\r\n",
+					", innerquery.skcampus\r\n",
 					"from vw_aemanualsemesterreports m\r\n",
 					"\r\n",
 					"left join \r\n",

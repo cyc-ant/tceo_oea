@@ -17469,7 +17469,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "934b9d51-e5c3-4a03-91f7-d63774cccd32"
+						"spark.autotune.trackingId": "f90af699-f757-4637-88b9-9c9100c08879"
 					}
 				},
 				"metadata": {
@@ -17494,7 +17494,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -19222,7 +19223,7 @@
 							"test_df_sm.createOrReplaceTempView('vw_aemanuallearningtasks')"
 						],
 						"outputs": [],
-						"execution_count": 349
+						"execution_count": 445
 					},
 					{
 						"cell_type": "code",
@@ -19296,6 +19297,7 @@
 							",m.BKID\r\n",
 							",innerquery.ceider\r\n",
 							",innerquery.schoolid\r\n",
+							",innerquery.skcampus\r\n",
 							"from vw_aemanuallearningtasks m\r\n",
 							"\r\n",
 							"left join \r\n",
@@ -19320,27 +19322,7 @@
 							"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')"
 						],
 						"outputs": [],
-						"execution_count": 433
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": false
-						},
-						"source": [
-							"select * from vw_dmcampus"
-						],
-						"outputs": [],
-						"execution_count": 357
+						"execution_count": 456
 					},
 					{
 						"cell_type": "code",
@@ -19402,7 +19384,7 @@
 							"select * from vw_ae_manual_learningtasks_2 limit 10"
 						],
 						"outputs": [],
-						"execution_count": 435
+						"execution_count": 457
 					},
 					{
 						"cell_type": "code",
@@ -19434,7 +19416,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 361
+						"execution_count": 458
 					},
 					{
 						"cell_type": "code",
@@ -19519,6 +19501,7 @@
 							"m.* \r\n",
 							", innerquery.ceider\r\n",
 							", innerquery.schoolid\r\n",
+							", innerquery.skcampus\r\n",
 							"-- innerquery.ceider\r\n",
 							"-- ,m.studentfirstname\r\n",
 							"-- ,innerquery.firstname\r\n",
@@ -19561,7 +19544,7 @@
 							"--and m.studentfirstname = 'Oliver' and m.studentlastname = 'Henderson'"
 						],
 						"outputs": [],
-						"execution_count": 436
+						"execution_count": 459
 					},
 					{
 						"cell_type": "code",
@@ -19581,7 +19564,7 @@
 							"select * from vw_ae_manual_semesterreports_test limit 10"
 						],
 						"outputs": [],
-						"execution_count": 439
+						"execution_count": 460
 					},
 					{
 						"cell_type": "code",
@@ -19898,7 +19881,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a2696ed6-b0e1-4dfe-bd8e-dfc6f34a2570"
+						"spark.autotune.trackingId": "a0c72c14-9a83-4136-892f-953f82def05e"
 					}
 				},
 				"metadata": {
@@ -20350,6 +20333,7 @@
 							",m.BKID\r\n",
 							",innerquery.ceider\r\n",
 							",innerquery.schoolid\r\n",
+							",innerquery.skcampus\r\n",
 							"from vw_aemanuallearningtasks m\r\n",
 							"\r\n",
 							"left join \r\n",
@@ -20398,6 +20382,7 @@
 							"m.* \r\n",
 							", innerquery.ceider\r\n",
 							", innerquery.schoolid\r\n",
+							", innerquery.skcampus\r\n",
 							"from vw_aemanualsemesterreports m\r\n",
 							"\r\n",
 							"left join \r\n",

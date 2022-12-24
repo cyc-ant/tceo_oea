@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d10cded8-ce57-4343-ad9f-fe2bd86d41b4"
+				"spark.autotune.trackingId": "885c31e2-f0b3-4ba9-a60b-ab5b11ef0023"
 			}
 		},
 		"metadata": {
@@ -2467,7 +2467,7 @@
 					"and skcampus = 9948 \r\n",
 					"--and skyearlevel = 2"
 				],
-				"execution_count": 517
+				"execution_count": 518
 			},
 			{
 				"cell_type": "code",

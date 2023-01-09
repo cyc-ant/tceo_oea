@@ -13045,7 +13045,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5ed239ab-36a2-477f-8581-f870e540d8a0"
+						"spark.autotune.trackingId": "af697b23-a5a6-48db-aa1d-53b651bad007"
 					}
 				},
 				"metadata": {
@@ -13070,8 +13070,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -13150,7 +13149,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d9e9be10-c46c-485c-acb6-bfdbf9a8e12d"
+						"spark.autotune.trackingId": "9856b9e0-f32a-48e9-9007-e3be06119f09"
 					}
 				},
 				"metadata": {
@@ -13236,7 +13235,7 @@
 							"        oea.ingest_delta_data(self.source_folder, 'ICSEA', self.schemas['ICSEA'], None, 'SchoolId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'GenderImageData', self.schemas['GenderImageData'], None, 'Gender')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DomainSelection', self.schemas['DomainSelection'], None, 'DomainId')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag', 'txt')\r\n",
 							"\r\n",
 							"\r\n",
 							"\r\n",
@@ -16496,7 +16495,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e4c57067-5ae3-45c9-8779-b1e3bb1b6166"
+						"spark.autotune.trackingId": "3bba4a0b-0359-4f67-a3f9-a62370a1bfcb"
 					}
 				},
 				"metadata": {
@@ -17604,7 +17603,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "27b938df-7b10-45e1-bcd3-384ce12ea1d2"
+						"spark.autotune.trackingId": "a211bce3-1d67-4d75-a183-c2a429ddb0a8"
 					}
 				},
 				"metadata": {
@@ -17629,7 +17628,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -18422,7 +18422,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "338ec850-5aac-49be-91f7-e8452f1bf00b"
+						"spark.autotune.trackingId": "464fd113-2442-457a-937a-d9ce0b715cc6"
 					}
 				},
 				"metadata": {
@@ -18447,7 +18447,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -21381,7 +21382,69 @@
 							"--how to tell which result to use?"
 						],
 						"outputs": [],
-						"execution_count": 24
+						"execution_count": 2
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"microsoft": {
+								"language": "python"
+							}
+						},
+						"source": [
+							"%%pyspark\r\n",
+							"\r\n",
+							"# setup the temp tables we need\r\n",
+							"sourcep = oea.stage2p\r\n",
+							"source3p = oea.stage3p\r\n",
+							"\r\n",
+							"# used for classenrolment view\r\n",
+							"domainselection_df = spark.read.load(sourcep + \"/_GeneralData/DomainSelection_pseudo\", format='delta')\r\n",
+							"flagimagedata_df = spark.read.load(sourcep + \"/_GeneralData/FlagImageData_pseudo\", format='delta')\r\n",
+							"genderimagedata_df = spark.read.load(sourcep + \"/_GeneralData/GenderImageData_pseudo\", format='delta')\r\n",
+							"icsea_df = spark.read.load(sourcep + \"/_GeneralData/ICSEA_pseudo\", format='delta')\r\n",
+							"schoollist_df = spark.read.load(sourcep + \"/_GeneralData/School List_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"\r\n",
+							"# create temp sql views\r\n",
+							"domainselection_df.createOrReplaceTempView('vw_domainselection')\r\n",
+							"flagimagedata_df.createOrReplaceTempView('vw_flagimagedata')\r\n",
+							"genderimagedata_df.createOrReplaceTempView('vw_genderimagedata')\r\n",
+							"icsea_df.createOrReplaceTempView('vw_icsea')\r\n",
+							"schoollist_df.createOrReplaceTempView('vw_schoollist')\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 3
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_flagimagedata"
+						],
+						"outputs": [],
+						"execution_count": 11
 					}
 				]
 			},

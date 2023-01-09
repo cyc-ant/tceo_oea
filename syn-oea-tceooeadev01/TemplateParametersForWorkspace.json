@@ -11,6 +11,9 @@
 		"AzureFileStorage_AEData_connectionString": {
 			"value": ""
 		},
+		"AzureFileStorage_GeneralData_connectionString": {
+			"value": ""
+		},
 		"AzureFileStorage_SchoolList_connectionString": {
 			"value": ""
 		},
@@ -22,6 +25,12 @@
 		},
 		"LS_SQL_Serverless_OEA_connectionString": {
 			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=syn-oea-tceooeadev01-ondemand.sql.azuresynapse.net;Initial Catalog=@{linkedService().dbName}"
+		},
+		"SharePointOnlineList1_servicePrincipalKey": {
+			"value": ""
+		},
+		"SharePointOnlineList2_servicePrincipalKey": {
+			"value": ""
 		},
 		"syn-oea-tceooeadev01-WorkspaceDefaultSqlServer_connectionString": {
 			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:syn-oea-tceooeadev01.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
@@ -40,6 +49,12 @@
 		},
 		"LS_KeyVault_OEA_properties_typeProperties_baseUrl": {
 			"value": "https://kv-oea-tceooeadev01.vault.azure.net/"
+		},
+		"SharePointOnlineList1_properties_typeProperties_servicePrincipalId": {
+			"value": "75609f67-9701-40b5-b40f-b2ff150646af"
+		},
+		"SharePointOnlineList2_properties_typeProperties_servicePrincipalId": {
+			"value": "1a4f8819-1b1e-43b4-ba26-7df3963e4159"
 		},
 		"syn-oea-tceooeadev01-WorkspaceDefaultStorage_properties_typeProperties_url": {
 			"value": "https://stoeatceooeadev01.dfs.core.windows.net"

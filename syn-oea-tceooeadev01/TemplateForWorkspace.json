@@ -2887,6 +2887,88 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_kev')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_kev",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "GeneralData_txt/"
+							},
+							{
+								"name": "Destination",
+								"value": "stage1np/_GeneralData/"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureFileStorageReadSettings",
+									"recursive": true,
+									"wildcardFileName": "*",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings",
+									"skipLineCount": 0
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_kev",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_kev",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_kev')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_kev')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_student_object')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -8031,6 +8113,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_kev')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "_GeneralData",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_op9')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -9799,6 +9909,46 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_kev')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureFileStorage_GeneralData",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureFileStorageLocation",
+						"folderPath": "GeneralData_txt"
+					},
+					"columnDelimiter": "\t",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Flag",
+						"type": "String"
+					},
+					{
+						"name": "Image",
+						"type": "String"
+					},
+					{
+						"name": "ATSIId",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/AzureFileStorage_GeneralData')]"
 			]
 		},
 		{
@@ -12863,6 +13013,233 @@
 							"\r\n",
 							"\r\n",
 							"enrolment_object = Enrolment_object()"
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/GeneralDataCopy_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Stage1"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "af697b23-a5a6-48db-aa1d-53b651bad007"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"class GeneralDataCopy(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder, pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"        \r\n",
+							"    def createFoldersForAll(self):\r\n",
+							"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
+							"        for file in file_list:\r\n",
+							"            # ignore subfolders\r\n",
+							"            if file.isDir:\r\n",
+							"                continue\r\n",
+							"\r\n",
+							"            destination = file.name\r\n",
+							"            \r\n",
+							"            # copy the file to the created folder\r\n",
+							"            self._copyToFolder(file, destination)\r\n",
+							"\r\n",
+							"\r\n",
+							"    def _copyToFolder(self, file, destination):\r\n",
+							"        \"\"\" Moves the file to a folder that is based on the filename without its file extension\"\"\"\r\n",
+							"        tokens = destination.split(\".\")\r\n",
+							"        target = self.stage1np + '/' + tokens[0] +'/' + file.name\r\n",
+							"        mssparkutils.fs.mv(file.path, target, True) # will create the new dir and move file into it\r\n",
+							"\r\n",
+							"\r\n",
+							"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
+							"generaldatacopy = GeneralDataCopy(source_folder)\r\n",
+							"\r\n",
+							"generaldatacopy.createFoldersForAll()"
+						],
+						"outputs": [],
+						"execution_count": 28
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/GeneralData_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Data Objects"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "12b1088b-470d-478a-9a75-4c68217b4204"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": true,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "python"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"class GeneralData_object(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder='_GeneralData', pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"\r\n",
+							"        self.schemas['School List'] = [\r\n",
+							"                                        ['SchoolId', 'integer', 'no-op'],\r\n",
+							"                                        ['SchoolName', 'string', 'no-op'],\r\n",
+							"                                        ['Area', 'string', 'no-op'],\r\n",
+							"                                        ['Location', 'string', 'no-op'],\r\n",
+							"                                        ['Cluster', 'string', 'no-op'],\r\n",
+							"                                        ['SchoolType', 'string', 'no-op'],\r\n",
+							"                                        ['Boarding', 'integer', 'no-op'],\r\n",
+							"                                        ['SMYL', 'integer', 'no-op'],\r\n",
+							"                                        ['LastICSEA', 'integer', 'no-op']                                                                \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['ICSEA'] = [\r\n",
+							"                                        ['SchoolId', 'integer', 'no-op'],\r\n",
+							"                                        ['School Name', 'string', 'no-op'],\r\n",
+							"                                        ['Area', 'string', 'no-op'],\r\n",
+							"                                        ['2018', 'integer', 'no-op'],\r\n",
+							"                                        ['2019', 'integer', 'no-op'],\r\n",
+							"                                        ['2020', 'integer', 'no-op'],\r\n",
+							"                                        ['2021', 'integer', 'no-op']                                                            \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['GenderImageData'] = [\r\n",
+							"                                        ['Gender', 'string', 'no-op'],\r\n",
+							"                                        ['Image', 'string', 'no-op']                                                       \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['DomainSelection'] = [\r\n",
+							"                                        ['DomainId', 'integer', 'no-op'],\r\n",
+							"                                        ['Selection', 'string', 'no-op'],\r\n",
+							"                                        ['NAPLAN', 'string', 'no-op'],\r\n",
+							"                                        ['ACER', 'string', 'no-op'],\r\n",
+							"                                        ['AE', 'string', 'no-op']                                                       \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['FlagImageData'] = [\r\n",
+							"                                        ['Flag', 'string', 'no-op'],\r\n",
+							"                                        ['Image', 'string', 'no-op'],\r\n",
+							"                                        ['ATSIId', 'string', 'no-op']                                                       \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"\r\n",
+							"    def ingest(self):\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'School List', self.schemas['School List'], None, 'SchoolId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'ICSEA', self.schemas['ICSEA'], None, 'SchoolId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'GenderImageData', self.schemas['GenderImageData'], None, 'Gender')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DomainSelection', self.schemas['DomainSelection'], None, 'DomainId')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag')\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"generaldata_object = GeneralData_object()"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -16094,6 +16471,191 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_GeneralData')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"runAsWorkspaceSystemIdentity": false,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "082781c9-226d-4ebf-8fd2-caf02d7dc8a5"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# OEA connector\n",
+							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
+							"\n",
+							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"tags": [
+								"parameters"
+							]
+						},
+						"source": [
+							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
+							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
+							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
+							"object_name = ''\r\n",
+							"method_name = ''\r\n",
+							"source_folder = ''\r\n",
+							"kwargs = '{}'"
+						],
+						"outputs": [],
+						"execution_count": 1
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 2
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run /GeneralDataCopy_py"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /GeneralData_py"
+						],
+						"outputs": [],
+						"execution_count": 3
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"obj = eval(object_name)\r\n",
+							"kwargs = eval(kwargs)\r\n",
+							"m = getattr(obj, method_name)\r\n",
+							"result = m(**kwargs)\r\n",
+							"mssparkutils.notebook.exit(result)"
+						],
+						"outputs": [],
+						"execution_count": 4
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/OEA_connector_MySchools')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -16858,7 +17420,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7301f319-9d38-428f-8b95-3afdb7767253"
+						"spark.autotune.trackingId": "f3ab8f4d-fc0a-471a-a1d1-3541a8d0d7fa"
 					}
 				},
 				"metadata": {
@@ -16883,8 +17445,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -23020,386 +23581,6 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_GeneralData')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "OEA Connectors"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "85807e14-b780-454e-a6ba-24b5b759ca2f"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "markdown",
-						"metadata": {
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"# OEA connector\n",
-							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
-							"\n",
-							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
-						]
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"tags": [
-								"parameters"
-							]
-						},
-						"source": [
-							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
-							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
-							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = ''\r\n",
-							"method_name = ''\r\n",
-							"source_folder = ''\r\n",
-							"kwargs = '{}'"
-						],
-						"outputs": [],
-						"execution_count": 1
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 2
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"%run /GeneralDataCopy_py"
-						],
-						"outputs": [],
-						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /GeneralData_py"
-						],
-						"outputs": [],
-						"execution_count": 3
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"obj = eval(object_name)\r\n",
-							"kwargs = eval(kwargs)\r\n",
-							"m = getattr(obj, method_name)\r\n",
-							"result = m(**kwargs)\r\n",
-							"mssparkutils.notebook.exit(result)"
-						],
-						"outputs": [],
-						"execution_count": 4
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/GeneralDataCopy_py')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "Stage1"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b78495d1-889f-4990-adea-30df8f112e81"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"class GeneralDataCopy(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder, pseudonymize = True):\r\n",
-							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-							"        \r\n",
-							"    def createFoldersForAll(self):\r\n",
-							"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
-							"        for file in file_list:\r\n",
-							"            # ignore subfolders\r\n",
-							"            if file.isDir:\r\n",
-							"                continue\r\n",
-							"\r\n",
-							"            destination = file.name\r\n",
-							"            \r\n",
-							"            # copy the file to the created folder\r\n",
-							"            self._copyToFolder(file, destination)\r\n",
-							"\r\n",
-							"\r\n",
-							"    def _copyToFolder(self, file, destination):\r\n",
-							"        \"\"\" Moves the file to a folder that is based on the filename without its file extension\"\"\"\r\n",
-							"        tokens = destination.split(\".\")\r\n",
-							"        target = self.stage1np + '/' + tokens[0] +'/' + file.name\r\n",
-							"        mssparkutils.fs.mv(file.path, target, True) # will create the new dir and move file into it\r\n",
-							"\r\n",
-							"\r\n",
-							"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
-							"generaldatacopy = GeneralDataCopy(source_folder)\r\n",
-							"\r\n",
-							"generaldatacopy.createFoldersForAll()"
-						],
-						"outputs": [],
-						"execution_count": 28
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/GeneralData_py')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "Data Objects"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a0f5ba27-ae29-4694-97f9-61df1545e24d"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": true,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "python"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "code",
-						"metadata": {},
-						"source": [
-							"class SupportingData_object(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='_SupportData', pseudonymize = True):\r\n",
-							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-							"\r\n",
-							"        self.schemas['SchoolList'] = [\r\n",
-							"                                        ['SchoolId', 'integer', 'no-op'],\r\n",
-							"                                        ['SchoolName', 'string', 'no-op'],\r\n",
-							"                                        ['Area', 'string', 'no-op'],\r\n",
-							"                                        ['Location', 'string', 'no-op'],\r\n",
-							"                                        ['Team', 'string', 'no-op'],\r\n",
-							"                                        ['SchoolType', 'string', 'no-op'],\r\n",
-							"                                        ['Boarding', 'integer', 'no-op'],\r\n",
-							"                                        ['SMYL', 'integer', 'no-op'],\r\n",
-							"                                        ['LastICSEA', 'integer', 'no-op']                                                                 \r\n",
-							"                                        ]\r\n",
-							"\r\n",
-							"\r\n",
-							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'SchoolList', self.schemas['SchoolList'], None, 'SchoolId')\r\n",
-							"\r\n",
-							"\r\n",
-							"supportingdata_object = SupportingData_object()"
-						],
-						"outputs": [],
-						"execution_count": null
-					}
-				]
-			},
-			"dependsOn": []
 		}
 	]
 }

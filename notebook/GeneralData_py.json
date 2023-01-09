@@ -1,0 +1,84 @@
+{
+	"name": "GeneralData_py",
+	"properties": {
+		"folder": {
+			"name": "Data Objects"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spark3p1sm",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "b667d06e-a056-4db7-a7fe-7ed4cef16d94"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": true,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"class SupportingData_object(BaseOEAModule):\r\n",
+					"    def __init__(self, source_folder='_SupportData', pseudonymize = True):\r\n",
+					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+					"\r\n",
+					"        self.schemas['SchoolList'] = [\r\n",
+					"                                        ['SchoolId', 'integer', 'no-op'],\r\n",
+					"                                        ['SchoolName', 'string', 'no-op'],\r\n",
+					"                                        ['Area', 'string', 'no-op'],\r\n",
+					"                                        ['Location', 'string', 'no-op'],\r\n",
+					"                                        ['Team', 'string', 'no-op'],\r\n",
+					"                                        ['SchoolType', 'string', 'no-op'],\r\n",
+					"                                        ['Boarding', 'integer', 'no-op'],\r\n",
+					"                                        ['SMYL', 'integer', 'no-op'],\r\n",
+					"                                        ['LastICSEA', 'integer', 'no-op']                                                                 \r\n",
+					"                                        ]\r\n",
+					"\r\n",
+					"\r\n",
+					"    def ingest(self):\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'SchoolList', self.schemas['SchoolList'], None, 'SchoolId')\r\n",
+					"\r\n",
+					"\r\n",
+					"supportingdata_object = SupportingData_object()"
+				],
+				"execution_count": null
+			}
+		]
+	}
+}

@@ -1,0 +1,39 @@
+{
+	"name": "SourceDataset_bva",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureFileStorage_GeneralData",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"folderPath": "GeneralData"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Selection",
+				"type": "String"
+			},
+			{
+				"name": "NAPLAN",
+				"type": "String"
+			},
+			{
+				"name": "ACER",
+				"type": "String"
+			},
+			{
+				"name": "AE",
+				"type": "String"
+			}
+		]
+	}
+}

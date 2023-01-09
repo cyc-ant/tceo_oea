@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d6203920-33ef-4c6e-b743-4b2b211f73c3"
+				"spark.autotune.trackingId": "72ae9b16-3a2a-4f4b-a910-f8e7a48c131a"
 			}
 		},
 		"metadata": {
@@ -2957,7 +2957,7 @@
 				"source": [
 					"select * from vw_flagimagedata"
 				],
-				"execution_count": 11
+				"execution_count": 12
 			}
 		]
 	}

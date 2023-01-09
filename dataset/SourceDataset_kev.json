@@ -1,0 +1,35 @@
+{
+	"name": "SourceDataset_kev",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureFileStorage_GeneralData",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"folderPath": "GeneralData_txt"
+			},
+			"columnDelimiter": "\t",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Flag",
+				"type": "String"
+			},
+			{
+				"name": "Image",
+				"type": "String"
+			},
+			{
+				"name": "ATSIId",
+				"type": "String"
+			}
+		]
+	}
+}

@@ -1,0 +1,33 @@
+{
+	"name": "SourceDataset_b43",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureFileStorage_GeneralData",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "Sheet1",
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"folderPath": "GeneralDataTest"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Flag",
+				"type": "String"
+			},
+			{
+				"name": "Image",
+				"type": "String"
+			},
+			{
+				"name": "ATSIId",
+				"type": "String"
+			}
+		]
+	}
+}

@@ -1,5 +1,5 @@
 {
-	"name": "CopyPipeline_bva",
+	"name": "CopyPipeline_GeneralData_csv",
 	"properties": {
 		"activities": [
 			{

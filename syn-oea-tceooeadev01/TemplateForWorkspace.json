@@ -15411,7 +15411,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6dcce3b9-7df3-41e1-8989-790374242370"
+						"spark.autotune.trackingId": "07e7143d-c780-49f5-b788-6d1a951d049c"
 					}
 				},
 				"metadata": {
@@ -17922,7 +17922,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b530a8a2-beb0-4f0c-9cca-25bebb2ecb5c"
+						"spark.autotune.trackingId": "eddfc1d9-1959-46f4-9a2c-8ab98044ba4b"
 					}
 				},
 				"metadata": {
@@ -19292,7 +19292,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c2afa3e1-905b-44b0-bbd3-7b8e6be9737d"
+						"spark.autotune.trackingId": "35f0ccb1-4aa1-4d98-8dd5-98cee5b1c79f"
 					}
 				},
 				"metadata": {
@@ -22712,7 +22712,8 @@
 							",ae.ActivityEnrolmentStartDate\r\n",
 							",ae.ActivityEnrolmentEndDate\r\n",
 							"\r\n",
-							"\r\n",
+							",s.subjectshortname \r\n",
+							",s.subjectyearlevel \r\n",
 							"\r\n",
 							"from vw_CompassODSStaffDemographic staff\r\n",
 							"\r\n",
@@ -22748,27 +22749,7 @@
 							"--academicyear = 2023 = 966"
 						],
 						"outputs": [],
-						"execution_count": 138
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": false
-						},
-						"source": [
-							"select * from vw_CompassODSStudentDemographic limit 5"
-						],
-						"outputs": [],
-						"execution_count": 137
+						"execution_count": 145
 					},
 					{
 						"cell_type": "code",
@@ -22791,6 +22772,60 @@
 						],
 						"outputs": [],
 						"execution_count": 126
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"-- select \r\n",
+							"-- --distinct subjectyearlevel \r\n",
+							"-- *\r\n",
+							"-- from vw_CompassODSCompassSubject \r\n",
+							"-- where academicyear = 2023\r\n",
+							"-- limit 10\r\n",
+							"\r\n",
+							"select subjectyearlevel, count(*) from vw_CompassODSCompassSubject\r\n",
+							"where academicyear = 2023\r\n",
+							"group by subjectyearlevel "
+						],
+						"outputs": [],
+						"execution_count": 146
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select \r\n",
+							"--distinct subjectyearlevel \r\n",
+							"*\r\n",
+							"from vw_CompassODSCompassSubject \r\n",
+							"-- where academicyear = 2023\r\n",
+							"-- limit 5"
+						],
+						"outputs": [],
+						"execution_count": 149
 					},
 					{
 						"cell_type": "code",
@@ -22949,7 +22984,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2ee8acdb-7800-421a-b47f-8b88493d1a22"
+						"spark.autotune.trackingId": "ab8d8b37-0a1c-4905-b930-105df1970c17"
 					}
 				},
 				"metadata": {
@@ -25147,7 +25182,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ce6fe442-dd3e-4a4f-b299-0517f51f574a"
+						"spark.autotune.trackingId": "659f5b54-c8a8-493e-b149-eecea33950c5"
 					}
 				},
 				"metadata": {

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b108e6fe-6fe7-4439-8cc6-61c6777ce981"
+				"spark.autotune.trackingId": "c3fb1a9d-dadb-490e-a4e2-71f34a1a8139"
 			}
 		},
 		"metadata": {
@@ -3346,7 +3346,8 @@
 					",ae.ActivityEnrolmentStartDate\r\n",
 					",ae.ActivityEnrolmentEndDate\r\n",
 					"\r\n",
-					"\r\n",
+					",s.subjectshortname \r\n",
+					",s.subjectyearlevel \r\n",
 					"\r\n",
 					"from vw_CompassODSStaffDemographic staff\r\n",
 					"\r\n",
@@ -3381,26 +3382,7 @@
 					"--total count = 15739\r\n",
 					"--academicyear = 2023 = 966"
 				],
-				"execution_count": 138
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"select * from vw_CompassODSStudentDemographic limit 5"
-				],
-				"execution_count": 137
+				"execution_count": 145
 			},
 			{
 				"cell_type": "code",
@@ -3422,6 +3404,58 @@
 					""
 				],
 				"execution_count": 126
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"-- select \r\n",
+					"-- --distinct subjectyearlevel \r\n",
+					"-- *\r\n",
+					"-- from vw_CompassODSCompassSubject \r\n",
+					"-- where academicyear = 2023\r\n",
+					"-- limit 10\r\n",
+					"\r\n",
+					"select subjectyearlevel, count(*) from vw_CompassODSCompassSubject\r\n",
+					"where academicyear = 2023\r\n",
+					"group by subjectyearlevel "
+				],
+				"execution_count": 146
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select \r\n",
+					"--distinct subjectyearlevel \r\n",
+					"*\r\n",
+					"from vw_CompassODSCompassSubject \r\n",
+					"-- where academicyear = 2023\r\n",
+					"-- limit 5"
+				],
+				"execution_count": 149
 			},
 			{
 				"cell_type": "code",

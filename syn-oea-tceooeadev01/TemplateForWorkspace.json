@@ -13149,7 +13149,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "71afad3c-39f4-40b9-bcb2-01c35a3a285a"
+						"spark.autotune.trackingId": "30e014f4-a0b9-49a8-bb01-0a2a55cd0997"
 					}
 				},
 				"metadata": {
@@ -13235,7 +13235,7 @@
 							"        oea.ingest_delta_data(self.source_folder, 'ICSEA', self.schemas['ICSEA'], None, 'SchoolId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'GenderImageData', self.schemas['GenderImageData'], None, 'Gender')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DomainSelection', self.schemas['DomainSelection'], None, 'DomainId')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag', data_format='text')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag', 'text')\r\n",
 							"\r\n",
 							"\r\n",
 							"\r\n",
@@ -16495,7 +16495,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5aaf99c7-85e4-4c5e-9e5d-07c5acfd0b0a"
+						"spark.autotune.trackingId": "72881207-a772-46f9-9833-0c2d2a931450"
 					}
 				},
 				"metadata": {
@@ -17603,7 +17603,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "908aa70c-d603-44da-a049-5df586647c27"
+						"spark.autotune.trackingId": "d43a8a7c-3868-4d0b-9976-adc38dc15626"
 					}
 				},
 				"metadata": {
@@ -18422,7 +18422,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "05467f0a-a4fc-49df-93fe-268fd77e1b95"
+						"spark.autotune.trackingId": "499d0ea3-33ba-4f1e-bbb9-63c9ba982bd8"
 					}
 				},
 				"metadata": {
@@ -21444,7 +21444,7 @@
 							"select * from vw_flagimagedata"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 13
 					}
 				]
 			},

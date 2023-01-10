@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "4c5398fc-b516-4f80-9408-23ad3849cf60"
+				"spark.autotune.trackingId": "9870ff06-6abf-4f39-a75d-cd038777b712"
 			}
 		},
 		"metadata": {
@@ -105,7 +105,7 @@
 					"        oea.ingest_delta_data(self.source_folder, 'ICSEA', self.schemas['ICSEA'], None, 'SchoolId')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'GenderImageData', self.schemas['GenderImageData'], None, 'Gender')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DomainSelection', self.schemas['DomainSelection'], None, 'DomainId')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag', data_format='text')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag', 'text')\r\n",
 					"\r\n",
 					"\r\n",
 					"\r\n",

@@ -1,0 +1,96 @@
+{
+	"name": "CopyPipeline_GeneralData_json",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_79p",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "GeneralData_json/"
+					},
+					{
+						"name": "Destination",
+						"value": "stage1np/_GeneralData/"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureFileStorageReadSettings",
+							"recursive": true,
+							"wildcardFileName": "*",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"validateDataConsistency": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['Flag']"
+								},
+								"sink": {
+									"path": "$['Flag']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['Image']"
+								},
+								"sink": {
+									"path": "$['Image']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['ATSIId']"
+								},
+								"sink": {
+									"path": "$['ATSIId']"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_79p",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_79p",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}

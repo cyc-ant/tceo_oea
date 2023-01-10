@@ -1,0 +1,19 @@
+{
+	"name": "DestinationDataset_79p",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_OEA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "_GeneralData",
+				"fileSystem": "stage1np"
+			}
+		},
+		"schema": {}
+	}
+}

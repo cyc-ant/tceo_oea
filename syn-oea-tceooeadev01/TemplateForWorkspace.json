@@ -15411,7 +15411,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ffe99867-2caa-4cfb-a5e1-ce55557eb23f"
+						"spark.autotune.trackingId": "fd74c06b-f98a-4556-a2fd-a02f6ac6c2c7"
 					}
 				},
 				"metadata": {
@@ -17922,7 +17922,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7a3baf8f-532e-4117-8c93-7da30089a895"
+						"spark.autotune.trackingId": "5304a17e-02dc-4f66-8147-e13f84af9dff"
 					}
 				},
 				"metadata": {
@@ -19292,7 +19292,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "04a41b57-0ded-43c7-be7d-f67fd76e2f7e"
+						"spark.autotune.trackingId": "4f46a006-e7a1-4a93-84fd-c8a6af730170"
 					}
 				},
 				"metadata": {
@@ -19336,7 +19336,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 164
+						"execution_count": 247
 					},
 					{
 						"cell_type": "code",
@@ -23392,7 +23392,76 @@
 							"odsstudentdemographic_df.createOrReplaceTempView('vw_CompassODSStudentDemographic') "
 						],
 						"outputs": [],
-						"execution_count": 216
+						"execution_count": 248
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_dmcampus limit 5"
+						],
+						"outputs": [],
+						"execution_count": 249
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"microsoft": {
+								"language": "python"
+							}
+						},
+						"source": [
+							"%%pyspark\r\n",
+							"\r\n",
+							"# setup the temp tables we need\r\n",
+							"sourcep = oea.stage2p\r\n",
+							"source3p = oea.stage3p\r\n",
+							"\r\n",
+							"dmcampus_original_df = spark.read.load(sourcep + \"/ACER/DMCampus_pseudo\", format='delta')\r\n",
+							"dmcampus_original_df.createOrReplaceTempView('vw_dmcampus_original')"
+						],
+						"outputs": [],
+						"execution_count": 250
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select CompassSchoolURL from vw_dmcampus_original limit 5"
+						],
+						"outputs": [],
+						"execution_count": 252
 					},
 					{
 						"cell_type": "code",
@@ -23731,7 +23800,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e2c298f9-38dd-4d0e-8284-22e61bb725fc"
+						"spark.autotune.trackingId": "509c8681-fae0-4153-a2c5-a3de52743a13"
 					}
 				},
 				"metadata": {
@@ -24312,7 +24381,7 @@
 							",concat(staff.FirstName,' ',staff.LastName) AS StaffName\r\n",
 							",a.CampusId AS AGEID\r\n",
 							",c.CampusSuburbAndName\r\n",
-							",c.CompassSchoolURL\r\n",
+							"--,c.CompassSchoolURL\r\n",
 							",s.AcademicYear\r\n",
 							",ae.iscurrent as IsCurrent_ActivityEnrolment\r\n",
 							",a.IsCurrent as IsCurrent_Activity\r\n",
@@ -25284,7 +25353,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "98b01cdb-1520-4225-86c7-3c7cb23744d5"
+						"spark.autotune.trackingId": "284c8c5f-f795-44a8-8ba4-e49fa3b3fabb"
 					}
 				},
 				"metadata": {
@@ -25309,13 +25378,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws"
 						],
@@ -25781,7 +25852,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ff165a8c-916b-412c-8739-c9b256aff5ab"
+						"spark.autotune.trackingId": "1d0e27b5-78e3-40e2-b179-ef9ffd1b4d9e"
 					}
 				},
 				"metadata": {
@@ -25861,7 +25932,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 59
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -25880,7 +25951,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 60
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -25909,7 +25980,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 61
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -25930,7 +26001,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 62
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -25973,7 +26044,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 63
+						"execution_count": 6
 					},
 					{
 						"cell_type": "code",
@@ -26119,7 +26190,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "00e21c17-d8a8-4689-be17-2304384b66da"
+						"spark.autotune.trackingId": "f9a20fb9-7d12-409a-8752-c853dbe0a0f2"
 					}
 				},
 				"metadata": {

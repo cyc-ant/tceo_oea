@@ -15411,7 +15411,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fd74c06b-f98a-4556-a2fd-a02f6ac6c2c7"
+						"spark.autotune.trackingId": "02c6615c-592e-44f8-9458-6bf177e721c8"
 					}
 				},
 				"metadata": {
@@ -17922,7 +17922,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5304a17e-02dc-4f66-8147-e13f84af9dff"
+						"spark.autotune.trackingId": "88120667-0780-4892-87ea-9a0fb1d4371b"
 					}
 				},
 				"metadata": {
@@ -19292,7 +19292,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4f46a006-e7a1-4a93-84fd-c8a6af730170"
+						"spark.autotune.trackingId": "31b36a24-96eb-4c75-837e-55a9988def5d"
 					}
 				},
 				"metadata": {
@@ -23800,7 +23800,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "509c8681-fae0-4153-a2c5-a3de52743a13"
+						"spark.autotune.trackingId": "8bce63fb-fb5f-421c-aa58-21d12109cae9"
 					}
 				},
 				"metadata": {
@@ -24442,7 +24442,7 @@
 							", TeacherName\r\n",
 							", StudentID \r\n",
 							", StudentName\r\n",
-							", max(ActivityEnrolmentStartDate)\r\n",
+							", max(ActivityEnrolmentStartDate) as ActivityEnrolmentStartDate\r\n",
 							", ClassName\r\n",
 							", ClassID\r\n",
 							"\r\n",
@@ -25852,7 +25852,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1d0e27b5-78e3-40e2-b179-ef9ffd1b4d9e"
+						"spark.autotune.trackingId": "c92377d5-6f35-45fd-8278-15585f1e7884"
 					}
 				},
 				"metadata": {
@@ -26190,7 +26190,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f9a20fb9-7d12-409a-8752-c853dbe0a0f2"
+						"spark.autotune.trackingId": "af08a8d0-2d35-40bc-821b-8699eaeb8c86"
 					}
 				},
 				"metadata": {

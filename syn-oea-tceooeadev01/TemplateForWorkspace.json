@@ -15411,7 +15411,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "75fadcac-65ed-4055-b393-aa214648e2af"
+						"spark.autotune.trackingId": "f79ec76c-ca50-4f36-9f89-e0b13152b38f"
 					}
 				},
 				"metadata": {
@@ -17922,7 +17922,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "99dc09ab-98c3-4bea-a249-822c52a60fa3"
+						"spark.autotune.trackingId": "b35f14cc-e0c2-473f-b8a9-bff353e582c8"
 					}
 				},
 				"metadata": {
@@ -19292,7 +19292,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "290d8955-6a4d-4221-8aa3-b325ed207474"
+						"spark.autotune.trackingId": "76be0f00-d059-49fc-a283-9cf151f1afed"
 					}
 				},
 				"metadata": {
@@ -22988,30 +22988,36 @@
 							",c.CampusSuburbAndName\r\n",
 							",c.CompassSchoolURL\r\n",
 							",s.AcademicYear\r\n",
+							",ae.iscurrent as IsCurrent_ActivityEnrolment\r\n",
+							",a.IsCurrent as IsCurrent_Activity\r\n",
+							",s.IsCurrent as IsCurrent_Subject\r\n",
+							",staff.iscurrent as IsCurrent_Staff\r\n",
+							",d.iscurrent as IsCurrent_Student\r\n",
+							"\r\n",
 							"\r\n",
 							"FROM \r\n",
 							"vw_CompassODSStudentDemographic d \r\n",
 							"\r\n",
 							"JOIN vw_CompassODSActivityEnrolment ae \r\n",
 							"ON d.CompassPersonId = ae.CompassPersonId\r\n",
-							"AND ae.iscurrent is True\r\n",
+							"--AND ae.iscurrent is True\r\n",
 							"\r\n",
 							"JOIN vw_CompassODSActivity a \r\n",
 							"ON ae.ActivityCode = a.ActivityCode\r\n",
 							"AND ae.CampusId = a.CampusId\r\n",
-							"AND a.IsCurrent is True\r\n",
+							"--AND a.IsCurrent is True\r\n",
 							"\r\n",
 							"-- --its possible for an activity to not be linked to a subject hence the left outer join.\r\n",
 							"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
 							"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
 							"AND a.CampusId = s.CampusId\r\n",
-							"AND s.IsCurrent is True\r\n",
+							"--AND s.IsCurrent is True\r\n",
 							"-- AND s.AcademicYear = 2021 -- Remove, but add in flag for filter\r\n",
 							"\r\n",
 							"-- --join to get the teacher of the class\r\n",
 							"LEFT outer JOIN vw_CompassODSStaffDemographic  staff \r\n",
 							"ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
-							"AND staff.iscurrent is True\r\n",
+							"-- AND staff.iscurrent is True\r\n",
 							"\r\n",
 							"JOIN vw_dmcampus c ON a.CampusId = c.bkCampusId\r\n",
 							"WHERE \r\n",
@@ -23154,7 +23160,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "236d6293-e1cb-479f-81df-dbbf667a9c2a"
+						"spark.autotune.trackingId": "2cbf9193-147e-4ba2-8c77-c26af9521ae3"
 					}
 				},
 				"metadata": {
@@ -25352,7 +25358,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "419b6ad9-e22a-420d-a4a8-ca48f344ce4e"
+						"spark.autotune.trackingId": "cd6447c3-f0a4-4a6c-9258-df11b7399cfe"
 					}
 				},
 				"metadata": {

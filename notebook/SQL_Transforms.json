@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c8ec4449-fe56-431a-867a-5464aed0f395"
+				"spark.autotune.trackingId": "53458c6c-fc49-4999-8d39-7f3be0e9ee48"
 			}
 		},
 		"metadata": {
@@ -653,7 +653,7 @@
 					", TeacherName\r\n",
 					", StudentID \r\n",
 					", StudentName\r\n",
-					", max(ActivityEnrolmentStartDate)\r\n",
+					", max(ActivityEnrolmentStartDate) as ActivityEnrolmentStartDate\r\n",
 					", ClassName\r\n",
 					", ClassID\r\n",
 					"\r\n",

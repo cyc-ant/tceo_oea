@@ -15411,7 +15411,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9b610211-7da7-4070-b9c9-93813b255055"
+						"spark.autotune.trackingId": "75fadcac-65ed-4055-b393-aa214648e2af"
 					}
 				},
 				"metadata": {
@@ -17922,7 +17922,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "229a6e92-2f58-4a75-b2c9-fe6146550d0f"
+						"spark.autotune.trackingId": "99dc09ab-98c3-4bea-a249-822c52a60fa3"
 					}
 				},
 				"metadata": {
@@ -19292,7 +19292,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f9d10e57-872b-4755-9d86-096745871fcd"
+						"spark.autotune.trackingId": "290d8955-6a4d-4221-8aa3-b325ed207474"
 					}
 				},
 				"metadata": {
@@ -22965,6 +22965,10 @@
 							"collapsed": false
 						},
 						"source": [
+							"-- check how many records for current records\r\n",
+							"-- bring in IsCurrent flag for each table (and then filter in powerbi)\r\n",
+							"-- add academic year\r\n",
+							"\r\n",
 							"SELECT distinct\r\n",
 							"d.FirstName AS StudentFirstName \r\n",
 							",d.LastName AS StudentLastName\r\n",
@@ -22983,6 +22987,92 @@
 							",a.CampusId AS AGEID\r\n",
 							",c.CampusSuburbAndName\r\n",
 							",c.CompassSchoolURL\r\n",
+							",s.AcademicYear\r\n",
+							"\r\n",
+							"FROM \r\n",
+							"vw_CompassODSStudentDemographic d \r\n",
+							"\r\n",
+							"JOIN vw_CompassODSActivityEnrolment ae \r\n",
+							"ON d.CompassPersonId = ae.CompassPersonId\r\n",
+							"AND ae.iscurrent is True\r\n",
+							"\r\n",
+							"JOIN vw_CompassODSActivity a \r\n",
+							"ON ae.ActivityCode = a.ActivityCode\r\n",
+							"AND ae.CampusId = a.CampusId\r\n",
+							"AND a.IsCurrent is True\r\n",
+							"\r\n",
+							"-- --its possible for an activity to not be linked to a subject hence the left outer join.\r\n",
+							"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
+							"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
+							"AND a.CampusId = s.CampusId\r\n",
+							"AND s.IsCurrent is True\r\n",
+							"-- AND s.AcademicYear = 2021 -- Remove, but add in flag for filter\r\n",
+							"\r\n",
+							"-- --join to get the teacher of the class\r\n",
+							"LEFT outer JOIN vw_CompassODSStaffDemographic  staff \r\n",
+							"ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
+							"AND staff.iscurrent is True\r\n",
+							"\r\n",
+							"JOIN vw_dmcampus c ON a.CampusId = c.bkCampusId\r\n",
+							"WHERE \r\n",
+							"d.iscurrent is True\r\n",
+							"-- AND ae.ActivityEnrolmentStartDate >= '2021-01-01'\r\n",
+							"-- AND ae.ActivityEnrolmentStartDate < '2023-01-01'\r\n",
+							"AND a.ActivityTypeDescription = 'Standard Class'\r\n",
+							"    -- and d.FirstName = 'Charlie'\r\n",
+							"    --     and d.lastname = 'Crawford'\r\n",
+							"\r\n",
+							"-- order by ae.ActivityEnrolmentStartDate desc"
+						],
+						"outputs": [],
+						"execution_count": 89
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"Below is outdated but the logic and what fields is required is correct"
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"-- check how many records for current records\r\n",
+							"-- bring in IsCurrent flag for each table (and then filter in powerbi)\r\n",
+							"-- add academic year\r\n",
+							"\r\n",
+							"SELECT distinct\r\n",
+							"d.FirstName AS StudentFirstName \r\n",
+							",d.LastName AS StudentLastName\r\n",
+							",d.CompassPersonId\r\n",
+							",d.GovCode1 AS Ceider\r\n",
+							",s.SubjectLongName\r\n",
+							",a.SubjectCode\r\n",
+							",a.ActivityName\r\n",
+							",a.ActivityTypeDescription\r\n",
+							",ae.ActivityEnrolmentStartDate\r\n",
+							",ae.ActivityEnrolmentEndDate\r\n",
+							",staff.FirstName +' '+ staff.LastName AS StaffName\r\n",
+							",a.CampusId AS AGEID\r\n",
+							",c.CampusSuburbAndName\r\n",
+							",c.CompassSchoolURL\r\n",
 							"FROM \r\n",
 							"vw_CompassODSStudentDemographic d \r\n",
 							"JOIN vw_CompassODSActivityEnrolment ae \r\n",
@@ -22998,26 +23088,24 @@
 							"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
 							"AND a.CampusId = s.CampusId\r\n",
 							"AND s.IsCurrent is True\r\n",
-							"AND s.AcademicYear = 2021 \r\n",
+							"--AND s.AcademicYear = 2021 \r\n",
 							"\r\n",
 							"-- --join to get the teacher of the class\r\n",
-							"LEFT outer JOIN vw_CompassODSStaffDemographic  staff \r\n",
+							"LEFT OUTER JOIN vw_CompassODSStaffDemographic  staff \r\n",
 							"ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
 							"AND staff.iscurrent is True\r\n",
 							"\r\n",
 							"JOIN vw_dmcampus c ON a.CampusId = c.bkCampusId\r\n",
 							"WHERE \r\n",
 							"d.iscurrent is True\r\n",
-							"AND ae.ActivityEnrolmentStartDate >= '2021-01-01'\r\n",
-							"AND ae.ActivityEnrolmentStartDate < '2023-01-01'\r\n",
+							"-- AND ae.ActivityEnrolmentStartDate >= '2021-01-01'\r\n",
+							"-- AND ae.ActivityEnrolmentStartDate < '2023-01-01'\r\n",
 							"AND a.ActivityTypeDescription = 'Standard Class'\r\n",
-							"    and d.FirstName = 'Charlie'\r\n",
-							"        and d.lastname = 'Crawford'\r\n",
-							"\r\n",
-							"order by ae.ActivityEnrolmentStartDate desc"
+							"-- --ORDER BY a.CampusId, d.CompassPersonId, ae.ActivityEnrolmentStartDate, a.ActivityName\r\n",
+							""
 						],
 						"outputs": [],
-						"execution_count": 89
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -23066,7 +23154,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2ab4c918-31a5-4861-9a63-f3aab7ed6ee5"
+						"spark.autotune.trackingId": "236d6293-e1cb-479f-81df-dbbf667a9c2a"
 					}
 				},
 				"metadata": {
@@ -25264,7 +25352,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6f6bd2f5-a343-4a0e-ba72-1f7bdbc52706"
+						"spark.autotune.trackingId": "419b6ad9-e22a-420d-a4a8-ca48f344ce4e"
 					}
 				},
 				"metadata": {

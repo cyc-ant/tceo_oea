@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c3fb1a9d-dadb-490e-a4e2-71f34a1a8139"
+				"spark.autotune.trackingId": "b090655e-0016-4029-b096-4f065ef46627"
 			}
 		},
 		"metadata": {
@@ -63,7 +63,7 @@
 					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 92
+				"execution_count": 164
 			},
 			{
 				"cell_type": "code",
@@ -3003,7 +3003,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 93
+				"execution_count": 165
 			},
 			{
 				"cell_type": "code",
@@ -3022,7 +3022,7 @@
 				"source": [
 					"select * from vw_CompassODSActivity limit 5"
 				],
-				"execution_count": 94
+				"execution_count": 166
 			},
 			{
 				"cell_type": "code",
@@ -3039,6 +3039,10 @@
 					"collapsed": false
 				},
 				"source": [
+					"-- check how many records for current records\r\n",
+					"-- bring in IsCurrent flag for each table (and then filter in powerbi)\r\n",
+					"-- add academic year\r\n",
+					"\r\n",
 					"SELECT distinct\r\n",
 					"d.FirstName AS StudentFirstName \r\n",
 					",d.LastName AS StudentLastName\r\n",
@@ -3069,7 +3073,7 @@
 					"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
 					"AND a.CampusId = s.CampusId\r\n",
 					"AND s.IsCurrent is True\r\n",
-					"AND s.AcademicYear = 2021 \r\n",
+					"--AND s.AcademicYear = 2021 \r\n",
 					"\r\n",
 					"-- --join to get the teacher of the class\r\n",
 					"LEFT OUTER JOIN vw_CompassODSStaffDemographic  staff \r\n",
@@ -3079,8 +3083,8 @@
 					"JOIN vw_dmcampus c ON a.CampusId = c.bkCampusId\r\n",
 					"WHERE \r\n",
 					"d.iscurrent is True\r\n",
-					"AND ae.ActivityEnrolmentStartDate >= '2021-01-01'\r\n",
-					"AND ae.ActivityEnrolmentStartDate < '2023-01-01'\r\n",
+					"-- AND ae.ActivityEnrolmentStartDate >= '2021-01-01'\r\n",
+					"-- AND ae.ActivityEnrolmentStartDate < '2023-01-01'\r\n",
 					"AND a.ActivityTypeDescription = 'Standard Class'\r\n",
 					"-- --ORDER BY a.CampusId, d.CompassPersonId, ae.ActivityEnrolmentStartDate, a.ActivityName\r\n",
 					""
@@ -3376,13 +3380,13 @@
 					"where staff.firstname = 'Chloe' and staff.lastname = 'McLaren' and staff.iscurrent is True\r\n",
 					") innerquery\r\n",
 					"\r\n",
-					"where innerquery.Year = 2023\r\n",
+					"where innerquery.Year = 2021\r\n",
 					"and studentlastname = 'Choveaux'\r\n",
 					"\r\n",
 					"--total count = 15739\r\n",
 					"--academicyear = 2023 = 966"
 				],
-				"execution_count": 145
+				"execution_count": 168
 			},
 			{
 				"cell_type": "code",
@@ -3403,7 +3407,7 @@
 					"where campusid = 5354 and iscurrent is True and activitycode = 'SCI_2-6_YR3'\r\n",
 					""
 				],
-				"execution_count": 126
+				"execution_count": 183
 			},
 			{
 				"cell_type": "code",
@@ -3431,7 +3435,82 @@
 					"where academicyear = 2023\r\n",
 					"group by subjectyearlevel "
 				],
-				"execution_count": 146
+				"execution_count": 193
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select ae.activitycode, ae.activityname, ae.subjectcode, s.academicyear, subjectshortname, subjectyearlevel from vw_CompassODSActivityEnrolment ae\r\n",
+					"\r\n",
+					"\r\n",
+					"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
+					"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
+					"-- AND a.CampusId = s.CampusId\r\n",
+					"-- AND s.IsCurrent is True\r\n",
+					"\r\n",
+					"--where subjectyearlevel = 2  -----------------------------------------shows subjectyearlevel is inconsistent as there are activityname = 'MATH_2-6_Yr 5/6B'\r\n",
+					"--where subjectyearlevel = 1 -----------------------------------------shows subjectyearlevel is inconsistent as there are activityname = 'ART_2-6_3A', 'EPROJ_P-1_Yr 1C', 'TECH_P-1_PREPB'\r\n",
+					"--where subjectyearlevel = 7 -----------------------------------------shows subjectyearlevel is inconsistent as there are activityname = '07HPE2', 'EXTTCTC1'\r\n",
+					"where subjectyearlevel = 11 -----------------------------------------shows subjectyearlevel is inconsistent as there are activityname = '11RAE2', 'EXTTCTC1'\r\n",
+					"-- and activityname like '%YR%'"
+				],
+				"execution_count": 195
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_CompassODSCompassSubject \r\n",
+					"where subjectyearlevel = 'CY'\r\n",
+					"\r\n",
+					"--academicyear, subjectshortname, subjectyearlevel"
+				],
+				"execution_count": 181
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select *\r\n",
+					"--ActivityName, ActivityCode \r\n",
+					"from vw_CompassODSActivity\r\n",
+					""
+				],
+				"execution_count": 182
 			},
 			{
 				"cell_type": "code",
@@ -3455,7 +3534,7 @@
 					"-- where academicyear = 2023\r\n",
 					"-- limit 5"
 				],
-				"execution_count": 149
+				"execution_count": 159
 			},
 			{
 				"cell_type": "code",

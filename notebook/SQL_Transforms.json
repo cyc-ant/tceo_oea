@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c01501ec-94e9-4681-bb7c-346b126ed10c"
+				"spark.autotune.trackingId": "beb18f37-bfe1-489a-b979-8d44b9c90a38"
 			}
 		},
 		"metadata": {
@@ -135,6 +135,28 @@
 					"# used for manual AE Semester Report\r\n",
 					"ae_manualsemesterreports_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualSemesterReports_pseudo\", format='delta')\r\n",
 					"\r\n",
+					"\r\n",
+					"# used for ODS tables (+ dmcampus_df already added above)\r\n",
+					"odsactivity_df = spark.read.load(sourcep + \"/_ODS/CompassODSActivity_pseudo\", format='delta')\r\n",
+					"odsactivityenrolment_df = spark.read.load(sourcep + \"/_ODS/CompassODSActivityEnrolment_pseudo\", format='delta')\r\n",
+					"odscompasssubject_df = spark.read.load(sourcep + \"/_ODS/CompassODSCompassSubject_pseudo\", format='delta')\r\n",
+					"odsstaffdemographic_df = spark.read.load(sourcep + \"/_ODS/CompassODSStaffDemographic_pseudo\", format='delta')\r\n",
+					"odsstudentdemographic_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentDemographic_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
 					"# create temp sql views\r\n",
 					"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
 					"dmactivity_df.createOrReplaceTempView('vw_dmactivity')\r\n",
@@ -152,7 +174,13 @@
 					"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')\r\n",
 					"\r\n",
 					"ae_manuallearningtasks_df.createOrReplaceTempView('vw_aemanuallearningtasks')\r\n",
-					"ae_manualsemesterreports_df.createOrReplaceTempView('vw_aemanualsemesterreports')"
+					"ae_manualsemesterreports_df.createOrReplaceTempView('vw_aemanualsemesterreports')\r\n",
+					"\r\n",
+					"odsactivity_df.createOrReplaceTempView('vw_CompassODSActivity') \r\n",
+					"odsactivityenrolment_df.createOrReplaceTempView('vw_CompassODSActivityEnrolment') \r\n",
+					"odscompasssubject_df.createOrReplaceTempView('vw_CompassODSCompassSubject') \r\n",
+					"odsstaffdemographic_df.createOrReplaceTempView('vw_CompassODSStaffDemographic') \r\n",
+					"odsstudentdemographic_df.createOrReplaceTempView('vw_CompassODSStudentDemographic') "
 				],
 				"execution_count": 2
 			},
@@ -545,6 +573,104 @@
 				"execution_count": 3
 			},
 			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"CREATE TEMP VIEW vw_ods_studentclass\r\n",
+					"as\r\n",
+					"\r\n",
+					"SELECT distinct\r\n",
+					"d.FirstName AS StudentFirstName \r\n",
+					",d.LastName AS StudentLastName\r\n",
+					",d.CompassPersonId\r\n",
+					",d.GovCode1 AS Ceider\r\n",
+					",s.SubjectLongName\r\n",
+					",a.SubjectCode\r\n",
+					",a.ActivityName\r\n",
+					",a.ActivityTypeDescription\r\n",
+					",a.ManagingCompassPersonId\r\n",
+					",staff.firstname\r\n",
+					",staff.lastname\r\n",
+					",ae.ActivityEnrolmentStartDate\r\n",
+					",ae.ActivityEnrolmentEndDate\r\n",
+					",concat(staff.FirstName,' ',staff.LastName) AS StaffName\r\n",
+					",a.CampusId AS AGEID\r\n",
+					",c.CampusSuburbAndName\r\n",
+					",c.CompassSchoolURL\r\n",
+					",s.AcademicYear\r\n",
+					",ae.iscurrent as IsCurrent_ActivityEnrolment\r\n",
+					",a.IsCurrent as IsCurrent_Activity\r\n",
+					",s.IsCurrent as IsCurrent_Subject\r\n",
+					",staff.iscurrent as IsCurrent_Staff\r\n",
+					",d.iscurrent as IsCurrent_Student\r\n",
+					"\r\n",
+					"\r\n",
+					"FROM \r\n",
+					"vw_CompassODSStudentDemographic d \r\n",
+					"\r\n",
+					"JOIN vw_CompassODSActivityEnrolment ae \r\n",
+					"ON d.CompassPersonId = ae.CompassPersonId\r\n",
+					"--AND ae.iscurrent is True\r\n",
+					"\r\n",
+					"JOIN vw_CompassODSActivity a \r\n",
+					"ON ae.ActivityCode = a.ActivityCode\r\n",
+					"AND ae.CampusId = a.CampusId\r\n",
+					"--AND a.IsCurrent is True\r\n",
+					"\r\n",
+					"-- --its possible for an activity to not be linked to a subject hence the left outer join.\r\n",
+					"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
+					"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
+					"AND a.CampusId = s.CampusId\r\n",
+					"--AND s.IsCurrent is True\r\n",
+					"-- AND s.AcademicYear = 2021 -- Remove, but add in flag for filter\r\n",
+					"\r\n",
+					"-- --join to get the teacher of the class\r\n",
+					"LEFT outer JOIN vw_CompassODSStaffDemographic  staff \r\n",
+					"ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
+					"-- AND staff.iscurrent is True\r\n",
+					"\r\n",
+					"JOIN vw_dmcampus c ON a.CampusId = c.bkCampusId\r\n",
+					"WHERE \r\n",
+					"d.iscurrent is True\r\n",
+					"-- AND ae.ActivityEnrolmentStartDate >= '2021-01-01'\r\n",
+					"-- AND ae.ActivityEnrolmentStartDate < '2023-01-01'\r\n",
+					"AND a.ActivityTypeDescription = 'Standard Class'\r\n",
+					"    -- and d.FirstName = 'Charlie'\r\n",
+					"    --     and d.lastname = 'Crawford'\r\n",
+					"\r\n",
+					"-- order by ae.ActivityEnrolmentStartDate desc"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				],
+				"execution_count": null
+			},
+			{
 				"cell_type": "markdown",
 				"metadata": {
 					"nteract": {
@@ -587,6 +713,11 @@
 					"ae_manual_learningtasks_df = spark.read.table('vw_ae_manual_learningtasks')\r\n",
 					"ae_manual_semesterreports_df = spark.read.table('vw_ae_manual_semesterreports')\r\n",
 					"\r\n",
+					"ods_studentclass_df = spark.read.table('vw_ods_studentclass')\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
 					"\r\n",
 					"saveToTarget(classenrolment_df, destination_p, f'{version}/_DMClassEnrolment')\r\n",
 					"saveToTarget(activestudent_df, destination_p, f'{version}/_FACTActiveStudent')\r\n",
@@ -597,6 +728,8 @@
 					"\r\n",
 					"saveToTarget(ae_manual_learningtasks_df, destination_p, f'{version}/_FACTAELearningTasks')\r\n",
 					"saveToTarget(ae_manual_semesterreports_df, destination_p, f'{version}/_FACTAESemesterReports')\r\n",
+					"\r\n",
+					"saveToTarget(ods_studentclass_df, destination_p, f'{version}/_FACTODSStudentClass')\r\n",
 					""
 				],
 				"execution_count": 5

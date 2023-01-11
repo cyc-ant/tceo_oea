@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ef50427c-1455-4912-ac3d-d0e3f589c9bc"
+				"spark.autotune.trackingId": "c8ec4449-fe56-431a-867a-5464aed0f395"
 			}
 		},
 		"metadata": {
@@ -593,7 +593,7 @@
 					",concat(staff.FirstName,' ',staff.LastName) AS StaffName\r\n",
 					",a.CampusId AS AGEID\r\n",
 					",c.CampusSuburbAndName\r\n",
-					",c.CompassSchoolURL\r\n",
+					"--,c.CompassSchoolURL\r\n",
 					",s.AcademicYear\r\n",
 					",ae.iscurrent as IsCurrent_ActivityEnrolment\r\n",
 					",a.IsCurrent as IsCurrent_Activity\r\n",

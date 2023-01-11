@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "0bc06535-64a8-4042-b02b-159f027b6138"
+				"spark.autotune.trackingId": "1df3b718-f993-4ebb-95c5-cc994af504a2"
 			}
 		},
 		"metadata": {
@@ -3837,7 +3837,7 @@
 					"--total count = 15739\r\n",
 					"--academicyear = 2023 = 966"
 				],
-				"execution_count": 207
+				"execution_count": 217
 			},
 			{
 				"cell_type": "code",
@@ -3885,7 +3885,7 @@
 				"source": [
 					"select * from vw_dmyearlevel"
 				],
-				"execution_count": 212
+				"execution_count": 215
 			},
 			{
 				"cell_type": "code",
@@ -3905,6 +3905,308 @@
 					"select distinct govcode1 from vw_CompassODSStudentDemographic limit 10;"
 				],
 				"execution_count": 209
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
+					"# setup the temp tables we need\r\n",
+					"sourcep = oea.stage2p\r\n",
+					"source3p = oea.stage3p\r\n",
+					"\r\n",
+					"# used for classenrolment view\r\n",
+					"factsubjectenrolment_df = spark.read.load(sourcep + \"/enrolment/DMFactSubjectEnrolment_pseudo\", format='delta')\r\n",
+					"dmactivity_df = spark.read.load(sourcep + \"/enrolment/DMActivity_pseudo\", format='delta')\r\n",
+					"dmsubject_df = spark.read.load(sourcep + \"/enrolment/DMSubject_pseudo\", format='delta')\r\n",
+					"#dmpersondemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
+					"#dmyearlevel_df = spark.read.load(sourcep + \"/ACER/DMYearLevel_pseudo\", format='delta')\r\n",
+					"#dmcampus_df = spark.read.load(sourcep + \"/ACER/DMCampus_pseudo\", format='delta')\r\n",
+					"#dmdate_df = spark.read.load(sourcep + \"/ACER/DMDate_pseudo\", format='delta')\r\n",
+					"dmcalendaryear_df = spark.read.load(sourcep + \"/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"# stage 3\r\n",
+					"dmyearlevel_df = spark.read.load(source3p + \"/pilot/DMYearLevel_pseudo\", format='delta')\r\n",
+					"dmcampus_df = spark.read.load(source3p + \"/pilot/DMCampus_pseudo\", format='delta')\r\n",
+					"dmdate_df = spark.read.load(source3p + \"/pilot/DMDate_pseudo\", format='delta')\r\n",
+					"dmpersondemographic_df = spark.read.load(source3p + \"/pilot/DMPersonDemographic_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"\r\n",
+					"# used for active student view\r\n",
+					"factpersonmilestone_df = spark.read.load(sourcep + \"/student/DMFactPersonMilestone_pseudo\", format='delta')\r\n",
+					"dmrollgroup_df = spark.read.load(sourcep + \"/enrolment/DMRollGroup_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"# used for naplan and acer participation view\r\n",
+					"factstudentenrolmentcounts_df = spark.read.load(sourcep + \"/enrolment/DMFactStudentEnrolmentCounts_pseudo\", format='delta')\r\n",
+					"#dmdate_df = spark.read.load(sourcep + \"/ACER/DMDate_pseudo\", format='delta')\r\n",
+					"# stage 3 naplan and acer participation view\r\n",
+					"factnaplanstudentyearresult_df = spark.read.load(source3p + \"/pilot/DMFactNaplanStudentYearResult_pseudo\", format='delta')\r\n",
+					"factpatresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"# used for manual AE Learning Task\r\n",
+					"ae_manuallearningtasks_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualLearningTasks_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"# used for manual AE Semester Report\r\n",
+					"ae_manualsemesterreports_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualSemesterReports_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"\r\n",
+					"# used for ODS tables (+ dmcampus_df already added above)\r\n",
+					"odsactivity_df = spark.read.load(sourcep + \"/_ODS/CompassODSActivity_pseudo\", format='delta')\r\n",
+					"odsactivityenrolment_df = spark.read.load(sourcep + \"/_ODS/CompassODSActivityEnrolment_pseudo\", format='delta')\r\n",
+					"odscompasssubject_df = spark.read.load(sourcep + \"/_ODS/CompassODSCompassSubject_pseudo\", format='delta')\r\n",
+					"odsstaffdemographic_df = spark.read.load(sourcep + \"/_ODS/CompassODSStaffDemographic_pseudo\", format='delta')\r\n",
+					"odsstudentdemographic_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentDemographic_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"# create temp sql views\r\n",
+					"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
+					"dmactivity_df.createOrReplaceTempView('vw_dmactivity')\r\n",
+					"dmsubject_df.createOrReplaceTempView('vw_dmsubject')\r\n",
+					"dmpersondemographic_df.createOrReplaceTempView('vw_dmpersondemographic')\r\n",
+					"dmyearlevel_df.createOrReplaceTempView('vw_dmyearlevel')\r\n",
+					"dmcampus_df.createOrReplaceTempView('vw_dmcampus')\r\n",
+					"dmdate_df.createOrReplaceTempView('vw_dmdate')\r\n",
+					"dmcalendaryear_df.createOrReplaceTempView('vw_dmcalendaryear')\r\n",
+					"factpersonmilestone_df.createOrReplaceTempView('vw_factpersonmilestone')\r\n",
+					"dmrollgroup_df.createOrReplaceTempView('vw_dmrollgroup')\r\n",
+					"\r\n",
+					"factstudentenrolmentcounts_df.createOrReplaceTempView('vw_factstudentenrolmentcounts')\r\n",
+					"factnaplanstudentyearresult_df.createOrReplaceTempView('vw_factnaplanstudentyearresult')\r\n",
+					"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')\r\n",
+					"\r\n",
+					"ae_manuallearningtasks_df.createOrReplaceTempView('vw_aemanuallearningtasks')\r\n",
+					"ae_manualsemesterreports_df.createOrReplaceTempView('vw_aemanualsemesterreports')\r\n",
+					"\r\n",
+					"odsactivity_df.createOrReplaceTempView('vw_CompassODSActivity') \r\n",
+					"odsactivityenrolment_df.createOrReplaceTempView('vw_CompassODSActivityEnrolment') \r\n",
+					"odscompasssubject_df.createOrReplaceTempView('vw_CompassODSCompassSubject') \r\n",
+					"odsstaffdemographic_df.createOrReplaceTempView('vw_CompassODSStaffDemographic') \r\n",
+					"odsstudentdemographic_df.createOrReplaceTempView('vw_CompassODSStudentDemographic') "
+				],
+				"execution_count": 216
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"CREATE TEMP VIEW vw_activestudent\r\n",
+					"AS\r\n",
+					"SELECT SchoolID AS SchoolAGEID,\r\n",
+					"    c.CampusSuburbAndName,\r\n",
+					"    pd.FirstName,\r\n",
+					"    pd.LastName,\r\n",
+					"    yl.SKYearLevel,\r\n",
+					"    rg.RollGroupDesc AS RollGroup,\r\n",
+					"    pd.Ceider,\r\n",
+					"    pd.SKPerson, \r\n",
+					"    pd.Disability,\r\n",
+					"    pd.ATSIId,\r\n",
+					"    pd.LBOTE\r\n",
+					"\r\n",
+					"FROM vw_factpersonmilestone f\r\n",
+					"JOIN vw_dmpersondemographic pd ON f.SKPerson = pd.SKPerson\r\n",
+					"JOIN vw_dmcampus c ON f.SKCampus = c.SKCampus\r\n",
+					"JOIN vw_dmyearlevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
+					"JOIN vw_dmrollgroup rg ON f.SKRollGroup = rg.SKRollGroup\r\n",
+					"WHERE \r\n",
+					"    f.IsCurrentMilestone = 'True'\r\n",
+					"    AND f.IsActiveMilestone = 'True'\r\n",
+					"    AND pd.PersonType = 'Student'\r\n",
+					"ORDER BY SchoolAGEID, yl.YearLevelSifDesc, pd.FirstName, pd.LastName\r\n",
+					""
+				],
+				"execution_count": 218
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_activestudent limit 5"
+				],
+				"execution_count": 219
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"--Year, YearLevel, CampusID, SchoolName, TeacherID, Teacher name, StudentID, Student Name, Class name/ID\r\n",
+					"\r\n",
+					"select * from \r\n",
+					"(\r\n",
+					"SELECT\r\n",
+					"s.academicyear as Year --2023\r\n",
+					"-- ,s.subjectyearlevel as YearLevel\r\n",
+					",yl.yearlevelsifcode as YearLevel\r\n",
+					",staff.campusid as CampusID\r\n",
+					",c.schoolname as SchoolName\r\n",
+					"\r\n",
+					"-- ,staff.bkstaff \r\n",
+					",staff.compasspersonid as TeacherID\r\n",
+					"-- ,staff.firstname as TeacherFirstName\r\n",
+					"-- ,staff.lastname as TeacherLastName\r\n",
+					",concat(staff.FirstName,' ',staff.LastName) AS TeacherName\r\n",
+					"\r\n",
+					"\r\n",
+					"-- ,d.bkstudent\r\n",
+					",d.compasspersonid as StudentID\r\n",
+					"-- ,d.FirstName AS StudentFirstName \r\n",
+					"-- ,d.LastName AS StudentLastName\r\n",
+					",concat(d.FirstName,' ',d.LastName) AS StudentName\r\n",
+					"\r\n",
+					"-- \r\n",
+					"-- ,a.ActivityName\r\n",
+					"-- ,a.ActivityCode\r\n",
+					"-- ,a.ActivityTypeDescription\r\n",
+					"-- ,a.CampusId AS AGEID\r\n",
+					"-- ,a.ManagingCompassPersonId \r\n",
+					",ae.ActivityEnrolmentStartDate ----------------- if there are duplicates, need to get the latest/highest value?\r\n",
+					"-- ,ae.ActivityEnrolmentEndDate\r\n",
+					"\r\n",
+					",s.subjectshortname as ClassName\r\n",
+					"-- ,s.subjectyearlevel \r\n",
+					",a.SubjectCode as ClassID\r\n",
+					"-- ,d.govcode1 as ceiderfromstudent\r\n",
+					"-- ,active.ceider\r\n",
+					"-- ,active.SKYearLevel\r\n",
+					"-- ,yl.yearlevelsifcode\r\n",
+					"\r\n",
+					"from vw_CompassODSStaffDemographic staff\r\n",
+					"\r\n",
+					"inner join vw_CompassODSActivity a\r\n",
+					"ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
+					"AND a.iscurrent is True\r\n",
+					"\r\n",
+					"left join vw_dmcampus c \r\n",
+					"ON staff.CampusId = c.bkCampusId\r\n",
+					"\r\n",
+					"inner JOIN vw_CompassODSActivityEnrolment ae \r\n",
+					"ON ae.ActivityCode = a.ActivityCode\r\n",
+					"AND ae.CampusId = a.CampusId\r\n",
+					"AND ae.IsCurrent is True\r\n",
+					"\r\n",
+					"inner JOIN vw_CompassODSStudentDemographic d \r\n",
+					"ON d.CompassPersonId = ae.CompassPersonId\r\n",
+					"AND d.iscurrent is True\r\n",
+					"\r\n",
+					"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
+					"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
+					"AND a.CampusId = s.CampusId\r\n",
+					"AND s.IsCurrent is True\r\n",
+					"\r\n",
+					"left join vw_activestudent active\r\n",
+					"on active.ceider = d.govcode1\r\n",
+					"\r\n",
+					"left join vw_dmyearlevel yl\r\n",
+					"on active.SKYearLevel = yl.SKYearLevel\r\n",
+					"\r\n",
+					"where staff.firstname = 'Chloe' and staff.lastname = 'McLaren' and staff.iscurrent is True\r\n",
+					") innerquery\r\n",
+					"\r\n",
+					"where innerquery.Year = 2021\r\n",
+					"--and innerquery.yearlevel in ('P', '1', '2')\r\n",
+					"and StudentName like '%Choveaux'\r\n",
+					"\r\n",
+					"--total count = 15739\r\n",
+					"--academicyear = 2023 = 966"
+				],
+				"execution_count": 238
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_dmyearlevel"
+				],
+				"execution_count": 235
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				],
+				"execution_count": null
 			}
 		]
 	}

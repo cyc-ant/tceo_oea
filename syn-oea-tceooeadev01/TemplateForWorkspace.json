@@ -15411,7 +15411,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4115f14c-aeb2-4379-84ad-0885959c1d72"
+						"spark.autotune.trackingId": "344a6753-a937-48ed-9d2d-d659330fc7e6"
 					}
 				},
 				"metadata": {
@@ -17922,7 +17922,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5a4931ee-cd43-4103-8fbc-c48a52e374c7"
+						"spark.autotune.trackingId": "566d898a-664a-483a-84ab-7b61dc0a25c9"
 					}
 				},
 				"metadata": {
@@ -19292,7 +19292,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5a8448eb-699d-420a-b07a-d6c1d08f1c58"
+						"spark.autotune.trackingId": "805e7907-ebe6-4a4e-9d07-9246f54805fe"
 					}
 				},
 				"metadata": {
@@ -23731,7 +23731,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "87f07482-0a5e-4f87-a5f8-af62f777a6b2"
+						"spark.autotune.trackingId": "34af5544-c068-4ce7-a39b-ad5fb6b3d5bb"
 					}
 				},
 				"metadata": {
@@ -24386,7 +24386,115 @@
 							}
 						},
 						"source": [
-							""
+							"CREATE TEMP VIEW vw_ods_teacherview\r\n",
+							"as\r\n",
+							"\r\n",
+							"select \r\n",
+							"\r\n",
+							"year\r\n",
+							", YearLevel\r\n",
+							", CampusID\r\n",
+							", SchoolName\r\n",
+							", TeacherID\r\n",
+							", TeacherName\r\n",
+							", StudentID \r\n",
+							", StudentName\r\n",
+							", max(ActivityEnrolmentStartDate)\r\n",
+							", ClassName\r\n",
+							", ClassID\r\n",
+							"\r\n",
+							" from \r\n",
+							"(\r\n",
+							"SELECT\r\n",
+							"s.academicyear as Year --2023\r\n",
+							"-- ,s.subjectyearlevel as YearLevel\r\n",
+							",yl.yearlevelsifcode as YearLevel\r\n",
+							",staff.campusid as CampusID\r\n",
+							",c.schoolname as SchoolName\r\n",
+							"\r\n",
+							"-- ,staff.bkstaff \r\n",
+							",staff.compasspersonid as TeacherID\r\n",
+							"-- ,staff.firstname as TeacherFirstName\r\n",
+							"-- ,staff.lastname as TeacherLastName\r\n",
+							",concat(staff.FirstName,' ',staff.LastName) AS TeacherName\r\n",
+							"\r\n",
+							"\r\n",
+							"-- ,d.bkstudent\r\n",
+							",d.compasspersonid as StudentID\r\n",
+							"-- ,d.FirstName AS StudentFirstName \r\n",
+							"-- ,d.LastName AS StudentLastName\r\n",
+							",concat(d.FirstName,' ',d.LastName) AS StudentName\r\n",
+							"\r\n",
+							"-- \r\n",
+							"-- ,a.ActivityName\r\n",
+							"-- ,a.ActivityCode\r\n",
+							"-- ,a.ActivityTypeDescription\r\n",
+							"-- ,a.CampusId AS AGEID\r\n",
+							"-- ,a.ManagingCompassPersonId \r\n",
+							",ae.ActivityEnrolmentStartDate ----------------- if there are duplicates, need to get the latest/highest value?\r\n",
+							"-- ,ae.ActivityEnrolmentEndDate\r\n",
+							"\r\n",
+							",s.subjectshortname as ClassName\r\n",
+							"-- ,s.subjectyearlevel \r\n",
+							",a.SubjectCode as ClassID\r\n",
+							"-- ,d.govcode1 as ceiderfromstudent\r\n",
+							"-- ,active.ceider\r\n",
+							"-- ,active.SKYearLevel\r\n",
+							"-- ,yl.yearlevelsifcode\r\n",
+							"\r\n",
+							"from vw_CompassODSStaffDemographic staff\r\n",
+							"\r\n",
+							"inner join vw_CompassODSActivity a\r\n",
+							"ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
+							"AND a.iscurrent is True\r\n",
+							"\r\n",
+							"left join vw_dmcampus c \r\n",
+							"ON staff.CampusId = c.bkCampusId\r\n",
+							"\r\n",
+							"inner JOIN vw_CompassODSActivityEnrolment ae \r\n",
+							"ON ae.ActivityCode = a.ActivityCode\r\n",
+							"AND ae.CampusId = a.CampusId\r\n",
+							"AND ae.IsCurrent is True\r\n",
+							"\r\n",
+							"inner JOIN vw_CompassODSStudentDemographic d \r\n",
+							"ON d.CompassPersonId = ae.CompassPersonId\r\n",
+							"AND d.iscurrent is True\r\n",
+							"\r\n",
+							"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
+							"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
+							"AND a.CampusId = s.CampusId\r\n",
+							"AND s.IsCurrent is True\r\n",
+							"\r\n",
+							"left join vw_activestudent active\r\n",
+							"on active.ceider = d.govcode1\r\n",
+							"\r\n",
+							"left join vw_dmyearlevel yl\r\n",
+							"on active.SKYearLevel = yl.SKYearLevel\r\n",
+							"\r\n",
+							"where \r\n",
+							"-- staff.firstname = 'Chloe' and staff.lastname = 'McLaren' and \r\n",
+							"    staff.iscurrent is True\r\n",
+							") innerquery\r\n",
+							"\r\n",
+							"where \r\n",
+							"innerquery.Year >= 2021 and\r\n",
+							"innerquery.yearlevel in ('P', '1', '2') \r\n",
+							"--StudentName like '%Choveaux'\r\n",
+							"\r\n",
+							"group by\r\n",
+							"year\r\n",
+							", YearLevel\r\n",
+							", CampusID\r\n",
+							", SchoolName\r\n",
+							", TeacherID\r\n",
+							", TeacherName\r\n",
+							", StudentID \r\n",
+							", StudentName\r\n",
+							", ClassName\r\n",
+							", ClassID\r\n",
+							"\r\n",
+							"--total count = 15739\r\n",
+							"--academicyear = 2023 = 966"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -24435,7 +24543,7 @@
 							"ae_manual_semesterreports_df = spark.read.table('vw_ae_manual_semesterreports')\r\n",
 							"\r\n",
 							"ods_studentclass_df = spark.read.table('vw_ods_studentclass')\r\n",
-							"\r\n",
+							"ods_teacherview_df = spark.read.table('vw_ods_teacherview')\r\n",
 							"\r\n",
 							"\r\n",
 							"\r\n",
@@ -24451,7 +24559,7 @@
 							"saveToTarget(ae_manual_semesterreports_df, destination_p, f'{version}/_FACTAESemesterReports')\r\n",
 							"\r\n",
 							"saveToTarget(ods_studentclass_df, destination_p, f'{version}/_FACTODSStudentClass')\r\n",
-							""
+							"saveToTarget(ods_teacherview_df, destination_p, f'{version}/_FACTODSTeacherView')"
 						],
 						"outputs": [],
 						"execution_count": 5
@@ -26064,7 +26172,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1e2dcfd6-ff1b-431a-ac49-156fc51b8d7d"
+						"spark.autotune.trackingId": "350b5d49-7a2d-454d-a306-f1bb3a031d9d"
 					}
 				},
 				"metadata": {

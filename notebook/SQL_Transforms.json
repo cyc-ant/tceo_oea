@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "53458c6c-fc49-4999-8d39-7f3be0e9ee48"
+				"spark.autotune.trackingId": "aa7a3719-37d5-49b8-bd31-1b15c62f23af"
 			}
 		},
 		"metadata": {
@@ -640,8 +640,25 @@
 					}
 				},
 				"source": [
-					"CREATE TEMP VIEW vw_ods_teacherview\r\n",
+					"CREATE TEMP VIEW vw_ods_earlyyearsstudents\r\n",
 					"as\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"select \r\n",
+					"year\r\n",
+					", YearLevel\r\n",
+					", CampusID\r\n",
+					", SchoolName\r\n",
+					", TeacherID\r\n",
+					", TeacherName\r\n",
+					", StudentID \r\n",
+					", StudentName\r\n",
+					", ClassName\r\n",
+					", ClassID\r\n",
+					"\r\n",
+					"from \r\n",
+					"(\r\n",
 					"\r\n",
 					"select \r\n",
 					"\r\n",
@@ -720,7 +737,7 @@
 					", StudentName\r\n",
 					", ClassName\r\n",
 					", ClassID\r\n",
-					""
+					") mainquery"
 				],
 				"execution_count": null
 			},
@@ -768,7 +785,7 @@
 					"ae_manual_semesterreports_df = spark.read.table('vw_ae_manual_semesterreports')\r\n",
 					"\r\n",
 					"ods_studentclass_df = spark.read.table('vw_ods_studentclass')\r\n",
-					"ods_teacherview_df = spark.read.table('vw_ods_teacherview')\r\n",
+					"ods_earlyyearsstudents_df = spark.read.table('vw_ods_earlyyearsstudents')\r\n",
 					"\r\n",
 					"\r\n",
 					"\r\n",
@@ -784,7 +801,7 @@
 					"saveToTarget(ae_manual_semesterreports_df, destination_p, f'{version}/_FACTAESemesterReports')\r\n",
 					"\r\n",
 					"saveToTarget(ods_studentclass_df, destination_p, f'{version}/_FACTODSStudentClass')\r\n",
-					"saveToTarget(ods_teacherview_df, destination_p, f'{version}/_FACTODSTeacherView')"
+					"saveToTarget(ods_earlyyearsstudents_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents')"
 				],
 				"execution_count": 5
 			}

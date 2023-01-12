@@ -19292,7 +19292,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "29a0cec7-d7c5-4848-9697-05e947d9a895"
+						"spark.autotune.trackingId": "a0dbcf9c-5320-4ec7-ba8d-46de24b1301f"
 					}
 				},
 				"metadata": {
@@ -24067,10 +24067,10 @@
 							"collapsed": false
 						},
 						"source": [
-							"select count(*) from vw_ae_manual_combined"
+							"select count(distinct id) from vw_ae_manual_combined"
 						],
 						"outputs": [],
-						"execution_count": 26
+						"execution_count": 30
 					}
 				]
 			},
@@ -24100,7 +24100,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "bcb7c100-1ec4-4079-871d-ee9bb22203a6"
+						"spark.autotune.trackingId": "8d5df4f7-dc6f-4a02-a445-6eb9221ec686"
 					}
 				},
 				"metadata": {
@@ -24849,7 +24849,8 @@
 							"as\r\n",
 							"\r\n",
 							"select \r\n",
-							"School_Name\r\n",
+							"concat('LT',row_number() OVER (ORDER BY ceider)) as id\r\n",
+							", School_Name\r\n",
 							", Area\r\n",
 							", Semester\r\n",
 							", Year\r\n",
@@ -24888,7 +24889,8 @@
 							"\r\n",
 							"\r\n",
 							"select \r\n",
-							"School_Name\r\n",
+							"concat('SR',row_number() OVER (ORDER BY ceider)) as id\r\n",
+							", School_Name\r\n",
 							", Area\r\n",
 							", Semester\r\n",
 							", Year\r\n",
@@ -26251,7 +26253,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "502f43df-37a4-4083-a9d8-77c88a1f8f5a"
+						"spark.autotune.trackingId": "a0a88829-6137-48c7-a1e8-d6c286cabcc7"
 					}
 				},
 				"metadata": {

@@ -19292,7 +19292,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0cdb91de-dd5f-495e-944c-9243eb5607ee"
+						"spark.autotune.trackingId": "d7a2326c-a1fc-403d-89b8-abfca248f7cf"
 					}
 				},
 				"metadata": {
@@ -19336,7 +19336,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 268
+						"execution_count": 320
 					},
 					{
 						"cell_type": "code",
@@ -23392,7 +23392,7 @@
 							"odsstudentdemographic_df.createOrReplaceTempView('vw_CompassODSStudentDemographic') "
 						],
 						"outputs": [],
-						"execution_count": 269
+						"execution_count": 321
 					},
 					{
 						"cell_type": "code",
@@ -23849,7 +23849,28 @@
 							"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')"
 						],
 						"outputs": [],
-						"execution_count": 277
+						"execution_count": 322
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_ae_manual_learningtasks\r\n",
+							"--18518"
+						],
+						"outputs": [],
+						"execution_count": 323
 					},
 					{
 						"cell_type": "code",
@@ -23922,7 +23943,27 @@
 							"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N') "
 						],
 						"outputs": [],
-						"execution_count": 278
+						"execution_count": 325
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_ae_manual_semesterreports"
+						],
+						"outputs": [],
+						"execution_count": 326
 					},
 					{
 						"cell_type": "code",
@@ -23980,7 +24021,35 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 264
+						"execution_count": 332
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select \r\n",
+							"\r\n",
+							"result,\r\n",
+							"count(*)\r\n",
+							"\r\n",
+							" from vw_ae_manual_learningtasks\r\n",
+							"group by result\r\n",
+							"order by result\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 334
 					},
 					{
 						"cell_type": "code",
@@ -24057,6 +24126,8 @@
 							"collapsed": false
 						},
 						"source": [
+							"create temp view ae_manual_union as\r\n",
+							"\r\n",
 							"select \r\n",
 							"School_Name\r\n",
 							", Area\r\n",
@@ -24118,7 +24189,127 @@
 							"from vw_ae_manual_semesterreports "
 						],
 						"outputs": [],
-						"execution_count": 318
+						"execution_count": 328
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from ae_manual_union"
+						],
+						"outputs": [],
+						"execution_count": 329
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"create temp view ae_manual_unionall as\r\n",
+							"\r\n",
+							"select \r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							", trim(substring(subjectname, 3)) as SubjectName \r\n",
+							", code as ClassCode\r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							", initcap(studentlastname) as StudentLastName\r\n",
+							", CASE\r\n",
+							"    WHEN yearlevel is not null THEN concat('Year ', yearlevel)\r\n",
+							"    ELSE yearlevel\r\n",
+							"        END as YearLevel\r\n",
+							", ResultType\r\n",
+							", CASE\r\n",
+							"    WHEN result = 'A+' THEN 'A'\r\n",
+							"    WHEN result = 'A-' THEN 'A'\r\n",
+							"    WHEN result = 'B+' THEN 'B'\r\n",
+							"    WHEN result = 'B-' THEN 'B'\r\n",
+							"    WHEN result = 'C+' THEN 'C'\r\n",
+							"    WHEN result = 'C-' THEN 'C'\r\n",
+							"    WHEN result = 'D+' THEN 'D'\r\n",
+							"    WHEN result = 'D-' THEN 'D'\r\n",
+							"    WHEN result = 'E+' THEN 'E'\r\n",
+							"    ELSE result\r\n",
+							"        END as Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							"\r\n",
+							"from vw_ae_manual_learningtasks \r\n",
+							"\r\n",
+							"\r\n",
+							"union all\r\n",
+							"\r\n",
+							"\r\n",
+							"select \r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							", subject as SubjectName \r\n",
+							", ClassCode\r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							", StudentLastName\r\n",
+							", StudentYearLevel\r\n",
+							", AssessmentType as ResultType\r\n",
+							", Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							"\r\n",
+							"from vw_ae_manual_semesterreports "
+						],
+						"outputs": [],
+						"execution_count": 330
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from ae_manual_unionall"
+						],
+						"outputs": [],
+						"execution_count": 331
 					},
 					{
 						"cell_type": "code",
@@ -24163,7 +24354,510 @@
 							"select distinct assessmenttype from vw_ae_manual_semesterreports "
 						],
 						"outputs": [],
-						"execution_count": 315
+						"execution_count": 319
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"create temp view count_dupes as \r\n",
+							"\r\n",
+							"select \r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							", trim(substring(subjectname, 3)) as SubjectName \r\n",
+							", code as ClassCode\r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							", initcap(studentlastname) as StudentLastName\r\n",
+							", CASE\r\n",
+							"    WHEN yearlevel is not null THEN concat('Year ', yearlevel)\r\n",
+							"    ELSE yearlevel\r\n",
+							"        END as YearLevel\r\n",
+							", ResultType\r\n",
+							", CASE\r\n",
+							"    WHEN result = 'A+' THEN 'A'\r\n",
+							"    WHEN result = 'A-' THEN 'A'\r\n",
+							"    WHEN result = 'B+' THEN 'B'\r\n",
+							"    WHEN result = 'B-' THEN 'B'\r\n",
+							"    WHEN result = 'C+' THEN 'C'\r\n",
+							"    WHEN result = 'C-' THEN 'C'\r\n",
+							"    WHEN result = 'D+' THEN 'D'\r\n",
+							"    WHEN result = 'D-' THEN 'D'\r\n",
+							"    WHEN result = 'E+' THEN 'E'\r\n",
+							"    ELSE result\r\n",
+							"        END as Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							", count(*) as dupes\r\n",
+							"\r\n",
+							"from vw_ae_manual_learningtasks \r\n",
+							"\r\n",
+							"group by \r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							", trim(substring(subjectname, 3))\r\n",
+							", code \r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							", initcap(studentlastname) \r\n",
+							", YearLevel\r\n",
+							", ResultType\r\n",
+							", Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 343
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from (\r\n",
+							"\r\n",
+							"select \r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							", trim(substring(subjectname, 3)) as SubjectName \r\n",
+							", code as ClassCode\r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							", initcap(studentlastname) as StudentLastName\r\n",
+							", CASE\r\n",
+							"    WHEN yearlevel is not null THEN concat('Year ', yearlevel)\r\n",
+							"    ELSE yearlevel\r\n",
+							"        END as YearLevel\r\n",
+							", ResultType\r\n",
+							", CASE\r\n",
+							"    WHEN result = 'A+' THEN 'A'\r\n",
+							"    WHEN result = 'A-' THEN 'A'\r\n",
+							"    WHEN result = 'B+' THEN 'B'\r\n",
+							"    WHEN result = 'B-' THEN 'B'\r\n",
+							"    WHEN result = 'C+' THEN 'C'\r\n",
+							"    WHEN result = 'C-' THEN 'C'\r\n",
+							"    WHEN result = 'D+' THEN 'D'\r\n",
+							"    WHEN result = 'D-' THEN 'D'\r\n",
+							"    WHEN result = 'E+' THEN 'E'\r\n",
+							"    ELSE result\r\n",
+							"        END as Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							", count(*) as dupes\r\n",
+							"\r\n",
+							"from vw_ae_manual_learningtasks \r\n",
+							"\r\n",
+							"group by \r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							", trim(substring(subjectname, 3))\r\n",
+							", code \r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							", initcap(studentlastname) \r\n",
+							", YearLevel\r\n",
+							", ResultType\r\n",
+							", Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							")"
+						],
+						"outputs": [],
+						"execution_count": 345
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select dupes, count(*) from count_dupes\r\n",
+							"group by dupes"
+						],
+						"outputs": [],
+						"execution_count": 354
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"\r\n",
+							"select count(*) from \r\n",
+							"\r\n",
+							"(\r\n",
+							"select \r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							", subject as SubjectName \r\n",
+							", ClassCode\r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							", StudentLastName\r\n",
+							", StudentYearLevel\r\n",
+							", AssessmentType as ResultType\r\n",
+							", Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							", count(*) as dupes\r\n",
+							"from vw_ae_manual_semesterreports \r\n",
+							"\r\n",
+							"group BY \r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							", subject \r\n",
+							", ClassCode\r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							", StudentLastName\r\n",
+							", StudentYearLevel\r\n",
+							", AssessmentType\r\n",
+							", Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							")\r\n",
+							"\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 346
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from \r\n",
+							"(\r\n",
+							"select \r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							", trim(substring(subjectname, 3)) as SubjectName \r\n",
+							", code as ClassCode\r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							", initcap(studentlastname) as StudentLastName\r\n",
+							", CASE\r\n",
+							"    WHEN yearlevel is not null THEN concat('Year ', yearlevel)\r\n",
+							"    ELSE yearlevel\r\n",
+							"        END as YearLevel\r\n",
+							", ResultType\r\n",
+							", CASE\r\n",
+							"    WHEN result = 'A+' THEN 'A'\r\n",
+							"    WHEN result = 'A-' THEN 'A'\r\n",
+							"    WHEN result = 'B+' THEN 'B'\r\n",
+							"    WHEN result = 'B-' THEN 'B'\r\n",
+							"    WHEN result = 'C+' THEN 'C'\r\n",
+							"    WHEN result = 'C-' THEN 'C'\r\n",
+							"    WHEN result = 'D+' THEN 'D'\r\n",
+							"    WHEN result = 'D-' THEN 'D'\r\n",
+							"    WHEN result = 'E+' THEN 'E'\r\n",
+							"    ELSE result\r\n",
+							"        END as Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							", count(*) as dupes\r\n",
+							"\r\n",
+							"from vw_ae_manual_learningtasks \r\n",
+							"\r\n",
+							"group by \r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							", trim(substring(subjectname, 3))\r\n",
+							", code \r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							", initcap(studentlastname) \r\n",
+							", YearLevel\r\n",
+							", ResultType\r\n",
+							", Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							")"
+						],
+						"outputs": [],
+						"execution_count": 362
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from (\r\n",
+							"\r\n",
+							"select \r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							", trim(substring(subjectname, 3)) as SubjectName \r\n",
+							"--, SubjectName \r\n",
+							", code as ClassCode\r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							", initcap(studentlastname) as StudentLastName\r\n",
+							"--, StudentLastName\r\n",
+							", CASE\r\n",
+							"    WHEN yearlevel is not null THEN concat('Year ', yearlevel)\r\n",
+							"    ELSE yearlevel\r\n",
+							"        END as YearLevel\r\n",
+							"-- , YearLevel\r\n",
+							", ResultType\r\n",
+							", CASE\r\n",
+							"    WHEN result = 'A+' THEN 'A'\r\n",
+							"    WHEN result = 'A-' THEN 'A'\r\n",
+							"    WHEN result = 'B+' THEN 'B'\r\n",
+							"    WHEN result = 'B-' THEN 'B'\r\n",
+							"    WHEN result = 'C+' THEN 'C'\r\n",
+							"    WHEN result = 'C-' THEN 'C'\r\n",
+							"    WHEN result = 'D+' THEN 'D'\r\n",
+							"    WHEN result = 'D-' THEN 'D'\r\n",
+							"    WHEN result = 'E+' THEN 'E'\r\n",
+							"    ELSE result\r\n",
+							"        END as Result\r\n",
+							"-- , Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							"\r\n",
+							"from vw_ae_manual_learningtasks \r\n",
+							"\r\n",
+							"\r\n",
+							"union \r\n",
+							"\r\n",
+							"\r\n",
+							"select \r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							", subject as SubjectName \r\n",
+							", ClassCode\r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							", StudentLastName\r\n",
+							", StudentYearLevel\r\n",
+							", AssessmentType as ResultType\r\n",
+							", Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							"\r\n",
+							"from vw_ae_manual_semesterreports \r\n",
+							")"
+						],
+						"outputs": [],
+						"execution_count": 369
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from (\r\n",
+							"\r\n",
+							"select \r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							"-- , trim(substring(subjectname, 3)) as SubjectName \r\n",
+							", SubjectName \r\n",
+							", code as ClassCode\r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							"-- , initcap(studentlastname) as StudentLastName\r\n",
+							", StudentLastName\r\n",
+							"-- , CASE\r\n",
+							"--     WHEN yearlevel is not null THEN concat('Year ', yearlevel)\r\n",
+							"--     ELSE yearlevel\r\n",
+							"--         END as YearLevel\r\n",
+							", YearLevel\r\n",
+							", ResultType\r\n",
+							"-- , CASE\r\n",
+							"--     WHEN result = 'A+' THEN 'A'\r\n",
+							"--     WHEN result = 'A-' THEN 'A'\r\n",
+							"--     WHEN result = 'B+' THEN 'B'\r\n",
+							"--     WHEN result = 'B-' THEN 'B'\r\n",
+							"--     WHEN result = 'C+' THEN 'C'\r\n",
+							"--     WHEN result = 'C-' THEN 'C'\r\n",
+							"--     WHEN result = 'D+' THEN 'D'\r\n",
+							"--     WHEN result = 'D-' THEN 'D'\r\n",
+							"--     WHEN result = 'E+' THEN 'E'\r\n",
+							"--     ELSE result\r\n",
+							"--         END as Result\r\n",
+							", Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							", count(*) as countofdupes\r\n",
+							"\r\n",
+							"from vw_ae_manual_learningtasks \r\n",
+							"\r\n",
+							"group by\r\n",
+							"School_Name\r\n",
+							", Area\r\n",
+							", Semester\r\n",
+							", Year\r\n",
+							", SubjectName \r\n",
+							", code\r\n",
+							", StudentCode\r\n",
+							", GovtCode1\r\n",
+							", StudentFirstName\r\n",
+							", StudentLastName\r\n",
+							", YearLevel\r\n",
+							", ResultType\r\n",
+							", Result\r\n",
+							", BKID\r\n",
+							", ceider \r\n",
+							", schoolid\r\n",
+							", skcampus\r\n",
+							"\r\n",
+							")\r\n",
+							" where studentfirstname = 'Raquel' and studentlastname = 'RUSS'\r\n",
+							"order by countofdupes desc"
+						],
+						"outputs": [],
+						"execution_count": 361
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_ae_manual_learningtasks \r\n",
+							"where studentfirstname = 'Raquel' and studentlastname = 'RUSS'"
+						],
+						"outputs": [],
+						"execution_count": 360
 					},
 					{
 						"cell_type": "code",
@@ -24212,7 +24906,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1c575507-7900-43b8-a851-3974e21c1aad"
+						"spark.autotune.trackingId": "8ff8b47f-7e7f-4639-97f6-61a02f13c4a4"
 					}
 				},
 				"metadata": {
@@ -26363,7 +27057,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2b3c4e9b-0dbb-4361-a8ba-e8835e09b062"
+						"spark.autotune.trackingId": "6e269d80-8436-477c-a727-e1b15524d7bf"
 					}
 				},
 				"metadata": {

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b844505f-bf11-4cee-94d7-7b34c5076bd7"
+				"spark.autotune.trackingId": "d5705bed-c1ad-4c54-bc31-8b4016bc261c"
 			}
 		},
 		"metadata": {
@@ -759,7 +759,8 @@
 					"as\r\n",
 					"\r\n",
 					"select \r\n",
-					"School_Name\r\n",
+					"concat('LT',row_number() OVER (ORDER BY ceider)) as id\r\n",
+					", School_Name\r\n",
 					", Area\r\n",
 					", Semester\r\n",
 					", Year\r\n",
@@ -798,7 +799,8 @@
 					"\r\n",
 					"\r\n",
 					"select \r\n",
-					"School_Name\r\n",
+					"concat('SR',row_number() OVER (ORDER BY ceider)) as id\r\n",
+					", School_Name\r\n",
 					", Area\r\n",
 					", Semester\r\n",
 					", Year\r\n",

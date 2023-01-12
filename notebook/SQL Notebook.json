@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a0ea9ff4-977d-454f-bf46-99d5b9c99152"
+				"spark.autotune.trackingId": "3d854978-267e-4c7e-9092-aa0bbb345354"
 			}
 		},
 		"metadata": {
@@ -4671,9 +4671,9 @@
 					"collapsed": false
 				},
 				"source": [
-					"select count(*) from vw_ae_manual_combined"
+					"select count(distinct id) from vw_ae_manual_combined"
 				],
-				"execution_count": 26
+				"execution_count": 30
 			}
 		]
 	}

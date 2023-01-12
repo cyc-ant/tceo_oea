@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c4e4d8dd-66c1-4c70-9c2c-33317f0e0704"
+				"spark.autotune.trackingId": "4ce76d0b-c8b8-45ad-af9c-d365e8edbbcf"
 			}
 		},
 		"metadata": {
@@ -4458,7 +4458,7 @@
 					"\r\n",
 					"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')"
 				],
-				"execution_count": 256
+				"execution_count": 277
 			},
 			{
 				"cell_type": "code",
@@ -4529,7 +4529,7 @@
 					"\r\n",
 					"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N') "
 				],
-				"execution_count": 258
+				"execution_count": 278
 			},
 			{
 				"cell_type": "code",
@@ -4642,7 +4642,7 @@
 				"source": [
 					"select * from vw_dmyearlevel"
 				],
-				"execution_count": 272
+				"execution_count": 309
 			},
 			{
 				"cell_type": "code",
@@ -4659,103 +4659,128 @@
 					"collapsed": false
 				},
 				"source": [
+					"select \r\n",
+					"School_Name\r\n",
+					", Area\r\n",
+					", Semester\r\n",
+					", Year\r\n",
+					", trim(substring(subjectname, 3)) as SubjectName \r\n",
+					", code as ClassCode\r\n",
+					", StudentCode\r\n",
+					", GovtCode1\r\n",
+					", StudentFirstName\r\n",
+					", initcap(studentlastname) as StudentLastName\r\n",
+					", CASE\r\n",
+					"    WHEN yearlevel is not null THEN concat('Year ', yearlevel)\r\n",
+					"    ELSE yearlevel\r\n",
+					"        END as YearLevel\r\n",
+					", ResultType\r\n",
+					", CASE\r\n",
+					"    WHEN result = 'A+' THEN 'A'\r\n",
+					"    WHEN result = 'A-' THEN 'A'\r\n",
+					"    WHEN result = 'B+' THEN 'B'\r\n",
+					"    WHEN result = 'B-' THEN 'B'\r\n",
+					"    WHEN result = 'C+' THEN 'C'\r\n",
+					"    WHEN result = 'C-' THEN 'C'\r\n",
+					"    WHEN result = 'D+' THEN 'D'\r\n",
+					"    WHEN result = 'D-' THEN 'D'\r\n",
+					"    WHEN result = 'E+' THEN 'E'\r\n",
+					"    ELSE result\r\n",
+					"        END as Result\r\n",
+					", BKID\r\n",
+					", ceider \r\n",
+					", schoolid\r\n",
+					", skcampus\r\n",
+					"\r\n",
+					"from vw_ae_manual_learningtasks \r\n",
+					"\r\n",
+					"\r\n",
+					"union \r\n",
 					"\r\n",
 					"\r\n",
 					"select \r\n",
-					"year\r\n",
-					", YearLevel\r\n",
-					", CampusID\r\n",
-					", SchoolName\r\n",
-					", TeacherID\r\n",
-					", TeacherName\r\n",
-					", StudentID \r\n",
-					", StudentName\r\n",
-					", ClassName\r\n",
-					", ClassID\r\n",
+					"School_Name\r\n",
+					", Area\r\n",
+					", Semester\r\n",
+					", Year\r\n",
+					", subject as SubjectName \r\n",
+					", ClassCode\r\n",
+					", StudentCode\r\n",
+					", GovtCode1\r\n",
+					", StudentFirstName\r\n",
+					", StudentLastName\r\n",
+					", StudentYearLevel\r\n",
+					", AssessmentType as ResultType\r\n",
+					", Result\r\n",
+					", BKID\r\n",
+					", ceider \r\n",
+					", schoolid\r\n",
+					", skcampus\r\n",
 					"\r\n",
-					"from \r\n",
-					"(\r\n",
-					"\r\n",
-					"select \r\n",
-					"\r\n",
-					"year\r\n",
-					", YearLevel\r\n",
-					", CampusID\r\n",
-					", SchoolName\r\n",
-					", TeacherID\r\n",
-					", TeacherName\r\n",
-					", StudentID \r\n",
-					", StudentName\r\n",
-					", max(ActivityEnrolmentStartDate) as ActivityEnrolmentStartDate\r\n",
-					", ClassName\r\n",
-					", ClassID\r\n",
-					"\r\n",
-					" from \r\n",
-					"(\r\n",
-					"SELECT\r\n",
-					"s.academicyear as Year \r\n",
-					",yl.yearlevelsifcode as YearLevel\r\n",
-					",staff.campusid as CampusID\r\n",
-					",c.schoolname as SchoolName\r\n",
-					",staff.compasspersonid as TeacherID\r\n",
-					",concat(staff.FirstName,' ',staff.LastName) AS TeacherName\r\n",
-					",d.compasspersonid as StudentID\r\n",
-					",concat(d.FirstName,' ',d.LastName) AS StudentName\r\n",
-					",ae.ActivityEnrolmentStartDate \r\n",
-					",s.subjectshortname as ClassName\r\n",
-					",a.SubjectCode as ClassID\r\n",
-					"\r\n",
-					"from vw_CompassODSStaffDemographic staff\r\n",
-					"\r\n",
-					"inner join vw_CompassODSActivity a\r\n",
-					"ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
-					"AND a.iscurrent is True\r\n",
-					"\r\n",
-					"left join vw_dmcampus c \r\n",
-					"ON staff.CampusId = c.bkCampusId\r\n",
-					"\r\n",
-					"inner JOIN vw_CompassODSActivityEnrolment ae \r\n",
-					"ON ae.ActivityCode = a.ActivityCode\r\n",
-					"AND ae.CampusId = a.CampusId\r\n",
-					"AND ae.IsCurrent is True\r\n",
-					"\r\n",
-					"inner JOIN vw_CompassODSStudentDemographic d \r\n",
-					"ON d.CompassPersonId = ae.CompassPersonId\r\n",
-					"AND d.iscurrent is True\r\n",
-					"\r\n",
-					"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
-					"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
-					"AND a.CampusId = s.CampusId\r\n",
-					"AND s.IsCurrent is True\r\n",
-					"\r\n",
-					"left join vw_activestudent active\r\n",
-					"on active.ceider = d.govcode1\r\n",
-					"\r\n",
-					"left join vw_dmyearlevel yl\r\n",
-					"on active.SKYearLevel = yl.SKYearLevel\r\n",
-					"\r\n",
-					"where \r\n",
-					"    staff.iscurrent is True\r\n",
-					") innerquery\r\n",
-					"\r\n",
-					"where \r\n",
-					"innerquery.Year >= 2021 and\r\n",
-					"innerquery.yearlevel in ('P', '1', '2') \r\n",
-					"\r\n",
-					"group by\r\n",
-					"year\r\n",
-					", YearLevel\r\n",
-					", CampusID\r\n",
-					", SchoolName\r\n",
-					", TeacherID\r\n",
-					", TeacherName\r\n",
-					", StudentID \r\n",
-					", StudentName\r\n",
-					", ClassName\r\n",
-					", ClassID\r\n",
-					") mainquery"
+					"from vw_ae_manual_semesterreports "
 				],
-				"execution_count": 275
+				"execution_count": 318
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select distinct resulttype\r\n",
+					"\r\n",
+					"  from vw_ae_manual_learningtasks \r\n",
+					"\r\n",
+					"\r\n",
+					""
+				],
+				"execution_count": 314
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select distinct assessmenttype from vw_ae_manual_semesterreports "
+				],
+				"execution_count": 315
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					""
+				],
+				"execution_count": null
 			}
 		]
 	}

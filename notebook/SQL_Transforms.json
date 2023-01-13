@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d5705bed-c1ad-4c54-bc31-8b4016bc261c"
+				"spark.autotune.trackingId": "063babed-222b-4c87-aca5-0889b80e94b4"
 			}
 		},
 		"metadata": {
@@ -656,6 +656,9 @@
 					", StudentName\r\n",
 					", ClassName\r\n",
 					", ClassID\r\n",
+					", StaffEmail\r\n",
+					", StudentEmail\r\n",
+					", ceider\r\n",
 					"\r\n",
 					"from \r\n",
 					"(\r\n",
@@ -673,6 +676,9 @@
 					", max(ActivityEnrolmentStartDate) as ActivityEnrolmentStartDate\r\n",
 					", ClassName\r\n",
 					", ClassID\r\n",
+					", StaffEmail\r\n",
+					", StudentEmail\r\n",
+					", ceider\r\n",
 					"\r\n",
 					" from \r\n",
 					"(\r\n",
@@ -688,6 +694,9 @@
 					",ae.ActivityEnrolmentStartDate \r\n",
 					",s.subjectshortname as ClassName\r\n",
 					",a.SubjectCode as ClassID\r\n",
+					",staff.emailaddress as StaffEmail\r\n",
+					",d.emailaddress as StudentEmail\r\n",
+					",d.govcode1 as ceider\r\n",
 					"\r\n",
 					"from vw_CompassODSStaffDemographic staff\r\n",
 					"\r\n",
@@ -737,6 +746,9 @@
 					", StudentName\r\n",
 					", ClassName\r\n",
 					", ClassID\r\n",
+					", StaffEmail\r\n",
+					", StudentEmail\r\n",
+					", ceider\r\n",
 					") mainquery"
 				],
 				"execution_count": null

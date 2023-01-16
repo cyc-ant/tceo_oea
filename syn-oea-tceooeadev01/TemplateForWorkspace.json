@@ -6654,6 +6654,73 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_ods')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest Acer to Stage2",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_ODS",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "ods_object",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "_ODS",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Stage2 Ingestion Pipelines"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_ODS')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_student_profile')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -8456,6 +8523,34 @@
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_qkk')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "_AE_ManualUploadRawFiles",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
 				"schema": []
@@ -10331,6 +10426,102 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_qkk')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureFileStorage_AEData",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureFileStorageLocation",
+						"folderPath": "AECompassData"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "StudentFirstName",
+						"type": "String"
+					},
+					{
+						"name": "StudentLastName",
+						"type": "String"
+					},
+					{
+						"name": "StudentCode",
+						"type": "String"
+					},
+					{
+						"name": "GovtCode1",
+						"type": "String"
+					},
+					{
+						"name": "StudentYearLevel",
+						"type": "String"
+					},
+					{
+						"name": "StudentFormGroup",
+						"type": "String"
+					},
+					{
+						"name": "StudentHouseGroup",
+						"type": "String"
+					},
+					{
+						"name": "Subject",
+						"type": "String"
+					},
+					{
+						"name": "ClassCode",
+						"type": "String"
+					},
+					{
+						"name": "Teacher",
+						"type": "String"
+					},
+					{
+						"name": "AssessmentType",
+						"type": "String"
+					},
+					{
+						"name": "AssessmentArea",
+						"type": "String"
+					},
+					{
+						"name": "Result",
+						"type": "String"
+					},
+					{
+						"name": "School Name",
+						"type": "String"
+					},
+					{
+						"name": "Area",
+						"type": "String"
+					},
+					{
+						"name": "Semester",
+						"type": "String"
+					},
+					{
+						"name": "Year",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/AzureFileStorage_AEData')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/SourceDataset_student_object')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -11102,7 +11293,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ab2280ac-8dfa-443b-8b1c-a4d1003c00f7"
+						"spark.autotune.trackingId": "ed01dc63-7141-4878-8fcd-422a6eea92eb"
 					}
 				},
 				"metadata": {
@@ -11127,15 +11318,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AE_manual_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_AE_ManualUploadRawFiles', pseudonymize = True):\r\n",
@@ -11494,7 +11683,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c7f31133-8c5c-4a7a-bc76-642519fe2d02"
+						"spark.autotune.trackingId": "9e25fc2f-f23c-4700-b1aa-a18d97637a1a"
 					}
 				},
 				"metadata": {
@@ -11519,15 +11708,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AE_manual_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_AE_ManualUploadRawFiles', pseudonymize = True):\r\n",
@@ -12981,6 +13168,121 @@
 							"\r\n",
 							"\r\n",
 							"class_period_object = Class_period_object()"
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/DataCopy_ODS_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Stage1"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "550d3005-5c60-43bb-abfb-d1a1f4d4cae4"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"class DataCopy(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder, pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"        \r\n",
+							"    def createFoldersForAll(self):\r\n",
+							"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
+							"        for file in file_list:\r\n",
+							"            # ignore subfolders\r\n",
+							"            if file.isDir:\r\n",
+							"                continue\r\n",
+							"                \r\n",
+							"            # if the filename is preceded by 'dbovw', remove it and use the rest of the file name as the directory\r\n",
+							"            if file.name.find('dbovw') == 0:\r\n",
+							"                destination = file.name.replace('dbovw', '')\r\n",
+							"            elif file.name.find('dbo.vw') == 0:\r\n",
+							"                destination = file.name.replace('dbo.vw', '')\r\n",
+							"            elif file.name.find('dbo.') == 0:\r\n",
+							"                destination = file.name.replace('dbo.', '')\r\n",
+							"            elif file.name.find('dbo') == 0:\r\n",
+							"                destination = file.name.replace('dbo', '')\r\n",
+							"            else:\r\n",
+							"                destination = file.name\r\n",
+							"            \r\n",
+							"            # copy the file to the created folder\r\n",
+							"            self._copyToFolder(file, destination)\r\n",
+							"\r\n",
+							"\r\n",
+							"    def _copyToFolder(self, file, destination):\r\n",
+							"        \"\"\" Moves the file to a folder that is based on the filename without its file extension\"\"\"\r\n",
+							"        tokens = destination.split(\".\")\r\n",
+							"        target = self.stage1np + '/' + tokens[0] +'/' + file.name\r\n",
+							"        mssparkutils.fs.mv(file.path, target, True) # will create the new dir and move file into it\r\n",
+							"\r\n",
+							"\r\n",
+							"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
+							"datacopy = DataCopy(source_folder)\r\n",
+							"\r\n",
+							"datacopy.createFoldersForAll()\r\n",
+							""
 						],
 						"outputs": [],
 						"execution_count": null
@@ -15415,7 +15717,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "dbfd4633-539f-45ed-83d0-3a926c956dcb"
+						"spark.autotune.trackingId": "af0a96ce-248d-456d-be00-01e8c0ac827c"
 					}
 				},
 				"metadata": {
@@ -15440,15 +15742,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Ods_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_ODS', pseudonymize = True):\r\n",
@@ -17926,7 +18226,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ef873eef-8720-445a-bab4-7e5b08b7ecb7"
+						"spark.autotune.trackingId": "5f4e2960-8bdb-43bd-bce4-316a23f91bc8"
 					}
 				},
 				"metadata": {
@@ -17951,8 +18251,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -19296,7 +19595,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8a760614-24e1-4083-a847-2897a9cca9e6"
+						"spark.autotune.trackingId": "a585a1c7-4f8a-4fce-8e43-d15f40f7ed0e"
 					}
 				},
 				"metadata": {
@@ -19340,7 +19639,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 32
+						"execution_count": 22
 					},
 					{
 						"cell_type": "code",
@@ -23396,7 +23695,7 @@
 							"odsstudentdemographic_df.createOrReplaceTempView('vw_CompassODSStudentDemographic') "
 						],
 						"outputs": [],
-						"execution_count": 33
+						"execution_count": 23
 					},
 					{
 						"cell_type": "code",
@@ -24445,6 +24744,448 @@
 						],
 						"outputs": [],
 						"execution_count": 45
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"CREATE TEMP VIEW vw_activestudent\r\n",
+							"AS\r\n",
+							"SELECT SchoolID AS SchoolAGEID,\r\n",
+							"    c.CampusSuburbAndName,\r\n",
+							"    pd.FirstName,\r\n",
+							"    pd.LastName,\r\n",
+							"    yl.SKYearLevel,\r\n",
+							"    rg.RollGroupDesc AS RollGroup,\r\n",
+							"    pd.Ceider,\r\n",
+							"    pd.SKPerson, \r\n",
+							"    pd.Disability,\r\n",
+							"    pd.ATSIId,\r\n",
+							"    pd.LBOTE\r\n",
+							"\r\n",
+							"FROM vw_factpersonmilestone f\r\n",
+							"JOIN vw_dmpersondemographic pd ON f.SKPerson = pd.SKPerson\r\n",
+							"JOIN vw_dmcampus c ON f.SKCampus = c.SKCampus\r\n",
+							"JOIN vw_dmyearlevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
+							"JOIN vw_dmrollgroup rg ON f.SKRollGroup = rg.SKRollGroup\r\n",
+							"WHERE \r\n",
+							"    f.IsCurrentMilestone = 'True'\r\n",
+							"    AND f.IsActiveMilestone = 'True'\r\n",
+							"    AND pd.PersonType = 'Student'\r\n",
+							"ORDER BY SchoolAGEID, yl.YearLevelSifDesc, pd.FirstName, pd.LastName\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 5
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"CREATE TEMP VIEW vw_ods_earlyyearsstudents\r\n",
+							"as\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"select \r\n",
+							"year\r\n",
+							", YearLevel\r\n",
+							", CampusID\r\n",
+							", SchoolName\r\n",
+							", TeacherID\r\n",
+							", TeacherName\r\n",
+							", StudentID \r\n",
+							", StudentName\r\n",
+							", ClassName\r\n",
+							", ClassID\r\n",
+							", StaffEmail\r\n",
+							", StudentEmail\r\n",
+							", ceider\r\n",
+							"\r\n",
+							"from \r\n",
+							"(\r\n",
+							"\r\n",
+							"select \r\n",
+							"\r\n",
+							"year\r\n",
+							", YearLevel\r\n",
+							", CampusID\r\n",
+							", SchoolName\r\n",
+							", TeacherID\r\n",
+							", TeacherName\r\n",
+							", StudentID \r\n",
+							", StudentName\r\n",
+							", max(ActivityEnrolmentStartDate) as ActivityEnrolmentStartDate\r\n",
+							", ClassName\r\n",
+							", ClassID\r\n",
+							", StaffEmail\r\n",
+							", StudentEmail\r\n",
+							", ceider\r\n",
+							"\r\n",
+							" from \r\n",
+							"(\r\n",
+							"SELECT\r\n",
+							"s.academicyear as Year \r\n",
+							",yl.yearlevelsifcode as YearLevel\r\n",
+							",staff.campusid as CampusID\r\n",
+							",c.schoolname as SchoolName\r\n",
+							",staff.compasspersonid as TeacherID\r\n",
+							",concat(staff.FirstName,' ',staff.LastName) AS TeacherName\r\n",
+							",d.compasspersonid as StudentID\r\n",
+							",concat(d.FirstName,' ',d.LastName) AS StudentName\r\n",
+							",ae.ActivityEnrolmentStartDate \r\n",
+							",s.subjectshortname as ClassName\r\n",
+							",a.SubjectCode as ClassID\r\n",
+							",staff.emailaddress as StaffEmail\r\n",
+							",d.emailaddress as StudentEmail\r\n",
+							",d.govcode1 as ceider\r\n",
+							"\r\n",
+							"from vw_CompassODSStaffDemographic staff\r\n",
+							"\r\n",
+							"inner join vw_CompassODSActivity a\r\n",
+							"ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
+							"AND a.iscurrent is True\r\n",
+							"\r\n",
+							"left join vw_dmcampus c \r\n",
+							"ON staff.CampusId = c.bkCampusId\r\n",
+							"\r\n",
+							"inner JOIN vw_CompassODSActivityEnrolment ae \r\n",
+							"ON ae.ActivityCode = a.ActivityCode\r\n",
+							"AND ae.CampusId = a.CampusId\r\n",
+							"AND ae.IsCurrent is True\r\n",
+							"\r\n",
+							"inner JOIN vw_CompassODSStudentDemographic d \r\n",
+							"ON d.CompassPersonId = ae.CompassPersonId\r\n",
+							"AND d.iscurrent is True\r\n",
+							"\r\n",
+							"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
+							"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
+							"AND a.CampusId = s.CampusId\r\n",
+							"AND s.IsCurrent is True\r\n",
+							"\r\n",
+							"left join vw_activestudent active\r\n",
+							"on active.ceider = d.govcode1\r\n",
+							"\r\n",
+							"left join vw_dmyearlevel yl\r\n",
+							"on active.SKYearLevel = yl.SKYearLevel\r\n",
+							"\r\n",
+							"where \r\n",
+							"    staff.iscurrent is True\r\n",
+							") innerquery\r\n",
+							"\r\n",
+							"where \r\n",
+							"innerquery.Year >= 2021 and\r\n",
+							"innerquery.yearlevel in ('P', '1', '2') \r\n",
+							"\r\n",
+							"group by\r\n",
+							"year\r\n",
+							", YearLevel\r\n",
+							", CampusID\r\n",
+							", SchoolName\r\n",
+							", TeacherID\r\n",
+							", TeacherName\r\n",
+							", StudentID \r\n",
+							", StudentName\r\n",
+							", ClassName\r\n",
+							", ClassID\r\n",
+							", StaffEmail\r\n",
+							", StudentEmail\r\n",
+							", ceider\r\n",
+							") mainquery"
+						],
+						"outputs": [],
+						"execution_count": 6
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_ods_earlyyearsstudents"
+						],
+						"outputs": [],
+						"execution_count": 8
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_CompassODSStaffDemographic \r\n",
+							"where firstname = 'Tegan' and lastname = 'Beckham';\r\n",
+							"\r\n",
+							"--Tegan Beckham"
+						],
+						"outputs": [],
+						"execution_count": 20
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"CREATE TEMP VIEW vw_acerparticipation\r\n",
+							"as\r\n",
+							"select \r\n",
+							"*\r\n",
+							"--, round(cast(count_of_tests as float) / (cast(#students_enrolled as float) * 2), 2) as participation_perc \r\n",
+							", round(count_of_tests /(students_enrolled  * 2), 2) as participation_perc \r\n",
+							"from\r\n",
+							"(\r\n",
+							"select \r\n",
+							"\t--*\r\n",
+							"\ta.skcampus\r\n",
+							"\t, a.skyear\r\n",
+							"\t, a.skdate\r\n",
+							"\t, a.skyearlevel\r\n",
+							"\t, sum(studentcount) as students_enrolled\r\n",
+							"\t, innerquery.count_of_tests \r\n",
+							"from vw_factstudentenrolmentcounts a\r\n",
+							"\r\n",
+							"left join \r\n",
+							"\t(\t\r\n",
+							"\t\tselect innerinner.skcampus, innerinner.skyear, innerinner.skdate, innerinner.SKYearLevel, sum(acer_tests) as count_of_tests from \r\n",
+							"\t\t\t(\r\n",
+							"\t\t\t\tselect \r\n",
+							"\t\t\t\t\t\tskcampus\r\n",
+							"\t\t\t\t\t\t, skyear\r\n",
+							"\t\t\t\t\t\t, SKDate\r\n",
+							"\t\t\t\t\t\t, skyearlevel\r\n",
+							"\t\t\t\t\t\t, SKACERStudent\r\n",
+							"\t\t\t\t\t\t, count(distinct skpattest) as acer_tests\r\n",
+							"\t\t\t\t\t\tfrom vw_factpatresults_df\r\n",
+							"\t\t\t\t\t\t\tgroup by skcampus, skyear, skdate, skyearlevel, SKACERStudent --9\r\n",
+							"\t\t\t) innerinner\r\n",
+							"\tgroup by innerinner.skcampus, innerinner.skyear, innerinner.skdate, innerinner.SKYearLevel\r\n",
+							"\t) innerquery\r\n",
+							"\r\n",
+							"on a.skcampus = innerquery.skcampus and a.skyear = innerquery.skyear and a.skdate = innerquery.skdate and a.skyearlevel = innerquery.skyearlevel \r\n",
+							"where a.skyearlevel in (21, 11, 10, 2, 16, 12, 20, 3, 17) --ACER - year levels 2 to 10\r\n",
+							"group by a.skcampus, a.skyear, a.skdate, a.skyearlevel, innerquery.count_of_tests\r\n",
+							") wholequery"
+						],
+						"outputs": [],
+						"execution_count": 24
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"--Taking skcampus = 1898 and skyear = 92 and skyearlevel = 10 as an example, \r\n",
+							"--the 3 dates in ACER are 11th, 13th and 28th of October, none of which will join onto the 31st of October enrolment data. "
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_acerparticipation\r\n",
+							"where skcampus = 1898 and skyear = 92 and skyearlevel = 10"
+						],
+						"outputs": [],
+						"execution_count": 48
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select distinct e.skdate, dt.date from vw_factstudentenrolmentcounts e\r\n",
+							"left join vw_dmdate dt on e.skdate = dt.skdate\r\n",
+							"where e.skcampus = 1898 and e.skyear = 92 and e.skyearlevel = 10\r\n",
+							"order by dt.date"
+						],
+						"outputs": [],
+						"execution_count": 42
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select distinct acer.skdate, dt.date from vw_factpatresults_df acer\r\n",
+							"left join vw_dmdate dt on acer.skdate = dt.skdate\r\n",
+							"where acer.skcampus = 1898 and acer.skyear = 92 and acer.skyearlevel = 10\r\n",
+							"order by dt.date"
+						],
+						"outputs": [],
+						"execution_count": 40
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"Code below gives the breakdown, can filter out the nulls But of the 3 dates, which one to use? Bringing in all the dates will give duplicate information?"
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select \r\n",
+							"*\r\n",
+							"--, round(cast(count_of_tests as float) / (cast(#students_enrolled as float) * 2), 2) as participation_perc \r\n",
+							", round(count_of_tests /(students_enrolled  * 2), 2) as participation_perc \r\n",
+							"from\r\n",
+							"(\r\n",
+							"select \r\n",
+							"\t--*\r\n",
+							"\ta.skcampus\r\n",
+							"\t, a.skyear\r\n",
+							"\t--, a.skdate\r\n",
+							"\t, a.skyearlevel\r\n",
+							"\t, sum(studentcount) as students_enrolled\r\n",
+							"\t, innerquery.count_of_tests \r\n",
+							"from vw_factstudentenrolmentcounts a\r\n",
+							"\r\n",
+							"left join vw_dmdate datedetails\r\n",
+							"on a.skdate = datedetails.skdate\r\n",
+							"\r\n",
+							"\r\n",
+							"left join \r\n",
+							"\t(\t\r\n",
+							"\t\tselect innerinner.skcampus, innerinner.skyear, innerinner.skdate, innerinner.SKYearLevel, innerinner.year, innerinner.monthnumberofyear, sum(acer_tests) as count_of_tests from \r\n",
+							"\t\t\t(\r\n",
+							"\t\t\t\tselect \r\n",
+							"\t\t\t\t\t\ta.skcampus\r\n",
+							"\t\t\t\t\t\t, a.skyear\r\n",
+							"\t\t\t\t\t\t, a.SKDate\r\n",
+							"\t\t\t\t\t\t, a.skyearlevel\r\n",
+							"\t\t\t\t\t\t, a.SKACERStudent\r\n",
+							"                        , b.year \r\n",
+							"                        , b.monthnumberofyear\r\n",
+							"\t\t\t\t\t\t, count(distinct a.skpattest) as acer_tests\r\n",
+							"\t\t\t\t\t\tfrom vw_factpatresults_df a\r\n",
+							"                        left join vw_dmdate b\r\n",
+							"                        on a.skdate = b.skdate\r\n",
+							"\t\t\t\t\t\t\tgroup by a.skcampus, a.skyear, a.skdate, a.skyearlevel, a.SKACERStudent, b.year, b.monthnumberofyear --9\r\n",
+							"\t\t\t) innerinner\r\n",
+							"            where innerinner.skcampus = 1898 and innerinner.skyear = 92 and innerinner.skyearlevel = 10\r\n",
+							"\tgroup by innerinner.skcampus, innerinner.skyear, innerinner.skdate, innerinner.SKYearLevel, innerinner.year, innerinner.monthnumberofyear\r\n",
+							"\t) innerquery\r\n",
+							"\r\n",
+							"on a.skcampus = innerquery.skcampus \r\n",
+							"and a.skyear = innerquery.skyear \r\n",
+							"--and a.skdate = innerquery.skdate \r\n",
+							"and a.skyearlevel = innerquery.skyearlevel \r\n",
+							"and datedetails.monthnumberofyear = innerquery.monthnumberofyear\r\n",
+							"where a.skyearlevel in (21, 11, 10, 2, 16, 12, 20, 3, 17) --ACER - year levels 2 to 10\r\n",
+							"group by a.skcampus\r\n",
+							", a.skyear\r\n",
+							"--, a.skdate\r\n",
+							", a.skyearlevel\r\n",
+							", innerquery.count_of_tests\r\n",
+							") wholequery\r\n",
+							"where skcampus = 1898 and skyear = 92 and skyearlevel = 10"
+						],
+						"outputs": [],
+						"execution_count": 49
 					}
 				]
 			},
@@ -24474,7 +25215,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "49fdbdaf-39bc-4312-857d-3143a972ba61"
+						"spark.autotune.trackingId": "a9aab8c8-9dea-4439-97b8-17866e3fe86f"
 					}
 				},
 				"metadata": {
@@ -26140,7 +26881,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "284c8c5f-f795-44a8-8ba4-e49fa3b3fabb"
+						"spark.autotune.trackingId": "98b01cdb-1520-4225-86c7-3c7cb23744d5"
 					}
 				},
 				"metadata": {
@@ -26165,15 +26906,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws"
 						],
@@ -26639,7 +27378,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "208e98fe-48ea-4ee3-93fd-333d58c75423"
+						"spark.autotune.trackingId": "4af0a62c-bb10-44f1-a622-ae33971880be"
 					}
 				},
 				"metadata": {
@@ -26952,189 +27691,6 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/DataCopy_ODS_py')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "Stage1"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2b4ebbdd-889f-4735-8880-70359eb86420"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"class DataCopy(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder, pseudonymize = True):\r\n",
-							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-							"        \r\n",
-							"    def createFoldersForAll(self):\r\n",
-							"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
-							"        for file in file_list:\r\n",
-							"            # ignore subfolders\r\n",
-							"            if file.isDir:\r\n",
-							"                continue\r\n",
-							"                \r\n",
-							"            # if the filename is preceded by 'dbovw', remove it and use the rest of the file name as the directory\r\n",
-							"            if file.name.find('dbovw') == 0:\r\n",
-							"                destination = file.name.replace('dbovw', '')\r\n",
-							"            elif file.name.find('dbo.vw') == 0:\r\n",
-							"                destination = file.name.replace('dbo.vw', '')\r\n",
-							"            elif file.name.find('dbo.') == 0:\r\n",
-							"                destination = file.name.replace('dbo.', '')\r\n",
-							"            elif file.name.find('dbo') == 0:\r\n",
-							"                destination = file.name.replace('dbo', '')\r\n",
-							"            else:\r\n",
-							"                destination = file.name\r\n",
-							"            \r\n",
-							"            # copy the file to the created folder\r\n",
-							"            self._copyToFolder(file, destination)\r\n",
-							"\r\n",
-							"\r\n",
-							"    def _copyToFolder(self, file, destination):\r\n",
-							"        \"\"\" Moves the file to a folder that is based on the filename without its file extension\"\"\"\r\n",
-							"        tokens = destination.split(\".\")\r\n",
-							"        target = self.stage1np + '/' + tokens[0] +'/' + file.name\r\n",
-							"        mssparkutils.fs.mv(file.path, target, True) # will create the new dir and move file into it\r\n",
-							"\r\n",
-							"\r\n",
-							"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
-							"datacopy = DataCopy(source_folder)\r\n",
-							"\r\n",
-							"datacopy.createFoldersForAll()\r\n",
-							""
-						],
-						"outputs": [],
-						"execution_count": null
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_ods')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Ingest Acer to Stage2",
-						"type": "SynapseNotebook",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebook": {
-								"referenceName": "OEA_connector_ODS",
-								"type": "NotebookReference"
-							},
-							"parameters": {
-								"object_name": {
-									"value": "ods_object",
-									"type": "string"
-								},
-								"method_name": {
-									"value": "ingest",
-									"type": "string"
-								},
-								"source_folder": {
-									"value": "_ODS",
-									"type": "string"
-								}
-							},
-							"snapshot": true,
-							"sparkPool": {
-								"referenceName": "spark3p1sm",
-								"type": "BigDataPoolReference"
-							},
-							"executorSize": null,
-							"conf": {
-								"spark.dynamicAllocation.enabled": null,
-								"spark.dynamicAllocation.minExecutors": null,
-								"spark.dynamicAllocation.maxExecutors": null
-							},
-							"driverSize": null,
-							"numExecutors": null
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "Stage2 Ingestion Pipelines"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_ODS')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
-			]
 		}
 	]
 }

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3290889b-4455-44cb-b570-5a6981a79533"
+				"spark.autotune.trackingId": "e35b9256-8b81-43f7-9b6c-2f5aef487aa7"
 			}
 		},
 		"metadata": {
@@ -6262,7 +6262,7 @@
 					"-- --Melinda Holmes - 2454 to 7362 records\r\n",
 					"-- select * from vw_CompassODSStaffOrganisationDetails where compasspersonid = '30beb778-8461-46f4-8d1d-b84f87355ec1' and iscurrent = 'True' and status = 'Active'\r\n",
 					"\r\n",
-					"--Carmelina Murphy\r\n",
+					"--Carmelina Murphy - irregular one - consider using IsTeachingStaff = True but still there will be duplicate emails\r\n",
 					"select * from vw_CompassODSStaffOrganisationDetails where compasspersonid = 'ad178dc7-8dee-4b3e-b42b-a3d25dada387' and iscurrent = 'True' and status = 'Active'"
 				],
 				"execution_count": 204

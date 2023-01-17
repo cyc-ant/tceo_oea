@@ -2751,6 +2751,22 @@
 								"destination": {
 									"fileName": "CompassODSStudentDemographic.csv"
 								}
+							},
+							{
+								"source": {
+									"table": "ODSStaffOrganisationDetails"
+								},
+								"destination": {
+									"fileName": "CompassODSStaffOrganisationDetails.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "ODSStudentOrganisationDetails"
+								},
+								"destination": {
+									"fileName": "CompassODSStudentOrganisationDetails.csv"
+								}
 							}
 						]
 					}
@@ -19595,7 +19611,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a585a1c7-4f8a-4fce-8e43-d15f40f7ed0e"
+						"spark.autotune.trackingId": "98bb93e4-5d25-4fbb-bb0c-452e67206d39"
 					}
 				},
 				"metadata": {
@@ -25215,7 +25231,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a9aab8c8-9dea-4439-97b8-17866e3fe86f"
+						"spark.autotune.trackingId": "063babed-222b-4c87-aca5-0889b80e94b4"
 					}
 				},
 				"metadata": {
@@ -25240,8 +25256,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -27378,7 +27393,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4af0a62c-bb10-44f1-a622-ae33971880be"
+						"spark.autotune.trackingId": "882e82a5-e86e-4321-ae38-447a4a7c4949"
 					}
 				},
 				"metadata": {
@@ -27403,8 +27418,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

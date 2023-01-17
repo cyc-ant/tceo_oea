@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "45059863-169e-4de9-ba8b-cf49db4b2cd1"
+				"spark.autotune.trackingId": "eaaf61bd-fbbf-4a15-b08f-7faac7a46966"
 			}
 		},
 		"metadata": {
@@ -6850,6 +6850,103 @@
 					")"
 				],
 				"execution_count": 188
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"Investigate what's going on with different counts when not related to the staff email"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select count(*) from vw_ods_earlyyearsstudents where teachername = 'Carmelina Murphy'\r\n",
+					"\r\n",
+					"    --all = 620\r\n",
+					"    --distinct studentname = 310"
+				],
+				"execution_count": 191
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select studentname, count(*) from vw_ods_earlyyearsstudents where teachername = 'Carmelina Murphy'\r\n",
+					"    group by studentname order by studentname"
+				],
+				"execution_count": 196
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select count(distinct studentname) from vw_ods_earlyyearsstudents_2 where teachername = 'Carmelina Murphy'\r\n",
+					"\r\n",
+					"    --all = 1866\r\n",
+					"    --distinct studentname = 310"
+				],
+				"execution_count": 193
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select studentname, count(*) from vw_ods_earlyyearsstudents_2 where teachername = 'Carmelina Murphy'\r\n",
+					"    group by studentname order by studentname"
+				],
+				"execution_count": 197
 			}
 		]
 	}

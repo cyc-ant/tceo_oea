@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e8e8e2ef-cc9f-4b97-b03e-2f8d6967813e"
+				"spark.autotune.trackingId": "27c83460-04f4-4553-8fb8-365a8351a97e"
 			}
 		},
 		"metadata": {
@@ -913,7 +913,7 @@
 					"\r\n",
 					"ods_studentclass_df = spark.read.table('vw_ods_studentclass')\r\n",
 					"ods_earlyyearsstudents_df = spark.read.table('vw_ods_earlyyearsstudents')\r\n",
-					"ods_earlyyearsstudents_updated_df = spark.read.table('vw_ods_earlyyearsstudents_updated')\r\n",
+					"# ods_earlyyearsstudents_updated_df = spark.read.table('vw_ods_earlyyearsstudents_updated')\r\n",
 					"\r\n",
 					"ae_manual_combined_df = spark.read.table('vw_ae_manual_combined')\r\n",
 					"\r\n",
@@ -930,7 +930,7 @@
 					"\r\n",
 					"saveToTarget(ods_studentclass_df, destination_p, f'{version}/_FACTODSStudentClass')\r\n",
 					"saveToTarget(ods_earlyyearsstudents_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents')\r\n",
-					"saveToTarget(ods_earlyyearsstudents_updated_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents_updated')\r\n",
+					"# saveToTarget(ods_earlyyearsstudents_updated_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents_updated')\r\n",
 					"\r\n",
 					"saveToTarget(ae_manual_combined_df, destination_p, f'{version}/_FACTAECombined')"
 				],

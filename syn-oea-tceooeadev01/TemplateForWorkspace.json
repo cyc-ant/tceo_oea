@@ -15733,7 +15733,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4dcf5add-114b-4ae7-b9d0-5a8798179758"
+						"spark.autotune.trackingId": "3cca4f15-307c-476a-9763-fe50ef8d5c2c"
 					}
 				},
 				"metadata": {
@@ -19680,7 +19680,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f166418d-bfaf-4ba8-a154-d9f69d489cf7"
+						"spark.autotune.trackingId": "f8310244-d8bb-48b3-b934-a55ce236c2fd"
 					}
 				},
 				"metadata": {
@@ -26688,6 +26688,107 @@
 						],
 						"outputs": [],
 						"execution_count": 188
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"Investigate what's going on with different counts when not related to the staff email"
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_ods_earlyyearsstudents where teachername = 'Carmelina Murphy'\r\n",
+							"\r\n",
+							"    --all = 620\r\n",
+							"    --distinct studentname = 310"
+						],
+						"outputs": [],
+						"execution_count": 191
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select studentname, count(*) from vw_ods_earlyyearsstudents where teachername = 'Carmelina Murphy'\r\n",
+							"    group by studentname order by studentname"
+						],
+						"outputs": [],
+						"execution_count": 196
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(distinct studentname) from vw_ods_earlyyearsstudents_2 where teachername = 'Carmelina Murphy'\r\n",
+							"\r\n",
+							"    --all = 1866\r\n",
+							"    --distinct studentname = 310"
+						],
+						"outputs": [],
+						"execution_count": 193
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select studentname, count(*) from vw_ods_earlyyearsstudents_2 where teachername = 'Carmelina Murphy'\r\n",
+							"    group by studentname order by studentname"
+						],
+						"outputs": [],
+						"execution_count": 197
 					}
 				]
 			},
@@ -26717,7 +26818,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d29b7f9b-aa62-445e-b401-9eab1d4272eb"
+						"spark.autotune.trackingId": "f06df72e-bcb3-4fe6-8b7b-a202d1525433"
 					}
 				},
 				"metadata": {

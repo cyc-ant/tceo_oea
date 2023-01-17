@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "343a42ff-c4ce-42e6-9fc0-024bde5524a4"
+				"spark.autotune.trackingId": "124cfbc0-90bd-4fcb-8a6c-837536842dd2"
 			}
 		},
 		"metadata": {
@@ -63,7 +63,7 @@
 					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 22
+				"execution_count": 71
 			},
 			{
 				"cell_type": "code",
@@ -4010,7 +4010,7 @@
 					"odsstaffdemographic_df.createOrReplaceTempView('vw_CompassODSStaffDemographic') \r\n",
 					"odsstudentdemographic_df.createOrReplaceTempView('vw_CompassODSStudentDemographic') "
 				],
-				"execution_count": 23
+				"execution_count": 72
 			},
 			{
 				"cell_type": "code",
@@ -5305,7 +5305,7 @@
 					"group by a.skcampus, a.skyear, a.skdate, a.skyearlevel, innerquery.count_of_tests\r\n",
 					") wholequery"
 				],
-				"execution_count": 24
+				"execution_count": 54
 			},
 			{
 				"cell_type": "markdown",
@@ -5339,7 +5339,7 @@
 					"select * from vw_acerparticipation\r\n",
 					"where skcampus = 1898 and skyear = 92 and skyearlevel = 10"
 				],
-				"execution_count": 48
+				"execution_count": 55
 			},
 			{
 				"cell_type": "code",
@@ -5361,7 +5361,7 @@
 					"where e.skcampus = 1898 and e.skyear = 92 and e.skyearlevel = 10\r\n",
 					"order by dt.date"
 				],
-				"execution_count": 42
+				"execution_count": 56
 			},
 			{
 				"cell_type": "code",
@@ -5383,7 +5383,7 @@
 					"where acer.skcampus = 1898 and acer.skyear = 92 and acer.skyearlevel = 10\r\n",
 					"order by dt.date"
 				],
-				"execution_count": 40
+				"execution_count": 57
 			},
 			{
 				"cell_type": "markdown",
@@ -5469,7 +5469,64 @@
 					") wholequery\r\n",
 					"where skcampus = 1898 and skyear = 92 and skyearlevel = 10"
 				],
-				"execution_count": 49
+				"execution_count": 63
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_CompassODSStaffDemographic limit 5"
+				],
+				"execution_count": 66
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select govcode1 from vw_CompassODSStudentDemographic limit 10"
+				],
+				"execution_count": 70
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_CompassODSStaffDemographic limit 5"
+				],
+				"execution_count": 73
 			}
 		]
 	}

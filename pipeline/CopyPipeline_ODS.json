@@ -119,6 +119,22 @@
 						"destination": {
 							"fileName": "CompassODSStudentDemographic.csv"
 						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffOrganisationDetails"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffOrganisationDetails.csv"
+						}
+					},
+					{
+						"source": {
+							"table": "ODSStudentOrganisationDetails"
+						},
+						"destination": {
+							"fileName": "CompassODSStudentOrganisationDetails.csv"
+						}
 					}
 				]
 			}

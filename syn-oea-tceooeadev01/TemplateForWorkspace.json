@@ -15733,7 +15733,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "af0a96ce-248d-456d-be00-01e8c0ac827c"
+						"spark.autotune.trackingId": "e1731cc2-194a-41ac-a35b-04dfea0724f2"
 					}
 				},
 				"metadata": {
@@ -15758,13 +15758,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Ods_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_ODS', pseudonymize = True):\r\n",
@@ -16013,6 +16015,69 @@
 							"                                        ['HomeTown', 'string', 'no-op'],\r\n",
 							"                                        ['HeadLiceCheckAllowed', 'string', 'no-op']                                                               \r\n",
 							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['CompassODSStaffOrganisationDetails'] = [\r\n",
+							"                                        ['SKStaffOrganisationDetails', 'integer', 'no-op'],\r\n",
+							"                                        ['BKStaffOrganisationDetails', 'string', 'no-op'],\r\n",
+							"                                        ['CompassPersonId', 'string', 'no-op'],\r\n",
+							"                                        ['OrganisationName', 'string', 'no-op'],\r\n",
+							"                                        ['OrganisationUserEmail', 'string', 'no-op'],\r\n",
+							"                                        ['PayrollClassification', 'string', 'no-op'],\r\n",
+							"                                        ['RoleInSchool', 'string', 'no-op'],\r\n",
+							"                                        ['Room', 'string', 'no-op'],\r\n",
+							"                                        ['IsTeachingStaff', 'string', 'no-op'],\r\n",
+							"                                        ['HumanResourcesSystemId', 'string', 'no-op'],\r\n",
+							"                                        ['OfficeLocation', 'string', 'no-op'],\r\n",
+							"                                        ['EmploymentStatus', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['Iscurrent', 'string', 'no-op'],\r\n",
+							"                                        ['SCDReason', 'string', 'no-op'],\r\n",
+							"                                        ['PhoneExtension', 'string', 'no-op'],\r\n",
+							"                                        ['CampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['Status', 'string', 'no-op'],\r\n",
+							"                                        ['OrganisationTitle', 'string', 'no-op'],\r\n",
+							"                                        ['SourceCampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['Agency', 'string', 'no-op'],\r\n",
+							"                                        ['BackgroundCheckCompleted', 'string', 'no-op'],\r\n",
+							"                                        ['BackgroundCheckCompletedBy', 'string', 'no-op'],\r\n",
+							"                                        ['BackgroundCheckCompletedDate', 'string', 'no-op'],\r\n",
+							"                                        ['IncludedInCensus', 'string', 'no-op'],\r\n",
+							"                                        ['VettingInformation', 'string', 'no-op']\r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['CompassODSStudentOrganisationDetails'] = [\r\n",
+							"                                        ['SKStudentOrganisationDetails', 'integer', 'no-op'],\r\n",
+							"                                        ['BKStudentOrganisationDetails', 'string', 'no-op'],\r\n",
+							"                                        ['CompassPersonId', 'string', 'no-op'],\r\n",
+							"                                        ['OrganisationName', 'string', 'no-op'],\r\n",
+							"                                        ['OrganisationUserEmail', 'string', 'no-op'],\r\n",
+							"                                        ['Boarder', 'string', 'no-op'],\r\n",
+							"                                        ['DateAppliedFor', 'string', 'no-op'],\r\n",
+							"                                        ['EnrolmentConditions', 'string', 'no-op'],\r\n",
+							"                                        ['TransportDetails', 'string', 'no-op'],\r\n",
+							"                                        ['IntendedFutureSchool', 'string', 'no-op'],\r\n",
+							"                                        ['LockerDetails', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['Iscurrent', 'string', 'no-op'],\r\n",
+							"                                        ['SCDReason', 'string', 'no-op'],\r\n",
+							"                                        ['IctPolicyReceived', 'string', 'no-op'],\r\n",
+							"                                        ['OrganisationUserId', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['Status', 'string', 'no-op'],\r\n",
+							"                                        ['GetPersonPhotoURL', 'string', 'no-op'],\r\n",
+							"                                        ['BoarderType', 'string', 'no-op'],\r\n",
+							"                                        ['CensusStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['SourceCampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['DateNotifiedOfLeaving', 'string', 'no-op'],\r\n",
+							"                                        ['EnrolmentWithdrawalReason', 'string', 'no-op'],\r\n",
+							"                                        ['ExternalScholarship', 'string', 'no-op']\r\n",
+							"                                        ]\r\n",
 							"                                    \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
@@ -16021,6 +16086,10 @@
 							"        oea.ingest_delta_data(self.source_folder, 'CompassODSCompassSubject', self.schemas['CompassODSCompassSubject'], 'LastUpdateDate', 'SKCompassSubject')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'CompassODSStaffDemographic', self.schemas['CompassODSStaffDemographic'], 'LastUpdateDate', 'SKStaff')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'CompassODSStudentDemographic', self.schemas['CompassODSStudentDemographic'], 'LastUpdateDate', 'SKStudent')\r\n",
+							"\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'CompassODSStaffOrganisationDetails', self.schemas['CompassODSStaffOrganisationDetails'], 'LastUpdateDate', 'SKStaffOrganisationDetails')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'CompassODSStudentOrganisationDetails', self.schemas['CompassODSStudentOrganisationDetails'], 'LastUpdateDate', 'SKStudentOrganisationDetails')\r\n",
+							"\r\n",
 							"\r\n",
 							"\r\n",
 							"\r\n",
@@ -19611,7 +19680,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "98bb93e4-5d25-4fbb-bb0c-452e67206d39"
+						"spark.autotune.trackingId": "124cfbc0-90bd-4fcb-8a6c-837536842dd2"
 					}
 				},
 				"metadata": {
@@ -19636,8 +19705,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -19655,7 +19723,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 22
+						"execution_count": 71
 					},
 					{
 						"cell_type": "code",
@@ -23711,7 +23779,7 @@
 							"odsstudentdemographic_df.createOrReplaceTempView('vw_CompassODSStudentDemographic') "
 						],
 						"outputs": [],
-						"execution_count": 23
+						"execution_count": 72
 					},
 					{
 						"cell_type": "code",
@@ -25033,7 +25101,7 @@
 							") wholequery"
 						],
 						"outputs": [],
-						"execution_count": 24
+						"execution_count": 54
 					},
 					{
 						"cell_type": "markdown",
@@ -25068,7 +25136,7 @@
 							"where skcampus = 1898 and skyear = 92 and skyearlevel = 10"
 						],
 						"outputs": [],
-						"execution_count": 48
+						"execution_count": 55
 					},
 					{
 						"cell_type": "code",
@@ -25091,7 +25159,7 @@
 							"order by dt.date"
 						],
 						"outputs": [],
-						"execution_count": 42
+						"execution_count": 56
 					},
 					{
 						"cell_type": "code",
@@ -25114,7 +25182,7 @@
 							"order by dt.date"
 						],
 						"outputs": [],
-						"execution_count": 40
+						"execution_count": 57
 					},
 					{
 						"cell_type": "markdown",
@@ -25201,7 +25269,67 @@
 							"where skcampus = 1898 and skyear = 92 and skyearlevel = 10"
 						],
 						"outputs": [],
-						"execution_count": 49
+						"execution_count": 63
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_CompassODSStaffDemographic limit 5"
+						],
+						"outputs": [],
+						"execution_count": 66
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select govcode1 from vw_CompassODSStudentDemographic limit 10"
+						],
+						"outputs": [],
+						"execution_count": 70
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_CompassODSStaffDemographic limit 5"
+						],
+						"outputs": [],
+						"execution_count": 73
 					}
 				]
 			},

@@ -19680,7 +19680,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3114a77a-960d-4581-ad33-5c4f85868432"
+						"spark.autotune.trackingId": "2ec0d1ac-bffe-466c-9ffb-36ae3c0babf4"
 					}
 				},
 				"metadata": {
@@ -19724,7 +19724,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 217
+						"execution_count": 277
 					},
 					{
 						"cell_type": "code",
@@ -25102,7 +25102,7 @@
 							") wholequery"
 						],
 						"outputs": [],
-						"execution_count": 54
+						"execution_count": 323
 					},
 					{
 						"cell_type": "markdown",
@@ -25137,7 +25137,7 @@
 							"where skcampus = 1898 and skyear = 92 and skyearlevel = 10"
 						],
 						"outputs": [],
-						"execution_count": 55
+						"execution_count": 324
 					},
 					{
 						"cell_type": "code",
@@ -25160,7 +25160,7 @@
 							"order by dt.date"
 						],
 						"outputs": [],
-						"execution_count": 56
+						"execution_count": 341
 					},
 					{
 						"cell_type": "code",
@@ -25183,7 +25183,7 @@
 							"order by dt.date"
 						],
 						"outputs": [],
-						"execution_count": 57
+						"execution_count": 342
 					},
 					{
 						"cell_type": "markdown",
@@ -25213,6 +25213,26 @@
 							"collapsed": false
 						},
 						"source": [
+							"select * from vw_dmdate limit 5"
+						],
+						"outputs": [],
+						"execution_count": 344
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
 							"select \r\n",
 							"*\r\n",
 							"--, round(cast(count_of_tests as float) / (cast(#students_enrolled as float) * 2), 2) as participation_perc \r\n",
@@ -25223,6 +25243,7 @@
 							"\t--*\r\n",
 							"\ta.skcampus\r\n",
 							"\t, a.skyear\r\n",
+							"\t, datedetails.monthnumberofyear\r\n",
 							"\t--, a.skdate\r\n",
 							"\t, a.skyearlevel\r\n",
 							"\t, sum(studentcount) as students_enrolled\r\n",
@@ -25263,6 +25284,7 @@
 							"where a.skyearlevel in (21, 11, 10, 2, 16, 12, 20, 3, 17) --ACER - year levels 2 to 10\r\n",
 							"group by a.skcampus\r\n",
 							", a.skyear\r\n",
+							", datedetails.monthnumberofyear\r\n",
 							"--, a.skdate\r\n",
 							", a.skyearlevel\r\n",
 							", innerquery.count_of_tests\r\n",
@@ -25270,7 +25292,133 @@
 							"where skcampus = 1898 and skyear = 92 and skyearlevel = 10"
 						],
 						"outputs": [],
-						"execution_count": 63
+						"execution_count": 346
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select innerinner.skcampus, innerinner.skyear\r\n",
+							"--, innerinner.skdate\r\n",
+							", innerinner.SKYearLevel, innerinner.year, innerinner.monthnumberofyear\r\n",
+							", sum(acer_tests) as count_of_tests from \r\n",
+							"\t\t\t(\r\n",
+							"\t\t\t\tselect \r\n",
+							"\t\t\t\t\t\ta.skcampus\r\n",
+							"\t\t\t\t\t\t, a.skyear\r\n",
+							"\t\t\t\t\t\t--, a.SKDate\r\n",
+							"\t\t\t\t\t\t, a.skyearlevel\r\n",
+							"\t\t\t\t\t\t, a.SKACERStudent\r\n",
+							"                        , b.year \r\n",
+							"                        , b.monthnumberofyear\r\n",
+							"\t\t\t\t\t\t, count(distinct a.skpattest) as acer_tests\r\n",
+							"\t\t\t\t\t\tfrom vw_factpatresults_df a\r\n",
+							"                        left join vw_dmdate b\r\n",
+							"                        on a.skdate = b.skdate\r\n",
+							"\t\t\t\t\t\t\tgroup by a.skcampus, a.skyear\r\n",
+							"                            --, a.skdate\r\n",
+							"                            , a.skyearlevel, a.SKACERStudent, b.year, b.monthnumberofyear --9\r\n",
+							"\t\t\t) innerinner\r\n",
+							"            where innerinner.skcampus = 1898 and innerinner.skyear = 92 and innerinner.skyearlevel = 10\r\n",
+							"\tgroup by innerinner.skcampus, innerinner.skyear\r\n",
+							"    --, innerinner.skdate\r\n",
+							"    , innerinner.SKYearLevel, innerinner.year, innerinner.monthnumberofyear"
+						],
+						"outputs": [],
+						"execution_count": 349
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select \r\n",
+							"*\r\n",
+							"--, round(cast(count_of_tests as float) / (cast(#students_enrolled as float) * 2), 2) as participation_perc \r\n",
+							", round(count_of_tests /(students_enrolled  * 2), 2) as participation_perc \r\n",
+							"from\r\n",
+							"(\r\n",
+							"select \r\n",
+							"\t--*\r\n",
+							"\ta.skcampus\r\n",
+							"\t, a.skyear\r\n",
+							"\t, datedetails.monthnumberofyear\r\n",
+							"\t--, a.skdate\r\n",
+							"\t, a.skyearlevel\r\n",
+							"\t, sum(studentcount) as students_enrolled\r\n",
+							"\t, innerquery.count_of_tests \r\n",
+							"from vw_factstudentenrolmentcounts a\r\n",
+							"\r\n",
+							"left join vw_dmdate datedetails\r\n",
+							"on a.skdate = datedetails.skdate\r\n",
+							"\r\n",
+							"\r\n",
+							"inner join \r\n",
+							"\t(\t\r\n",
+							"\t\tselect innerinner.skcampus, innerinner.skyear\r\n",
+							"        --, innerinner.skdate\r\n",
+							"        , innerinner.SKYearLevel, innerinner.year, innerinner.monthnumberofyear, sum(acer_tests) as count_of_tests from \r\n",
+							"\t\t\t(\r\n",
+							"\t\t\t\tselect \r\n",
+							"\t\t\t\t\t\ta.skcampus\r\n",
+							"\t\t\t\t\t\t, a.skyear\r\n",
+							"\t\t\t\t\t\t--, a.SKDate\r\n",
+							"\t\t\t\t\t\t, a.skyearlevel\r\n",
+							"\t\t\t\t\t\t, a.SKACERStudent\r\n",
+							"                        , b.year \r\n",
+							"                        , b.monthnumberofyear\r\n",
+							"\t\t\t\t\t\t, count(distinct a.skpattest) as acer_tests\r\n",
+							"\t\t\t\t\t\tfrom vw_factpatresults_df a\r\n",
+							"                        left join vw_dmdate b\r\n",
+							"                        on a.skdate = b.skdate\r\n",
+							"\t\t\t\t\t\t\tgroup by a.skcampus, a.skyear\r\n",
+							"                            --, a.skdate\r\n",
+							"                            , a.skyearlevel, a.SKACERStudent, b.year, b.monthnumberofyear --9\r\n",
+							"\t\t\t) innerinner\r\n",
+							"            where innerinner.skcampus = 1898 and innerinner.skyear = 92 and innerinner.skyearlevel = 10\r\n",
+							"\tgroup by innerinner.skcampus, innerinner.skyear\r\n",
+							"    --, innerinner.skdate\r\n",
+							"    , innerinner.SKYearLevel, innerinner.year, innerinner.monthnumberofyear\r\n",
+							"\t) innerquery\r\n",
+							"\r\n",
+							"on a.skcampus = innerquery.skcampus \r\n",
+							"and a.skyear = innerquery.skyear \r\n",
+							"--and a.skdate = innerquery.skdate \r\n",
+							"and a.skyearlevel = innerquery.skyearlevel \r\n",
+							"and datedetails.monthnumberofyear = innerquery.monthnumberofyear\r\n",
+							"where a.skyearlevel in (21, 11, 10, 2, 16, 12, 20, 3, 17) --ACER - year levels 2 to 10\r\n",
+							"group by a.skcampus\r\n",
+							", a.skyear\r\n",
+							", datedetails.monthnumberofyear\r\n",
+							"--, a.skdate\r\n",
+							", a.skyearlevel\r\n",
+							", innerquery.count_of_tests\r\n",
+							") wholequery\r\n",
+							"where skcampus = 1898 and skyear = 92 and skyearlevel = 10"
+						],
+						"outputs": [],
+						"execution_count": 351
 					},
 					{
 						"cell_type": "code",
@@ -25290,7 +25438,7 @@
 							"select * from vw_CompassODSStaffDemographic limit 5"
 						],
 						"outputs": [],
-						"execution_count": 66
+						"execution_count": 340
 					},
 					{
 						"cell_type": "code",
@@ -25310,7 +25458,7 @@
 							"select govcode1 from vw_CompassODSStudentDemographic limit 10"
 						],
 						"outputs": [],
-						"execution_count": 70
+						"execution_count": 336
 					},
 					{
 						"cell_type": "code",
@@ -25430,7 +25578,7 @@
 							"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') "
 						],
 						"outputs": [],
-						"execution_count": 218
+						"execution_count": 278
 					},
 					{
 						"cell_type": "code",
@@ -27793,12 +27941,15 @@
 							"collapsed": false
 						},
 						"source": [
-							"select * from vw_CompassODSStaffDemographic\r\n",
-							"where firstname = 'Trina' and lastname = 'Neilson'\r\n",
+							"select \r\n",
+							"--*\r\n",
+							"compasspersonid, firstname, lastname, campusid\r\n",
+							" from vw_CompassODSStaffDemographic\r\n",
+							"where firstname = 'Chloe' and lastname = 'McLaren'\r\n",
 							"    and iscurrent is True"
 						],
 						"outputs": [],
-						"execution_count": 264
+						"execution_count": 285
 					},
 					{
 						"cell_type": "code",
@@ -27815,12 +27966,15 @@
 							"collapsed": false
 						},
 						"source": [
-							"select * from vw_CompassODSStaffOrganisationDetails\r\n",
-							"where compasspersonid = 'b82d3985-7131-4540-a697-5a9c4dc04750' \r\n",
-							"    and iscurrent is True"
+							"select \r\n",
+							"--* \r\n",
+							"compasspersonid, organisationuseremail, campusid\r\n",
+							"from vw_CompassODSStaffOrganisationDetails\r\n",
+							"where compasspersonid = '3a3fec1b-d08e-4423-825e-0fdf11fe4af6' \r\n",
+							"    --and iscurrent is True"
 						],
 						"outputs": [],
-						"execution_count": 266
+						"execution_count": 308
 					},
 					{
 						"cell_type": "code",
@@ -28083,6 +28237,31 @@
 						],
 						"outputs": [],
 						"execution_count": 274
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select \r\n",
+							"--*\r\n",
+							"compasspersonid, firstname, lastname, campusid, govcode1\r\n",
+							" from vw_CompassODSStudentDemographic\r\n",
+							"where firstname = 'Jarrod' and lastname = 'Camer'\r\n",
+							"    and iscurrent is True"
+						],
+						"outputs": [],
+						"execution_count": 352
 					}
 				]
 			},
@@ -28112,7 +28291,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e781717c-337e-4f2e-81b6-ffe3f51012da"
+						"spark.autotune.trackingId": "9856f05e-6bbd-4f3d-8ae0-9bf8d8ff4549"
 					}
 				},
 				"metadata": {
@@ -30311,7 +30490,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a56ee631-4f8c-421f-9324-b6c61818790e"
+						"spark.autotune.trackingId": "b25cf6b7-264a-4a9e-b294-4dcbde208520"
 					}
 				},
 				"metadata": {
@@ -30372,7 +30551,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -30391,7 +30570,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -30410,7 +30589,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -30439,7 +30618,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -30460,7 +30639,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -30503,7 +30682,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 6
 					},
 					{
 						"cell_type": "code",
@@ -30575,7 +30754,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",

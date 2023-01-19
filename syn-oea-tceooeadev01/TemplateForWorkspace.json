@@ -19678,7 +19678,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "85029a35-2460-4f3e-9172-ec211d3ad6ee"
+						"spark.autotune.trackingId": "706d26bd-41d2-4f5e-9123-2571a5fc97f5"
 					}
 				},
 				"metadata": {
@@ -29728,10 +29728,12 @@
 							"from vw_CompassODSStudentDemographic \r\n",
 							"--where firstname = 'Hudson' and lastname = 'Griffin'   --4be94b16-93fb-421c-a302-f01d1a922038\r\n",
 							"--where firstname = 'Oliver' and lastname = 'Benson'   --1cae795e-fb74-4bf9-99cf-b6dee0d57e35\r\n",
-							"where firstname = 'Ryan' and lastname = 'Garufi'   --bf707bcb-87c7-4e9b-803f-5c9800ca65f9"
+							"--where firstname = 'Ryan' and lastname = 'Garufi'   --bf707bcb-87c7-4e9b-803f-5c9800ca65f9\r\n",
+							"\r\n",
+							"where firstname = 'Ivy' and lastname = 'Bray'   --bf707bcb-87c7-4e9b-803f-5c9800ca65f9"
 						],
 						"outputs": [],
-						"execution_count": 486
+						"execution_count": 535
 					},
 					{
 						"cell_type": "code",
@@ -29749,11 +29751,11 @@
 						},
 						"source": [
 							"select compasspersonid, organisationuseremail, iscurrent, campusid, status from vw_CompassODSStudentOrganisationDetails\r\n",
-							"where compasspersonid = 'bf707bcb-87c7-4e9b-803f-5c9800ca65f9'\r\n",
+							"where compasspersonid = '23c6cd8a-b924-45ec-a4a9-232c36cffdab'\r\n",
 							"    --and iscurrent is True"
 						],
 						"outputs": [],
-						"execution_count": 487
+						"execution_count": 537
 					},
 					{
 						"cell_type": "code",
@@ -29956,7 +29958,7 @@
 							"select count(*) from vw_ods_earlyyearsstudents_amy_butterworth_4"
 						],
 						"outputs": [],
-						"execution_count": 491
+						"execution_count": 534
 					},
 					{
 						"cell_type": "code",
@@ -29977,7 +29979,77 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 493
+						"execution_count": 533
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select \r\n",
+							"--*\r\n",
+							"compasspersonid, firstname, lastname, campusid, iscurrent \r\n",
+							"from vw_CompassODSStaffDemographic \r\n",
+							"--where firstname = 'Scott' and lastname = 'Williamson'   --d898d26f-5ab7-4901-b029-4580acf8e885\r\n",
+							"-- where firstname = 'Steven' and lastname = 'Pascoe'   --fd403994-5699-4090-8958-1a544fb4c360\r\n",
+							"where firstname = 'Perri' and lastname = 'McGill'   --3b5c4a26-71e7-4289-a09b-318b4de7bb7e\r\n",
+							"--and iscurrent is True"
+						],
+						"outputs": [],
+						"execution_count": 543
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select compasspersonid, organisationuseremail, iscurrent, campusid, status from vw_CompassODSStaffOrganisationDetails\r\n",
+							"where compasspersonid = '3b5c4a26-71e7-4289-a09b-318b4de7bb7e'\r\n",
+							"    and iscurrent is True"
+						],
+						"outputs": [],
+						"execution_count": 544
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_dmcampus\r\n",
+							"where bkcampusid = 2529"
+						],
+						"outputs": [],
+						"execution_count": 547
 					}
 				]
 			},
@@ -30007,7 +30079,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6cc8bcb2-47c3-46a0-b424-82f75e214540"
+						"spark.autotune.trackingId": "e8a7cc19-5b52-47c5-bcac-4a651f693846"
 					}
 				},
 				"metadata": {
@@ -32231,7 +32303,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "cf96aa19-5c86-49b2-99fe-71a5ffac0f51"
+						"spark.autotune.trackingId": "e55204c1-013a-448d-b595-4f798b16b7dd"
 					}
 				},
 				"metadata": {
@@ -32292,7 +32364,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -32311,7 +32383,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -32330,7 +32402,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -32359,7 +32431,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -32380,7 +32452,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -32423,7 +32495,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 14
 					},
 					{
 						"cell_type": "code",
@@ -32495,7 +32567,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 15
 					},
 					{
 						"cell_type": "code",

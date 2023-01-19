@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "91b14d18-ab72-4d5d-9622-9ef46efffbe0"
+				"spark.autotune.trackingId": "63c082a0-ea1a-46fd-a30a-9f4629bd89e7"
 			}
 		},
 		"metadata": {
@@ -9820,9 +9820,11 @@
 					"from vw_CompassODSStudentDemographic \r\n",
 					"--where firstname = 'Hudson' and lastname = 'Griffin'   --4be94b16-93fb-421c-a302-f01d1a922038\r\n",
 					"--where firstname = 'Oliver' and lastname = 'Benson'   --1cae795e-fb74-4bf9-99cf-b6dee0d57e35\r\n",
-					"where firstname = 'Ryan' and lastname = 'Garufi'   --bf707bcb-87c7-4e9b-803f-5c9800ca65f9"
+					"--where firstname = 'Ryan' and lastname = 'Garufi'   --bf707bcb-87c7-4e9b-803f-5c9800ca65f9\r\n",
+					"\r\n",
+					"where firstname = 'Ivy' and lastname = 'Bray'   --bf707bcb-87c7-4e9b-803f-5c9800ca65f9"
 				],
-				"execution_count": 486
+				"execution_count": 535
 			},
 			{
 				"cell_type": "code",
@@ -9840,10 +9842,10 @@
 				},
 				"source": [
 					"select compasspersonid, organisationuseremail, iscurrent, campusid, status from vw_CompassODSStudentOrganisationDetails\r\n",
-					"where compasspersonid = 'bf707bcb-87c7-4e9b-803f-5c9800ca65f9'\r\n",
+					"where compasspersonid = '23c6cd8a-b924-45ec-a4a9-232c36cffdab'\r\n",
 					"    --and iscurrent is True"
 				],
-				"execution_count": 487
+				"execution_count": 537
 			},
 			{
 				"cell_type": "code",
@@ -10044,7 +10046,7 @@
 				"source": [
 					"select count(*) from vw_ods_earlyyearsstudents_amy_butterworth_4"
 				],
-				"execution_count": 491
+				"execution_count": 534
 			},
 			{
 				"cell_type": "code",
@@ -10064,7 +10066,74 @@
 					"select distinct campusid from vw_ods_earlyyearsstudents_amy_butterworth_4\r\n",
 					""
 				],
-				"execution_count": 493
+				"execution_count": 533
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select \r\n",
+					"--*\r\n",
+					"compasspersonid, firstname, lastname, campusid, iscurrent \r\n",
+					"from vw_CompassODSStaffDemographic \r\n",
+					"--where firstname = 'Scott' and lastname = 'Williamson'   --d898d26f-5ab7-4901-b029-4580acf8e885\r\n",
+					"-- where firstname = 'Steven' and lastname = 'Pascoe'   --fd403994-5699-4090-8958-1a544fb4c360\r\n",
+					"where firstname = 'Perri' and lastname = 'McGill'   --3b5c4a26-71e7-4289-a09b-318b4de7bb7e\r\n",
+					"--and iscurrent is True"
+				],
+				"execution_count": 543
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select compasspersonid, organisationuseremail, iscurrent, campusid, status from vw_CompassODSStaffOrganisationDetails\r\n",
+					"where compasspersonid = '3b5c4a26-71e7-4289-a09b-318b4de7bb7e'\r\n",
+					"    and iscurrent is True"
+				],
+				"execution_count": 544
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_dmcampus\r\n",
+					"where bkcampusid = 2529"
+				],
+				"execution_count": 547
 			}
 		]
 	}

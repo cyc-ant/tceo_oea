@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "27c83460-04f4-4553-8fb8-365a8351a97e"
+				"spark.autotune.trackingId": "75c52133-ae7c-413b-b762-e4109f0c6507"
 			}
 		},
 		"metadata": {
@@ -783,6 +783,7 @@
 					"\r\n",
 					") mainquery\r\n",
 					"\r\n",
+					"where year = year(CURRENT_DATE)\r\n",
 					"-- )"
 				],
 				"execution_count": null

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "1ae96726-f27a-4d1d-99c4-783ef861ded0"
+				"spark.autotune.trackingId": "6934545a-78ec-4082-ba78-243ce077d354"
 			}
 		},
 		"metadata": {
@@ -11156,14 +11156,15 @@
 					",a.activityname\r\n",
 					",a.subjectcode\r\n",
 					",a.activitycode\r\n",
-					",ae.activitycode\r\n",
-					",ae.campusid\r\n",
-					",ae.CompassPersonId\r\n",
-					",ae.currentlyenrolled\r\n",
-					",ae.createdate \r\n",
-					",ae.lastupdatedate \r\n",
-					",ae.effectivestartdate \r\n",
-					",ae.effectiveenddate\r\n",
+					"-- ,ae.activitycode\r\n",
+					"-- ,ae.campusid\r\n",
+					"-- ,ae.CompassPersonId\r\n",
+					"-- ,ae.currentlyenrolled\r\n",
+					"-- ,ae.createdate \r\n",
+					"-- ,ae.lastupdatedate \r\n",
+					"-- ,ae.effectivestartdate \r\n",
+					"-- ,ae.effectiveenddate\r\n",
+					",ae.*\r\n",
 					"from vw_CompassODSStaffDemographic staff\r\n",
 					"\r\n",
 					"inner join vw_CompassODSActivity a   -------------------------------------------- activity table\r\n",
@@ -11182,7 +11183,33 @@
 					"and ae.compasspersonid = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504'\r\n",
 					"    and ae.currentlyenrolled is True"
 				],
-				"execution_count": 127
+				"execution_count": 133
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"--need to take only the max dates from this table\r\n",
+					"select * from vw_CompassODSActivityEnrolment \r\n",
+					"where compasspersonid = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504'\r\n",
+					"and currentlyenrolled is True\r\n",
+					"    order by activitycode, activityname, subjectcode\r\n",
+					"\r\n",
+					"    --total = 38\r\n",
+					"    --after dedupe = ?"
+				],
+				"execution_count": 132
 			},
 			{
 				"cell_type": "code",

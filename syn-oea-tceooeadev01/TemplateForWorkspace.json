@@ -19678,7 +19678,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fd7d1447-bc6f-4c56-9660-a594e01b89f4"
+						"spark.autotune.trackingId": "1f8461cb-15bc-4d56-bf35-da00ceb58121"
 					}
 				},
 				"metadata": {
@@ -31087,6 +31087,28 @@
 							"collapsed": false
 						},
 						"source": [
+							"select * from vw_CompassODSCompassSubject\r\n",
+							"where subjectshortname = 'Prep Generalist' and campusid = 2529\r\n",
+							"and iscurrent is True"
+						],
+						"outputs": [],
+						"execution_count": 140
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
 							"select \r\n",
 							"-- staff.*\r\n",
 							"staff.compasspersonid as TeacherID\r\n",
@@ -31120,12 +31142,12 @@
 							"WHERE\r\n",
 							"staff.iscurrent is TRUE\r\n",
 							"--and staff.compasspersonid = '8c4b0fd5-1803-40c7-a350-522f09a9a2d9' --Kerry Rudman\r\n",
-							"and staff.compasspersonid in ('96b5af58-488f-4a4e-8181-08b03dd68775', '8c4b0fd5-1803-40c7-a350-522f09a9a2d9')\r\n",
-							"and ae.compasspersonid = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504'\r\n",
+							"--and staff.compasspersonid in ('96b5af58-488f-4a4e-8181-08b03dd68775', '8c4b0fd5-1803-40c7-a350-522f09a9a2d9')\r\n",
+							"and ae.compasspersonid = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504' --Allira Ackers\r\n",
 							"    and ae.currentlyenrolled is True"
 						],
 						"outputs": [],
-						"execution_count": 133
+						"execution_count": 136
 					},
 					{
 						"cell_type": "code",
@@ -31155,6 +31177,19 @@
 						"execution_count": 132
 					},
 					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"##### **Subjects that Allira Ackers is enrolled in - for discussion**"
+						]
+					},
+					{
 						"cell_type": "code",
 						"metadata": {
 							"jupyter": {
@@ -31174,11 +31209,13 @@
 							"select * from vw_CompassODSActivityEnrolment\r\n",
 							"where compasspersonid = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504'\r\n",
 							"    and iscurrent is True\r\n",
+							"    --and subjectcode = 'GENP'\r\n",
 							"\r\n",
-							"    order by activitycode"
+							"    --order by activitycode\r\n",
+							"    order by subjectcode"
 						],
 						"outputs": [],
-						"execution_count": 124
+						"execution_count": 145
 					},
 					{
 						"cell_type": "code",
@@ -31196,10 +31233,35 @@
 						},
 						"source": [
 							"select * from vw_CompassODSActivity\r\n",
-							"where managingcompasspersonid = '8c4b0fd5-1803-40c7-a350-522f09a9a2d9'"
+							"where managingcompasspersonid = '8c4b0fd5-1803-40c7-a350-522f09a9a2d9'\r\n",
+							"    --order by subjectcode\r\n",
+							"    order by startdatetime desc"
 						],
 						"outputs": [],
-						"execution_count": 115
+						"execution_count": 153
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_CompassODSCompassSubject\r\n",
+							"where subjectimportidentifier = 'GENP'\r\n",
+							"    and iscurrent is True \r\n",
+							"    and campusid = 2529"
+						],
+						"outputs": [],
+						"execution_count": 150
 					}
 				]
 			},
@@ -31229,7 +31291,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0555df91-b696-4f11-900a-d6ad660a6800"
+						"spark.autotune.trackingId": "5271ac3a-8bad-4362-a6e8-73068e113cb1"
 					}
 				},
 				"metadata": {

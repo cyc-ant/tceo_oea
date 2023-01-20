@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "cc68bfa3-e18b-40b1-af4a-fdddb12285cc"
+				"spark.autotune.trackingId": "149d3194-5b99-414f-9bee-e169ef8b2892"
 			}
 		},
 		"metadata": {
@@ -11315,7 +11315,7 @@
 					"    and iscurrent is True \r\n",
 					"    and campusid = 2529"
 				],
-				"execution_count": 150
+				"execution_count": 161
 			},
 			{
 				"cell_type": "code",

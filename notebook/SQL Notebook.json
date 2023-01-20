@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5f8f5ff2-fefb-4ec0-839b-bf8f1c91db91"
+				"spark.autotune.trackingId": "7a1384d4-5ac9-4129-abc8-54f364ce5069"
 			}
 		},
 		"metadata": {
@@ -63,7 +63,7 @@
 					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 277
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
@@ -96,7 +96,26 @@
 					"\r\n",
 					"#df.show()"
 				],
-				"execution_count": 359
+				"execution_count": 29
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_df"
+				],
+				"execution_count": 30
 			},
 			{
 				"cell_type": "code",
@@ -5770,7 +5789,7 @@
 					"odsstafforganisationdetails_df.createOrReplaceTempView('vw_CompassODSStaffOrganisationDetails') \r\n",
 					"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') "
 				],
-				"execution_count": 360
+				"execution_count": 3
 			},
 			{
 				"cell_type": "code",
@@ -8447,7 +8466,7 @@
 					"limit 5\r\n",
 					"--everything is iscurrent = True"
 				],
-				"execution_count": 368
+				"execution_count": 13
 			},
 			{
 				"cell_type": "code",
@@ -8466,7 +8485,7 @@
 				"source": [
 					"select * from vw_CompassODSActivityEnrolment limit 5"
 				],
-				"execution_count": 363
+				"execution_count": 23
 			},
 			{
 				"cell_type": "code",
@@ -8490,7 +8509,26 @@
 					"\r\n",
 					"-- need skyear, skdate"
 				],
-				"execution_count": 369
+				"execution_count": 15
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_activestudent"
+				],
+				"execution_count": 28
 			},
 			{
 				"cell_type": "code",
@@ -8552,7 +8590,7 @@
 					"ORDER BY SchoolAGEID, yl.YearLevelSifDesc, pd.FirstName, pd.LastName\r\n",
 					""
 				],
-				"execution_count": 399
+				"execution_count": 10
 			},
 			{
 				"cell_type": "code",
@@ -10336,6 +10374,171 @@
 					"order by teachername"
 				],
 				"execution_count": 550
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select \r\n",
+					"--*\r\n",
+					"compasspersonid, firstname, lastname, govcode1, iscurrent, campusid  from vw_CompassODSStudentDemographic \r\n",
+					"\r\n",
+					"where firstname = 'Shae' and lastname = 'Scalia'\r\n",
+					""
+				],
+				"execution_count": 7
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select \r\n",
+					"--*\r\n",
+					"compasspersonid, organisationuseremail, iscurrent, campusid, status from vw_CompassODSStudentOrganisationDetails \r\n",
+					"\r\n",
+					"where compasspersonid = 'b9b56d05-270b-4155-805a-fbef23d03f92'"
+				],
+				"execution_count": 9
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_activestudent\r\n",
+					"where firstname = 'Shae' and lastname = 'Scalia'"
+				],
+				"execution_count": 31
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
+					"# example df\r\n",
+					"data = [(\"Diocese of Townsville CEO\",2022, \"SCAT\", 5422, \"Burdekin Catholic High School (Ayr)\", 60, \"Accounting\", \"GENERAL\", \"CAMER\", \"JARROD ANDREW\"),\r\n",
+					"        (\"Diocese of Townsville CEO\",2022, \"SCAT\", 5422, \"Burdekin Catholic High School (Ayr)\", 6400, \"Agricultural Practices\", \"APPLIED\", \"SCALIA\", \"SHAE\"),\r\n",
+					"        (\"Diocese of Townsville CEO\",2022, \"SCAT\", 5422, \"Burdekin Catholic High School (Ayr)\", 20, \"Ancient History\", \"GENERAL\", \"SITTON\", \"STELLA MARIA\"),\r\n",
+					"        (\"Diocese of Townsville CEO\",2022, \"SCAT\", 5422, \"Burdekin Catholic High School (Ayr)\", 42, \"Biology\", \"GENERAL\", \"BIFFANTI\", \"DANICA JEAN\"),\r\n",
+					"        (\"Diocese of Townsville CEO\",2022, \"SCAT\", 5422, \"Burdekin Catholic High School (Ayr)\", 6099, \"Career Education\", \"SHORT_COURSES\", \"ALEXANDER\", \"KADANCE JOY\")\r\n",
+					"        ]\r\n",
+					"\r\n",
+					"columns = [\"CSA\",\"exit_year\",\"qcaa_org_type\", \"centre_code\", \"school\", \"subject_id\", \"subject\", \"subject_type\", \"lastname\", \"givennames\"]\r\n",
+					"df = spark.createDataFrame(data = data, schema = columns)\r\n",
+					"\r\n",
+					"df.createOrReplaceTempView('vw_seniordata')"
+				],
+				"execution_count": 33
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_seniordata"
+				],
+				"execution_count": 37
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select sd.lastname, sd.givennames, split(sd.givennames, ' ')[0] as firstname, split(sd.givennames, ' ')[1] as middlename, studentdemo.firstname, studentdemo.middlename, studentdemo.lastname, studentdemo.govcode1 from vw_seniordata sd\r\n",
+					"left join vw_CompassODSStudentDemographic studentdemo\r\n",
+					"on lower(split(sd.givennames, ' ')[0]) = lower(studentdemo.firstname) \r\n",
+					"and lower(split(sd.givennames, ' ')[1]) = lower(studentdemo.middlename) \r\n",
+					"and lower(sd.lastname) = lower(studentdemo.lastname)\r\n",
+					"and studentdemo.iscurrent is True\r\n",
+					"--split(A,'\\\\.')[0] "
+				],
+				"execution_count": 51
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"SELECT * FROM vw_CompassODSStudentDemographic \r\n",
+					"where firstname = 'Shae' and lastname = 'Scalia'"
+				],
+				"execution_count": 52
 			}
 		]
 	}

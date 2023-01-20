@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "7a1384d4-5ac9-4129-abc8-54f364ce5069"
+				"spark.autotune.trackingId": "ebea44af-2027-406b-b7f4-e77800009e1a"
 			}
 		},
 		"metadata": {
@@ -10510,15 +10510,25 @@
 					"collapsed": false
 				},
 				"source": [
-					"select sd.lastname, sd.givennames, split(sd.givennames, ' ')[0] as firstname, split(sd.givennames, ' ')[1] as middlename, studentdemo.firstname, studentdemo.middlename, studentdemo.lastname, studentdemo.govcode1 from vw_seniordata sd\r\n",
+					"select sd.lastname, sd.givennames, split(sd.givennames, ' ')[0] as firstname, split(sd.givennames, ' ')[1] as middlename\r\n",
+					", studentdemo.firstname, studentdemo.middlename, studentdemo.lastname, studentdemo.govcode1\r\n",
+					", sd.school, studentdemo.campusid, camp.bkcampusid, camp.schoolname, concat(camp.schoolname, ' (', camp.area, ')') as schoolnameandarea\r\n",
+					"from vw_seniordata sd\r\n",
 					"left join vw_CompassODSStudentDemographic studentdemo\r\n",
 					"on lower(split(sd.givennames, ' ')[0]) = lower(studentdemo.firstname) \r\n",
-					"and lower(split(sd.givennames, ' ')[1]) = lower(studentdemo.middlename) \r\n",
+					"--and lower(split(sd.givennames, ' ')[1]) = lower(studentdemo.middlename) -- See the Shae Scalia example - missing middle name in the Senior Data\r\n",
 					"and lower(sd.lastname) = lower(studentdemo.lastname)\r\n",
 					"and studentdemo.iscurrent is True\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"left join vw_dmcampus camp\r\n",
+					"on studentdemo.campusid = camp.bkcampusid\r\n",
+					"and concat(trim(camp.schoolname), ' (', camp.area, ')') = trim(sd.school)\r\n",
+					"\r\n",
 					"--split(A,'\\\\.')[0] "
 				],
-				"execution_count": 51
+				"execution_count": 70
 			},
 			{
 				"cell_type": "code",
@@ -10535,10 +10545,30 @@
 					"collapsed": false
 				},
 				"source": [
-					"SELECT * FROM vw_CompassODSStudentDemographic \r\n",
+					"SELECT firstname, middlename, lastname, govcode1, campusid FROM vw_CompassODSStudentDemographic \r\n",
 					"where firstname = 'Shae' and lastname = 'Scalia'"
 				],
-				"execution_count": 52
+				"execution_count": 64
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_dmcampus \r\n",
+					"where schoolname like '%Burdekin%'"
+				],
+				"execution_count": 60
 			}
 		]
 	}

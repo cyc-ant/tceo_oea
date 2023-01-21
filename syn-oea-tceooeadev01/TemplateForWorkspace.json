@@ -1632,7 +1632,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "ForEach_1re",
+						"name": "ForEach_bm6",
 						"type": "ForEach",
 						"dependsOn": [],
 						"userProperties": [],
@@ -1643,7 +1643,7 @@
 							},
 							"activities": [
 								{
-									"name": "Copy_1re",
+									"name": "Copy_bm6",
 									"type": "Copy",
 									"dependsOn": [],
 									"policy": {
@@ -1723,18 +1723,26 @@
 							},
 							{
 								"source": {
-									"table": "vwDMCampus"
-								},
-								"destination": {
-									"fileName": "dbovwDMCampus.csv"
-								}
-							},
-							{
-								"source": {
 									"table": "vwDMDate"
 								},
 								"destination": {
 									"fileName": "dbovwDMDate.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMGender"
+								},
+								"destination": {
+									"fileName": "dbovwDMGender.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMSchools"
+								},
+								"destination": {
+									"fileName": "dbovwDMSchools.csv"
 								}
 							},
 							{

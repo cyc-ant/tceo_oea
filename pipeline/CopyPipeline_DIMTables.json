@@ -1,0 +1,136 @@
+{
+	"name": "CopyPipeline_DIMTables",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_2to",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_2to",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "dbo.@{item().source.table}"
+								},
+								{
+									"name": "Destination",
+									"value": "stage1np/DimensionTables/@{item().destination.fileName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "SqlServerSource",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"validateDataConsistency": false
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_DIMTables",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_table": "@item().source.table"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_DIMTables",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_fileName": "@item().destination.fileName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"table": "vwDMATSI"
+						},
+						"destination": {
+							"fileName": "dbovwDMATSI"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMCampus"
+						},
+						"destination": {
+							"fileName": "dbovwDMCampus"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMDate"
+						},
+						"destination": {
+							"fileName": "dbovwDMDate"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMGender"
+						},
+						"destination": {
+							"fileName": "dbovwDMGender"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMSchools"
+						},
+						"destination": {
+							"fileName": "dbovwDMSchools"
+						}
+					},
+					{
+						"source": {
+							"table": "vwDMYearLevel"
+						},
+						"destination": {
+							"fileName": "dbovwDMYearLevel"
+						}
+					}
+				]
+			}
+		},
+		"annotations": []
+	}
+}

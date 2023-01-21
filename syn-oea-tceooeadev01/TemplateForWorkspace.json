@@ -1626,13 +1626,13 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_DIMTables')]",
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_DimTables')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"activities": [
 					{
-						"name": "ForEach_2to",
+						"name": "ForEach_1re",
 						"type": "ForEach",
 						"dependsOn": [],
 						"userProperties": [],
@@ -1643,7 +1643,7 @@
 							},
 							"activities": [
 								{
-									"name": "Copy_2to",
+									"name": "Copy_1re",
 									"type": "Copy",
 									"dependsOn": [],
 									"policy": {
@@ -1684,7 +1684,7 @@
 									},
 									"inputs": [
 										{
-											"referenceName": "SourceDataset_DIMTables",
+											"referenceName": "SourceDataset_DimTables",
 											"type": "DatasetReference",
 											"parameters": {
 												"cw_table": "@item().source.table"
@@ -1693,7 +1693,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "DestinationDataset_DIMTables",
+											"referenceName": "DestinationDataset_DimTables",
 											"type": "DatasetReference",
 											"parameters": {
 												"cw_fileName": "@item().destination.fileName"
@@ -1718,7 +1718,7 @@
 									"table": "vwDMATSI"
 								},
 								"destination": {
-									"fileName": "dbovwDMATSI"
+									"fileName": "dbovwDMATSI.csv"
 								}
 							},
 							{
@@ -1726,7 +1726,7 @@
 									"table": "vwDMCampus"
 								},
 								"destination": {
-									"fileName": "dbovwDMCampus"
+									"fileName": "dbovwDMCampus.csv"
 								}
 							},
 							{
@@ -1734,23 +1734,7 @@
 									"table": "vwDMDate"
 								},
 								"destination": {
-									"fileName": "dbovwDMDate"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMGender"
-								},
-								"destination": {
-									"fileName": "dbovwDMGender"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMSchools"
-								},
-								"destination": {
-									"fileName": "dbovwDMSchools"
+									"fileName": "dbovwDMDate.csv"
 								}
 							},
 							{
@@ -1758,7 +1742,7 @@
 									"table": "vwDMYearLevel"
 								},
 								"destination": {
-									"fileName": "dbovwDMYearLevel"
+									"fileName": "dbovwDMYearLevel.csv"
 								}
 							}
 						]
@@ -1767,8 +1751,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_DIMTables')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_DIMTables')]"
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_DimTables')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_DimTables')]"
 			]
 		},
 		{
@@ -8117,7 +8101,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_DIMTables')]",
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_DimTables')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -9914,7 +9898,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/SourceDataset_DIMTables')]",
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_DimTables')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {

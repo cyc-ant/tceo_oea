@@ -79,56 +79,7 @@
 		"parameters": {
 			"cw_items": {
 				"type": "Array",
-				"defaultValue": [
-					{
-						"source": {
-							"table": "vwDMATSI"
-						},
-						"destination": {
-							"fileName": "dbovwDMATSI"
-						}
-					},
-					{
-						"source": {
-							"table": "vwDMCampus"
-						},
-						"destination": {
-							"fileName": "dbovwDMCampus"
-						}
-					},
-					{
-						"source": {
-							"table": "vwDMDate"
-						},
-						"destination": {
-							"fileName": "dbovwDMDate"
-						}
-					},
-					{
-						"source": {
-							"table": "vwDMGender"
-						},
-						"destination": {
-							"fileName": "dbovwDMGender"
-						}
-					},
-					{
-						"source": {
-							"table": "vwDMSchools"
-						},
-						"destination": {
-							"fileName": "dbovwDMSchools"
-						}
-					},
-					{
-						"source": {
-							"table": "vwDMYearLevel"
-						},
-						"destination": {
-							"fileName": "dbovwDMYearLevel"
-						}
-					}
-				]
+				"defaultValue": "[{\"source\":{\"table\":\"vwDMATSI\"},\"destination\":{\"fileName\":\"dbovwDMATSI\"}},{\"source\":{\"table\":\"vwDMCampus\"},\"destination\":{\"fileName\":\"dbovwDMCampus\"}},{\"source\":{\"table\":\"vwDMDate\"},\"destination\":{\"fileName\":\"dbovwDMDate\"}},{\"source\":{\"table\":\"vwDMGender\"},\"destination\":{\"fileName\":\"dbovwDMGender\"}},,{\"source\":{\"table\":\"vwDMYearLevel\"},\"destination\":{\"fileName\":\"dbovwDMYearLevel\"}}]"
 			}
 		},
 		"annotations": []

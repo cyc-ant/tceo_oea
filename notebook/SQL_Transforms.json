@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c147b5df-bc2d-4f78-bc41-687530c8e239"
+				"spark.autotune.trackingId": "45a7cf0d-cad9-426c-9500-3091e9d8644e"
 			}
 		},
 		"metadata": {
@@ -729,6 +729,8 @@
 					"ON ae.ActivityCode = a.ActivityCode\r\n",
 					"AND ae.CampusId = a.CampusId\r\n",
 					"AND ae.IsCurrent is True\r\n",
+					"and year(ae.utcactivityenrolmentstartdate) = year(current_date)\r\n",
+					"\r\n",
 					"\r\n",
 					"inner JOIN vw_CompassODSStudentDemographic d \r\n",
 					"ON d.CompassPersonId = ae.CompassPersonId\r\n",

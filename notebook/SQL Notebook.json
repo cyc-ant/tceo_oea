@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d5067a31-2f32-4cf8-9171-6e5de45eb3c1"
+				"spark.autotune.trackingId": "b9bca328-97fc-4f52-935a-bda49a437951"
 			}
 		},
 		"metadata": {
@@ -63,7 +63,7 @@
 					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 2
+				"execution_count": 176
 			},
 			{
 				"cell_type": "code",
@@ -5789,7 +5789,7 @@
 					"odsstafforganisationdetails_df.createOrReplaceTempView('vw_CompassODSStaffOrganisationDetails') \r\n",
 					"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') "
 				],
-				"execution_count": 3
+				"execution_count": 177
 			},
 			{
 				"cell_type": "code",
@@ -5889,7 +5889,47 @@
 					"ORDER BY SchoolAGEID, yl.YearLevelSifDesc, pd.FirstName, pd.LastName\r\n",
 					""
 				],
-				"execution_count": 219
+				"execution_count": 178
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_activestudent \r\n",
+					"-- where firstname = 'Allira' -- skyearlevel = 14\r\n",
+					"where firstname = 'Adaline' and lastname = 'Airey' -- skyearlevel = 14"
+				],
+				"execution_count": 185
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_dmyearlevel"
+				],
+				"execution_count": 181
 			},
 			{
 				"cell_type": "code",
@@ -11496,10 +11536,31 @@
 					"\r\n",
 					"where year = year(CURRENT_DATE)\r\n",
 					"--and ae.compasspersonid = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504' --Allira Ackers\r\n",
-					"and studentname = 'Allira Ackers'\r\n",
+					"--and studentname = 'Allira Ackers'\r\n",
+					"and studentname = 'Adaline Airey'\r\n",
 					"-- )"
 				],
-				"execution_count": 159
+				"execution_count": 184
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select utcactivityenrolmentstartdate from vw_CompassODSActivityEnrolment limit 3\r\n",
+					""
+				],
+				"execution_count": 183
 			}
 		]
 	}

@@ -8,6 +8,9 @@
 		"AFS_SchoolList_connectionString": {
 			"value": ""
 		},
+		"AFS_SeniorData_connectionString": {
+			"value": ""
+		},
 		"AzureFileStorage_AEData_connectionString": {
 			"value": ""
 		},

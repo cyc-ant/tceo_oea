@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "294be25c-b91a-4dad-8523-9ee9810c6272"
+				"spark.autotune.trackingId": "c3f9e2ea-63d1-449c-a7a6-1dc13bb59e20"
 			}
 		},
 		"metadata": {
@@ -63,7 +63,7 @@
 					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 176
+				"execution_count": 186
 			},
 			{
 				"cell_type": "code",
@@ -5789,7 +5789,7 @@
 					"odsstafforganisationdetails_df.createOrReplaceTempView('vw_CompassODSStaffOrganisationDetails') \r\n",
 					"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') "
 				],
-				"execution_count": 177
+				"execution_count": 187
 			},
 			{
 				"cell_type": "code",
@@ -5889,7 +5889,7 @@
 					"ORDER BY SchoolAGEID, yl.YearLevelSifDesc, pd.FirstName, pd.LastName\r\n",
 					""
 				],
-				"execution_count": 178
+				"execution_count": 188
 			},
 			{
 				"cell_type": "code",
@@ -11538,9 +11538,10 @@
 					"--and ae.compasspersonid = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504' --Allira Ackers\r\n",
 					"--and studentname = 'Allira Ackers'\r\n",
 					"and studentname = 'Adaline Airey'\r\n",
+					"and classname like '%Generalist%'\r\n",
 					"-- )"
 				],
-				"execution_count": 184
+				"execution_count": 190
 			},
 			{
 				"cell_type": "code",

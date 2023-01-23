@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "45a7cf0d-cad9-426c-9500-3091e9d8644e"
+				"spark.autotune.trackingId": "cd9a2d32-31c1-47d5-b352-36eb1eada44a"
 			}
 		},
 		"metadata": {
@@ -810,6 +810,7 @@
 					") mainquery\r\n",
 					"\r\n",
 					"where year = year(CURRENT_DATE)\r\n",
+					"and classname like '%Generalist%'\r\n",
 					"-- )"
 				],
 				"execution_count": null

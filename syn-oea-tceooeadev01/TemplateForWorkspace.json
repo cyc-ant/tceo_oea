@@ -5115,39 +5115,39 @@
 				"parameters": {
 					"acer": {
 						"type": "bool",
-						"defaultValue": false
+						"defaultValue": true
 					},
 					"ae": {
 						"type": "bool",
-						"defaultValue": false
+						"defaultValue": true
 					},
 					"attendance": {
 						"type": "bool",
-						"defaultValue": false
+						"defaultValue": true
 					},
 					"class_period": {
 						"type": "bool",
-						"defaultValue": false
+						"defaultValue": true
 					},
 					"enrolment": {
 						"type": "bool",
-						"defaultValue": false
+						"defaultValue": true
 					},
 					"myschools": {
 						"type": "bool",
-						"defaultValue": false
+						"defaultValue": true
 					},
 					"naplan": {
 						"type": "bool",
-						"defaultValue": false
+						"defaultValue": true
 					},
 					"nccd": {
 						"type": "bool",
-						"defaultValue": false
+						"defaultValue": true
 					},
 					"student": {
 						"type": "bool",
-						"defaultValue": false
+						"defaultValue": true
 					},
 					"ae_manual": {
 						"type": "bool",

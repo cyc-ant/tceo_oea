@@ -20523,7 +20523,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "294be25c-b91a-4dad-8523-9ee9810c6272"
+						"spark.autotune.trackingId": "da0dd51f-827d-4b4d-bd4d-22a1a90fb273"
 					}
 				},
 				"metadata": {
@@ -20548,7 +20548,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -20566,7 +20567,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 176
+						"execution_count": 186
 					},
 					{
 						"cell_type": "code",
@@ -26440,7 +26441,7 @@
 							"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') "
 						],
 						"outputs": [],
-						"execution_count": 177
+						"execution_count": 187
 					},
 					{
 						"cell_type": "code",
@@ -26544,7 +26545,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 178
+						"execution_count": 188
 					},
 					{
 						"cell_type": "code",
@@ -32331,10 +32332,11 @@
 							"--and ae.compasspersonid = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504' --Allira Ackers\r\n",
 							"--and studentname = 'Allira Ackers'\r\n",
 							"and studentname = 'Adaline Airey'\r\n",
+							"and classname like '%Generalist%'\r\n",
 							"-- )"
 						],
 						"outputs": [],
-						"execution_count": 184
+						"execution_count": 190
 					},
 					{
 						"cell_type": "code",
@@ -32385,7 +32387,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "45a7cf0d-cad9-426c-9500-3091e9d8644e"
+						"spark.autotune.trackingId": "aba46fdb-b685-4177-908b-0a315a1f8f72"
 					}
 				},
 				"metadata": {
@@ -32410,7 +32412,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -33183,6 +33186,7 @@
 							") mainquery\r\n",
 							"\r\n",
 							"where year = year(CURRENT_DATE)\r\n",
+							"and classname like '%Generalist%'\r\n",
 							"-- )"
 						],
 						"outputs": [],
@@ -35015,7 +35019,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a015942a-a954-4ef4-beea-21598e0dc064"
+						"spark.autotune.trackingId": "d454f8af-c38b-4ec9-a459-172dec17dc3f"
 					}
 				},
 				"metadata": {
@@ -35305,7 +35309,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "50bc31cd-15c7-4e21-ac69-155b9483e9ca"
+						"spark.autotune.trackingId": "3c3da662-51b1-44dc-afa2-54b6ac0c158e"
 					}
 				},
 				"metadata": {
@@ -35391,7 +35395,6 @@
 							"        oea.ingest_delta_data(self.source_folder, 'ICSEA', self.schemas['ICSEA'], None, 'SchoolId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'GenderImageData', self.schemas['GenderImageData'], None, 'Gender')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DomainSelection', self.schemas['DomainSelection'], None, 'DomainId')\r\n",
-							"        #oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag', 'json')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag')\r\n",
 							"\r\n",
 							"\r\n",

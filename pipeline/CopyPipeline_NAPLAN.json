@@ -84,24 +84,6 @@
 					{
 						"source": {
 							"schema": "dbo",
-							"table": "NaplanData"
-						},
-						"destination": {
-							"fileName": "dboNaplanData.csv"
-						}
-					},
-					{
-						"source": {
-							"schema": "dbo",
-							"table": "NaplanNational"
-						},
-						"destination": {
-							"fileName": "dboNaplanNational.csv"
-						}
-					},
-					{
-						"source": {
-							"schema": "dbo",
 							"table": "NaplanNationalAverage"
 						},
 						"destination": {

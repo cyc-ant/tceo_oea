@@ -4734,23 +4734,23 @@
 					},
 					"ae": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"attendance": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"class_period": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"enrolment": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"myschools": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"naplan": {
 						"type": "bool",
@@ -4758,11 +4758,11 @@
 					},
 					"nccd": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"student": {
 						"type": "bool",
-						"defaultValue": true
+						"defaultValue": false
 					},
 					"ae_manual": {
 						"type": "bool",

@@ -20205,7 +20205,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d5067a31-2f32-4cf8-9171-6e5de45eb3c1"
+						"spark.autotune.trackingId": "c787b74c-e208-418b-82d6-87e12daa07a0"
 					}
 				},
 				"metadata": {
@@ -20230,7 +20230,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -20248,7 +20249,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 176
 					},
 					{
 						"cell_type": "code",
@@ -26122,7 +26123,7 @@
 							"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') "
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 177
 					},
 					{
 						"cell_type": "code",
@@ -26226,7 +26227,49 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 219
+						"execution_count": 178
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_activestudent \r\n",
+							"-- where firstname = 'Allira' -- skyearlevel = 14\r\n",
+							"where firstname = 'Adaline' and lastname = 'Airey' -- skyearlevel = 14"
+						],
+						"outputs": [],
+						"execution_count": 185
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_dmyearlevel"
+						],
+						"outputs": [],
+						"execution_count": 181
 					},
 					{
 						"cell_type": "code",
@@ -31969,11 +32012,33 @@
 							"\r\n",
 							"where year = year(CURRENT_DATE)\r\n",
 							"--and ae.compasspersonid = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504' --Allira Ackers\r\n",
-							"and studentname = 'Allira Ackers'\r\n",
+							"--and studentname = 'Allira Ackers'\r\n",
+							"and studentname = 'Adaline Airey'\r\n",
 							"-- )"
 						],
 						"outputs": [],
-						"execution_count": 159
+						"execution_count": 184
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select utcactivityenrolmentstartdate from vw_CompassODSActivityEnrolment limit 3\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 183
 					}
 				]
 			},
@@ -32003,7 +32068,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c147b5df-bc2d-4f78-bc41-687530c8e239"
+						"spark.autotune.trackingId": "3a640f2f-1052-4f0a-b9bb-ee2748bdde51"
 					}
 				},
 				"metadata": {
@@ -32028,7 +32093,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -32720,6 +32786,8 @@
 							"ON ae.ActivityCode = a.ActivityCode\r\n",
 							"AND ae.CampusId = a.CampusId\r\n",
 							"AND ae.IsCurrent is True\r\n",
+							"and year(ae.utcactivityenrolmentstartdate) = year(current_date)\r\n",
+							"\r\n",
 							"\r\n",
 							"inner JOIN vw_CompassODSStudentDemographic d \r\n",
 							"ON d.CompassPersonId = ae.CompassPersonId\r\n",
@@ -34226,7 +34294,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a3aae882-d4ef-4379-9ed6-9563d0ed328a"
+						"spark.autotune.trackingId": "3df0b386-2209-4665-b59f-fb7da38395c8"
 					}
 				},
 				"metadata": {
@@ -34251,7 +34319,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -34286,7 +34355,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",

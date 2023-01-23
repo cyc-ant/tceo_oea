@@ -343,7 +343,7 @@
 			},
 			"supportingdata": {
 				"type": "bool",
-				"defaultValue": true
+				"defaultValue": false
 			}
 		},
 		"folder": {

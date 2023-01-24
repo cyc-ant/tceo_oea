@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3e41ca67-2cc5-4650-b8b5-d3cc9c8ed3eb"
+				"spark.autotune.trackingId": "674ac805-3131-49bd-bcdc-2099255eeb1e"
 			}
 		},
 		"metadata": {
@@ -85,7 +85,7 @@
 					"                                        ['given_names', 'string', 'no-op']                                                             \r\n",
 					"                                        ]\r\n",
 					"\r\n",
-					"        self.schemas['VetCourses'] = [\r\n",
+					"        self.schemas['VETCourses'] = [\r\n",
 					"                                        ['CSA', 'string', 'no-op'],\r\n",
 					"                                        ['exit_year', 'integer', 'no-op'],\r\n",
 					"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
@@ -102,7 +102,7 @@
 					"                                        ['given_names', 'string', 'no-op']                                                          \r\n",
 					"                                        ]\r\n",
 					"\r\n",
-					"        self.schemas['VetUnits'] = [\r\n",
+					"        self.schemas['VETUnits'] = [\r\n",
 					"                                        ['CSA', 'string', 'no-op'],\r\n",
 					"                                        ['exit_year', 'integer', 'no-op'],\r\n",
 					"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
@@ -192,8 +192,8 @@
 					"\r\n",
 					"    def ingest(self):\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'StudentSubjects', self.schemas['StudentSubjects'], None, 'BKID')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'VetCourses', self.schemas['VetCourses'], None, 'BKID')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'VetUnits', self.schemas['VetUnits'], None, 'BKID')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'VETCourses', self.schemas['VETCourses'], None, 'BKID')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'VETUnits', self.schemas['VETUnits'], None, 'BKID')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'SchoolLevel', self.schemas['SchoolLevel'], None, 'BKID')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'StudentLevel', self.schemas['StudentLevel'], None, 'BKID')\r\n",
 					"\r\n",

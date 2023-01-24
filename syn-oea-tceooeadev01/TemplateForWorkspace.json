@@ -19448,7 +19448,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0decc511-7f30-47d9-92a6-1346c35faf3e"
+						"spark.autotune.trackingId": "036478b6-77a7-4ab8-8303-5d2bee813fc0"
 					}
 				},
 				"metadata": {
@@ -20819,7 +20819,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "314c6f8c-82bc-4cd7-9618-75929e5e49a2"
+						"spark.autotune.trackingId": "c30ac81d-3cf3-4648-9506-7d4d5b85b7cb"
 					}
 				},
 				"metadata": {
@@ -33967,7 +33967,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "187e2b9c-95e3-444a-ad69-7640c1aa63d5"
+						"spark.autotune.trackingId": "62d05500-fe22-4e8a-a500-b9185ede2a65"
 					}
 				},
 				"metadata": {
@@ -34976,7 +34976,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "45412222-3672-4c10-b1d9-16be0245ee81"
+						"spark.autotune.trackingId": "9324651f-1d1c-4584-afbe-f2f0907c0691"
 					}
 				},
 				"metadata": {
@@ -35042,7 +35042,7 @@
 							"                                        ['given_names', 'string', 'no-op']                                                             \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['VetCourses'] = [\r\n",
+							"        self.schemas['VETCourses'] = [\r\n",
 							"                                        ['CSA', 'string', 'no-op'],\r\n",
 							"                                        ['exit_year', 'integer', 'no-op'],\r\n",
 							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
@@ -35059,7 +35059,7 @@
 							"                                        ['given_names', 'string', 'no-op']                                                          \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['VetUnits'] = [\r\n",
+							"        self.schemas['VETUnits'] = [\r\n",
 							"                                        ['CSA', 'string', 'no-op'],\r\n",
 							"                                        ['exit_year', 'integer', 'no-op'],\r\n",
 							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
@@ -35149,8 +35149,8 @@
 							"\r\n",
 							"    def ingest(self):\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'StudentSubjects', self.schemas['StudentSubjects'], None, 'BKID')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'VetCourses', self.schemas['VetCourses'], None, 'BKID')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'VetUnits', self.schemas['VetUnits'], None, 'BKID')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'VETCourses', self.schemas['VETCourses'], None, 'BKID')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'VETUnits', self.schemas['VETUnits'], None, 'BKID')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'SchoolLevel', self.schemas['SchoolLevel'], None, 'BKID')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'StudentLevel', self.schemas['StudentLevel'], None, 'BKID')\r\n",
 							"\r\n",
@@ -35189,7 +35189,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2c3892d3-b1bd-477d-917f-c106299440d6"
+						"spark.autotune.trackingId": "70371c30-dee7-4ba0-aee9-bcb932387ea0"
 					}
 				},
 				"metadata": {
@@ -36626,7 +36626,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1697a873-874c-4bd8-b6d7-3b6f4e0076e1"
+						"spark.autotune.trackingId": "ebe8080d-4ead-4fd3-987b-ba10af7746a0"
 					}
 				},
 				"metadata": {

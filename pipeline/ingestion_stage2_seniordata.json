@@ -21,7 +21,7 @@
 					},
 					"parameters": {
 						"object_name": {
-							"value": "generaldata_object",
+							"value": "seniordata_object",
 							"type": "string"
 						},
 						"method_name": {
@@ -29,7 +29,7 @@
 							"type": "string"
 						},
 						"source_folder": {
-							"value": "_GeneralData",
+							"value": "_SeniorData",
 							"type": "string"
 						}
 					},

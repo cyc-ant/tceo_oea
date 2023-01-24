@@ -33967,7 +33967,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a0ef378d-3b15-4f43-bc9b-5ac7e4daf05e"
+						"spark.autotune.trackingId": "40bdd5d3-a286-4b82-abf2-c8affac12c8c"
 					}
 				},
 				"metadata": {
@@ -35066,12 +35066,9 @@
 							"\r\n",
 							"ods_studentclass_df = spark.read.table('vw_ods_studentclass')\r\n",
 							"ods_earlyyearsstudents_df = spark.read.table('vw_ods_earlyyearsstudents')\r\n",
-							"# ods_earlyyearsstudents_updated_df = spark.read.table('vw_ods_earlyyearsstudents_updated')\r\n",
-							"\r\n",
-							"ae_manual_combined_df = spark.read.table('vw_ae_manual_combined')\r\n",
-							"\r\n",
 							"ods_studentstable_df = spark.read.table('vw_ods_studentstable')\r\n",
 							"\r\n",
+							"ae_manual_combined_df = spark.read.table('vw_ae_manual_combined')\r\n",
 							"\r\n",
 							"\r\n",
 							"saveToTarget(classenrolment_df, destination_p, f'{version}/_DMClassEnrolment')\r\n",
@@ -35086,11 +35083,10 @@
 							"\r\n",
 							"saveToTarget(ods_studentclass_df, destination_p, f'{version}/_FACTODSStudentClass')\r\n",
 							"saveToTarget(ods_earlyyearsstudents_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents')\r\n",
-							"# saveToTarget(ods_earlyyearsstudents_updated_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents_updated')\r\n",
+							"saveToTarget(ods_studentstable_df, destination_p, f'{version}/_FACTODSStudentsTable')\r\n",
 							"\r\n",
 							"saveToTarget(ae_manual_combined_df, destination_p, f'{version}/_FACTAECombined')\r\n",
-							"\r\n",
-							"saveToTarget(ods_studentstable_df, destination_p, f'{version}/_FACTODSStudentsTable')"
+							""
 						],
 						"outputs": [],
 						"execution_count": 5
@@ -36770,7 +36766,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2b4d7395-a1b3-40a3-b3a0-68b346b2495a"
+						"spark.autotune.trackingId": "898ac154-23ab-44e8-bc6c-d93336a6358d"
 					}
 				},
 				"metadata": {
@@ -36830,7 +36826,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -36849,7 +36845,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -36868,7 +36864,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -36897,7 +36893,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -36918,7 +36914,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -36961,7 +36957,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": 6
 					},
 					{
 						"cell_type": "code",
@@ -37033,7 +37029,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 19
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",

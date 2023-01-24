@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e0c42205-8c63-4c6f-af94-33fab3516466"
+				"spark.autotune.trackingId": "3c0c696c-14ff-4e11-8262-a7d483c4300a"
 			}
 		},
 		"metadata": {
@@ -12788,7 +12788,7 @@
 					"select * from vw_ods_earlyyearsstudents_2023_nulls \r\n",
 					"where year is null"
 				],
-				"execution_count": 288
+				"execution_count": 292
 			}
 		]
 	}

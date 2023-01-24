@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e81104ea-a70d-40f7-b61a-2071b56ed263"
+				"spark.autotune.trackingId": "2316b978-94ef-4b12-af50-c3e3944c8e40"
 			}
 		},
 		"metadata": {
@@ -31,7 +31,7 @@
 				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
-				"name": "sql"
+				"name": "python"
 			},
 			"a365ComputeOptions": {
 				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
@@ -145,10 +145,7 @@
 					"\r\n",
 					"odsstafforganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStaffOrganisationDetails_pseudo\", format='delta')\r\n",
 					"odsstudentorganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationDetails_pseudo\", format='delta')\r\n",
-					"\r\n",
-					"#testing_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationMilestones_pseudo\", format='delta')\r\n",
-					"#test_df2 = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationMilestones_pseudo\", format='delta')\r\n",
-					"\r\n",
+					"odsstudentorganisationmilestones_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationMilestones_pseudo\", format='delta')\r\n",
 					"\r\n",
 					"# create temp sql views\r\n",
 					"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
@@ -177,9 +174,9 @@
 					"\r\n",
 					"odsstafforganisationdetails_df.createOrReplaceTempView('vw_CompassODSStaffOrganisationDetails') \r\n",
 					"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') \r\n",
-					"#odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones') "
+					"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones')"
 				],
-				"execution_count": 4
+				"execution_count": 9
 			},
 			{
 				"cell_type": "markdown",

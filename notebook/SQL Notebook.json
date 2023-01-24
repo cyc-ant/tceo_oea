@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3c0c696c-14ff-4e11-8262-a7d483c4300a"
+				"spark.autotune.trackingId": "196672b0-bcc7-4d45-83a5-ac2267c49527"
 			}
 		},
 		"metadata": {
@@ -63,7 +63,7 @@
 					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 211
+				"execution_count": 293
 			},
 			{
 				"cell_type": "code",
@@ -5760,6 +5760,8 @@
 					"odsstafforganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStaffOrganisationDetails_pseudo\", format='delta')\r\n",
 					"odsstudentorganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationDetails_pseudo\", format='delta')\r\n",
 					"\r\n",
+					"odsstudentorganisationmilestones_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationMilestones_pseudo\", format='delta')\r\n",
+					"\r\n",
 					"\r\n",
 					"# create temp sql views\r\n",
 					"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
@@ -5787,9 +5789,11 @@
 					"odsstudentdemographic_df.createOrReplaceTempView('vw_CompassODSStudentDemographic') \r\n",
 					"\r\n",
 					"odsstafforganisationdetails_df.createOrReplaceTempView('vw_CompassODSStaffOrganisationDetails') \r\n",
-					"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') "
+					"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') \r\n",
+					"\r\n",
+					"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones') "
 				],
-				"execution_count": 212
+				"execution_count": 294
 			},
 			{
 				"cell_type": "code",
@@ -5889,7 +5893,7 @@
 					"ORDER BY SchoolAGEID, yl.YearLevelSifDesc, pd.FirstName, pd.LastName\r\n",
 					""
 				],
-				"execution_count": 213
+				"execution_count": 295
 			},
 			{
 				"cell_type": "code",
@@ -12623,15 +12627,15 @@
 					"-- group by year, campusid, schoolname, studentname, ceider\r\n",
 					"-- order by studentname, year desc\r\n",
 					"\r\n",
-					"CREATE TEMP VIEW vw_ods_earlyyearsstudents_2023_nulls\r\n",
-					"as\r\n",
+					"-- CREATE TEMP VIEW vw_ods_earlyyearsstudents_2023_nulls\r\n",
+					"-- as\r\n",
 					"\r\n",
-					"select year, campusid, schoolname, studentname, ceider, count(*) from\r\n",
+					"select year, yearlevel, campusid, schoolname, studentname, ceider, count(*) from\r\n",
 					"\r\n",
 					"(\r\n",
 					"select \r\n",
 					"year\r\n",
-					"--, YearLevel\r\n",
+					", YearLevel\r\n",
 					", CampusID\r\n",
 					", SchoolName\r\n",
 					", TeacherID\r\n",
@@ -12657,6 +12661,7 @@
 					"s.academicyear as Year \r\n",
 					"--,yl.yearlevelsifcode as YearLevel\r\n",
 					"--,staff.campusid as CampusID\r\n",
+					",ms.yearlevel as YearLevel\r\n",
 					",staffemails.campusid as CampusID\r\n",
 					",c.schoolname as SchoolName\r\n",
 					",staff.compasspersonid as TeacherID\r\n",
@@ -12704,11 +12709,16 @@
 					"-- AND a.CampusId = s.CampusId\r\n",
 					"-- AND s.IsCurrent is True\r\n",
 					"\r\n",
-					"left join vw_activestudent active\r\n",
-					"on active.ceider = d.govcode1\r\n",
+					"-- left join vw_activestudent active\r\n",
+					"-- on active.ceider = d.govcode1\r\n",
 					"\r\n",
-					"left join vw_dmyearlevel yl\r\n",
-					"on active.SKYearLevel = yl.SKYearLevel\r\n",
+					"left join vw_CompassODSStudentOrganisationMilestones ms\r\n",
+					"on ms.compasspersonid = d.CompassPersonId\r\n",
+					"and ms.iscurrent is True \r\n",
+					"and ms.iscurrentmilestone is True\r\n",
+					"\r\n",
+					"-- left join vw_dmyearlevel yl\r\n",
+					"-- on active.SKYearLevel = yl.SKYearLevel\r\n",
 					"\r\n",
 					"-- --Login emails\r\n",
 					"left join vw_CompassODSStaffOrganisationDetails staffemails\r\n",
@@ -12739,17 +12749,18 @@
 					"where \r\n",
 					"--year = year(CURRENT_DATE) ---------------------------------------------------------------added this for 2023\r\n",
 					"--and ae.compasspersonid = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504' --Allira Ackers\r\n",
-					"--and studentname = 'Allira Ackers'\r\n",
+					"--and \r\n",
+					"studentname = 'Allira Ackers'\r\n",
 					"--and studentname = 'Adaline Airey'\r\n",
-					"(studentname = 'Piper Dawes' or studentname = 'Lacie Silver')\r\n",
+					"--(studentname = 'Piper Dawes' or studentname = 'Lacie Silver')\r\n",
 					"and year is not null\r\n",
 					"-- and classname like '%Generalist%'\r\n",
 					"-- )\r\n",
 					") wholequery\r\n",
 					"\r\n",
-					"group by year, campusid, schoolname, studentname, ceider"
+					"group by year, yearlevel, campusid, schoolname, studentname, ceider"
 				],
-				"execution_count": 290
+				"execution_count": 306
 			},
 			{
 				"cell_type": "code",
@@ -12789,6 +12800,32 @@
 					"where year is null"
 				],
 				"execution_count": 292
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select \r\n",
+					"yearlevel, iscurrent, isactive, iscurrentmilestone from vw_CompassODSStudentOrganisationMilestones \r\n",
+					"where compasspersonid = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504'\r\n",
+					"-- and iscurrent is True \r\n",
+					"-- and iscurrentmilestone is True\r\n",
+					"--compasspersonid\r\n",
+					"--yearlevel\r\n",
+					""
+				],
+				"execution_count": 309
 			}
 		]
 	}

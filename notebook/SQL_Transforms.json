@@ -20,15 +20,15 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a1971b9b-4af0-4efa-a349-227b0dc2c3be"
+				"spark.autotune.trackingId": "cdf09c9c-0138-4906-b67f-4573c65873a8"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
 			"enableDebugMode": false,
 			"kernelspec": {
-				"name": "synapse_pyspark",
-				"display_name": "Synapse PySpark"
+				"name": "synapse_sparksql",
+				"display_name": "sql"
 			},
 			"language_info": {
 				"name": "sql"
@@ -174,7 +174,8 @@
 					"\r\n",
 					"odsstafforganisationdetails_df.createOrReplaceTempView('vw_CompassODSStaffOrganisationDetails') \r\n",
 					"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') \r\n",
-					"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones')"
+					"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones')\r\n",
+					""
 				],
 				"execution_count": 9
 			},

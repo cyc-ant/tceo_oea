@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "196672b0-bcc7-4d45-83a5-ac2267c49527"
+				"spark.autotune.trackingId": "acb8c6ce-bb71-4ecc-b48f-fced27304c6f"
 			}
 		},
 		"metadata": {
@@ -63,7 +63,7 @@
 					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 293
+				"execution_count": 311
 			},
 			{
 				"cell_type": "code",
@@ -5793,7 +5793,7 @@
 					"\r\n",
 					"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones') "
 				],
-				"execution_count": 294
+				"execution_count": 312
 			},
 			{
 				"cell_type": "code",
@@ -5893,7 +5893,7 @@
 					"ORDER BY SchoolAGEID, yl.YearLevelSifDesc, pd.FirstName, pd.LastName\r\n",
 					""
 				],
-				"execution_count": 295
+				"execution_count": 313
 			},
 			{
 				"cell_type": "code",
@@ -12630,12 +12630,14 @@
 					"-- CREATE TEMP VIEW vw_ods_earlyyearsstudents_2023_nulls\r\n",
 					"-- as\r\n",
 					"\r\n",
-					"select year, yearlevel, campusid, schoolname, studentname, ceider, count(*) from\r\n",
+					"select year\r\n",
+					"--, yearlevel\r\n",
+					", campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote, count(*) from\r\n",
 					"\r\n",
 					"(\r\n",
 					"select \r\n",
 					"year\r\n",
-					", YearLevel\r\n",
+					"--, YearLevel\r\n",
 					", CampusID\r\n",
 					", SchoolName\r\n",
 					", TeacherID\r\n",
@@ -12661,7 +12663,7 @@
 					"s.academicyear as Year \r\n",
 					"--,yl.yearlevelsifcode as YearLevel\r\n",
 					"--,staff.campusid as CampusID\r\n",
-					",ms.yearlevel as YearLevel\r\n",
+					"--,ms.yearlevel as YearLevel\r\n",
 					",staffemails.campusid as CampusID\r\n",
 					",c.schoolname as SchoolName\r\n",
 					",staff.compasspersonid as TeacherID\r\n",
@@ -12712,10 +12714,10 @@
 					"-- left join vw_activestudent active\r\n",
 					"-- on active.ceider = d.govcode1\r\n",
 					"\r\n",
-					"left join vw_CompassODSStudentOrganisationMilestones ms\r\n",
-					"on ms.compasspersonid = d.CompassPersonId\r\n",
-					"and ms.iscurrent is True \r\n",
-					"and ms.iscurrentmilestone is True\r\n",
+					"-- left join vw_CompassODSStudentOrganisationMilestones ms\r\n",
+					"-- on ms.compasspersonid = d.CompassPersonId\r\n",
+					"-- and ms.iscurrent is True \r\n",
+					"-- and ms.iscurrentmilestone is True\r\n",
 					"\r\n",
 					"-- left join vw_dmyearlevel yl\r\n",
 					"-- on active.SKYearLevel = yl.SKYearLevel\r\n",
@@ -12750,17 +12752,21 @@
 					"--year = year(CURRENT_DATE) ---------------------------------------------------------------added this for 2023\r\n",
 					"--and ae.compasspersonid = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504' --Allira Ackers\r\n",
 					"--and \r\n",
-					"studentname = 'Allira Ackers'\r\n",
-					"--and studentname = 'Adaline Airey'\r\n",
+					"--studentname = 'Allira Ackers'\r\n",
+					"--and \r\n",
+					"--studentname = 'Adaline Airey'\r\n",
 					"--(studentname = 'Piper Dawes' or studentname = 'Lacie Silver')\r\n",
-					"and year is not null\r\n",
+					"--and \r\n",
+					"year is not null\r\n",
 					"-- and classname like '%Generalist%'\r\n",
 					"-- )\r\n",
 					") wholequery\r\n",
 					"\r\n",
-					"group by year, yearlevel, campusid, schoolname, studentname, ceider"
+					"group by year\r\n",
+					"--, yearlevel\r\n",
+					", campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote"
 				],
-				"execution_count": 306
+				"execution_count": 320
 			},
 			{
 				"cell_type": "code",

@@ -6998,6 +6998,73 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_seniordata')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest to Stage2 - SeniorData",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_SeniorData",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "generaldata_object",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "_GeneralData",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Stage2 Ingestion Pipelines"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_SeniorData')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_student_profile')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -11689,7 +11756,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "563db844-0cfa-493e-b9c2-9886d2aac3a7"
+						"spark.autotune.trackingId": "c526c012-6ff0-4821-9765-0d9256f2dc46"
 					}
 				},
 				"metadata": {
@@ -11714,8 +11781,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14389,7 +14455,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "df5fba0c-d6ee-4573-9728-aabdeb951dca"
+						"spark.autotune.trackingId": "af697b23-a5a6-48db-aa1d-53b651bad007"
 					}
 				},
 				"metadata": {
@@ -14414,8 +14480,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -19315,6 +19380,191 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_SeniorData')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"runAsWorkspaceSystemIdentity": false,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "3246376e-37f7-47a5-9f38-c83a34d5e290"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# OEA connector\n",
+							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
+							"\n",
+							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"tags": [
+								"parameters"
+							]
+						},
+						"source": [
+							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
+							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
+							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
+							"object_name = ''\r\n",
+							"method_name = ''\r\n",
+							"source_folder = ''\r\n",
+							"kwargs = '{}'"
+						],
+						"outputs": [],
+						"execution_count": 1
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 2
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run /SeniorManualCopy"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /SeniorData_py"
+						],
+						"outputs": [],
+						"execution_count": 3
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"obj = eval(object_name)\r\n",
+							"kwargs = eval(kwargs)\r\n",
+							"m = getattr(obj, method_name)\r\n",
+							"result = m(**kwargs)\r\n",
+							"mssparkutils.notebook.exit(result)"
+						],
+						"outputs": [],
+						"execution_count": 4
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/OEA_connector_Student_Profile')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -20524,7 +20774,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0d7e6757-d4f6-496c-b7f2-4d5f0159beb6"
+						"spark.autotune.trackingId": "90d3a8e4-7eb7-419a-be96-d4074da931f7"
 					}
 				},
 				"metadata": {
@@ -20549,8 +20799,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -32799,7 +33048,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8bc97391-6518-471b-872d-30f56c43fd01"
+						"spark.autotune.trackingId": "cd9a2d32-31c1-47d5-b352-36eb1eada44a"
 					}
 				},
 				"metadata": {
@@ -32824,8 +33073,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -33754,6 +34002,431 @@
 						],
 						"outputs": [],
 						"execution_count": 5
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SeniorData_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Data Objects"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "067595ef-e3b8-44f3-ba2f-70162e33b797"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": true,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "python"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"source": [
+							"class SeniorData_object(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder='_SeniorData', pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"\r\n",
+							"        self.schemas['2022_TSV_1_Student_Subjects_20221220.xlsx'] = [\r\n",
+							"                                        ['CSA', 'string', 'no-op'],\r\n",
+							"                                        ['exit_year', 'integer', 'no-op'],\r\n",
+							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
+							"                                        ['centre_code', 'integer', 'no-op'],\r\n",
+							"                                        ['school', 'string', 'no-op'],\r\n",
+							"                                        ['subject_id', 'integer', 'no-op'],\r\n",
+							"                                        ['subject', 'string', 'no-op'],\r\n",
+							"                                        ['subject_type', 'string', 'no-op'],\r\n",
+							"                                        ['subject_subtype', 'string', 'no-op'],\r\n",
+							"                                        ['unit_1_result', 'string', 'no-op'],\r\n",
+							"                                        ['unit_2_result', 'string', 'no-op'],\r\n",
+							"                                        ['ia1_result', 'string', 'no-op'],\r\n",
+							"                                        ['ia2_result', 'string', 'no-op'],\r\n",
+							"                                        ['ia3_result', 'string', 'no-op'],\r\n",
+							"                                        ['ea_ia4_result', 'string', 'no-op'],\r\n",
+							"                                        ['final_result', 'string', 'no-op'],\r\n",
+							"                                        ['grade', 'string', 'no-op'],\r\n",
+							"                                        ['unit_1_enrolment', 'string', 'no-op'],\r\n",
+							"                                        ['unit_2_enrolment', 'string', 'no-op'],\r\n",
+							"                                        ['unit_3_enrolment', 'string', 'no-op'],\r\n",
+							"                                        ['unit_4_enrolment', 'string', 'no-op'],\r\n",
+							"                                        ['lui', 'integer', 'no-op'],\r\n",
+							"                                        ['last_name', 'string', 'no-op'],\r\n",
+							"                                        ['given_names', 'string', 'no-op']                                                             \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['2022_TSV_2_VET_Courses_20221220.xlsx'] = [\r\n",
+							"                                        ['CSA', 'string', 'no-op'],\r\n",
+							"                                        ['exit_year', 'integer', 'no-op'],\r\n",
+							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
+							"                                        ['centre_code', 'integer', 'no-op'],\r\n",
+							"                                        ['school', 'string', 'no-op'],\r\n",
+							"                                        ['provider', 'string', 'no-op'],\r\n",
+							"                                        ['qual_code', 'string', 'no-op'],\r\n",
+							"                                        ['qual_name', 'string', 'no-op'],\r\n",
+							"                                        ['start_date', 'string', 'no-op'],\r\n",
+							"                                        ['end_date', 'string', 'no-op'],\r\n",
+							"                                        ['qual_status', 'string', 'no-op'],\r\n",
+							"                                        ['lui', 'integer', 'no-op'],\r\n",
+							"                                        ['last_name', 'string', 'no-op'],\r\n",
+							"                                        ['given_names', 'string', 'no-op']                                                          \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['2022_TSV_3_VET_Units_20221220.xlsx'] = [\r\n",
+							"                                        ['CSA', 'string', 'no-op'],\r\n",
+							"                                        ['exit_year', 'integer', 'no-op'],\r\n",
+							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
+							"                                        ['centre_code', 'integer', 'no-op'],\r\n",
+							"                                        ['school', 'string', 'no-op'],\r\n",
+							"                                        ['provider', 'string', 'no-op'],\r\n",
+							"                                        ['qual_code', 'string', 'no-op'],\r\n",
+							"                                        ['qual_name', 'string', 'no-op'],\r\n",
+							"                                        ['unit_code', 'string', 'no-op'],\r\n",
+							"                                        ['unit_name', 'string', 'no-op'],\r\n",
+							"                                        ['start_date', 'string', 'no-op'],\r\n",
+							"                                        ['end_date', 'string', 'no-op'],\r\n",
+							"                                        ['grade_description', 'string', 'no-op'],\r\n",
+							"                                        ['grade_display_name', 'string', 'no-op'],\r\n",
+							"                                        ['lui', 'integer', 'no-op'],\r\n",
+							"                                        ['last_name', 'string', 'no-op'],\r\n",
+							"                                        ['given_names', 'string', 'no-op']                                                   \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['2022_TSV_Yr12_School_level_20221220.xlsx'] = [\r\n",
+							"                                        ['CSA', 'string', 'no-op'],\r\n",
+							"                                        ['year', 'integer', 'no-op'],\r\n",
+							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
+							"                                        ['centre_code', 'integer', 'no-op'],\r\n",
+							"                                        ['school', 'string', 'no-op'],\r\n",
+							"                                        ['locality', 'string', 'no-op'],\r\n",
+							"                                        ['group', 'string', 'no-op'],\r\n",
+							"                                        ['sep', 'integer', 'no-op'],\r\n",
+							"                                        ['qcia', 'integer', 'no-op'],\r\n",
+							"                                        ['qce', 'integer', 'no-op'],\r\n",
+							"                                        ['vet', 'integer', 'no-op'],\r\n",
+							"                                        ['sat', 'integer', 'no-op'],\r\n",
+							"                                        ['certs', 'integer', 'no-op'],\r\n",
+							"                                        ['no_outcomes', 'integer', 'no-op'],\r\n",
+							"                                        ['pct_ibd', 'integer', 'no-op'],\r\n",
+							"                                        ['pct_sat_qce_ibd_vet', 'double', 'no-op'],\r\n",
+							"                                        ['cert_i', 'integer', 'no-op'],\r\n",
+							"                                        ['cert_ii', 'integer', 'no-op'],\r\n",
+							"                                        ['cert_iii', 'integer', 'no-op'],\r\n",
+							"                                        ['cert_iv', 'integer', 'no-op'],\r\n",
+							"                                        ['diploma', 'integer', 'no-op'],\r\n",
+							"                                        ['adv_diploma', 'integer', 'no-op'],\r\n",
+							"                                        ['cert_ii_iii_or_iv', 'integer', 'no-op'],\r\n",
+							"                                        ['cert_ii_or_higher', 'integer', 'no-op'],\r\n",
+							"                                        ['cert_iii_or_iv', 'integer', 'no-op'],\r\n",
+							"                                        ['cert_iii_or_higher', 'integer', 'no-op'],\r\n",
+							"                                        ['sat_qce_ibd_vet', 'integer', 'no-op'],\r\n",
+							"                                        ['ibd_students', 'integer', 'no-op'],\r\n",
+							"                                        ['ibd_awards', 'integer', 'no-op']                                                      \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['2022_TSV_Yr12_Student_level_20221220.xlsx'] = [\r\n",
+							"                                        ['CSA', 'string', 'no-op'],\r\n",
+							"                                        ['year', 'integer', 'no-op'],\r\n",
+							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
+							"                                        ['centre_code', 'integer', 'no-op'],\r\n",
+							"                                        ['school', 'string', 'no-op'],\r\n",
+							"                                        ['lui', 'integer', 'no-op'],\r\n",
+							"                                        ['last_name', 'string', 'no-op'],\r\n",
+							"                                        ['given_names', 'string', 'no-op'],\r\n",
+							"                                        ['sex', 'string', 'no-op'],\r\n",
+							"                                        ['birth_date', 'string', 'no-op'],\r\n",
+							"                                        ['visa', 'string', 'no-op'],\r\n",
+							"                                        ['indigenous', 'string', 'no-op'],\r\n",
+							"                                        ['qcia', 'string', 'no-op'],\r\n",
+							"                                        ['qce', 'string', 'no-op'],\r\n",
+							"                                        ['vet', 'string', 'no-op'],\r\n",
+							"                                        ['sat', 'string', 'no-op'],\r\n",
+							"                                        ['ibd_student', 'string', 'no-op'],\r\n",
+							"                                        ['ibd_award', 'string', 'no-op'],\r\n",
+							"                                        ['ibd_points', 'integer', 'no-op'],\r\n",
+							"                                        ['uni_subjects', 'integer', 'no-op'],\r\n",
+							"                                        ['diploma_modules', 'integer', 'no-op'],\r\n",
+							"                                        ['cert_mods', 'integer', 'no-op'],\r\n",
+							"                                        ['certs_i', 'integer', 'no-op'],\r\n",
+							"                                        ['certs_ii', 'integer', 'no-op'],\r\n",
+							"                                        ['certs_iii', 'integer', 'no-op'],\r\n",
+							"                                        ['certs_iv', 'integer', 'no-op'],\r\n",
+							"                                        ['diplomas', 'integer', 'no-op'],\r\n",
+							"                                        ['adv_diplomas', 'integer', 'no-op'],\r\n",
+							"                                        ['qce_credits', 'integer', 'no-op'],\r\n",
+							"                                        ['qce_literacy', 'string', 'no-op'],\r\n",
+							"                                        ['qce_numeracy', 'string', 'no-op'],\r\n",
+							"                                        ['qce_completed_core', 'string', 'no-op']                                                     \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"\r\n",
+							"    def ingest(self):\r\n",
+							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_1_Student_Subjects_20221220.xlsx', self.schemas['2022_TSV_1_Student_Subjects_20221220.xlsx'], None, 'TBC')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_2_VET_Courses_20221220.xlsx', self.schemas['2022_TSV_2_VET_Courses_20221220.xlsx'], None, 'TBC')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_3_VET_Units_20221220.xlsx', self.schemas['2022_TSV_3_VET_Units_20221220.xlsx'], None, 'TBC')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_Yr12_School_level_20221220.xlsx', self.schemas['2022_TSV_Yr12_School_level_20221220.xlsx'], None, 'TBC')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_Yr12_Student_level_20221220.xlsx', self.schemas['2022_TSV_Yr12_Student_level_20221220.xlsx'], None, 'TBC')\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"seniordata_object = SeniorData_object()"
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SeniorOutcomes_ManualCopy_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Stage1"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "555d490a-dd4c-4654-93c5-a7be861495c3"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"from pyspark.sql.functions import lit, monotonically_increasing_id, trim\r\n",
+							"from pyspark.sql import DataFrame\r\n",
+							"from functools import reduce"
+						],
+						"outputs": [],
+						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"class SeniorOutcomesManualCopy(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder, pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"        \r\n",
+							"        \r\n",
+							"    def mergeAll(self):\r\n",
+							"\r\n",
+							"        #root_dir = f'{self.stage1np}' #\"/_SeniorData\"\r\n",
+							"        root_dir = \"/_SeniorData\"\r\n",
+							"        studentsubjects_list = []\r\n",
+							"        vetcourses_list = []\r\n",
+							"        vetunits_list = []\r\n",
+							"        schoollevel_list = []\r\n",
+							"        studentlevel_list = []\r\n",
+							"        \r\n",
+							"        # for each file location in this manual upload directory..\r\n",
+							"        file_list = mssparkutils.fs.ls(root_dir)\r\n",
+							"        for file in file_list:\r\n",
+							"            # ignore subfolders\r\n",
+							"            if file.isDir:\r\n",
+							"                continue\r\n",
+							"                \r\n",
+							"            # .. we need to dissect the filename to get the year, and file type\r\n",
+							"            tokens = file.name.split(\"-\")\r\n",
+							"            year = tokens[0].strip()\r\n",
+							"            folder_name = tokens[2].strip() + \"_\" + tokens[3].strip() + \"_\" + tokens[4].strip()\r\n",
+							"            \r\n",
+							"            # turn the folder name into lower case \r\n",
+							"            folder_name = folder_name.lower()\r\n",
+							"\r\n",
+							"            filename = f'{self.stage1np}/{file.name}'\r\n",
+							"\r\n",
+							"            # Merge the same files types into a dataframe (5 files in total)\r\n",
+							"            if (folder_name == '1_student_subjects'):\r\n",
+							"                df = spark.read.options(header='True').csv(filename)\r\n",
+							"                \r\n",
+							"                # add the data frame to the list of dataframes\r\n",
+							"                studentsubjects_list.append(df)\r\n",
+							"\r\n",
+							"            elif (folder_name == '2_vet_courses'):\r\n",
+							"                df = spark.read.options(header='True').csv(filename)\r\n",
+							"                \r\n",
+							"                # add the data frame to the list of dataframes\r\n",
+							"                vetcourses_list.append(df)\r\n",
+							"\r\n",
+							"            elif (folder_name == '3_vet_units'):\r\n",
+							"                df = spark.read.options(header='True').csv(filename)\r\n",
+							"                \r\n",
+							"                # add the data frame to the list of dataframes\r\n",
+							"                vetunits_list.append(df)\r\n",
+							"            \r\n",
+							"            elif (folder_name == 'yr12_school_level'):\r\n",
+							"                df = spark.read.options(header='True').csv(filename)\r\n",
+							"                \r\n",
+							"                # add the data frame to the list of dataframes\r\n",
+							"                schoollevel_list.append(df)\r\n",
+							"            \r\n",
+							"            elif (folder_name == 'yr12_student_level'):\r\n",
+							"                df = spark.read.options(header='True').csv(filename)\r\n",
+							"                \r\n",
+							"                # add the data frame to the list of dataframes\r\n",
+							"                studentlevel_list.append(df)\r\n",
+							"\r\n",
+							"            else:\r\n",
+							"                continue #skip files that don't meet the filename criteria\r\n",
+							"                \r\n",
+							"\r\n",
+							"        # once we have all of the files converted to dataframes with the extra columns, we can combined them back to one df\r\n",
+							"        studentsubjects_combined_df = reduce(DataFrame.unionAll, studentsubjects_list)\r\n",
+							"        vetcourses_combined_df = reduce(DataFrame.unionAll, vetcourses_list)\r\n",
+							"        vetunits_combined_df = reduce(DataFrame.unionAll, vetunits_list)\r\n",
+							"        schoollevel_combined_df = reduce(DataFrame.unionAll, schoollevel_list)\r\n",
+							"        studentlevel_combined_df = reduce(DataFrame.unionAll, studentlevel_list)\r\n",
+							"\r\n",
+							"\r\n",
+							"        # add an index to the combined tables \r\n",
+							"        studentsubjects_indexed_df = studentsubjects_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+							"        vetcourses_indexed_df = vetcourses_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+							"        vetunits_indexed_df = vetunits_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+							"        schoollevel_indexed_df = schoollevel_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+							"        studentlevel_indexed_df = studentlevel_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+							"\r\n",
+							"\r\n",
+							"        # save the csv files\r\n",
+							"        studentsubjects_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/StudentSubjects')\r\n",
+							"        vetcourses_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/VETCourses')\r\n",
+							"        vetunits_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/VETUnits')\r\n",
+							"        schoollevel_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/SchoolLevel')\r\n",
+							"        studentlevel_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/StudentLevel')\r\n",
+							"\r\n",
+							"\r\n",
+							"# instantiate the AE Manual Data Copy with a source folder that contains all the ingested data files \r\n",
+							"seniorcopy = SeniorOutcomesManualCopy(source_folder)\r\n",
+							"\r\n",
+							"seniorcopy.mergeAll()\r\n",
+							"\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 28
 					}
 				]
 			},
@@ -35026,7 +35699,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1a80de84-15c4-43e5-8390-5358bc407adf"
+						"spark.autotune.trackingId": "2b4d7395-a1b3-40a3-b3a0-68b346b2495a"
 					}
 				},
 				"metadata": {
@@ -35051,8 +35724,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -35339,577 +36011,6 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_seniordata')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Ingest to Stage2 - SeniorData",
-						"type": "SynapseNotebook",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"notebook": {
-								"referenceName": "OEA_connector_SeniorData",
-								"type": "NotebookReference"
-							},
-							"parameters": {
-								"object_name": {
-									"value": "generaldata_object",
-									"type": "string"
-								},
-								"method_name": {
-									"value": "ingest",
-									"type": "string"
-								},
-								"source_folder": {
-									"value": "_GeneralData",
-									"type": "string"
-								}
-							},
-							"snapshot": true,
-							"sparkPool": {
-								"referenceName": "spark3p1sm",
-								"type": "BigDataPoolReference"
-							},
-							"executorSize": null,
-							"conf": {
-								"spark.dynamicAllocation.enabled": null,
-								"spark.dynamicAllocation.minExecutors": null,
-								"spark.dynamicAllocation.maxExecutors": null
-							},
-							"driverSize": null,
-							"numExecutors": null
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "Stage2 Ingestion Pipelines"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_SeniorData')]",
-				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/OEA_connector_SeniorData')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "OEA Connectors"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"runAsWorkspaceSystemIdentity": false,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "35a8903d-963d-47a3-9489-b054bc6be158"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "markdown",
-						"metadata": {
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"# OEA connector\n",
-							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
-							"\n",
-							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
-						]
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"tags": [
-								"parameters"
-							]
-						},
-						"source": [
-							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
-							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
-							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = ''\r\n",
-							"method_name = ''\r\n",
-							"source_folder = ''\r\n",
-							"kwargs = '{}'"
-						],
-						"outputs": [],
-						"execution_count": 1
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 2
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"%run /SeniorDataCopy_py"
-						],
-						"outputs": [],
-						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"outputs_hidden": false,
-								"source_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": true
-						},
-						"source": [
-							"%run /SeniorData_py"
-						],
-						"outputs": [],
-						"execution_count": 3
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"obj = eval(object_name)\r\n",
-							"kwargs = eval(kwargs)\r\n",
-							"m = getattr(obj, method_name)\r\n",
-							"result = m(**kwargs)\r\n",
-							"mssparkutils.notebook.exit(result)"
-						],
-						"outputs": [],
-						"execution_count": 4
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/SeniorDataCopy_py')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "Stage1"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1569f522-4068-43d7-bbd6-0eed4242f265"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": false,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"class SeniorDataCopy(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder, pseudonymize = True):\r\n",
-							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-							"        \r\n",
-							"    def createFoldersForAll(self):\r\n",
-							"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
-							"        for file in file_list:\r\n",
-							"            # ignore subfolders\r\n",
-							"            if file.isDir:\r\n",
-							"                continue\r\n",
-							"\r\n",
-							"            destination = file.name\r\n",
-							"            \r\n",
-							"            # copy the file to the created folder\r\n",
-							"            self._copyToFolder(file, destination)\r\n",
-							"\r\n",
-							"\r\n",
-							"    def _copyToFolder(self, file, destination):\r\n",
-							"        \"\"\" Moves the file to a folder that is based on the filename without its file extension\"\"\"\r\n",
-							"        tokens = destination.split(\".\")\r\n",
-							"        target = self.stage1np + '/' + tokens[0] +'/' + file.name\r\n",
-							"        mssparkutils.fs.mv(file.path, target, True) # will create the new dir and move file into it\r\n",
-							"\r\n",
-							"\r\n",
-							"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
-							"seniordatacopy = SeniorDataCopy(source_folder)\r\n",
-							"\r\n",
-							"seniordatacopy.createFoldersForAll()"
-						],
-						"outputs": [],
-						"execution_count": 28
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/SeniorData_py')]",
-			"type": "Microsoft.Synapse/workspaces/notebooks",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"folder": {
-					"name": "Data Objects"
-				},
-				"nbformat": 4,
-				"nbformat_minor": 2,
-				"bigDataPool": {
-					"referenceName": "spark3p1sm",
-					"type": "BigDataPoolReference"
-				},
-				"sessionProperties": {
-					"driverMemory": "28g",
-					"driverCores": 4,
-					"executorMemory": "28g",
-					"executorCores": 4,
-					"numExecutors": 2,
-					"conf": {
-						"spark.dynamicAllocation.enabled": "false",
-						"spark.dynamicAllocation.minExecutors": "2",
-						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "94ab9482-6ef7-4352-8984-bb458da314c7"
-					}
-				},
-				"metadata": {
-					"saveOutput": true,
-					"enableDebugMode": true,
-					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "python"
-					},
-					"language_info": {
-						"name": "python"
-					},
-					"a365ComputeOptions": {
-						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
-						"name": "spark3p1sm",
-						"type": "Spark",
-						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
-						"auth": {
-							"type": "AAD",
-							"authResource": "https://dev.azuresynapse.net"
-						},
-						"sparkVersion": "3.1",
-						"nodeCount": 3,
-						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
-					},
-					"sessionKeepAliveTimeout": 30
-				},
-				"cells": [
-					{
-						"cell_type": "code",
-						"metadata": {},
-						"source": [
-							"class SeniorData_object(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='_SeniorData', pseudonymize = True):\r\n",
-							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
-							"\r\n",
-							"        self.schemas['2022_TSV_1_Student_Subjects_20221220.xlsx'] = [\r\n",
-							"                                        ['CSA', 'string', 'no-op'],\r\n",
-							"                                        ['exit_year', 'integer', 'no-op'],\r\n",
-							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
-							"                                        ['centre_code', 'integer', 'no-op'],\r\n",
-							"                                        ['school', 'string', 'no-op'],\r\n",
-							"                                        ['subject_id', 'integer', 'no-op'],\r\n",
-							"                                        ['subject', 'string', 'no-op'],\r\n",
-							"                                        ['subject_type', 'string', 'no-op'],\r\n",
-							"                                        ['subject_subtype', 'string', 'no-op'],\r\n",
-							"                                        ['unit_1_result', 'string', 'no-op'],\r\n",
-							"                                        ['unit_2_result', 'string', 'no-op'],\r\n",
-							"                                        ['ia1_result', 'string', 'no-op'],\r\n",
-							"                                        ['ia2_result', 'string', 'no-op'],\r\n",
-							"                                        ['ia3_result', 'string', 'no-op'],\r\n",
-							"                                        ['ea_ia4_result', 'string', 'no-op'],\r\n",
-							"                                        ['final_result', 'string', 'no-op'],\r\n",
-							"                                        ['grade', 'string', 'no-op'],\r\n",
-							"                                        ['unit_1_enrolment', 'string', 'no-op'],\r\n",
-							"                                        ['unit_2_enrolment', 'string', 'no-op'],\r\n",
-							"                                        ['unit_3_enrolment', 'string', 'no-op'],\r\n",
-							"                                        ['unit_4_enrolment', 'string', 'no-op'],\r\n",
-							"                                        ['lui', 'integer', 'no-op'],\r\n",
-							"                                        ['last_name', 'string', 'no-op'],\r\n",
-							"                                        ['given_names', 'string', 'no-op']                                                             \r\n",
-							"                                        ]\r\n",
-							"\r\n",
-							"        self.schemas['2022_TSV_2_VET_Courses_20221220.xlsx'] = [\r\n",
-							"                                        ['CSA', 'string', 'no-op'],\r\n",
-							"                                        ['exit_year', 'integer', 'no-op'],\r\n",
-							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
-							"                                        ['centre_code', 'integer', 'no-op'],\r\n",
-							"                                        ['school', 'string', 'no-op'],\r\n",
-							"                                        ['provider', 'string', 'no-op'],\r\n",
-							"                                        ['qual_code', 'string', 'no-op'],\r\n",
-							"                                        ['qual_name', 'string', 'no-op'],\r\n",
-							"                                        ['start_date', 'string', 'no-op'],\r\n",
-							"                                        ['end_date', 'string', 'no-op'],\r\n",
-							"                                        ['qual_status', 'string', 'no-op'],\r\n",
-							"                                        ['lui', 'integer', 'no-op'],\r\n",
-							"                                        ['last_name', 'string', 'no-op'],\r\n",
-							"                                        ['given_names', 'string', 'no-op']                                                          \r\n",
-							"                                        ]\r\n",
-							"\r\n",
-							"        self.schemas['2022_TSV_3_VET_Units_20221220.xlsx'] = [\r\n",
-							"                                        ['CSA', 'string', 'no-op'],\r\n",
-							"                                        ['exit_year', 'integer', 'no-op'],\r\n",
-							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
-							"                                        ['centre_code', 'integer', 'no-op'],\r\n",
-							"                                        ['school', 'string', 'no-op'],\r\n",
-							"                                        ['provider', 'string', 'no-op'],\r\n",
-							"                                        ['qual_code', 'string', 'no-op'],\r\n",
-							"                                        ['qual_name', 'string', 'no-op'],\r\n",
-							"                                        ['unit_code', 'string', 'no-op'],\r\n",
-							"                                        ['unit_name', 'string', 'no-op'],\r\n",
-							"                                        ['start_date', 'string', 'no-op'],\r\n",
-							"                                        ['end_date', 'string', 'no-op'],\r\n",
-							"                                        ['grade_description', 'string', 'no-op'],\r\n",
-							"                                        ['grade_display_name', 'string', 'no-op'],\r\n",
-							"                                        ['lui', 'integer', 'no-op'],\r\n",
-							"                                        ['last_name', 'string', 'no-op'],\r\n",
-							"                                        ['given_names', 'string', 'no-op']                                                   \r\n",
-							"                                        ]\r\n",
-							"\r\n",
-							"        self.schemas['2022_TSV_Yr12_School_level_20221220.xlsx'] = [\r\n",
-							"                                        ['CSA', 'string', 'no-op'],\r\n",
-							"                                        ['year', 'integer', 'no-op'],\r\n",
-							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
-							"                                        ['centre_code', 'integer', 'no-op'],\r\n",
-							"                                        ['school', 'string', 'no-op'],\r\n",
-							"                                        ['locality', 'string', 'no-op'],\r\n",
-							"                                        ['group', 'string', 'no-op'],\r\n",
-							"                                        ['sep', 'integer', 'no-op'],\r\n",
-							"                                        ['qcia', 'integer', 'no-op'],\r\n",
-							"                                        ['qce', 'integer', 'no-op'],\r\n",
-							"                                        ['vet', 'integer', 'no-op'],\r\n",
-							"                                        ['sat', 'integer', 'no-op'],\r\n",
-							"                                        ['certs', 'integer', 'no-op'],\r\n",
-							"                                        ['no_outcomes', 'integer', 'no-op'],\r\n",
-							"                                        ['pct_ibd', 'integer', 'no-op'],\r\n",
-							"                                        ['pct_sat_qce_ibd_vet', 'double', 'no-op'],\r\n",
-							"                                        ['cert_i', 'integer', 'no-op'],\r\n",
-							"                                        ['cert_ii', 'integer', 'no-op'],\r\n",
-							"                                        ['cert_iii', 'integer', 'no-op'],\r\n",
-							"                                        ['cert_iv', 'integer', 'no-op'],\r\n",
-							"                                        ['diploma', 'integer', 'no-op'],\r\n",
-							"                                        ['adv_diploma', 'integer', 'no-op'],\r\n",
-							"                                        ['cert_ii_iii_or_iv', 'integer', 'no-op'],\r\n",
-							"                                        ['cert_ii_or_higher', 'integer', 'no-op'],\r\n",
-							"                                        ['cert_iii_or_iv', 'integer', 'no-op'],\r\n",
-							"                                        ['cert_iii_or_higher', 'integer', 'no-op'],\r\n",
-							"                                        ['sat_qce_ibd_vet', 'integer', 'no-op'],\r\n",
-							"                                        ['ibd_students', 'integer', 'no-op'],\r\n",
-							"                                        ['ibd_awards', 'integer', 'no-op']                                                      \r\n",
-							"                                        ]\r\n",
-							"\r\n",
-							"        self.schemas['2022_TSV_Yr12_Student_level_20221220.xlsx'] = [\r\n",
-							"                                        ['CSA', 'string', 'no-op'],\r\n",
-							"                                        ['year', 'integer', 'no-op'],\r\n",
-							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
-							"                                        ['centre_code', 'integer', 'no-op'],\r\n",
-							"                                        ['school', 'string', 'no-op'],\r\n",
-							"                                        ['lui', 'integer', 'no-op'],\r\n",
-							"                                        ['last_name', 'string', 'no-op'],\r\n",
-							"                                        ['given_names', 'string', 'no-op'],\r\n",
-							"                                        ['sex', 'string', 'no-op'],\r\n",
-							"                                        ['birth_date', 'string', 'no-op'],\r\n",
-							"                                        ['visa', 'string', 'no-op'],\r\n",
-							"                                        ['indigenous', 'string', 'no-op'],\r\n",
-							"                                        ['qcia', 'string', 'no-op'],\r\n",
-							"                                        ['qce', 'string', 'no-op'],\r\n",
-							"                                        ['vet', 'string', 'no-op'],\r\n",
-							"                                        ['sat', 'string', 'no-op'],\r\n",
-							"                                        ['ibd_student', 'string', 'no-op'],\r\n",
-							"                                        ['ibd_award', 'string', 'no-op'],\r\n",
-							"                                        ['ibd_points', 'integer', 'no-op'],\r\n",
-							"                                        ['uni_subjects', 'integer', 'no-op'],\r\n",
-							"                                        ['diploma_modules', 'integer', 'no-op'],\r\n",
-							"                                        ['cert_mods', 'integer', 'no-op'],\r\n",
-							"                                        ['certs_i', 'integer', 'no-op'],\r\n",
-							"                                        ['certs_ii', 'integer', 'no-op'],\r\n",
-							"                                        ['certs_iii', 'integer', 'no-op'],\r\n",
-							"                                        ['certs_iv', 'integer', 'no-op'],\r\n",
-							"                                        ['diplomas', 'integer', 'no-op'],\r\n",
-							"                                        ['adv_diplomas', 'integer', 'no-op'],\r\n",
-							"                                        ['qce_credits', 'integer', 'no-op'],\r\n",
-							"                                        ['qce_literacy', 'string', 'no-op'],\r\n",
-							"                                        ['qce_numeracy', 'string', 'no-op'],\r\n",
-							"                                        ['qce_completed_core', 'string', 'no-op']                                                     \r\n",
-							"                                        ]\r\n",
-							"\r\n",
-							"\r\n",
-							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_1_Student_Subjects_20221220.xlsx', self.schemas['2022_TSV_1_Student_Subjects_20221220.xlsx'], None, 'TBC')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_2_VET_Courses_20221220.xlsx', self.schemas['2022_TSV_2_VET_Courses_20221220.xlsx'], None, 'TBC')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_3_VET_Units_20221220.xlsx', self.schemas['2022_TSV_3_VET_Units_20221220.xlsx'], None, 'TBC')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_Yr12_School_level_20221220.xlsx', self.schemas['2022_TSV_Yr12_School_level_20221220.xlsx'], None, 'TBC')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_Yr12_Student_level_20221220.xlsx', self.schemas['2022_TSV_Yr12_Student_level_20221220.xlsx'], None, 'TBC')\r\n",
-							"\r\n",
-							"\r\n",
-							"\r\n",
-							"seniordata_object = SeniorData_object()"
-						],
-						"outputs": [],
-						"execution_count": null
-					}
-				]
-			},
-			"dependsOn": []
 		}
 	]
 }

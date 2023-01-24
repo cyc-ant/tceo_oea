@@ -11945,7 +11945,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "aebeb000-8860-4945-8c3b-9aea3da45e3e"
+						"spark.autotune.trackingId": "79a8fe37-ee5e-4520-85f0-2d9dc131576b"
 					}
 				},
 				"metadata": {
@@ -12337,7 +12337,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4e3c05bc-3da7-4ad6-98ef-b1ade2d6fc11"
+						"spark.autotune.trackingId": "c4843ce2-688c-4ec5-ac0e-ee30032a8987"
 					}
 				},
 				"metadata": {
@@ -19448,7 +19448,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f31aa899-c28c-4ea5-a4d9-13780988cfa7"
+						"spark.autotune.trackingId": "17b8fbb4-8a80-4077-b4c9-3f8a569d593f"
 					}
 				},
 				"metadata": {
@@ -19557,7 +19557,7 @@
 							}
 						},
 						"source": [
-							"%run /SeniorOutcomesManualCopy"
+							"%run /SeniorOutcomesManualCopy_py"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -20819,7 +20819,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "92ed0d9c-3344-45bb-a8c3-eb580f485a08"
+						"spark.autotune.trackingId": "2dc0660d-0cb4-475c-823d-d17bd37be3e6"
 					}
 				},
 				"metadata": {
@@ -33967,18 +33967,18 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a7af7fa7-fa4e-4047-ace4-26d845d2d473"
+						"spark.autotune.trackingId": "f695e65c-0ee3-472d-bf4f-d63ad1cc091c"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_sparksql",
-						"display_name": "sql"
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
-						"name": "sql"
+						"name": "python"
 					},
 					"a365ComputeOptions": {
 						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
@@ -34036,6 +34036,25 @@
 								"transient": {
 									"deleting": false
 								}
+							}
+						},
+						"source": [
+							"%run OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 3
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
 							},
 							"microsoft": {
 								"language": "python"
@@ -34043,6 +34062,8 @@
 						},
 						"source": [
 							"%%pyspark\r\n",
+							"\r\n",
+							"print(\"line1\")\r\n",
 							"\r\n",
 							"# setup the temp tables we need\r\n",
 							"sourcep = oea.stage2p\r\n",
@@ -34092,7 +34113,10 @@
 							"\r\n",
 							"odsstafforganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStaffOrganisationDetails_pseudo\", format='delta')\r\n",
 							"odsstudentorganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationDetails_pseudo\", format='delta')\r\n",
-							"odsstudentorganisationmilestones_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationMilestones_pseudo\", format='delta')\r\n",
+							"print(sourcep)\r\n",
+							"#testing_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationMilestones_pseudo\", format='delta')\r\n",
+							"#test_df2 = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationMilestones_pseudo\", format='delta')\r\n",
+							"print(sourcep)\r\n",
 							"\r\n",
 							"# create temp sql views\r\n",
 							"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
@@ -34121,10 +34145,10 @@
 							"\r\n",
 							"odsstafforganisationdetails_df.createOrReplaceTempView('vw_CompassODSStaffOrganisationDetails') \r\n",
 							"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') \r\n",
-							"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones') "
+							"#odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones') "
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 14
 					},
 					{
 						"cell_type": "markdown",
@@ -34952,7 +34976,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4e0ed579-f39a-4016-a1c8-47e6f5b73caa"
+						"spark.autotune.trackingId": "5333b9e6-ea9e-4239-8aa0-cae666fddfff"
 					}
 				},
 				"metadata": {
@@ -35165,7 +35189,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2dc8dd39-9e54-4e1d-acae-7c5d7ceb28a5"
+						"spark.autotune.trackingId": "b1272b98-5c43-4826-823a-aafa291320eb"
 					}
 				},
 				"metadata": {
@@ -36602,7 +36626,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2b4d7395-a1b3-40a3-b3a0-68b346b2495a"
+						"spark.autotune.trackingId": "32c494c2-6fa2-4cd0-bd1b-95640754a0d5"
 					}
 				},
 				"metadata": {
@@ -36627,7 +36651,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

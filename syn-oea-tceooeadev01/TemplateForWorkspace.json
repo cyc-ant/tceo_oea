@@ -11945,7 +11945,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ed01dc63-7141-4878-8fcd-422a6eea92eb"
+						"spark.autotune.trackingId": "aebeb000-8860-4945-8c3b-9aea3da45e3e"
 					}
 				},
 				"metadata": {
@@ -11970,13 +11970,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class AE_manual_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_AE_ManualUploadRawFiles', pseudonymize = True):\r\n",
@@ -12335,7 +12337,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9e25fc2f-f23c-4700-b1aa-a18d97637a1a"
+						"spark.autotune.trackingId": "4e3c05bc-3da7-4ad6-98ef-b1ade2d6fc11"
 					}
 				},
 				"metadata": {
@@ -12360,13 +12362,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class AE_manual_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_AE_ManualUploadRawFiles', pseudonymize = True):\r\n",
@@ -19444,7 +19448,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3246376e-37f7-47a5-9f38-c83a34d5e290"
+						"spark.autotune.trackingId": "f31aa899-c28c-4ea5-a4d9-13780988cfa7"
 					}
 				},
 				"metadata": {
@@ -19469,7 +19473,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -19552,7 +19557,7 @@
 							}
 						},
 						"source": [
-							"%run /SeniorManualCopy"
+							"%run /SeniorOutcomesManualCopy"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -20814,7 +20819,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "41faeb88-02ba-4559-a545-fb4c35a8cc4d"
+						"spark.autotune.trackingId": "92ed0d9c-3344-45bb-a8c3-eb580f485a08"
 					}
 				},
 				"metadata": {
@@ -33962,7 +33967,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c34a4f07-79bb-4c14-a9d1-2aacd233b60d"
+						"spark.autotune.trackingId": "a7af7fa7-fa4e-4047-ace4-26d845d2d473"
 					}
 				},
 				"metadata": {
@@ -34947,7 +34952,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "067595ef-e3b8-44f3-ba2f-70162e33b797"
+						"spark.autotune.trackingId": "4e0ed579-f39a-4016-a1c8-47e6f5b73caa"
 					}
 				},
 				"metadata": {
@@ -34972,19 +34977,21 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class SeniorData_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_SeniorData', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
-							"        self.schemas['2022_TSV_1_Student_Subjects_20221220.xlsx'] = [\r\n",
+							"        self.schemas['StudentSubjects'] = [\r\n",
 							"                                        ['CSA', 'string', 'no-op'],\r\n",
 							"                                        ['exit_year', 'integer', 'no-op'],\r\n",
 							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
@@ -35011,7 +35018,7 @@
 							"                                        ['given_names', 'string', 'no-op']                                                             \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['2022_TSV_2_VET_Courses_20221220.xlsx'] = [\r\n",
+							"        self.schemas['VetCourses'] = [\r\n",
 							"                                        ['CSA', 'string', 'no-op'],\r\n",
 							"                                        ['exit_year', 'integer', 'no-op'],\r\n",
 							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
@@ -35028,7 +35035,7 @@
 							"                                        ['given_names', 'string', 'no-op']                                                          \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['2022_TSV_3_VET_Units_20221220.xlsx'] = [\r\n",
+							"        self.schemas['VetUnits'] = [\r\n",
 							"                                        ['CSA', 'string', 'no-op'],\r\n",
 							"                                        ['exit_year', 'integer', 'no-op'],\r\n",
 							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
@@ -35048,7 +35055,7 @@
 							"                                        ['given_names', 'string', 'no-op']                                                   \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['2022_TSV_Yr12_School_level_20221220.xlsx'] = [\r\n",
+							"        self.schemas['SchoolLevel'] = [\r\n",
 							"                                        ['CSA', 'string', 'no-op'],\r\n",
 							"                                        ['year', 'integer', 'no-op'],\r\n",
 							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
@@ -35080,7 +35087,7 @@
 							"                                        ['ibd_awards', 'integer', 'no-op']                                                      \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        self.schemas['2022_TSV_Yr12_Student_level_20221220.xlsx'] = [\r\n",
+							"        self.schemas['StudentLevel'] = [\r\n",
 							"                                        ['CSA', 'string', 'no-op'],\r\n",
 							"                                        ['year', 'integer', 'no-op'],\r\n",
 							"                                        ['qcaa_org_type', 'string', 'no-op'],\r\n",
@@ -35117,11 +35124,11 @@
 							"\r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_1_Student_Subjects_20221220.xlsx', self.schemas['2022_TSV_1_Student_Subjects_20221220.xlsx'], None, 'TBC')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_2_VET_Courses_20221220.xlsx', self.schemas['2022_TSV_2_VET_Courses_20221220.xlsx'], None, 'TBC')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_3_VET_Units_20221220.xlsx', self.schemas['2022_TSV_3_VET_Units_20221220.xlsx'], None, 'TBC')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_Yr12_School_level_20221220.xlsx', self.schemas['2022_TSV_Yr12_School_level_20221220.xlsx'], None, 'TBC')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, '2022_TSV_Yr12_Student_level_20221220.xlsx', self.schemas['2022_TSV_Yr12_Student_level_20221220.xlsx'], None, 'TBC')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'StudentSubjects', self.schemas['StudentSubjects'], None, 'BKID')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'VetCourses', self.schemas['VetCourses'], None, 'BKID')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'VetUnits', self.schemas['VetUnits'], None, 'BKID')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'SchoolLevel', self.schemas['SchoolLevel'], None, 'BKID')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'StudentLevel', self.schemas['StudentLevel'], None, 'BKID')\r\n",
 							"\r\n",
 							"\r\n",
 							"\r\n",
@@ -35158,7 +35165,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d2630e4e-c828-4ceb-83f1-b145e805b290"
+						"spark.autotune.trackingId": "2dc8dd39-9e54-4e1d-acae-7c5d7ceb28a5"
 					}
 				},
 				"metadata": {
@@ -35183,7 +35190,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "cd9a2d32-31c1-47d5-b352-36eb1eada44a"
+				"spark.autotune.trackingId": "5a3d91f6-8cfb-4cc3-97dc-6a115c503e58"
 			}
 		},
 		"metadata": {
@@ -145,7 +145,7 @@
 					"\r\n",
 					"odsstafforganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStaffOrganisationDetails_pseudo\", format='delta')\r\n",
 					"odsstudentorganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationDetails_pseudo\", format='delta')\r\n",
-					"\r\n",
+					"odsstudentorganisationmilestones_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationMilestones_pseudo\", format='delta')\r\n",
 					"\r\n",
 					"# create temp sql views\r\n",
 					"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
@@ -173,7 +173,8 @@
 					"odsstudentdemographic_df.createOrReplaceTempView('vw_CompassODSStudentDemographic') \r\n",
 					"\r\n",
 					"odsstafforganisationdetails_df.createOrReplaceTempView('vw_CompassODSStaffOrganisationDetails') \r\n",
-					"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') "
+					"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') \r\n",
+					"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones') "
 				],
 				"execution_count": 2
 			},

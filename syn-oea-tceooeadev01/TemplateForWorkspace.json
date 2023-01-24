@@ -11945,7 +11945,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "797471c0-681b-4dc7-8778-9a9ca4fe4ff3"
+						"spark.autotune.trackingId": "ed01dc63-7141-4878-8fcd-422a6eea92eb"
 					}
 				},
 				"metadata": {
@@ -11970,15 +11970,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AE_manual_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_AE_ManualUploadRawFiles', pseudonymize = True):\r\n",
@@ -12337,7 +12335,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f54dc05a-fa9a-4990-8b84-aeb49e466a3d"
+						"spark.autotune.trackingId": "9e25fc2f-f23c-4700-b1aa-a18d97637a1a"
 					}
 				},
 				"metadata": {
@@ -12362,15 +12360,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AE_manual_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_AE_ManualUploadRawFiles', pseudonymize = True):\r\n",
@@ -19448,7 +19444,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "55c3f9e7-cb68-481b-ac0f-f02f0845d175"
+						"spark.autotune.trackingId": "401b470f-da85-4f25-bbe7-4e2aa97c1860"
 					}
 				},
 				"metadata": {
@@ -19473,8 +19469,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -20819,7 +20814,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "51ab8ddb-f16f-480c-9300-b2093bdd4cdc"
+						"spark.autotune.trackingId": "5359931f-e16b-4a84-b829-5cded61a5618"
 					}
 				},
 				"metadata": {
@@ -20844,8 +20839,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -33973,18 +33967,18 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b7538b25-3836-40e4-9fb2-afd6712d90cd"
+						"spark.autotune.trackingId": "9b51bf15-a5a5-4c1f-9661-102462d166da"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
+						"name": "synapse_sparksql",
+						"display_name": "sql"
 					},
 					"language_info": {
-						"name": "python"
+						"name": "sql"
 					},
 					"a365ComputeOptions": {
 						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
@@ -34042,25 +34036,6 @@
 								"transient": {
 									"deleting": false
 								}
-							}
-						},
-						"source": [
-							"%run OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 3
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
 							},
 							"microsoft": {
 								"language": "python"
@@ -34068,8 +34043,6 @@
 						},
 						"source": [
 							"%%pyspark\r\n",
-							"\r\n",
-							"print(\"line1\")\r\n",
 							"\r\n",
 							"# setup the temp tables we need\r\n",
 							"sourcep = oea.stage2p\r\n",
@@ -34119,10 +34092,10 @@
 							"\r\n",
 							"odsstafforganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStaffOrganisationDetails_pseudo\", format='delta')\r\n",
 							"odsstudentorganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationDetails_pseudo\", format='delta')\r\n",
-							"print(sourcep)\r\n",
+							"\r\n",
 							"#testing_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationMilestones_pseudo\", format='delta')\r\n",
 							"#test_df2 = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationMilestones_pseudo\", format='delta')\r\n",
-							"print(sourcep)\r\n",
+							"\r\n",
 							"\r\n",
 							"# create temp sql views\r\n",
 							"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
@@ -34154,7 +34127,7 @@
 							"#odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones') "
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 4
 					},
 					{
 						"cell_type": "markdown",
@@ -35152,7 +35125,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c1a33552-a6ad-4328-b74a-225c5eb28229"
+						"spark.autotune.trackingId": "674ac805-3131-49bd-bcdc-2099255eeb1e"
 					}
 				},
 				"metadata": {
@@ -35177,15 +35150,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class SeniorData_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_SeniorData', pseudonymize = True):\r\n",
@@ -35365,7 +35336,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fdd222ac-05fd-450d-820a-c95dd9fedf17"
+						"spark.autotune.trackingId": "d2630e4e-c828-4ceb-83f1-b145e805b290"
 					}
 				},
 				"metadata": {
@@ -35390,8 +35361,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -36802,7 +36772,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "01414b80-b2bf-41cb-be2b-2eb63ec4b854"
+						"spark.autotune.trackingId": "2b4d7395-a1b3-40a3-b3a0-68b346b2495a"
 					}
 				},
 				"metadata": {
@@ -36827,8 +36797,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

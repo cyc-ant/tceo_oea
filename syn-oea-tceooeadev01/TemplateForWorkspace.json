@@ -20814,7 +20814,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fb926ea1-3c6f-41a7-ba17-fc935728b2b0"
+						"spark.autotune.trackingId": "41faeb88-02ba-4559-a545-fb4c35a8cc4d"
 					}
 				},
 				"metadata": {
@@ -33962,7 +33962,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "cd9a2d32-31c1-47d5-b352-36eb1eada44a"
+						"spark.autotune.trackingId": "c34a4f07-79bb-4c14-a9d1-2aacd233b60d"
 					}
 				},
 				"metadata": {
@@ -33987,7 +33987,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -34086,7 +34087,7 @@
 							"\r\n",
 							"odsstafforganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStaffOrganisationDetails_pseudo\", format='delta')\r\n",
 							"odsstudentorganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationDetails_pseudo\", format='delta')\r\n",
-							"\r\n",
+							"odsstudentorganisationmilestones_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationMilestones_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"# create temp sql views\r\n",
 							"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
@@ -34114,7 +34115,8 @@
 							"odsstudentdemographic_df.createOrReplaceTempView('vw_CompassODSStudentDemographic') \r\n",
 							"\r\n",
 							"odsstafforganisationdetails_df.createOrReplaceTempView('vw_CompassODSStaffOrganisationDetails') \r\n",
-							"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') "
+							"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') \r\n",
+							"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones') "
 						],
 						"outputs": [],
 						"execution_count": 2

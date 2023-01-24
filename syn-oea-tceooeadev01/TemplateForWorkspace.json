@@ -33967,18 +33967,18 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "22564f9c-e582-40bd-a874-6b1671f0e0cb"
+						"spark.autotune.trackingId": "a0ef378d-3b15-4f43-bc9b-5ac7e4daf05e"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
+						"name": "synapse_sparksql",
+						"display_name": "sql"
 					},
 					"language_info": {
-						"name": "python"
+						"name": "sql"
 					},
 					"a365ComputeOptions": {
 						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
@@ -34121,7 +34121,8 @@
 							"\r\n",
 							"odsstafforganisationdetails_df.createOrReplaceTempView('vw_CompassODSStaffOrganisationDetails') \r\n",
 							"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') \r\n",
-							"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones')"
+							"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones')\r\n",
+							""
 						],
 						"outputs": [],
 						"execution_count": 9

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "6588cd14-908d-4ee9-84ab-bc947c378b87"
+				"spark.autotune.trackingId": "929f6d3f-9919-43f1-bb11-114070506dc3"
 			}
 		},
 		"metadata": {
@@ -69,7 +69,7 @@
 					"from pyspark.sql import DataFrame\r\n",
 					"from functools import reduce"
 				],
-				"execution_count": 15
+				"execution_count": 1
 			},
 			{
 				"cell_type": "code",
@@ -92,8 +92,7 @@
 					"        \r\n",
 					"    def mergeAll(self):\r\n",
 					"\r\n",
-					"        #root_dir = f'{self.stage1np}' #\"/_SeniorData\"\r\n",
-					"        root_dir = \"/_SeniorData\"\r\n",
+					"        root_dir = f'{self.stage1np}' #\"/_SeniorData\"\r\n",
 					"        studentsubjects_list = []\r\n",
 					"        vetcourses_list = []\r\n",
 					"        vetunits_list = []\r\n",
@@ -108,7 +107,7 @@
 					"                continue\r\n",
 					"                \r\n",
 					"            # .. we need to dissect the filename to get the year, and file type\r\n",
-					"            tokens = file.name.split(\"-\")\r\n",
+					"            tokens = file.name.split(\"_\")\r\n",
 					"            year = tokens[0].strip()\r\n",
 					"            folder_name = tokens[2].strip() + \"_\" + tokens[3].strip() + \"_\" + tokens[4].strip()\r\n",
 					"            \r\n",
@@ -176,14 +175,14 @@
 					"        studentlevel_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/StudentLevel')\r\n",
 					"\r\n",
 					"\r\n",
-					"# instantiate the AE Manual Data Copy with a source folder that contains all the ingested data files \r\n",
+					"# instantiate the Student Outcomes Manual Data Copy with a source folder that contains all the ingested data files \r\n",
 					"seniorcopy = SeniorOutcomesManualCopy(source_folder)\r\n",
 					"\r\n",
 					"seniorcopy.mergeAll()\r\n",
 					"\r\n",
 					""
 				],
-				"execution_count": 28
+				"execution_count": 7
 			}
 		]
 	}

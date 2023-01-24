@@ -1,0 +1,190 @@
+{
+	"name": "SeniorOutcomes_ManualCopy_py",
+	"properties": {
+		"folder": {
+			"name": "Stage1"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spark3p1sm",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "6588cd14-908d-4ee9-84ab-bc947c378b87"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"from pyspark.sql.functions import lit, monotonically_increasing_id, trim\r\n",
+					"from pyspark.sql import DataFrame\r\n",
+					"from functools import reduce"
+				],
+				"execution_count": 15
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"class SeniorOutcomesManualCopy(BaseOEAModule):\r\n",
+					"    def __init__(self, source_folder, pseudonymize = True):\r\n",
+					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+					"        \r\n",
+					"        \r\n",
+					"    def mergeAll(self):\r\n",
+					"\r\n",
+					"        #root_dir = f'{self.stage1np}' #\"/_SeniorData\"\r\n",
+					"        root_dir = \"/_SeniorData\"\r\n",
+					"        studentsubjects_list = []\r\n",
+					"        vetcourses_list = []\r\n",
+					"        vetunits_list = []\r\n",
+					"        schoollevel_list = []\r\n",
+					"        studentlevel_list = []\r\n",
+					"        \r\n",
+					"        # for each file location in this manual upload directory..\r\n",
+					"        file_list = mssparkutils.fs.ls(root_dir)\r\n",
+					"        for file in file_list:\r\n",
+					"            # ignore subfolders\r\n",
+					"            if file.isDir:\r\n",
+					"                continue\r\n",
+					"                \r\n",
+					"            # .. we need to dissect the filename to get the year, and file type\r\n",
+					"            tokens = file.name.split(\"-\")\r\n",
+					"            year = tokens[0].strip()\r\n",
+					"            folder_name = tokens[2].strip() + \"_\" + tokens[3].strip() + \"_\" + tokens[4].strip()\r\n",
+					"            \r\n",
+					"            # turn the folder name into lower case \r\n",
+					"            folder_name = folder_name.lower()\r\n",
+					"\r\n",
+					"            filename = f'{self.stage1np}/{file.name}'\r\n",
+					"\r\n",
+					"            # Merge the same files types into a dataframe (5 files in total)\r\n",
+					"            if (folder_name == '1_student_subjects'):\r\n",
+					"                df = spark.read.options(header='True').csv(filename)\r\n",
+					"                \r\n",
+					"                # add the data frame to the list of dataframes\r\n",
+					"                studentsubjects_list.append(df)\r\n",
+					"\r\n",
+					"            elif (folder_name == '2_vet_courses'):\r\n",
+					"                df = spark.read.options(header='True').csv(filename)\r\n",
+					"                \r\n",
+					"                # add the data frame to the list of dataframes\r\n",
+					"                vetcourses_list.append(df)\r\n",
+					"\r\n",
+					"            elif (folder_name == '3_vet_units'):\r\n",
+					"                df = spark.read.options(header='True').csv(filename)\r\n",
+					"                \r\n",
+					"                # add the data frame to the list of dataframes\r\n",
+					"                vetunits_list.append(df)\r\n",
+					"            \r\n",
+					"            elif (folder_name == 'yr12_school_level'):\r\n",
+					"                df = spark.read.options(header='True').csv(filename)\r\n",
+					"                \r\n",
+					"                # add the data frame to the list of dataframes\r\n",
+					"                schoollevel_list.append(df)\r\n",
+					"            \r\n",
+					"            elif (folder_name == 'yr12_student_level'):\r\n",
+					"                df = spark.read.options(header='True').csv(filename)\r\n",
+					"                \r\n",
+					"                # add the data frame to the list of dataframes\r\n",
+					"                studentlevel_list.append(df)\r\n",
+					"\r\n",
+					"            else:\r\n",
+					"                continue #skip files that don't meet the filename criteria\r\n",
+					"                \r\n",
+					"\r\n",
+					"        # once we have all of the files converted to dataframes with the extra columns, we can combined them back to one df\r\n",
+					"        studentsubjects_combined_df = reduce(DataFrame.unionAll, studentsubjects_list)\r\n",
+					"        vetcourses_combined_df = reduce(DataFrame.unionAll, vetcourses_list)\r\n",
+					"        vetunits_combined_df = reduce(DataFrame.unionAll, vetunits_list)\r\n",
+					"        schoollevel_combined_df = reduce(DataFrame.unionAll, schoollevel_list)\r\n",
+					"        studentlevel_combined_df = reduce(DataFrame.unionAll, studentlevel_list)\r\n",
+					"\r\n",
+					"\r\n",
+					"        # add an index to the combined tables \r\n",
+					"        studentsubjects_indexed_df = studentsubjects_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+					"        vetcourses_indexed_df = vetcourses_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+					"        vetunits_indexed_df = vetunits_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+					"        schoollevel_indexed_df = schoollevel_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+					"        studentlevel_indexed_df = studentlevel_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+					"\r\n",
+					"\r\n",
+					"        # save the csv files\r\n",
+					"        studentsubjects_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/StudentSubjects')\r\n",
+					"        vetcourses_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/VETCourses')\r\n",
+					"        vetunits_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/VETUnits')\r\n",
+					"        schoollevel_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/SchoolLevel')\r\n",
+					"        studentlevel_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/StudentLevel')\r\n",
+					"\r\n",
+					"\r\n",
+					"# instantiate the AE Manual Data Copy with a source folder that contains all the ingested data files \r\n",
+					"seniorcopy = SeniorOutcomesManualCopy(source_folder)\r\n",
+					"\r\n",
+					"seniorcopy.mergeAll()\r\n",
+					"\r\n",
+					""
+				],
+				"execution_count": 28
+			}
+		]
+	}
+}

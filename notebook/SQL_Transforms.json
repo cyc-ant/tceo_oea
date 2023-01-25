@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "2875e842-2422-4ea8-bd4b-4faa216f1dad"
+				"spark.autotune.trackingId": "93432921-f710-4c42-9821-bd12f9b0daa6"
 			}
 		},
 		"metadata": {
@@ -306,7 +306,7 @@
 					"AS\r\n",
 					"SELECT *\r\n",
 					"FROM vw_activestudenttemp\r\n",
-					"WHERE Ceider IN (SELECT Ceider\r\n",
+					"WHERE Ceider NOT IN (SELECT Ceider\r\n",
 					"                    FROM vw_activestudenttemp\r\n",
 					"                    GROUP BY Ceider\r\n",
 					"                    HAVING COUNT(Ceider) > 1)"
@@ -332,7 +332,7 @@
 					"AS\r\n",
 					"SELECT *\r\n",
 					"FROM vw_activestudenttemp\r\n",
-					"WHERE Ceider NOT IN (SELECT Ceider\r\n",
+					"WHERE Ceider IN (SELECT Ceider\r\n",
 					"                    FROM vw_activestudenttemp\r\n",
 					"                    GROUP BY Ceider\r\n",
 					"                    HAVING COUNT(Ceider) > 1)"

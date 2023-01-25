@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "4d676c1a-364e-4ffe-91ef-f8442c722f57"
+				"spark.autotune.trackingId": "2875e842-2422-4ea8-bd4b-4faa216f1dad"
 			}
 		},
 		"metadata": {
@@ -1157,7 +1157,8 @@
 					"\r\n",
 					"saveToTarget(classenrolment_df, destination_p, f'{version}/_DMClassEnrolment')\r\n",
 					"saveToTarget(activestudent_df, destination_p, f'{version}/_FACTActiveStudent')\r\n",
-					"saveToTarget(activestudentexceptions_df, destination_p, f'{version}/_FACTActiveStudentExceptions)\r\n",
+					"saveToTarget(activestudentexceptions_df, destination_p, f'{version}/_FACTActiveStudentExceptions')\r\n",
+					"\r\n",
 					"#saveToTarget(inactivestudent_df, destination_p, f'{version}/_FACTInactiveStudent')\r\n",
 					"\r\n",
 					"saveToTarget(naplanparticipation_df, destination_p, f'{version}/_FACTNaplanParticipation')\r\n",

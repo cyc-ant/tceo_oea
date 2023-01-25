@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d8d3def4-95a8-4bbf-b557-aea17f5b8751"
+				"spark.autotune.trackingId": "acc37a93-4c74-48b8-b138-32aa1385ae8b"
 			}
 		},
 		"metadata": {
@@ -836,7 +836,7 @@
 					"\r\n",
 					"select year\r\n",
 					", yearlevel\r\n",
-					", campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote, count(*) from\r\n",
+					", campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote, count(*) as groupingcount from\r\n",
 					"\r\n",
 					"(\r\n",
 					"select \r\n",

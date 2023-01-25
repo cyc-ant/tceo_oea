@@ -33967,7 +33967,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "40bdd5d3-a286-4b82-abf2-c8affac12c8c"
+						"spark.autotune.trackingId": "d9a39954-cfd6-42f3-9bcd-026aac31de89"
 					}
 				},
 				"metadata": {
@@ -34857,171 +34857,6 @@
 						"execution_count": null
 					},
 					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"CREATE TEMP VIEW vw_ods_studentstable\r\n",
-							"as\r\n",
-							"\r\n",
-							"--For year 2023\r\n",
-							"\r\n",
-							"-- select year, campusid, schoolname, studentname, ceider, count(*) from vw_ods_earlyyearsstudents_2023\r\n",
-							"-- group by year, campusid, schoolname, studentname, ceider\r\n",
-							"-- order by studentname, year desc\r\n",
-							"\r\n",
-							"-- CREATE TEMP VIEW vw_ods_earlyyearsstudents_2023_nulls\r\n",
-							"-- as\r\n",
-							"\r\n",
-							"select year\r\n",
-							"--, yearlevel\r\n",
-							", campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote, count(*) from\r\n",
-							"\r\n",
-							"(\r\n",
-							"select \r\n",
-							"year\r\n",
-							"--, YearLevel\r\n",
-							", CampusID\r\n",
-							", SchoolName\r\n",
-							", TeacherID\r\n",
-							", TeacherName\r\n",
-							", StudentID \r\n",
-							", StudentName\r\n",
-							", ClassName\r\n",
-							", ClassID\r\n",
-							", StaffEmail\r\n",
-							", StudentEmail\r\n",
-							", ceider\r\n",
-							",Gender\r\n",
-							",Gendercode\r\n",
-							",Indigenoustype\r\n",
-							",Indigenoustypecode\r\n",
-							",Disability\r\n",
-							",LBOTE\r\n",
-							"\r\n",
-							"from \r\n",
-							"(\r\n",
-							"\r\n",
-							"SELECT\r\n",
-							"s.academicyear as Year \r\n",
-							"--,yl.yearlevelsifcode as YearLevel\r\n",
-							"--,staff.campusid as CampusID\r\n",
-							"--,ms.yearlevel as YearLevel\r\n",
-							",staffemails.campusid as CampusID\r\n",
-							",c.schoolname as SchoolName\r\n",
-							",staff.compasspersonid as TeacherID\r\n",
-							",concat(staff.FirstName,' ',staff.LastName) AS TeacherName\r\n",
-							",d.compasspersonid as StudentID\r\n",
-							",concat(d.FirstName,' ',d.LastName) AS StudentName\r\n",
-							",ae.ActivityEnrolmentStartDate \r\n",
-							",s.subjectshortname as ClassName\r\n",
-							",a.SubjectCode as ClassID\r\n",
-							",d.govcode1 as ceider\r\n",
-							",staffemails.organisationuseremail as StaffEmail\r\n",
-							",studentemails.organisationuseremail as StudentEmail\r\n",
-							"\r\n",
-							",d.Gender\r\n",
-							",d.Gendercode\r\n",
-							",d.Indigenoustype\r\n",
-							",d.Indigenoustypecode\r\n",
-							",d.Disability\r\n",
-							",d.LBOTE\r\n",
-							"\r\n",
-							"from vw_CompassODSStaffDemographic staff\r\n",
-							"\r\n",
-							"inner join vw_CompassODSActivity a\r\n",
-							"ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
-							"AND a.iscurrent is True\r\n",
-							"\r\n",
-							"inner JOIN vw_CompassODSActivityEnrolment ae \r\n",
-							"ON ae.ActivityCode = a.ActivityCode\r\n",
-							"AND ae.CampusId = a.CampusId\r\n",
-							"AND ae.IsCurrent is True\r\n",
-							"--and year(utcactivityenrolmentstartdate) = year(current_date) ---------------------------------------------------------------added this for 2023\r\n",
-							"\r\n",
-							"inner JOIN vw_CompassODSStudentDemographic d \r\n",
-							"ON d.CompassPersonId = ae.CompassPersonId\r\n",
-							"AND d.iscurrent is True\r\n",
-							"\r\n",
-							"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
-							"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
-							"AND a.CampusId = s.CampusId\r\n",
-							"AND s.IsCurrent is True\r\n",
-							"\r\n",
-							"-- LEFT OUTER JOIN (select SubjectImportIdentifier, CampusId, IsCurrent, AcademicYear, count(subjectshortname) from vw_CompassODSCompassSubject\r\n",
-							"-- group by SubjectImportIdentifier, CampusId, IsCurrent, AcademicYear) s \r\n",
-							"-- ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
-							"-- AND a.CampusId = s.CampusId\r\n",
-							"-- AND s.IsCurrent is True\r\n",
-							"\r\n",
-							"-- left join vw_activestudent active\r\n",
-							"-- on active.ceider = d.govcode1\r\n",
-							"\r\n",
-							"-- left join vw_CompassODSStudentOrganisationMilestones ms\r\n",
-							"-- on ms.compasspersonid = d.CompassPersonId\r\n",
-							"-- and ms.iscurrent is True \r\n",
-							"-- and ms.iscurrentmilestone is True\r\n",
-							"\r\n",
-							"-- left join vw_dmyearlevel yl\r\n",
-							"-- on active.SKYearLevel = yl.SKYearLevel\r\n",
-							"\r\n",
-							"-- --Login emails\r\n",
-							"left join vw_CompassODSStaffOrganisationDetails staffemails\r\n",
-							"on staff.CompassPersonId = staffemails.CompassPersonId\r\n",
-							"and staffemails.iscurrent is True\r\n",
-							"and staffemails.status = 'Active'\r\n",
-							"--and staff.campusid = staffemails.campusid\r\n",
-							"\r\n",
-							"--left join vw_CompassODSStudentOrganisationDetails studentemails\r\n",
-							"inner join vw_CompassODSStudentOrganisationDetails studentemails ------------using this eliminates the ones where campusid doesn't match\r\n",
-							"on d.CompassPersonId = studentemails.CompassPersonId\r\n",
-							"and studentemails.iscurrent is True\r\n",
-							"and studentemails.status = 'Active'\r\n",
-							"--and staff.campusid = studentemails.campusid\r\n",
-							"and staffemails.campusid = studentemails.campusid\r\n",
-							"\r\n",
-							"\r\n",
-							"left join vw_dmcampus c \r\n",
-							"--ON staff.CampusId = c.bkCampusId\r\n",
-							"ON staffemails.campusid = c.bkCampusId\r\n",
-							"\r\n",
-							"\r\n",
-							"where \r\n",
-							"    staff.iscurrent is True\r\n",
-							"\r\n",
-							") mainquery\r\n",
-							"\r\n",
-							"where \r\n",
-							"--year = year(CURRENT_DATE) ---------------------------------------------------------------added this for 2023\r\n",
-							"--and ae.compasspersonid = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504' --Allira Ackers\r\n",
-							"--and \r\n",
-							"--studentname = 'Allira Ackers'\r\n",
-							"--and \r\n",
-							"--studentname = 'Adaline Airey'\r\n",
-							"--(studentname = 'Piper Dawes' or studentname = 'Lacie Silver')\r\n",
-							"--and \r\n",
-							"year is not null\r\n",
-							"-- and classname like '%Generalist%'\r\n",
-							"-- )\r\n",
-							") wholequery\r\n",
-							"\r\n",
-							"group by year\r\n",
-							"--, yearlevel\r\n",
-							", campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote"
-						],
-						"outputs": [],
-						"execution_count": null
-					},
-					{
 						"cell_type": "markdown",
 						"metadata": {
 							"nteract": {
@@ -35083,7 +34918,7 @@
 							"\r\n",
 							"saveToTarget(ods_studentclass_df, destination_p, f'{version}/_FACTODSStudentClass')\r\n",
 							"saveToTarget(ods_earlyyearsstudents_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents')\r\n",
-							"saveToTarget(ods_studentstable_df, destination_p, f'{version}/_FACTODSStudentsTable')\r\n",
+							"#saveToTarget(ods_studentstable_df, destination_p, f'{version}/_FACTODSStudentsTable')\r\n",
 							"\r\n",
 							"saveToTarget(ae_manual_combined_df, destination_p, f'{version}/_FACTAECombined')\r\n",
 							""
@@ -36766,7 +36601,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "898ac154-23ab-44e8-bc6c-d93336a6358d"
+						"spark.autotune.trackingId": "403aa0f0-a230-43d8-9915-f20cdea9fc3d"
 					}
 				},
 				"metadata": {
@@ -36826,7 +36661,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -36845,7 +36680,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -36864,7 +36699,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -36893,7 +36728,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -36914,7 +36749,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 14
 					},
 					{
 						"cell_type": "code",
@@ -36957,7 +36792,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 15
 					},
 					{
 						"cell_type": "code",
@@ -37029,7 +36864,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 16
 					},
 					{
 						"cell_type": "code",

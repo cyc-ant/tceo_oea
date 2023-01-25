@@ -1,0 +1,60 @@
+{
+	"name": "SourceDataset_4cb",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CeNet_DataBlend",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "SKAEDCGroupingId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BKAEDCGroupingId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CalendarYear",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CampusId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "LastUpdateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveStartDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveEndDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "Iscurrent",
+				"type": "bit"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "vwDMAEDCGroupingId"
+		}
+	}
+}

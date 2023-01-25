@@ -20814,7 +20814,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f4074f86-95ab-4b09-8130-86c37c721d4d"
+						"spark.autotune.trackingId": "376b5516-8c4f-42e6-b950-56fefc709fe9"
 					}
 				},
 				"metadata": {
@@ -34289,7 +34289,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b7073c6a-a530-40ec-b7c4-f912d78e23f6"
+						"spark.autotune.trackingId": "b3c15eb9-149a-48af-8107-0d5fe8b4a7ec"
 					}
 				},
 				"metadata": {
@@ -35115,7 +35115,7 @@
 							"\r\n",
 							"select year\r\n",
 							", yearlevel\r\n",
-							", campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote, count(*) from\r\n",
+							", campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote, count(*) as groupingcount from\r\n",
 							"\r\n",
 							"(\r\n",
 							"select \r\n",
@@ -37076,7 +37076,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9bed1534-6a5c-4bf7-880e-28531db5b3c2"
+						"spark.autotune.trackingId": "d5499b16-41dd-404c-b7b6-f288ff203ae9"
 					}
 				},
 				"metadata": {
@@ -37101,7 +37101,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

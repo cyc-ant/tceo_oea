@@ -527,6 +527,79 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_AEDC')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_m3c",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "dbo.vwDMAEDCGroupingId"
+							},
+							{
+								"name": "Destination",
+								"value": "stage1np/AEDC/"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_m3c",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_m3c",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_m3c')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_m3c')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_AE_Manual')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -7875,6 +7948,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_4cb')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "AEDC",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_6ft')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -8948,6 +9049,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_m3c')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "AEDC",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_op9')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -9592,6 +9721,71 @@
 						"value": "@dataset().cw_table",
 						"type": "Expression"
 					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_4cb')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "SKAEDCGroupingId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BKAEDCGroupingId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CalendarYear",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CampusId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CreateDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LastUpdateDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "EffectiveStartDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "EffectiveEndDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "Iscurrent",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "vwDMAEDCGroupingId"
 				}
 			},
 			"dependsOn": [
@@ -11037,6 +11231,71 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/linkedServices/AzureFileStorage_GeneralData')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_m3c')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "SKAEDCGroupingId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BKAEDCGroupingId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CalendarYear",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CampusId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CreateDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LastUpdateDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "EffectiveStartDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "EffectiveEndDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "Iscurrent",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "vwDMAEDCGroupingId"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
 			]
 		},
 		{
@@ -20814,7 +21073,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "376b5516-8c4f-42e6-b950-56fefc709fe9"
+						"spark.autotune.trackingId": "0abc4cff-9ee1-4cbe-bbdc-8a7324285d63"
 					}
 				},
 				"metadata": {
@@ -20839,8 +21098,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -34289,7 +34547,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b3c15eb9-149a-48af-8107-0d5fe8b4a7ec"
+						"spark.autotune.trackingId": "acc37a93-4c74-48b8-b138-32aa1385ae8b"
 					}
 				},
 				"metadata": {
@@ -34314,8 +34572,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -37076,7 +37333,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d5499b16-41dd-404c-b7b6-f288ff203ae9"
+						"spark.autotune.trackingId": "8edfe588-9e07-4d43-85ab-feaec06c8ef6"
 					}
 				},
 				"metadata": {
@@ -37101,8 +37358,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

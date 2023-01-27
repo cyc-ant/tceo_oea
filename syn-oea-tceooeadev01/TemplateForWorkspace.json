@@ -8062,9 +8062,9 @@
 						"fileSystem": "stage1np"
 					},
 					"columnDelimiter": ",",
-					"escapeChar": "",
-					"firstRowAsHeader": true,
-					"quoteChar": ""
+					"escapeChar": "@",
+					"firstRowAsHeader": false,
+					"quoteChar": "~"
 				},
 				"schema": []
 			},
@@ -9969,9 +9969,9 @@
 						"folderPath": "AECompassData"
 					},
 					"columnDelimiter": ",",
-					"escapeChar": "",
-					"firstRowAsHeader": true,
-					"quoteChar": ""
+					"escapeChar": "@",
+					"firstRowAsHeader": false,
+					"quoteChar": "~"
 				},
 				"schema": [
 					{
@@ -12061,7 +12061,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0e3831ea-10fc-4932-8f4b-437e65f3a907"
+						"spark.autotune.trackingId": "c6948eed-1af1-49c1-8128-ca26220c4019"
 					}
 				},
 				"metadata": {
@@ -12265,7 +12265,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 26
+						"execution_count": 27
 					}
 				]
 			},

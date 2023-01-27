@@ -4486,7 +4486,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Data flow1",
+						"name": "AE_Semester PreProcessing",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -4523,7 +4523,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/dataflows/AE_SemesterReports_Preprocessing')]"
+				"[concat(variables('workspaceId'), '/dataflows/AE_SemesterReports_Preprocessing')]",
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
 			]
 		},
 		{

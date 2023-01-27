@@ -4480,6 +4480,53 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/Pre-Processing')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "AE_SemesterReports_Preprocessing",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"AESemesterReports": {},
+									"AESemesterReportsSink": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/dataflows/AE_SemesterReports_Preprocessing')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Stage1')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -12129,6 +12176,95 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/AE_SemesterReports_Preprocessing')]",
+			"type": "Microsoft.Synapse/workspaces/dataflows",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"linkedService": {
+								"referenceName": "LS_ADLS_OEA",
+								"type": "LinkedServiceReference"
+							},
+							"name": "AESemesterReports"
+						}
+					],
+					"sinks": [
+						{
+							"linkedService": {
+								"referenceName": "LS_ADLS_OEA",
+								"type": "LinkedServiceReference"
+							},
+							"name": "AESemesterReportsSink"
+						}
+					],
+					"transformations": [
+						{
+							"name": "ResultsFilter"
+						},
+						{
+							"name": "Schema",
+							"description": "Creates an explicit mapping for each drifted column"
+						}
+					],
+					"scriptLines": [
+						"source(useSchema: false,",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     inferDriftedColumnTypes: true,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'delimited',",
+						"     fileSystem: 'stage1np',",
+						"     columnDelimiter: ',',",
+						"     escapeChar: '@',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: true,",
+						"     dateFormats: ['dd/MM/yyyy'],",
+						"     timestampFormats: ['dd/MM/yyyy'],",
+						"     preferredIntegralType: 'integer',",
+						"     preferredFractionalType: 'double',",
+						"     booleanFormat: ['True', 'False'],",
+						"     wildcardPaths:['_AE_ManualUploadRawFiles/*'],",
+						"     partitionBy('hash', 1)) ~> AESemesterReports",
+						"Schema filter(AssessmentType==\"QLD Overall Result\"||AssessmentType==\"QLD Subject Result\") ~> ResultsFilter",
+						"AESemesterReports derive(StudentFirstName = toString(byName('StudentFirstName')),",
+						"          StudentLastName = toString(byName('StudentLastName')),",
+						"          StudentCode = toString(byName('StudentCode')),",
+						"          GovtCode1 = toString(byName('GovtCode1')),",
+						"          StudentYearLevel = toString(byName('StudentYearLevel')),",
+						"          StudentFormGroup = toString(byName('StudentFormGroup')),",
+						"          StudentHouseGroup = toString(byName('StudentHouseGroup')),",
+						"          Subject = toString(byName('Subject')),",
+						"          ClassCode = toString(byName('ClassCode')),",
+						"          Teacher = toString(byName('Teacher')),",
+						"          AssessmentType = toString(byName('AssessmentType')),",
+						"          AssessmentArea = toString(byName('AssessmentArea')),",
+						"          Result = toString(byName('Result'))) ~> Schema",
+						"ResultsFilter sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'delimited',",
+						"     fileSystem: 'stage1np',",
+						"     folderPath: '_AE_PreProcessed',",
+						"     columnDelimiter: ',',",
+						"     escapeChar: '\\\\',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: true,",
+						"     umask: 0777,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     quoteAll: true) ~> AESemesterReportsSink"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/WorkspaceSystemIdentity')]",
 			"type": "Microsoft.Synapse/workspaces/credentials",
 			"apiVersion": "2019-06-01-preview",
@@ -12251,7 +12387,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4f23fa88-19ea-45ee-947c-b9830320828b"
+						"spark.autotune.trackingId": "697052ac-4b7b-491f-be85-382c6014c5d0"
 					}
 				},
 				"metadata": {
@@ -12276,8 +12412,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -13961,7 +14096,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c4c4294a-6c3b-4948-a882-e57ef092071c"
+						"spark.autotune.trackingId": "522a4510-c3f4-41be-aacd-dc66d1c4f2f3"
 					}
 				},
 				"metadata": {
@@ -15367,7 +15502,7 @@
 							"and s.AcademicYear is not null"
 						],
 						"outputs": [],
-						"execution_count": 71
+						"execution_count": 72
 					},
 					{
 						"cell_type": "code",

@@ -1,0 +1,123 @@
+{
+	"name": "SourceDataset_AE_LearningTasks",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureFileStorage_AEData",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"folderPath": "AE_LearningTasks"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "SubjectName",
+				"type": "String"
+			},
+			{
+				"name": "Code",
+				"type": "String"
+			},
+			{
+				"name": "TeacherImportIdentifier",
+				"type": "String"
+			},
+			{
+				"name": "TaskId",
+				"type": "String"
+			},
+			{
+				"name": "IsSubjectWide",
+				"type": "String"
+			},
+			{
+				"name": "TaskName",
+				"type": "String"
+			},
+			{
+				"name": "StudentCode",
+				"type": "String"
+			},
+			{
+				"name": "GovtCode1",
+				"type": "String"
+			},
+			{
+				"name": "StudentLastName",
+				"type": "String"
+			},
+			{
+				"name": "StudentFirstName",
+				"type": "String"
+			},
+			{
+				"name": "YearLevel",
+				"type": "String"
+			},
+			{
+				"name": "ResultType",
+				"type": "String"
+			},
+			{
+				"name": "PrimaryGrade",
+				"type": "String"
+			},
+			{
+				"name": "CommentTimestamp",
+				"type": "String"
+			},
+			{
+				"name": "CommentPosterCode",
+				"type": "String"
+			},
+			{
+				"name": "CommentPosterName",
+				"type": "String"
+			},
+			{
+				"name": "Result",
+				"type": "String"
+			},
+			{
+				"name": "ComponentName",
+				"type": "String"
+			},
+			{
+				"name": "ComponentType",
+				"type": "String"
+			},
+			{
+				"name": "IsIncludedInReport",
+				"type": "String"
+			},
+			{
+				"name": "ReportCycleName",
+				"type": "String"
+			},
+			{
+				"name": "DueDate",
+				"type": "String"
+			},
+			{
+				"name": "Category",
+				"type": "String"
+			},
+			{
+				"name": "SubmissionStatus",
+				"type": "String"
+			},
+			{
+				"name": "ReceiptTime",
+				"type": "String"
+			}
+		]
+	}
+}

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a0625536-2616-4f16-a9bd-457a87c38d08"
+				"spark.autotune.trackingId": "35779093-f2d0-40ad-b0c1-e8992ab52d20"
 			}
 		},
 		"metadata": {
@@ -6250,7 +6250,7 @@
 					"-- where firstname = 'Allira' -- skyearlevel = 14\r\n",
 					"where firstname = 'Adaline' and lastname = 'Airey' -- skyearlevel = 14"
 				],
-				"execution_count": 47
+				"execution_count": 48
 			},
 			{
 				"cell_type": "code",

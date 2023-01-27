@@ -1,0 +1,38 @@
+{
+	"name": "Dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "LS_ADLS_OEA",
+						"type": "LinkedServiceReference"
+					},
+					"name": "AESemesterReports"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "ResultsFilter"
+				}
+			],
+			"scriptLines": [
+				"source(useSchema: false,",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'stage1np',",
+				"     folderPath: '_AE_ManualUploadRawFiles',",
+				"     fileName: '*',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '@',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true) ~> AESemesterReports",
+				"AESemesterReports filter(ERROR_FUNCTION('')) ~> ResultsFilter"
+			]
+		}
+	}
+}

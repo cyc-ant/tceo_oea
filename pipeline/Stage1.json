@@ -50,33 +50,6 @@
 				}
 			},
 			{
-				"name": "If AE",
-				"type": "IfCondition",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"expression": {
-						"value": "@pipeline().parameters.ae",
-						"type": "Expression"
-					},
-					"ifTrueActivities": [
-						{
-							"name": "Copy Pipeline AE",
-							"type": "ExecutePipeline",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "CopyPipeline_AE",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						}
-					]
-				}
-			},
-			{
 				"name": "If attendance",
 				"type": "IfCondition",
 				"dependsOn": [],
@@ -284,43 +257,12 @@
 						}
 					]
 				}
-			},
-			{
-				"name": "If AE_Manual",
-				"type": "IfCondition",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"expression": {
-						"value": "@pipeline().parameters.ae_manual",
-						"type": "Expression"
-					},
-					"ifTrueActivities": [
-						{
-							"name": "CopyPipeline_AE_Manual",
-							"type": "ExecutePipeline",
-							"dependsOn": [],
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "CopyPipeline_AE_Manual",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true
-							}
-						}
-					]
-				}
 			}
 		],
 		"parameters": {
 			"acer": {
 				"type": "bool",
 				"defaultValue": true
-			},
-			"ae": {
-				"type": "bool",
-				"defaultValue": false
 			},
 			"attendance": {
 				"type": "bool",
@@ -347,10 +289,6 @@
 				"defaultValue": false
 			},
 			"student": {
-				"type": "bool",
-				"defaultValue": false
-			},
-			"ae_manual": {
 				"type": "bool",
 				"defaultValue": false
 			},

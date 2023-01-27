@@ -29,6 +29,7 @@
 						"storeSettings": {
 							"type": "AzureFileStorageReadSettings",
 							"recursive": true,
+							"wildcardFolderPath": "AECompassData",
 							"wildcardFileName": "*",
 							"enablePartitionDiscovery": false
 						},

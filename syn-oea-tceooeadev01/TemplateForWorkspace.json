@@ -370,163 +370,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_AE')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "ForEach_byg",
-						"type": "ForEach",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@pipeline().parameters.cw_items",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Copy_byg",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [
-										{
-											"name": "Source",
-											"value": "dbo.@{item().source.table}"
-										},
-										{
-											"name": "Destination",
-											"value": "stage1np/AE/@{item().destination.fileName}"
-										}
-									],
-									"typeProperties": {
-										"source": {
-											"type": "SqlServerSource",
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "DelimitedTextSink",
-											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
-											},
-											"formatSettings": {
-												"type": "DelimitedTextWriteSettings",
-												"quoteAllText": true,
-												"fileExtension": ".txt"
-											}
-										},
-										"enableStaging": false,
-										"validateDataConsistency": false
-									},
-									"inputs": [
-										{
-											"referenceName": "SourceDataset_AE",
-											"type": "DatasetReference",
-											"parameters": {
-												"cw_table": "@item().source.table"
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "DestinationDataset_AE",
-											"type": "DatasetReference",
-											"parameters": {
-												"cw_fileName": "@item().destination.fileName"
-											}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"cw_items": {
-						"type": "Array",
-						"defaultValue": [
-							{
-								"source": {
-									"table": "vwDMAEStudent"
-								},
-								"destination": {
-									"fileName": "dbovwDMAEStudent.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMAEStudentDescription"
-								},
-								"destination": {
-									"fileName": "dbovwDMAEStudentDescription.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMAEStudentResultId"
-								},
-								"destination": {
-									"fileName": "dbovwDMAEStudentResultId.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMAESubjectCourse"
-								},
-								"destination": {
-									"fileName": "dbovwDMAESubjectCourse.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFACTAEDC"
-								},
-								"destination": {
-									"fileName": "dbovwDMFACTAEDC.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFACTAEDCStrengths"
-								},
-								"destination": {
-									"fileName": "dbovwDMFACTAEDCStrengths.csv"
-								}
-							},
-							{
-								"source": {
-									"table": "vwDMFactStudentAEResult"
-								},
-								"destination": {
-									"fileName": "dbovwDMFactStudentAEResult.csv"
-								}
-							}
-						]
-					}
-				},
-				"folder": {
-					"name": "Data Copy Pipelines"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_AE')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_AE')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_AEDC')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -597,91 +440,6 @@
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/datasets/SourceDataset_m3c')]",
 				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_m3c')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_AE_Manual')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_z29",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "/"
-							},
-							{
-								"name": "Destination",
-								"value": "stage1np/AE_ManualUploads/"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureFileStorageReadSettings",
-									"recursive": true,
-									"wildcardFileName": "*",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings",
-									"skipLineCount": 0
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"validateDataConsistency": false
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_AE_Manual",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_AE_Manual",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "Data Copy Pipelines"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_AE_Manual')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_AE_Manual')]"
 			]
 		},
 		{
@@ -4613,34 +4371,6 @@
 						}
 					},
 					{
-						"name": "If AE",
-						"type": "IfCondition",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"expression": {
-								"value": "@pipeline().parameters.ae",
-								"type": "Expression"
-							},
-							"ifTrueActivities": [
-								{
-									"name": "Copy Pipeline AE",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "CopyPipeline_AE",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {}
-									}
-								}
-							]
-						}
-					},
-					{
 						"name": "If attendance",
 						"type": "IfCondition",
 						"dependsOn": [],
@@ -4856,34 +4586,6 @@
 								}
 							]
 						}
-					},
-					{
-						"name": "If AE_Manual",
-						"type": "IfCondition",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"expression": {
-								"value": "@pipeline().parameters.ae_manual",
-								"type": "Expression"
-							},
-							"ifTrueActivities": [
-								{
-									"name": "CopyPipeline_AE_Manual",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "CopyPipeline_AE_Manual",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {}
-									}
-								}
-							]
-						}
 					}
 				],
 				"policy": {
@@ -4894,10 +4596,6 @@
 					"acer": {
 						"type": "bool",
 						"defaultValue": true
-					},
-					"ae": {
-						"type": "bool",
-						"defaultValue": false
 					},
 					"attendance": {
 						"type": "bool",
@@ -4927,10 +4625,6 @@
 						"type": "bool",
 						"defaultValue": false
 					},
-					"ae_manual": {
-						"type": "bool",
-						"defaultValue": false
-					},
 					"supportingdata": {
 						"type": "bool",
 						"defaultValue": false
@@ -4944,7 +4638,6 @@
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ACER_part1')]",
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ACER_part2')]",
-				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_AE')]",
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_Attendance')]",
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_class_period')]",
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_enrolment')]",
@@ -4952,8 +4645,7 @@
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_NAPLAN')]",
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_NCCD')]",
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_student_object')]",
-				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_student_object_2')]",
-				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_AE_Manual')]"
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_student_object_2')]"
 			]
 		},
 		{
@@ -8271,34 +7963,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_AE_Manual')]",
-			"type": "Microsoft.Synapse/workspaces/datasets",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_ADLS_OEA",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": "_AE_ManualUploadRawFiles",
-						"fileSystem": "stage1np"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_AE_Test')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -10176,85 +9840,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/SourceDataset_AE_Manual')]",
-			"type": "Microsoft.Synapse/workspaces/datasets",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureFileStorage_AEData",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureFileStorageLocation"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "StudentFirstName",
-						"type": "String"
-					},
-					{
-						"name": "StudentLastName",
-						"type": "String"
-					},
-					{
-						"name": "StudentCode",
-						"type": "String"
-					},
-					{
-						"name": "GovtCode1",
-						"type": "String"
-					},
-					{
-						"name": "StudentYearLevel",
-						"type": "String"
-					},
-					{
-						"name": "StudentFormGroup",
-						"type": "String"
-					},
-					{
-						"name": "StudentHouseGroup",
-						"type": "String"
-					},
-					{
-						"name": "Subject",
-						"type": "String"
-					},
-					{
-						"name": "ClassCode",
-						"type": "String"
-					},
-					{
-						"name": "Teacher",
-						"type": "String"
-					},
-					{
-						"name": "AssessmentType",
-						"type": "String"
-					},
-					{
-						"name": "AssessmentArea",
-						"type": "String"
-					},
-					{
-						"name": "Result",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/AzureFileStorage_AEData')]"
 			]
 		},
 		{
@@ -12286,7 +11871,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "13c57c7a-96b7-4eb8-9429-cd3f5a67b978"
+						"spark.autotune.trackingId": "3df8ec4f-db23-4722-981f-fb19a237fe44"
 					}
 				},
 				"metadata": {
@@ -12311,7 +11896,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -12480,7 +12066,7 @@
 							"        return final_df\r\n",
 							"\r\n",
 							"\r\n",
-							"source_folder = \"/_AE_Test\"\r\n",
+							"source_folder = \"/_AE_ManualUploadRawFiles\"\r\n",
 							"\r\n",
 							"# instantiate the AE Manual Data Copy with a source folder that contains all the ingested data files \r\n",
 							"aecopy = AEManualCopy(source_folder)\r\n",
@@ -13995,7 +13581,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "34273faf-e551-42c6-8f17-eb2bec3c357e"
+						"spark.autotune.trackingId": "c4c4294a-6c3b-4948-a882-e57ef092071c"
 					}
 				},
 				"metadata": {
@@ -14404,7 +13990,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -14421,10 +14007,303 @@
 							"collapsed": false
 						},
 						"source": [
-							"select count(*) from vw_activestudent"
+							"drop view vw_ods_studentstable_2022"
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 30
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"CREATE TEMP VIEW vw_ods_studentstable_2023\r\n",
+							"as\r\n",
+							"\r\n",
+							"select year\r\n",
+							", yearlevel\r\n",
+							", campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote, count(*) as groupingcount from\r\n",
+							"\r\n",
+							"(\r\n",
+							"select \r\n",
+							"year\r\n",
+							", YearLevel\r\n",
+							", CampusID\r\n",
+							", SchoolName\r\n",
+							", TeacherID\r\n",
+							", TeacherName\r\n",
+							", StudentID \r\n",
+							", StudentName\r\n",
+							", ClassName\r\n",
+							", ClassID\r\n",
+							", StaffEmail\r\n",
+							", StudentEmail\r\n",
+							", ceider\r\n",
+							",Gender\r\n",
+							",Gendercode\r\n",
+							",Indigenoustype\r\n",
+							",Indigenoustypecode\r\n",
+							",Disability\r\n",
+							",LBOTE\r\n",
+							"\r\n",
+							"from \r\n",
+							"(\r\n",
+							"\r\n",
+							"SELECT\r\n",
+							"s.academicyear as Year \r\n",
+							",yearlevel.yearlevel as YearLevel\r\n",
+							",staffemails.campusid as CampusID\r\n",
+							",c.schoolname as SchoolName\r\n",
+							",staff.compasspersonid as TeacherID\r\n",
+							",concat(staff.FirstName,' ',staff.LastName) AS TeacherName\r\n",
+							",d.compasspersonid as StudentID\r\n",
+							",concat(d.FirstName,' ',d.LastName) AS StudentName\r\n",
+							",ae.ActivityEnrolmentStartDate \r\n",
+							",s.subjectshortname as ClassName\r\n",
+							",a.SubjectCode as ClassID\r\n",
+							",d.govcode1 as ceider\r\n",
+							",staffemails.organisationuseremail as StaffEmail\r\n",
+							",studentemails.organisationuseremail as StudentEmail\r\n",
+							"\r\n",
+							",d.Gender\r\n",
+							",d.Gendercode\r\n",
+							",d.Indigenoustype\r\n",
+							",d.Indigenoustypecode\r\n",
+							",d.Disability\r\n",
+							",d.LBOTE\r\n",
+							"\r\n",
+							"from vw_CompassODSStaffDemographic staff\r\n",
+							"\r\n",
+							"inner join vw_CompassODSActivity a\r\n",
+							"ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
+							"AND a.iscurrent is True\r\n",
+							"\r\n",
+							"inner JOIN vw_CompassODSActivityEnrolment ae \r\n",
+							"ON ae.ActivityCode = a.ActivityCode\r\n",
+							"AND ae.CampusId = a.CampusId\r\n",
+							"AND ae.IsCurrent is True\r\n",
+							"and year(utcactivityenrolmentstartdate) = 2023 ---------------------------------------------------------------added this \r\n",
+							"\r\n",
+							"inner JOIN vw_CompassODSStudentDemographic d \r\n",
+							"ON d.CompassPersonId = ae.CompassPersonId\r\n",
+							"AND d.iscurrent is True\r\n",
+							"\r\n",
+							"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
+							"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
+							"AND a.CampusId = s.CampusId\r\n",
+							"AND s.IsCurrent is True\r\n",
+							"\r\n",
+							"-- --Login emails\r\n",
+							"left join vw_CompassODSStaffOrganisationDetails staffemails\r\n",
+							"on staff.CompassPersonId = staffemails.CompassPersonId\r\n",
+							"and staffemails.iscurrent is True\r\n",
+							"and staffemails.status = 'Active'\r\n",
+							"\r\n",
+							"inner join vw_CompassODSStudentOrganisationDetails studentemails \r\n",
+							"on d.CompassPersonId = studentemails.CompassPersonId\r\n",
+							"and studentemails.iscurrent is True\r\n",
+							"and studentemails.status = 'Active'\r\n",
+							"and staffemails.campusid = studentemails.campusid\r\n",
+							"\r\n",
+							"left join vw_dmcampus c \r\n",
+							"ON staffemails.campusid = c.bkCampusId\r\n",
+							"\r\n",
+							"left join (SELECT CompassPersonId,\r\n",
+							"           CampusId,\r\n",
+							"           case when YearLevel = 0 then 'P' else YearLevel end as YearLevel,\r\n",
+							"           GroupA,\r\n",
+							"           GroupB,\r\n",
+							"           GroupC,\r\n",
+							"           GroupD,\r\n",
+							"           GroupE,\r\n",
+							"           IsActive,\r\n",
+							"           IsCurrentMilestone,\r\n",
+							"           year(MilestoneTimestamp + INTERVAL 10 HOURS) AS MilestoneYear,\r\n",
+							"           MilestoneTimestamp + INTERVAL 10 HOURS AS MilestoneStartDate,\r\n",
+							"           COALESCE(\r\n",
+							"                       LEAD(MilestoneTimestamp + INTERVAL 10 HOURS) \r\n",
+							"                                                                            OVER (PARTITION BY CompassPersonId,\r\n",
+							"                                                                                      OrganisationName\r\n",
+							"                                                                         ORDER BY MilestoneTimestamp,\r\n",
+							"                                                                                  HomeCampusGuid\r\n",
+							"                                                                        ),\r\n",
+							"                       make_date(9999, 12, 31)\r\n",
+							"                   ) AS MilestoneFinishDate,\r\n",
+							"           OrganisationName\r\n",
+							"    FROM vw_CompassODSStudentOrganisationMilestones\r\n",
+							"     WHERE IsCurrent is True\r\n",
+							"          AND DioceseId = 12\r\n",
+							"          and yearlevel is not null\r\n",
+							"              ) yearlevel \r\n",
+							"        on d.CompassPersonId = yearlevel.compasspersonid\r\n",
+							"        and yearlevel.milestoneyear = s.academicyear\r\n",
+							"\r\n",
+							"\r\n",
+							"where \r\n",
+							"    staff.iscurrent is True\r\n",
+							"\r\n",
+							") mainquery\r\n",
+							"\r\n",
+							"where \r\n",
+							"year is not null\r\n",
+							"and year = 2023\r\n",
+							") wholequery\r\n",
+							"\r\n",
+							"where yearlevel is not null\r\n",
+							"\r\n",
+							"group by year\r\n",
+							", yearlevel\r\n",
+							", campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote"
+						],
+						"outputs": [],
+						"execution_count": 33
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_ods_studentstable_2023"
+						],
+						"outputs": [],
+						"execution_count": 34
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_ods_studentstable_2022"
+						],
+						"outputs": [],
+						"execution_count": 32
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_ods_studentstable --39418\r\n",
+							"--where year = 2023   --13245\r\n",
+							"--where year = 2022   --11486\r\n",
+							"--where year = 2021   --8591\r\n",
+							"--where year = 2020   --2375\r\n",
+							"--where year = 2019   --2435\r\n",
+							"--where year = 2018   --983\r\n",
+							"--where year = 2017   --303\r\n",
+							"--where year = 2016   --0\r\n",
+							"--where year = 2015   --0\r\n",
+							"--where year = 2014   --0\r\n",
+							"--where year = 2013   --0\r\n",
+							"--where year = 2012   --0"
+						],
+						"outputs": [],
+						"execution_count": 27
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_activestudent; --13247"
+						],
+						"outputs": [],
+						"execution_count": 7
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_aemanuallearningtasks\r\n",
+							"where result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N') "
+						],
+						"outputs": [],
+						"execution_count": 79
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_aemanualsemesterreports --639988\r\n",
+							"where bkid is null --621494\r\n",
+							"-- where result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N') --112780\r\n",
+							"--where bkid is not null --18494\r\n",
+							"--where bkid is null --621494"
+						],
+						"outputs": [],
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -14442,11 +14321,39 @@
 						},
 						"source": [
 							"select count(*) from vw_aemanualsemesterreports\r\n",
-							"--where bkid is not null --18494\r\n",
-							"--where bkid is null --621494"
+							"where \r\n",
+							"school_name = \"St Joseph's Catholic School\"\r\n",
+							"    and area = 'The Strand'\r\n",
+							"        and semester = 2\r\n",
+							"        and year = 2022"
 						],
 						"outputs": [],
-						"execution_count": 27
+						"execution_count": 72
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_aemanuallearningtasks\r\n",
+							"where \r\n",
+							"school_name = \"St Anthony's Catholic College\"\r\n",
+							"    and area = 'Deeragun'\r\n",
+							"        and semester = 2\r\n",
+							"        and year = 2022"
+						],
+						"outputs": [],
+						"execution_count": 65
 					},
 					{
 						"cell_type": "code",
@@ -14489,6 +14396,48 @@
 						],
 						"outputs": [],
 						"execution_count": 17
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_ae_manual_semesterreports\r\n",
+							"limit 3"
+						],
+						"outputs": [],
+						"execution_count": 77
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from vw_ae_manual_learningtasks\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 78
 					},
 					{
 						"cell_type": "code",
@@ -14563,7 +14512,7 @@
 							"--where year is null;"
 						],
 						"outputs": [],
-						"execution_count": 32
+						"execution_count": 33
 					},
 					{
 						"cell_type": "code",
@@ -14643,6 +14592,485 @@
 						],
 						"outputs": [],
 						"execution_count": 8
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# Redo query"
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"-- CREATE TEMP VIEW vw_ods_studentstable_2023\r\n",
+							"-- as\r\n",
+							"\r\n",
+							"-- select year\r\n",
+							"-- , yearlevel\r\n",
+							"-- , campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote, count(*) as groupingcount from\r\n",
+							"\r\n",
+							"-- (\r\n",
+							"\r\n",
+							"\r\n",
+							"select \r\n",
+							"year\r\n",
+							", YearLevel\r\n",
+							", CampusID\r\n",
+							", SchoolName\r\n",
+							", TeacherID\r\n",
+							", TeacherName\r\n",
+							", StudentID \r\n",
+							", StudentName\r\n",
+							", ClassName\r\n",
+							", ClassID\r\n",
+							", StaffEmail\r\n",
+							", StudentEmail\r\n",
+							", ceider\r\n",
+							",Gender\r\n",
+							",Gendercode\r\n",
+							",Indigenoustype\r\n",
+							",Indigenoustypecode\r\n",
+							",Disability\r\n",
+							",LBOTE\r\n",
+							"\r\n",
+							"from \r\n",
+							"(\r\n",
+							"\r\n",
+							"SELECT\r\n",
+							"s.academicyear as Year \r\n",
+							",yearlevel.yearlevel as YearLevel\r\n",
+							",staffemails.campusid as CampusID\r\n",
+							",c.schoolname as SchoolName\r\n",
+							",staff.compasspersonid as TeacherID\r\n",
+							",concat(staff.FirstName,' ',staff.LastName) AS TeacherName\r\n",
+							",d.compasspersonid as StudentID\r\n",
+							",concat(d.FirstName,' ',d.LastName) AS StudentName\r\n",
+							",ae.ActivityEnrolmentStartDate \r\n",
+							",s.subjectshortname as ClassName\r\n",
+							",a.SubjectCode as ClassID\r\n",
+							",d.govcode1 as ceider\r\n",
+							",staffemails.organisationuseremail as StaffEmail\r\n",
+							",studentemails.organisationuseremail as StudentEmail\r\n",
+							"\r\n",
+							",d.Gender\r\n",
+							",d.Gendercode\r\n",
+							",d.Indigenoustype\r\n",
+							",d.Indigenoustypecode\r\n",
+							",d.Disability\r\n",
+							",d.LBOTE\r\n",
+							"\r\n",
+							"from vw_CompassODSStaffDemographic staff\r\n",
+							"\r\n",
+							"inner join vw_CompassODSActivity a\r\n",
+							"ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
+							"AND a.iscurrent is True\r\n",
+							"\r\n",
+							"inner JOIN vw_CompassODSActivityEnrolment ae \r\n",
+							"ON ae.ActivityCode = a.ActivityCode\r\n",
+							"AND ae.CampusId = a.CampusId\r\n",
+							"AND ae.IsCurrent is True\r\n",
+							"and year(utcactivityenrolmentstartdate) = 2023 ---------------------------------------------------------------added this \r\n",
+							"\r\n",
+							"inner JOIN vw_CompassODSStudentDemographic d \r\n",
+							"ON d.CompassPersonId = ae.CompassPersonId\r\n",
+							"AND d.iscurrent is True\r\n",
+							"\r\n",
+							"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
+							"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
+							"AND a.CampusId = s.CampusId\r\n",
+							"AND s.IsCurrent is True\r\n",
+							"\r\n",
+							"-- --Login emails\r\n",
+							"left join vw_CompassODSStaffOrganisationDetails staffemails\r\n",
+							"on staff.CompassPersonId = staffemails.CompassPersonId\r\n",
+							"and staffemails.iscurrent is True\r\n",
+							"and staffemails.status = 'Active'\r\n",
+							"\r\n",
+							"inner join vw_CompassODSStudentOrganisationDetails studentemails \r\n",
+							"on d.CompassPersonId = studentemails.CompassPersonId\r\n",
+							"and studentemails.iscurrent is True\r\n",
+							"and studentemails.status = 'Active'\r\n",
+							"and staffemails.campusid = studentemails.campusid\r\n",
+							"\r\n",
+							"left join vw_dmcampus c \r\n",
+							"ON staffemails.campusid = c.bkCampusId\r\n",
+							"\r\n",
+							"left join (SELECT CompassPersonId,\r\n",
+							"           CampusId,\r\n",
+							"           case when YearLevel = 0 then 'P' else YearLevel end as YearLevel,\r\n",
+							"           GroupA,\r\n",
+							"           GroupB,\r\n",
+							"           GroupC,\r\n",
+							"           GroupD,\r\n",
+							"           GroupE,\r\n",
+							"           IsActive,\r\n",
+							"           IsCurrentMilestone,\r\n",
+							"           year(MilestoneTimestamp + INTERVAL 10 HOURS) AS MilestoneYear,\r\n",
+							"           MilestoneTimestamp + INTERVAL 10 HOURS AS MilestoneStartDate,\r\n",
+							"           COALESCE(\r\n",
+							"                       LEAD(MilestoneTimestamp + INTERVAL 10 HOURS) \r\n",
+							"                                                                            OVER (PARTITION BY CompassPersonId,\r\n",
+							"                                                                                      OrganisationName\r\n",
+							"                                                                         ORDER BY MilestoneTimestamp,\r\n",
+							"                                                                                  HomeCampusGuid\r\n",
+							"                                                                        ),\r\n",
+							"                       make_date(9999, 12, 31)\r\n",
+							"                   ) AS MilestoneFinishDate,\r\n",
+							"           OrganisationName\r\n",
+							"    FROM vw_CompassODSStudentOrganisationMilestones\r\n",
+							"     WHERE IsCurrent is True\r\n",
+							"          AND DioceseId = 12\r\n",
+							"          and yearlevel is not null\r\n",
+							"              ) yearlevel \r\n",
+							"        on d.CompassPersonId = yearlevel.compasspersonid\r\n",
+							"        and yearlevel.milestoneyear = s.academicyear\r\n",
+							"\r\n",
+							"\r\n",
+							"where \r\n",
+							"    staff.iscurrent is True\r\n",
+							"\r\n",
+							") mainquery\r\n",
+							"\r\n",
+							"where \r\n",
+							"year is not null\r\n",
+							"and year = 2023\r\n",
+							"-- ) wholequery\r\n",
+							"\r\n",
+							"-- where yearlevel is not null\r\n",
+							"\r\n",
+							"-- group by year\r\n",
+							"-- , yearlevel\r\n",
+							"-- , campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote"
+						],
+						"outputs": [],
+						"execution_count": 37
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select count(*) from\r\n",
+							"(\r\n",
+							"SELECT CompassPersonId,\r\n",
+							"           CampusId,\r\n",
+							"           case when YearLevel = 0 then 'P' else YearLevel end as YearLevel,\r\n",
+							"           GroupA,\r\n",
+							"           GroupB,\r\n",
+							"           GroupC,\r\n",
+							"           GroupD,\r\n",
+							"           GroupE,\r\n",
+							"           IsActive,\r\n",
+							"           IsCurrentMilestone,\r\n",
+							"           year(MilestoneTimestamp + INTERVAL 10 HOURS) AS MilestoneYear,\r\n",
+							"           MilestoneTimestamp + INTERVAL 10 HOURS AS MilestoneStartDate,\r\n",
+							"           COALESCE(\r\n",
+							"                       LEAD(MilestoneTimestamp + INTERVAL 10 HOURS) \r\n",
+							"                                                                            OVER (PARTITION BY CompassPersonId,\r\n",
+							"                                                                                      OrganisationName\r\n",
+							"                                                                         ORDER BY MilestoneTimestamp,\r\n",
+							"                                                                                  HomeCampusGuid\r\n",
+							"                                                                        ),\r\n",
+							"                       make_date(9999, 12, 31)\r\n",
+							"                   ) AS MilestoneFinishDate,\r\n",
+							"           OrganisationName\r\n",
+							"    FROM vw_CompassODSStudentOrganisationMilestones\r\n",
+							"     WHERE IsCurrent is True\r\n",
+							"          AND DioceseId = 12\r\n",
+							"          and yearlevel is not null\r\n",
+							"\r\n",
+							") innerquery\r\n",
+							"--where milestoneyear = 2023 --13407\r\n",
+							"--where milestoneyear = 2022 --14217\r\n",
+							"--where milestoneyear = 2021 --13414\r\n",
+							"--where milestoneyear = 2020 --12102\r\n",
+							"--where milestoneyear = 2019 --29191"
+						],
+						"outputs": [],
+						"execution_count": 46
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"CREATE TEMP VIEW vw_ods_studentclass\r\n",
+							"as\r\n",
+							"\r\n",
+							"SELECT distinct\r\n",
+							"d.FirstName AS StudentFirstName \r\n",
+							",d.LastName AS StudentLastName\r\n",
+							",d.CompassPersonId\r\n",
+							",d.GovCode1 AS Ceider\r\n",
+							",s.SubjectLongName\r\n",
+							",a.SubjectCode\r\n",
+							",a.ActivityName\r\n",
+							",a.ActivityTypeDescription\r\n",
+							",a.ManagingCompassPersonId\r\n",
+							",staff.firstname\r\n",
+							",staff.lastname\r\n",
+							",ae.ActivityEnrolmentStartDate\r\n",
+							",ae.ActivityEnrolmentEndDate\r\n",
+							",concat(staff.FirstName,' ',staff.LastName) AS StaffName\r\n",
+							",a.CampusId AS AGEID\r\n",
+							",c.CampusSuburbAndName\r\n",
+							"--,c.CompassSchoolURL\r\n",
+							",s.AcademicYear\r\n",
+							",ae.iscurrent as IsCurrent_ActivityEnrolment\r\n",
+							",a.IsCurrent as IsCurrent_Activity\r\n",
+							",s.IsCurrent as IsCurrent_Subject\r\n",
+							",staff.iscurrent as IsCurrent_Staff\r\n",
+							",d.iscurrent as IsCurrent_Student\r\n",
+							"\r\n",
+							"\r\n",
+							"FROM \r\n",
+							"vw_CompassODSStudentDemographic d \r\n",
+							"\r\n",
+							"JOIN vw_CompassODSActivityEnrolment ae \r\n",
+							"ON d.CompassPersonId = ae.CompassPersonId\r\n",
+							"\r\n",
+							"JOIN vw_CompassODSActivity a \r\n",
+							"ON ae.ActivityCode = a.ActivityCode\r\n",
+							"AND ae.CampusId = a.CampusId\r\n",
+							"\r\n",
+							"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
+							"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
+							"AND a.CampusId = s.CampusId\r\n",
+							"\r\n",
+							"LEFT outer JOIN vw_CompassODSStaffDemographic  staff \r\n",
+							"ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
+							"\r\n",
+							"JOIN vw_dmcampus c ON a.CampusId = c.bkCampusId\r\n",
+							"WHERE \r\n",
+							"d.iscurrent is True\r\n",
+							"AND a.ActivityTypeDescription = 'Standard Class'"
+						],
+						"outputs": [],
+						"execution_count": 44
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_ods_studentclass\r\n",
+							"limit 5"
+						],
+						"outputs": [],
+						"execution_count": 45
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"SELECT distinct\r\n",
+							"d.FirstName AS StudentFirstName \r\n",
+							",d.LastName AS StudentLastName\r\n",
+							",d.CompassPersonId\r\n",
+							",d.GovCode1 AS Ceider\r\n",
+							",d.disability\r\n",
+							",d.indigenoustype\r\n",
+							",d.indigenoustypecode\r\n",
+							",d.LBOTE\r\n",
+							",d.gendercode\r\n",
+							",d.campusid\r\n",
+							"-- ,s.SubjectLongName\r\n",
+							"-- ,a.SubjectCode\r\n",
+							"-- ,a.ActivityName\r\n",
+							"-- ,a.ActivityTypeDescription\r\n",
+							"-- ,a.ManagingCompassPersonId\r\n",
+							"-- ,staff.firstname\r\n",
+							"-- ,staff.lastname\r\n",
+							"-- ,ae.ActivityEnrolmentStartDate\r\n",
+							"-- ,ae.ActivityEnrolmentEndDate\r\n",
+							"-- ,concat(staff.FirstName,' ',staff.LastName) AS StaffName\r\n",
+							"-- ,a.CampusId AS AGEID\r\n",
+							"-- ,c.CampusSuburbAndName\r\n",
+							",c.Schoolname\r\n",
+							",c.Area\r\n",
+							"-- --,c.CompassSchoolURL\r\n",
+							",s.AcademicYear\r\n",
+							",ae.iscurrent as IsCurrent_ActivityEnrolment\r\n",
+							"-- ,a.IsCurrent as IsCurrent_Activity\r\n",
+							",s.IsCurrent as IsCurrent_Subject\r\n",
+							"-- ,staff.iscurrent as IsCurrent_Staff\r\n",
+							",d.iscurrent as IsCurrent_Student\r\n",
+							"\r\n",
+							"\r\n",
+							"FROM \r\n",
+							"vw_CompassODSStudentDemographic d \r\n",
+							"\r\n",
+							"JOIN vw_CompassODSActivityEnrolment ae \r\n",
+							"ON d.CompassPersonId = ae.CompassPersonId\r\n",
+							"and ae.iscurrent is True \r\n",
+							"\r\n",
+							"-- JOIN vw_CompassODSActivity a \r\n",
+							"-- ON ae.ActivityCode = a.ActivityCode\r\n",
+							"-- AND ae.CampusId = a.CampusId\r\n",
+							"\r\n",
+							"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
+							"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
+							"--AND a.CampusId = s.CampusId\r\n",
+							"AND d.CampusId = s.CampusId\r\n",
+							"and s.iscurrent is True\r\n",
+							"\r\n",
+							"-- LEFT outer JOIN vw_CompassODSStaffDemographic  staff \r\n",
+							"-- ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
+							"\r\n",
+							"JOIN vw_dmcampus c ON d.CampusId = c.bkCampusId\r\n",
+							"\r\n",
+							"WHERE \r\n",
+							"d.iscurrent is True\r\n",
+							"--AND a.ActivityTypeDescription = 'Standard Class'\r\n",
+							"and d.firstname = 'Georgia'\r\n",
+							"and d.lastname = 'Carland'\r\n",
+							"and s.AcademicYear is not null"
+						],
+						"outputs": [],
+						"execution_count": 71
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_dmcampus"
+						],
+						"outputs": [],
+						"execution_count": 70
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_CompassODSCompassSubject \r\n",
+							"limit 3"
+						],
+						"outputs": [],
+						"execution_count": 63
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_CompassODSActivityEnrolment\r\n",
+							"limit 5"
+						],
+						"outputs": [],
+						"execution_count": 52
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select * from vw_CompassODSStudentDemographic\r\n",
+							"limit 3"
+						],
+						"outputs": [],
+						"execution_count": 53
 					}
 				]
 			},
@@ -21953,7 +22381,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a0625536-2616-4f16-a9bd-457a87c38d08"
+						"spark.autotune.trackingId": "35779093-f2d0-40ad-b0c1-e8992ab52d20"
 					}
 				},
 				"metadata": {
@@ -28341,7 +28769,7 @@
 							"where firstname = 'Adaline' and lastname = 'Airey' -- skyearlevel = 14"
 						],
 						"outputs": [],
-						"execution_count": 47
+						"execution_count": 48
 					},
 					{
 						"cell_type": "code",

@@ -16,22 +16,45 @@
 			"transformations": [
 				{
 					"name": "ResultsFilter"
+				},
+				{
+					"name": "Schema",
+					"description": "Creates an explicit mapping for each drifted column"
 				}
 			],
 			"scriptLines": [
 				"source(useSchema: false,",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'delimited',",
 				"     fileSystem: 'stage1np',",
-				"     folderPath: '_AE_ManualUploadRawFiles',",
-				"     fileName: '*',",
 				"     columnDelimiter: ',',",
 				"     escapeChar: '@',",
 				"     quoteChar: '\\\"',",
-				"     columnNamesAsHeader: true) ~> AESemesterReports",
-				"AESemesterReports filter(ERROR_FUNCTION('')) ~> ResultsFilter"
+				"     columnNamesAsHeader: true,",
+				"     dateFormats: ['dd/MM/yyyy'],",
+				"     timestampFormats: ['dd/MM/yyyy'],",
+				"     preferredIntegralType: 'integer',",
+				"     preferredFractionalType: 'double',",
+				"     booleanFormat: ['True', 'False'],",
+				"     wildcardPaths:['_AE_ManualUploadRawFiles/*'],",
+				"     partitionBy('hash', 1)) ~> AESemesterReports",
+				"Schema filter(ERROR_FUNCTION('')) ~> ResultsFilter",
+				"AESemesterReports derive(StudentFirstName = toString(byName('StudentFirstName')),",
+				"          StudentLastName = toString(byName('StudentLastName')),",
+				"          StudentCode = toString(byName('StudentCode')),",
+				"          GovtCode1 = toString(byName('GovtCode1')),",
+				"          StudentYearLevel = toString(byName('StudentYearLevel')),",
+				"          StudentFormGroup = toString(byName('StudentFormGroup')),",
+				"          StudentHouseGroup = toString(byName('StudentHouseGroup')),",
+				"          Subject = toString(byName('Subject')),",
+				"          ClassCode = toString(byName('ClassCode')),",
+				"          Teacher = toString(byName('Teacher')),",
+				"          AssessmentType = toString(byName('AssessmentType')),",
+				"          AssessmentArea = toString(byName('AssessmentArea')),",
+				"          Result = toString(byName('Result'))) ~> Schema"
 			]
 		}
 	}

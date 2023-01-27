@@ -1,0 +1,75 @@
+{
+	"name": "SourceDataset_AEManual",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureFileStorage_AEData",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"folderPath": "AECompassData"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "StudentFirstName",
+				"type": "String"
+			},
+			{
+				"name": "StudentLastName",
+				"type": "String"
+			},
+			{
+				"name": "StudentCode",
+				"type": "String"
+			},
+			{
+				"name": "GovtCode1",
+				"type": "String"
+			},
+			{
+				"name": "StudentYearLevel",
+				"type": "String"
+			},
+			{
+				"name": "StudentFormGroup",
+				"type": "String"
+			},
+			{
+				"name": "StudentHouseGroup",
+				"type": "String"
+			},
+			{
+				"name": "Subject",
+				"type": "String"
+			},
+			{
+				"name": "ClassCode",
+				"type": "String"
+			},
+			{
+				"name": "Teacher",
+				"type": "String"
+			},
+			{
+				"name": "AssessmentType",
+				"type": "String"
+			},
+			{
+				"name": "AssessmentArea",
+				"type": "String"
+			},
+			{
+				"name": "Result",
+				"type": "String"
+			}
+		]
+	}
+}

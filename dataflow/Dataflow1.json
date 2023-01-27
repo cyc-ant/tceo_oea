@@ -12,7 +12,15 @@
 					"name": "AESemesterReports"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "LS_ADLS_OEA",
+						"type": "LinkedServiceReference"
+					},
+					"name": "AESemesterReportsSink"
+				}
+			],
 			"transformations": [
 				{
 					"name": "ResultsFilter"
@@ -41,7 +49,7 @@
 				"     booleanFormat: ['True', 'False'],",
 				"     wildcardPaths:['_AE_ManualUploadRawFiles/*'],",
 				"     partitionBy('hash', 1)) ~> AESemesterReports",
-				"Schema filter(ERROR_FUNCTION('')) ~> ResultsFilter",
+				"Schema filter(AssessmentType==\"QLD Overall Result\"||AssessmentType==\"QLD Subject Result\") ~> ResultsFilter",
 				"AESemesterReports derive(StudentFirstName = toString(byName('StudentFirstName')),",
 				"          StudentLastName = toString(byName('StudentLastName')),",
 				"          StudentCode = toString(byName('StudentCode')),",
@@ -54,7 +62,22 @@
 				"          Teacher = toString(byName('Teacher')),",
 				"          AssessmentType = toString(byName('AssessmentType')),",
 				"          AssessmentArea = toString(byName('AssessmentArea')),",
-				"          Result = toString(byName('Result'))) ~> Schema"
+				"          Result = toString(byName('Result'))) ~> Schema",
+				"ResultsFilter sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'stage1np',",
+				"     folderPath: '_AE_PreProcessed',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true,",
+				"     umask: 0777,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     quoteAll: true) ~> AESemesterReportsSink"
 			]
 		}
 	}

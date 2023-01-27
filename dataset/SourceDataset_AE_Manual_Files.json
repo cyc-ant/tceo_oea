@@ -13,7 +13,7 @@
 				"folderPath": "AECompassData"
 			},
 			"columnDelimiter": ",",
-			"escapeChar": "\\",
+			"escapeChar": "",
 			"firstRowAsHeader": true,
 			"quoteChar": "~"
 		},

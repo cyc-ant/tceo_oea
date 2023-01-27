@@ -14,7 +14,7 @@
 				"fileSystem": "stage1np"
 			},
 			"columnDelimiter": ",",
-			"escapeChar": "\\",
+			"escapeChar": "",
 			"firstRowAsHeader": true,
 			"quoteChar": "~"
 		},

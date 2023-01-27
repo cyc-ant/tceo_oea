@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "4cab0bc6-d83a-4fed-9f85-56a042775525"
+				"spark.autotune.trackingId": "6317b201-cebe-4359-ac51-725778937b83"
 			}
 		},
 		"metadata": {
@@ -137,7 +137,7 @@
 					"\r\n",
 					"            # if the file is not a primary semester or learning task results report, then skip the file\r\n",
 					"            if (report_type == 'Primary'):\r\n",
-					"                df = self._addReportDetailsPrimary(filename, school_name, school_area, semester, year)\r\n",
+					"                df = self._addReportDetails(filename, school_name, school_area, semester, year)\r\n",
 					"                \r\n",
 					"                # add the data frame to the list of dataframes\r\n",
 					"                primaryreport_list.append(df)\r\n",
@@ -222,7 +222,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 13
+				"execution_count": 14
 			}
 		]
 	}

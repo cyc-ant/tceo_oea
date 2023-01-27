@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c526c012-6ff0-4821-9765-0d9256f2dc46"
+				"spark.autotune.trackingId": "ae605054-5018-46ff-b4fb-3f5ef6358ebe"
 			}
 		},
 		"metadata": {
@@ -69,7 +69,25 @@
 					"from pyspark.sql import DataFrame\r\n",
 					"from functools import reduce"
 				],
-				"execution_count": 15
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"%run OEA_py"
+				],
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
@@ -144,7 +162,7 @@
 					"        learning_indexed_df = learning_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
 					"\r\n",
 					"        # save the csv files\r\n",
-					"        primary_indexed_df.write.option(\"header\", True) \\\r\n",
+					"        primary_indexed_df.coalesce(1).write.option(\"header\", True) \\\r\n",
 					"            .csv(f'{self.stage1np}/AE_ManualSemesterReports')\r\n",
 					"\r\n",
 					"        learning_indexed_df.write.option(\"header\", True) \\\r\n",
@@ -163,6 +181,8 @@
 					"        return final_df\r\n",
 					"\r\n",
 					"\r\n",
+					"source_folder = \"/_AE_ManualUploadRawFiles\"\r\n",
+					"\r\n",
 					"# instantiate the AE Manual Data Copy with a source folder that contains all the ingested data files \r\n",
 					"aecopy = AEManualCopy(source_folder)\r\n",
 					"\r\n",
@@ -170,7 +190,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 28
+				"execution_count": 3
 			}
 		]
 	}

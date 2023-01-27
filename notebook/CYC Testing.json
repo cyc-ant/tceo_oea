@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c4c4294a-6c3b-4948-a882-e57ef092071c"
+				"spark.autotune.trackingId": "522a4510-c3f4-41be-aacd-dc66d1c4f2f3"
 			}
 		},
 		"metadata": {
@@ -1396,7 +1396,7 @@
 					"and d.lastname = 'Carland'\r\n",
 					"and s.AcademicYear is not null"
 				],
-				"execution_count": 71
+				"execution_count": 72
 			},
 			{
 				"cell_type": "code",

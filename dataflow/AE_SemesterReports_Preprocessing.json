@@ -1,5 +1,5 @@
 {
-	"name": "Dataflow1",
+	"name": "AE_SemesterReports_Preprocessing",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {

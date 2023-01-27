@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "73e5243a-21c1-4cfe-85f7-9fbb063e4527"
+				"spark.autotune.trackingId": "4cab0bc6-d83a-4fed-9f85-56a042775525"
 			}
 		},
 		"metadata": {
@@ -156,20 +156,15 @@
 					"        # once we have all of the files converted to dataframes with the extra columns, we can combined them back to one file\r\n",
 					"        if primaryreport_list:\r\n",
 					"            primary_combined_df =  reduce(DataFrame.unionAll, primaryreport_list)\r\n",
+					"            # add an index to the combined tables \r\n",
+					"            primary_indexed_df = primary_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+					"            # save the csv files\r\n",
+					"            primary_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/AE_ManualSemesterReports')\r\n",
 					"        \r\n",
 					"        if learningreport_list:\r\n",
 					"            learning_combined_df = reduce(DataFrame.unionAll, learningreport_list)\r\n",
-					"\r\n",
-					"        # add an index to the combined tables \r\n",
-					"        primary_indexed_df = primary_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
-					"        learning_indexed_df = learning_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
-					"\r\n",
-					"        # save the csv files\r\n",
-					"        primary_indexed_df.coalesce(1).write.option(\"header\", True) \\\r\n",
-					"            .csv(f'{self.stage1np}/AE_ManualSemesterReports')\r\n",
-					"\r\n",
-					"        learning_indexed_df.write.option(\"header\", True) \\\r\n",
-					"            .csv(f'{self.stage1np}/AE_ManualLearningTasks')\r\n",
+					"            learning_indexed_df = learning_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())      \r\n",
+					"            learning_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/AE_ManualLearningTasks')\r\n",
 					"\r\n",
 					"\r\n",
 					"    def _addReportDetailsPrimary(self, file, school_name, school_area, semester, year):\r\n",
@@ -227,7 +222,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 12
+				"execution_count": 13
 			}
 		]
 	}

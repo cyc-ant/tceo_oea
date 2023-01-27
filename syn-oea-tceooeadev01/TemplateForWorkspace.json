@@ -12179,7 +12179,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "42618302-8ac4-4cea-bfb4-ed58e012ea37"
+						"spark.autotune.trackingId": "c20bee36-a278-4499-a50b-a848402a1c45"
 					}
 				},
 				"metadata": {
@@ -12298,7 +12298,7 @@
 							"\r\n",
 							"            # if the file is not a primary semester or learning task results report, then skip the file\r\n",
 							"            if (report_type == 'Primary'):\r\n",
-							"                df = self._addReportDetailsPrimary(filename, school_name, school_area, semester, year)\r\n",
+							"                df = self._addReportDetails(filename, school_name, school_area, semester, year)\r\n",
 							"                \r\n",
 							"                # add the data frame to the list of dataframes\r\n",
 							"                primaryreport_list.append(df)\r\n",
@@ -12315,19 +12315,17 @@
 							"                \r\n",
 							"\r\n",
 							"        # once we have all of the files converted to dataframes with the extra columns, we can combined them back to one file\r\n",
-							"        primary_combined_df =  reduce(DataFrame.unionAll, primaryreport_list)\r\n",
-							"        learning_combined_df = reduce(DataFrame.unionAll, learningreport_list)\r\n",
-							"\r\n",
-							"        # add an index to the combined tables \r\n",
-							"        primary_indexed_df = primary_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
-							"        learning_indexed_df = learning_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
-							"\r\n",
-							"        # save the csv files\r\n",
-							"        primary_indexed_df.coalesce(1).write.option(\"header\", True) \\\r\n",
-							"            .csv(f'{self.stage1np}/AE_ManualSemesterReports')\r\n",
-							"\r\n",
-							"        learning_indexed_df.write.option(\"header\", True) \\\r\n",
-							"            .csv(f'{self.stage1np}/AE_ManualLearningTasks')\r\n",
+							"        if primaryreport_list:\r\n",
+							"            primary_combined_df =  reduce(DataFrame.unionAll, primaryreport_list)\r\n",
+							"            # add an index to the combined tables \r\n",
+							"            primary_indexed_df = primary_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+							"            # save the csv files\r\n",
+							"            primary_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/AE_ManualSemesterReports')\r\n",
+							"        \r\n",
+							"        if learningreport_list:\r\n",
+							"            learning_combined_df = reduce(DataFrame.unionAll, learningreport_list)\r\n",
+							"            learning_indexed_df = learning_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())      \r\n",
+							"            learning_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/AE_ManualLearningTasks')\r\n",
 							"\r\n",
 							"\r\n",
 							"    def _addReportDetailsPrimary(self, file, school_name, school_area, semester, year):\r\n",
@@ -12376,7 +12374,7 @@
 							"        return final_df\r\n",
 							"\r\n",
 							"\r\n",
-							"source_folder = \"/_AE_ManualUploadRawFiles\"\r\n",
+							"source_folder = \"/_AE_Test\"\r\n",
 							"\r\n",
 							"# instantiate the AE Manual Data Copy with a source folder that contains all the ingested data files \r\n",
 							"aecopy = AEManualCopy(source_folder)\r\n",
@@ -12386,7 +12384,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 15
 					}
 				]
 			},

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "34e234e5-f7e5-498f-88db-ccd1690c3f6a"
+				"spark.autotune.trackingId": "34273faf-e551-42c6-8f17-eb2bec3c357e"
 			}
 		},
 		"metadata": {
@@ -63,7 +63,7 @@
 					"\r\n",
 					"%run OEA_py"
 				],
-				"execution_count": 5
+				"execution_count": 1
 			},
 			{
 				"cell_type": "code",
@@ -76,18 +76,15 @@
 						"transient": {
 							"deleting": false
 						}
-					},
-					"microsoft": {
-						"language": "python"
 					}
 				},
 				"source": [
-					"%%pyspark\r\n",
+					"# %%pyspark\r\n",
 					"\r\n",
-					"sourcep = oea.stage2p\r\n",
-					"df1 = spark.read.load(sourcep + \"/ACER/DMFactPATResults_pseudo\", format='delta')\r\n",
+					"# sourcep = oea.stage2p\r\n",
+					"# df1 = spark.read.load(sourcep + \"/ACER/DMFactPATResults_pseudo\", format='delta')\r\n",
 					"\r\n",
-					"df1.createOrReplaceTempView('vw_df_dmfactpatresults_pseudo')"
+					"# df1.createOrReplaceTempView('vw_df_dmfactpatresults_pseudo')"
 				],
 				"execution_count": 10
 			},
@@ -106,7 +103,7 @@
 					"collapsed": false
 				},
 				"source": [
-					"select count(*) from vw_df_dmfactpatresults_pseudo;"
+					"-- select count(*) from vw_df_dmfactpatresults_pseudo;"
 				],
 				"execution_count": 11
 			},
@@ -121,18 +118,15 @@
 						"transient": {
 							"deleting": false
 						}
-					},
-					"microsoft": {
-						"language": "python"
 					}
 				},
 				"source": [
-					"%%pyspark\r\n",
+					"# %%pyspark\r\n",
 					"\r\n",
-					"sourcep = oea.stage2p\r\n",
-					"df2 = spark.read.load(sourcep + \"/ACER/DMPATStudentTestGrouping_pseudo\", format='delta')\r\n",
+					"# sourcep = oea.stage2p\r\n",
+					"# df2 = spark.read.load(sourcep + \"/ACER/DMPATStudentTestGrouping_pseudo\", format='delta')\r\n",
 					"\r\n",
-					"df2.createOrReplaceTempView('vw_df_dmpatstudenttestgrouping')"
+					"# df2.createOrReplaceTempView('vw_df_dmpatstudenttestgrouping')"
 				],
 				"execution_count": 12
 			},
@@ -151,7 +145,7 @@
 					"collapsed": false
 				},
 				"source": [
-					"select count(*) from vw_df_dmpatstudenttestgrouping;"
+					"-- select count(*) from vw_df_dmpatstudenttestgrouping;"
 				],
 				"execution_count": 13
 			},
@@ -170,21 +164,21 @@
 					"collapsed": false
 				},
 				"source": [
-					"-- select max(combineddatetime) from (\r\n",
+					"-- -- select max(combineddatetime) from (\r\n",
+					"-- -- select datecomplete, timecomplete, right(left(timecomplete, 10), 8), concat(datecomplete, ' ', right(left(timecomplete, 10), 8)) as combineddatetime from vw_df_dmpatstudenttestgrouping \r\n",
+					"-- -- --limit 10 \r\n",
+					"-- -- order by datecomplete desc, timecomplete desc\r\n",
+					"-- -- ) innerquery;\r\n",
+					"\r\n",
+					"-- select min(combineddatetime) from (\r\n",
 					"-- select datecomplete, timecomplete, right(left(timecomplete, 10), 8), concat(datecomplete, ' ', right(left(timecomplete, 10), 8)) as combineddatetime from vw_df_dmpatstudenttestgrouping \r\n",
 					"-- --limit 10 \r\n",
-					"-- order by datecomplete desc, timecomplete desc\r\n",
+					"-- order by datecomplete asc, timecomplete asc\r\n",
 					"-- ) innerquery;\r\n",
 					"\r\n",
-					"select min(combineddatetime) from (\r\n",
-					"select datecomplete, timecomplete, right(left(timecomplete, 10), 8), concat(datecomplete, ' ', right(left(timecomplete, 10), 8)) as combineddatetime from vw_df_dmpatstudenttestgrouping \r\n",
-					"--limit 10 \r\n",
-					"order by datecomplete asc, timecomplete asc\r\n",
-					") innerquery;\r\n",
 					"\r\n",
-					"\r\n",
-					"--select min(datecomplete), max(datecomplete) from vw_df_dmpatstudenttestgrouping ;\r\n",
-					"--select min(timecomplete), max(timecomplete) from vw_df_dmpatstudenttestgrouping ;\r\n",
+					"-- --select min(datecomplete), max(datecomplete) from vw_df_dmpatstudenttestgrouping ;\r\n",
+					"-- --select min(timecomplete), max(timecomplete) from vw_df_dmpatstudenttestgrouping ;\r\n",
 					""
 				],
 				"execution_count": 34
@@ -204,84 +198,461 @@
 					"collapsed": false
 				},
 				"source": [
-					"--concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8))\r\n",
+					"-- --concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8))\r\n",
 					"\r\n",
-					"select \r\n",
-					"a.*, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime\r\n",
-					"from vw_df_dmfactpatresults_pseudo a\r\n",
-					"left join vw_df_dmpatstudenttestgrouping b\r\n",
-					"on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping\r\n",
+					"-- select \r\n",
+					"-- a.*, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime\r\n",
+					"-- from vw_df_dmfactpatresults_pseudo a\r\n",
+					"-- left join vw_df_dmpatstudenttestgrouping b\r\n",
+					"-- on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping\r\n",
 					"\r\n",
-					"inner join \r\n",
+					"-- inner join \r\n",
 					"\r\n",
-					"(\r\n",
-					"select skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime, max(skpatresults) as maxskpatresults\r\n",
-					"from\r\n",
-					"(\r\n",
-					"select a.skpatresults, a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime\r\n",
-					"from vw_df_dmfactpatresults_pseudo a\r\n",
-					"left join vw_df_dmpatstudenttestgrouping b\r\n",
-					"on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping\r\n",
+					"-- (\r\n",
+					"-- select skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime, max(skpatresults) as maxskpatresults\r\n",
+					"-- from\r\n",
+					"-- (\r\n",
+					"-- select a.skpatresults, a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime\r\n",
+					"-- from vw_df_dmfactpatresults_pseudo a\r\n",
+					"-- left join vw_df_dmpatstudenttestgrouping b\r\n",
+					"-- on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping\r\n",
 					"\r\n",
 					"\r\n",
-					"inner join \r\n",
-					"(\r\n",
-					"select skyear, skacerstudent, skpattest, skcampus, combineddatetime, max(scalescore) as maxscalescore\r\n",
-					"from\r\n",
-					"(\r\n",
-					"select a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime\r\n",
-					"from vw_df_dmfactpatresults_pseudo a\r\n",
-					"left join vw_df_dmpatstudenttestgrouping b\r\n",
-					"on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping\r\n",
+					"-- inner join \r\n",
+					"-- (\r\n",
+					"-- select skyear, skacerstudent, skpattest, skcampus, combineddatetime, max(scalescore) as maxscalescore\r\n",
+					"-- from\r\n",
+					"-- (\r\n",
+					"-- select a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime\r\n",
+					"-- from vw_df_dmfactpatresults_pseudo a\r\n",
+					"-- left join vw_df_dmpatstudenttestgrouping b\r\n",
+					"-- on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping\r\n",
 					"\r\n",
-					"inner join\r\n",
-					"(select \r\n",
-					"\t\t\tskyear, skacerstudent, skpattest, skcampus, \r\n",
-					"\t\t\tmax(concat(datecomplete, ' ', right(left(timecomplete, 10), 8))) as latestdate\r\n",
-					"\t\t\tfrom\r\n",
-					"\t\t\t\t(\r\n",
-					"\t\t\t\tselect a.*, orig.skpatstudenttestgrouping, orig.skacerstanine, ScaleScore, skpatresults\r\n",
-					"\t\t\t\t, b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime\r\n",
-					"\t\t\t\t\tfrom (\r\n",
-					"\t\t\t\t\tselect skyear, skacerstudent, skpattest, skcampus, count(*) as counttotal \r\n",
-					"\t\t\t\t\tfrom vw_df_dmfactpatresults_pseudo\r\n",
-					"\t\t\t\t\twhere skpattest not in (43, 54, 65, 66, 76, 79, 92, 93, 94, 95, 96, 97, 98, 99, 100, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112)\r\n",
-					"\t\t\t\t\tgroup by skyear, skacerstudent, skpattest, skcampus\r\n",
-					"\t\t\t\t\t--having count(*) = 1\r\n",
-					"\t\t\t\t\t) a\r\n",
-					"\t\t\t\tleft join vw_df_dmfactpatresults_pseudo orig\r\n",
-					"\t\t\t\ton a.skyear = orig.skyear and a.skacerstudent = orig.skacerstudent and a.skpattest = orig.skpattest and a.skcampus = orig.skcampus\r\n",
-					"\t\t\t\tleft join vw_df_dmpatstudenttestgrouping b\r\n",
-					"\t\t\t\ton orig.skpatstudenttestgrouping = b.skpatstudenttestgrouping\r\n",
-					"\t\t\t\t) total\r\n",
-					"\t\t\tgroup by skyear, skacerstudent, skpattest, skcampus\r\n",
-					"\t\t\t) inner1\r\n",
+					"-- inner join\r\n",
+					"-- (select \r\n",
+					"-- \t\t\tskyear, skacerstudent, skpattest, skcampus, \r\n",
+					"-- \t\t\tmax(concat(datecomplete, ' ', right(left(timecomplete, 10), 8))) as latestdate\r\n",
+					"-- \t\t\tfrom\r\n",
+					"-- \t\t\t\t(\r\n",
+					"-- \t\t\t\tselect a.*, orig.skpatstudenttestgrouping, orig.skacerstanine, ScaleScore, skpatresults\r\n",
+					"-- \t\t\t\t, b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime\r\n",
+					"-- \t\t\t\t\tfrom (\r\n",
+					"-- \t\t\t\t\tselect skyear, skacerstudent, skpattest, skcampus, count(*) as counttotal \r\n",
+					"-- \t\t\t\t\tfrom vw_df_dmfactpatresults_pseudo\r\n",
+					"-- \t\t\t\t\twhere skpattest not in (43, 54, 65, 66, 76, 79, 92, 93, 94, 95, 96, 97, 98, 99, 100, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112)\r\n",
+					"-- \t\t\t\t\tgroup by skyear, skacerstudent, skpattest, skcampus\r\n",
+					"-- \t\t\t\t\t--having count(*) = 1\r\n",
+					"-- \t\t\t\t\t) a\r\n",
+					"-- \t\t\t\tleft join vw_df_dmfactpatresults_pseudo orig\r\n",
+					"-- \t\t\t\ton a.skyear = orig.skyear and a.skacerstudent = orig.skacerstudent and a.skpattest = orig.skpattest and a.skcampus = orig.skcampus\r\n",
+					"-- \t\t\t\tleft join vw_df_dmpatstudenttestgrouping b\r\n",
+					"-- \t\t\t\ton orig.skpatstudenttestgrouping = b.skpatstudenttestgrouping\r\n",
+					"-- \t\t\t\t) total\r\n",
+					"-- \t\t\tgroup by skyear, skacerstudent, skpattest, skcampus\r\n",
+					"-- \t\t\t) inner1\r\n",
 					"\r\n",
-					"on a.skyear = inner1.skyear\r\n",
-					"and a.skacerstudent = inner1.SKACERStudent\r\n",
-					"and a.SKPATTest = inner1.SKPATTest\r\n",
-					"and a.SKCampus = inner1.SKCampus\r\n",
-					"and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner1.latestdate\r\n",
-					") inner2\r\n",
-					"group by skyear, skacerstudent, skpattest, skcampus, combineddatetime\r\n",
-					") inner3\r\n",
-					"on a.skyear = inner3.skyear\r\n",
-					"and a.skacerstudent = inner3.SKACERStudent\r\n",
-					"and a.SKPATTest = inner3.SKPATTest\r\n",
-					"and a.SKCampus = inner3.SKCampus\r\n",
-					"and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner3.combineddatetime\r\n",
-					") inner4\r\n",
-					"group by skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime\r\n",
-					") inner5\r\n",
-					"on a.skyear = inner5.skyear\r\n",
-					"and a.skacerstudent = inner5.SKACERStudent\r\n",
-					"and a.SKPATTest = inner5.SKPATTest\r\n",
-					"and a.SKCampus = inner5.SKCampus\r\n",
-					"and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner5.combineddatetime\r\n",
-					"and a.SKPATResults = inner5.maxskpatresults;\r\n",
+					"-- on a.skyear = inner1.skyear\r\n",
+					"-- and a.skacerstudent = inner1.SKACERStudent\r\n",
+					"-- and a.SKPATTest = inner1.SKPATTest\r\n",
+					"-- and a.SKCampus = inner1.SKCampus\r\n",
+					"-- and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner1.latestdate\r\n",
+					"-- ) inner2\r\n",
+					"-- group by skyear, skacerstudent, skpattest, skcampus, combineddatetime\r\n",
+					"-- ) inner3\r\n",
+					"-- on a.skyear = inner3.skyear\r\n",
+					"-- and a.skacerstudent = inner3.SKACERStudent\r\n",
+					"-- and a.SKPATTest = inner3.SKPATTest\r\n",
+					"-- and a.SKCampus = inner3.SKCampus\r\n",
+					"-- and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner3.combineddatetime\r\n",
+					"-- ) inner4\r\n",
+					"-- group by skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime\r\n",
+					"-- ) inner5\r\n",
+					"-- on a.skyear = inner5.skyear\r\n",
+					"-- and a.skacerstudent = inner5.SKACERStudent\r\n",
+					"-- and a.SKPATTest = inner5.SKPATTest\r\n",
+					"-- and a.SKCampus = inner5.SKCampus\r\n",
+					"-- and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner5.combineddatetime\r\n",
+					"-- and a.SKPATResults = inner5.maxskpatresults;\r\n",
 					""
 				],
 				"execution_count": 37
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"%%pyspark\r\n",
+					"\r\n",
+					"# setup the temp tables we need\r\n",
+					"sourcep = oea.stage2p\r\n",
+					"source3p = oea.stage3p\r\n",
+					"\r\n",
+					"# used for classenrolment view\r\n",
+					"factsubjectenrolment_df = spark.read.load(sourcep + \"/enrolment/DMFactSubjectEnrolment_pseudo\", format='delta')\r\n",
+					"dmactivity_df = spark.read.load(sourcep + \"/enrolment/DMActivity_pseudo\", format='delta')\r\n",
+					"dmsubject_df = spark.read.load(sourcep + \"/enrolment/DMSubject_pseudo\", format='delta')\r\n",
+					"#dmpersondemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
+					"#dmyearlevel_df = spark.read.load(sourcep + \"/ACER/DMYearLevel_pseudo\", format='delta')\r\n",
+					"#dmcampus_df = spark.read.load(sourcep + \"/ACER/DMCampus_pseudo\", format='delta')\r\n",
+					"#dmdate_df = spark.read.load(sourcep + \"/ACER/DMDate_pseudo\", format='delta')\r\n",
+					"dmcalendaryear_df = spark.read.load(sourcep + \"/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"# stage 3\r\n",
+					"dmyearlevel_df = spark.read.load(source3p + \"/pilot/DMYearLevel_pseudo\", format='delta')\r\n",
+					"dmcampus_df = spark.read.load(source3p + \"/pilot/DMCampus_pseudo\", format='delta')\r\n",
+					"dmdate_df = spark.read.load(source3p + \"/pilot/DMDate_pseudo\", format='delta')\r\n",
+					"dmpersondemographic_df = spark.read.load(source3p + \"/pilot/DMPersonDemographic_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"\r\n",
+					"# used for active student view\r\n",
+					"factpersonmilestone_df = spark.read.load(sourcep + \"/student/DMFactPersonMilestone_pseudo\", format='delta')\r\n",
+					"dmrollgroup_df = spark.read.load(sourcep + \"/enrolment/DMRollGroup_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"# used for naplan and acer participation view\r\n",
+					"factstudentenrolmentcounts_df = spark.read.load(sourcep + \"/enrolment/DMFactStudentEnrolmentCounts_pseudo\", format='delta')\r\n",
+					"#dmdate_df = spark.read.load(sourcep + \"/ACER/DMDate_pseudo\", format='delta')\r\n",
+					"# stage 3 naplan and acer participation view\r\n",
+					"factnaplanstudentyearresult_df = spark.read.load(source3p + \"/pilot/DMFactNaplanStudentYearResult_pseudo\", format='delta')\r\n",
+					"factpatresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"# used for manual AE Learning Task\r\n",
+					"ae_manuallearningtasks_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualLearningTasks_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"# used for manual AE Semester Report\r\n",
+					"ae_manualsemesterreports_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualSemesterReports_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"\r\n",
+					"# used for ODS tables (+ dmcampus_df already added above)\r\n",
+					"odsactivity_df = spark.read.load(sourcep + \"/_ODS/CompassODSActivity_pseudo\", format='delta')\r\n",
+					"odsactivityenrolment_df = spark.read.load(sourcep + \"/_ODS/CompassODSActivityEnrolment_pseudo\", format='delta')\r\n",
+					"odscompasssubject_df = spark.read.load(sourcep + \"/_ODS/CompassODSCompassSubject_pseudo\", format='delta')\r\n",
+					"odsstaffdemographic_df = spark.read.load(sourcep + \"/_ODS/CompassODSStaffDemographic_pseudo\", format='delta')\r\n",
+					"odsstudentdemographic_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentDemographic_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"odsstafforganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStaffOrganisationDetails_pseudo\", format='delta')\r\n",
+					"odsstudentorganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationDetails_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"odsstudentorganisationmilestones_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationMilestones_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"\r\n",
+					"# create temp sql views\r\n",
+					"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
+					"dmactivity_df.createOrReplaceTempView('vw_dmactivity')\r\n",
+					"dmsubject_df.createOrReplaceTempView('vw_dmsubject')\r\n",
+					"dmpersondemographic_df.createOrReplaceTempView('vw_dmpersondemographic')\r\n",
+					"dmyearlevel_df.createOrReplaceTempView('vw_dmyearlevel')\r\n",
+					"dmcampus_df.createOrReplaceTempView('vw_dmcampus')\r\n",
+					"dmdate_df.createOrReplaceTempView('vw_dmdate')\r\n",
+					"dmcalendaryear_df.createOrReplaceTempView('vw_dmcalendaryear')\r\n",
+					"factpersonmilestone_df.createOrReplaceTempView('vw_factpersonmilestone')\r\n",
+					"dmrollgroup_df.createOrReplaceTempView('vw_dmrollgroup')\r\n",
+					"\r\n",
+					"factstudentenrolmentcounts_df.createOrReplaceTempView('vw_factstudentenrolmentcounts')\r\n",
+					"factnaplanstudentyearresult_df.createOrReplaceTempView('vw_factnaplanstudentyearresult')\r\n",
+					"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')\r\n",
+					"\r\n",
+					"ae_manuallearningtasks_df.createOrReplaceTempView('vw_aemanuallearningtasks')\r\n",
+					"ae_manualsemesterreports_df.createOrReplaceTempView('vw_aemanualsemesterreports')\r\n",
+					"\r\n",
+					"odsactivity_df.createOrReplaceTempView('vw_CompassODSActivity') \r\n",
+					"odsactivityenrolment_df.createOrReplaceTempView('vw_CompassODSActivityEnrolment') \r\n",
+					"odscompasssubject_df.createOrReplaceTempView('vw_CompassODSCompassSubject') \r\n",
+					"odsstaffdemographic_df.createOrReplaceTempView('vw_CompassODSStaffDemographic') \r\n",
+					"odsstudentdemographic_df.createOrReplaceTempView('vw_CompassODSStudentDemographic') \r\n",
+					"\r\n",
+					"odsstafforganisationdetails_df.createOrReplaceTempView('vw_CompassODSStaffOrganisationDetails') \r\n",
+					"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') \r\n",
+					"\r\n",
+					"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones') "
+				],
+				"execution_count": 2
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"CREATE TEMP VIEW vw_activestudent\r\n",
+					"AS\r\n",
+					"SELECT SchoolID AS SchoolAGEID,\r\n",
+					"    c.CampusSuburbAndName,\r\n",
+					"    pd.FirstName,\r\n",
+					"    pd.LastName,\r\n",
+					"    yl.SKYearLevel,\r\n",
+					"    rg.RollGroupDesc AS RollGroup,\r\n",
+					"    pd.Ceider,\r\n",
+					"    pd.SKPerson, \r\n",
+					"    pd.Disability,\r\n",
+					"    pd.ATSIId,\r\n",
+					"    pd.LBOTE\r\n",
+					"\r\n",
+					"FROM vw_factpersonmilestone f\r\n",
+					"JOIN vw_dmpersondemographic pd ON f.SKPerson = pd.SKPerson\r\n",
+					"JOIN vw_dmcampus c ON f.SKCampus = c.SKCampus\r\n",
+					"JOIN vw_dmyearlevel yl ON f.SKYearLevel = yl.SKYearLevel\r\n",
+					"JOIN vw_dmrollgroup rg ON f.SKRollGroup = rg.SKRollGroup\r\n",
+					"WHERE \r\n",
+					"    f.IsCurrentMilestone = 'True'\r\n",
+					"    AND f.IsActiveMilestone = 'True'\r\n",
+					"    AND pd.PersonType = 'Student'\r\n",
+					"ORDER BY SchoolAGEID, yl.YearLevelSifDesc, pd.FirstName, pd.LastName\r\n",
+					""
+				],
+				"execution_count": 3
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select count(*) from vw_activestudent"
+				],
+				"execution_count": 6
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select count(*) from vw_aemanualsemesterreports\r\n",
+					"--where bkid is not null --18494\r\n",
+					"--where bkid is null --621494"
+				],
+				"execution_count": 27
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_aemanualsemesterreports\r\n",
+					"where studentfirstname = 'Isla' \r\n",
+					"    and studentlastname = 'Hildebrandt'"
+				],
+				"execution_count": 26
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select count(*) from vw_ae_manual_semesterreports; --112780"
+				],
+				"execution_count": 17
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"CREATE TEMP VIEW vw_ae_manual_semesterreports\r\n",
+					"as\r\n",
+					"\r\n",
+					"select \r\n",
+					"m.* \r\n",
+					", innerquery.ceider\r\n",
+					", innerquery.schoolid\r\n",
+					", innerquery.skcampus\r\n",
+					"from vw_aemanualsemesterreports m\r\n",
+					"\r\n",
+					"left join \r\n",
+					"(\r\n",
+					"    select a.ceider, a.firstname, a.lastname, a.persontype\r\n",
+					"    ,b.skcampus\r\n",
+					"    ,c.schoolname, c.area, c.schoolid\r\n",
+					"    ,b.skyearlevel \r\n",
+					"    ,d.yearlevelsifdesc, d.businessdesc, d.yearlevelsifcode\r\n",
+					"    --, concat(lower(a.firstname), lower(a.lastname), lower(c.schoolname), lower(d.businessdesc)) as joinkey\r\n",
+					"    from vw_dmpersondemographic a \r\n",
+					"    left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+					"    left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
+					"    left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
+					"    where a.persontype = 'Student'\r\n",
+					"         and b.iscurrentmilestone = 'True'\r\n",
+					") innerquery\r\n",
+					"\r\n",
+					"on lower(m.studentfirstname) = trim(lower(innerquery.firstname))\r\n",
+					"and lower(m.studentlastname) = trim(lower(innerquery.lastname))\r\n",
+					"and lower(m.school_name) = lower(innerquery.schoolname)\r\n",
+					"and lower(m.area) = lower(innerquery.area)\r\n",
+					"and trim(lower(m.studentyearlevel)) = trim(lower(innerquery.yearlevelsifdesc))\r\n",
+					"\r\n",
+					"\r\n",
+					"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N') "
+				],
+				"execution_count": 7
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"select * from vw_ae_manual_semesterreports \r\n",
+					"--where bkid is not null\r\n",
+					"--where year is null;"
+				],
+				"execution_count": 32
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"CREATE TEMP VIEW vw_ae_manual_learningtasks\r\n",
+					"as\r\n",
+					"\r\n",
+					"select \r\n",
+					"m.School_Name\r\n",
+					",m.Area\r\n",
+					",m.Semester\r\n",
+					",m.Year\r\n",
+					",m.SubjectName\r\n",
+					",m.Code\r\n",
+					",m.TeacherImportIdentifier\r\n",
+					",m.TaskId\r\n",
+					",m.IsSubjectWide\r\n",
+					",m.TaskName\r\n",
+					",m.StudentCode\r\n",
+					",m.GovtCode1\r\n",
+					",m.StudentLastName\r\n",
+					",m.StudentFirstName\r\n",
+					",m.YearLevel\r\n",
+					"--,case when m.YearLevel is null then m.YearLevel else concat('Year ' , cast(m.YearLevel as string)) end\r\n",
+					",m.ResultType\r\n",
+					",m.PrimaryGrade\r\n",
+					",m.CommentTimestamp\r\n",
+					",m.CommentPosterCode\r\n",
+					",m.CommentPosterName\r\n",
+					",m.Result\r\n",
+					",m.ComponentName\r\n",
+					",m.ComponentType\r\n",
+					",m.IsIncludedInReport\r\n",
+					",m.ReportCycleName\r\n",
+					",m.DueDate\r\n",
+					",m.Category\r\n",
+					",m.SubmissionStatus\r\n",
+					",m.ReceiptTime\r\n",
+					",m.BKID\r\n",
+					",innerquery.ceider\r\n",
+					",innerquery.schoolid\r\n",
+					",innerquery.skcampus\r\n",
+					"from vw_aemanuallearningtasks m\r\n",
+					"\r\n",
+					"left join \r\n",
+					"(\r\n",
+					"    select a.ceider, a.firstname, a.lastname, a.persontype, b.skcampus, b.skyearlevel,  c.schoolname, c.area, c.schoolid, d.yearlevelsifdesc, d.businessdesc, d.yearlevelsifcode\r\n",
+					"    --, concat(lower(a.firstname), lower(a.lastname), lower(c.schoolname), lower(d.businessdesc)) as joinkey\r\n",
+					"    from vw_dmpersondemographic a \r\n",
+					"    left join vw_factpersonmilestone b on a.ceider = b.ceider\r\n",
+					"    left join vw_dmcampus c on b.skcampus = c.skcampus\r\n",
+					"    left join vw_dmyearlevel d on b.skyearlevel = d.skyearlevel\r\n",
+					"    where a.persontype = 'Student'\r\n",
+					"        and b.iscurrentmilestone = 'True'\r\n",
+					") innerquery\r\n",
+					"\r\n",
+					"on lower(m.studentfirstname) = lower(innerquery.firstname)\r\n",
+					"and lower(m.studentlastname) = lower(innerquery.lastname)\r\n",
+					"and lower(m.school_name) = lower(innerquery.schoolname)\r\n",
+					"--and trim(m.yearlevel) = trim(innerquery.yearlevelsifcode)\r\n",
+					"and trim(case when m.YearLevel is null then -1 else m.YearLevel end) = trim(innerquery.yearlevelsifcode)\r\n",
+					"and lower(m.area) = lower(innerquery.area)\r\n",
+					"\r\n",
+					"where m.result in ('A', 'A+', 'A-', 'B', 'B+', 'B-', 'C', 'C+', 'C-', 'D', 'D+', 'D-', 'E', 'E+', 'N')"
+				],
+				"execution_count": 8
 			}
 		]
 	}

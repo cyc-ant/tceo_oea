@@ -31,6 +31,9 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     filename as string",
+				"}",
 				"source(useSchema: false,",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
@@ -47,7 +50,7 @@
 				"     preferredIntegralType: 'integer',",
 				"     preferredFractionalType: 'double',",
 				"     booleanFormat: ['True', 'False'],",
-				"     wildcardPaths:['_AE_ManualUploadRawFiles/*'],",
+				"     wildcardPaths:['_AE_ManualUpload_SemesterReports/*'],",
 				"     partitionBy('hash', 1)) ~> AESemesterReports",
 				"Schema filter(AssessmentType==\"QLD Overall Result\"||AssessmentType==\"QLD Subject Result\") ~> ResultsFilter",
 				"AESemesterReports derive(StudentFirstName = toString(byName('StudentFirstName')),",
@@ -72,12 +75,14 @@
 				"     escapeChar: '\\\\',",
 				"     quoteChar: '\\\"',",
 				"     columnNamesAsHeader: true,",
+				"     partitionFileNames:[($filename)],",
 				"     umask: 0777,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     quoteAll: true) ~> AESemesterReportsSink"
+				"     quoteAll: true,",
+				"     partitionBy('hash', 1)) ~> AESemesterReportsSink"
 			]
 		}
 	}

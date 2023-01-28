@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_9g6",
+				"name": "Copy Semester Reports",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {

@@ -69,7 +69,7 @@
 									"type": "DataFlowReference",
 									"parameters": {
 										"dataflow_filename": {
-											"value": "@item()",
+											"value": "@item().Name",
 											"type": "Expression"
 										}
 									}

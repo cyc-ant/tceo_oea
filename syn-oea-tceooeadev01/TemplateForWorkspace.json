@@ -4502,8 +4502,8 @@
 								"referenceName": "AE_SemesterReports_Preprocessing",
 								"type": "DataFlowReference",
 								"parameters": {
-									"filename": {
-										"value": "@pipeline().parameters.filename",
+									"dataflow_filename": {
+										"value": "'@{/default}'",
 										"type": "Expression"
 									}
 								},
@@ -4524,11 +4524,6 @@
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
-				},
-				"parameters": {
-					"filename": {
-						"type": "string"
-					}
 				},
 				"annotations": []
 			},
@@ -4593,22 +4588,38 @@
 							"isSequential": true,
 							"activities": [
 								{
-									"name": "PreProcessing_AESemesterReports",
-									"type": "ExecutePipeline",
+									"name": "AE_SemesterReports_Preprocessing",
+									"type": "ExecuteDataFlow",
 									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
-										"pipeline": {
-											"referenceName": "PreProcessing_AESemesterReports",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {
-											"filename": {
-												"value": "@item()",
-												"type": "Expression"
+										"dataflow": {
+											"referenceName": "AE_SemesterReports_Preprocessing",
+											"type": "DataFlowReference",
+											"parameters": {
+												"dataflow_filename": {
+													"value": "@item()",
+													"type": "Expression"
+												}
+											},
+											"datasetParameters": {
+												"AESemesterReports": {},
+												"AESemesterReportsSink": {}
 											}
-										}
+										},
+										"staging": {},
+										"compute": {
+											"coreCount": 8,
+											"computeType": "General"
+										},
+										"traceLevel": "Fine"
 									}
 								}
 							]
@@ -4623,7 +4634,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_AE_SemesterReports')]",
-				"[concat(variables('workspaceId'), '/pipelines/PreProcessing_AESemesterReports')]"
+				"[concat(variables('workspaceId'), '/dataflows/AE_SemesterReports_Preprocessing')]"
 			]
 		},
 		{
@@ -12252,7 +12263,7 @@
 					],
 					"scriptLines": [
 						"parameters{",
-						"     filename as string",
+						"     dataflow_filename as string",
 						"}",
 						"source(useSchema: false,",
 						"     allowSchemaDrift: true,",
@@ -12295,7 +12306,7 @@
 						"     escapeChar: '\\\\',",
 						"     quoteChar: '\\\"',",
 						"     columnNamesAsHeader: true,",
-						"     partitionFileNames:[($filename)],",
+						"     partitionFileNames:[($dataflow_filename)],",
 						"     umask: 0777,",
 						"     preCommands: [],",
 						"     postCommands: [],",

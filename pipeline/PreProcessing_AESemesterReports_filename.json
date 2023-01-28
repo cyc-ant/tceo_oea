@@ -24,6 +24,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -51,22 +52,33 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "PreProcessing_AESemesterReports",
-							"type": "ExecutePipeline",
+							"name": "AE_SemesterReports_Preprocessing",
+							"type": "ExecuteDataFlow",
 							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
 							"userProperties": [],
 							"typeProperties": {
-								"pipeline": {
-									"referenceName": "PreProcessing_AESemesterReports",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true,
-								"parameters": {
-									"filename": {
-										"value": "@item()",
-										"type": "Expression"
+								"dataflow": {
+									"referenceName": "AE_SemesterReports_Preprocessing",
+									"type": "DataFlowReference",
+									"parameters": {
+										"dataflow_filename": {
+											"value": "@item()",
+											"type": "Expression"
+										}
 									}
-								}
+								},
+								"compute": {
+									"coreCount": 8,
+									"computeType": "General"
+								},
+								"traceLevel": "Fine"
 							}
 						}
 					]

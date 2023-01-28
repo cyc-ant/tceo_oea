@@ -32,7 +32,7 @@
 			],
 			"scriptLines": [
 				"parameters{",
-				"     dataflow_file as string (\"test.csv\")",
+				"     dataflow_file as string",
 				"}",
 				"source(useSchema: false,",
 				"     allowSchemaDrift: true,",

@@ -4502,7 +4502,7 @@
 								"referenceName": "AE_SemesterReports_Preprocessing",
 								"type": "DataFlowReference",
 								"parameters": {
-									"dataflow_filename": {
+									"dataflow_file": {
 										"value": "'@{\"/default\"}'",
 										"type": "Expression"
 									}
@@ -4604,8 +4604,8 @@
 											"referenceName": "AE_SemesterReports_Preprocessing",
 											"type": "DataFlowReference",
 											"parameters": {
-												"dataflow_filename": {
-													"value": "@item()",
+												"dataflow_file": {
+													"value": "activity('Get File Name').output.itemName",
 													"type": "Expression"
 												}
 											},
@@ -12311,7 +12311,7 @@
 					],
 					"scriptLines": [
 						"parameters{",
-						"     dataflow_filename as string",
+						"     dataflow_file as string",
 						"}",
 						"source(useSchema: false,",
 						"     allowSchemaDrift: true,",
@@ -12349,12 +12349,12 @@
 						"     validateSchema: false,",
 						"     format: 'delimited',",
 						"     fileSystem: 'stage1np',",
-						"     folderPath: '_AE_ManualUploadRawFiles',",
+						"     folderPath: '_AE_ManualUploadRawFiles/',",
 						"     columnDelimiter: ',',",
 						"     escapeChar: '\\\\',",
 						"     quoteChar: '\\\"',",
 						"     columnNamesAsHeader: true,",
-						"     partitionFileNames:[($dataflow_filename)],",
+						"     partitionFileNames:[($dataflow_file)],",
 						"     umask: 0777,",
 						"     preCommands: [],",
 						"     postCommands: [],",

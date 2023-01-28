@@ -4480,122 +4480,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/Pre-Processing_with_filenames')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "AE_Semester PreProcessing",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "AE_SemesterReports_Preprocessing",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"AESemesterReports": {},
-									"AESemesterReportsSink": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					},
-					{
-						"name": "Filename",
-						"type": "GetMetadata",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "SourceDataset_AE_SemesterReports",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"fieldList": [
-								"childItems"
-							],
-							"storeSettings": {
-								"type": "AzureFileStorageReadSettings",
-								"recursive": true,
-								"enablePartitionDiscovery": false
-							},
-							"formatSettings": {
-								"type": "DelimitedTextReadSettings"
-							}
-						}
-					},
-					{
-						"name": "For Each File",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Filename",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Filename').output.childItems",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Pre-Processing-AESemester",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "PreProcessing_AESemesterReports",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {}
-									}
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/dataflows/AE_SemesterReports_Preprocessing')]",
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_AE_SemesterReports')]",
-				"[concat(variables('workspaceId'), '/pipelines/PreProcessing_AESemesterReports')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/PreProcessing_AESemesterReports')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -12303,7 +12187,7 @@
 						"     validateSchema: false,",
 						"     format: 'delimited',",
 						"     fileSystem: 'stage1np',",
-						"     folderPath: '_AE_PreProcessed',",
+						"     folderPath: '_AE_ManualUploadRawFiles',",
 						"     columnDelimiter: ',',",
 						"     escapeChar: '\\\\',",
 						"     quoteChar: '\\\"',",

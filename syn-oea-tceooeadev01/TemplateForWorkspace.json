@@ -4605,7 +4605,7 @@
 											"type": "DataFlowReference",
 											"parameters": {
 												"dataflow_file": {
-													"value": "@item().name",
+													"value": "'@{item().name}'",
 													"type": "Expression"
 												}
 											},

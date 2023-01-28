@@ -1,0 +1,62 @@
+{
+	"name": "AE_LearningTasks_PreProcessor",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "LS_ADLS_OEA",
+						"type": "LinkedServiceReference"
+					},
+					"name": "AELearningTasks"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				}
+			],
+			"scriptLines": [
+				"source(useSchema: false,",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'stage1np',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true,",
+				"     wildcardPaths:['_AE_ManualUpload_LearningTasks/*']) ~> AELearningTasks",
+				"AELearningTasks derive({11 Accounting} = toString(byName('11 Accounting')),",
+				"          {11ACC} = toString(byName('11ACC')),",
+				"          HORNC = toString(byName('HORNC')),",
+				"          {3906} = toString(byName('3906')),",
+				"          True = toString(byName('True')),",
+				"          {FA1: Examination — short response} = toString(byName('FA1: Examination — short response')),",
+				"          BATLEL = toString(byName('BATLEL')),",
+				"          {343247157} = toString(byName('343247157')),",
+				"          BATLEY = toString(byName('BATLEY')),",
+				"          Lachlan = toString(byName('Lachlan')),",
+				"          {12} = toString(byName('12')),",
+				"          Result = toString(byName('Result')),",
+				"          No = toString(byName('No')),",
+				"          {_c13} = toString(byName('_c13')),",
+				"          {_c14} = toString(byName('_c14')),",
+				"          {_c15} = toString(byName('_c15')),",
+				"          {3} = toString(byName('3')),",
+				"          Comprehending = toString(byName('Comprehending')),",
+				"          {Number - Whole numbers} = toString(byName('Number - Whole numbers')),",
+				"          False = toString(byName('False')),",
+				"          {Unit 1 Report} = toString(byName('Unit 1 Report')),",
+				"          {_c21} = toString(byName('_c21')),",
+				"          Assessment = toString(byName('Assessment')),",
+				"          OnTime = toString(byName('OnTime')),",
+				"          {29/03/2022 12:22:26 PM} = toString(byName('29/03/2022 12:22:26 PM'))) ~> MapDrifted1"
+			]
+		}
+	}
+}

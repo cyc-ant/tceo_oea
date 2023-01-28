@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "AE_Semester PreProcessing",
+				"name": "AE_LearningTasks_PreProcessing",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "AE_SemesterReports_Preprocessing",
+						"referenceName": "AE_LearningTasks_PreProcessor",
 						"type": "DataFlowReference"
 					},
 					"compute": {

@@ -4605,7 +4605,7 @@
 											"type": "DataFlowReference",
 											"parameters": {
 												"dataflow_file": {
-													"value": "@item()",
+													"value": "@item().Name  ",
 													"type": "Expression"
 												}
 											},
@@ -12311,7 +12311,7 @@
 					],
 					"scriptLines": [
 						"parameters{",
-						"     dataflow_file as string (\"test.csv\")",
+						"     dataflow_file as string",
 						"}",
 						"source(useSchema: false,",
 						"     allowSchemaDrift: true,",

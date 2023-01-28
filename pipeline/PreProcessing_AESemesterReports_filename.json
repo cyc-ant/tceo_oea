@@ -69,7 +69,7 @@
 									"type": "DataFlowReference",
 									"parameters": {
 										"dataflow_file": {
-											"value": "activity('Get File Name').output.itemName",
+											"value": "@item()",
 											"type": "Expression"
 										}
 									}

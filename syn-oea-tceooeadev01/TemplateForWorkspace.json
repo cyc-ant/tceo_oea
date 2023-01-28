@@ -525,95 +525,13 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_AE_Manual_Files')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_jx5",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "AECompassData/"
-							},
-							{
-								"name": "Destination",
-								"value": "stage1np/_AE_ManualUploadRawFiles/"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureFileStorageReadSettings",
-									"recursive": false,
-									"wildcardFileName": "*",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings",
-									"skipLineCount": 0
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"validateDataConsistency": false
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_AE_Manual_Files",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_AE_Manual_Files",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_AE_Manual_Files')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_AE_Manual_Files')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_AE_SemesterReports')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy_9g6",
+						"name": "Copy Semester Reports",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -4721,7 +4639,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/dataflows/AE_SemesterReports_Preprocessing')]"
+				"[concat(variables('workspaceId'), '/dataflows/AE_SemesterReports_Preprocessing')]",
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
 			]
 		},
 		{
@@ -8385,41 +8304,13 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "_AE_ManualUpload_LearningTasks",
+						"folderPath": "_AE_ManualUploadRawFiles",
 						"fileSystem": "stage1np"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_AE_Manual_Files')]",
-			"type": "Microsoft.Synapse/workspaces/datasets",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_ADLS_OEA",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": "_AE_ManualUploadRawFiles",
-						"fileSystem": "stage1np"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "@",
-					"firstRowAsHeader": false,
-					"quoteChar": "~"
 				},
 				"schema": []
 			},
@@ -8441,39 +8332,12 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "_AE_ManualUploadRawFiles",
+						"folderPath": "_AE_ManualUpload_SemesterReports",
 						"fileSystem": "stage1np"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "@",
 					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_AE_Test')]",
-			"type": "Microsoft.Synapse/workspaces/datasets",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_ADLS_OEA",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": "_AE_Test",
-						"fileSystem": "stage1np"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
 					"quoteChar": "\""
 				},
 				"schema": []
@@ -10464,86 +10328,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/SourceDataset_AE_Manual_Files')]",
-			"type": "Microsoft.Synapse/workspaces/datasets",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureFileStorage_AEData",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureFileStorageLocation",
-						"folderPath": "AECompassData"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "@",
-					"firstRowAsHeader": false,
-					"quoteChar": "~"
-				},
-				"schema": [
-					{
-						"name": "StudentFirstName",
-						"type": "String"
-					},
-					{
-						"name": "StudentLastName",
-						"type": "String"
-					},
-					{
-						"name": "StudentCode",
-						"type": "String"
-					},
-					{
-						"name": "GovtCode1",
-						"type": "String"
-					},
-					{
-						"name": "StudentYearLevel",
-						"type": "String"
-					},
-					{
-						"name": "StudentFormGroup",
-						"type": "String"
-					},
-					{
-						"name": "StudentHouseGroup",
-						"type": "String"
-					},
-					{
-						"name": "Subject",
-						"type": "String"
-					},
-					{
-						"name": "ClassCode",
-						"type": "String"
-					},
-					{
-						"name": "Teacher",
-						"type": "String"
-					},
-					{
-						"name": "AssessmentType",
-						"type": "String"
-					},
-					{
-						"name": "AssessmentArea",
-						"type": "String"
-					},
-					{
-						"name": "Result",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/AzureFileStorage_AEData')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/SourceDataset_AE_SemesterReports')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -10561,86 +10345,6 @@
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "@",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "StudentFirstName",
-						"type": "String"
-					},
-					{
-						"name": "StudentLastName",
-						"type": "String"
-					},
-					{
-						"name": "StudentCode",
-						"type": "String"
-					},
-					{
-						"name": "GovtCode1",
-						"type": "String"
-					},
-					{
-						"name": "StudentYearLevel",
-						"type": "String"
-					},
-					{
-						"name": "StudentFormGroup",
-						"type": "String"
-					},
-					{
-						"name": "StudentHouseGroup",
-						"type": "String"
-					},
-					{
-						"name": "Subject",
-						"type": "String"
-					},
-					{
-						"name": "ClassCode",
-						"type": "String"
-					},
-					{
-						"name": "Teacher",
-						"type": "String"
-					},
-					{
-						"name": "AssessmentType",
-						"type": "String"
-					},
-					{
-						"name": "AssessmentArea",
-						"type": "String"
-					},
-					{
-						"name": "Result",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/AzureFileStorage_AEData')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/SourceDataset_AE_Test')]",
-			"type": "Microsoft.Synapse/workspaces/datasets",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureFileStorage_AEData",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureFileStorageLocation",
-						"folderPath": "AE_Test"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},

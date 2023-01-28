@@ -68,8 +68,8 @@
 									"referenceName": "AE_SemesterReports_Preprocessing",
 									"type": "DataFlowReference",
 									"parameters": {
-										"dataflow_filename": {
-											"value": "@item()",
+										"dataflow_file": {
+											"value": "activity('Get File Name').output.itemName",
 											"type": "Expression"
 										}
 									}

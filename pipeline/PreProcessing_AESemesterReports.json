@@ -19,7 +19,7 @@
 						"referenceName": "AE_SemesterReports_Preprocessing",
 						"type": "DataFlowReference",
 						"parameters": {
-							"dataflow_filename": {
+							"dataflow_file": {
 								"value": "'@{\"/default\"}'",
 								"type": "Expression"
 							}

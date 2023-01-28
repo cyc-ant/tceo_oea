@@ -4501,7 +4501,12 @@
 							"dataflow": {
 								"referenceName": "AE_SemesterReports_Preprocessing",
 								"type": "DataFlowReference",
-								"parameters": {},
+								"parameters": {
+									"filename": {
+										"value": "@pipeline().parameters.filename",
+										"type": "Expression"
+									}
+								},
 								"datasetParameters": {
 									"AESemesterReports": {},
 									"AESemesterReportsSink": {}
@@ -4520,10 +4525,105 @@
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
 				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/dataflows/AE_SemesterReports_Preprocessing')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/PreProcessing_AESemesterReports_filename')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Get File Name",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "DestinationDataset_AE_SemesterReports",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					},
+					{
+						"name": "For Each File",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Get File Name",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Get File Name').output.childItems",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "PreProcessing_AESemesterReports",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "PreProcessing_AESemesterReports",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"filename": {
+												"value": "@item()",
+												"type": "Expression"
+											}
+										}
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_AE_SemesterReports')]",
+				"[concat(variables('workspaceId'), '/pipelines/PreProcessing_AESemesterReports')]"
 			]
 		},
 		{
@@ -12151,6 +12251,9 @@
 						}
 					],
 					"scriptLines": [
+						"parameters{",
+						"     filename as string",
+						"}",
 						"source(useSchema: false,",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -12167,7 +12270,7 @@
 						"     preferredIntegralType: 'integer',",
 						"     preferredFractionalType: 'double',",
 						"     booleanFormat: ['True', 'False'],",
-						"     wildcardPaths:['_AE_ManualUploadRawFiles/*'],",
+						"     wildcardPaths:['_AE_ManualUpload_SemesterReports/*'],",
 						"     partitionBy('hash', 1)) ~> AESemesterReports",
 						"Schema filter(AssessmentType==\"QLD Overall Result\"||AssessmentType==\"QLD Subject Result\") ~> ResultsFilter",
 						"AESemesterReports derive(StudentFirstName = toString(byName('StudentFirstName')),",
@@ -12192,12 +12295,14 @@
 						"     escapeChar: '\\\\',",
 						"     quoteChar: '\\\"',",
 						"     columnNamesAsHeader: true,",
+						"     partitionFileNames:[($filename)],",
 						"     umask: 0777,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     quoteAll: true) ~> AESemesterReportsSink"
+						"     quoteAll: true,",
+						"     partitionBy('hash', 1)) ~> AESemesterReportsSink"
 					]
 				}
 			},

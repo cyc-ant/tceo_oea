@@ -1,0 +1,32 @@
+{
+	"name": "PreProcessing_AELearningTasks",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "LS_ADLS_OEA",
+						"type": "LinkedServiceReference"
+					},
+					"name": "AELearningTasks"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(useSchema: false,",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'stage1np',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true,",
+				"     wildcardPaths:['_AE_ManualUpload_LearningTasks/*']) ~> AELearningTasks"
+			]
+		}
+	}
+}

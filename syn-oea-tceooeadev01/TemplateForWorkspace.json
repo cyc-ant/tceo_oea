@@ -4503,7 +4503,7 @@
 								"type": "DataFlowReference",
 								"parameters": {
 									"dataflow_filename": {
-										"value": "'@{/default}'",
+										"value": "'@{\"/default\"}'",
 										"type": "Expression"
 									}
 								},

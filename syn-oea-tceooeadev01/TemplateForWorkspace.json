@@ -4605,7 +4605,7 @@
 											"type": "DataFlowReference",
 											"parameters": {
 												"dataflow_file": {
-													"value": "activity('Get File Name').output.itemName",
+													"value": "@item()",
 													"type": "Expression"
 												}
 											},
@@ -12311,7 +12311,7 @@
 					],
 					"scriptLines": [
 						"parameters{",
-						"     dataflow_file as string",
+						"     dataflow_file as string (\"test.csv\")",
 						"}",
 						"source(useSchema: false,",
 						"     allowSchemaDrift: true,",

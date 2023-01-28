@@ -31,6 +31,9 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     dataflow_filename as string",
+				"}",
 				"source(useSchema: false,",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",

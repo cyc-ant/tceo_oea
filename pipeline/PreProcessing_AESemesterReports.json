@@ -17,7 +17,13 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "AE_SemesterReports_Preprocessing",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"parameters": {
+							"dataflow_filename": {
+								"value": "'@{/default}'",
+								"type": "Expression"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,

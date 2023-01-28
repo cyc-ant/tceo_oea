@@ -1,0 +1,84 @@
+{
+	"name": "AE_LearningTasks_PreProcessing",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "LS_ADLS_OEA",
+						"type": "LinkedServiceReference"
+					},
+					"name": "AELearningTasks"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "LS_ADLS_OEA",
+						"type": "LinkedServiceReference"
+					},
+					"name": "AESemesterReportsSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "ResultsFilter"
+				},
+				{
+					"name": "Schema",
+					"description": "Creates an explicit mapping for each drifted column"
+				}
+			],
+			"scriptLines": [
+				"source(useSchema: false,",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'stage1np',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '@',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: false,",
+				"     dateFormats: ['dd/MM/yyyy'],",
+				"     timestampFormats: ['dd/MM/yyyy'],",
+				"     preferredIntegralType: 'integer',",
+				"     preferredFractionalType: 'double',",
+				"     booleanFormat: ['True', 'False'],",
+				"     wildcardPaths:['_AE_ManualUpload_LearningTasks/*'],",
+				"     partitionBy('hash', 1)) ~> AELearningTasks",
+				"Schema filter(AssessmentType==\"QLD Overall Result\"||AssessmentType==\"QLD Subject Result\") ~> ResultsFilter",
+				"AELearningTasks derive(StudentFirstName = toString(byName('StudentFirstName')),",
+				"          StudentLastName = toString(byName('StudentLastName')),",
+				"          StudentCode = toString(byName('StudentCode')),",
+				"          GovtCode1 = toString(byName('GovtCode1')),",
+				"          StudentYearLevel = toString(byName('StudentYearLevel')),",
+				"          StudentFormGroup = toString(byName('StudentFormGroup')),",
+				"          StudentHouseGroup = toString(byName('StudentHouseGroup')),",
+				"          Subject = toString(byName('Subject')),",
+				"          ClassCode = toString(byName('ClassCode')),",
+				"          Teacher = toString(byName('Teacher')),",
+				"          AssessmentType = toString(byName('AssessmentType')),",
+				"          AssessmentArea = toString(byName('AssessmentArea')),",
+				"          Result = toString(byName('Result'))) ~> Schema",
+				"ResultsFilter sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'stage1np',",
+				"     folderPath: '_AE_PreProcessed',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true,",
+				"     umask: 0777,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     quoteAll: true) ~> AESemesterReportsSink"
+			]
+		}
+	}
+}

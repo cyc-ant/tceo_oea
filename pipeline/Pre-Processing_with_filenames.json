@@ -48,6 +48,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureFileStorageReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -81,7 +82,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "Pre-Processing",
+									"referenceName": "PreProcessing_AESemesterReports",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true

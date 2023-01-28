@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_dui",
+				"name": "Copy AE_LearningTasks",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -45,7 +45,7 @@
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
 							"quoteAllText": true,
-							"fileExtension": ".txt"
+							"fileExtension": ".csv"
 						}
 					},
 					"enableStaging": false,

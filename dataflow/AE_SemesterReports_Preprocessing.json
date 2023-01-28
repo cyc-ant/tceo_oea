@@ -75,7 +75,7 @@
 				"     escapeChar: '\\\\',",
 				"     quoteChar: '\\\"',",
 				"     columnNamesAsHeader: true,",
-				"     partitionFileNames:[($filename)],",
+				"     partitionFileNames:[($dataflow_filename)],",
 				"     umask: 0777,",
 				"     preCommands: [],",
 				"     postCommands: [],",

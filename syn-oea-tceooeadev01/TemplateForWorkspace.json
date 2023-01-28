@@ -449,7 +449,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy_dui",
+						"name": "Copy AE_LearningTasks",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -491,7 +491,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -4562,53 +4562,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/Pre-Processing')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "AE_Semester PreProcessing",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "AE_SemesterReports_Preprocessing",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"AESemesterReports": {},
-									"AESemesterReportsSink": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/dataflows/AE_SemesterReports_Preprocessing')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/Pre-Processing_with_filenames')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -4701,7 +4654,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
-											"referenceName": "Pre-Processing",
+											"referenceName": "PreProcessing_AESemesterReports",
 											"type": "PipelineReference"
 										},
 										"waitOnCompletion": true,
@@ -4721,7 +4674,101 @@
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/dataflows/AE_SemesterReports_Preprocessing')]",
 				"[concat(variables('workspaceId'), '/datasets/SourceDataset_AE_SemesterReports')]",
-				"[concat(variables('workspaceId'), '/pipelines/Pre-Processing')]"
+				"[concat(variables('workspaceId'), '/pipelines/PreProcessing_AESemesterReports')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/PreProcessing_AELearningTasks')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "AE_Semester PreProcessing",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "AE_SemesterReports_Preprocessing",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"AESemesterReports": {},
+									"AESemesterReportsSink": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/dataflows/AE_SemesterReports_Preprocessing')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/PreProcessing_AESemesterReports')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "AE_Semester PreProcessing",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "AE_SemesterReports_Preprocessing",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"AESemesterReports": {},
+									"AESemesterReportsSink": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/dataflows/AE_SemesterReports_Preprocessing')]"
 			]
 		},
 		{
@@ -12527,6 +12574,95 @@
 				"typeProperties": {}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/AE_LearningTasks_PreProcessing')]",
+			"type": "Microsoft.Synapse/workspaces/dataflows",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"linkedService": {
+								"referenceName": "LS_ADLS_OEA",
+								"type": "LinkedServiceReference"
+							},
+							"name": "AELearningTasks"
+						}
+					],
+					"sinks": [
+						{
+							"linkedService": {
+								"referenceName": "LS_ADLS_OEA",
+								"type": "LinkedServiceReference"
+							},
+							"name": "AESemesterReportsSink"
+						}
+					],
+					"transformations": [
+						{
+							"name": "ResultsFilter"
+						},
+						{
+							"name": "Schema",
+							"description": "Creates an explicit mapping for each drifted column"
+						}
+					],
+					"scriptLines": [
+						"source(useSchema: false,",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     inferDriftedColumnTypes: true,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'delimited',",
+						"     fileSystem: 'stage1np',",
+						"     columnDelimiter: ',',",
+						"     escapeChar: '@',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: false,",
+						"     dateFormats: ['dd/MM/yyyy'],",
+						"     timestampFormats: ['dd/MM/yyyy'],",
+						"     preferredIntegralType: 'integer',",
+						"     preferredFractionalType: 'double',",
+						"     booleanFormat: ['True', 'False'],",
+						"     wildcardPaths:['_AE_ManualUpload_LearningTasks/*'],",
+						"     partitionBy('hash', 1)) ~> AELearningTasks",
+						"Schema filter(AssessmentType==\"QLD Overall Result\"||AssessmentType==\"QLD Subject Result\") ~> ResultsFilter",
+						"AELearningTasks derive(StudentFirstName = toString(byName('StudentFirstName')),",
+						"          StudentLastName = toString(byName('StudentLastName')),",
+						"          StudentCode = toString(byName('StudentCode')),",
+						"          GovtCode1 = toString(byName('GovtCode1')),",
+						"          StudentYearLevel = toString(byName('StudentYearLevel')),",
+						"          StudentFormGroup = toString(byName('StudentFormGroup')),",
+						"          StudentHouseGroup = toString(byName('StudentHouseGroup')),",
+						"          Subject = toString(byName('Subject')),",
+						"          ClassCode = toString(byName('ClassCode')),",
+						"          Teacher = toString(byName('Teacher')),",
+						"          AssessmentType = toString(byName('AssessmentType')),",
+						"          AssessmentArea = toString(byName('AssessmentArea')),",
+						"          Result = toString(byName('Result'))) ~> Schema",
+						"ResultsFilter sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'delimited',",
+						"     fileSystem: 'stage1np',",
+						"     folderPath: '_AE_PreProcessed',",
+						"     columnDelimiter: ',',",
+						"     escapeChar: '\\\\',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: true,",
+						"     umask: 0777,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     quoteAll: true) ~> AESemesterReportsSink"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('workspaceName'), '/AE_SemesterReports_Preprocessing')]",

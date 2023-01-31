@@ -4638,54 +4638,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/PreProcessing_AESemesterReports_filename_copy1')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Get File Name",
-						"type": "GetMetadata",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "DestinationDataset_AE_SemesterReports",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"fieldList": [
-								"childItems"
-							],
-							"storeSettings": {
-								"type": "AzureBlobFSReadSettings",
-								"recursive": true,
-								"enablePartitionDiscovery": false
-							},
-							"formatSettings": {
-								"type": "DelimitedTextReadSettings"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_AE_SemesterReports')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/Stage1')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -14201,7 +14153,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "522a4510-c3f4-41be-aacd-dc66d1c4f2f3"
+						"spark.autotune.trackingId": "b04e5ecf-08e2-4c16-b4bf-e33cd0ff4b87"
 					}
 				},
 				"metadata": {
@@ -14226,7 +14178,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14244,7 +14197,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -14515,11 +14468,11 @@
 							"factnaplanstudentyearresult_df = spark.read.load(source3p + \"/pilot/DMFactNaplanStudentYearResult_pseudo\", format='delta')\r\n",
 							"factpatresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
 							"\r\n",
-							"# used for manual AE Learning Task\r\n",
-							"ae_manuallearningtasks_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualLearningTasks_pseudo\", format='delta')\r\n",
+							"# # used for manual AE Learning Task\r\n",
+							"# ae_manuallearningtasks_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualLearningTasks_pseudo\", format='delta')\r\n",
 							"\r\n",
-							"# used for manual AE Semester Report\r\n",
-							"ae_manualsemesterreports_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualSemesterReports_pseudo\", format='delta')\r\n",
+							"# # used for manual AE Semester Report\r\n",
+							"# ae_manualsemesterreports_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualSemesterReports_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"\r\n",
 							"# used for ODS tables (+ dmcampus_df already added above)\r\n",
@@ -14551,8 +14504,8 @@
 							"factnaplanstudentyearresult_df.createOrReplaceTempView('vw_factnaplanstudentyearresult')\r\n",
 							"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')\r\n",
 							"\r\n",
-							"ae_manuallearningtasks_df.createOrReplaceTempView('vw_aemanuallearningtasks')\r\n",
-							"ae_manualsemesterreports_df.createOrReplaceTempView('vw_aemanualsemesterreports')\r\n",
+							"# ae_manuallearningtasks_df.createOrReplaceTempView('vw_aemanuallearningtasks')\r\n",
+							"# ae_manualsemesterreports_df.createOrReplaceTempView('vw_aemanualsemesterreports')\r\n",
 							"\r\n",
 							"odsactivity_df.createOrReplaceTempView('vw_CompassODSActivity') \r\n",
 							"odsactivityenrolment_df.createOrReplaceTempView('vw_CompassODSActivityEnrolment') \r\n",
@@ -14566,7 +14519,7 @@
 							"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones') "
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -14610,7 +14563,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -14878,7 +14831,7 @@
 							"select count(*) from vw_activestudent; --13247"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -15570,6 +15523,7 @@
 							",c.Area\r\n",
 							"-- --,c.CompassSchoolURL\r\n",
 							",s.AcademicYear\r\n",
+							",yearlevel.yearlevel\r\n",
 							",ae.iscurrent as IsCurrent_ActivityEnrolment\r\n",
 							"-- ,a.IsCurrent as IsCurrent_Activity\r\n",
 							",s.IsCurrent as IsCurrent_Subject\r\n",
@@ -15599,15 +15553,97 @@
 							"\r\n",
 							"JOIN vw_dmcampus c ON d.CampusId = c.bkCampusId\r\n",
 							"\r\n",
+							"\r\n",
+							"left join (SELECT CompassPersonId,\r\n",
+							"           CampusId,\r\n",
+							"        --    case when YearLevel = 0 then 'P' else YearLevel end as YearLevel,\r\n",
+							"           YearLevel,\r\n",
+							"           GroupA,\r\n",
+							"           GroupB,\r\n",
+							"           GroupC,\r\n",
+							"           GroupD,\r\n",
+							"           GroupE,\r\n",
+							"           IsActive,\r\n",
+							"           IsCurrentMilestone,\r\n",
+							"           year(MilestoneTimestamp + INTERVAL 10 HOURS) AS MilestoneYear,\r\n",
+							"           MilestoneTimestamp + INTERVAL 10 HOURS AS MilestoneStartDate,\r\n",
+							"           COALESCE(\r\n",
+							"                       LEAD(MilestoneTimestamp + INTERVAL 10 HOURS) \r\n",
+							"                                                                            OVER (PARTITION BY CompassPersonId,\r\n",
+							"                                                                                      OrganisationName\r\n",
+							"                                                                         ORDER BY MilestoneTimestamp,\r\n",
+							"                                                                                  HomeCampusGuid\r\n",
+							"                                                                        ),\r\n",
+							"                       make_date(9999, 12, 31)\r\n",
+							"                   ) AS MilestoneFinishDate,\r\n",
+							"           OrganisationName\r\n",
+							"    FROM vw_CompassODSStudentOrganisationMilestones\r\n",
+							"     WHERE IsCurrent is True\r\n",
+							"          AND DioceseId = 12\r\n",
+							"          and yearlevel is not null\r\n",
+							"              ) yearlevel \r\n",
+							"        on d.CompassPersonId = yearlevel.compasspersonid\r\n",
+							"        and yearlevel.milestoneyear = s.academicyear\r\n",
+							"\r\n",
+							"\r\n",
 							"WHERE \r\n",
 							"d.iscurrent is True\r\n",
 							"--AND a.ActivityTypeDescription = 'Standard Class'\r\n",
 							"and d.firstname = 'Georgia'\r\n",
 							"and d.lastname = 'Carland'\r\n",
-							"and s.AcademicYear is not null"
+							"and s.AcademicYear is not null\r\n",
+							"\r\n",
+							"order by s.AcademicYear"
 						],
 						"outputs": [],
-						"execution_count": 72
+						"execution_count": 21
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"SELECT CompassPersonId,\r\n",
+							"           CampusId,\r\n",
+							"        --    case when YearLevel = 0 then 'P' else YearLevel end as YearLevel,\r\n",
+							"           YearLevel,\r\n",
+							"           GroupA,\r\n",
+							"           GroupB,\r\n",
+							"           GroupC,\r\n",
+							"           GroupD,\r\n",
+							"           GroupE,\r\n",
+							"           IsActive,\r\n",
+							"           IsCurrentMilestone,\r\n",
+							"           year(MilestoneTimestamp + INTERVAL 10 HOURS) AS MilestoneYear,\r\n",
+							"           MilestoneTimestamp + INTERVAL 10 HOURS AS MilestoneStartDate,\r\n",
+							"           COALESCE(\r\n",
+							"                       LEAD(MilestoneTimestamp + INTERVAL 10 HOURS) \r\n",
+							"                                                                            OVER (PARTITION BY CompassPersonId,\r\n",
+							"                                                                                      OrganisationName\r\n",
+							"                                                                         ORDER BY MilestoneTimestamp,\r\n",
+							"                                                                                  HomeCampusGuid\r\n",
+							"                                                                        ),\r\n",
+							"                       make_date(9999, 12, 31)\r\n",
+							"                   ) AS MilestoneFinishDate,\r\n",
+							"           OrganisationName\r\n",
+							"    FROM vw_CompassODSStudentOrganisationMilestones\r\n",
+							"     WHERE IsCurrent is True\r\n",
+							"          AND DioceseId = 12\r\n",
+							"          and yearlevel is not null\r\n",
+							"          and compasspersonid = 'f9ddec91-8a3a-4f31-9934-e6c305606b4f'"
+						],
+						"outputs": [],
+						"execution_count": 20
 					},
 					{
 						"cell_type": "code",
@@ -36897,15 +36933,15 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "93432921-f710-4c42-9821-bd12f9b0daa6"
+						"spark.autotune.trackingId": "d23265a1-97bc-4cd7-b30e-0bbafabf9b90"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_pyspark",
-						"display_name": "Synapse PySpark"
+						"name": "synapse_sparksql",
+						"display_name": "sql"
 					},
 					"language_info": {
 						"name": "sql"
@@ -36922,7 +36958,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "bcaf0e74-bc01-496b-9a64-dbab05c56d75"
+				"spark.autotune.trackingId": "5c5bb82c-5c35-44cd-9af1-d68ab9674583"
 			}
 		},
 		"metadata": {
@@ -1283,8 +1283,8 @@
 					"saveToTarget(naplanparticipation_df, destination_p, f'{version}/_FACTNaplanParticipation')\r\n",
 					"saveToTarget(acerparticipation_df, destination_p, f'{version}/_FACTAcerParticipation')\r\n",
 					"\r\n",
-					"saveToTarget(ae_manual_learningtasks_df, destination_p, f'{version}/_FACTAELearningTasks')\r\n",
-					"saveToTarget(ae_manual_semesterreports_df, destination_p, f'{version}/_FACTAESemesterReports')\r\n",
+					"# saveToTarget(ae_manual_learningtasks_df, destination_p, f'{version}/_FACTAELearningTasks')\r\n",
+					"# saveToTarget(ae_manual_semesterreports_df, destination_p, f'{version}/_FACTAESemesterReports')\r\n",
 					"\r\n",
 					"saveToTarget(ods_studentclass_df, destination_p, f'{version}/_FACTODSStudentClass')\r\n",
 					"saveToTarget(ods_earlyyearsstudents_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents')\r\n",

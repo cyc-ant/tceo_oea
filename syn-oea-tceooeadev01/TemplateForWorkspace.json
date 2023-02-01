@@ -14153,7 +14153,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4e656074-e9fb-4b6e-a7c5-efa4bfaad7cb"
+						"spark.autotune.trackingId": "7ca03c86-5372-487e-8fce-81c36383af5c"
 					}
 				},
 				"metadata": {
@@ -23455,7 +23455,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3a08177a-89dc-446c-8840-ffd137e21be0"
+						"spark.autotune.trackingId": "1874e1c0-abea-43e3-ae0d-4bcf24f52abe"
 					}
 				},
 				"metadata": {
@@ -37352,7 +37352,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0de37a02-bbec-4334-9e54-bb20b6746fd5"
+						"spark.autotune.trackingId": "3cc1e141-8862-468c-8aaf-92ec68307b74"
 					}
 				},
 				"metadata": {
@@ -38630,8 +38630,8 @@
 							"saveToTarget(naplanparticipation_df, destination_p, f'{version}/_FACTNaplanParticipation')\r\n",
 							"saveToTarget(acerparticipation_df, destination_p, f'{version}/_FACTAcerParticipation')\r\n",
 							"\r\n",
-							"saveToTarget(ae_manual_learningtasks_df, destination_p, f'{version}/_FACTAELearningTasks')\r\n",
-							"saveToTarget(ae_manual_semesterreports_df, destination_p, f'{version}/_FACTAESemesterReports')\r\n",
+							"# saveToTarget(ae_manual_learningtasks_df, destination_p, f'{version}/_FACTAELearningTasks')\r\n",
+							"# saveToTarget(ae_manual_semesterreports_df, destination_p, f'{version}/_FACTAESemesterReports')\r\n",
 							"\r\n",
 							"saveToTarget(ods_studentclass_df, destination_p, f'{version}/_FACTODSStudentClass')\r\n",
 							"saveToTarget(ods_earlyyearsstudents_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents')\r\n",
@@ -40318,7 +40318,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "de7626ec-18d8-49de-906b-7b307ff7fa79"
+						"spark.autotune.trackingId": "996dff0f-01ea-408b-8c8b-09aa3162ae6d"
 					}
 				},
 				"metadata": {
@@ -40582,7 +40582,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",

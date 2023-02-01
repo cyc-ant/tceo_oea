@@ -14153,7 +14153,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1ac914a8-9018-4b10-855c-88680f9ea880"
+						"spark.autotune.trackingId": "4e656074-e9fb-4b6e-a7c5-efa4bfaad7cb"
 					}
 				},
 				"metadata": {
@@ -23455,7 +23455,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a41bfdf2-4d66-40da-809b-5fc61184259d"
+						"spark.autotune.trackingId": "3a08177a-89dc-446c-8840-ffd137e21be0"
 					}
 				},
 				"metadata": {
@@ -37352,7 +37352,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "18934420-b53c-404f-9e82-6cb053981ae7"
+						"spark.autotune.trackingId": "0de37a02-bbec-4334-9e54-bb20b6746fd5"
 					}
 				},
 				"metadata": {
@@ -37461,11 +37461,11 @@
 							"factnaplanstudentyearresult_df = spark.read.load(source3p + \"/pilot/DMFactNaplanStudentYearResult_pseudo\", format='delta')\r\n",
 							"factpatresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
 							"\r\n",
-							"# used for manual AE Learning Task\r\n",
-							"ae_manuallearningtasks_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualLearningTasks_pseudo\", format='delta')\r\n",
+							"# # used for manual AE Learning Task\r\n",
+							"# ae_manuallearningtasks_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualLearningTasks_pseudo\", format='delta')\r\n",
 							"\r\n",
-							"# used for manual AE Semester Report\r\n",
-							"ae_manualsemesterreports_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualSemesterReports_pseudo\", format='delta')\r\n",
+							"# # used for manual AE Semester Report\r\n",
+							"# ae_manualsemesterreports_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualSemesterReports_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"\r\n",
 							"# used for ODS tables (+ dmcampus_df already added above)\r\n",
@@ -37495,8 +37495,8 @@
 							"factnaplanstudentyearresult_df.createOrReplaceTempView('vw_factnaplanstudentyearresult')\r\n",
 							"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')\r\n",
 							"\r\n",
-							"ae_manuallearningtasks_df.createOrReplaceTempView('vw_aemanuallearningtasks')\r\n",
-							"ae_manualsemesterreports_df.createOrReplaceTempView('vw_aemanualsemesterreports')\r\n",
+							"# ae_manuallearningtasks_df.createOrReplaceTempView('vw_aemanuallearningtasks')\r\n",
+							"# ae_manualsemesterreports_df.createOrReplaceTempView('vw_aemanualsemesterreports')\r\n",
 							"\r\n",
 							"odsactivity_df.createOrReplaceTempView('vw_CompassODSActivity') \r\n",
 							"odsactivityenrolment_df.createOrReplaceTempView('vw_CompassODSActivityEnrolment') \r\n",
@@ -40318,7 +40318,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8edfe588-9e07-4d43-85ab-feaec06c8ef6"
+						"spark.autotune.trackingId": "de7626ec-18d8-49de-906b-7b307ff7fa79"
 					}
 				},
 				"metadata": {
@@ -40343,7 +40343,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

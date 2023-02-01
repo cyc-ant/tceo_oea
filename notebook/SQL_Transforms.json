@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "62c41fd9-5356-466b-af99-1e8411166de1"
+				"spark.autotune.trackingId": "bcaf0e74-bc01-496b-9a64-dbab05c56d75"
 			}
 		},
 		"metadata": {
@@ -129,11 +129,11 @@
 					"factnaplanstudentyearresult_df = spark.read.load(source3p + \"/pilot/DMFactNaplanStudentYearResult_pseudo\", format='delta')\r\n",
 					"factpatresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
 					"\r\n",
-					"# used for manual AE Learning Task\r\n",
-					"ae_manuallearningtasks_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualLearningTasks_pseudo\", format='delta')\r\n",
+					"# # used for manual AE Learning Task\r\n",
+					"# ae_manuallearningtasks_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualLearningTasks_pseudo\", format='delta')\r\n",
 					"\r\n",
-					"# used for manual AE Semester Report\r\n",
-					"ae_manualsemesterreports_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualSemesterReports_pseudo\", format='delta')\r\n",
+					"# # used for manual AE Semester Report\r\n",
+					"# ae_manualsemesterreports_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualSemesterReports_pseudo\", format='delta')\r\n",
 					"\r\n",
 					"\r\n",
 					"# used for ODS tables (+ dmcampus_df already added above)\r\n",
@@ -163,8 +163,8 @@
 					"factnaplanstudentyearresult_df.createOrReplaceTempView('vw_factnaplanstudentyearresult')\r\n",
 					"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')\r\n",
 					"\r\n",
-					"ae_manuallearningtasks_df.createOrReplaceTempView('vw_aemanuallearningtasks')\r\n",
-					"ae_manualsemesterreports_df.createOrReplaceTempView('vw_aemanualsemesterreports')\r\n",
+					"# ae_manuallearningtasks_df.createOrReplaceTempView('vw_aemanuallearningtasks')\r\n",
+					"# ae_manualsemesterreports_df.createOrReplaceTempView('vw_aemanualsemesterreports')\r\n",
 					"\r\n",
 					"odsactivity_df.createOrReplaceTempView('vw_CompassODSActivity') \r\n",
 					"odsactivityenrolment_df.createOrReplaceTempView('vw_CompassODSActivityEnrolment') \r\n",

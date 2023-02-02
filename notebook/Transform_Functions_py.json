@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ebcc5f20-ebbd-4098-89ff-2c37339d512d"
+				"spark.autotune.trackingId": "9eba2566-4d87-45c4-aa44-aeec40bb6ba7"
 			}
 		},
 		"metadata": {
@@ -342,6 +342,14 @@
 					"\r\n",
 					"    df = df.withColumn(\"GenderSifCode\", when(df.sex == \"F\", \"2\")\r\n",
 					"                                        .when(df.sex == \"M\", \"1\")\r\n",
+					"                                        .otherwise(\"9\")\r\n",
+					"                                        )\r\n",
+					"\r\n",
+					"\r\n",
+					"    df = df.withColumn(\"AtsiSifId\", when(df.indigenous == \"A\", \"1\")\r\n",
+					"                                        .when(df.indigenous == \"T\", \"2\")\r\n",
+					"                                        .when(df.indigenous == \"B\", \"3\")\r\n",
+					"                                        .when(df.indigenous == \"N\", \"4\")\r\n",
 					"                                        .otherwise(\"9\")\r\n",
 					"                                        )\r\n",
 					"\r\n",

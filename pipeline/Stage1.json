@@ -274,7 +274,7 @@
 			},
 			"enrolment": {
 				"type": "bool",
-				"defaultValue": false
+				"defaultValue": true
 			},
 			"myschools": {
 				"type": "bool",
@@ -282,7 +282,7 @@
 			},
 			"naplan": {
 				"type": "bool",
-				"defaultValue": true
+				"defaultValue": false
 			},
 			"nccd": {
 				"type": "bool",
@@ -290,7 +290,7 @@
 			},
 			"student": {
 				"type": "bool",
-				"defaultValue": false
+				"defaultValue": true
 			},
 			"supportingdata": {
 				"type": "bool",

@@ -14153,7 +14153,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "91795476-a2cc-4113-9ae9-d1421c2527a6"
+						"spark.autotune.trackingId": "9cb67dcd-6905-40e5-9a0f-0bf30aa35883"
 					}
 				},
 				"metadata": {
@@ -14178,8 +14178,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -14197,7 +14196,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 56
+						"execution_count": 60
 					},
 					{
 						"cell_type": "code",
@@ -14468,11 +14467,11 @@
 							"factnaplanstudentyearresult_df = spark.read.load(source3p + \"/pilot/DMFactNaplanStudentYearResult_pseudo\", format='delta')\r\n",
 							"factpatresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
 							"\r\n",
-							"# # used for manual AE Learning Task\r\n",
-							"# ae_manuallearningtasks_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualLearningTasks_pseudo\", format='delta')\r\n",
+							"# used for manual AE Learning Task\r\n",
+							"ae_manuallearningtasks_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualLearningTasks_pseudo\", format='delta')\r\n",
 							"\r\n",
-							"# # used for manual AE Semester Report\r\n",
-							"# ae_manualsemesterreports_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualSemesterReports_pseudo\", format='delta')\r\n",
+							"# used for manual AE Semester Report\r\n",
+							"ae_manualsemesterreports_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualSemesterReports_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"\r\n",
 							"# used for ODS tables (+ dmcampus_df already added above)\r\n",
@@ -14504,8 +14503,8 @@
 							"factnaplanstudentyearresult_df.createOrReplaceTempView('vw_factnaplanstudentyearresult')\r\n",
 							"factpatresults_df.createOrReplaceTempView('vw_factpatresults_df')\r\n",
 							"\r\n",
-							"# ae_manuallearningtasks_df.createOrReplaceTempView('vw_aemanuallearningtasks')\r\n",
-							"# ae_manualsemesterreports_df.createOrReplaceTempView('vw_aemanualsemesterreports')\r\n",
+							"ae_manuallearningtasks_df.createOrReplaceTempView('vw_aemanuallearningtasks')\r\n",
+							"ae_manualsemesterreports_df.createOrReplaceTempView('vw_aemanualsemesterreports')\r\n",
 							"\r\n",
 							"odsactivity_df.createOrReplaceTempView('vw_CompassODSActivity') \r\n",
 							"odsactivityenrolment_df.createOrReplaceTempView('vw_CompassODSActivityEnrolment') \r\n",
@@ -14519,7 +14518,7 @@
 							"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones') "
 						],
 						"outputs": [],
-						"execution_count": 57
+						"execution_count": 61
 					},
 					{
 						"cell_type": "code",
@@ -14563,7 +14562,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 58
+						"execution_count": 62
 					},
 					{
 						"cell_type": "code",
@@ -14583,7 +14582,69 @@
 							"select count(*) from vw_activestudent"
 						],
 						"outputs": [],
-						"execution_count": 51
+						"execution_count": 63
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"select calendaryear, count(*) from\r\n",
+							"(\r\n",
+							"select\r\n",
+							"distinct ms.CompassPersonId as MS_CompassPersonID\r\n",
+							",demo.CompassPersonId as DEMO_CompassPersonID\r\n",
+							",ms.yearlevel\r\n",
+							",ms.isactive \r\n",
+							",ms.iscurrentmilestone \r\n",
+							",ms.studenttype \r\n",
+							",ms.dioceseId\r\n",
+							",ms.campusid \r\n",
+							",camp.skcampus\r\n",
+							",camp.BKCampusId\r\n",
+							",camp.SchoolName\r\n",
+							",ms.iscurrent\r\n",
+							",demo.firstname\r\n",
+							",demo.lastname \r\n",
+							",demo.gender \r\n",
+							",demo.govcode1 as ceider -- need to select where this is not null?\r\n",
+							",demo.disability \r\n",
+							",demo.LBOTE \r\n",
+							",demo.indigenoustypecode \r\n",
+							"--,s.AcademicYear\r\n",
+							"--,ae.CompassPersonId\r\n",
+							",ms.milestonetimestamp\r\n",
+							"--,case when ms.milestonetimestamp is not null then (year(ms.milestonetimestamp)+1) else (year(CURRENT_TIMESTAMP)+1) end as yearcolumn\r\n",
+							"--,year(DATEADD(HOUR, 10, cast(MilestoneTimestamp as datetime2))) as calendaryear\r\n",
+							",year(MilestoneTimestamp + INTERVAL 10 HOURS) AS calendaryear\r\n",
+							"from vw_CompassODSStudentOrganisationMilestones ms\r\n",
+							"left join vw_CompassODSStudentDemographic demo on ms.CompassPersonId = demo.CompassPersonId --need this for details like name, disability, LBOTE, etc\r\n",
+							"\tand demo.Iscurrent = 'True'\r\n",
+							"left join vw_dmcampus camp on ms.campusid = camp.BKCampusId\r\n",
+							"\r\n",
+							"where \r\n",
+							"ms.iscurrent = 'True'\r\n",
+							"and ms.isactive = 'True'\r\n",
+							"--and ms.iscurrentmilestone  = 'True' --this is just for 2023 (current year)\r\n",
+							"--and ms.CompassPersonId = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504'\r\n",
+							"--and demo.GovCode1 is not null\r\n",
+							"and year(MilestoneTimestamp + INTERVAL 10 HOURS) in (2021, 2022, 2023)\r\n",
+							") innerquery\r\n",
+							"\r\n",
+							"group by calendaryear"
+						],
+						"outputs": [],
+						"execution_count": 68
 					},
 					{
 						"cell_type": "code",
@@ -23631,15 +23692,15 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e5a71677-a291-4de5-9c9f-67ff7bf48138"
+						"spark.autotune.trackingId": "35779093-f2d0-40ad-b0c1-e8992ab52d20"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_sparksql",
-						"display_name": "sql"
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "sql"
@@ -23656,8 +23717,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -37528,7 +37588,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ffa5132a-1847-4453-ba63-ee66123c3b25"
+						"spark.autotune.trackingId": "73a41b8f-10d6-44da-887c-7355c006bc32"
 					}
 				},
 				"metadata": {
@@ -38408,258 +38468,45 @@
 							"CREATE TEMP VIEW vw_ods_studentstable\r\n",
 							"as\r\n",
 							"\r\n",
-							"select year\r\n",
-							", yearlevel\r\n",
-							", campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote, count(*) as groupingcount from\r\n",
 							"\r\n",
-							"(\r\n",
-							"select \r\n",
-							"year\r\n",
-							", YearLevel\r\n",
-							", CampusID\r\n",
-							", SchoolName\r\n",
-							", TeacherID\r\n",
-							", TeacherName\r\n",
-							", StudentID \r\n",
-							", StudentName\r\n",
-							", ClassName\r\n",
-							", ClassID\r\n",
-							", StaffEmail\r\n",
-							", StudentEmail\r\n",
-							", ceider\r\n",
-							",Gender\r\n",
-							",Gendercode\r\n",
-							",Indigenoustype\r\n",
-							",Indigenoustypecode\r\n",
-							",Disability\r\n",
-							",LBOTE\r\n",
-							"\r\n",
-							"from \r\n",
-							"(\r\n",
-							"\r\n",
-							"SELECT\r\n",
-							"s.academicyear as Year \r\n",
-							",yearlevel.yearlevel as YearLevel\r\n",
-							",staffemails.campusid as CampusID\r\n",
-							",c.schoolname as SchoolName\r\n",
-							",staff.compasspersonid as TeacherID\r\n",
-							",concat(staff.FirstName,' ',staff.LastName) AS TeacherName\r\n",
-							",d.compasspersonid as StudentID\r\n",
-							",concat(d.FirstName,' ',d.LastName) AS StudentName\r\n",
-							",ae.ActivityEnrolmentStartDate \r\n",
-							",s.subjectshortname as ClassName\r\n",
-							",a.SubjectCode as ClassID\r\n",
-							",d.govcode1 as ceider\r\n",
-							",staffemails.organisationuseremail as StaffEmail\r\n",
-							",studentemails.organisationuseremail as StudentEmail\r\n",
-							"\r\n",
-							",d.Gender\r\n",
-							",d.Gendercode\r\n",
-							",d.Indigenoustype\r\n",
-							",d.Indigenoustypecode\r\n",
-							",d.Disability\r\n",
-							",d.LBOTE\r\n",
-							"\r\n",
-							"from vw_CompassODSStaffDemographic staff\r\n",
-							"\r\n",
-							"inner join vw_CompassODSActivity a\r\n",
-							"ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
-							"AND a.iscurrent is True\r\n",
-							"\r\n",
-							"inner JOIN vw_CompassODSActivityEnrolment ae \r\n",
-							"ON ae.ActivityCode = a.ActivityCode\r\n",
-							"AND ae.CampusId = a.CampusId\r\n",
-							"AND ae.IsCurrent is True\r\n",
-							"\r\n",
-							"inner JOIN vw_CompassODSStudentDemographic d \r\n",
-							"ON d.CompassPersonId = ae.CompassPersonId\r\n",
-							"AND d.iscurrent is True\r\n",
-							"\r\n",
-							"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
-							"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
-							"AND a.CampusId = s.CampusId\r\n",
-							"AND s.IsCurrent is True\r\n",
-							"\r\n",
-							"-- --Login emails\r\n",
-							"left join vw_CompassODSStaffOrganisationDetails staffemails\r\n",
-							"on staff.CompassPersonId = staffemails.CompassPersonId\r\n",
-							"and staffemails.iscurrent is True\r\n",
-							"and staffemails.status = 'Active'\r\n",
-							"\r\n",
-							"inner join vw_CompassODSStudentOrganisationDetails studentemails \r\n",
-							"on d.CompassPersonId = studentemails.CompassPersonId\r\n",
-							"and studentemails.iscurrent is True\r\n",
-							"and studentemails.status = 'Active'\r\n",
-							"and staffemails.campusid = studentemails.campusid\r\n",
-							"\r\n",
-							"left join vw_dmcampus c \r\n",
-							"ON staffemails.campusid = c.bkCampusId\r\n",
-							"\r\n",
-							"left join (SELECT CompassPersonId,\r\n",
-							"           CampusId,\r\n",
-							"           case when YearLevel = 0 then 'P' else YearLevel end as YearLevel,\r\n",
-							"           GroupA,\r\n",
-							"           GroupB,\r\n",
-							"           GroupC,\r\n",
-							"           GroupD,\r\n",
-							"           GroupE,\r\n",
-							"           IsActive,\r\n",
-							"           IsCurrentMilestone,\r\n",
-							"           year(MilestoneTimestamp + INTERVAL 10 HOURS) AS MilestoneYear,\r\n",
-							"           MilestoneTimestamp + INTERVAL 10 HOURS AS MilestoneStartDate,\r\n",
-							"           COALESCE(\r\n",
-							"                       LEAD(MilestoneTimestamp + INTERVAL 10 HOURS) \r\n",
-							"                                                                            OVER (PARTITION BY CompassPersonId,\r\n",
-							"                                                                                      OrganisationName\r\n",
-							"                                                                         ORDER BY MilestoneTimestamp,\r\n",
-							"                                                                                  HomeCampusGuid\r\n",
-							"                                                                        ),\r\n",
-							"                       make_date(9999, 12, 31)\r\n",
-							"                   ) AS MilestoneFinishDate,\r\n",
-							"           OrganisationName\r\n",
-							"    FROM vw_CompassODSStudentOrganisationMilestones\r\n",
-							"     WHERE IsCurrent is True\r\n",
-							"          AND DioceseId = 12\r\n",
-							"          and yearlevel is not null\r\n",
-							"              ) yearlevel \r\n",
-							"        on d.CompassPersonId = yearlevel.compasspersonid\r\n",
-							"        and yearlevel.milestoneyear = s.academicyear\r\n",
-							"\r\n",
+							"select\r\n",
+							"distinct ms.CompassPersonId as MS_CompassPersonID\r\n",
+							",demo.CompassPersonId as DEMO_CompassPersonID\r\n",
+							",ms.yearlevel\r\n",
+							",ms.isactive \r\n",
+							",ms.iscurrentmilestone \r\n",
+							",ms.studenttype \r\n",
+							",ms.dioceseId\r\n",
+							",ms.campusid \r\n",
+							",camp.skcampus\r\n",
+							",camp.BKCampusId\r\n",
+							",camp.SchoolName\r\n",
+							",ms.iscurrent\r\n",
+							",demo.firstname\r\n",
+							",demo.lastname \r\n",
+							",demo.gender \r\n",
+							",demo.govcode1 as ceider -- need to select where this is not null?\r\n",
+							",demo.disability \r\n",
+							",demo.LBOTE \r\n",
+							",demo.indigenoustypecode \r\n",
+							"--,s.AcademicYear\r\n",
+							"--,ae.CompassPersonId\r\n",
+							",ms.milestonetimestamp\r\n",
+							"--,case when ms.milestonetimestamp is not null then (year(ms.milestonetimestamp)+1) else (year(CURRENT_TIMESTAMP)+1) end as yearcolumn\r\n",
+							"--,year(DATEADD(HOUR, 10, cast(MilestoneTimestamp as datetime2))) as calendaryear\r\n",
+							",year(MilestoneTimestamp + INTERVAL 10 HOURS) AS calendaryear\r\n",
+							"from vw_CompassODSStudentOrganisationMilestones ms\r\n",
+							"left join vw_CompassODSStudentDemographic demo on ms.CompassPersonId = demo.CompassPersonId --need this for details like name, disability, LBOTE, etc\r\n",
+							"\tand demo.Iscurrent = 'True'\r\n",
+							"left join vw_dmcampus camp on ms.campusid = camp.BKCampusId\r\n",
 							"\r\n",
 							"where \r\n",
-							"    staff.iscurrent is True\r\n",
-							"\r\n",
-							") mainquery\r\n",
-							"\r\n",
-							"where \r\n",
-							"year is not null\r\n",
-							") wholequery\r\n",
-							"\r\n",
-							"where yearlevel is not null\r\n",
-							"\r\n",
-							"group by year\r\n",
-							", yearlevel\r\n",
-							", campusid, schoolname, studentname, ceider, gender, gendercode, indigenoustype, indigenoustypecode, disability, lbote"
-						],
-						"outputs": [],
-						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"CREATE TEMP VIEW vw_ods_studentstable\r\n",
-							"as\r\n",
-							"\r\n",
-							"SELECT distinct\r\n",
-							"d.FirstName AS StudentFirstName \r\n",
-							",d.LastName AS StudentLastName\r\n",
-							",d.CompassPersonId\r\n",
-							",d.GovCode1 AS Ceider\r\n",
-							",d.disability\r\n",
-							",d.indigenoustype\r\n",
-							",d.indigenoustypecode\r\n",
-							",d.LBOTE\r\n",
-							",d.gendercode\r\n",
-							",d.campusid\r\n",
-							"-- ,s.SubjectLongName\r\n",
-							"-- ,a.SubjectCode\r\n",
-							"-- ,a.ActivityName\r\n",
-							"-- ,a.ActivityTypeDescription\r\n",
-							"-- ,a.ManagingCompassPersonId\r\n",
-							"-- ,staff.firstname\r\n",
-							"-- ,staff.lastname\r\n",
-							"-- ,ae.ActivityEnrolmentStartDate\r\n",
-							"-- ,ae.ActivityEnrolmentEndDate\r\n",
-							"-- ,concat(staff.FirstName,' ',staff.LastName) AS StaffName\r\n",
-							"-- ,a.CampusId AS AGEID\r\n",
-							"-- ,c.CampusSuburbAndName\r\n",
-							",c.Schoolname\r\n",
-							",c.Area\r\n",
-							"-- --,c.CompassSchoolURL\r\n",
-							",s.AcademicYear\r\n",
-							",yearlevel.yearlevel\r\n",
-							",ae.iscurrent as IsCurrent_ActivityEnrolment\r\n",
-							"-- ,a.IsCurrent as IsCurrent_Activity\r\n",
-							",s.IsCurrent as IsCurrent_Subject\r\n",
-							"-- ,staff.iscurrent as IsCurrent_Staff\r\n",
-							",d.iscurrent as IsCurrent_Student\r\n",
-							"\r\n",
-							"\r\n",
-							"FROM \r\n",
-							"vw_CompassODSStudentDemographic d \r\n",
-							"\r\n",
-							"JOIN vw_CompassODSActivityEnrolment ae \r\n",
-							"ON d.CompassPersonId = ae.CompassPersonId\r\n",
-							"and ae.iscurrent is True \r\n",
-							"\r\n",
-							"-- JOIN vw_CompassODSActivity a \r\n",
-							"-- ON ae.ActivityCode = a.ActivityCode\r\n",
-							"-- AND ae.CampusId = a.CampusId\r\n",
-							"\r\n",
-							"LEFT OUTER JOIN vw_CompassODSCompassSubject s \r\n",
-							"ON ae.SubjectCode = s.SubjectImportIdentifier\r\n",
-							"--AND a.CampusId = s.CampusId\r\n",
-							"AND d.CampusId = s.CampusId\r\n",
-							"and s.iscurrent is True\r\n",
-							"\r\n",
-							"-- LEFT outer JOIN vw_CompassODSStaffDemographic  staff \r\n",
-							"-- ON staff.CompassPersonId = a.ManagingCompassPersonId \r\n",
-							"\r\n",
-							"JOIN vw_dmcampus c ON d.CampusId = c.bkCampusId\r\n",
-							"\r\n",
-							"\r\n",
-							"left join (SELECT CompassPersonId,\r\n",
-							"           CampusId,\r\n",
-							"        --    case when YearLevel = 0 then 'P' else YearLevel end as YearLevel,\r\n",
-							"           YearLevel,\r\n",
-							"           GroupA,\r\n",
-							"           GroupB,\r\n",
-							"           GroupC,\r\n",
-							"           GroupD,\r\n",
-							"           GroupE,\r\n",
-							"           IsActive,\r\n",
-							"           IsCurrentMilestone,\r\n",
-							"           year(MilestoneTimestamp + INTERVAL 10 HOURS) AS MilestoneYear,\r\n",
-							"           MilestoneTimestamp + INTERVAL 10 HOURS AS MilestoneStartDate,\r\n",
-							"           COALESCE(\r\n",
-							"                       LEAD(MilestoneTimestamp + INTERVAL 10 HOURS) \r\n",
-							"                                                                            OVER (PARTITION BY CompassPersonId,\r\n",
-							"                                                                                      OrganisationName\r\n",
-							"                                                                         ORDER BY MilestoneTimestamp,\r\n",
-							"                                                                                  HomeCampusGuid\r\n",
-							"                                                                        ),\r\n",
-							"                       make_date(9999, 12, 31)\r\n",
-							"                   ) AS MilestoneFinishDate,\r\n",
-							"           OrganisationName\r\n",
-							"    FROM vw_CompassODSStudentOrganisationMilestones\r\n",
-							"     WHERE IsCurrent is True\r\n",
-							"          AND DioceseId = 12\r\n",
-							"          and yearlevel is not null\r\n",
-							"              ) yearlevel \r\n",
-							"        on d.CompassPersonId = yearlevel.compasspersonid\r\n",
-							"        and yearlevel.milestoneyear = s.academicyear\r\n",
-							"\r\n",
-							"\r\n",
-							"WHERE \r\n",
-							"d.iscurrent is True\r\n",
-							"--AND a.ActivityTypeDescription = 'Standard Class'\r\n",
-							"-- and d.firstname = 'Georgia'\r\n",
-							"-- and d.lastname = 'Carland'\r\n",
-							"and s.AcademicYear is not null\r\n",
-							"and yearlevel.yearlevel is not null\r\n",
-							"\r\n",
-							"-- order by s.AcademicYear"
+							"ms.iscurrent = 'True'\r\n",
+							"and ms.isactive = 'True'\r\n",
+							"--and ms.iscurrentmilestone  = 'True' --this is just for 2023 (current year)\r\n",
+							"--and ms.CompassPersonId = 'ceb1e6d0-2cdc-49cf-8a07-4bc701841504'\r\n",
+							"--and demo.GovCode1 is not null\r\n",
+							"and year(MilestoneTimestamp + INTERVAL 10 HOURS) in (2021, 2022, 2023)"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -39997,7 +39844,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "98b01cdb-1520-4225-86c7-3c7cb23744d5"
+						"spark.autotune.trackingId": "9eba2566-4d87-45c4-aa44-aeec40bb6ba7"
 					}
 				},
 				"metadata": {
@@ -40308,6 +40155,41 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def StudentLevel_pseudo(df):\r\n",
+							"\r\n",
+							"    df = df.withColumn(\"GenderSifCode\", when(df.sex == \"F\", \"2\")\r\n",
+							"                                        .when(df.sex == \"M\", \"1\")\r\n",
+							"                                        .otherwise(\"9\")\r\n",
+							"                                        )\r\n",
+							"\r\n",
+							"\r\n",
+							"    df = df.withColumn(\"AtsiSifId\", when(df.indigenous == \"A\", \"1\")\r\n",
+							"                                        .when(df.indigenous == \"T\", \"2\")\r\n",
+							"                                        .when(df.indigenous == \"B\", \"3\")\r\n",
+							"                                        .when(df.indigenous == \"N\", \"4\")\r\n",
+							"                                        .otherwise(\"9\")\r\n",
+							"                                        )\r\n",
+							"\r\n",
+							"    return df\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -40337,7 +40219,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "58af3ba3-69e1-4b47-a5f0-234242528ac6"
+						"spark.autotune.trackingId": "0ca196a6-87ae-483e-91dd-bf7e28c4601f"
 					}
 				},
 				"metadata": {
@@ -40429,6 +40311,8 @@
 							"        final_df = DMPersonDemographic_pseudo(df)\r\n",
 							"    elif name == \"DMFactPATResults_pseudo\":\r\n",
 							"        final_df = DMFactPATResults_pseudo(df)\r\n",
+							"    elif name == \"StudentLevel_pseudo\":\r\n",
+							"        final_df = StudentLevel_pseudo(df)    \r\n",
 							"    else:  \r\n",
 							"        final_df = df\r\n",
 							"\r\n",
@@ -40494,7 +40378,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "af82f436-50e2-4885-b4ad-a9cdef87765b"
+						"spark.autotune.trackingId": "5651b476-d8a8-4c76-8958-ae3f11e615a1"
 					}
 				},
 				"metadata": {
@@ -40519,8 +40403,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

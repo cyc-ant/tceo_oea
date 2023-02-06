@@ -162,6 +162,14 @@
 					},
 					{
 						"source": {
+							"table": "vwDMSchoolTerm"
+						},
+						"destination": {
+							"fileName": "dbovwDMSchoolTerm.csv"
+						}
+					},
+					{
+						"source": {
 							"table": "vwDMSchoolTermWeek"
 						},
 						"destination": {

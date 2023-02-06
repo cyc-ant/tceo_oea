@@ -265,6 +265,14 @@
 							},
 							{
 								"source": {
+									"table": "vwDMSchoolTerm"
+								},
+								"destination": {
+									"fileName": "dbovwDMSchoolTerm.csv"
+								}
+							},
+							{
+								"source": {
 									"table": "vwDMSchoolTermWeek"
 								},
 								"destination": {
@@ -37588,7 +37596,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "72ba3452-0402-4db6-98aa-1d4ed4d9d95c"
+						"spark.autotune.trackingId": "3b2a8f6f-9049-4896-a9ec-b292ec6b2eb5"
 					}
 				},
 				"metadata": {
@@ -37613,8 +37621,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

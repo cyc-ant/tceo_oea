@@ -13171,7 +13171,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "db3b5708-8120-4210-86d7-72eb2414d81b"
+						"spark.autotune.trackingId": "9091dc1b-8882-4c7b-bab7-fc50df79b36f"
 					}
 				},
 				"metadata": {
@@ -13196,13 +13196,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Acer_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='ACER', pseudonymize = True):\r\n",
@@ -13693,7 +13695,27 @@
 							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
 							"                                        ['ScdReason', 'string', 'no-op']                                                            \r\n",
 							"                                        ]\r\n",
+							"        \r\n",
+							"        self.schemas['DMSchoolTerm'] = [\r\n",
+							"                                        ['SKSchoolTerm', 'integer', 'no-op'],\r\n",
+							"                                        ['BKSchoolTerm', 'string', 'no-op'],\r\n",
+							"                                        ['CalendarYear', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['TermName', 'string', 'no-op'],\t\r\n",
+							"                                        ['TermNumber', 'integer', 'no-op'],\r\n",
+							"                                        ['TermStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['TermFinishDate', 'string', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['Iscurrent', 'string', 'no-op'],\r\n",
+							"                                        ['SCDReason', 'string', 'no-op']\r\n",
+							"                                        ]\r\n",
 							"\r\n",
+							"        \r\n",
+							"        \r\n",
+							"        \"\"\"\r\n",
 							"        self.schemas['PATData'] = [\r\n",
 							"                                        ['CompassPersonId', 'string', 'no-op'],\r\n",
 							"                                        ['UserKey', 'string', 'no-op'],\r\n",
@@ -13715,6 +13737,7 @@
 							"                                        ['Percentile', 'integer', 'no-op'],\r\n",
 							"                                        ['Stanine', 'integer', 'no-op']                                                           \r\n",
 							"                                        ]\r\n",
+							"        \"\"\"\r\n",
 							"\r\n",
 							"                                 \r\n",
 							"\r\n",
@@ -13735,8 +13758,9 @@
 							"        oea.ingest_delta_data(self.source_folder, 'DMDate', self.schemas['DMDate'], 'LastUpdateDate', 'SKDate')\r\n",
 							"\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'DMSchoolTermWeek', self.schemas['DMSchoolTermWeek'], 'LastUpdateDate', 'SKSchoolTermWeek')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'DMSchoolTerm', self.schemas['DMSchoolTerm'], 'LastUpdateDate', 'SKSchoolTerm')\r\n",
 							"\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'PATData', self.schemas['PATData'], None, 'CompassPersonId')\r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'PATData', self.schemas['PATData'], None, 'CompassPersonId')\r\n",
 							"\r\n",
 							"\r\n",
 							"\r\n",

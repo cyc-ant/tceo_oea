@@ -1,0 +1,43 @@
+{
+	"name": "SourceDataset_4by",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureFileStorage_GeneralData",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"folderPath": "ATAR"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Year",
+				"type": "String"
+			},
+			{
+				"name": "LUI",
+				"type": "String"
+			},
+			{
+				"name": "Given Name",
+				"type": "String"
+			},
+			{
+				"name": "Family Name",
+				"type": "String"
+			},
+			{
+				"name": "ATAR",
+				"type": "String"
+			}
+		]
+	}
+}

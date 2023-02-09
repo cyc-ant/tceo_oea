@@ -20344,7 +20344,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3072367c-1a23-43ed-99ac-7b0e7102be1d"
+						"spark.autotune.trackingId": "2a48b028-437a-4f7b-80ac-7d951c01dc7f"
 					}
 				},
 				"metadata": {
@@ -20369,13 +20369,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Ods_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_ODS', pseudonymize = True):\r\n",
@@ -20717,6 +20719,36 @@
 							"                                        ['BaseRole', 'integer', 'no-op'],\r\n",
 							"                                        ['SourceCampusId', 'integer', 'no-op']\r\n",
 							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['CompassODSStaffOrganisationMilestones'] = [\r\n",
+							"                                        ['SKStaffOrganisationMilestones', 'integer', 'no-op'],\r\n",
+							"                                        ['BKStaffOrganisationMilestones', 'string', 'no-op'],\r\n",
+							"                                        ['CompassPersonId', 'string', 'no-op'],\r\n",
+							"                                        ['YearLevel', 'string', 'no-op'],\r\n",
+							"                                        ['GroupA', 'string', 'no-op'],\r\n",
+							"                                        ['GroupB', 'string', 'no-op'],\r\n",
+							"                                        ['GroupC', 'string', 'no-op'],\r\n",
+							"                                        ['GroupD', 'string', 'no-op'],\r\n",
+							"                                        ['GroupE', 'string', 'no-op'],\r\n",
+							"                                        ['IsActive', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrentMilestone', 'string', 'no-op'],\r\n",
+							"                                        ['HomeCampusGuid', 'string', 'no-op'],\r\n",
+							"                                        ['MilestoneTimestamp', 'string', 'no-op'],\r\n",
+							"                                        ['OrganisationName', 'string', 'no-op'],\r\n",
+							"                                        ['DioceseId', 'integer', 'no-op'],\r\n",
+							"                                        ['CampusId', 'integer', 'no-op'],\r\n",
+							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
+							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
+							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
+							"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
+							"                                        ['SCDReason', 'string', 'no-op'],\r\n",
+							"                                        ['TimeAllocation', 'double', 'no-op'],\r\n",
+							"                                        ['BaseRole', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentTypeDesc', 'string', 'no-op'],\r\n",
+							"                                        ['StudentType', 'integer', 'no-op'],\r\n",
+							"                                        ['SourceCampusId', 'integer', 'no-op']\r\n",
+							"                                        ]\r\n",
 							"                                    \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
@@ -20730,6 +20762,7 @@
 							"        oea.ingest_delta_data(self.source_folder, 'CompassODSStudentOrganisationDetails', self.schemas['CompassODSStudentOrganisationDetails'], 'LastUpdateDate', 'SKStudentOrganisationDetails')\r\n",
 							"\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'CompassODSStudentOrganisationMilestones', self.schemas['CompassODSStudentOrganisationMilestones'], 'LastUpdateDate', 'SKStudentOrganisationMilestones')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'CompassODSStaffOrganisationMilestones', self.schemas['CompassODSStaffOrganisationMilestones'], 'LastUpdateDate', 'SKStaffOrganisationMilestones')\r\n",
 							"\r\n",
 							"\r\n",
 							"\r\n",

@@ -143,6 +143,14 @@
 						"destination": {
 							"fileName": "CompassODSStudentOrganisationMilestones.csv"
 						}
+					},
+					{
+						"source": {
+							"table": "ODSStaffOrganisationMilestones"
+						},
+						"destination": {
+							"fileName": "CompassODSStaffOrganisationMilestones.csv"
+						}
 					}
 				]
 			}

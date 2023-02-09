@@ -2976,6 +2976,14 @@
 								"destination": {
 									"fileName": "CompassODSStudentOrganisationMilestones.csv"
 								}
+							},
+							{
+								"source": {
+									"table": "ODSStaffOrganisationMilestones"
+								},
+								"destination": {
+									"fileName": "CompassODSStaffOrganisationMilestones.csv"
+								}
 							}
 						]
 					}
@@ -38762,7 +38770,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "72fabae9-5023-4600-963c-dd6ec25785bb"
+						"spark.autotune.trackingId": "6bee07a0-2a53-46c7-b6d9-8b9a0b91fd5c"
 					}
 				},
 				"metadata": {
@@ -38787,8 +38795,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

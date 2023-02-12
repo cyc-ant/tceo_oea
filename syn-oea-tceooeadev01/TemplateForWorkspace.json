@@ -39069,7 +39069,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b78c6452-3a33-4e16-bf4f-2fca6eaa9e44"
+						"spark.autotune.trackingId": "f9bc73c7-a572-43b9-b760-b595c5852243"
 					}
 				},
 				"metadata": {
@@ -39094,8 +39094,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -41301,7 +41300,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "842c35e4-a43f-4f67-9e00-da1c68645e36"
+						"spark.autotune.trackingId": "b8c7d601-a579-4768-a111-e24f00eeabe6"
 					}
 				},
 				"metadata": {
@@ -41326,13 +41325,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, substring, instr"
 						],
@@ -41632,7 +41633,9 @@
 							"\r\n",
 							"    #hyphen_index = instr(df['OrganisationName'], '-') + 1\r\n",
 							"\r\n",
-							"    df = df.withColumn('xOrganisationName', substring(df['OrganisationName'], 1, (instr(df['OrganisationName'], '-') + 1)))\r\n",
+							"    #df = df.withColumn('xOrganisationName', substring(df['OrganisationName'], 1, (instr(df['OrganisationName'], '-') + 1)))\r\n",
+							"\r\n",
+							"    df = df.withColumn('xOrganisationName', substring(df['OrganisationName'], 1, 5))\r\n",
 							"\r\n",
 							"    df = df.drop('OrganisationName')\r\n",
 							"\r\n",
@@ -41835,7 +41838,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d0fea578-3d4a-4fcb-9905-63b683e77922"
+						"spark.autotune.trackingId": "a3e5830d-6fe4-492b-b161-aaf139fada5b"
 					}
 				},
 				"metadata": {
@@ -41895,7 +41898,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 20
 					},
 					{
 						"cell_type": "code",
@@ -41914,7 +41917,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 21
 					},
 					{
 						"cell_type": "code",
@@ -41933,7 +41936,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 22
 					},
 					{
 						"cell_type": "code",
@@ -41962,7 +41965,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 23
 					},
 					{
 						"cell_type": "code",
@@ -41983,7 +41986,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 24
 					},
 					{
 						"cell_type": "code",
@@ -42026,7 +42029,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 25
 					},
 					{
 						"cell_type": "code",
@@ -42046,7 +42049,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 26
 					},
 					{
 						"cell_type": "code",
@@ -42065,7 +42068,7 @@
 							"stage3Transform(source_np, destination_np)"
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -42098,7 +42101,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 19
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",

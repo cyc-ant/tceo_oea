@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "842c35e4-a43f-4f67-9e00-da1c68645e36"
+				"spark.autotune.trackingId": "70c4e666-cbac-4a90-a807-072a2b6b7bb0"
 			}
 		},
 		"metadata": {
@@ -343,7 +343,9 @@
 					"\r\n",
 					"    #hyphen_index = instr(df['OrganisationName'], '-') + 1\r\n",
 					"\r\n",
-					"    df = df.withColumn('xOrganisationName', substring(df['OrganisationName'], 1, (instr(df['OrganisationName'], '-') + 1)))\r\n",
+					"    #df = df.withColumn('xOrganisationName', substring(df['OrganisationName'], 1, (instr(df['OrganisationName'], '-') + 1)))\r\n",
+					"\r\n",
+					"    df = df.withColumn('xOrganisationName', substring(df['OrganisationName'], 1, 5))\r\n",
 					"\r\n",
 					"    df = df.drop('OrganisationName')\r\n",
 					"\r\n",

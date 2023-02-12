@@ -41487,7 +41487,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a0af35e2-8af6-4f1f-8b4f-b65676f67383"
+						"spark.autotune.trackingId": "f635bbeb-4ff6-4f23-8858-069202da7c7e"
 					}
 				},
 				"metadata": {
@@ -41512,13 +41512,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, substring, instr"
 						],
@@ -41816,9 +41818,11 @@
 						"source": [
 							"def CompassODSStudentOrganisationMilestones_pseudo(df):\r\n",
 							"\r\n",
-							"    hyphen_index = instr(df['OrganisationName'], '-') + 1\r\n",
+							"    #hyphen_index = instr(df['OrganisationName'], '-') + 1\r\n",
 							"\r\n",
-							"    df = df.withColumn('xOrganisationName', substring(df['OrganisationName'], 1, hyphen_index)).drop('OrganisationName')\r\n",
+							"    df = df.withColumn('xOrganisationName', substring(df['OrganisationName'], 1, (instr(df['OrganisationName'], '-') + 1)))\r\n",
+							"\r\n",
+							"    df = df.drop('OrganisationName')\r\n",
 							"\r\n",
 							"    df = df.withColumnRenamed('xOrganisationName', 'OrganisationName')\r\n",
 							"\r\n",
@@ -41858,7 +41862,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "aa7a41c5-4460-49c8-9dbe-94bb1f26ec65"
+						"spark.autotune.trackingId": "1140f910-d2c9-471b-aa86-d1c7fe6293c2"
 					}
 				},
 				"metadata": {
@@ -41883,8 +41887,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -42020,7 +42023,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5298dfb2-9881-4bae-b835-c0772b24e1e9"
+						"spark.autotune.trackingId": "533c7451-f2c9-4278-9c65-209dc063bea5"
 					}
 				},
 				"metadata": {
@@ -42080,7 +42083,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -42099,7 +42102,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 6
 					},
 					{
 						"cell_type": "code",
@@ -42118,7 +42121,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",
@@ -42147,7 +42150,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -42168,7 +42171,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -42211,7 +42214,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -42231,7 +42234,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",

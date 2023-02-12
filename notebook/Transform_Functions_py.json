@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a0af35e2-8af6-4f1f-8b4f-b65676f67383"
+				"spark.autotune.trackingId": "842c35e4-a43f-4f67-9e00-da1c68645e36"
 			}
 		},
 		"metadata": {
@@ -341,9 +341,11 @@
 				"source": [
 					"def CompassODSStudentOrganisationMilestones_pseudo(df):\r\n",
 					"\r\n",
-					"    hyphen_index = instr(df['OrganisationName'], '-') + 1\r\n",
+					"    #hyphen_index = instr(df['OrganisationName'], '-') + 1\r\n",
 					"\r\n",
-					"    df = df.withColumn('xOrganisationName', substring(df['OrganisationName'], 1, hyphen_index)).drop('OrganisationName')\r\n",
+					"    df = df.withColumn('xOrganisationName', substring(df['OrganisationName'], 1, (instr(df['OrganisationName'], '-') + 1)))\r\n",
+					"\r\n",
+					"    df = df.drop('OrganisationName')\r\n",
 					"\r\n",
 					"    df = df.withColumnRenamed('xOrganisationName', 'OrganisationName')\r\n",
 					"\r\n",

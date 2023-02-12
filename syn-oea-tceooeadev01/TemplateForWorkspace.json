@@ -41300,7 +41300,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b8c7d601-a579-4768-a111-e24f00eeabe6"
+						"spark.autotune.trackingId": "e76bee1b-721d-4a4b-8b00-230c4d961cd0"
 					}
 				},
 				"metadata": {
@@ -41338,7 +41338,7 @@
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, substring, instr"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -41633,9 +41633,9 @@
 							"\r\n",
 							"    #hyphen_index = instr(df['OrganisationName'], '-') + 1\r\n",
 							"\r\n",
-							"    #df = df.withColumn('xOrganisationName', substring(df['OrganisationName'], 1, (instr(df['OrganisationName'], '-') + 1)))\r\n",
+							"    df = df.withColumn('xOrganisationName', substring('OrganisationName', 1, (instr('OrganisationName', '-') + 1)))\r\n",
 							"\r\n",
-							"    df = df.withColumn('xOrganisationName', substring(df['OrganisationName'], 1, 5))\r\n",
+							"    #df = df.withColumn('xOrganisationName', substring('OrganisationName', 1, 5))\r\n",
 							"\r\n",
 							"    df = df.drop('OrganisationName')\r\n",
 							"\r\n",
@@ -41838,7 +41838,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a3e5830d-6fe4-492b-b161-aaf139fada5b"
+						"spark.autotune.trackingId": "c82887d1-26b6-4930-891f-27230812ac8c"
 					}
 				},
 				"metadata": {

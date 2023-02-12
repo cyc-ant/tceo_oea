@@ -41300,7 +41300,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e76bee1b-721d-4a4b-8b00-230c4d961cd0"
+						"spark.autotune.trackingId": "0e90fd76-29af-413c-9e70-0dc788d0cc18"
 					}
 				},
 				"metadata": {
@@ -41335,7 +41335,8 @@
 						"cell_type": "code",
 						"metadata": {},
 						"source": [
-							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, substring, instr"
+							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf\r\n",
+							"from pyspark.sql.types import StringType"
 						],
 						"outputs": [],
 						"execution_count": 1
@@ -41631,19 +41632,14 @@
 						"source": [
 							"def CompassODSStudentOrganisationMilestones_pseudo(df):\r\n",
 							"\r\n",
-							"    #hyphen_index = instr(df['OrganisationName'], '-') + 1\r\n",
+							"    # this will get a the first substring up to the first hyphen \r\n",
+							"    get_substring_udf = udf(lambda x: x.split(\"-\")[0] if \"-\" in x else x, StringType())\r\n",
 							"\r\n",
-							"    df = df.withColumn('xOrganisationName', substring('OrganisationName', 1, (instr('OrganisationName', '-') + 1)))\r\n",
-							"\r\n",
-							"    #df = df.withColumn('xOrganisationName', substring('OrganisationName', 1, 5))\r\n",
-							"\r\n",
+							"    df = df.withColumn('xOrganisationName', get_substring_udf(col('OrganisationName')))\r\n",
 							"    df = df.drop('OrganisationName')\r\n",
-							"\r\n",
 							"    df = df.withColumnRenamed('xOrganisationName', 'OrganisationName')\r\n",
 							"\r\n",
 							"    return df\r\n",
-							"\r\n",
-							"    \r\n",
 							""
 						],
 						"outputs": [],
@@ -41838,7 +41834,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c82887d1-26b6-4930-891f-27230812ac8c"
+						"spark.autotune.trackingId": "10dbcd97-d196-472b-92e2-cb779e8c0e88"
 					}
 				},
 				"metadata": {
@@ -41898,7 +41894,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 20
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -41917,7 +41913,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -41936,7 +41932,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 22
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -41965,7 +41961,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 23
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -41986,7 +41982,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 24
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",
@@ -42029,7 +42025,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 25
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -42049,7 +42045,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 26
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",

@@ -3099,7 +3099,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "select\n    SKStudent\n    , CompassPersonId \n    , FirstName\n    , LastName\n    , GovCode1\n    , IsCurrent\nfrom Compass.ODSStudentDemographic",
+								"sqlReaderQuery": "select\n    SKStudent\n    , CompassPersonId \n    , FirstName\n    , LastName\n    , GovCode1\n    , IsCurrent\n    , Gender\nfrom Compass.ODSStudentDemographic",
 								"partitionOption": "None"
 							},
 							"sink": {
@@ -39648,7 +39648,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "79e1c01c-e9ec-4a84-b2dd-d01b8a189067"
+						"spark.autotune.trackingId": "f3c8e7a5-7195-44f3-b5cf-aa2e82c81f09"
 					}
 				},
 				"metadata": {
@@ -39673,8 +39673,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -42416,7 +42415,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fd5236a7-c264-4649-96f5-a3133663f43d"
+						"spark.autotune.trackingId": "94ced9d1-034f-46e2-bd6e-b54551b5c51d"
 					}
 				},
 				"metadata": {
@@ -42476,7 +42475,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -42495,7 +42494,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -42514,7 +42513,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -42543,7 +42542,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -42564,7 +42563,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -42607,7 +42606,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 6
 					},
 					{
 						"cell_type": "code",
@@ -42627,7 +42626,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",
@@ -42646,7 +42645,7 @@
 							"stage3Transform(source_np, destination_np)"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 8
 					},
 					{
 						"cell_type": "markdown",
@@ -42679,7 +42678,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -42698,7 +42697,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": null
 					}
 				]
 			},

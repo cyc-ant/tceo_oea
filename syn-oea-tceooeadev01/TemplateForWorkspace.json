@@ -3036,7 +3036,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
-									"fileExtension": ".csv"
+									"fileExtension": "CompassODSStudentDemographic.csv"
 								}
 							},
 							"enableStaging": false,

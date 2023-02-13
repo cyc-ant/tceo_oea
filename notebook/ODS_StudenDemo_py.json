@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "899d04a3-9169-4828-bffe-5386583a33b7"
+				"spark.autotune.trackingId": "8f315ca1-7075-45f6-81fe-2356e5a95594"
 			}
 		},
 		"metadata": {
@@ -68,8 +68,7 @@
 					"                                        ['Iscurrent', 'string', 'no-op'],                                                       \r\n",
 					"                                        ]\r\n",
 					"\r\n",
-					"        \r\n",
-					"                                    \r\n",
+					"                                           \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
 					"        \r\n",

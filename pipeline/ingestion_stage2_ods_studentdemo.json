@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Ingest Acer to Stage2",
+				"name": "Ingest ODS Studentdmo to Stage2",
 				"type": "SynapseNotebook",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "OEA_connector_ODS",
+						"referenceName": "OEA_connector_ODSStudentDemo",
 						"type": "NotebookReference"
 					},
 					"parameters": {

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "f3c8e7a5-7195-44f3-b5cf-aa2e82c81f09"
+				"spark.autotune.trackingId": "494a4dc2-ebcd-41c8-a194-724ce2c6ca92"
 			}
 		},
 		"metadata": {
@@ -888,7 +888,7 @@
 					",ms.iscurrent\r\n",
 					",demo.firstname\r\n",
 					",demo.lastname \r\n",
-					",demo.gender \r\n",
+					"--,demo.gender \r\n",
 					",demo.govcode1 as ceider\r\n",
 					",demo.disability \r\n",
 					",demo.LBOTE \r\n",

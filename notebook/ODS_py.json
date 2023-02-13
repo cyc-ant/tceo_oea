@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a7a495a3-8104-46e6-8a67-f1f3b2be4cbd"
+				"spark.autotune.trackingId": "c4c68901-98b1-4f56-82f0-2691c26ec2b9"
 			}
 		},
 		"metadata": {
@@ -431,7 +431,7 @@
 					"        oea.ingest_delta_data(self.source_folder, 'CompassODSActivityEnrolment', self.schemas['CompassODSActivityEnrolment'], 'LastUpdateDate', 'SKActivityEnrolment')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'CompassODSCompassSubject', self.schemas['CompassODSCompassSubject'], 'LastUpdateDate', 'SKCompassSubject')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'CompassODSStaffDemographic', self.schemas['CompassODSStaffDemographic'], 'LastUpdateDate', 'SKStaff')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'CompassODSStudentDemographic', self.schemas['CompassODSStudentDemographic'], 'LastUpdateDate', 'SKStudent')\r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'CompassODSStudentDemographic', self.schemas['CompassODSStudentDemographic'], 'LastUpdateDate', 'SKStudent')\r\n",
 					"\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'CompassODSStaffOrganisationDetails', self.schemas['CompassODSStaffOrganisationDetails'], 'LastUpdateDate', 'SKStaffOrganisationDetails')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'CompassODSStudentOrganisationDetails', self.schemas['CompassODSStudentOrganisationDetails'], 'LastUpdateDate', 'SKStudentOrganisationDetails')\r\n",

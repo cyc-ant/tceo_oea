@@ -7420,7 +7420,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Ingest Acer to Stage2",
+						"name": "Ingest ODS Studentdmo to Stage2",
 						"type": "SynapseNotebook",
 						"dependsOn": [],
 						"policy": {
@@ -7433,7 +7433,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"notebook": {
-								"referenceName": "OEA_connector_ODS",
+								"referenceName": "OEA_connector_ODSStudentDemo",
 								"type": "NotebookReference"
 							},
 							"parameters": {
@@ -7476,7 +7476,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_ODS')]",
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_ODSStudentDemo')]",
 				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
 			]
 		},
@@ -20530,7 +20530,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4810197c-96ea-4e18-94b3-7aeef4392495"
+						"spark.autotune.trackingId": "8f315ca1-7075-45f6-81fe-2356e5a95594"
 					}
 				},
 				"metadata": {
@@ -20555,15 +20555,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Ods_StudentDemo_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_ODSStudentDemographic', pseudonymize = True):\r\n",
@@ -20579,8 +20577,7 @@
 							"                                        ['Iscurrent', 'string', 'no-op'],                                                       \r\n",
 							"                                        ]\r\n",
 							"\r\n",
-							"        \r\n",
-							"                                    \r\n",
+							"                                           \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
 							"        \r\n",

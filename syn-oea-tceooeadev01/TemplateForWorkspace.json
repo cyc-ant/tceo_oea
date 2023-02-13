@@ -2996,6 +2996,80 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_ODSActivityInstance')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_6bd",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "."
+							},
+							{
+								"name": "Destination",
+								"value": "stage1np/_ODSActivityInstance/CompassODSActivityInstance.csv"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "select \r\nSKActivityInstance\r\n, BKActivityInstance\r\n, SubjectCode\r\n, ActivityCode\r\n, Start\r\n, Finish\r\n, ManagingCompassPersonId\r\n, CoveringCompassPersonId\r\n, CampusImportIdentifier\r\n, CampusId\r\n, IsCurrent\r\n, DioceseId\r\n\r\nfrom Compass.ODSActivityInstance",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_ODSActivityInstance",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_ODSActivityInstance",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_ODSActivityInstance')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_ODSActivityInstance')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_ODSStudentDemo')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -9041,6 +9115,35 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_ODSActivityInstance')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "CompassODSActivityInstance.csv",
+						"folderPath": "_ODSActivityInstance",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_ODSStudentDemo')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -11285,6 +11388,24 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_ODSActivityInstance')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_ODS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_ODS')]"
 			]
 		},
 		{
@@ -23809,7 +23930,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a080d629-78db-4d18-83a0-bbd97a895ccd"
+						"spark.autotune.trackingId": "48fd75d4-908e-4c8a-898f-2f8883fe4a83"
 					}
 				},
 				"metadata": {
@@ -23834,8 +23955,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -39528,7 +39648,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "672b2d3d-0643-4e0a-8a3d-76572e633f73"
+						"spark.autotune.trackingId": "79e1c01c-e9ec-4a84-b2dd-d01b8a189067"
 					}
 				},
 				"metadata": {
@@ -39553,7 +39673,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -39647,8 +39768,12 @@
 							"odsactivity_df = spark.read.load(sourcep + \"/_ODS/CompassODSActivity_pseudo\", format='delta')\r\n",
 							"odsactivityenrolment_df = spark.read.load(sourcep + \"/_ODS/CompassODSActivityEnrolment_pseudo\", format='delta')\r\n",
 							"odscompasssubject_df = spark.read.load(sourcep + \"/_ODS/CompassODSCompassSubject_pseudo\", format='delta')\r\n",
+							"\r\n",
 							"odsstaffdemographic_df = spark.read.load(sourcep + \"/_ODS/CompassODSStaffDemographic_pseudo\", format='delta')\r\n",
-							"odsstudentdemographic_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentDemographic_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"\r\n",
+							"#odsstudentdemographic_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentDemographic_pseudo\", format='delta')\r\n",
+							"odsstudentdemographic_df = spark.read.load(sourcep + \"/_ODSStudentDemographic/CompassODSStudentDemographic_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"odsstafforganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStaffOrganisationDetails_pseudo\", format='delta')\r\n",
 							"odsstudentorganisationdetails_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentOrganisationDetails_pseudo\", format='delta')\r\n",

@@ -20507,7 +20507,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/ODS_StudenDemo_py')]",
+			"name": "[concat(parameters('workspaceName'), '/ODS_StudentDemo_py')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -23809,7 +23809,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a21f0447-866c-45d5-872d-9e68e634cb68"
+						"spark.autotune.trackingId": "a080d629-78db-4d18-83a0-bbd97a895ccd"
 					}
 				},
 				"metadata": {
@@ -23834,7 +23834,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -23936,7 +23937,7 @@
 							"collapsed": true
 						},
 						"source": [
-							"%run /ODS_StudentDemo_py"
+							"%run Data Objects/ODS_StudentDemo_py"
 						],
 						"outputs": [],
 						"execution_count": 17

@@ -3036,7 +3036,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -20463,7 +20463,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3cbb22b3-d0e9-4743-806b-d173cfea45d1"
+						"spark.autotune.trackingId": "a7a495a3-8104-46e6-8a67-f1f3b2be4cbd"
 					}
 				},
 				"metadata": {
@@ -20488,15 +20488,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Ods_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_ODS', pseudonymize = True):\r\n",

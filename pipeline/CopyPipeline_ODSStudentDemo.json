@@ -26,7 +26,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "select \r\n    CompassPersonId \r\n    , FirstName\r\n    , LastName\r\n    , GovCode1\r\nfrom Compass.ODSStudentDemographic",
+						"sqlReaderQuery": "select\n    SKStudent\n    , CompassPersonId \n    , FirstName\n    , LastName\n    , GovCode1\n    , IsCurrent\nfrom Compass.ODSStudentDemographic",
 						"partitionOption": "None"
 					},
 					"sink": {

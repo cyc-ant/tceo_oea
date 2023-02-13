@@ -1,0 +1,88 @@
+{
+	"name": "ODS_ActivityInstance_py",
+	"properties": {
+		"folder": {
+			"name": "Data Objects"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spark3p1sm",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "78ba4373-e122-4fc6-9937-f744e5f571af"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": true,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"class Ods_ActivityInstance_object(BaseOEAModule):\r\n",
+					"    def __init__(self, source_folder='_ODSActivityInstance', pseudonymize = True):\r\n",
+					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+					"\r\n",
+					"        \r\n",
+					"        self.schemas['CompassODSActivityInstance'] = [\r\n",
+					"                                        ['SKActivityInstance', 'string', 'no-op'],\r\n",
+					"                                        ['BKActivityInstance', 'string', 'no-op'],\r\n",
+					"                                        ['SubjectCode', 'string', 'no-op'],\r\n",
+					"                                        ['ActivityCode', 'string', 'no-op'],\r\n",
+					"                                        ['Start', 'string', 'no-op'],\r\n",
+					"                                        ['Finish', 'string', 'no-op'],\r\n",
+					"                                        ['ManagingCompassPersonId', 'string', 'no-op'],\r\n",
+					"                                        ['CoveringCompassPersonId', 'string', 'no-op'],\r\n",
+					"                                        ['CampusImportIdentifier', 'string', 'no-op'],\r\n",
+					"                                        ['CampusId', 'string', 'no-op'],\r\n",
+					"                                        ['IsCurrent', 'string', 'no-op'],\r\n",
+					"                                        ['DioceseId', 'string', 'no-op']\r\n",
+					"        ]\r\n",
+					"                                           \r\n",
+					"\r\n",
+					"    def ingest(self):\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'CompassODSActivityInstance', self.schemas['CompassODSActivityInstance'], None, 'SKStudent')\r\n",
+					"\r\n",
+					"\r\n",
+					"ods_activityinstance_object = Ods_ActivityInstance_object()"
+				],
+				"execution_count": null
+			}
+		]
+	}
+}

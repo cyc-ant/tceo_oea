@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "9d862aa8-7372-4444-8b8b-e6302f98c5c6"
+				"spark.autotune.trackingId": "ec1c1e89-eaa0-4734-8b9e-15fbd6b22941"
 			}
 		},
 		"metadata": {

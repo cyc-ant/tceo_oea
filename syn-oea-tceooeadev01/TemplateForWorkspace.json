@@ -39648,7 +39648,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f3c8e7a5-7195-44f3-b5cf-aa2e82c81f09"
+						"spark.autotune.trackingId": "ad7756cc-2ed0-430c-a086-77d890a0ea74"
 					}
 				},
 				"metadata": {
@@ -39673,7 +39673,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -40527,7 +40528,7 @@
 							",ms.iscurrent\r\n",
 							",demo.firstname\r\n",
 							",demo.lastname \r\n",
-							",demo.gender \r\n",
+							"--,demo.gender \r\n",
 							",demo.govcode1 as ceider\r\n",
 							",demo.disability \r\n",
 							",demo.LBOTE \r\n",
@@ -42415,7 +42416,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "94ced9d1-034f-46e2-bd6e-b54551b5c51d"
+						"spark.autotune.trackingId": "18ecb303-4381-40d9-8acd-f8a24e9ec233"
 					}
 				},
 				"metadata": {
@@ -42475,7 +42476,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -42494,7 +42495,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -42513,7 +42514,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -42542,7 +42543,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -42563,7 +42564,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 14
 					},
 					{
 						"cell_type": "code",
@@ -42606,7 +42607,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 15
 					},
 					{
 						"cell_type": "code",
@@ -42626,7 +42627,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 16
 					},
 					{
 						"cell_type": "code",
@@ -42645,7 +42646,7 @@
 							"stage3Transform(source_np, destination_np)"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 17
 					},
 					{
 						"cell_type": "markdown",
@@ -42678,7 +42679,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 18
 					},
 					{
 						"cell_type": "code",

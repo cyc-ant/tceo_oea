@@ -7414,6 +7414,73 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_ods_studentdemo')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest Acer to Stage2",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_ODS",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "ods_StudentDemo_object",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "_ODSStudentDemographic",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Stage2 Ingestion Pipelines"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_ODS')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_seniordata')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -20463,7 +20530,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c3626c94-0582-4a48-930b-9f18be96e3d8"
+						"spark.autotune.trackingId": "4810197c-96ea-4e18-94b3-7aeef4392495"
 					}
 				},
 				"metadata": {
@@ -20488,13 +20555,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Ods_StudentDemo_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_ODSStudentDemographic', pseudonymize = True):\r\n",
@@ -20502,83 +20571,12 @@
 							"\r\n",
 							"        \r\n",
 							"        self.schemas['CompassODSStudentDemographic'] = [\r\n",
-							"                                        \r\n",
+							"                                        ['SKStudent', 'integer', 'no-op'],\r\n",
+							"                                        ['CompassPersonId', 'string', 'no-op'],\r\n",
 							"                                        ['FirstName', 'string', 'no-op'],\r\n",
-							"\r\n",
 							"                                        ['LastName', 'string', 'no-op'],\r\n",
-							"\r\n",
-							"                                        ['MiddleName', 'string', 'no-op'],\r\n",
-							"                                        ['SecondMiddleName', 'string', 'no-op'],\r\n",
-							"                                        ['FormerFirstName', 'string', 'no-op'],\r\n",
-							"                                        ['FormerLastName', 'string', 'no-op'],\r\n",
-							"                                        ['EmailAddress', 'string', 'no-op'],\r\n",
-							"                                        ['AdminNotes', 'string', 'no-op'],\r\n",
-							"                                        ['UsualTransport', 'string', 'no-op'],\r\n",
-							"                                        ['HomePhoneNumber', 'string', 'no-op'],\r\n",
-							"                                        ['MobileNumber', 'string', 'no-op'],\r\n",
-							"                                        ['Gender', 'string', 'no-op'],\r\n",
-							"                                        ['DateOfDeath', 'string', 'no-op'],\r\n",
-							"                                        ['DateOfBirth', 'string', 'no-op'],\r\n",
-							"                                        ['InterpreterRequired', 'string', 'no-op'],\r\n",
-							"                                        ['IndigenousType', 'string', 'no-op'],\r\n",
-							"                                        ['Nationality', 'string', 'no-op'],\r\n",
-							"                                        ['ArrivalDate', 'string', 'no-op'],\r\n",
-							"                                        ['VisaSubClassCode', 'string', 'no-op'],\r\n",
-							"                                        ['VisaSubClassName', 'string', 'no-op'],\r\n",
-							"                                        ['VisaExpiryDate', 'string', 'no-op'],\r\n",
-							"                                        ['YouthAllowance', 'string', 'no-op'],\r\n",
-							"                                        ['GovernmentFunded', 'string', 'no-op'],\r\n",
 							"                                        ['GovCode1', 'string', 'no-op'],\r\n",
-							"                                        ['GovCode2', 'string', 'no-op'],\r\n",
-							"                                        ['Disability', 'string', 'no-op'],\r\n",
-							"                                        ['DisabilityFunded', 'string', 'no-op'],\r\n",
-							"                                        ['LivingArrangements', 'string', 'no-op'],\r\n",
-							"                                        ['ResidentialStatus', 'string', 'no-op'],\r\n",
-							"                                        ['RefugeeStatus', 'string', 'no-op'],\r\n",
-							"                                        ['Religion', 'string', 'no-op'],\r\n",
-							"                                        ['ReligionNotes', 'string', 'no-op'],\r\n",
-							"                                        ['SchoolHistory', 'string', 'no-op'],\r\n",
-							"                                        ['AmbulanceSubscriber', 'string', 'no-op'],\r\n",
-							"                                        ['Occupation', 'string', 'no-op'],\r\n",
-							"                                        ['SchoolEducation', 'string', 'no-op'],\r\n",
-							"                                        ['NonSchoolEducation', 'string', 'no-op'],\r\n",
-							"                                        ['BirthCountry', 'string', 'no-op'],\r\n",
-							"                                        ['UserName', 'string', 'no-op'],\r\n",
-							"                                        ['Contactable', 'string', 'no-op'],\r\n",
-							"                                        ['EmailAllowed', 'string', 'no-op'],\r\n",
-							"                                        ['SMSAllowed', 'string', 'no-op'],\r\n",
-							"                                        ['PublishPhotoToMedia', 'string', 'no-op'],\r\n",
-							"                                        ['PublishPhotoToInternal', 'string', 'no-op'],\r\n",
-							"                                        ['AuthenticationMode', 'string', 'no-op'],\r\n",
-							"                                        ['FeeMode', 'string', 'no-op'],\r\n",
-							"                                        ['ImportMode', 'string', 'no-op'],\r\n",
-							"                                        ['CreateDate', 'string', 'no-op'],\r\n",
-							"                                        ['LastUpdateDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveStartDate', 'string', 'no-op'],\r\n",
-							"                                        ['EffectiveEndDate', 'string', 'no-op'],\r\n",
-							"                                        ['Iscurrent', 'string', 'no-op'],\r\n",
-							"                                        ['SCDReason', 'string', 'no-op'],\r\n",
-							"                                        ['ReceivesESL', 'string', 'no-op'],\r\n",
-							"                                        ['RequiresESL', 'string', 'no-op'],\r\n",
-							"                                        ['LBOTE', 'string', 'no-op'],\r\n",
-							"                                        ['BirthCountryCode', 'string', 'no-op'],\r\n",
-							"                                        ['GenderCode', 'string', 'no-op'],\r\n",
-							"                                        ['IndigenousTypeCode', 'string', 'no-op'],\r\n",
-							"                                        ['RelgionCode', 'string', 'no-op'],\r\n",
-							"                                        ['NonSchoolEducationCode', 'string', 'no-op'],\r\n",
-							"                                        ['NationalityCode', 'string', 'no-op'],\r\n",
-							"                                        ['OccupationGroup', 'string', 'no-op'],\r\n",
-							"                                        ['Employer', 'string', 'no-op'],\r\n",
-							"                                        ['OrganisationName', 'string', 'no-op'],\r\n",
-							"                                        ['SchoolEducationCode', 'string', 'no-op'],\r\n",
-							"                                        ['CampusId', 'integer', 'no-op'],\r\n",
-							"                                        ['CommunicationPreference', 'string', 'no-op'],\r\n",
-							"                                        ['TownOfBirth', 'string', 'no-op'],\r\n",
-							"                                        ['ReligiousOrLay', 'string', 'no-op'],\r\n",
-							"                                        ['Parish', 'string', 'no-op'],\r\n",
-							"                                        ['ImmunisationRecordSighted', 'string', 'no-op'],\r\n",
-							"                                        ['HomeTown', 'string', 'no-op'],\r\n",
-							"                                        ['HeadLiceCheckAllowed', 'string', 'no-op']                                                               \r\n",
+							"                                        ['Iscurrent', 'string', 'no-op'],                                                       \r\n",
 							"                                        ]\r\n",
 							"\r\n",
 							"        \r\n",
@@ -20586,7 +20584,7 @@
 							"\r\n",
 							"    def ingest(self):\r\n",
 							"        \r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'CompassODSStudentDemographic2', self.schemas['CompassODSStudentDemographic'], 'LastUpdateDate', 'SKStudent')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'CompassODSStudentDemographic', self.schemas['CompassODSStudentDemographic'], 'LastUpdateDate', 'SKStudent')\r\n",
 							"\r\n",
 							"       \r\n",
 							"\r\n",
@@ -20623,7 +20621,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a7a495a3-8104-46e6-8a67-f1f3b2be4cbd"
+						"spark.autotune.trackingId": "c4c68901-98b1-4f56-82f0-2691c26ec2b9"
 					}
 				},
 				"metadata": {
@@ -21033,7 +21031,7 @@
 							"        oea.ingest_delta_data(self.source_folder, 'CompassODSActivityEnrolment', self.schemas['CompassODSActivityEnrolment'], 'LastUpdateDate', 'SKActivityEnrolment')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'CompassODSCompassSubject', self.schemas['CompassODSCompassSubject'], 'LastUpdateDate', 'SKCompassSubject')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'CompassODSStaffDemographic', self.schemas['CompassODSStaffDemographic'], 'LastUpdateDate', 'SKStaff')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'CompassODSStudentDemographic', self.schemas['CompassODSStudentDemographic'], 'LastUpdateDate', 'SKStudent')\r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'CompassODSStudentDemographic', self.schemas['CompassODSStudentDemographic'], 'LastUpdateDate', 'SKStudent')\r\n",
 							"\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'CompassODSStaffOrganisationDetails', self.schemas['CompassODSStaffOrganisationDetails'], 'LastUpdateDate', 'SKStaffOrganisationDetails')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'CompassODSStudentOrganisationDetails', self.schemas['CompassODSStudentOrganisationDetails'], 'LastUpdateDate', 'SKStudentOrganisationDetails')\r\n",
@@ -23758,6 +23756,190 @@
 						},
 						"source": [
 							"%run /ODS_py"
+						],
+						"outputs": [],
+						"execution_count": 17
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"obj = eval(object_name)\r\n",
+							"kwargs = eval(kwargs)\r\n",
+							"m = getattr(obj, method_name)\r\n",
+							"result = m(**kwargs)\r\n",
+							"mssparkutils.notebook.exit(result)"
+						],
+						"outputs": [],
+						"execution_count": 18
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/OEA_connector_ODSStudentDemo')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "OEA Connectors"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"runAsWorkspaceSystemIdentity": false,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "a21f0447-866c-45d5-872d-9e68e634cb68"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# OEA connector\n",
+							"This notebook provides a way for invoking methods on the OEA framework or supporting modules from a pipeline.\n",
+							"\n",
+							"When setting up a new module, be sure to include a new cell below that imports that module, so that its methods can be invoked by pipelines."
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"tags": [
+								"parameters"
+							]
+						},
+						"source": [
+							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
+							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
+							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
+							"object_name = ''\r\n",
+							"method_name = ''\r\n",
+							"source_folder = ''\r\n",
+							"kwargs = '{}'"
+						],
+						"outputs": [],
+						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run OEA_py"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run /DataCopy_py"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"outputs_hidden": false,
+								"source_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": true
+						},
+						"source": [
+							"%run /ODS_StudentDemo_py"
 						],
 						"outputs": [],
 						"execution_count": 17

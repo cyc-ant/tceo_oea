@@ -21,7 +21,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a21f0447-866c-45d5-872d-9e68e634cb68"
+				"spark.autotune.trackingId": "48fd75d4-908e-4c8a-898f-2f8883fe4a83"
 			}
 		},
 		"metadata": {
@@ -146,7 +146,7 @@
 					"collapsed": true
 				},
 				"source": [
-					"%run /ODS_StudentDemo_py"
+					"%run Data Objects/ODS_StudentDemo_py"
 				],
 				"execution_count": 17
 			},

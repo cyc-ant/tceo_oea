@@ -1,0 +1,172 @@
+{
+	"name": "ATARDataCopy_py",
+	"properties": {
+		"folder": {
+			"name": "Stage1"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spark3p1sm",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "068b5d2b-0a72-4978-bec6-25cb368fa60c"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"from pyspark.sql.functions import lit, monotonically_increasing_id, trim\r\n",
+					"from pyspark.sql import DataFrame\r\n",
+					"from functools import reduce"
+				],
+				"execution_count": 17
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"%run OEA_py"
+				],
+				"execution_count": 18
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"class ATARDataCopy(BaseOEAModule):\r\n",
+					"    def __init__(self, source_folder, pseudonymize = True):\r\n",
+					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+					"        \r\n",
+					"        \r\n",
+					"    def mergeAll(self):\r\n",
+					"\r\n",
+					"        root_dir = f'{self.stage1np}' #\"/ATAR\"\r\n",
+					"        atar_list = []\r\n",
+					"        \r\n",
+					"        # for each file location in this manual upload directory..\r\n",
+					"        file_list = mssparkutils.fs.ls(root_dir)\r\n",
+					"        for file in file_list:\r\n",
+					"            # ignore subfolders\r\n",
+					"            if file.isDir:\r\n",
+					"                continue\r\n",
+					"                \r\n",
+					"            # .. we need to dissect the filename to get the school id, name and year\r\n",
+					"            tokens = file.name.split(\"-\")\r\n",
+					"            SchoolID = tokens[0].strip()\r\n",
+					"\r\n",
+					"            filename = f'{self.stage1np}/{file.name}'\r\n",
+					"\r\n",
+					"            # add the school id to the data\r\n",
+					"            df = self._addReportDetails(filename, SchoolID)\r\n",
+					"            \r\n",
+					"            atar_list.append(df)\r\n",
+					"\r\n",
+					"        \r\n",
+					"        # combine the list of dataframes loaded \r\n",
+					"        atar_combined_df = reduce(DataFrame.unionAll, atar_list)\r\n",
+					"\r\n",
+					"        # add a unique index to the combined table\r\n",
+					"        atar_indexed_df = atar_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+					"\r\n",
+					"        # save the file\r\n",
+					"        atar_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/ATAR')\r\n",
+					"        #atar_indexed_df.write.option(\"header\", True).csv(f'{self.stage1np}/ATAR')\r\n",
+					"\r\n",
+					"\r\n",
+					"    def _addReportDetails(self, file, schoolID):\r\n",
+					"\r\n",
+					"        df = spark.read.options(header='True', ignoreLeadingWhiteSpace='True', ignoreTrailingWhiteSpace='True').csv(file)\r\n",
+					"\r\n",
+					"        df = df.na.drop(\"all\")\r\n",
+					"\r\n",
+					"        # add the new columns and the value for each column\r\n",
+					"        final_df = df.withColumn('SchoolId', lit(schoolID))\r\n",
+					"\r\n",
+					"        return final_df\r\n",
+					"\r\n",
+					"\r\n",
+					"source_folder = \"/ATAR\"\r\n",
+					"\r\n",
+					"# instantiate the AE Manual Data Copy with a source folder that contains all the ingested data files \r\n",
+					"atarcopy = ATARDataCopy(source_folder)\r\n",
+					"\r\n",
+					"atarcopy.mergeAll()\r\n",
+					"\r\n",
+					""
+				],
+				"execution_count": 27
+			}
+		]
+	}
+}

@@ -29,6 +29,9 @@
 		"LS_SQL_Serverless_OEA_connectionString": {
 			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=syn-oea-tceooeadev01-ondemand.sql.azuresynapse.net;Initial Catalog=@{linkedService().dbName}"
 		},
+		"SPOnlineList_EarlyYearsResults_servicePrincipalKey": {
+			"value": ""
+		},
 		"SharePointOnlineList1_servicePrincipalKey": {
 			"value": ""
 		},
@@ -52,6 +55,9 @@
 		},
 		"LS_KeyVault_OEA_properties_typeProperties_baseUrl": {
 			"value": "https://kv-oea-tceooeadev01.vault.azure.net/"
+		},
+		"SPOnlineList_EarlyYearsResults_properties_typeProperties_servicePrincipalId": {
+			"value": "8a059015-4a38-48ae-bf33-d40b1e3ad0ad"
 		},
 		"SharePointOnlineList1_properties_typeProperties_servicePrincipalId": {
 			"value": "75609f67-9701-40b5-b40f-b2ff150646af"

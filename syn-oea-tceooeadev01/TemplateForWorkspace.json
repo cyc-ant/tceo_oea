@@ -41,6 +41,10 @@
 			"metadata": "Secure string for 'connectionString' of 'LS_SQL_Serverless_OEA'",
 			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=syn-oea-tceooeadev01-ondemand.sql.azuresynapse.net;Initial Catalog=@{linkedService().dbName}"
 		},
+		"SPOnlineList_EarlyYearsResults_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'SPOnlineList_EarlyYearsResults'"
+		},
 		"SharePointOnlineList1_servicePrincipalKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'servicePrincipalKey' of 'SharePointOnlineList1'"
@@ -73,6 +77,10 @@
 		"LS_KeyVault_OEA_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://kv-oea-tceooeadev01.vault.azure.net/"
+		},
+		"SPOnlineList_EarlyYearsResults_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "8a059015-4a38-48ae-bf33-d40b1e3ad0ad"
 		},
 		"SharePointOnlineList1_properties_typeProperties_servicePrincipalId": {
 			"type": "string",
@@ -1842,6 +1850,176 @@
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/datasets/SourceDataset_DimTables')]",
 				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_DimTables')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_EYResults')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach_lot",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.cw_items",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy_lot",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "@{item().source.listName}"
+										},
+										{
+											"name": "Destination",
+											"value": "stage1np/EarlyYearsTestResults/@{item().destination.fileName}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "SharePointOnlineListSource",
+											"httpRequestTimeout": "00:05:00"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"validateDataConsistency": false
+									},
+									"inputs": [
+										{
+											"referenceName": "SourceDataset_EYResults",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_listName": "@item().source.listName"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DestinationDataset_EYResults",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_fileName": "@item().destination.fileName"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"cw_items": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"source": {
+									"listName": "PrepTestQuestions"
+								},
+								"destination": {
+									"fileName": "PrepTestQuestions.csv"
+								}
+							},
+							{
+								"source": {
+									"listName": "PrepTestResultPost"
+								},
+								"destination": {
+									"fileName": "PrepTestResultPost.csv"
+								}
+							},
+							{
+								"source": {
+									"listName": "PrepTestResultPre"
+								},
+								"destination": {
+									"fileName": "PrepTestResultPre.csv"
+								}
+							},
+							{
+								"source": {
+									"listName": "Year1TestQuestions"
+								},
+								"destination": {
+									"fileName": "Year1TestQuestions.csv"
+								}
+							},
+							{
+								"source": {
+									"listName": "Year1TestResultPost"
+								},
+								"destination": {
+									"fileName": "Year1TestResultPost.csv"
+								}
+							},
+							{
+								"source": {
+									"listName": "Year1TestResultPre"
+								},
+								"destination": {
+									"fileName": "Year1TestResultPre.csv"
+								}
+							},
+							{
+								"source": {
+									"listName": "Year2TestQuestions"
+								},
+								"destination": {
+									"fileName": "Year2TestQuestions.csv"
+								}
+							},
+							{
+								"source": {
+									"listName": "Year2TestResultPost"
+								},
+								"destination": {
+									"fileName": "Year2TestResultPost.csv"
+								}
+							},
+							{
+								"source": {
+									"listName": "Year2TestResultPre"
+								},
+								"destination": {
+									"fileName": "Year2TestResultPre.csv"
+								}
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_EYResults')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_EYResults')]"
 			]
 		},
 		{
@@ -9138,6 +9316,43 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_EYResults')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"folderPath": "EarlyYearsTestResults",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_MySchools')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -11432,6 +11647,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_EYResults')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SPOnlineList_EarlyYearsResults",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_listName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SharePointOnlineListResource",
+				"schema": [],
+				"typeProperties": {
+					"listName": {
+						"value": "@dataset().cw_listName",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/SPOnlineList_EarlyYearsResults')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/SourceDataset_MySchools')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -12886,6 +13129,32 @@
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
 					"connectionString": "[parameters('LS_SQL_Serverless_OEA_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SPOnlineList_EarlyYearsResults')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"description": "This SharePoint Online List contains the Early Years testing results",
+				"annotations": [],
+				"type": "SharePointOnlineList",
+				"typeProperties": {
+					"siteUrl": "https://tsvcatholicedu.sharepoint.com/sites/EarlyYearsTesting",
+					"tenantId": "e89c1f9e-cbca-4651-8fb0-17fffa6fd009",
+					"servicePrincipalId": "[parameters('SPOnlineList_EarlyYearsResults_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "[parameters('SPOnlineList_EarlyYearsResults_servicePrincipalKey')]"
+					}
 				},
 				"connectVia": {
 					"referenceName": "AutoResolveIntegrationRuntime",

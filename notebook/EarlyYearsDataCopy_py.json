@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e9bb9020-2afe-417c-abba-f45d20745081"
+				"spark.autotune.trackingId": "576b6cad-27d8-4bd0-953d-63754ce52ba1"
 			}
 		},
 		"metadata": {
@@ -135,7 +135,7 @@
 					"            filetype = filename_tokens[1].strip() # consists of 'Questions' and 'Result'\r\n",
 					"            testlevel = ''\r\n",
 					"\r\n",
-					"            if filetype == 'Results':\r\n",
+					"            if filetype == 'Result':\r\n",
 					"                testlevel = filename_tokens[2].strip()\r\n",
 					"\r\n",
 					"            filelocation = f'{self.stage1np}/{file.name}'\r\n",
@@ -162,8 +162,6 @@
 					"    def _convertJSON(self, file):\r\n",
 					"        df = spark.read.json(file)\r\n",
 					"\r\n",
-					"        display(df)\r\n",
-					"\r\n",
 					"        return df\r\n",
 					"\r\n",
 					"\r\n",
@@ -185,7 +183,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 3
+				"execution_count": 5
 			}
 		]
 	}

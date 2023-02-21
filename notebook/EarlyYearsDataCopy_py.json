@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "97c89e70-f6e0-4a79-aa38-2cefa967fb9a"
+				"spark.autotune.trackingId": "6df1964e-294a-46ba-92e1-20b444e704d9"
 			}
 		},
 		"metadata": {
@@ -135,17 +135,17 @@
 					"            filetype = filename_tokens[1].strip() # consists of 'Questions' and 'Result'\r\n",
 					"            testlevel = ''\r\n",
 					"\r\n",
-					"            if filetype = 'Result':\r\n",
+					"            if filetype == 'Results':\r\n",
 					"                testlevel = filename_tokens[2].strip()\r\n",
 					"\r\n",
 					"            filelocation = f'{self.stage1np}/{file.name}'\r\n",
 					"\r\n",
 					"            # if test level is empty then it is a questions file\r\n",
-					"            if testlevel = '':\r\n",
+					"            if testlevel == '':\r\n",
 					"                df = self._convertJSON(filelocation)\r\n",
 					"                question_list.append(df)\r\n",
 					"            else:\r\n",
-					"                df = self._convertJSONAndAddDetails(file, testlevel)\r\n",
+					"                df = self._convertJSONAndAddDetails(filelocation, testlevel)\r\n",
 					"                result_list.append(df)\r\n",
 					"\r\n",
 					"        \r\n",
@@ -156,11 +156,13 @@
 					"        result_indexed_df = result_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
 					"\r\n",
 					"        # save the file\r\n",
-					"        result_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsResults')\r\n",
+					"        result_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsTest')\r\n",
 					"        \r\n",
 					"\r\n",
 					"    def _convertJSON(self, file):\r\n",
-					"        df = spark.read.options(header='True', ignoreLeadingWhiteSpace='True', ignoreTrailingWhiteSpace='True').json(file)\r\n",
+					"        df = spark.read.json(file)\r\n",
+					"\r\n",
+					"        display(df)\r\n",
 					"\r\n",
 					"        return df\r\n",
 					"\r\n",
@@ -174,7 +176,7 @@
 					"\r\n",
 					"\r\n",
 					"\r\n",
-					"source_folder = \"/EarlyYearsResults\"\r\n",
+					"source_folder = \"/EarlyYearsTest\"\r\n",
 					"\r\n",
 					"# instantiate the AE Manual Data Copy with a source folder that contains all the ingested data files \r\n",
 					"eydatacopy = EarlyYearsDataCopy(source_folder)\r\n",
@@ -183,7 +185,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 27
+				"execution_count": 14
 			}
 		]
 	}

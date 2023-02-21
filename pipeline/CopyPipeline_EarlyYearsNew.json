@@ -1,5 +1,5 @@
 {
-	"name": "CopyPipeline_EarlyYears",
+	"name": "CopyPipeline_EarlyYearsNew",
 	"properties": {
 		"activities": [
 			{
@@ -58,7 +58,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "SourceDataset_EarlyYears",
+									"referenceName": "SourceDataset_EarlyYearsNew",
 									"type": "DatasetReference",
 									"parameters": {
 										"cw_listName": "@item().source.listName"
@@ -67,7 +67,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DestinationDataset_EarlyYears",
+									"referenceName": "DestinationDataset_EarlyYearsNew",
 									"type": "DatasetReference",
 									"parameters": {
 										"cw_fileName": "@item().destination.fileName"

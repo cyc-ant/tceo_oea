@@ -45505,7 +45505,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4677e118-7ada-4790-8682-04428d030970"
+						"spark.autotune.trackingId": "c50bdf3e-a57d-4454-b191-6709f9b28ef3"
 					}
 				},
 				"metadata": {
@@ -45530,13 +45530,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf\r\n",
 							"from pyspark.sql.types import StringType"
@@ -45867,11 +45869,11 @@
 							"    question_columns = [item for item in df.columns if item.startswith('Ques')]\r\n",
 							"\r\n",
 							"    for col in question_columns:\r\n",
-							"            df = df.withColumn(col, when(result_indexed_df[col] == 'Correct', lit('1'))\r\n",
-							"                                .otherwise(when(result_indexed_df[col] == 'Incorrect', lit('0'))\r\n",
-							"                                .otherwise(when(result_indexed_df[col] == 'Used structure correctly', lit('1'))\r\n",
-							"                                .otherwise(when(result_indexed_df[col] == 'Used structure incorrectly', lit('0'))\r\n",
-							"                                .otherwise(when(result_indexed_df[col] == 'Other response', lit('2')))))))\r\n",
+							"            df = df.withColumn(col, when(df[col] == 'Correct', lit('1'))\r\n",
+							"                                .otherwise(when(df[col] == 'Incorrect', lit('0'))\r\n",
+							"                                .otherwise(when(df[col] == 'Used structure correctly', lit('1'))\r\n",
+							"                                .otherwise(when(df[col] == 'Used structure incorrectly', lit('0'))\r\n",
+							"                                .otherwise(when(df[col] == 'Other response', lit('2')))))))\r\n",
 							"\r\n",
 							"    return df\r\n",
 							"\r\n",
@@ -45909,7 +45911,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "53d740ce-cded-45db-916a-add9a3ae86ad"
+						"spark.autotune.trackingId": "37731e5b-f5e5-4e14-b0d1-830c22966ae7"
 					}
 				},
 				"metadata": {
@@ -45934,8 +45936,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

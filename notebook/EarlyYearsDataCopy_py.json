@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "576b6cad-27d8-4bd0-953d-63754ce52ba1"
+				"spark.autotune.trackingId": "61414d4b-42dc-4e28-8f07-f64b410ab02c"
 			}
 		},
 		"metadata": {
@@ -65,11 +65,11 @@
 					}
 				},
 				"source": [
-					"from pyspark.sql.functions import lit, monotonically_increasing_id, trim\r\n",
+					"from pyspark.sql.functions import lit, monotonically_increasing_id, trim, when \r\n",
 					"from pyspark.sql import DataFrame\r\n",
 					"from functools import reduce"
 				],
-				"execution_count": 1
+				"execution_count": 9
 			},
 			{
 				"cell_type": "code",
@@ -157,7 +157,7 @@
 					"\r\n",
 					"        # save the file\r\n",
 					"        result_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsResults')\r\n",
-					"        \r\n",
+					"     \r\n",
 					"\r\n",
 					"    def _convertJSON(self, file):\r\n",
 					"        df = spark.read.json(file)\r\n",
@@ -183,7 +183,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 5
+				"execution_count": 19
 			}
 		]
 	}

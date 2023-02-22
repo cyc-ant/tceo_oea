@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "0cc7bccc-2c09-467b-bbe9-c1e27885d7b3"
+				"spark.autotune.trackingId": "4677e118-7ada-4790-8682-04428d030970"
 			}
 		},
 		"metadata": {
@@ -350,6 +350,38 @@
 					"    df = df.withColumnRenamed('xOrganisationName', 'OrganisationName')\r\n",
 					"\r\n",
 					"    return df\r\n",
+					""
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def EarlyYearsResults_pseudo(df):\r\n",
+					"\r\n",
+					"    question_columns = [item for item in df.columns if item.startswith('Ques')]\r\n",
+					"\r\n",
+					"    for col in question_columns:\r\n",
+					"            df = df.withColumn(col, when(result_indexed_df[col] == 'Correct', lit('1'))\r\n",
+					"                                .otherwise(when(result_indexed_df[col] == 'Incorrect', lit('0'))\r\n",
+					"                                .otherwise(when(result_indexed_df[col] == 'Used structure correctly', lit('1'))\r\n",
+					"                                .otherwise(when(result_indexed_df[col] == 'Used structure incorrectly', lit('0'))\r\n",
+					"                                .otherwise(when(result_indexed_df[col] == 'Other response', lit('2')))))))\r\n",
+					"\r\n",
+					"    return df\r\n",
+					"\r\n",
+					"\r\n",
 					""
 				],
 				"execution_count": null

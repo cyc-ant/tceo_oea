@@ -21,7 +21,7 @@
 					},
 					"parameters": {
 						"object_name": {
-							"value": "eydatacopy",
+							"value": "EarlyYearsResults_object",
 							"type": "string"
 						},
 						"method_name": {

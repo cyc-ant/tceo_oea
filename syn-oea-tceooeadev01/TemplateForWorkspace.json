@@ -21021,7 +21021,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "576b6cad-27d8-4bd0-953d-63754ce52ba1"
+						"spark.autotune.trackingId": "6c8f88b2-0395-488e-ad58-f85fe182397d"
 					}
 				},
 				"metadata": {
@@ -21046,7 +21046,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -21065,12 +21066,12 @@
 							}
 						},
 						"source": [
-							"from pyspark.sql.functions import lit, monotonically_increasing_id, trim\r\n",
+							"from pyspark.sql.functions import lit, monotonically_increasing_id, trim, when \r\n",
 							"from pyspark.sql import DataFrame\r\n",
 							"from functools import reduce"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -21159,7 +21160,7 @@
 							"\r\n",
 							"        # save the file\r\n",
 							"        result_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsResults')\r\n",
-							"        \r\n",
+							"     \r\n",
 							"\r\n",
 							"    def _convertJSON(self, file):\r\n",
 							"        df = spark.read.json(file)\r\n",
@@ -21186,7 +21187,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 19
 					}
 				]
 			},
@@ -26075,7 +26076,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b10fe6c0-d133-4ea0-b49b-ad7a9c279b43"
+						"spark.autotune.trackingId": "7620b2ec-19f9-4df7-8b21-9c679b0d8acc"
 					}
 				},
 				"metadata": {
@@ -26100,8 +26101,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -45506,7 +45506,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0cc7bccc-2c09-467b-bbe9-c1e27885d7b3"
+						"spark.autotune.trackingId": "4677e118-7ada-4790-8682-04428d030970"
 					}
 				},
 				"metadata": {
@@ -45844,6 +45844,39 @@
 							"    df = df.withColumnRenamed('xOrganisationName', 'OrganisationName')\r\n",
 							"\r\n",
 							"    return df\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def EarlyYearsResults_pseudo(df):\r\n",
+							"\r\n",
+							"    question_columns = [item for item in df.columns if item.startswith('Ques')]\r\n",
+							"\r\n",
+							"    for col in question_columns:\r\n",
+							"            df = df.withColumn(col, when(result_indexed_df[col] == 'Correct', lit('1'))\r\n",
+							"                                .otherwise(when(result_indexed_df[col] == 'Incorrect', lit('0'))\r\n",
+							"                                .otherwise(when(result_indexed_df[col] == 'Used structure correctly', lit('1'))\r\n",
+							"                                .otherwise(when(result_indexed_df[col] == 'Used structure incorrectly', lit('0'))\r\n",
+							"                                .otherwise(when(result_indexed_df[col] == 'Other response', lit('2')))))))\r\n",
+							"\r\n",
+							"    return df\r\n",
+							"\r\n",
+							"\r\n",
 							""
 						],
 						"outputs": [],

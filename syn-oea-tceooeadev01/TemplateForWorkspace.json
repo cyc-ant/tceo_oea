@@ -9284,7 +9284,7 @@
 							},
 							"parameters": {
 								"object_name": {
-									"value": "eydatacopy",
+									"value": "EarlyYearsResults_object",
 									"type": "string"
 								},
 								"method_name": {
@@ -21187,6 +21187,134 @@
 						],
 						"outputs": [],
 						"execution_count": 5
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/EarlyYearsResults_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Data Objects"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "f3c41989-1587-4ea4-9798-258aedd80613"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": true,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "python"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {},
+						"source": [
+							"class EarlyYearsResults(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder='EarlyYearsResults', pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"\r\n",
+							"        self.schemas['EarlyYearsResults'] = [\r\n",
+							"                                ['BKID', 'integer', 'no-op'],\r\n",
+							"                                ['CampusID', 'integer', 'no-op'],\r\n",
+							"                                ['Ceider', 'integer', 'no-op'],\r\n",
+							"                                ['ClassID', 'string', 'no-op'],\r\n",
+							"                                ['Ques1', 'string', 'no-op'],\r\n",
+							"                                ['Ques10', 'string', 'no-op'],\r\n",
+							"                                ['Ques11', 'string', 'no-op'],\r\n",
+							"                                ['Ques12', 'string', 'no-op'],\r\n",
+							"                                ['Ques13', 'string', 'no-op'],\r\n",
+							"                                ['Ques14', 'string', 'no-op'],\r\n",
+							"                                ['Ques15', 'string', 'no-op'],\r\n",
+							"                                ['Ques16', 'string', 'no-op'],\r\n",
+							"                                ['Ques17', 'string', 'no-op'],\r\n",
+							"                                ['Ques18', 'string', 'no-op'],\r\n",
+							"                                ['Ques19', 'string', 'no-op'],\r\n",
+							"                                ['Ques2', 'string', 'no-op'],\r\n",
+							"                                ['Ques20', 'string', 'no-op'],\r\n",
+							"                                ['Ques21', 'string', 'no-op'],\r\n",
+							"                                ['Ques22', 'string', 'no-op'],\r\n",
+							"                                ['Ques23', 'string', 'no-op'],\r\n",
+							"                                ['Ques24', 'string', 'no-op'],\r\n",
+							"                                ['Ques25', 'string', 'no-op'],\r\n",
+							"                                ['Ques26', 'string', 'no-op'],\r\n",
+							"                                ['Ques27', 'string', 'no-op'],\r\n",
+							"                                ['Ques28', 'string', 'no-op'],\r\n",
+							"                                ['Ques29', 'string', 'no-op'],\r\n",
+							"                                ['Ques3', 'string', 'no-op'],\r\n",
+							"                                ['Ques30', 'string', 'no-op'],\r\n",
+							"                                ['Ques31', 'string', 'no-op'],\r\n",
+							"                                ['Ques32', 'string', 'no-op'],\r\n",
+							"                                ['Ques33', 'string', 'no-op'],\r\n",
+							"                                ['Ques34', 'string', 'no-op'],\r\n",
+							"                                ['Ques35', 'string', 'no-op'],\r\n",
+							"                                ['Ques36', 'string', 'no-op'],\r\n",
+							"                                ['Ques37', 'string', 'no-op'],\r\n",
+							"                                ['Ques38', 'string', 'no-op'],\r\n",
+							"                                ['Ques39', 'string', 'no-op'],\r\n",
+							"                                ['Ques4', 'string', 'no-op'],\r\n",
+							"                                ['Ques40', 'string', 'no-op'],\r\n",
+							"                                ['Ques5', 'string', 'no-op'],\r\n",
+							"                                ['Ques6', 'string', 'no-op'],\r\n",
+							"                                ['Ques7', 'string', 'no-op'],\r\n",
+							"                                ['Ques8', 'string', 'no-op'],\r\n",
+							"                                ['Ques9', 'string', 'no-op'],\r\n",
+							"                                ['TeacherEmailID', 'string', 'no-op'],\r\n",
+							"                                ['Year', 'integer', 'no-op'],\r\n",
+							"                                ['YearLevel', 'string', 'no-op'],\r\n",
+							"                                ['TestLevel', 'string', 'no-op']                         \r\n",
+							"                                ]\r\n",
+							"\r\n",
+							"                                 \r\n",
+							"\r\n",
+							"    def ingest(self):\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsResults', self.schemas['EarlyYearsResults'], None, 'BKID')\r\n",
+							"\r\n",
+							"EarlyYearsResults_object = EarlyYearsResults()"
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},

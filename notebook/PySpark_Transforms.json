@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "92688904-0851-4e33-90f3-319f3d0d4476"
+				"spark.autotune.trackingId": "c355cf65-0c19-457a-b2b7-23c1b50f82e1"
 			}
 		},
 		"metadata": {
@@ -93,9 +93,10 @@
 					}
 				},
 				"source": [
-					"from pyspark.sql.functions import when, col, sum "
+					"from pyspark.sql.functions import when, col, sum \r\n",
+					"import databricks.koalas as ks"
 				],
-				"execution_count": 24
+				"execution_count": 50
 			},
 			{
 				"cell_type": "code",
@@ -121,7 +122,7 @@
 					"EarlyYearsResults_df = spark.read.load(source3p + \"/pilot/EarlyYearsResults_pseudo\", format='delta')\r\n",
 					""
 				],
-				"execution_count": 3
+				"execution_count": 46
 			},
 			{
 				"cell_type": "markdown",
@@ -239,6 +240,36 @@
 				"execution_count": 43
 			},
 			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"# this table will pivot the early years result Questions from columns to rows \r\n",
+					"\r\n",
+					"df = EarlyYearsResults_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassID', 'Year', 'YearLevel', 'TestLevel'],\r\n",
+					"                                            value_vars=['Ques1', 'Ques2', 'Ques3', 'Ques4', 'Ques5', 'Ques6', 'Ques7', 'Ques8', 'Ques9', 'Ques10',\r\n",
+					"                                                        'Ques11', 'Ques12', 'Ques13', 'Ques14', 'Ques15', 'Ques16', 'Ques17', 'Ques18', 'Ques19', 'Ques20',\r\n",
+					"                                                        'Ques21', 'Ques22', 'Ques23', 'Ques24', 'Ques25', 'Ques26', 'Ques27', 'Ques28', 'Ques29', 'Ques30',\r\n",
+					"                                                        'Ques31', 'Ques32', 'Ques33', 'Ques34', 'Ques35', 'Ques36', 'Ques37', 'Ques38', 'Ques39', 'Ques40'],\r\n",
+					"                                            var_name=\"Question\",\r\n",
+					"                                            value_name = \"Result\")\r\n",
+					"\r\n",
+					"EarlyYearsResultsLong_df = df.to_spark()\r\n",
+					""
+				],
+				"execution_count": 52
+			},
+			{
 				"cell_type": "markdown",
 				"metadata": {
 					"nteract": {
@@ -267,7 +298,8 @@
 				"source": [
 					"saveToTarget(DMStudentDemographic_df, destination_p, f'{version}/DMStudentDemographic_pseudo')\r\n",
 					"saveToTarget(DMStaffDemographic_df, destination_p, f'{version}/DMStaffDemographic_pseudo')\r\n",
-					"saveToTarget(EarlyYearsResultsTotals_df, destination_p, f'{version}/EarlyYearsResultsTotals_pseudo')"
+					"saveToTarget(EarlyYearsResultsTotals_df, destination_p, f'{version}/EarlyYearsResultsTotals_pseudo')\r\n",
+					"saveToTarget(EarlyYearsResultsLong_df, destination_p, f'{version}/EarlyYearsResultsLong_pseudo')"
 				],
 				"execution_count": 42
 			}

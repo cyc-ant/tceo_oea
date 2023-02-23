@@ -21216,7 +21216,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4a708ecd-2e24-4d5c-b81c-31bcab0aba9d"
+						"spark.autotune.trackingId": "ce42e4f5-00b7-4512-911d-f0655e104f4b"
 					}
 				},
 				"metadata": {
@@ -21241,20 +21241,21 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class EarlyYearsResults(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='EarlyYearsResults', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
 							"        self.schemas['EarlyYearsResults'] = [\r\n",
-							"                                ['BKID', 'integer', 'no-op'],\r\n",
 							"                                ['CampusID', 'integer', 'no-op'],\r\n",
 							"                                ['Ceider', 'integer', 'no-op'],\r\n",
 							"                                ['ClassID', 'string', 'no-op'],\r\n",
@@ -21301,7 +21302,8 @@
 							"                                ['TeacherEmailID', 'string', 'no-op'],\r\n",
 							"                                ['Year', 'integer', 'no-op'],\r\n",
 							"                                ['YearLevel', 'string', 'no-op'],\r\n",
-							"                                ['TestLevel', 'string', 'no-op']                         \r\n",
+							"                                ['TestLevel', 'string', 'no-op'],\r\n",
+							"                                ['BKID', 'integer', 'no-op']                         \r\n",
 							"                                ]\r\n",
 							"\r\n",
 							"                                 \r\n",
@@ -45505,7 +45507,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "afe4cfd6-8ad0-49c0-bdd2-994dc30e30a4"
+						"spark.autotune.trackingId": "40dd35c7-66f5-43b8-810a-8d8c9ad76a31"
 					}
 				},
 				"metadata": {
@@ -45530,15 +45532,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit\r\n",
 							"from pyspark.sql.types import StringType"

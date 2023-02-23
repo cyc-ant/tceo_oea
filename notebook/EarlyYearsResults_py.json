@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "4a708ecd-2e24-4d5c-b81c-31bcab0aba9d"
+				"spark.autotune.trackingId": "42ae2abe-5b25-4e01-99fe-bda6a89ea618"
 			}
 		},
 		"metadata": {
@@ -59,7 +59,6 @@
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        self.schemas['EarlyYearsResults'] = [\r\n",
-					"                                ['BKID', 'integer', 'no-op'],\r\n",
 					"                                ['CampusID', 'integer', 'no-op'],\r\n",
 					"                                ['Ceider', 'integer', 'no-op'],\r\n",
 					"                                ['ClassID', 'string', 'no-op'],\r\n",
@@ -106,7 +105,8 @@
 					"                                ['TeacherEmailID', 'string', 'no-op'],\r\n",
 					"                                ['Year', 'integer', 'no-op'],\r\n",
 					"                                ['YearLevel', 'string', 'no-op'],\r\n",
-					"                                ['TestLevel', 'string', 'no-op']                         \r\n",
+					"                                ['TestLevel', 'string', 'no-op'],\r\n",
+					"                                ['BKID', 'integer', 'no-op']                         \r\n",
 					"                                ]\r\n",
 					"\r\n",
 					"                                 \r\n",

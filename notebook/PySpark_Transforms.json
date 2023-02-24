@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "cdf4c9a7-6707-4e18-82f9-7aec702223b1"
+				"spark.autotune.trackingId": "135ffec1-7def-4dbe-857f-98b99c47423c"
 			}
 		},
 		"metadata": {
@@ -237,9 +237,9 @@
 					"                                                                                                                EarlyYearsResults_df.Ques40).alias(\"LiteracyTotal\"))\r\n",
 					"\r\n",
 					"\r\n",
-					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"Numeracy Percentile\", percent_rank().over(Window.orderBy(\"NumericTotal\")))\r\n",
+					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"NumeracyPercentile\", percent_rank().over(Window.orderBy(\"NumericTotal\")))\r\n",
 					"\r\n",
-					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"Literacy Percentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
+					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
 					""
 				],
 				"execution_count": 10

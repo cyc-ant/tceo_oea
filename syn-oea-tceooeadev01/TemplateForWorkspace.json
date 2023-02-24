@@ -28909,7 +28909,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c32ffff8-369e-4c1f-97dc-fff589208943"
+						"spark.autotune.trackingId": "27e65f01-d8ae-46f6-b179-4c0c26ba945c"
 					}
 				},
 				"metadata": {
@@ -29129,9 +29129,9 @@
 							"                                                                                                                EarlyYearsResults_df.Ques40).alias(\"LiteracyTotal\"))\r\n",
 							"\r\n",
 							"\r\n",
-							"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"Numeracy Percentile\", percent_rank().over(Window.orderBy(\"NumericTotal\")))\r\n",
+							"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"NumeracyPercentile\", percent_rank().over(Window.orderBy(\"NumericTotal\")))\r\n",
 							"\r\n",
-							"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"Literacy Percentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
+							"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
 							""
 						],
 						"outputs": [],
@@ -46195,7 +46195,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f31c1523-183d-4df6-9886-36e114e892bf"
+						"spark.autotune.trackingId": "1317f2c6-9cd7-444f-8c45-df48b8d5dd8c"
 					}
 				},
 				"metadata": {
@@ -46220,7 +46220,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

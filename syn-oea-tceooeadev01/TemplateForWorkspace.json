@@ -28909,7 +28909,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c95ec226-ef4b-4272-8b5d-4d46f08f39d2"
+						"spark.autotune.trackingId": "c32ffff8-369e-4c1f-97dc-fff589208943"
 					}
 				},
 				"metadata": {
@@ -28982,11 +28982,12 @@
 							}
 						},
 						"source": [
-							"from pyspark.sql.functions import when, col, sum \r\n",
+							"from pyspark.sql.functions import when, col, sum, percent_rank \r\n",
+							"from pyspark.sql.window import Window\r\n",
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 50
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -29013,7 +29014,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 46
+						"execution_count": 3
 					},
 					{
 						"cell_type": "markdown",
@@ -29127,10 +29128,14 @@
 							"                                                                                                                EarlyYearsResults_df.Ques39+\r\n",
 							"                                                                                                                EarlyYearsResults_df.Ques40).alias(\"LiteracyTotal\"))\r\n",
 							"\r\n",
+							"\r\n",
+							"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"Numeracy Percentile\", percent_rank().over(Window.orderBy(\"NumericTotal\")))\r\n",
+							"\r\n",
+							"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"Literacy Percentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": 43
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",

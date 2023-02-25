@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "320233a0-d6a8-4d0a-8043-1c3e22268a1c"
+				"spark.autotune.trackingId": "a3853f66-83dc-4f2e-959b-d4ef5be33c6c"
 			}
 		},
 		"metadata": {
@@ -55,7 +55,7 @@
 				"cell_type": "code",
 				"source": [
 					"class EarlyYearsResults(BaseOEAModule):\r\n",
-					"    def __init__(self, source_folder='EarlyYearsResults', pseudonymize = True):\r\n",
+					"    def __init__(self, source_folder='EarlyYearsData', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        self.schemas['EarlyYearsData_Results'] = [\r\n",

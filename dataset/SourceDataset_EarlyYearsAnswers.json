@@ -1,0 +1,39 @@
+{
+	"name": "SourceDataset_EarlyYearsAnswers",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AFS_TCEO_OEAFileshare",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"folderPath": "EarlyYearsData"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Year",
+				"type": "String"
+			},
+			{
+				"name": "Question",
+				"type": "String"
+			},
+			{
+				"name": "Numeracy",
+				"type": "String"
+			},
+			{
+				"name": "Literacy",
+				"type": "String"
+			}
+		]
+	}
+}

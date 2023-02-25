@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "24123028-a463-4ecd-a7cb-3626149781e3"
+				"spark.autotune.trackingId": "fc4d9a34-9fe5-4e72-b01d-ba7800d7702b"
 			}
 		},
 		"metadata": {
@@ -69,7 +69,7 @@
 					"from pyspark.sql import DataFrame\r\n",
 					"from functools import reduce"
 				],
-				"execution_count": 1
+				"execution_count": 5
 			},
 			{
 				"cell_type": "code",
@@ -142,20 +142,20 @@
 					"        # combine the list of dataframes loaded \r\n",
 					"        result_combined_df = reduce(DataFrame.unionAll, year1_prep_result_list)\r\n",
 					"        year2_combined_df = reduce(DataFrame.unionAll, year2_result_list)\r\n",
-					"        questions_combined_df = reduce(DataFrame.unionAll, question_list)\r\n",
-					"        year2_questions_combined_df = reduce(DataFrame.unionAll, year2_question_list)\r\n",
+					"        #questions_combined_df = reduce(DataFrame.unionAll, question_list)\r\n",
+					"        #year2_questions_combined_df = reduce(DataFrame.unionAll, year2_question_list)\r\n",
 					"\r\n",
 					"        # add a unique index to the combined table\r\n",
 					"        result_indexed_df = result_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
 					"        year2_indexed_df = year2_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
-					"        questions_combined_df = questions_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
-					"        year2_questions_combined_df = year2_questions_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+					"        #questions_combined_df = questions_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+					"        #year2_questions_combined_df = year2_questions_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
 					"\r\n",
 					"        # save the file\r\n",
 					"        result_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Results')\r\n",
 					"        year2_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Y2Results')\r\n",
-					"        questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Questions')\r\n",
-					"        year2_questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Y2Questions')\r\n",
+					"        #questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Questions')\r\n",
+					"        #year2_questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Y2Questions')\r\n",
 					"     \r\n",
 					"\r\n",
 					"    def _convertJSON(self, file):\r\n",
@@ -180,7 +180,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 4
+				"execution_count": 7
 			}
 		]
 	}

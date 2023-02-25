@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a3853f66-83dc-4f2e-959b-d4ef5be33c6c"
+				"spark.autotune.trackingId": "4b3cb041-7640-4f78-91f6-fdbfdaca824e"
 			}
 		},
 		"metadata": {
@@ -157,8 +157,8 @@
 					"                                 \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsData_Results', self.schemas['EarlyYearsData_Results'], None, 'BKID')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsData_Y2Results', self.schemas['EarlyYearsData_Y2Results'], None, 'BKID')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsResults', self.schemas['EarlyYearsData_Results'], None, 'BKID')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsResultsYear2', self.schemas['EarlyYearsData_Y2Results'], None, 'BKID')\r\n",
 					"\r\n",
 					"\r\n",
 					"EarlyYearsResults_object = EarlyYearsResults()"

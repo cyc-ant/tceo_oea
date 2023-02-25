@@ -21543,7 +21543,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "24123028-a463-4ecd-a7cb-3626149781e3"
+						"spark.autotune.trackingId": "fc4d9a34-9fe5-4e72-b01d-ba7800d7702b"
 					}
 				},
 				"metadata": {
@@ -21592,7 +21592,7 @@
 							"from functools import reduce"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -21665,20 +21665,20 @@
 							"        # combine the list of dataframes loaded \r\n",
 							"        result_combined_df = reduce(DataFrame.unionAll, year1_prep_result_list)\r\n",
 							"        year2_combined_df = reduce(DataFrame.unionAll, year2_result_list)\r\n",
-							"        questions_combined_df = reduce(DataFrame.unionAll, question_list)\r\n",
-							"        year2_questions_combined_df = reduce(DataFrame.unionAll, year2_question_list)\r\n",
+							"        #questions_combined_df = reduce(DataFrame.unionAll, question_list)\r\n",
+							"        #year2_questions_combined_df = reduce(DataFrame.unionAll, year2_question_list)\r\n",
 							"\r\n",
 							"        # add a unique index to the combined table\r\n",
 							"        result_indexed_df = result_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
 							"        year2_indexed_df = year2_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
-							"        questions_combined_df = questions_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
-							"        year2_questions_combined_df = year2_questions_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+							"        #questions_combined_df = questions_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+							"        #year2_questions_combined_df = year2_questions_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
 							"\r\n",
 							"        # save the file\r\n",
 							"        result_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Results')\r\n",
 							"        year2_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Y2Results')\r\n",
-							"        questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Questions')\r\n",
-							"        year2_questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Y2Questions')\r\n",
+							"        #questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Questions')\r\n",
+							"        #year2_questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Y2Questions')\r\n",
 							"     \r\n",
 							"\r\n",
 							"    def _convertJSON(self, file):\r\n",
@@ -21704,7 +21704,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 7
 					}
 				]
 			},
@@ -21734,7 +21734,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "42ae2abe-5b25-4e01-99fe-bda6a89ea618"
+						"spark.autotune.trackingId": "48d164d8-51bc-432a-a7b6-570d986ec263"
 					}
 				},
 				"metadata": {
@@ -21759,19 +21759,21 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class EarlyYearsResults(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='EarlyYearsResults', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
-							"        self.schemas['EarlyYearsResults'] = [\r\n",
+							"        self.schemas['EarlyYearsData_Results'] = [\r\n",
 							"                                ['CampusID', 'integer', 'no-op'],\r\n",
 							"                                ['Ceider', 'integer', 'no-op'],\r\n",
 							"                                ['ClassID', 'string', 'no-op'],\r\n",
@@ -21815,17 +21817,64 @@
 							"                                ['Ques7', 'string', 'no-op'],\r\n",
 							"                                ['Ques8', 'string', 'no-op'],\r\n",
 							"                                ['Ques9', 'string', 'no-op'],\r\n",
+							"                                ['Status', 'string', 'no-op'],\r\n",
+							"                                ['StudentEmailID', 'string', 'no-op'],\r\n",
+							"                                ['StudentName', 'string', 'no-op'],\r\n",
 							"                                ['TeacherEmailID', 'string', 'no-op'],\r\n",
+							"                                ['TeacherName', 'string', 'no-op'],\r\n",
 							"                                ['Year', 'integer', 'no-op'],\r\n",
 							"                                ['YearLevel', 'string', 'no-op'],\r\n",
 							"                                ['TestLevel', 'string', 'no-op'],\r\n",
 							"                                ['BKID', 'integer', 'no-op']                         \r\n",
 							"                                ]\r\n",
 							"\r\n",
+							"\r\n",
+							"\r\n",
+							"        self.schemas['EarlyYearsData_Y2Results'] = [\r\n",
+							"                                    ['CampusID', 'integer', 'no-op'],\r\n",
+							"                                    ['Ceider', 'integer', 'no-op'],\r\n",
+							"                                    ['ClassID', 'string', 'no-op'],\r\n",
+							"                                    ['Ques1', 'string', 'no-op'],\r\n",
+							"                                    ['Ques10', 'string', 'no-op'],\r\n",
+							"                                    ['Ques11', 'string', 'no-op'],\r\n",
+							"                                    ['Ques12', 'string', 'no-op'],\r\n",
+							"                                    ['Ques13', 'string', 'no-op'],\r\n",
+							"                                    ['Ques14', 'string', 'no-op'],\r\n",
+							"                                    ['Ques15', 'string', 'no-op'],\r\n",
+							"                                    ['Ques16', 'string', 'no-op'],\r\n",
+							"                                    ['Ques17', 'string', 'no-op'],\r\n",
+							"                                    ['Ques18', 'string', 'no-op'],\r\n",
+							"                                    ['Ques19', 'string', 'no-op'],\r\n",
+							"                                    ['Ques2', 'string', 'no-op'],\r\n",
+							"                                    ['Ques20', 'string', 'no-op'],\r\n",
+							"                                    ['Ques21', 'string', 'no-op'],\r\n",
+							"                                    ['Ques22', 'string', 'no-op'],\r\n",
+							"                                    ['Ques23', 'string', 'no-op'],\r\n",
+							"                                    ['Ques24', 'string', 'no-op'],\r\n",
+							"                                    ['Ques25', 'string', 'no-op'],\r\n",
+							"                                    ['Ques4', 'string', 'no-op'],\r\n",
+							"                                    ['Ques5', 'string', 'no-op'],\r\n",
+							"                                    ['Ques6', 'string', 'no-op'],\r\n",
+							"                                    ['Ques7', 'string', 'no-op'],\r\n",
+							"                                    ['Ques8', 'string', 'no-op'],\r\n",
+							"                                    ['Ques9', 'string', 'no-op'],\r\n",
+							"                                    ['Status', 'string', 'no-op'],\r\n",
+							"                                    ['StudentEmailID', 'string', 'no-op'],\r\n",
+							"                                    ['StudentName', 'string', 'no-op'],\r\n",
+							"                                    ['TeacherEmailID', 'string', 'no-op'],\r\n",
+							"                                    ['TeacherName', 'string', 'no-op'],\r\n",
+							"                                    ['Year', 'integer', 'no-op'],\r\n",
+							"                                    ['YearLevel', 'string', 'no-op'],\r\n",
+							"                                    ['TestLevel', 'string', 'no-op'],\r\n",
+							"                                    ['BKID', 'integer', 'no-op']                         \r\n",
+							"                                    ]\r\n",
+							"\r\n",
 							"                                 \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsResults', self.schemas['EarlyYearsResults'], None, 'BKID')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsData_Results', self.schemas['EarlyYearsData_Results'], None, 'BKID')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsData_Y2Results', self.schemas['EarlyYearsData_Y2Results'], None, 'BKID')\r\n",
+							"\r\n",
 							"\r\n",
 							"EarlyYearsResults_object = EarlyYearsResults()"
 						],
@@ -26593,7 +26642,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b77d6e63-8832-4af9-b513-ee31c203f6c2"
+						"spark.autotune.trackingId": "7620b2ec-19f9-4df7-8b21-9c679b0d8acc"
 					}
 				},
 				"metadata": {
@@ -26618,8 +26667,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

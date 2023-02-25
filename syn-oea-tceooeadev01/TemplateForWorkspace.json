@@ -1853,6 +1853,3797 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_EarlyYearsData')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach_ez2",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.cw_items",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy_ez2",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "@{item().source.listName}"
+										},
+										{
+											"name": "Destination",
+											"value": "stage1np/EarlyYearsData/@{item().destination.fileName}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "SharePointOnlineListSource",
+											"httpRequestTimeout": "00:05:00"
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings",
+												"filePattern": "setOfObjects"
+											}
+										},
+										"enableStaging": false,
+										"validateDataConsistency": false,
+										"translator": {
+											"value": "@item().copyActivity.translator",
+											"type": "Expression"
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "SourceDataset_EarlyYearsData",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_listName": "@item().source.listName"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DestinationDataset_EarlyYearsData",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_fileName": "@item().destination.fileName"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"cw_items": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"source": {
+									"listName": "PrepTestQuestions"
+								},
+								"destination": {
+									"fileName": "Prep_Questions.json"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "Id",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Id']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentTypeID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentTypeID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentType",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentType']"
+												}
+											},
+											{
+												"source": {
+													"name": "Title",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Title']"
+												}
+											},
+											{
+												"source": {
+													"name": "Modified",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Modified']"
+												}
+											},
+											{
+												"source": {
+													"name": "Created",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Created']"
+												}
+											},
+											{
+												"source": {
+													"name": "CreatedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['CreatedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['ModifiedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "Owshiddenversion",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Owshiddenversion']"
+												}
+											},
+											{
+												"source": {
+													"name": "Version",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Version']"
+												}
+											},
+											{
+												"source": {
+													"name": "Path",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Path']"
+												}
+											},
+											{
+												"source": {
+													"name": "ComplianceAssetId",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ComplianceAssetId']"
+												}
+											},
+											{
+												"source": {
+													"name": "Question",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Question']"
+												}
+											},
+											{
+												"source": {
+													"name": "Hint",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Hint']"
+												}
+											}
+										]
+									}
+								}
+							},
+							{
+								"source": {
+									"listName": "PrepTestResultPost"
+								},
+								"destination": {
+									"fileName": "Prep_Result_Post.json"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "Id",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Id']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentTypeID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentTypeID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentType",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentType']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ceider",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ceider']"
+												}
+											},
+											{
+												"source": {
+													"name": "Modified",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Modified']"
+												}
+											},
+											{
+												"source": {
+													"name": "Created",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Created']"
+												}
+											},
+											{
+												"source": {
+													"name": "CreatedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['CreatedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['ModifiedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "Owshiddenversion",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Owshiddenversion']"
+												}
+											},
+											{
+												"source": {
+													"name": "Version",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Version']"
+												}
+											},
+											{
+												"source": {
+													"name": "Path",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Path']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques1",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques1']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques2",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques2']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques3",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques3']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques4",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques4']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques5",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques5']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques6",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques6']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques7",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques7']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques8",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques8']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques9",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques9']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques10",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques10']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques11",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques11']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques12",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques12']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques13",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques13']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques14",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques14']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques15",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques15']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques16",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques16']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques17",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques17']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques18",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques18']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques19",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques19']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques20",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques20']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques21",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques21']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques22",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques22']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques23",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques23']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques24",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques24']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques25",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques25']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques26",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques26']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques27",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques27']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques28",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques28']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques29",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques29']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques30",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques30']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques31",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques31']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques32",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques32']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques33",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques33']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques34",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques34']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques35",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques35']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques36",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques36']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques37",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques37']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques38",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques38']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques39",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques39']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques40",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques40']"
+												}
+											},
+											{
+												"source": {
+													"name": "StudentName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['StudentName']"
+												}
+											},
+											{
+												"source": {
+													"name": "Status",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Status']"
+												}
+											},
+											{
+												"source": {
+													"name": "PendingQuestion",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['PendingQuestion']"
+												}
+											},
+											{
+												"source": {
+													"name": "TeacherEmailID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['TeacherEmailID']"
+												}
+											},
+											{
+												"source": {
+													"name": "StudentEmailID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['StudentEmailID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ClassID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ClassID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ClassName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ClassName']"
+												}
+											},
+											{
+												"source": {
+													"name": "TeacherName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['TeacherName']"
+												}
+											},
+											{
+												"source": {
+													"name": "YearLevel",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['YearLevel']"
+												}
+											},
+											{
+												"source": {
+													"name": "CampusID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['CampusID']"
+												}
+											},
+											{
+												"source": {
+													"name": "Year",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Year']"
+												}
+											},
+											{
+												"source": {
+													"name": "SchoolName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['SchoolName']"
+												}
+											}
+										]
+									}
+								}
+							},
+							{
+								"source": {
+									"listName": "PrepTestResultPre"
+								},
+								"destination": {
+									"fileName": "Prep_Result_Pre.json"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "Id",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Id']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentTypeID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentTypeID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentType",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentType']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ceider",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ceider']"
+												}
+											},
+											{
+												"source": {
+													"name": "Modified",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Modified']"
+												}
+											},
+											{
+												"source": {
+													"name": "Created",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Created']"
+												}
+											},
+											{
+												"source": {
+													"name": "CreatedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['CreatedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['ModifiedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "Owshiddenversion",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Owshiddenversion']"
+												}
+											},
+											{
+												"source": {
+													"name": "Version",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Version']"
+												}
+											},
+											{
+												"source": {
+													"name": "Path",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Path']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques1",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques1']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques2",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques2']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques3",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques3']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques4",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques4']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques5",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques5']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques6",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques6']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques7",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques7']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques8",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques8']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques9",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques9']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques10",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques10']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques11",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques11']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques12",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques12']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques13",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques13']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques14",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques14']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques15",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques15']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques16",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques16']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques17",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques17']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques18",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques18']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques19",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques19']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques20",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques20']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques21",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques21']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques22",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques22']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques23",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques23']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques24",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques24']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques25",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques25']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques26",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques26']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques27",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques27']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques28",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques28']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques29",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques29']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques30",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques30']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques31",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques31']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques32",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques32']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques33",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques33']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques34",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques34']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques35",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques35']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques36",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques36']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques37",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques37']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques38",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques38']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques39",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques39']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques40",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques40']"
+												}
+											},
+											{
+												"source": {
+													"name": "StudentName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['StudentName']"
+												}
+											},
+											{
+												"source": {
+													"name": "Status",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Status']"
+												}
+											},
+											{
+												"source": {
+													"name": "PendingQuestion",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['PendingQuestion']"
+												}
+											},
+											{
+												"source": {
+													"name": "TeacherEmailID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['TeacherEmailID']"
+												}
+											},
+											{
+												"source": {
+													"name": "StudentEmailID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['StudentEmailID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ClassID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ClassID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ClassName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ClassName']"
+												}
+											},
+											{
+												"source": {
+													"name": "TeacherName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['TeacherName']"
+												}
+											},
+											{
+												"source": {
+													"name": "YearLevel",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['YearLevel']"
+												}
+											},
+											{
+												"source": {
+													"name": "CampusID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['CampusID']"
+												}
+											},
+											{
+												"source": {
+													"name": "Year",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Year']"
+												}
+											},
+											{
+												"source": {
+													"name": "SchoolName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['SchoolName']"
+												}
+											}
+										]
+									}
+								}
+							},
+							{
+								"source": {
+									"listName": "Year1TestQuestions"
+								},
+								"destination": {
+									"fileName": "Year1_Questions.json"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "Id",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Id']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentTypeID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentTypeID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentType",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentType']"
+												}
+											},
+											{
+												"source": {
+													"name": "Title",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Title']"
+												}
+											},
+											{
+												"source": {
+													"name": "Modified",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Modified']"
+												}
+											},
+											{
+												"source": {
+													"name": "Created",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Created']"
+												}
+											},
+											{
+												"source": {
+													"name": "CreatedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['CreatedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['ModifiedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "Owshiddenversion",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Owshiddenversion']"
+												}
+											},
+											{
+												"source": {
+													"name": "Version",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Version']"
+												}
+											},
+											{
+												"source": {
+													"name": "Path",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Path']"
+												}
+											},
+											{
+												"source": {
+													"name": "ComplianceAssetId",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ComplianceAssetId']"
+												}
+											},
+											{
+												"source": {
+													"name": "Question",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Question']"
+												}
+											},
+											{
+												"source": {
+													"name": "Hint",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Hint']"
+												}
+											}
+										]
+									}
+								}
+							},
+							{
+								"source": {
+									"listName": "Year1TestResultPost"
+								},
+								"destination": {
+									"fileName": "Year1_Result_Post.json"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "Id",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Id']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentTypeID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentTypeID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentType",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentType']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ceider",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ceider']"
+												}
+											},
+											{
+												"source": {
+													"name": "Modified",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Modified']"
+												}
+											},
+											{
+												"source": {
+													"name": "Created",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Created']"
+												}
+											},
+											{
+												"source": {
+													"name": "CreatedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['CreatedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['ModifiedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "Owshiddenversion",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Owshiddenversion']"
+												}
+											},
+											{
+												"source": {
+													"name": "Version",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Version']"
+												}
+											},
+											{
+												"source": {
+													"name": "Path",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Path']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques1",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques1']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques2",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques2']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques3",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques3']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques4",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques4']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques5",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques5']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques6",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques6']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques7",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques7']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques8",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques8']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques9",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques9']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques10",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques10']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques11",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques11']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques12",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques12']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques13",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques13']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques14",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques14']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques15",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques15']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques16",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques16']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques17",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques17']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques18",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques18']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques19",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques19']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques20",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques20']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques21",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques21']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques22",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques22']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques23",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques23']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques24",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques24']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques25",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques25']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques26",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques26']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques27",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques27']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques28",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques28']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques29",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques29']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques30",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques30']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques31",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques31']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques32",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques32']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques33",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques33']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques34",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques34']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques35",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques35']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques36",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques36']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques37",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques37']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques38",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques38']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques39",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques39']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques40",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques40']"
+												}
+											},
+											{
+												"source": {
+													"name": "StudentName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['StudentName']"
+												}
+											},
+											{
+												"source": {
+													"name": "Status",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Status']"
+												}
+											},
+											{
+												"source": {
+													"name": "PendingQuestion",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['PendingQuestion']"
+												}
+											},
+											{
+												"source": {
+													"name": "TeacherEmailID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['TeacherEmailID']"
+												}
+											},
+											{
+												"source": {
+													"name": "StudentEmailID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['StudentEmailID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ClassID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ClassID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ClassName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ClassName']"
+												}
+											},
+											{
+												"source": {
+													"name": "TeacherName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['TeacherName']"
+												}
+											},
+											{
+												"source": {
+													"name": "YearLevel",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['YearLevel']"
+												}
+											},
+											{
+												"source": {
+													"name": "CampusID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['CampusID']"
+												}
+											},
+											{
+												"source": {
+													"name": "Year",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Year']"
+												}
+											},
+											{
+												"source": {
+													"name": "SchoolName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['SchoolName']"
+												}
+											}
+										]
+									}
+								}
+							},
+							{
+								"source": {
+									"listName": "Year1TestResultPre"
+								},
+								"destination": {
+									"fileName": "Year1_Result_Pre.json"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "Id",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Id']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentTypeID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentTypeID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentType",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentType']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ceider",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ceider']"
+												}
+											},
+											{
+												"source": {
+													"name": "Modified",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Modified']"
+												}
+											},
+											{
+												"source": {
+													"name": "Created",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Created']"
+												}
+											},
+											{
+												"source": {
+													"name": "CreatedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['CreatedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['ModifiedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "Owshiddenversion",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Owshiddenversion']"
+												}
+											},
+											{
+												"source": {
+													"name": "Version",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Version']"
+												}
+											},
+											{
+												"source": {
+													"name": "Path",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Path']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques1",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques1']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques2",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques2']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques3",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques3']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques4",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques4']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques5",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques5']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques6",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques6']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques7",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques7']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques8",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques8']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques9",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques9']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques10",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques10']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques11",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques11']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques12",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques12']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques13",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques13']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques14",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques14']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques15",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques15']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques16",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques16']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques17",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques17']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques18",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques18']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques19",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques19']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques20",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques20']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques21",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques21']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques22",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques22']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques23",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques23']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques24",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques24']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques25",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques25']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques26",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques26']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques27",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques27']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques28",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques28']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques29",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques29']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques30",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques30']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques31",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques31']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques32",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques32']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques33",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques33']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques34",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques34']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques35",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques35']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques36",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques36']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques37",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques37']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques38",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques38']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques39",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques39']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques40",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques40']"
+												}
+											},
+											{
+												"source": {
+													"name": "StudentName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['StudentName']"
+												}
+											},
+											{
+												"source": {
+													"name": "Status",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Status']"
+												}
+											},
+											{
+												"source": {
+													"name": "PendingQuestion",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['PendingQuestion']"
+												}
+											},
+											{
+												"source": {
+													"name": "TeacherEmailID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['TeacherEmailID']"
+												}
+											},
+											{
+												"source": {
+													"name": "StudentEmailID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['StudentEmailID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ClassID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ClassID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ClassName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ClassName']"
+												}
+											},
+											{
+												"source": {
+													"name": "TeacherName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['TeacherName']"
+												}
+											},
+											{
+												"source": {
+													"name": "YearLevel",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['YearLevel']"
+												}
+											},
+											{
+												"source": {
+													"name": "CampusID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['CampusID']"
+												}
+											},
+											{
+												"source": {
+													"name": "Year",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Year']"
+												}
+											},
+											{
+												"source": {
+													"name": "SchoolName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['SchoolName']"
+												}
+											}
+										]
+									}
+								}
+							},
+							{
+								"source": {
+									"listName": "Year2TestQuestions"
+								},
+								"destination": {
+									"fileName": "Year2_Questions.json"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "Id",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Id']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentTypeID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentTypeID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentType",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentType']"
+												}
+											},
+											{
+												"source": {
+													"name": "Title",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Title']"
+												}
+											},
+											{
+												"source": {
+													"name": "Modified",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Modified']"
+												}
+											},
+											{
+												"source": {
+													"name": "Created",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Created']"
+												}
+											},
+											{
+												"source": {
+													"name": "CreatedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['CreatedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['ModifiedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "Owshiddenversion",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Owshiddenversion']"
+												}
+											},
+											{
+												"source": {
+													"name": "Version",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Version']"
+												}
+											},
+											{
+												"source": {
+													"name": "Path",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Path']"
+												}
+											},
+											{
+												"source": {
+													"name": "ComplianceAssetId",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ComplianceAssetId']"
+												}
+											},
+											{
+												"source": {
+													"name": "Question",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Question']"
+												}
+											},
+											{
+												"source": {
+													"name": "Hint",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Hint']"
+												}
+											},
+											{
+												"source": {
+													"name": "QuestionTypeValue",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['QuestionTypeValue']"
+												}
+											},
+											{
+												"source": {
+													"name": "AnswerOptions",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['AnswerOptions']"
+												}
+											},
+											{
+												"source": {
+													"name": "AnswerTypeValue",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['AnswerTypeValue']"
+												}
+											}
+										]
+									}
+								}
+							},
+							{
+								"source": {
+									"listName": "Year2TestResultPost"
+								},
+								"destination": {
+									"fileName": "Year2_Result_Post.json"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "Id",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Id']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentTypeID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentTypeID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentType",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentType']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ceider",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ceider']"
+												}
+											},
+											{
+												"source": {
+													"name": "Modified",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Modified']"
+												}
+											},
+											{
+												"source": {
+													"name": "Created",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Created']"
+												}
+											},
+											{
+												"source": {
+													"name": "CreatedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['CreatedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['ModifiedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "Owshiddenversion",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Owshiddenversion']"
+												}
+											},
+											{
+												"source": {
+													"name": "Version",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Version']"
+												}
+											},
+											{
+												"source": {
+													"name": "Path",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Path']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques1",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques1']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques2",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques2']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques3",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques3']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques4",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques4']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques5",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques5']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques6",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques6']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques7",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques7']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques8",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques8']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques9",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques9']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques10",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques10']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques11",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques11']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques12",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques12']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques13",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques13']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques14",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques14']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques15",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques15']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques16",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques16']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques17",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques17']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques18",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques18']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques19",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques19']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques20",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques20']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques21",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques21']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques22",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques22']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques23",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques23']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques24",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques24']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques25",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques25']"
+												}
+											},
+											{
+												"source": {
+													"name": "QuestionType",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['QuestionType']"
+												}
+											},
+											{
+												"source": {
+													"name": "TeacherEmailID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['TeacherEmailID']"
+												}
+											},
+											{
+												"source": {
+													"name": "StudentEmailID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['StudentEmailID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ClassID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ClassID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ClassName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ClassName']"
+												}
+											},
+											{
+												"source": {
+													"name": "TeacherName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['TeacherName']"
+												}
+											},
+											{
+												"source": {
+													"name": "YearLevel",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['YearLevel']"
+												}
+											},
+											{
+												"source": {
+													"name": "CampusID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['CampusID']"
+												}
+											},
+											{
+												"source": {
+													"name": "Year",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Year']"
+												}
+											},
+											{
+												"source": {
+													"name": "SchoolName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['SchoolName']"
+												}
+											},
+											{
+												"source": {
+													"name": "StudentName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['StudentName']"
+												}
+											},
+											{
+												"source": {
+													"name": "PendingQuestion",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['PendingQuestion']"
+												}
+											},
+											{
+												"source": {
+													"name": "Status",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Status']"
+												}
+											}
+										]
+									}
+								}
+							},
+							{
+								"source": {
+									"listName": "Year2TestResultPre"
+								},
+								"destination": {
+									"fileName": "Year2_Result_Pre.json"
+								},
+								"copyActivity": {
+									"translator": {
+										"type": "TabularTranslator",
+										"mappings": [
+											{
+												"source": {
+													"name": "Id",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Id']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentTypeID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentTypeID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ContentType",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ContentType']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ceider",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ceider']"
+												}
+											},
+											{
+												"source": {
+													"name": "Modified",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Modified']"
+												}
+											},
+											{
+												"source": {
+													"name": "Created",
+													"type": "DateTime"
+												},
+												"sink": {
+													"path": "$['Created']"
+												}
+											},
+											{
+												"source": {
+													"name": "CreatedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['CreatedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "ModifiedById",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['ModifiedById']"
+												}
+											},
+											{
+												"source": {
+													"name": "Owshiddenversion",
+													"type": "Int32"
+												},
+												"sink": {
+													"path": "$['Owshiddenversion']"
+												}
+											},
+											{
+												"source": {
+													"name": "Version",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Version']"
+												}
+											},
+											{
+												"source": {
+													"name": "Path",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Path']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques1",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques1']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques2",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques2']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques3",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques3']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques4",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques4']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques5",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques5']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques6",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques6']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques7",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques7']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques8",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques8']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques9",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques9']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques10",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques10']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques11",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques11']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques12",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques12']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques13",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques13']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques14",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques14']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques15",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques15']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques16",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques16']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques17",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques17']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques18",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques18']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques19",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques19']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques20",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques20']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques21",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques21']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques22",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques22']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques23",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques23']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques24",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques24']"
+												}
+											},
+											{
+												"source": {
+													"name": "Ques25",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Ques25']"
+												}
+											},
+											{
+												"source": {
+													"name": "QuestionType",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['QuestionType']"
+												}
+											},
+											{
+												"source": {
+													"name": "TeacherEmailID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['TeacherEmailID']"
+												}
+											},
+											{
+												"source": {
+													"name": "StudentEmailID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['StudentEmailID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ClassID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ClassID']"
+												}
+											},
+											{
+												"source": {
+													"name": "ClassName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['ClassName']"
+												}
+											},
+											{
+												"source": {
+													"name": "TeacherName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['TeacherName']"
+												}
+											},
+											{
+												"source": {
+													"name": "YearLevel",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['YearLevel']"
+												}
+											},
+											{
+												"source": {
+													"name": "CampusID",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['CampusID']"
+												}
+											},
+											{
+												"source": {
+													"name": "Year",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Year']"
+												}
+											},
+											{
+												"source": {
+													"name": "SchoolName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['SchoolName']"
+												}
+											},
+											{
+												"source": {
+													"name": "StudentName",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['StudentName']"
+												}
+											},
+											{
+												"source": {
+													"name": "PendingQuestion",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['PendingQuestion']"
+												}
+											},
+											{
+												"source": {
+													"name": "Status",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['Status']"
+												}
+											}
+										]
+									}
+								}
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_EarlyYearsData')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_EarlyYearsData')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_EarlyYearsNew')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -5609,88 +9400,6 @@
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/datasets/SourceDataset_class_period')]",
 				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_class_period')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_earlyyearsTEST')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_yj9",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "Year1TestResultPre"
-							},
-							{
-								"name": "Destination",
-								"value": "stage1np/EarlyYearsTest/EarlyYearsTest.csv"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "SharePointOnlineListSource",
-								"query": "select Ceider\r\n,Ques1\r\n,Ques2\r\n,Ques3\r\n,Ques4\r\n,Ques5\r\n,Ques6\r\n,Ques7\r\n,Ques8\r\n,Ques9\r\n,Ques10\r\n,Ques11\r\n,Ques12\r\n,Ques13\r\n,Ques14\r\n,Ques15\r\n,Ques16\r\n,Ques17\r\n,Ques18\r\n,Ques19\r\n,Ques20\r\n,Ques21\r\n,Ques22\r\n,Ques23\r\n,Ques24\r\n,Ques25\r\n,Ques26\r\n,Ques27\r\n,Ques28\r\n,Ques29\r\n,Ques30\r\n,Ques31\r\n,Ques32\r\n,Ques33\r\n,Ques34\r\n,Ques35\r\n,Ques36\r\n,Ques37\r\n,Ques38\r\n,Ques39\r\n,Ques40\r\n,TeacherEmailID\r\n,ClassID\r\n,YearLevel\r\n,CampusID\r\n,Year\r\nfrom Year1TestResultPre\r\n\r\nunion\r\n\r\nselect Ceider\r\n,Ques1\r\n,Ques2\r\n,Ques3\r\n,Ques4\r\n,Ques5\r\n,Ques6\r\n,Ques7\r\n,Ques8\r\n,Ques9\r\n,Ques10\r\n,Ques11\r\n,Ques12\r\n,Ques13\r\n,Ques14\r\n,Ques15\r\n,Ques16\r\n,Ques17\r\n,Ques18\r\n,Ques19\r\n,Ques20\r\n,Ques21\r\n,Ques22\r\n,Ques23\r\n,Ques24\r\n,Ques25\r\n,Ques26\r\n,Ques27\r\n,Ques28\r\n,Ques29\r\n,Ques30\r\n,Ques31\r\n,Ques32\r\n,Ques33\r\n,Ques34\r\n,Ques35\r\n,Ques36\r\n,Ques37\r\n,Ques38\r\n,Ques39\r\n,Ques40\r\n,TeacherEmailID\r\n,ClassID\r\n,YearLevel\r\n,CampusID\r\n,Year\r\nfrom PrepTestResultPre",
-								"httpRequestTimeout": "00:05:00"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"validateDataConsistency": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_earlyyearsTEST",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_earlyyearsTEST",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_earlyyearsTEST')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_earlyyearsTEST')]"
 			]
 		},
 		{
@@ -11394,6 +15103,39 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_EarlyYearsData')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"folderPath": "EarlyYearsData",
+						"fileSystem": "stage1np"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_EarlyYearsNew')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -11976,35 +15718,6 @@
 							"type": "Expression"
 						},
 						"folderPath": "_ODS",
-						"fileSystem": "stage1np"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_earlyyearsTEST')]",
-			"type": "Microsoft.Synapse/workspaces/datasets",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_ADLS_OEA",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "EarlyYearsTest.csv",
-						"folderPath": "EarlyYearsTest",
 						"fileSystem": "stage1np"
 					},
 					"columnDelimiter": ",",
@@ -13750,6 +17463,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_EarlyYearsData')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SPOnlineList_EarlyYearsResults",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_listName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SharePointOnlineListResource",
+				"schema": [],
+				"typeProperties": {
+					"listName": {
+						"value": "@dataset().cw_listName",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/SPOnlineList_EarlyYearsResults')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/SourceDataset_EarlyYearsNew')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -14536,26 +18277,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/linkedServices/CeNet_ODS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/SourceDataset_earlyyearsTEST')]",
-			"type": "Microsoft.Synapse/workspaces/datasets",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SPOnlineList_EarlyYearsResults",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SharePointOnlineListResource",
-				"schema": [],
-				"typeProperties": {
-					"listName": "Year1TestResultPre"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/SPOnlineList_EarlyYearsResults')]"
 			]
 		},
 		{

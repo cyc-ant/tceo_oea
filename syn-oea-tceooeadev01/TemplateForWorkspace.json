@@ -21734,7 +21734,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a566f78f-0fb5-48e8-99fd-5df891329ad5"
+						"spark.autotune.trackingId": "1c70a3cf-842a-45c3-b99d-3f6bc90a11e8"
 					}
 				},
 				"metadata": {
@@ -21872,8 +21872,8 @@
 							"                                 \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsData_Results', self.schemas['EarlyYearsData_Results'], None, 'BKID')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsData_Y2Results', self.schemas['EarlyYearsData_Y2Results'], None, 'BKID')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsResults', self.schemas['EarlyYearsData_Results'], None, 'BKID')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsResultsYear2', self.schemas['EarlyYearsData_Y2Results'], None, 'BKID')\r\n",
 							"\r\n",
 							"\r\n",
 							"EarlyYearsResults_object = EarlyYearsResults()"
@@ -29476,7 +29476,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "04712a45-4f8e-4719-ae9d-7bc7944bae13"
+						"spark.autotune.trackingId": "a2330f10-05be-40de-80c9-c2c156d1c638"
 					}
 				},
 				"metadata": {
@@ -29501,7 +29501,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -46196,7 +46197,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "40dd35c7-66f5-43b8-810a-8d8c9ad76a31"
+						"spark.autotune.trackingId": "d2ba0efa-7926-4ebf-8149-d68aec3596a8"
 					}
 				},
 				"metadata": {
@@ -46600,7 +46601,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "37731e5b-f5e5-4e14-b0d1-830c22966ae7"
+						"spark.autotune.trackingId": "1589e7b4-c3a3-46e2-a9d9-a5e98b97d822"
 					}
 				},
 				"metadata": {

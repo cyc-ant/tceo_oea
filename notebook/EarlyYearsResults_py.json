@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "4b3cb041-7640-4f78-91f6-fdbfdaca824e"
+				"spark.autotune.trackingId": "e0b6057b-5542-4695-beca-b5de1b2a44ae"
 			}
 		},
 		"metadata": {
@@ -143,6 +143,7 @@
 					"                                    ['Ques7', 'string', 'no-op'],\r\n",
 					"                                    ['Ques8', 'string', 'no-op'],\r\n",
 					"                                    ['Ques9', 'string', 'no-op'],\r\n",
+					"                                    ['QuestionType', 'string', 'no-op'],\r\n",
 					"                                    ['Status', 'string', 'no-op'],\r\n",
 					"                                    ['StudentEmailID', 'string', 'no-op'],\r\n",
 					"                                    ['StudentName', 'string', 'no-op'],\r\n",

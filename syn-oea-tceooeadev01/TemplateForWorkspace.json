@@ -21543,7 +21543,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fc4d9a34-9fe5-4e72-b01d-ba7800d7702b"
+						"spark.autotune.trackingId": "4aebe057-3760-408e-9f12-b966cd8a2517"
 					}
 				},
 				"metadata": {
@@ -21568,7 +21568,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -21675,8 +21676,8 @@
 							"        #year2_questions_combined_df = year2_questions_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
 							"\r\n",
 							"        # save the file\r\n",
-							"        result_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Results')\r\n",
-							"        year2_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Y2Results')\r\n",
+							"        result_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsResults')\r\n",
+							"        year2_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsResultsYear2')\r\n",
 							"        #questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Questions')\r\n",
 							"        #year2_questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Y2Questions')\r\n",
 							"     \r\n",
@@ -21734,7 +21735,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1c70a3cf-842a-45c3-b99d-3f6bc90a11e8"
+						"spark.autotune.trackingId": "4b3cb041-7640-4f78-91f6-fdbfdaca824e"
 					}
 				},
 				"metadata": {
@@ -21759,15 +21760,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class EarlyYearsResults(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='EarlyYearsData', pseudonymize = True):\r\n",
@@ -29476,7 +29475,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a2330f10-05be-40de-80c9-c2c156d1c638"
+						"spark.autotune.trackingId": "ad52e425-c784-4924-a6ac-0d9c1220392e"
 					}
 				},
 				"metadata": {

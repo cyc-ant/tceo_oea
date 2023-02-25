@@ -1853,13 +1853,13 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_EarlyYearsData')]",
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_EarlyYearsResults')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"activities": [
 					{
-						"name": "ForEach_c2n",
+						"name": "ForEach_ntf",
 						"type": "ForEach",
 						"dependsOn": [],
 						"userProperties": [],
@@ -1870,7 +1870,7 @@
 							},
 							"activities": [
 								{
-									"name": "Copy_c2n",
+									"name": "Copy_ntf",
 									"type": "Copy",
 									"dependsOn": [],
 									"policy": {
@@ -1914,7 +1914,7 @@
 									},
 									"inputs": [
 										{
-											"referenceName": "SourceDataset_EarlyYearsData",
+											"referenceName": "SourceDataset_EarlyYearsResults",
 											"type": "DatasetReference",
 											"parameters": {
 												"cw_listName": "@item().source.listName"
@@ -1923,7 +1923,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "DestinationDataset_EarlyYearsData",
+											"referenceName": "DestinationDataset_EarlyYearsResults",
 											"type": "DatasetReference",
 											"parameters": {
 												"cw_fileName": "@item().destination.fileName"
@@ -4050,6 +4050,15 @@
 											},
 											{
 												"source": {
+													"name": "QuestionType",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['QuestionType']"
+												}
+											},
+											{
+												"source": {
 													"name": "TeacherEmailID",
 													"type": "String"
 												},
@@ -4380,6 +4389,15 @@
 											},
 											{
 												"source": {
+													"name": "QuestionType",
+													"type": "String"
+												},
+												"sink": {
+													"path": "$['QuestionType']"
+												}
+											},
+											{
+												"source": {
 													"name": "TeacherEmailID",
 													"type": "String"
 												},
@@ -4469,8 +4487,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_EarlyYearsData')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_EarlyYearsData')]"
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_EarlyYearsResults')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_EarlyYearsResults')]"
 			]
 		},
 		{
@@ -11867,6 +11885,39 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_EarlyYearsResults')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"folderPath": "EarlyYearsData",
+						"fileSystem": "stage1np"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_MySchools')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -14162,6 +14213,34 @@
 		},
 		{
 			"name": "[concat(parameters('workspaceName'), '/SourceDataset_EarlyYearsData')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SPOnlineList_EarlyYearsResults",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_listName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SharePointOnlineListResource",
+				"schema": [],
+				"typeProperties": {
+					"listName": {
+						"value": "@dataset().cw_listName",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/SPOnlineList_EarlyYearsResults')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_EarlyYearsResults')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -21543,7 +21622,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4aebe057-3760-408e-9f12-b966cd8a2517"
+						"spark.autotune.trackingId": "452ab4c0-b415-40b2-b232-e02178b31a6d"
 					}
 				},
 				"metadata": {
@@ -21568,8 +21647,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -21735,7 +21813,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4b3cb041-7640-4f78-91f6-fdbfdaca824e"
+						"spark.autotune.trackingId": "fafa8b44-3183-43f6-b3b9-3b964b1cf70e"
 					}
 				},
 				"metadata": {
@@ -21760,13 +21838,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class EarlyYearsResults(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='EarlyYearsData', pseudonymize = True):\r\n",
@@ -29475,7 +29555,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ad52e425-c784-4924-a6ac-0d9c1220392e"
+						"spark.autotune.trackingId": "b84d600d-0b2e-4057-9f16-36f42d98e310"
 					}
 				},
 				"metadata": {
@@ -29500,8 +29580,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

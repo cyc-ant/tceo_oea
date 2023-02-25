@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fc4d9a34-9fe5-4e72-b01d-ba7800d7702b"
+				"spark.autotune.trackingId": "452ab4c0-b415-40b2-b232-e02178b31a6d"
 			}
 		},
 		"metadata": {
@@ -152,8 +152,8 @@
 					"        #year2_questions_combined_df = year2_questions_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
 					"\r\n",
 					"        # save the file\r\n",
-					"        result_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Results')\r\n",
-					"        year2_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Y2Results')\r\n",
+					"        result_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsResults')\r\n",
+					"        year2_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsResultsYear2')\r\n",
 					"        #questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Questions')\r\n",
 					"        #year2_questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Y2Questions')\r\n",
 					"     \r\n",

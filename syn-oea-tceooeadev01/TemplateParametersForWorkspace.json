@@ -11,6 +11,12 @@
 		"AFS_SeniorData_connectionString": {
 			"value": ""
 		},
+		"AFS_TCEO_OEAFSDATA_connectionString": {
+			"value": ""
+		},
+		"AFS_TCEO_OEAFileshare_connectionString": {
+			"value": ""
+		},
 		"AzureFileStorage_AEData_connectionString": {
 			"value": ""
 		},

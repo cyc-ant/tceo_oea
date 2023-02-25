@@ -15,6 +15,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AFS_SeniorData'"
 		},
+		"AFS_TCEO_OEAFSDATA_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AFS_TCEO_OEAFSDATA'"
+		},
+		"AFS_TCEO_OEAFileshare_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AFS_TCEO_OEAFileshare'"
+		},
 		"AzureFileStorage_AEData_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureFileStorage_AEData'"
@@ -1850,6 +1858,97 @@
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/datasets/SourceDataset_DimTables')]",
 				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_DimTables')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_EarlyYearsAnswers')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_d8d",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "EarlyYearsData/"
+							},
+							{
+								"name": "Destination",
+								"value": "stage1np/EarlyYearsAnswers/EarlyYearsAnswersYear2.csv"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureFileStorageReadSettings",
+									"recursive": false,
+									"wildcardFileName": "*",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings",
+									"skipLineCount": 0
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings",
+									"copyBehavior": "MergeFiles"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_EarlyYearsAnswers",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_EarlyYearsAnswers",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_EarlyYearsAnswers')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_EarlyYearsAnswers')]"
 			]
 		},
 		{
@@ -11852,6 +11951,35 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_EarlyYearsAnswers')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "EarlyYearsAnswersYear2.csv",
+						"folderPath": "EarlyYearsAnswers",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_EarlyYearsResults')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -14179,6 +14307,50 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_EarlyYearsAnswers')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AFS_TCEO_OEAFileshare",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureFileStorageLocation",
+						"folderPath": "EarlyYearsData"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Year",
+						"type": "String"
+					},
+					{
+						"name": "Question",
+						"type": "String"
+					},
+					{
+						"name": "Numeracy",
+						"type": "String"
+					},
+					{
+						"name": "Literacy",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/AFS_TCEO_OEAFileshare')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/SourceDataset_EarlyYearsResults')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -15386,6 +15558,48 @@
 				"type": "AzureFileStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('AFS_SeniorData_connectionString')]",
+					"fileShare": "fs-oea-dev"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/AFS_TCEO_OEAFSDATA')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"description": "Azure File Share containing the manually uploaded files into the OEA",
+				"annotations": [],
+				"type": "AzureFileStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AFS_TCEO_OEAFSDATA_connectionString')]",
+					"fileShare": "fs-oea-dev"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/AFS_TCEO_OEAFileshare')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"description": "An Azure file share that contains all manually uploaded data files into OEA",
+				"annotations": [],
+				"type": "AzureFileStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AFS_TCEO_OEAFileshare_connectionString')]",
 					"fileShare": "fs-oea-dev"
 				},
 				"connectVia": {
@@ -21561,7 +21775,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "120401b1-9a04-4ce8-a1e2-e083cc200f1d"
+						"spark.autotune.trackingId": "68ff9ce3-d599-4a00-88cf-97167ab84965"
 					}
 				},
 				"metadata": {
@@ -21586,8 +21800,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

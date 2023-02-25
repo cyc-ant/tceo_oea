@@ -11852,39 +11852,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_EarlyYearsData')]",
-			"type": "Microsoft.Synapse/workspaces/datasets",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_ADLS_OEA",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"cw_fileName": {
-						"type": "String"
-					}
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "@dataset().cw_fileName",
-							"type": "Expression"
-						},
-						"folderPath": "EarlyYearsData",
-						"fileSystem": "stage1np"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_EarlyYearsResults')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -14209,34 +14176,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/SourceDataset_EarlyYearsData')]",
-			"type": "Microsoft.Synapse/workspaces/datasets",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SPOnlineList_EarlyYearsResults",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"cw_listName": {
-						"type": "String"
-					}
-				},
-				"annotations": [],
-				"type": "SharePointOnlineListResource",
-				"schema": [],
-				"typeProperties": {
-					"listName": {
-						"value": "@dataset().cw_listName",
-						"type": "Expression"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/SPOnlineList_EarlyYearsResults')]"
 			]
 		},
 		{
@@ -21622,7 +21561,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "452ab4c0-b415-40b2-b232-e02178b31a6d"
+						"spark.autotune.trackingId": "120401b1-9a04-4ce8-a1e2-e083cc200f1d"
 					}
 				},
 				"metadata": {
@@ -21647,7 +21586,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -21671,7 +21611,7 @@
 							"from functools import reduce"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -21744,20 +21684,14 @@
 							"        # combine the list of dataframes loaded \r\n",
 							"        result_combined_df = reduce(DataFrame.unionAll, year1_prep_result_list)\r\n",
 							"        year2_combined_df = reduce(DataFrame.unionAll, year2_result_list)\r\n",
-							"        #questions_combined_df = reduce(DataFrame.unionAll, question_list)\r\n",
-							"        #year2_questions_combined_df = reduce(DataFrame.unionAll, year2_question_list)\r\n",
 							"\r\n",
 							"        # add a unique index to the combined table\r\n",
 							"        result_indexed_df = result_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
 							"        year2_indexed_df = year2_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
-							"        #questions_combined_df = questions_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
-							"        #year2_questions_combined_df = year2_questions_combined_df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
 							"\r\n",
 							"        # save the file\r\n",
 							"        result_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsResults')\r\n",
 							"        year2_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsResultsYear2')\r\n",
-							"        #questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Questions')\r\n",
-							"        #year2_questions_combined_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsData_Y2Questions')\r\n",
 							"     \r\n",
 							"\r\n",
 							"    def _convertJSON(self, file):\r\n",
@@ -21783,7 +21717,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 3
 					}
 				]
 			},
@@ -21813,7 +21747,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fafa8b44-3183-43f6-b3b9-3b964b1cf70e"
+						"spark.autotune.trackingId": "e0b6057b-5542-4695-beca-b5de1b2a44ae"
 					}
 				},
 				"metadata": {
@@ -21838,15 +21772,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class EarlyYearsResults(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='EarlyYearsData', pseudonymize = True):\r\n",
@@ -21937,6 +21869,7 @@
 							"                                    ['Ques7', 'string', 'no-op'],\r\n",
 							"                                    ['Ques8', 'string', 'no-op'],\r\n",
 							"                                    ['Ques9', 'string', 'no-op'],\r\n",
+							"                                    ['QuestionType', 'string', 'no-op'],\r\n",
 							"                                    ['Status', 'string', 'no-op'],\r\n",
 							"                                    ['StudentEmailID', 'string', 'no-op'],\r\n",
 							"                                    ['StudentName', 'string', 'no-op'],\r\n",

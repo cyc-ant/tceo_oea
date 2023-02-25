@@ -1,0 +1,23 @@
+{
+	"name": "SourceDataset_EarlyYearsResults",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SPOnlineList_EarlyYearsResults",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"cw_listName": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "SharePointOnlineListResource",
+		"schema": [],
+		"typeProperties": {
+			"listName": {
+				"value": "@dataset().cw_listName",
+				"type": "Expression"
+			}
+		}
+	}
+}

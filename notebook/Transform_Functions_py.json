@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "8f48a448-610d-4c5b-a6a1-933a4f893ee8"
+				"spark.autotune.trackingId": "709b54cd-a98c-43ed-94d8-ffb2456220cd"
 			}
 		},
 		"metadata": {
@@ -54,7 +54,7 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit\r\n",
+					"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace\r\n",
 					"from pyspark.sql.types import StringType"
 				],
 				"execution_count": 1
@@ -378,7 +378,14 @@
 					"                                .otherwise(when(df[col] == 'Used structure correctly', lit('1'))\r\n",
 					"                                .otherwise(when(df[col] == 'Used structure incorrectly', lit('0'))\r\n",
 					"                                .otherwise(when(df[col] == 'Other response', lit('0')))))))\r\n",
+					"  \r\n",
+					"    # replace errors in classes\r\n",
+					"    df.withColumn('ClassID', regexp_replace('ClassID', '00GENP01', 'GENP_PREP'))\r\n",
 					"\r\n",
+					"    df.withColumn('ClassID', regexp_replace('ClassID', '01GEN101', 'GEN1_Year 1'))\r\n",
+					"\r\n",
+					"    df.withColumn('ClassID', regexp_replace('ClassID', '02GEN201', 'GEN2_Year 2'))\r\n",
+					"   \r\n",
 					"    return df\r\n",
 					"\r\n",
 					"\r\n",

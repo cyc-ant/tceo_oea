@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "2e2e9e57-6219-4245-9f50-2c1bf95b03ee"
+				"spark.autotune.trackingId": "1aad50ed-0295-4489-8047-d26c9ff06fbd"
 			}
 		},
 		"metadata": {
@@ -225,7 +225,7 @@
 				"source": [
 					"stage3Transform(source_p, destination_p)"
 				],
-				"execution_count": 16
+				"execution_count": 7
 			},
 			{
 				"cell_type": "code",
@@ -243,7 +243,7 @@
 				"source": [
 					"stage3Transform(source_np, destination_np)"
 				],
-				"execution_count": 17
+				"execution_count": 8
 			},
 			{
 				"cell_type": "markdown",

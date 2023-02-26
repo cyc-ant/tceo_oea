@@ -21925,7 +21925,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "cf108d57-58a3-413e-876b-e7e9e98afe2d"
+						"spark.autotune.trackingId": "134af855-7831-4ad1-ad87-c63990cdf777"
 					}
 				},
 				"metadata": {
@@ -22566,7 +22566,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "72a65adf-b814-4beb-99d3-dc6f8abfcd1e"
+						"spark.autotune.trackingId": "45fe3b4e-a25c-4d0c-a91c-207f77bd2c2f"
 					}
 				},
 				"metadata": {
@@ -22591,11 +22591,33 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"from pyspark.sql.functions import lit, monotonically_increasing_id, trim, when \r\n",
+							"from pyspark.sql import DataFrame\r\n",
+							"from functools import reduce"
+						],
+						"outputs": [],
+						"execution_count": 28
+					},
 					{
 						"cell_type": "code",
 						"metadata": {
@@ -22641,7 +22663,7 @@
 							"generaldatacopyaddbkid.createFoldersForAll()"
 						],
 						"outputs": [],
-						"execution_count": 28
+						"execution_count": null
 					}
 				]
 			},
@@ -27122,7 +27144,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4779d705-9c6e-41e4-9d05-ef4242952295"
+						"spark.autotune.trackingId": "0015d52b-2f7a-413d-9a80-a5f46db9f9fd"
 					}
 				},
 				"metadata": {
@@ -27147,8 +27169,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

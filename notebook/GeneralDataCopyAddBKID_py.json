@@ -1,0 +1,102 @@
+{
+	"name": "GeneralDataCopyAddBKID_py",
+	"properties": {
+		"folder": {
+			"name": "Stage1"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spark3p1sm",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "72a65adf-b814-4beb-99d3-dc6f8abfcd1e"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"class GeneralDataCopyAddBKID(BaseOEAModule):\r\n",
+					"    def __init__(self, source_folder, pseudonymize = True):\r\n",
+					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+					"        \r\n",
+					"    def createFoldersForAll(self):\r\n",
+					"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
+					"        for file in file_list:\r\n",
+					"            # ignore subfolders\r\n",
+					"            if file.isDir:\r\n",
+					"                continue\r\n",
+					"\r\n",
+					"            # get the file\r\n",
+					"            filename = f'{self.stage1np}/{file.name}'\r\n",
+					"            #load the file into a spark dataframe\r\n",
+					"            df = spark.read.options(header='True', ignoreLeadingWhiteSpace='True', ignoreTrailingWhiteSpace='True').csv(filename)\r\n",
+					"            # clean empty (NULL) rows\r\n",
+					"            df = df.na.drop(\"all\")\r\n",
+					"\r\n",
+					"            # add a unique index to the combined table\r\n",
+					"            df = df.select(\"*\").withColumn(\"BKID\", monotonically_increasing_id())\r\n",
+					"\r\n",
+					"            # save the file\r\n",
+					"            df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/{source_folder}')\r\n",
+					"\r\n",
+					"\r\n",
+					"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
+					"generaldatacopyaddbkid = GeneralDataCopyAddBKID(source_folder)\r\n",
+					"\r\n",
+					"generaldatacopyaddbkid.createFoldersForAll()"
+				],
+				"execution_count": 28
+			}
+		]
+	}
+}

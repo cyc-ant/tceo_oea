@@ -16,12 +16,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "OEA_connector_EarlyYears",
+						"referenceName": "OEA_connector_EYAnswers",
 						"type": "NotebookReference"
 					},
 					"parameters": {
 						"object_name": {
-							"value": "EarlyYearsResults_object",
+							"value": "EarlyYearsAnswers_object",
 							"type": "string"
 						},
 						"method_name": {
@@ -29,7 +29,7 @@
 							"type": "string"
 						},
 						"source_folder": {
-							"value": "EarlyYearsResults",
+							"value": "EarlyYearsAnswers",
 							"type": "string"
 						}
 					},

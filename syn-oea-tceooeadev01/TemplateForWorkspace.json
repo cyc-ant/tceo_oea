@@ -21842,7 +21842,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e9e4871b-08b5-49bc-87fc-328c57bd63ef"
+						"spark.autotune.trackingId": "a247fe6a-3efe-4ded-b4ac-f67f2d1cf7db"
 					}
 				},
 				"metadata": {
@@ -21867,13 +21867,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class EarlyYearsAnswers(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='EarlyYearsAnswers', pseudonymize = True):\r\n",
@@ -21884,15 +21886,16 @@
 							"                                    ['Year', 'integer', 'no-op'],\r\n",
 							"                                    ['Question', 'integer', 'no-op'],\r\n",
 							"                                    ['Numeracy', 'string', 'no-op'],\r\n",
-							"                                    ['Literacy', 'string', 'no-op']                    \r\n",
+							"                                    ['Literacy', 'string', 'no-op'],\r\n",
+							"                                    ['BKID', 'string', 'no-op']\r\n",
 							"                                    ]\r\n",
 							"\r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsAnswers', self.schemas['EarlyYearsAnswers'], None, 'Question')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsAnswers', self.schemas['EarlyYearsAnswers'], None, 'BKID')\r\n",
 							"\r\n",
 							"\r\n",
-							"EarlyYearsAnswers_object = EarlyYearsResults()"
+							"EarlyYearsAnswers_object = EarlyYearsAnswers()"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -22566,7 +22569,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "45fe3b4e-a25c-4d0c-a91c-207f77bd2c2f"
+						"spark.autotune.trackingId": "9b8cbc68-c118-48a7-bd1e-ede11f78605e"
 					}
 				},
 				"metadata": {
@@ -22591,8 +22594,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

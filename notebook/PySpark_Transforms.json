@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b84d600d-0b2e-4057-9f16-36f42d98e310"
+				"spark.autotune.trackingId": "7db47372-e055-4e3c-93d3-6eb217ae53ac"
 			}
 		},
 		"metadata": {
@@ -97,7 +97,25 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 8
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"%run OEA_py"
+				],
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
@@ -118,6 +136,8 @@
 					"\r\n",
 					"# source tables from Stage2\r\n",
 					"DMPersonDemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
+					"EYAnswers_df = spark.read.load(sourcep + \"/EarlyYearsAnswers/EarlyYearsAnswers_pseudo\", format='delta')\r\n",
+					"EYResultsYear2_df = spark.read.load(sourcep + \"/EarlyYearsData/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
 					"\r\n",
 					"# source tables from Stage3\r\n",
 					"EarlyYearsResults_df = spark.read.load(source3p + \"/pilot/EarlyYearsResults_pseudo\", format='delta')\r\n",
@@ -273,6 +293,26 @@
 					""
 				],
 				"execution_count": 52
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"\r\n",
+					"display(EYResultsYear2_df)"
+				],
+				"execution_count": 5
 			},
 			{
 				"cell_type": "markdown",

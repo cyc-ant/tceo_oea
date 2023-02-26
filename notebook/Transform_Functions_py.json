@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d2ba0efa-7926-4ebf-8149-d68aec3596a8"
+				"spark.autotune.trackingId": "8f48a448-610d-4c5b-a6a1-933a4f893ee8"
 			}
 		},
 		"metadata": {
@@ -377,7 +377,7 @@
 					"                                .otherwise(when(df[col] == 'Incorrect', lit('0'))\r\n",
 					"                                .otherwise(when(df[col] == 'Used structure correctly', lit('1'))\r\n",
 					"                                .otherwise(when(df[col] == 'Used structure incorrectly', lit('0'))\r\n",
-					"                                .otherwise(when(df[col] == 'Other response', lit('2')))))))\r\n",
+					"                                .otherwise(when(df[col] == 'Other response', lit('0')))))))\r\n",
 					"\r\n",
 					"    return df\r\n",
 					"\r\n",

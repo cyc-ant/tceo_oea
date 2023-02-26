@@ -30163,7 +30163,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b29b47e3-3e01-4a9e-9d5a-5552c81be5fd"
+						"spark.autotune.trackingId": "0b9e5990-2418-4868-acd2-68fefa643f1f"
 					}
 				},
 				"metadata": {
@@ -30188,8 +30188,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -46963,7 +46962,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d2ba0efa-7926-4ebf-8149-d68aec3596a8"
+						"spark.autotune.trackingId": "83d5f270-2cac-477e-a48d-9672a96f3cb7"
 					}
 				},
 				"metadata": {
@@ -46988,13 +46987,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit\r\n",
 							"from pyspark.sql.types import StringType"
@@ -47329,7 +47330,7 @@
 							"                                .otherwise(when(df[col] == 'Incorrect', lit('0'))\r\n",
 							"                                .otherwise(when(df[col] == 'Used structure correctly', lit('1'))\r\n",
 							"                                .otherwise(when(df[col] == 'Used structure incorrectly', lit('0'))\r\n",
-							"                                .otherwise(when(df[col] == 'Other response', lit('2')))))))\r\n",
+							"                                .otherwise(when(df[col] == 'Other response', lit('0')))))))\r\n",
 							"\r\n",
 							"    return df\r\n",
 							"\r\n",
@@ -47528,7 +47529,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "521ca4f6-a8a1-4993-ae3e-f8e86ec41103"
+						"spark.autotune.trackingId": "2e2e9e57-6219-4245-9f50-2c1bf95b03ee"
 					}
 				},
 				"metadata": {

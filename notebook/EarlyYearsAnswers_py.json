@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e9e4871b-08b5-49bc-87fc-328c57bd63ef"
+				"spark.autotune.trackingId": "bafcecbf-57fc-42c9-8dfb-5e38702af0a5"
 			}
 		},
 		"metadata": {
@@ -63,15 +63,16 @@
 					"                                    ['Year', 'integer', 'no-op'],\r\n",
 					"                                    ['Question', 'integer', 'no-op'],\r\n",
 					"                                    ['Numeracy', 'string', 'no-op'],\r\n",
-					"                                    ['Literacy', 'string', 'no-op']                    \r\n",
+					"                                    ['Literacy', 'string', 'no-op'],\r\n",
+					"                                    ['BKID', 'string', 'no-op']\r\n",
 					"                                    ]\r\n",
 					"\r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsAnswers', self.schemas['EarlyYearsAnswers'], None, 'Question')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'EarlyYearsAnswers', self.schemas['EarlyYearsAnswers'], None, 'BKID')\r\n",
 					"\r\n",
 					"\r\n",
-					"EarlyYearsAnswers_object = EarlyYearsResults()"
+					"EarlyYearsAnswers_object = EarlyYearsAnswers()"
 				],
 				"execution_count": null
 			}

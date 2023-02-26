@@ -30163,7 +30163,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4f33f21e-d3c0-40a9-ae1c-27b18181cefd"
+						"spark.autotune.trackingId": "d6cb48ab-eb60-42ca-ab3b-0c8168ad220b"
 					}
 				},
 				"metadata": {
@@ -30188,8 +30188,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -47401,7 +47400,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "cabd1ac3-ed27-49c7-a698-9dd45830fdb2"
+						"spark.autotune.trackingId": "37f06607-a96f-4787-8647-d5c69cc545df"
 					}
 				},
 				"metadata": {
@@ -47426,7 +47425,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -47497,7 +47497,7 @@
 							"        final_df = StudentLevel_pseudo(df)    \r\n",
 							"    elif name == \"EarlyYearsResults_pseudo\":\r\n",
 							"        final_df = EarlyYearsResults_pseudo(df)\r\n",
-							"    elif name == \"EarlyYearsResultsYear2_pseudo\"\r\n",
+							"    elif name == \"EarlyYearsResultsYear2_pseudo\":\r\n",
 							"        final_df = EarlyYearsResultsYear2_pseudo(df)\r\n",
 							"    else:  \r\n",
 							"        final_df = df\r\n",
@@ -47564,7 +47564,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3206a222-df5f-46de-9bdd-f39dce0c03aa"
+						"spark.autotune.trackingId": "709180cb-68ba-4df9-b1ba-28ddc3779217"
 					}
 				},
 				"metadata": {

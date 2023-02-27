@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "47bb4896-14b4-41b2-af8d-2e485a629f2b"
+				"spark.autotune.trackingId": "4f340afb-fe0e-4c8c-a527-40dbc890c22b"
 			}
 		},
 		"metadata": {
@@ -97,7 +97,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 13
+				"execution_count": 37
 			},
 			{
 				"cell_type": "code",
@@ -125,7 +125,7 @@
 					"EYResultsYear2_df = spark.read.load(source3p + \"/pilot/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
 					""
 				],
-				"execution_count": 28
+				"execution_count": 39
 			},
 			{
 				"cell_type": "markdown",
@@ -301,7 +301,7 @@
 					"EYAnswers_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 29
+				"execution_count": 40
 			},
 			{
 				"cell_type": "code",
@@ -347,7 +347,7 @@
 					"EYResultsYear2LongFinal_df = joinedcleaned_df.withColumn('Result', when(trim(joinedcleaned_df.StudentAnswer) == trim(joinedcleaned_df.Answer), 1).otherwise(0))\r\n",
 					""
 				],
-				"execution_count": 30
+				"execution_count": 41
 			},
 			{
 				"cell_type": "code",
@@ -400,9 +400,15 @@
 					"                                                                                .drop('xYearLevel')\\\r\n",
 					"                                                                                .drop('xTestLevel')\r\n",
 					"\r\n",
+					"\r\n",
+					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"NumeracyPercentile\", percent_rank().over(Window.orderBy(\"NumeracyTotal\")))\r\n",
+					"\r\n",
+					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
+					"\r\n",
+					"\r\n",
 					"#display(EarlyYearsResultsTotalsYear2Joined_df)"
 				],
-				"execution_count": 36
+				"execution_count": 42
 			},
 			{
 				"cell_type": "markdown",

@@ -30163,7 +30163,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d6cb48ab-eb60-42ca-ab3b-0c8168ad220b"
+						"spark.autotune.trackingId": "868bad59-5d80-48c5-a875-0331162fc20b"
 					}
 				},
 				"metadata": {
@@ -30188,7 +30188,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -30240,7 +30241,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -30265,11 +30266,11 @@
 							"\r\n",
 							"# source tables from Stage3\r\n",
 							"EarlyYearsResults_df = spark.read.load(source3p + \"/pilot/EarlyYearsResults_pseudo\", format='delta')\r\n",
-							"EYResultsYear2_df = spark.read.load(sourcep + \"/pilot/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
+							"EYResultsYear2_df = spark.read.load(source3p + \"/pilot/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 28
 					},
 					{
 						"cell_type": "markdown",
@@ -30449,7 +30450,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 51
+						"execution_count": 29
 					},
 					{
 						"cell_type": "code",
@@ -30496,7 +30497,63 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 54
+						"execution_count": 30
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"# create the totals dataframe for year 2\r\n",
+							"\r\n",
+							"EarlyYearsResultsTotalsYear2Numeracy_df = EYResultsYear2LongFinal_df.filter(EYResultsYear2LongFinal_df.QuestionType == 'Numeracy')\r\n",
+							"\r\n",
+							"EarlyYearsResultsTotalsYear2Literacy_df = EYResultsYear2LongFinal_df.filter(EYResultsYear2LongFinal_df.QuestionType == 'Literacy')\r\n",
+							"\r\n",
+							"EarlyYearsResultsTotalsYear2Numeracy_df = EarlyYearsResultsTotalsYear2Numeracy_df.groupBy(\"CampusID\", \"Ceider\",\t\"ClassID\", \"Year\", \"YearLevel\", \"TestLevel\").agg(sum(EarlyYearsResultsTotalsYear2Numeracy_df.Result).alias(\"NumeracyTotal\"))\r\n",
+							"\r\n",
+							"EarlyYearsResultsTotalsYear2Literacy_df = EarlyYearsResultsTotalsYear2Literacy_df.groupBy(\"CampusID\", \"Ceider\",\t\"ClassID\", \"Year\", \"YearLevel\", \"TestLevel\").agg(sum(EarlyYearsResultsTotalsYear2Literacy_df.Result).alias(\"LiteracyTotal\"))\r\n",
+							"\r\n",
+							"\r\n",
+							"EarlyYearsResultsTotalsYear2Literacy_df = EarlyYearsResultsTotalsYear2Literacy_df.withColumnRenamed(\"CampusID\", \"xCampusID\")\\\r\n",
+							"                                                                                    .withColumnRenamed(\"Ceider\", \"xCeider\")\\\r\n",
+							"                                                                                    .withColumnRenamed(\"ClassID\", \"xClassID\")\\\r\n",
+							"                                                                                    .withColumnRenamed(\"Year\", \"xYear\")\\\r\n",
+							"                                                                                    .withColumnRenamed(\"YearLevel\", \"xYearLevel\")\\\r\n",
+							"                                                                                    .withColumnRenamed(\"TestLevel\", \"xTestLevel\")\r\n",
+							"\r\n",
+							"\r\n",
+							"# join the numeracy and literacy results \r\n",
+							"\r\n",
+							"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Numeracy_df.join(EarlyYearsResultsTotalsYear2Literacy_df, [col('CampusID') == col('xCampusID'),\r\n",
+							"                                                                                                                                col('Ceider') == col('xCeider'),\r\n",
+							"                                                                                                                                col('ClassID') == col('xClassID'),\r\n",
+							"                                                                                                                                col('Year') == col('xYear'),\r\n",
+							"                                                                                                                                col('YearLevel') == col('xYearLevel'),\r\n",
+							"                                                                                                                                col('TestLevel') == col('xTestLevel')\r\n",
+							"                                                                                                                                ])\r\n",
+							"\r\n",
+							"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.drop('xCampusID')\\\r\n",
+							"                                                                                .drop('xCeider')\\\r\n",
+							"                                                                                .drop('xClassID')\\\r\n",
+							"                                                                                .drop('xYear')\\\r\n",
+							"                                                                                .drop('xYearLevel')\\\r\n",
+							"                                                                                .drop('xTestLevel')\r\n",
+							"\r\n",
+							"#display(EarlyYearsResultsTotalsYear2Joined_df)"
+						],
+						"outputs": [],
+						"execution_count": 36
 					},
 					{
 						"cell_type": "markdown",
@@ -30531,8 +30588,10 @@
 							"saveToTarget(EarlyYearsResultsLong_df, destination_p, f'{version}/EarlyYearsResultsLong_pseudo')\r\n",
 							"saveToTarget(EYResultsYear2LongFinal_df, destination_p, f'{version}/EarlyYearsResultsYear2Long_pseudo')\r\n",
 							"\r\n",
-							"saveToTarget(EarlyYearsResultsTotalsYear2Numeracy_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Numeracy_pseudo')\r\n",
-							"saveToTarget(EarlyYearsResultsTotalsYear2Literacy_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Literacy_pseudo')"
+							"#saveToTarget(EarlyYearsResultsTotalsYear2Numeracy_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Numeracy_pseudo')\r\n",
+							"#saveToTarget(EarlyYearsResultsTotalsYear2Literacy_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Literacy_pseudo')\r\n",
+							"\r\n",
+							"saveToTarget(EarlyYearsResultsTotalsYear2Joined_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Joined_pseudo')"
 						],
 						"outputs": [],
 						"execution_count": 42
@@ -47400,7 +47459,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "37f06607-a96f-4787-8647-d5c69cc545df"
+						"spark.autotune.trackingId": "d4026c89-75c0-474d-aa61-2fce52730da2"
 					}
 				},
 				"metadata": {
@@ -47425,8 +47484,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

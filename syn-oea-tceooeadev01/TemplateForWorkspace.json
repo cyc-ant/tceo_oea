@@ -30163,7 +30163,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d36584bb-5ac2-4509-b662-16b15f3b22ec"
+						"spark.autotune.trackingId": "b2903853-317c-43e5-9855-75948985b2e1"
 					}
 				},
 				"metadata": {
@@ -30241,7 +30241,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 37
 					},
 					{
 						"cell_type": "code",
@@ -30270,7 +30270,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 28
+						"execution_count": 39
 					},
 					{
 						"cell_type": "markdown",
@@ -30450,7 +30450,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 29
+						"execution_count": 40
 					},
 					{
 						"cell_type": "code",
@@ -30497,7 +30497,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 30
+						"execution_count": 41
 					},
 					{
 						"cell_type": "code",
@@ -30550,10 +30550,16 @@
 							"                                                                                .drop('xYearLevel')\\\r\n",
 							"                                                                                .drop('xTestLevel')\r\n",
 							"\r\n",
+							"\r\n",
+							"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"NumeracyPercentile\", percent_rank().over(Window.orderBy(\"NumeracyTotal\")))\r\n",
+							"\r\n",
+							"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
+							"\r\n",
+							"\r\n",
 							"#display(EarlyYearsResultsTotalsYear2Joined_df)"
 						],
 						"outputs": [],
-						"execution_count": 36
+						"execution_count": 42
 					},
 					{
 						"cell_type": "markdown",

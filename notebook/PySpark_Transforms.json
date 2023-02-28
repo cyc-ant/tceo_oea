@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "67aebdfc-f63b-4879-9fd9-765d8aec74b2"
+				"spark.autotune.trackingId": "057bb008-60aa-4288-8008-4bac2b782ac4"
 			}
 		},
 		"metadata": {
@@ -97,7 +97,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 1
+				"execution_count": 26
 			},
 			{
 				"cell_type": "code",
@@ -125,7 +125,7 @@
 					"EYResultsYear2_df = spark.read.load(source3p + \"/pilot/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
 					""
 				],
-				"execution_count": 3
+				"execution_count": 28
 			},
 			{
 				"cell_type": "markdown",
@@ -301,7 +301,7 @@
 					"EYAnswers_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 4
+				"execution_count": 29
 			},
 			{
 				"cell_type": "code",
@@ -318,8 +318,9 @@
 					"collapsed": false
 				},
 				"source": [
-					"# remove the test row\r\n",
+					"# remove the test rows\r\n",
 					"EYResultsYear2_df = EYResultsYear2_df.filter(EYResultsYear2_df.Ceider != 12345)\r\n",
+					"EYResultsYear2_df = EYResultsYear2_df.filter(EYResultsYear2_df.Ceider != 111111)\r\n",
 					"\r\n",
 					"# seperate numeracy and literacy results\r\n",
 					"\r\n",
@@ -352,13 +353,15 @@
 					"\r\n",
 					"updated_literacy_df = updated_literacy_df.withColumnRenamed(\"xClassID\", \"ClassID\")\r\n",
 					"\r\n",
-					"updated_numeracy_df = joined_class_df.drop(\"xCeider\").drop(\"xClassID\")\r\n",
+					"updated_numeracy_df = joined_class_df.drop(\"xCeider\").drop(\"ClassID\")\r\n",
+					"\r\n",
+					"updated_numeracy_df = updated_numeracy_df.withColumnRenamed(\"xClassID\", \"ClassID\")\r\n",
 					"\r\n",
 					"EYResultsYear2Cleaned_df = updated_literacy_df.union(updated_numeracy_df)\r\n",
 					"\r\n",
 					"#display(EYResultsYear2Cleaned_df)"
 				],
-				"execution_count": 25
+				"execution_count": 32
 			},
 			{
 				"cell_type": "code",
@@ -460,7 +463,7 @@
 					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
 					"\r\n",
 					"\r\n",
-					"display(EarlyYearsResultsTotalsYear2Joined_df)"
+					"#display(EarlyYearsResultsTotalsYear2Joined_df)"
 				],
 				"execution_count": 64
 			},

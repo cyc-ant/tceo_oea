@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "702e222d-2969-4b47-9c34-cffdbc820053"
+				"spark.autotune.trackingId": "ccfabc32-b38b-47b8-b8db-edf8ca19b6aa"
 			}
 		},
 		"metadata": {
@@ -197,7 +197,7 @@
 				"source": [
 					"#Manual Class Fixes\r\n",
 					"\r\n",
-					"condition = (EarlyYearsResults_df.CampusID == 605) & (EarlyYearsResults_df.YearLevel == '1')\r\n",
+					"condition = (EarlyYearsResults_df.CampusID == 605) & (EarlyYearsResults_df.YearLevel == '1') & (EarlyYearsResults_df.ClassID == 'GEN1')\r\n",
 					"\r\n",
 					"EarlyYearsResults_df = EarlyYearsResults_df.withColumn(\"ClassID\", when(condition, \"GEN1_1B\").otherwise(EarlyYearsResults_df.ClassID))\r\n",
 					"\r\n",

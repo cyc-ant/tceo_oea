@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "78ba4373-e122-4fc6-9937-f744e5f571af"
+				"spark.autotune.trackingId": "fa470466-22a2-42bf-9d2d-322c0f6fc2d0"
 			}
 		},
 		"metadata": {
@@ -55,7 +55,7 @@
 				"cell_type": "code",
 				"source": [
 					"class Ods_ActivityInstance_object(BaseOEAModule):\r\n",
-					"    def __init__(self, source_folder='_ODSActivityInstance', pseudonymize = True):\r\n",
+					"    def __init__(self, source_folder='ODSActivityInstance', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        \r\n",

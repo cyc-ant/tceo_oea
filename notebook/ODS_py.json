@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c4c68901-98b1-4f56-82f0-2691c26ec2b9"
+				"spark.autotune.trackingId": "aab0abe5-490d-4867-a27f-25f2dd72b2ae"
 			}
 		},
 		"metadata": {
@@ -55,7 +55,7 @@
 				"cell_type": "code",
 				"source": [
 					"class Ods_object(BaseOEAModule):\r\n",
-					"    def __init__(self, source_folder='_ODS', pseudonymize = True):\r\n",
+					"    def __init__(self, source_folder='ODS', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        self.schemas['CompassODSActivity'] = [\r\n",

@@ -29,7 +29,7 @@
 							"type": "string"
 						},
 						"source_folder": {
-							"value": "_ODS",
+							"value": "ODS",
 							"type": "string"
 						}
 					},

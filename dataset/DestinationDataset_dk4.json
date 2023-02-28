@@ -19,7 +19,7 @@
 					"value": "@dataset().cw_fileName",
 					"type": "Expression"
 				},
-				"folderPath": "_ODS",
+				"folderPath": "ODS",
 				"fileSystem": "stage1np"
 			},
 			"columnDelimiter": ",",

@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "abe3e3d4-14ff-4b68-bb09-8999ba4e1fc9"
+						"spark.autotune.trackingId": "a6eb5ecf-23ba-44ab-bd73-caf9668eff8f"
 					}
 				},
 				"metadata": {
@@ -30181,7 +30181,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -30233,7 +30234,26 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 26
+						"execution_count": 1
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -30262,7 +30282,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 28
+						"execution_count": 3
 					},
 					{
 						"cell_type": "markdown",
@@ -30317,6 +30337,32 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"#Manual Class Fixes\r\n",
+							"\r\n",
+							"condition = (EarlyYearsResults_df.CampusID == 605) & (EarlyYearsResults_df.YearLevel == '1')\r\n",
+							"\r\n",
+							"EarlyYearsResults_df = EarlyYearsResults_df.withColumn(\"ClassID\", when(condition, \"GEN1_1B\").otherwise(EarlyYearsResults_df.ClassID))\r\n",
+							"\r\n",
+							"#display(test_df)"
+						],
+						"outputs": [],
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",
@@ -44844,7 +44890,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "894613b8-057d-4b87-8d49-8348fed81949"
+						"spark.autotune.trackingId": "5aa643bb-1f83-4de5-bc8f-9d793a7c72f8"
 					}
 				},
 				"metadata": {
@@ -44869,8 +44915,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -47071,7 +47116,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a46c919c-056d-4fd5-8629-d6f35d8536c7"
+						"spark.autotune.trackingId": "5c1d21ba-63e0-4863-8926-f43cf8b53b40"
 					}
 				},
 				"metadata": {
@@ -47441,7 +47486,6 @@
 							"  \r\n",
 							"    # replace errors in classes\r\n",
 							"    df = df.withColumn('ClassID', regexp_replace('ClassID', '00GENP01', 'GENP_PREP'))\r\n",
-							"\r\n",
 							"    df = df.withColumn('ClassID', regexp_replace('ClassID', '01GEN101', 'GEN1_Year 1'))\r\n",
 							"   \r\n",
 							"    return df\r\n",
@@ -47670,7 +47714,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5bddc72c-7656-4d20-b654-35d3d32567d8"
+						"spark.autotune.trackingId": "67f233dd-a954-4dab-97a9-03304b87e608"
 					}
 				},
 				"metadata": {
@@ -47730,7 +47774,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -47749,7 +47793,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -47768,7 +47812,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -47797,7 +47841,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -47818,7 +47862,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -47861,7 +47905,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -47933,7 +47977,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 14
 					},
 					{
 						"cell_type": "code",
@@ -47952,7 +47996,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 15
 					}
 				]
 			},

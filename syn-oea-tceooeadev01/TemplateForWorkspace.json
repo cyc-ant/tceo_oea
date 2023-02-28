@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1d8d02c8-8a3e-4691-b1b0-f88a79c99b1c"
+						"spark.autotune.trackingId": "abe3e3d4-14ff-4b68-bb09-8999ba4e1fc9"
 					}
 				},
 				"metadata": {
@@ -30181,8 +30181,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -44845,7 +44844,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3cc90e36-fa71-41d0-8bfe-093afca116aa"
+						"spark.autotune.trackingId": "894613b8-057d-4b87-8d49-8348fed81949"
 					}
 				},
 				"metadata": {
@@ -44870,7 +44869,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -44929,10 +44929,6 @@
 							"factsubjectenrolment_df = spark.read.load(sourcep + \"/enrolment/DMFactSubjectEnrolment_pseudo\", format='delta')\r\n",
 							"dmactivity_df = spark.read.load(sourcep + \"/enrolment/DMActivity_pseudo\", format='delta')\r\n",
 							"dmsubject_df = spark.read.load(sourcep + \"/enrolment/DMSubject_pseudo\", format='delta')\r\n",
-							"#dmpersondemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
-							"#dmyearlevel_df = spark.read.load(sourcep + \"/ACER/DMYearLevel_pseudo\", format='delta')\r\n",
-							"#dmcampus_df = spark.read.load(sourcep + \"/ACER/DMCampus_pseudo\", format='delta')\r\n",
-							"#dmdate_df = spark.read.load(sourcep + \"/ACER/DMDate_pseudo\", format='delta')\r\n",
 							"dmcalendaryear_df = spark.read.load(sourcep + \"/ACER/DMCalendarYear_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"# stage 3\r\n",
@@ -44940,7 +44936,6 @@
 							"dmcampus_df = spark.read.load(source3p + \"/pilot/DMCampus_pseudo\", format='delta')\r\n",
 							"dmdate_df = spark.read.load(source3p + \"/pilot/DMDate_pseudo\", format='delta')\r\n",
 							"dmpersondemographic_df = spark.read.load(source3p + \"/pilot/DMPersonDemographic_pseudo\", format='delta')\r\n",
-							"\r\n",
 							"\r\n",
 							"# used for active student view\r\n",
 							"factpersonmilestone_df = spark.read.load(sourcep + \"/student/DMFactPersonMilestone_pseudo\", format='delta')\r\n",
@@ -44959,19 +44954,15 @@
 							"# used for manual AE Semester Report\r\n",
 							"ae_manualsemesterreports_df = spark.read.load(sourcep + \"/_AE_ManualUploadRawFiles/AE_ManualSemesterReports_pseudo\", format='delta')\r\n",
 							"\r\n",
-							"\r\n",
 							"# used for ODS tables (+ dmcampus_df already added above)\r\n",
 							"odsactivity_df = spark.read.load(sourcep + \"/ODS/CompassODSActivity_pseudo\", format='delta')\r\n",
 							"odsactivityenrolment_df = spark.read.load(sourcep + \"/ODS/CompassODSActivityEnrolment_pseudo\", format='delta')\r\n",
 							"odscompasssubject_df = spark.read.load(sourcep + \"/ODS/CompassODSCompassSubject_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"odsstaffdemographic_df = spark.read.load(sourcep + \"/ODS/CompassODSStaffDemographic_pseudo\", format='delta')\r\n",
-							"\r\n",
-							"\r\n",
-							"#odsstudentdemographic_df = spark.read.load(sourcep + \"/_ODS/CompassODSStudentDemographic_pseudo\", format='delta')\r\n",
 							"odsstudentdemographic_df = spark.read.load(sourcep + \"/ODSStudentDemographic/CompassODSStudentDemographic_pseudo\", format='delta')\r\n",
 							"\r\n",
-							"odsstafforganisationdetails_df = spark.read.load(sourcep + \"_ODS/CompassODSStaffOrganisationDetails_pseudo\", format='delta')\r\n",
+							"odsstafforganisationdetails_df = spark.read.load(sourcep + \"/ODS/CompassODSStaffOrganisationDetails_pseudo\", format='delta')\r\n",
 							"odsstudentorganisationdetails_df = spark.read.load(sourcep + \"/ODS/CompassODSStudentOrganisationDetails_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"odsstafforganisationmilestones_df = spark.read.load(sourcep + \"/ODS/CompassODSStaffOrganisationMilestones_pseudo\", format='delta')\r\n",
@@ -47679,7 +47670,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "709180cb-68ba-4df9-b1ba-28ddc3779217"
+						"spark.autotune.trackingId": "5bddc72c-7656-4d20-b654-35d3d32567d8"
 					}
 				},
 				"metadata": {
@@ -47961,7 +47952,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": null
 					}
 				]
 			},

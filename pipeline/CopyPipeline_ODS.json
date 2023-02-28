@@ -114,14 +114,6 @@
 					},
 					{
 						"source": {
-							"table": "ODSStudentDemographic"
-						},
-						"destination": {
-							"fileName": "CompassODSStudentDemographic.csv"
-						}
-					},
-					{
-						"source": {
 							"table": "ODSStaffOrganisationDetails"
 						},
 						"destination": {

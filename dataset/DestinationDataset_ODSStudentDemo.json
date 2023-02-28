@@ -10,7 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "_ODSStudentDemographic",
+				"fileName": "CompassODSStudentDemographic.csv",
+				"folderPath": "ODSStudentDemographic",
 				"fileSystem": "stage1np"
 			},
 			"columnDelimiter": ",",

@@ -5856,7 +5856,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
-									"fileExtension": "CompassODSStudentDemographic.csv"
+									"fileExtension": ""
 								}
 							},
 							"enableStaging": false,
@@ -12205,7 +12205,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "CompassODSActivityInstance.csv",
-						"folderPath": "_ODSActivityInstance",
+						"folderPath": "ODSActivityInstance",
 						"fileSystem": "stage1np"
 					},
 					"columnDelimiter": ",",
@@ -12233,7 +12233,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "_ODSStudentDemographic",
+						"fileName": "CompassODSStudentDemographic.csv",
+						"folderPath": "ODSStudentDemographic",
 						"fileSystem": "stage1np"
 					},
 					"columnDelimiter": ",",
@@ -12628,7 +12629,7 @@
 							"value": "@dataset().cw_fileName",
 							"type": "Expression"
 						},
-						"folderPath": "_ODS",
+						"folderPath": "ODS",
 						"fileSystem": "stage1np"
 					},
 					"columnDelimiter": ",",
@@ -24878,7 +24879,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c4c68901-98b1-4f56-82f0-2691c26ec2b9"
+						"spark.autotune.trackingId": "c44caf31-1a31-4a8b-8d33-c5f20e56c17d"
 					}
 				},
 				"metadata": {
@@ -24903,13 +24904,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Ods_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='_ODS', pseudonymize = True):\r\n",
@@ -28438,7 +28441,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5f4e2960-8bdb-43bd-bce4-316a23f91bc8"
+						"spark.autotune.trackingId": "49aab56d-4b81-41c0-9f12-dd8e3e282582"
 					}
 				},
 				"metadata": {
@@ -28463,7 +28466,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -30163,7 +30167,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a9c10e36-9d59-4e1e-929f-32dee87fd27a"
+						"spark.autotune.trackingId": "f2e803d1-c087-46b2-8293-4e138399ae86"
 					}
 				},
 				"metadata": {

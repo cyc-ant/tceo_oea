@@ -10400,7 +10400,7 @@
 									"type": "string"
 								},
 								"source_folder": {
-									"value": "_ODS",
+									"value": "ODS",
 									"type": "string"
 								}
 							},
@@ -10467,7 +10467,7 @@
 									"type": "string"
 								},
 								"source_folder": {
-									"value": "_ODSActivityInstance",
+									"value": "ODSActivityInstance",
 									"type": "string"
 								}
 							},
@@ -10534,7 +10534,7 @@
 									"type": "string"
 								},
 								"source_folder": {
-									"value": "_ODSStudentDemographic",
+									"value": "ODSStudentDemographic",
 									"type": "string"
 								}
 							},
@@ -24700,7 +24700,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "78ba4373-e122-4fc6-9937-f744e5f571af"
+						"spark.autotune.trackingId": "fa470466-22a2-42bf-9d2d-322c0f6fc2d0"
 					}
 				},
 				"metadata": {
@@ -24734,7 +24734,7 @@
 						"cell_type": "code",
 						"source": [
 							"class Ods_ActivityInstance_object(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='_ODSActivityInstance', pseudonymize = True):\r\n",
+							"    def __init__(self, source_folder='ODSActivityInstance', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
 							"        \r\n",
@@ -24791,7 +24791,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8f315ca1-7075-45f6-81fe-2356e5a95594"
+						"spark.autotune.trackingId": "e9cd6451-77ac-4213-82e7-481ecfc05c91"
 					}
 				},
 				"metadata": {
@@ -24825,7 +24825,7 @@
 						"cell_type": "code",
 						"source": [
 							"class Ods_StudentDemo_object(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='_ODSStudentDemographic', pseudonymize = True):\r\n",
+							"    def __init__(self, source_folder='ODSStudentDemographic', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
 							"        \r\n",
@@ -24879,7 +24879,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c44caf31-1a31-4a8b-8d33-c5f20e56c17d"
+						"spark.autotune.trackingId": "aab0abe5-490d-4867-a27f-25f2dd72b2ae"
 					}
 				},
 				"metadata": {
@@ -24904,18 +24904,16 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Ods_object(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='_ODS', pseudonymize = True):\r\n",
+							"    def __init__(self, source_folder='ODS', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
 							"        self.schemas['CompassODSActivity'] = [\r\n",
@@ -28441,7 +28439,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "49aab56d-4b81-41c0-9f12-dd8e3e282582"
+						"spark.autotune.trackingId": "5f4e2960-8bdb-43bd-bce4-316a23f91bc8"
 					}
 				},
 				"metadata": {
@@ -28466,8 +28464,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -30167,7 +30164,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f2e803d1-c087-46b2-8293-4e138399ae86"
+						"spark.autotune.trackingId": "71548b1f-b612-46ad-82ab-42e61c640fe4"
 					}
 				},
 				"metadata": {
@@ -30192,8 +30189,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

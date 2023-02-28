@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "CompassODSActivityInstance.csv",
-				"folderPath": "_ODSActivityInstance",
+				"folderPath": "ODSActivityInstance",
 				"fileSystem": "stage1np"
 			},
 			"columnDelimiter": ",",

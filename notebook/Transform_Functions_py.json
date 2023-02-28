@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a46c919c-056d-4fd5-8629-d6f35d8536c7"
+				"spark.autotune.trackingId": "5c1d21ba-63e0-4863-8926-f43cf8b53b40"
 			}
 		},
 		"metadata": {
@@ -381,7 +381,6 @@
 					"  \r\n",
 					"    # replace errors in classes\r\n",
 					"    df = df.withColumn('ClassID', regexp_replace('ClassID', '00GENP01', 'GENP_PREP'))\r\n",
-					"\r\n",
 					"    df = df.withColumn('ClassID', regexp_replace('ClassID', '01GEN101', 'GEN1_Year 1'))\r\n",
 					"   \r\n",
 					"    return df\r\n",

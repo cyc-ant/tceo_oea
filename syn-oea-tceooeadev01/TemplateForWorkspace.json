@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ce5443fa-cab9-4feb-b365-1e8796192a56"
+						"spark.autotune.trackingId": "413b2637-4e6d-40c0-829c-80aa90c20ead"
 					}
 				},
 				"metadata": {
@@ -30181,8 +30181,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -47695,7 +47694,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "41ef99db-0f8b-4d21-a7c7-aeb8f50d5b26"
+						"spark.autotune.trackingId": "26abfd3d-b4e7-4bbb-8075-4303371a642a"
 					}
 				},
 				"metadata": {
@@ -47720,7 +47719,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

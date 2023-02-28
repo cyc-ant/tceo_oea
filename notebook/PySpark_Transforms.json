@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "bb87e123-5e3d-46d3-8c3f-17fce7020065"
+				"spark.autotune.trackingId": "702e222d-2969-4b47-9c34-cffdbc820053"
 			}
 		},
 		"metadata": {
@@ -98,24 +98,6 @@
 					"import databricks.koalas as ks"
 				],
 				"execution_count": 1
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					"%run OEA_py"
-				],
-				"execution_count": 2
 			},
 			{
 				"cell_type": "code",

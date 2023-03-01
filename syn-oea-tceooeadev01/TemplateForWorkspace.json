@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "413b2637-4e6d-40c0-829c-80aa90c20ead"
+						"spark.autotune.trackingId": "ae9c56ef-5042-4206-9978-9557d7c2d1fb"
 					}
 				},
 				"metadata": {
@@ -30181,7 +30181,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -30228,12 +30229,12 @@
 							}
 						},
 						"source": [
-							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length\r\n",
+							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower\r\n",
 							"from pyspark.sql.window import Window\r\n",
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -30262,7 +30263,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 5
 					},
 					{
 						"cell_type": "markdown",
@@ -30342,7 +30343,7 @@
 							"#display(test_df)"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 6
 					},
 					{
 						"cell_type": "code",
@@ -30409,7 +30410,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",
@@ -30440,7 +30441,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 52
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -30468,7 +30469,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 29
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -30529,7 +30530,7 @@
 							"#display(EYResultsYear2Cleaned_df)"
 						],
 						"outputs": [],
-						"execution_count": 32
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -30569,11 +30570,11 @@
 							"joinedcleaned_df = joined_df.drop('xYear').drop('xQuestion').drop('xQuestionType')\r\n",
 							"\r\n",
 							"# do the correction by comparing StudentAnswer to the real Answer\r\n",
-							"EYResultsYear2LongFinal_df = joinedcleaned_df.withColumn('Result', when(trim(joinedcleaned_df.StudentAnswer) == trim(joinedcleaned_df.Answer), 1).otherwise(0))\r\n",
+							"EYResultsYear2LongFinal_df = joinedcleaned_df.withColumn('Result', when(trim(lower(joinedcleaned_df.StudentAnswer)) == trim(lower(joinedcleaned_df.Answer)), 1).otherwise(0))\r\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -47694,7 +47695,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "26abfd3d-b4e7-4bbb-8075-4303371a642a"
+						"spark.autotune.trackingId": "9654ca15-15e7-4217-8490-63757b561f8a"
 					}
 				},
 				"metadata": {
@@ -47719,8 +47720,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

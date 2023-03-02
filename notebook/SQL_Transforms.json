@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "4f8f21b6-c63b-4dec-af7d-419de6e17bef"
+				"spark.autotune.trackingId": "5792fc14-8f31-4195-8677-425a5e476adc"
 			}
 		},
 		"metadata": {
@@ -233,6 +233,8 @@
 					}
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_classenrolment;\r\n",
+					"\r\n",
 					"CREATE TEMP VIEW vw_classenrolment\r\n",
 					"AS\r\n",
 					"SELECT cy.Year AS CalendarYear,\r\n",
@@ -285,6 +287,8 @@
 					}
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_activestudenttemp;\r\n",
+					"\r\n",
 					"-- Temporary table do not save \r\n",
 					"CREATE TEMP VIEW vw_activestudenttemp\r\n",
 					"AS\r\n",
@@ -329,6 +333,8 @@
 					}
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_activestudent;\r\n",
+					"\r\n",
 					"-- Removes duplicates from the active student temp table above\r\n",
 					"CREATE TEMP VIEW vw_activestudent\r\n",
 					"AS\r\n",
@@ -355,6 +361,8 @@
 					}
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_activestudentexceptions;\r\n",
+					"\r\n",
 					"-- Gets only the duplicates from the active student temp table above so it can be used in an exceptions report \r\n",
 					"CREATE TEMP VIEW vw_activestudentexceptions\r\n",
 					"AS\r\n",
@@ -381,6 +389,8 @@
 					}
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_inactivestudent;\r\n",
+					"\r\n",
 					"-- MAY NOT REQUIRE THIS ANYMORE\r\n",
 					"CREATE TEMP VIEW vw_inactivestudent\r\n",
 					"AS\r\n",
@@ -430,6 +440,8 @@
 					"collapsed": false
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_naplanparticipation;\r\n",
+					"\r\n",
 					"CREATE TEMP VIEW vw_naplanparticipation\r\n",
 					"as\r\n",
 					"select \r\n",
@@ -477,6 +489,8 @@
 					"collapsed": false
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_acerparticipation;\r\n",
+					"\r\n",
 					"CREATE TEMP VIEW vw_acerparticipation\r\n",
 					"as\r\n",
 					"select \r\n",
@@ -534,6 +548,8 @@
 					"collapsed": false
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_ae_manual_learningtasks;\r\n",
+					"\r\n",
 					"CREATE TEMP VIEW vw_ae_manual_learningtasks\r\n",
 					"as\r\n",
 					"\r\n",
@@ -612,6 +628,8 @@
 					"collapsed": false
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_ae_manual_semesterreports;\r\n",
+					"\r\n",
 					"CREATE TEMP VIEW vw_ae_manual_semesterreports\r\n",
 					"as\r\n",
 					"\r\n",
@@ -663,6 +681,8 @@
 					}
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_ods_studentclass;\r\n",
+					"\r\n",
 					"CREATE TEMP VIEW vw_ods_studentclass\r\n",
 					"as\r\n",
 					"\r\n",
@@ -730,9 +750,10 @@
 					}
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_ods_studentstable;\r\n",
+					"\r\n",
 					"CREATE TEMP VIEW vw_ods_studentstable\r\n",
 					"as\r\n",
-					"\r\n",
 					"\r\n",
 					"select\r\n",
 					"distinct ms.CompassPersonId as MS_CompassPersonID\r\n",
@@ -785,6 +806,8 @@
 					}
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_ae_manual_combined;\r\n",
+					"\r\n",
 					"CREATE TEMP VIEW vw_ae_manual_combined\r\n",
 					"as\r\n",
 					"\r\n",
@@ -864,6 +887,8 @@
 					}
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents;\r\n",
+					"\r\n",
 					"create temp view vw_ods_earlyyearsstudents\r\n",
 					"as\r\n",
 					"\r\n",
@@ -1021,6 +1046,8 @@
 					}
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_addedstaff;\r\n",
+					"\r\n",
 					"-- Manual entry of support staff (non teachers) that will be conducting tests\r\n",
 					"\r\n",
 					"create temp view vw_ods_earlyyearsstudents_addedstaff\r\n",

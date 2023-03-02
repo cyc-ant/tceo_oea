@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5abf46e0-0909-40c9-b10f-0976dd9edfc5"
+				"spark.autotune.trackingId": "6cd4b7ea-ebcc-4613-b07b-f170dee774e7"
 			}
 		},
 		"metadata": {
@@ -275,7 +275,7 @@
 				"source": [
 					"%run Stage3/SQL_Transforms"
 				],
-				"execution_count": 14
+				"execution_count": 15
 			},
 			{
 				"cell_type": "code",

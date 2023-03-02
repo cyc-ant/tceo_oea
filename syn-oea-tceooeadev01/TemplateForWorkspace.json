@@ -44870,7 +44870,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "957e8cda-5ae6-417d-8b88-6649e01f9ec7"
+						"spark.autotune.trackingId": "07d25a15-c0bc-4dd0-bdfd-63fc4e9616fb"
 					}
 				},
 				"metadata": {
@@ -44895,7 +44895,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -45744,7 +45745,7 @@
 							"      ,[StudentName]\r\n",
 							"      ,[ClassName]\r\n",
 							"      ,[ClassID]\r\n",
-							"      , 'janderson7@smmc.catholic.edu.au' as StaffEmail\r\n",
+							"      , 'janderson14@smptsv.catholic.edu.au' as StaffEmail\r\n",
 							"      ,[StudentEmail]\r\n",
 							"      ,trim([Ceider]) as Ceider\r\n",
 							"    from vw_ods_earlyyearsstudents\r\n",
@@ -47354,7 +47355,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ec32dff3-5c36-4113-9754-04d6bd552cfb"
+						"spark.autotune.trackingId": "e68cfcb4-97fc-4fdf-a1cd-2e9e6eb59953"
 					}
 				},
 				"metadata": {
@@ -47379,15 +47380,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace\r\n",
 							"from pyspark.sql.types import StringType"

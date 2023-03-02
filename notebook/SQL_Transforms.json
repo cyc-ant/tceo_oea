@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "834e87e7-97dc-4607-bac1-b31309b01b7d"
+				"spark.autotune.trackingId": "4f8f21b6-c63b-4dec-af7d-419de6e17bef"
 			}
 		},
 		"metadata": {
@@ -1029,7 +1029,7 @@
 					"--Judy Anderson\r\n",
 					"\r\n",
 					"\r\n",
-					"select [Year]\r\n",
+					"select Year\r\n",
 					"      ,[YearLevel]\r\n",
 					"      ,[CampusID]\r\n",
 					"      ,[SchoolNameAndArea]\r\n",

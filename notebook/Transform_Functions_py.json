@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5c1d21ba-63e0-4863-8926-f43cf8b53b40"
+				"spark.autotune.trackingId": "e68cfcb4-97fc-4fdf-a1cd-2e9e6eb59953"
 			}
 		},
 		"metadata": {
@@ -409,6 +409,8 @@
 					"    df = df.withColumn('Ques1', when(df.Ques1.substr(1,5) == 'could', lit('could good')).otherwise(df.Ques1))\r\n",
 					"\r\n",
 					"    df = df.withColumn('ClassID', regexp_replace('ClassID', '02GEN201', 'GEN2_Year 2'))\r\n",
+					"\r\n",
+					"    df = df.withColumn('ClassId', when(df.Ceider == '769425243', lit('GEN2_02C')).otherwise(df.ClassID))\r\n",
 					"\r\n",
 					"    return df\r\n",
 					"\r\n",

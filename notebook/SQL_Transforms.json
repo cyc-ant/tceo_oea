@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "90c226a6-364d-4087-bbbc-94a7f63baf32"
+				"spark.autotune.trackingId": "27240192-a620-444c-9a19-f54c4413de37"
 			}
 		},
 		"metadata": {
@@ -765,7 +765,7 @@
 					"  and IsCurrent = 'True'\r\n",
 					"  and DioceseId = 12\r\n",
 					"  and (ActivityCode like 'GEN%' or ActivityCode like 'PREP%')\r\n",
-					"  and year(cast(Start as datetime2)) = year(current_date)\r\n",
+					"  and year(Start) = year(current_date)\r\n",
 					"  and ManagingCompassPersonId <> '00000000-0000-0000-0000-000000000000'\r\n",
 					") instance \r\n",
 					"\r\n",

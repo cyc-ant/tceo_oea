@@ -44870,7 +44870,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fa98dd7f-f67e-4aa7-9356-f781ce1a1bf0"
+						"spark.autotune.trackingId": "bb5b4621-8514-48dc-9cfb-49af19a62965"
 					}
 				},
 				"metadata": {
@@ -45085,6 +45085,8 @@
 							}
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_classenrolment;\r\n",
+							"\r\n",
 							"CREATE TEMP VIEW vw_classenrolment\r\n",
 							"AS\r\n",
 							"SELECT cy.Year AS CalendarYear,\r\n",
@@ -45138,6 +45140,8 @@
 							}
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_activestudenttemp;\r\n",
+							"\r\n",
 							"-- Temporary table do not save \r\n",
 							"CREATE TEMP VIEW vw_activestudenttemp\r\n",
 							"AS\r\n",
@@ -45183,6 +45187,8 @@
 							}
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_activestudent;\r\n",
+							"\r\n",
 							"-- Removes duplicates from the active student temp table above\r\n",
 							"CREATE TEMP VIEW vw_activestudent\r\n",
 							"AS\r\n",
@@ -45210,6 +45216,8 @@
 							}
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_activestudentexceptions;\r\n",
+							"\r\n",
 							"-- Gets only the duplicates from the active student temp table above so it can be used in an exceptions report \r\n",
 							"CREATE TEMP VIEW vw_activestudentexceptions\r\n",
 							"AS\r\n",
@@ -45237,6 +45245,8 @@
 							}
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_inactivestudent;\r\n",
+							"\r\n",
 							"-- MAY NOT REQUIRE THIS ANYMORE\r\n",
 							"CREATE TEMP VIEW vw_inactivestudent\r\n",
 							"AS\r\n",
@@ -45287,6 +45297,8 @@
 							"collapsed": false
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_naplanparticipation;\r\n",
+							"\r\n",
 							"CREATE TEMP VIEW vw_naplanparticipation\r\n",
 							"as\r\n",
 							"select \r\n",
@@ -45335,6 +45347,8 @@
 							"collapsed": false
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_acerparticipation;\r\n",
+							"\r\n",
 							"CREATE TEMP VIEW vw_acerparticipation\r\n",
 							"as\r\n",
 							"select \r\n",
@@ -45393,6 +45407,8 @@
 							"collapsed": false
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_ae_manual_learningtasks;\r\n",
+							"\r\n",
 							"CREATE TEMP VIEW vw_ae_manual_learningtasks\r\n",
 							"as\r\n",
 							"\r\n",
@@ -45472,6 +45488,8 @@
 							"collapsed": false
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_ae_manual_semesterreports;\r\n",
+							"\r\n",
 							"CREATE TEMP VIEW vw_ae_manual_semesterreports\r\n",
 							"as\r\n",
 							"\r\n",
@@ -45524,6 +45542,8 @@
 							}
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_ods_studentclass;\r\n",
+							"\r\n",
 							"CREATE TEMP VIEW vw_ods_studentclass\r\n",
 							"as\r\n",
 							"\r\n",
@@ -45592,9 +45612,10 @@
 							}
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_ods_studentstable;\r\n",
+							"\r\n",
 							"CREATE TEMP VIEW vw_ods_studentstable\r\n",
 							"as\r\n",
-							"\r\n",
 							"\r\n",
 							"select\r\n",
 							"distinct ms.CompassPersonId as MS_CompassPersonID\r\n",
@@ -45648,6 +45669,8 @@
 							}
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_ae_manual_combined;\r\n",
+							"\r\n",
 							"CREATE TEMP VIEW vw_ae_manual_combined\r\n",
 							"as\r\n",
 							"\r\n",
@@ -45728,6 +45751,8 @@
 							}
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents;\r\n",
+							"\r\n",
 							"create temp view vw_ods_earlyyearsstudents\r\n",
 							"as\r\n",
 							"\r\n",
@@ -45886,6 +45911,8 @@
 							}
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_addedstaff;\r\n",
+							"\r\n",
 							"-- Manual entry of support staff (non teachers) that will be conducting tests\r\n",
 							"\r\n",
 							"create temp view vw_ods_earlyyearsstudents_addedstaff\r\n",
@@ -47976,7 +48003,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5abf46e0-0909-40c9-b10f-0976dd9edfc5"
+						"spark.autotune.trackingId": "6cd4b7ea-ebcc-4613-b07b-f170dee774e7"
 					}
 				},
 				"metadata": {
@@ -48239,7 +48266,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 15
 					},
 					{
 						"cell_type": "code",

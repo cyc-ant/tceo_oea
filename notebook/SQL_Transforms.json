@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "957e8cda-5ae6-417d-8b88-6649e01f9ec7"
+				"spark.autotune.trackingId": "63acceab-d3ba-489b-826d-418ec2f9e695"
 			}
 		},
 		"metadata": {
@@ -883,7 +883,7 @@
 					"      ,[StudentName]\r\n",
 					"      ,[ClassName]\r\n",
 					"      ,[ClassID]\r\n",
-					"      , 'janderson7@smmc.catholic.edu.au' as StaffEmail\r\n",
+					"      , 'janderson14@smptsv.catholic.edu.au' as StaffEmail\r\n",
 					"      ,[StudentEmail]\r\n",
 					"      ,trim([Ceider]) as Ceider\r\n",
 					"    from vw_ods_earlyyearsstudents\r\n",

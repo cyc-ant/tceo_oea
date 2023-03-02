@@ -44870,7 +44870,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "834e87e7-97dc-4607-bac1-b31309b01b7d"
+						"spark.autotune.trackingId": "fa98dd7f-f67e-4aa7-9356-f781ce1a1bf0"
 					}
 				},
 				"metadata": {
@@ -44895,7 +44895,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -45893,7 +45894,7 @@
 							"--Judy Anderson\r\n",
 							"\r\n",
 							"\r\n",
-							"select [Year]\r\n",
+							"select Year\r\n",
 							"      ,[YearLevel]\r\n",
 							"      ,[CampusID]\r\n",
 							"      ,[SchoolNameAndArea]\r\n",
@@ -47975,7 +47976,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a8846978-fe40-4fcb-86a9-c7561dd7e23d"
+						"spark.autotune.trackingId": "5abf46e0-0909-40c9-b10f-0976dd9edfc5"
 					}
 				},
 				"metadata": {
@@ -48000,8 +48001,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -48036,7 +48036,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -48055,7 +48055,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -48074,7 +48074,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -48103,7 +48103,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -48124,7 +48124,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -48167,7 +48167,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",

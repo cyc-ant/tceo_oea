@@ -44870,7 +44870,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "93119754-a8ea-436f-82a7-0968826318fe"
+						"spark.autotune.trackingId": "49045370-8fe2-4426-8c5e-5079a5d7a0ed"
 					}
 				},
 				"metadata": {
@@ -45626,7 +45626,7 @@
 							"  and IsCurrent = 'True'\r\n",
 							"  and DioceseId = 12\r\n",
 							"  and (ActivityCode like 'GEN%' or ActivityCode like 'PREP%')\r\n",
-							"  and year(cast(Start as datetime2)) = year(current_date)\r\n",
+							"  and year(Start) = year(current_date)\r\n",
 							"  and ManagingCompassPersonId <> '00000000-0000-0000-0000-000000000000'\r\n",
 							") instance \r\n",
 							"\r\n",
@@ -47955,7 +47955,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9654ca15-15e7-4217-8490-63757b561f8a"
+						"spark.autotune.trackingId": "e4130eca-daf4-420b-8906-9e6bb3bfd5c1"
 					}
 				},
 				"metadata": {
@@ -48015,7 +48015,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -48034,7 +48034,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -48053,7 +48053,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -48082,7 +48082,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 19
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -48103,7 +48103,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 20
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -48146,7 +48146,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": 6
 					},
 					{
 						"cell_type": "code",
@@ -48218,7 +48218,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",
@@ -48237,7 +48237,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 22
+						"execution_count": null
 					}
 				]
 			},

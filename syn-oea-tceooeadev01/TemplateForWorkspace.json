@@ -44870,7 +44870,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "07d25a15-c0bc-4dd0-bdfd-63fc4e9616fb"
+						"spark.autotune.trackingId": "93119754-a8ea-436f-82a7-0968826318fe"
 					}
 				},
 				"metadata": {
@@ -45704,7 +45704,7 @@
 							"\r\n",
 							"-- Get the School Names\r\n",
 							"(select SchoolId, SchoolNameAndArea\r\n",
-							"\tfrom [dbo].[DMCampus_pseudo]\r\n",
+							"\tfrom vw_dmcampus\r\n",
 							") campus\r\n",
 							"\r\n",
 							"on campus.SchoolId = instance.CampusId\r\n",

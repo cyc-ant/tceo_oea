@@ -30706,7 +30706,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e29fc5c5-f956-4158-b459-ba567ab70016"
+						"spark.autotune.trackingId": "915159b6-771b-4e1e-9d9d-42ec484f8029"
 					}
 				},
 				"metadata": {
@@ -30857,7 +30857,7 @@
 							"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones')"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -44870,7 +44870,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "db9c8a57-47b2-4ddd-b1e9-8baa7e648146"
+						"spark.autotune.trackingId": "7511eb48-9355-4e81-803c-6197d83c2848"
 					}
 				},
 				"metadata": {
@@ -45776,7 +45776,7 @@
 							"from\r\n",
 							"\r\n",
 							"-- Student Organisation Milestones\r\n",
-							"(select distinct CompassPersonId as StudentCompassPersonId, YearLevel, split(OrganisationName, '-')[0] as OrganisationName, CampusId\r\n",
+							"(select distinct CompassPersonId as StudentCompassPersonId, YearLevel, OrganisationName, CampusId\r\n",
 							"  from vw_CompassODSStudentOrganisationMilestones\r\n",
 							"  where 1=1\r\n",
 							"  and IsActive = 'True'\r\n",
@@ -45857,9 +45857,7 @@
 							"\r\n",
 							"on staffmilestone.StaffCompassPersonId = staffemail.TeacherCompassPersonId\r\n",
 							"and staffmilestone.OrganisationName = staffemail.OrganisationName\r\n",
-							"\r\n",
-							"-- compare the subdomain values from the OrganisationName and Teacher email \r\n",
-							"and staffemail.TeacherOrganisationUserEmail like concat('%', students.OrganisationName, '%')\r\n",
+							"and staffemail.OrganisationName like students.OrganisationName\r\n",
 							"\r\n",
 							"inner join -- inner join will remove students without demographic information\r\n",
 							"\r\n",
@@ -48003,7 +48001,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6da0323a-3f50-4f03-889f-6784fff2c5c2"
+						"spark.autotune.trackingId": "83f5661c-e0f2-46c1-8a6c-22d17c9c2cf8"
 					}
 				},
 				"metadata": {
@@ -48266,7 +48264,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 17
 					},
 					{
 						"cell_type": "code",
@@ -48285,7 +48283,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 18
 					}
 				]
 			},

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e29fc5c5-f956-4158-b459-ba567ab70016"
+				"spark.autotune.trackingId": "915159b6-771b-4e1e-9d9d-42ec484f8029"
 			}
 		},
 		"metadata": {
@@ -170,7 +170,7 @@
 					"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') \r\n",
 					"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones')"
 				],
-				"execution_count": 12
+				"execution_count": 2
 			},
 			{
 				"cell_type": "code",

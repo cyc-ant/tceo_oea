@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d615ecbc-13f1-439f-abf4-ad2fef941404"
+				"spark.autotune.trackingId": "d101a37b-a15f-4af5-a581-7a03e4c57ae6"
 			}
 		},
 		"metadata": {
@@ -912,7 +912,7 @@
 					"from\r\n",
 					"\r\n",
 					"-- Student Organisation Milestones\r\n",
-					"(select distinct CompassPersonId as StudentCompassPersonId, YearLevel, split(OrganisationName, '-')[0] as OrganisationName, CampusId\r\n",
+					"(select distinct CompassPersonId as StudentCompassPersonId, YearLevel, OrganisationName, CampusId\r\n",
 					"  from vw_CompassODSStudentOrganisationMilestones\r\n",
 					"  where 1=1\r\n",
 					"  and IsActive = 'True'\r\n",
@@ -993,9 +993,7 @@
 					"\r\n",
 					"on staffmilestone.StaffCompassPersonId = staffemail.TeacherCompassPersonId\r\n",
 					"and staffmilestone.OrganisationName = staffemail.OrganisationName\r\n",
-					"\r\n",
-					"-- compare the subdomain values from the OrganisationName and Teacher email \r\n",
-					"and staffemail.TeacherOrganisationUserEmail like concat('%', students.OrganisationName, '%')\r\n",
+					"and staffemail.OrganisationName like students.OrganisationName\r\n",
 					"\r\n",
 					"inner join -- inner join will remove students without demographic information\r\n",
 					"\r\n",

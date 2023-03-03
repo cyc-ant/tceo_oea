@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d101a37b-a15f-4af5-a581-7a03e4c57ae6"
+				"spark.autotune.trackingId": "4beea819-1d2c-43e6-bed7-308dd7e01fdc"
 			}
 		},
 		"metadata": {
@@ -1027,6 +1027,27 @@
 					") campus\r\n",
 					"\r\n",
 					"on campus.SchoolId = instance.CampusId"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"-- Create a student exceptions lists with students that are assigned to multiple 'General' type classes\r\n",
+					"\r\n",
+					"\r\n",
+					""
 				],
 				"execution_count": null
 			},

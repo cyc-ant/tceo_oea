@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "14972596-7819-4170-b8e9-61f65ccf196f"
+				"spark.autotune.trackingId": "aaf0739b-fdc5-45e5-9015-c42f7e8df9d5"
 			}
 		},
 		"metadata": {
@@ -121,9 +121,10 @@
 					"EYAnswers_df = spark.read.load(sourcep + \"/EarlyYearsAnswers/EarlyYearsAnswers_pseudo\", format='delta')\r\n",
 					"\r\n",
 					"# source tables from Stage3\r\n",
-					"EarlyYearsResults_df = spark.read.load(source3p + \"/pilot/EarlyYearsResults_pseudo\", format='delta')\r\n",
+					"EarlyYearsResultsWide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResults_pseudo\", format='delta')\r\n",
 					"EYResultsYear2_df = spark.read.load(source3p + \"/pilot/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
 					"EarlyYearsStudents_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents\", format='delta')\r\n",
+					"EarlyYearsStudents_ClassIDCleaned_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents_ClassIDCleaned\", format='delta')\r\n",
 					"\r\n",
 					""
 				],
@@ -216,9 +217,19 @@
 					}
 				},
 				"source": [
-					"# assign the correct class ID based on the early years students list\r\n",
+					"# assign the correct class ID based on the early years students list (Prep and Year 1)\r\n",
 					"\r\n",
-					""
+					"EarlyYearsResults_ClassUpdated_df = EarlyYearsResultsWide_df.withColumnRenamed(\"Ceider\", \"xCeider\")\\\r\n",
+					"                                                        .withColumnRenamed(\"Year\", \"xYear\")\\\r\n",
+					"                                                        .withColumnRenamed(\"ClassID\", \"xClassID\")\r\n",
+					"\r\n",
+					"EarlyYearsResults_ClassUpdated_df = EarlyYearsResults_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,  \r\n",
+					"                                                                                [col('Year') == col('xYear'),\r\n",
+					"                                                                                col('Ceider') == col('xCeider')],\r\n",
+					"                                                                                how='left'\r\n",
+					"                                                                            )\r\n",
+					"\r\n",
+					"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
 				"execution_count": null
 			},

@@ -20,15 +20,15 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b855f8b5-4feb-4125-9cdd-bbc67ec6c814"
+				"spark.autotune.trackingId": "a0350dc8-e0a7-4a5d-93b4-bf6da02ae2aa"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
 			"enableDebugMode": false,
 			"kernelspec": {
-				"name": "synapse_pyspark",
-				"display_name": "Synapse PySpark"
+				"name": "synapse_sparksql",
+				"display_name": "sql"
 			},
 			"language_info": {
 				"name": "sql"
@@ -1044,9 +1044,124 @@
 					}
 				},
 				"source": [
+					"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_exceptions\r\n",
+					"\r\n",
 					"-- Create a student exceptions lists with students that are assigned to multiple 'General' type classes\r\n",
 					"\r\n",
+					"create temp view vw_ods_earlyyearsstudents_exceptions\r\n",
+					"as\r\n",
 					"\r\n",
+					"select \r\n",
+					"    Year\r\n",
+					"    ,YearLevel\r\n",
+					"    ,CampusID\r\n",
+					"    ,SchoolNameAndArea\r\n",
+					"    ,Ceider\r\n",
+					"    ,StudentName\r\n",
+					"    ,TeacherName\r\n",
+					"    ,ClassID\r\n",
+					"\r\n",
+					"from vw_ods_earlyyearsstudents\r\n",
+					"\r\n",
+					"where Ceider in (\r\n",
+					"\r\n",
+					"  select Ceider\r\n",
+					"  from\r\n",
+					"\r\n",
+					"  (\r\n",
+					"\t  select distinct year, ceider, classid\r\n",
+					"\t  FROM vw_ods_earlyyearsstudents\r\n",
+					"  ) a\r\n",
+					"\r\n",
+					"  group by year, ceider\r\n",
+					"  having count(*) > 1\r\n",
+					"\r\n",
+					")"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_cleaned\r\n",
+					"\r\n",
+					"-- Remove the students exceptions (where a student is listed multiple times)\r\n",
+					"\r\n",
+					"create temp view vw_ods_earlyyearsstudents_cleaned\r\n",
+					"as\r\n",
+					"\r\n",
+					"select \r\n",
+					"    Year\r\n",
+					"    ,YearLevel\r\n",
+					"    ,CampusID\r\n",
+					"    ,SchoolNameAndArea\r\n",
+					"    ,TeacherID\r\n",
+					"    ,TeacherName\r\n",
+					"    ,StudentID\r\n",
+					"    ,StudentName\r\n",
+					"    ,ClassName\r\n",
+					"    ,ClassID\r\n",
+					"    ,StaffEmail\r\n",
+					"    ,StudentEmail\r\n",
+					"    ,Ceider\r\n",
+					"\r\n",
+					"from vw_ods_earlyyearsstudents\r\n",
+					"\r\n",
+					"where Ceider NOT IN (\r\n",
+					"\r\n",
+					"  select Ceider\r\n",
+					"  from\r\n",
+					"\r\n",
+					"  (\r\n",
+					"\t  select distinct year, ceider, classid\r\n",
+					"\t  FROM vw_ods_earlyyearsstudents\r\n",
+					"  ) allceiders\r\n",
+					"\r\n",
+					"  group by year, ceider\r\n",
+					"  having count(*) > 1\r\n",
+					"\r\n",
+					")"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"DROP VIEW IF EXISTS vw_ods_earlyyearsstudentsclassid_cleaned\r\n",
+					"\r\n",
+					"-- create a clean student list that lists the correct classid for each student\r\n",
+					"\r\n",
+					"create temp view vw_ods_earlyyearsstudentsclassid_cleaned\r\n",
+					"as\r\n",
+					"\r\n",
+					"select distinct \r\n",
+					"    Year\r\n",
+					"    ,Ceider\r\n",
+					"    ,ClassID\r\n",
+					"\r\n",
+					"from vw_ods_earlyyearsstudents_cleaned\r\n",
 					""
 				],
 				"execution_count": null
@@ -1350,11 +1465,14 @@
 					"ae_manual_semesterreports_df = spark.read.table('vw_ae_manual_semesterreports')\r\n",
 					"\r\n",
 					"ods_studentclass_df = spark.read.table('vw_ods_studentclass')\r\n",
-					"ods_earlyyearsstudents_df = spark.read.table('vw_ods_earlyyearsstudents_addedstaff')\r\n",
 					"ods_studentstable_df = spark.read.table('vw_ods_studentstable')\r\n",
+					"ods_earlyyearsstudents_df = spark.read.table('vw_ods_earlyyearsstudents_addedstaff')\r\n",
+					"ods_earlyyearsstudents_exceptions_df = spark.read.table('vw_ods_earlyyearsstudents_exceptions')\r\n",
+					"\r\n",
+					"ods_earlyyearsstudents_classidcleaned_df = spark.read.table('vw_ods_earlyyearsstudentsclassid_cleaned')\r\n",
+					"\r\n",
 					"\r\n",
 					"ae_manual_combined_df = spark.read.table('vw_ae_manual_combined')\r\n",
-					"\r\n",
 					"\r\n",
 					"saveToTarget(classenrolment_df, destination_p, f'{version}/_DMClassEnrolment')\r\n",
 					"saveToTarget(activestudent_df, destination_p, f'{version}/_FACTActiveStudent')\r\n",
@@ -1369,8 +1487,11 @@
 					"saveToTarget(ae_manual_semesterreports_df, destination_p, f'{version}/_FACTAESemesterReports')\r\n",
 					"\r\n",
 					"saveToTarget(ods_studentclass_df, destination_p, f'{version}/_FACTODSStudentClass')\r\n",
-					"saveToTarget(ods_earlyyearsstudents_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents')\r\n",
 					"saveToTarget(ods_studentstable_df, destination_p, f'{version}/_FACTODSStudentsTable')\r\n",
+					"saveToTarget(ods_earlyyearsstudents_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents')\r\n",
+					"saveToTarget(ods_earlyyearsstudents_exceptions_df, destination_p, f'{version}/_FACTODSEarlyYearsStudentsExceptions')\r\n",
+					"\r\n",
+					"saveToTarget(ods_earlyyearsstudents_classidcleaned_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents_ClassIDCleaned')\r\n",
 					"\r\n",
 					"saveToTarget(ae_manual_combined_df, destination_p, f'{version}/_FACTAECombined')\r\n",
 					""

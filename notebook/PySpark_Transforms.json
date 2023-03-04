@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "aaf0739b-fdc5-45e5-9015-c42f7e8df9d5"
+				"spark.autotune.trackingId": "3fa810e8-2ddc-4361-aa86-66cbde23210a"
 			}
 		},
 		"metadata": {
@@ -373,7 +373,7 @@
 				"source": [
 					"# wide to long conversion\r\n",
 					"\r\n",
-					"df = EYResultsYear2Cleaned_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassID', 'QuestionType', 'Status', 'StudentEmailID', 'StudentName', 'TeacherEmailID', 'TeacherName', 'Year', 'YearLevel', 'TestLevel'],\r\n",
+					"df = EYResultsYear2_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassID', 'QuestionType', 'Status', 'StudentEmailID', 'StudentName', 'TeacherEmailID', 'TeacherName', 'Year', 'YearLevel', 'TestLevel'],\r\n",
 					"                                            value_vars=['Ques1', 'Ques2', 'Ques3', 'Ques4', 'Ques5', 'Ques6', 'Ques7', 'Ques8', 'Ques9', 'Ques10',\r\n",
 					"                                                        'Ques11', 'Ques12', 'Ques13', 'Ques14', 'Ques15', 'Ques16', 'Ques17', 'Ques18', 'Ques19', 'Ques20',\r\n",
 					"                                                        'Ques21', 'Ques22', 'Ques23', 'Ques24', 'Ques25'],\r\n",

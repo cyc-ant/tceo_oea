@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e75975af-558e-4e4a-9bfe-92fcc1b8a37b"
+				"spark.autotune.trackingId": "e558acb2-e8e7-4818-b629-1de170d18c9b"
 			}
 		},
 		"metadata": {
@@ -122,7 +122,7 @@
 					"\r\n",
 					"# source tables from Stage3\r\n",
 					"EarlyYearsResultsWide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResults_pseudo\", format='delta')\r\n",
-					"EYResultsYear2_df = spark.read.load(source3p + \"/pilot/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
+					"EYResultsYear2Wide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
 					"EarlyYearsStudents_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents\", format='delta')\r\n",
 					"EarlyYearsStudents_ClassIDCleaned_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents_ClassIDCleaned\", format='delta')\r\n",
 					"\r\n",
@@ -197,9 +197,23 @@
 					}
 				},
 				"source": [
-					"# remove the test rows\r\n",
+					"# remove the test rows from the year 2 data\r\n",
 					"EYResultsYear2_df = EYResultsYear2_df.filter(EYResultsYear2_df.Ceider != 12345)\r\n",
-					"EYResultsYear2_df = EYResultsYear2_df.filter(EYResultsYear2_df.Ceider != 111111)"
+					"EYResultsYear2_df = EYResultsYear2_df.filter(EYResultsYear2_df.Ceider != 111111)\r\n",
+					"\r\n",
+					"# assign the correct class ID from the latest students list (Year 2)\r\n",
+					"\r\n",
+					"EYResultsYear2_ClassUpdated_df = EYResultsYear2Wide_df.withColumnRenamed(\"Ceider\", \"xCeider\")\\\r\n",
+					"                                                        .withColumnRenamed(\"Year\", \"xYear\")\\\r\n",
+					"                                                        .withColumnRenamed(\"ClassID\", \"xClassID\")\r\n",
+					"\r\n",
+					"EYResultsYear2_ClassUpdated_df = EYResultsYear2_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,\r\n",
+					"                                                                            [col('Year') == col('xYear'),\r\n",
+					"                                                                                col('Ceider') == col('xCeider')],\r\n",
+					"                                                                                how='left'\r\n",
+					"                                                                            )\r\n",
+					"\r\n",
+					"EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
 				"execution_count": 4
 			},
@@ -371,7 +385,7 @@
 					"collapsed": false
 				},
 				"source": [
-					"# wide to long conversion\r\n",
+					"# wide to long conversion for year 2 and auto marker\r\n",
 					"\r\n",
 					"df = EYResultsYear2_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassId', 'QuestionType', 'Status', 'StudentEmailID', 'StudentName', 'TeacherEmailID', 'TeacherName', 'Year', 'YearLevel', 'TestLevel'],\r\n",
 					"                                            value_vars=['Ques1', 'Ques2', 'Ques3', 'Ques4', 'Ques5', 'Ques6', 'Ques7', 'Ques8', 'Ques9', 'Ques10',\r\n",
@@ -382,6 +396,7 @@
 					"\r\n",
 					"EYResultsYear2Long_df = df.to_spark()\r\n",
 					"\r\n",
+					"# extract the numeral from the Ques## column names\r\n",
 					"EYResultsYear2Long_df = EYResultsYear2Long_df.withColumn(\"Question\", substring(\"Question\", 5, len(\"Question\")-4))\r\n",
 					"\r\n",
 					"\r\n",

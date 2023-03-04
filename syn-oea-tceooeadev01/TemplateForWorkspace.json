@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0837439e-1fba-4d87-93b0-891954d13f25"
+						"spark.autotune.trackingId": "aaf0739b-fdc5-45e5-9015-c42f7e8df9d5"
 					}
 				},
 				"metadata": {
@@ -30181,8 +30181,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -44839,7 +44838,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a0350dc8-e0a7-4a5d-93b4-bf6da02ae2aa"
+						"spark.autotune.trackingId": "b0396065-6125-4f75-b7e3-cc41e419e790"
 					}
 				},
 				"metadata": {
@@ -44864,7 +44863,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -45877,7 +45877,7 @@
 							}
 						},
 						"source": [
-							"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_exceptions\r\n",
+							"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_exceptions;\r\n",
 							"\r\n",
 							"-- Create a student exceptions lists with students that are assigned to multiple 'General' type classes\r\n",
 							"\r\n",
@@ -45928,7 +45928,7 @@
 							}
 						},
 						"source": [
-							"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_cleaned\r\n",
+							"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_cleaned;\r\n",
 							"\r\n",
 							"-- Remove the students exceptions (where a student is listed multiple times)\r\n",
 							"\r\n",
@@ -45984,7 +45984,7 @@
 							}
 						},
 						"source": [
-							"DROP VIEW IF EXISTS vw_ods_earlyyearsstudentsclassid_cleaned\r\n",
+							"DROP VIEW IF EXISTS vw_ods_earlyyearsstudentsclassid_cleaned;\r\n",
 							"\r\n",
 							"-- create a clean student list that lists the correct classid for each student\r\n",
 							"\r\n",

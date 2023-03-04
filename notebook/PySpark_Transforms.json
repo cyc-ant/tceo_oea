@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3fa810e8-2ddc-4361-aa86-66cbde23210a"
+				"spark.autotune.trackingId": "e75975af-558e-4e4a-9bfe-92fcc1b8a37b"
 			}
 		},
 		"metadata": {
@@ -97,7 +97,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 3
+				"execution_count": 1
 			},
 			{
 				"cell_type": "code",
@@ -128,7 +128,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 5
+				"execution_count": 3
 			},
 			{
 				"cell_type": "markdown",
@@ -201,7 +201,7 @@
 					"EYResultsYear2_df = EYResultsYear2_df.filter(EYResultsYear2_df.Ceider != 12345)\r\n",
 					"EYResultsYear2_df = EYResultsYear2_df.filter(EYResultsYear2_df.Ceider != 111111)"
 				],
-				"execution_count": null
+				"execution_count": 4
 			},
 			{
 				"cell_type": "code",
@@ -231,7 +231,7 @@
 					"\r\n",
 					"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
-				"execution_count": null
+				"execution_count": 5
 			},
 			{
 				"cell_type": "code",
@@ -297,7 +297,7 @@
 					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
 					""
 				],
-				"execution_count": 7
+				"execution_count": 6
 			},
 			{
 				"cell_type": "code",
@@ -327,7 +327,7 @@
 					"EarlyYearsResultsLong_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 8
+				"execution_count": 7
 			},
 			{
 				"cell_type": "code",
@@ -354,7 +354,7 @@
 					"EYAnswers_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 9
+				"execution_count": 8
 			},
 			{
 				"cell_type": "code",
@@ -373,7 +373,7 @@
 				"source": [
 					"# wide to long conversion\r\n",
 					"\r\n",
-					"df = EYResultsYear2_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassID', 'QuestionType', 'Status', 'StudentEmailID', 'StudentName', 'TeacherEmailID', 'TeacherName', 'Year', 'YearLevel', 'TestLevel'],\r\n",
+					"df = EYResultsYear2_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassId', 'QuestionType', 'Status', 'StudentEmailID', 'StudentName', 'TeacherEmailID', 'TeacherName', 'Year', 'YearLevel', 'TestLevel'],\r\n",
 					"                                            value_vars=['Ques1', 'Ques2', 'Ques3', 'Ques4', 'Ques5', 'Ques6', 'Ques7', 'Ques8', 'Ques9', 'Ques10',\r\n",
 					"                                                        'Ques11', 'Ques12', 'Ques13', 'Ques14', 'Ques15', 'Ques16', 'Ques17', 'Ques18', 'Ques19', 'Ques20',\r\n",
 					"                                                        'Ques21', 'Ques22', 'Ques23', 'Ques24', 'Ques25'],\r\n",

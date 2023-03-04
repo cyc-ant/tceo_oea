@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a0350dc8-e0a7-4a5d-93b4-bf6da02ae2aa"
+				"spark.autotune.trackingId": "94078765-6cee-40f1-a467-080e21544717"
 			}
 		},
 		"metadata": {
@@ -1044,7 +1044,7 @@
 					}
 				},
 				"source": [
-					"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_exceptions\r\n",
+					"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_exceptions;\r\n",
 					"\r\n",
 					"-- Create a student exceptions lists with students that are assigned to multiple 'General' type classes\r\n",
 					"\r\n",
@@ -1094,7 +1094,7 @@
 					}
 				},
 				"source": [
-					"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_cleaned\r\n",
+					"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_cleaned;\r\n",
 					"\r\n",
 					"-- Remove the students exceptions (where a student is listed multiple times)\r\n",
 					"\r\n",
@@ -1149,7 +1149,7 @@
 					}
 				},
 				"source": [
-					"DROP VIEW IF EXISTS vw_ods_earlyyearsstudentsclassid_cleaned\r\n",
+					"DROP VIEW IF EXISTS vw_ods_earlyyearsstudentsclassid_cleaned;\r\n",
 					"\r\n",
 					"-- create a clean student list that lists the correct classid for each student\r\n",
 					"\r\n",

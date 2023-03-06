@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e558acb2-e8e7-4818-b629-1de170d18c9b"
+				"spark.autotune.trackingId": "f7f14df7-0915-44a9-979e-49571f99efb7"
 			}
 		},
 		"metadata": {
@@ -93,11 +93,11 @@
 					}
 				},
 				"source": [
-					"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower\r\n",
+					"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit\r\n",
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 1
+				"execution_count": 33
 			},
 			{
 				"cell_type": "code",
@@ -128,7 +128,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 3
+				"execution_count": 34
 			},
 			{
 				"cell_type": "markdown",
@@ -181,7 +181,7 @@
 					"DMStudentDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Student\"))\r\n",
 					"DMStaffDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Staff\"))"
 				],
-				"execution_count": null
+				"execution_count": 35
 			},
 			{
 				"cell_type": "code",
@@ -198,8 +198,8 @@
 				},
 				"source": [
 					"# remove the test rows from the year 2 data\r\n",
-					"EYResultsYear2_df = EYResultsYear2_df.filter(EYResultsYear2_df.Ceider != 12345)\r\n",
-					"EYResultsYear2_df = EYResultsYear2_df.filter(EYResultsYear2_df.Ceider != 111111)\r\n",
+					"EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 12345)\r\n",
+					"EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 111111)\r\n",
 					"\r\n",
 					"# assign the correct class ID from the latest students list (Year 2)\r\n",
 					"\r\n",
@@ -215,7 +215,7 @@
 					"\r\n",
 					"EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
-				"execution_count": 4
+				"execution_count": 36
 			},
 			{
 				"cell_type": "code",
@@ -245,7 +245,7 @@
 					"\r\n",
 					"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
-				"execution_count": 5
+				"execution_count": 37
 			},
 			{
 				"cell_type": "code",
@@ -311,7 +311,7 @@
 					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
 					""
 				],
-				"execution_count": 6
+				"execution_count": 38
 			},
 			{
 				"cell_type": "code",
@@ -341,7 +341,30 @@
 					"EarlyYearsResultsLong_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 7
+				"execution_count": 39
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"# extract the numeral from the Ques## column names\r\n",
+					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"Question\", substring(\"Question\", 5, len(\"Question\")-4))\r\n",
+					"\r\n",
+					"# Create SKQID to uniquely identify the different year levels (Prep and Year 1)\r\n",
+					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"SKQID\", concat_ws(\"-\", col('YearLevel'), col('Question')))"
+				],
+				"execution_count": 40
 			},
 			{
 				"cell_type": "code",
@@ -368,7 +391,7 @@
 					"EYAnswers_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 8
+				"execution_count": 41
 			},
 			{
 				"cell_type": "code",
@@ -387,7 +410,7 @@
 				"source": [
 					"# wide to long conversion for year 2 and auto marker\r\n",
 					"\r\n",
-					"df = EYResultsYear2_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassId', 'QuestionType', 'Status', 'StudentEmailID', 'StudentName', 'TeacherEmailID', 'TeacherName', 'Year', 'YearLevel', 'TestLevel'],\r\n",
+					"df = EYResultsYear2_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassID', 'QuestionType', 'Status', 'StudentEmailID', 'StudentName', 'TeacherEmailID', 'TeacherName', 'Year', 'YearLevel', 'TestLevel'],\r\n",
 					"                                            value_vars=['Ques1', 'Ques2', 'Ques3', 'Ques4', 'Ques5', 'Ques6', 'Ques7', 'Ques8', 'Ques9', 'Ques10',\r\n",
 					"                                                        'Ques11', 'Ques12', 'Ques13', 'Ques14', 'Ques15', 'Ques16', 'Ques17', 'Ques18', 'Ques19', 'Ques20',\r\n",
 					"                                                        'Ques21', 'Ques22', 'Ques23', 'Ques24', 'Ques25'],\r\n",
@@ -412,7 +435,31 @@
 					"EYResultsYear2LongFinal_df = joinedcleaned_df.withColumn('Result', when(trim(lower(joinedcleaned_df.StudentAnswer)) == trim(lower(joinedcleaned_df.Answer)), 1).otherwise(0))\r\n",
 					""
 				],
-				"execution_count": 11
+				"execution_count": 42
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"# create the SKQID to uniquely identify between literacy and numeracy test results\r\n",
+					"EYResultsYear2LongFinal_df = EYResultsYear2LongFinal_df.withColumn('SKQID', when(EYResultsYear2LongFinal_df['QuestionType'] == \"Literacy\", \r\n",
+					"                                                                                concat_ws(\"-\", col('YearLevel'), col('Question'), lit(\"Lit\")))\\\r\n",
+					"                                                                                .otherwise(concat_ws(\"-\", col('YearLevel'), col('Question'), lit(\"Num\")))\r\n",
+					"                                                                    )\r\n",
+					""
+				],
+				"execution_count": 43
 			},
 			{
 				"cell_type": "code",
@@ -473,7 +520,7 @@
 					"\r\n",
 					"#display(EarlyYearsResultsTotalsYear2Joined_df)"
 				],
-				"execution_count": 64
+				"execution_count": 44
 			},
 			{
 				"cell_type": "markdown",
@@ -513,7 +560,7 @@
 					"\r\n",
 					"saveToTarget(EarlyYearsResultsTotalsYear2Joined_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Joined_pseudo')"
 				],
-				"execution_count": 42
+				"execution_count": 45
 			}
 		]
 	}

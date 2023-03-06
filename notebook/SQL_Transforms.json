@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "94078765-6cee-40f1-a467-080e21544717"
+				"spark.autotune.trackingId": "d8bc7bae-dc6a-4650-8873-1f3b2fbf88eb"
 			}
 		},
 		"metadata": {
@@ -1242,8 +1242,6 @@
 					"                            ,'a676b0d7-9069-4ffc-9cf2-3199083fe89f'\r\n",
 					"\t\t\t\t\t\t)\r\n",
 					"\r\n",
-					"\tand ClassID = 'GEN1_01'\r\n",
-					"\r\n",
 					"union\r\n",
 					"\r\n",
 					"--Catherine Roberts\r\n",
@@ -1298,8 +1296,6 @@
 					"                            ,'4e89c64e-69bc-4756-b929-2b47e376151e'\r\n",
 					"                            ,'a676b0d7-9069-4ffc-9cf2-3199083fe89f'\r\n",
 					"\t\t\t\t\t\t)\r\n",
-					"\r\n",
-					"\tand ClassID = 'GEN1_01'\r\n",
 					"\r\n",
 					"union\r\n",
 					"\r\n",

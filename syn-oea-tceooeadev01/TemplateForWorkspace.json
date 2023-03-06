@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e12ad6b7-f8ca-4162-bc25-f4960b048942"
+						"spark.autotune.trackingId": "e558acb2-e8e7-4818-b629-1de170d18c9b"
 					}
 				},
 				"metadata": {
@@ -30181,8 +30181,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -44854,7 +44853,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "94078765-6cee-40f1-a467-080e21544717"
+						"spark.autotune.trackingId": "29761338-eeba-4130-a33d-2cd452e61669"
 					}
 				},
 				"metadata": {
@@ -44879,7 +44878,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -46093,8 +46093,6 @@
 							"                            ,'a676b0d7-9069-4ffc-9cf2-3199083fe89f'\r\n",
 							"\t\t\t\t\t\t)\r\n",
 							"\r\n",
-							"\tand ClassID = 'GEN1_01'\r\n",
-							"\r\n",
 							"union\r\n",
 							"\r\n",
 							"--Catherine Roberts\r\n",
@@ -46149,8 +46147,6 @@
 							"                            ,'4e89c64e-69bc-4756-b929-2b47e376151e'\r\n",
 							"                            ,'a676b0d7-9069-4ffc-9cf2-3199083fe89f'\r\n",
 							"\t\t\t\t\t\t)\r\n",
-							"\r\n",
-							"\tand ClassID = 'GEN1_01'\r\n",
 							"\r\n",
 							"union\r\n",
 							"\r\n",

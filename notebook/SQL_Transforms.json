@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d8bc7bae-dc6a-4650-8873-1f3b2fbf88eb"
+				"spark.autotune.trackingId": "d002d305-b113-4fcf-8bfe-f7d4041c0bb0"
 			}
 		},
 		"metadata": {
@@ -1160,9 +1160,51 @@
 					"    Year\r\n",
 					"    ,Ceider\r\n",
 					"    ,ClassID\r\n",
+					"    ,ClassName\r\n",
 					"\r\n",
-					"from vw_ods_earlyyearsstudents_cleaned\r\n",
+					"from vw_ods_earlyyearsstudents_cleaned \r\n",
 					""
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"DROP VIEW IF EXISTS vw_ods_earlyyearsstudentsclassid_updated;\r\n",
+					"\r\n",
+					"create temp view vw_ods_earlyyearsstudentsclassid_updated\r\n",
+					"AS\r\n",
+					"\r\n",
+					"select \r\n",
+					"    e.Year\r\n",
+					"    ,e.YearLevel\r\n",
+					"    ,e.CampusID\r\n",
+					"    ,e.SchoolNameAndArea\r\n",
+					"    ,e.TeacherID\r\n",
+					"    ,e.TeacherName\r\n",
+					"    ,e.StudentID\r\n",
+					"    ,e.StudentName\r\n",
+					"    ,eclean.ClassName\r\n",
+					"    ,eclean.ClassID\r\n",
+					"    ,e.StaffEmail\r\n",
+					"    ,e.StudentEmail\r\n",
+					"    ,e.Ceider\r\n",
+					"\r\n",
+					"from vw_ods_earlyyearsstudents e\r\n",
+					"left join vw_ods_earlyyearsstudents_cleaned eclean \r\n",
+					"on e.Year = eclean.Year\r\n",
+					"and e.Ceider = eclean.Ceider"
 				],
 				"execution_count": null
 			},
@@ -1203,7 +1245,7 @@
 					"      , 'janderson14@smptsv.catholic.edu.au' as StaffEmail\r\n",
 					"      ,StudentEmail\r\n",
 					"      ,trim(Ceider) as Ceider\r\n",
-					"    from vw_ods_earlyyearsstudents\r\n",
+					"    from vw_ods_earlyyearsstudentsclassid_updated\r\n",
 					"    where StudentID in ('10c6afff-6372-4dc4-9628-f3fbbc75ed46'\r\n",
 					"                            ,'2cc0a46f-f1b4-4057-aedd-5c9c5fac1454'\r\n",
 					"                            ,'511b1e50-b3c7-416e-9bb1-9573748ac6c5'\r\n",
@@ -1258,7 +1300,7 @@
 					"      , 'croberts1@smptsv.catholic.edu.au' as StaffEmail\r\n",
 					"      ,StudentEmail\r\n",
 					"      ,trim(Ceider) as Ceider\r\n",
-					"    from vw_ods_earlyyearsstudents\r\n",
+					"    from vw_ods_earlyyearsstudentsclassid_updated\r\n",
 					"    where StudentID in ('10c6afff-6372-4dc4-9628-f3fbbc75ed46'\r\n",
 					"                            ,'2cc0a46f-f1b4-4057-aedd-5c9c5fac1454'\r\n",
 					"                            ,'511b1e50-b3c7-416e-9bb1-9573748ac6c5'\r\n",
@@ -1315,7 +1357,7 @@
 					"      , 'kwalls1@skmtsv.catholic.edu.au' as StaffEmail\r\n",
 					"      ,StudentEmail\r\n",
 					"      ,trim(Ceider) as Ceider\r\n",
-					"    from vw_ods_earlyyearsstudents\r\n",
+					"    from vw_ods_earlyyearsstudentsclassid_updated\r\n",
 					"    where StudentID in ('9c4fe11b-7e9c-4a7b-bcf6-2a14223106a5'\r\n",
 					"\t\t\t\t\t\t\t,'336781db-99a2-4f35-aeae-73df3cf4d37a'\r\n",
 					"\t\t\t\t\t\t\t,'a79cecfd-5ec0-43ad-9fb8-8fc0bae6c19d'\r\n",
@@ -1348,7 +1390,7 @@
 					"      , 'msiemer1@skmtsv.catholic.edu.au' as StaffEmail\r\n",
 					"      ,StudentEmail\r\n",
 					"      ,trim(Ceider) as Ceider\r\n",
-					"    from vw_ods_earlyyearsstudents\r\n",
+					"    from vw_ods_earlyyearsstudentsclassid_updated\r\n",
 					"    where StudentID in ('33b862b4-1016-4dcf-8181-052a25389ffb'\r\n",
 					"\t\t\t\t\t\t\t,'ca97eefc-e2d7-4fbd-a356-47c4a0c0efe7'\r\n",
 					"\t\t\t\t\t\t\t,'c221b2d9-ef5d-492f-ab39-7412c6dd9bd2'\r\n",
@@ -1382,7 +1424,7 @@
 					"      , 'ehiscox@prspne.catholic.edu.au' as StaffEmail\r\n",
 					"      ,StudentEmail\r\n",
 					"      ,trim(Ceider) as Ceider\r\n",
-					"    from vw_ods_earlyyearsstudents\r\n",
+					"    from vw_ods_earlyyearsstudentsclassid_updated\r\n",
 					"    where StudentID in ('06fefe55-1b6e-4178-ac25-b15dd8559b33'\r\n",
 					"\t\t\t\t\t\t,'0d042b52-ec58-408c-a95d-b435df327e2e'\r\n",
 					"\t\t\t\t\t\t,'1931105a-1169-4ebd-a5c5-5080e977a4ef'\r\n",
@@ -1412,7 +1454,7 @@
 					"union\r\n",
 					"\r\n",
 					"select *\r\n",
-					"    from vw_ods_earlyyearsstudents"
+					"    from vw_ods_earlyyearsstudentsclassid_updated"
 				],
 				"execution_count": null
 			},

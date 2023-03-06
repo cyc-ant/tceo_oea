@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a89f2c83-0955-471b-ad99-bb9340ec7e5d"
+				"spark.autotune.trackingId": "1d4f5190-b4a7-4a6d-9814-037eba573d3b"
 			}
 		},
 		"metadata": {
@@ -283,7 +283,7 @@
 					"                                                                                                                EarlyYearsResults_df.Ques17+\r\n",
 					"                                                                                                                EarlyYearsResults_df.Ques18+\r\n",
 					"                                                                                                                EarlyYearsResults_df.Ques19+\r\n",
-					"                                                                                                                EarlyYearsResults_df.Ques20).alias(\"NumericTotal\"), \r\n",
+					"                                                                                                                EarlyYearsResults_df.Ques20).alias(\"NumeracyTotal\"), \r\n",
 					"                                                                                                                sum(EarlyYearsResults_df.Ques21+\r\n",
 					"                                                                                                                EarlyYearsResults_df.Ques22+\r\n",
 					"                                                                                                                EarlyYearsResults_df.Ques23+\r\n",
@@ -306,7 +306,7 @@
 					"                                                                                                                EarlyYearsResults_df.Ques40).alias(\"LiteracyTotal\"))\r\n",
 					"\r\n",
 					"\r\n",
-					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"NumeracyPercentile\", percent_rank().over(Window.orderBy(\"NumericTotal\")))\r\n",
+					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"NumeracyPercentile\", percent_rank().over(Window.orderBy(\"NumeracyTotal\")))\r\n",
 					"\r\n",
 					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
 					""
@@ -516,11 +516,30 @@
 					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"NumeracyPercentile\", percent_rank().over(Window.orderBy(\"NumeracyTotal\")))\r\n",
 					"\r\n",
 					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
-					"\r\n",
-					"\r\n",
-					"#display(EarlyYearsResultsTotalsYear2Joined_df)"
+					""
 				],
 				"execution_count": 44
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# join the prep/year 1 and year 2 totals table together (union)\r\n",
+					"\r\n",
+					"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsYear2Joined_df.union(EarlyYearsResultsTotals_df)\r\n",
+					""
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "markdown",
@@ -551,14 +570,14 @@
 				"source": [
 					"saveToTarget(DMStudentDemographic_df, destination_p, f'{version}/DMStudentDemographic_pseudo')\r\n",
 					"saveToTarget(DMStaffDemographic_df, destination_p, f'{version}/DMStaffDemographic_pseudo')\r\n",
-					"saveToTarget(EarlyYearsResultsTotals_df, destination_p, f'{version}/EarlyYearsResultsTotals_pseudo')\r\n",
+					"\r\n",
 					"saveToTarget(EarlyYearsResultsLong_df, destination_p, f'{version}/EarlyYearsResultsLong_pseudo')\r\n",
+					"saveToTarget(EarlyYearsResultsTotals_df, destination_p, f'{version}/EarlyYearsResultsTotals_pseudo')\r\n",
+					"\r\n",
 					"saveToTarget(EYResultsYear2LongFinal_df, destination_p, f'{version}/EarlyYearsResultsYear2Long_pseudo')\r\n",
+					"saveToTarget(EarlyYearsResultsTotalsYear2Joined_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Joined_pseudo')\r\n",
 					"\r\n",
-					"#saveToTarget(EarlyYearsResultsTotalsYear2Numeracy_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Numeracy_pseudo')\r\n",
-					"#saveToTarget(EarlyYearsResultsTotalsYear2Literacy_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Literacy_pseudo')\r\n",
-					"\r\n",
-					"saveToTarget(EarlyYearsResultsTotalsYear2Joined_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Joined_pseudo')"
+					"saveToTarget(EarlyYearsResultsTotalsCombined_df, destination_p, f'{version}/EarlyYearsResultsTotalsCombinedYears_pseudo')"
 				],
 				"execution_count": 45
 			}

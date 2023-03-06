@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "f732fbf1-7396-4e4e-872d-da14be734432"
+				"spark.autotune.trackingId": "a89f2c83-0955-471b-ad99-bb9340ec7e5d"
 			}
 		},
 		"metadata": {
@@ -97,7 +97,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 33
+				"execution_count": 46
 			},
 			{
 				"cell_type": "code",
@@ -128,7 +128,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 34
+				"execution_count": 48
 			},
 			{
 				"cell_type": "markdown",
@@ -215,7 +215,7 @@
 					"\r\n",
 					"EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
-				"execution_count": 36
+				"execution_count": 49
 			},
 			{
 				"cell_type": "code",
@@ -245,7 +245,7 @@
 					"\r\n",
 					"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
-				"execution_count": 37
+				"execution_count": 50
 			},
 			{
 				"cell_type": "code",
@@ -311,7 +311,7 @@
 					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
 					""
 				],
-				"execution_count": 38
+				"execution_count": 51
 			},
 			{
 				"cell_type": "code",
@@ -341,7 +341,7 @@
 					"EarlyYearsResultsLong_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 39
+				"execution_count": 52
 			},
 			{
 				"cell_type": "code",
@@ -364,7 +364,7 @@
 					"# Create SKQID to uniquely identify the different year levels (Prep and Year 1)\r\n",
 					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"SKQID\", concat_ws(\"-\", col('YearLevel'), col('Question')))"
 				],
-				"execution_count": 40
+				"execution_count": 53
 			},
 			{
 				"cell_type": "code",
@@ -391,7 +391,7 @@
 					"EYAnswers_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 41
+				"execution_count": 55
 			},
 			{
 				"cell_type": "code",
@@ -435,7 +435,7 @@
 					"EYResultsYear2LongFinal_df = joinedcleaned_df.withColumn('Result', when(trim(lower(joinedcleaned_df.StudentAnswer)) == trim(lower(joinedcleaned_df.Answer)), 1).otherwise(0))\r\n",
 					""
 				],
-				"execution_count": 42
+				"execution_count": 56
 			},
 			{
 				"cell_type": "code",
@@ -459,7 +459,7 @@
 					"                                                                    )\r\n",
 					""
 				],
-				"execution_count": 43
+				"execution_count": 57
 			},
 			{
 				"cell_type": "code",

@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f732fbf1-7396-4e4e-872d-da14be734432"
+						"spark.autotune.trackingId": "e04b61a0-9565-42a4-90e8-418f09f89297"
 					}
 				},
 				"metadata": {
@@ -30181,7 +30181,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -30233,7 +30234,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 33
+						"execution_count": 46
 					},
 					{
 						"cell_type": "code",
@@ -30265,7 +30266,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 34
+						"execution_count": 48
 					},
 					{
 						"cell_type": "markdown",
@@ -30354,7 +30355,7 @@
 							"EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 36
+						"execution_count": 49
 					},
 					{
 						"cell_type": "code",
@@ -30385,7 +30386,7 @@
 							"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 37
+						"execution_count": 50
 					},
 					{
 						"cell_type": "code",
@@ -30452,7 +30453,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 38
+						"execution_count": 51
 					},
 					{
 						"cell_type": "code",
@@ -30483,7 +30484,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 39
+						"execution_count": 52
 					},
 					{
 						"cell_type": "code",
@@ -30507,7 +30508,7 @@
 							"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"SKQID\", concat_ws(\"-\", col('YearLevel'), col('Question')))"
 						],
 						"outputs": [],
-						"execution_count": 40
+						"execution_count": 53
 					},
 					{
 						"cell_type": "code",
@@ -30535,7 +30536,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 41
+						"execution_count": 55
 					},
 					{
 						"cell_type": "code",
@@ -30580,7 +30581,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 42
+						"execution_count": 56
 					},
 					{
 						"cell_type": "code",
@@ -30605,7 +30606,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 43
+						"execution_count": 57
 					},
 					{
 						"cell_type": "code",
@@ -44902,7 +44903,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "596189ce-257d-42e1-a182-7846f32e301b"
+						"spark.autotune.trackingId": "fa0947b8-fb68-47ec-9880-92f450f7a6a5"
 					}
 				},
 				"metadata": {
@@ -44927,8 +44928,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -46146,7 +46146,7 @@
 							"      , 'janderson14@smptsv.catholic.edu.au' as StaffEmail\r\n",
 							"      ,StudentEmail\r\n",
 							"      ,trim(Ceider) as Ceider\r\n",
-							"    from vw_ods_earlyyearsstudentsclassid_updated\r\n",
+							"    from vw_ods_earlyyearsstudents\r\n",
 							"    where StudentID in ('10c6afff-6372-4dc4-9628-f3fbbc75ed46'\r\n",
 							"                            ,'2cc0a46f-f1b4-4057-aedd-5c9c5fac1454'\r\n",
 							"                            ,'511b1e50-b3c7-416e-9bb1-9573748ac6c5'\r\n",
@@ -46201,7 +46201,7 @@
 							"      , 'croberts1@smptsv.catholic.edu.au' as StaffEmail\r\n",
 							"      ,StudentEmail\r\n",
 							"      ,trim(Ceider) as Ceider\r\n",
-							"    from vw_ods_earlyyearsstudentsclassid_updated\r\n",
+							"    from vw_ods_earlyyearsstudents\r\n",
 							"    where StudentID in ('10c6afff-6372-4dc4-9628-f3fbbc75ed46'\r\n",
 							"                            ,'2cc0a46f-f1b4-4057-aedd-5c9c5fac1454'\r\n",
 							"                            ,'511b1e50-b3c7-416e-9bb1-9573748ac6c5'\r\n",
@@ -46258,7 +46258,7 @@
 							"      , 'kwalls1@skmtsv.catholic.edu.au' as StaffEmail\r\n",
 							"      ,StudentEmail\r\n",
 							"      ,trim(Ceider) as Ceider\r\n",
-							"    from vw_ods_earlyyearsstudentsclassid_updated\r\n",
+							"    from vw_ods_earlyyearsstudents\r\n",
 							"    where StudentID in ('9c4fe11b-7e9c-4a7b-bcf6-2a14223106a5'\r\n",
 							"\t\t\t\t\t\t\t,'336781db-99a2-4f35-aeae-73df3cf4d37a'\r\n",
 							"\t\t\t\t\t\t\t,'a79cecfd-5ec0-43ad-9fb8-8fc0bae6c19d'\r\n",
@@ -46291,7 +46291,7 @@
 							"      , 'msiemer1@skmtsv.catholic.edu.au' as StaffEmail\r\n",
 							"      ,StudentEmail\r\n",
 							"      ,trim(Ceider) as Ceider\r\n",
-							"    from vw_ods_earlyyearsstudentsclassid_updated\r\n",
+							"    from vw_ods_earlyyearsstudents\r\n",
 							"    where StudentID in ('33b862b4-1016-4dcf-8181-052a25389ffb'\r\n",
 							"\t\t\t\t\t\t\t,'ca97eefc-e2d7-4fbd-a356-47c4a0c0efe7'\r\n",
 							"\t\t\t\t\t\t\t,'c221b2d9-ef5d-492f-ab39-7412c6dd9bd2'\r\n",
@@ -46325,7 +46325,7 @@
 							"      , 'ehiscox@prspne.catholic.edu.au' as StaffEmail\r\n",
 							"      ,StudentEmail\r\n",
 							"      ,trim(Ceider) as Ceider\r\n",
-							"    from vw_ods_earlyyearsstudentsclassid_updated\r\n",
+							"    from vw_ods_earlyyearsstudents\r\n",
 							"    where StudentID in ('06fefe55-1b6e-4178-ac25-b15dd8559b33'\r\n",
 							"\t\t\t\t\t\t,'0d042b52-ec58-408c-a95d-b435df327e2e'\r\n",
 							"\t\t\t\t\t\t,'1931105a-1169-4ebd-a5c5-5080e977a4ef'\r\n",
@@ -46355,7 +46355,7 @@
 							"union\r\n",
 							"\r\n",
 							"select *\r\n",
-							"    from vw_ods_earlyyearsstudentsclassid_updated"
+							"    from vw_ods_earlyyearsstudents"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -48217,7 +48217,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "66011da9-42bb-44dd-a97d-7631a3bf15b5"
+						"spark.autotune.trackingId": "15354ae2-c6d6-4309-99ca-06125a2fd30c"
 					}
 				},
 				"metadata": {
@@ -48277,7 +48277,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -48296,7 +48296,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -48315,7 +48315,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -48344,7 +48344,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -48365,7 +48365,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -48408,7 +48408,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -48480,7 +48480,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 25
+						"execution_count": 14
 					},
 					{
 						"cell_type": "code",
@@ -48499,7 +48499,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 15
 					}
 				]
 			},

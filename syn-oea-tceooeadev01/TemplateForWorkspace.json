@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f8c3ea8e-483a-46a8-9b54-ec0750babdf9"
+						"spark.autotune.trackingId": "e4990e6e-73c1-49fe-9bf9-6b8f20bba8c1"
 					}
 				},
 				"metadata": {
@@ -30181,8 +30181,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -47637,7 +47636,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e68cfcb4-97fc-4fdf-a1cd-2e9e6eb59953"
+						"spark.autotune.trackingId": "49c964b1-2e04-4c71-833e-2fb7028cce30"
 					}
 				},
 				"metadata": {
@@ -47662,13 +47661,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace\r\n",
 							"from pyspark.sql.types import StringType"
@@ -47996,6 +47997,9 @@
 						"source": [
 							"def EarlyYearsResults_pseudo(df):\r\n",
 							"\r\n",
+							"    # filter out the in-progress tests (incomplete tests)\r\n",
+							"    df = df.filter(df.Status == \"Completed\")\r\n",
+							"\r\n",
 							"    question_columns = [item for item in df.columns if item.startswith('Ques')]\r\n",
 							"\r\n",
 							"    for col in question_columns:\r\n",
@@ -48032,6 +48036,9 @@
 						},
 						"source": [
 							"def EarlyYearsResultsYear2_pseudo(df):\r\n",
+							"\r\n",
+							"    # filter out the in-progress tests (incomplete tests)\r\n",
+							"    df = df.filter(df.Status == \"Completed\")\r\n",
 							"\r\n",
 							"    df = df.withColumn('Ques1', when(df.Ques1.substr(1,5) == 'could', lit('could good')).otherwise(df.Ques1))\r\n",
 							"\r\n",
@@ -48237,7 +48244,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6a237019-5da7-43d6-89d1-01dd82fef60e"
+						"spark.autotune.trackingId": "3d4f3d43-d598-4e49-b9d2-2e2bbef609ae"
 					}
 				},
 				"metadata": {

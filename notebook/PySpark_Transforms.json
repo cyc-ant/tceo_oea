@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ace30062-686e-4ae8-8227-afca8fe665ac"
+				"spark.autotune.trackingId": "30172935-409e-4779-aaa3-6c239542b9a2"
 			}
 		},
 		"metadata": {
@@ -240,7 +240,7 @@
 					"EarlyYearsResults_ClassUpdated_df = EarlyYearsResults_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,  \r\n",
 					"                                                                                [col('Year') == col('xYear'),\r\n",
 					"                                                                                col('Ceider') == col('xCeider')],\r\n",
-					"                                                                                how='left'\r\n",
+					"                                                                                how='right' #only keep the students with the cleaned up classID's\r\n",
 					"                                                                            )\r\n",
 					"\r\n",
 					"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
@@ -325,7 +325,6 @@
 				"source": [
 					"# split into Prep and Year 1\r\n",
 					"EarlyYearsResultsTotalsPrep_df = EarlyYearsResultsTotals_df.filter(EarlyYearsResultsTotals_df.YearLevel == \"P\")\r\n",
-					"\r\n",
 					"EarlyYearsResultsTotalsYear1_df = EarlyYearsResultsTotals_df.filter(EarlyYearsResultsTotals_df.YearLevel == \"1\")\r\n",
 					"\r\n",
 					"# add the percentile per year level\r\n",

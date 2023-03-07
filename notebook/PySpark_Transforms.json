@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fe47f2bd-c7cf-4b70-85e0-dc615667995a"
+				"spark.autotune.trackingId": "09c02efa-ae3b-4571-b4e3-fd597e45309d"
 			}
 		},
 		"metadata": {
@@ -616,6 +616,29 @@
 					""
 				],
 				"execution_count": 44
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Get the average and standard deviation result statistics for year 2\r\n",
+					"num_average = EarlyYearsResultsTotalsYear2Joined_df.groupBy().avg('NumeracyTotal').take(1)[0][0]\r\n",
+					"lit_average = EarlyYearsResultsTotalsYear2Joined_df.groupBy().avg('LiteracyTotal').take(1)[0][0]\r\n",
+					"\r\n",
+					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"NumeracyAverage\", lit(num_average))\r\n",
+					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"LiteracyAverage\", lit(lit_average))"
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",

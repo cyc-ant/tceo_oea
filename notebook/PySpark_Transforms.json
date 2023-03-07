@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e4990e6e-73c1-49fe-9bf9-6b8f20bba8c1"
+				"spark.autotune.trackingId": "6a738dc8-7a99-4b71-9bb2-da8aa445ac48"
 			}
 		},
 		"metadata": {
@@ -305,13 +305,80 @@
 					"                                                                                                                EarlyYearsResults_df.Ques39+\r\n",
 					"                                                                                                                EarlyYearsResults_df.Ques40).alias(\"LiteracyTotal\"))\r\n",
 					"\r\n",
-					"\r\n",
-					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"NumeracyPercentile\", percent_rank().over(Window.orderBy(\"NumeracyTotal\")))\r\n",
-					"\r\n",
-					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotals_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
 					""
 				],
 				"execution_count": 51
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# split into Prep and Year 1\r\n",
+					"EarlyYearsResultsTotalsPrep_df = EarlyYearsResultsTotals_df.filter(EarlyYearsResultsTotals_df.YearLevel == \"P\")\r\n",
+					"\r\n",
+					"EarlyYearsResultsTotalsYear1_df = EarlyYearsResultsTotals_df.filter(EarlyYearsResultsTotals_df.YearLevel == \"1\")\r\n",
+					"\r\n",
+					"# add the percentile per year level\r\n",
+					"# PREP\r\n",
+					"EarlyYearsResultsTotalsPrep_df = EarlyYearsResultsTotalsPrep_df.withColumn(\"NumeracyPercentile\", percent_rank().over(Window.orderBy(\"NumeracyTotal\")))\r\n",
+					"EarlyYearsResultsTotalsPrep_df = EarlyYearsResultsTotalsPrep_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
+					"\r\n",
+					"# Year 1\r\n",
+					"EarlyYearsResultsTotalsYear1_df = EarlyYearsResultsTotalsYear1_df.withColumn(\"NumeracyPercentile\", percent_rank().over(Window.orderBy(\"NumeracyTotal\")))\r\n",
+					"EarlyYearsResultsTotalsYear1_df = EarlyYearsResultsTotalsYear1_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
+					"\r\n",
+					""
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# Get the average and standard deviation result statistics per year level\r\n",
+					"\r\n",
+					""
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# now join the tables back together\r\n",
+					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotalsPrep_df.union(EarlyYearsResultsTotalsPrep_df)"
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",

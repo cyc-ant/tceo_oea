@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e68cfcb4-97fc-4fdf-a1cd-2e9e6eb59953"
+				"spark.autotune.trackingId": "e579f11d-4387-45d0-96b6-847b5d17938f"
 			}
 		},
 		"metadata": {
@@ -370,6 +370,9 @@
 				"source": [
 					"def EarlyYearsResults_pseudo(df):\r\n",
 					"\r\n",
+					"    # filter out the in-progress tests (incomplete tests)\r\n",
+					"    df = df.filter(df.Status == \"Completed\")\r\n",
+					"\r\n",
 					"    question_columns = [item for item in df.columns if item.startswith('Ques')]\r\n",
 					"\r\n",
 					"    for col in question_columns:\r\n",
@@ -405,6 +408,9 @@
 				},
 				"source": [
 					"def EarlyYearsResultsYear2_pseudo(df):\r\n",
+					"\r\n",
+					"    # filter out the in-progress tests (incomplete tests)\r\n",
+					"    df = df.filter(df.Status == \"Completed\")\r\n",
 					"\r\n",
 					"    df = df.withColumn('Ques1', when(df.Ques1.substr(1,5) == 'could', lit('could good')).otherwise(df.Ques1))\r\n",
 					"\r\n",

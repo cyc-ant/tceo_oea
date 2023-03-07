@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b7c77048-471e-4a7d-9f2b-837c65fa481a"
+						"spark.autotune.trackingId": "e06da468-6f59-423e-a139-a28f917b6b8e"
 					}
 				},
 				"metadata": {
@@ -30380,7 +30380,7 @@
 							"EarlyYearsResults_ClassUpdated_df = EarlyYearsResults_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,  \r\n",
 							"                                                                                [col('Year') == col('xYear'),\r\n",
 							"                                                                                col('Ceider') == col('xCeider')],\r\n",
-							"                                                                                how='left'\r\n",
+							"                                                                                how='right' #only keep the students with the cleaned up classID's\r\n",
 							"                                                                            )\r\n",
 							"\r\n",
 							"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
@@ -30467,7 +30467,6 @@
 						"source": [
 							"# split into Prep and Year 1\r\n",
 							"EarlyYearsResultsTotalsPrep_df = EarlyYearsResultsTotals_df.filter(EarlyYearsResultsTotals_df.YearLevel == \"P\")\r\n",
-							"\r\n",
 							"EarlyYearsResultsTotalsYear1_df = EarlyYearsResultsTotals_df.filter(EarlyYearsResultsTotals_df.YearLevel == \"1\")\r\n",
 							"\r\n",
 							"# add the percentile per year level\r\n",
@@ -48368,7 +48367,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d40a6d17-48b0-4825-979a-cd94de538d11"
+						"spark.autotune.trackingId": "80420ec4-9bf0-4fb0-9d35-56dde0bf572d"
 					}
 				},
 				"metadata": {
@@ -48393,8 +48392,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -48651,7 +48649,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 8
 					}
 				]
 			},

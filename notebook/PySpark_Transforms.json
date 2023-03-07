@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "0e9b1401-b012-48f3-9fa5-008630f62e1c"
+				"spark.autotune.trackingId": "fe47f2bd-c7cf-4b70-85e0-dc615667995a"
 			}
 		},
 		"metadata": {
@@ -98,24 +98,6 @@
 					"import databricks.koalas as ks"
 				],
 				"execution_count": 9
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					"%run OEA_py"
-				],
-				"execution_count": 2
 			},
 			{
 				"cell_type": "code",
@@ -357,7 +339,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 7
+				"execution_count": 18
 			},
 			{
 				"cell_type": "code",
@@ -381,11 +363,9 @@
 					"EarlyYearsResultsTotalsPrep_df = EarlyYearsResultsTotalsPrep_df.withColumn(\"NumeracyAverage\", lit(num_average))\r\n",
 					"EarlyYearsResultsTotalsPrep_df = EarlyYearsResultsTotalsPrep_df.withColumn(\"LiteracyAverage\", lit(lit_average))\r\n",
 					"\r\n",
-					"\r\n",
-					"display(EarlyYearsResultsTotalsPrep_df)\r\n",
 					""
 				],
-				"execution_count": 17
+				"execution_count": 19
 			},
 			{
 				"cell_type": "code",
@@ -401,10 +381,34 @@
 					}
 				},
 				"source": [
-					"# now join the tables back together\r\n",
-					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotalsPrep_df.union(EarlyYearsResultsTotalsPrep_df)"
+					"num_average = EarlyYearsResultsTotalsYear1_df.groupBy().avg('NumeracyTotal').take(1)[0][0]\r\n",
+					"lit_average = EarlyYearsResultsTotalsYear1_df.groupBy().avg('LiteracyTotal').take(1)[0][0]\r\n",
+					"\r\n",
+					"EarlyYearsResultsTotalsYear1_df = EarlyYearsResultsTotalsYear1_df.withColumn(\"NumeracyAverage\", lit(num_average))\r\n",
+					"EarlyYearsResultsTotalsYear1_df = EarlyYearsResultsTotalsYear1_df.withColumn(\"LiteracyAverage\", lit(lit_average))"
 				],
-				"execution_count": null
+				"execution_count": 20
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"# now join the tables back together\r\n",
+					"EarlyYearsResultsTotals_df = EarlyYearsResultsTotalsPrep_df.union(EarlyYearsResultsTotalsYear1_df)\r\n",
+					""
+				],
+				"execution_count": 21
 			},
 			{
 				"cell_type": "code",

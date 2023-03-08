@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e06da468-6f59-423e-a139-a28f917b6b8e"
+						"spark.autotune.trackingId": "1930b4e9-bc81-4c12-8b39-096c8d90c56f"
 					}
 				},
 				"metadata": {
@@ -30212,7 +30212,7 @@
 							}
 						},
 						"source": [
-							"#### Load all required dataframes"
+							"### Load all required libraries"
 						]
 					},
 					{
@@ -30229,12 +30229,25 @@
 							}
 						},
 						"source": [
-							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg\r\n",
+							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev\r\n",
 							"from pyspark.sql.window import Window\r\n",
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 83
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Load all tables from stage 2 and stage 3"
+						]
 					},
 					{
 						"cell_type": "code",
@@ -30266,7 +30279,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 84
 					},
 					{
 						"cell_type": "markdown",
@@ -30278,7 +30291,7 @@
 							}
 						},
 						"source": [
-							"#### Split the DMPersonDemographic into DMStudentDemographic and DMStaffDemographic"
+							"### Split the DMPersonDemographic into DMStudentDemographic and DMStaffDemographic"
 						]
 					},
 					{
@@ -30320,7 +30333,20 @@
 							"DMStaffDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Staff\"))"
 						],
 						"outputs": [],
-						"execution_count": 35
+						"execution_count": 85
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Clean up the classID's (Join to clean classID table)"
+						]
 					},
 					{
 						"cell_type": "code",
@@ -30355,7 +30381,7 @@
 							"EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 86
 					},
 					{
 						"cell_type": "code",
@@ -30380,13 +30406,26 @@
 							"EarlyYearsResults_ClassUpdated_df = EarlyYearsResults_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,  \r\n",
 							"                                                                                [col('Year') == col('xYear'),\r\n",
 							"                                                                                col('Ceider') == col('xCeider')],\r\n",
-							"                                                                                how='right' #only keep the students with the cleaned up classID's\r\n",
+							"                                                                                how='inner' # remove the students with unknown classes\r\n",
 							"                                                                            )\r\n",
 							"\r\n",
 							"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 87
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Create Results Totals tables (Prep and Year 1)"
+						]
 					},
 					{
 						"cell_type": "code",
@@ -30449,39 +30488,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 6
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"# split into Prep and Year 1\r\n",
-							"EarlyYearsResultsTotalsPrep_df = EarlyYearsResultsTotals_df.filter(EarlyYearsResultsTotals_df.YearLevel == \"P\")\r\n",
-							"EarlyYearsResultsTotalsYear1_df = EarlyYearsResultsTotals_df.filter(EarlyYearsResultsTotals_df.YearLevel == \"1\")\r\n",
-							"\r\n",
-							"# add the percentile per year level\r\n",
-							"# PREP\r\n",
-							"EarlyYearsResultsTotalsPrep_df = EarlyYearsResultsTotalsPrep_df.withColumn(\"NumeracyPercentile\", percent_rank().over(Window.orderBy(\"NumeracyTotal\")))\r\n",
-							"EarlyYearsResultsTotalsPrep_df = EarlyYearsResultsTotalsPrep_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
-							"\r\n",
-							"# Year 1\r\n",
-							"EarlyYearsResultsTotalsYear1_df = EarlyYearsResultsTotalsYear1_df.withColumn(\"NumeracyPercentile\", percent_rank().over(Window.orderBy(\"NumeracyTotal\")))\r\n",
-							"EarlyYearsResultsTotalsYear1_df = EarlyYearsResultsTotalsYear1_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
-							"\r\n",
-							""
-						],
-						"outputs": [],
-						"execution_count": 18
+						"execution_count": 88
 					},
 					{
 						"cell_type": "code",
@@ -30498,40 +30505,44 @@
 							"collapsed": false
 						},
 						"source": [
-							"# Get the average and standard deviation result statistics per year level\r\n",
-							"num_average = EarlyYearsResultsTotalsPrep_df.groupBy().avg('NumeracyTotal').take(1)[0][0]\r\n",
-							"lit_average = EarlyYearsResultsTotalsPrep_df.groupBy().avg('LiteracyTotal').take(1)[0][0]\r\n",
+							"# add the percent rank based on year, yearlevel, testlevel and numeracy/literacy groups\r\n",
 							"\r\n",
-							"EarlyYearsResultsTotalsPrep_df = EarlyYearsResultsTotalsPrep_df.withColumn(\"NumeracyAverage\", lit(num_average))\r\n",
-							"EarlyYearsResultsTotalsPrep_df = EarlyYearsResultsTotalsPrep_df.withColumn(\"LiteracyAverage\", lit(lit_average))\r\n",
+							"EarlyYearsResults_Percentile_df = EarlyYearsResultsTotals_df.select(\"CampusID\", \r\n",
+							"                                                                    \"Ceider\", \r\n",
+							"                                                                    \"ClassID\", \r\n",
+							"                                                                    \"Year\", \r\n",
+							"                                                                    \"YearLevel\", \r\n",
+							"                                                                    \"TestLevel\", \r\n",
+							"                                                                    \"NumeracyTotal\", \r\n",
+							"                                                                    \"LiteracyTotal\",\r\n",
+							"                                                                    percent_rank().over(Window.partitionBy(EarlyYearsResultsTotals_df['Year'],\r\n",
+							"                                                                                                            EarlyYearsResultsTotals_df['YearLevel'],\r\n",
+							"                                                                                                            EarlyYearsResultsTotals_df['TestLevel'])\\\r\n",
+							"                                                                                                            .orderBy(EarlyYearsResultsTotals_df['NumeracyTotal'])).alias(\"NumeracyPercentile\")\r\n",
+							"                                                                    \r\n",
+							"                                                                )\r\n",
+							"\r\n",
+							"\r\n",
+							"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.select(\"CampusID\", \r\n",
+							"                                                                    \"Ceider\", \r\n",
+							"                                                                    \"ClassID\", \r\n",
+							"                                                                    \"Year\", \r\n",
+							"                                                                    \"YearLevel\", \r\n",
+							"                                                                    \"TestLevel\", \r\n",
+							"                                                                    \"NumeracyTotal\", \r\n",
+							"                                                                    \"LiteracyTotal\",\r\n",
+							"                                                                    \"NumeracyPercentile\",\r\n",
+							"                                                                    percent_rank().over(Window.partitionBy(EarlyYearsResults_Percentile_df['Year'],\r\n",
+							"                                                                                                            EarlyYearsResults_Percentile_df['YearLevel'],\r\n",
+							"                                                                                                            EarlyYearsResults_Percentile_df['TestLevel'])\\\r\n",
+							"                                                                                                            .orderBy(EarlyYearsResults_Percentile_df['LiteracyTotal'])).alias(\"LiteracyPercentile\")\r\n",
+							"                                                                    \r\n",
+							"                                                                )\r\n",
 							"\r\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": 19
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"num_average = EarlyYearsResultsTotalsYear1_df.groupBy().avg('NumeracyTotal').take(1)[0][0]\r\n",
-							"lit_average = EarlyYearsResultsTotalsYear1_df.groupBy().avg('LiteracyTotal').take(1)[0][0]\r\n",
-							"\r\n",
-							"EarlyYearsResultsTotalsYear1_df = EarlyYearsResultsTotalsYear1_df.withColumn(\"NumeracyAverage\", lit(num_average))\r\n",
-							"EarlyYearsResultsTotalsYear1_df = EarlyYearsResultsTotalsYear1_df.withColumn(\"LiteracyAverage\", lit(lit_average))"
-						],
-						"outputs": [],
-						"execution_count": 20
+						"execution_count": 89
 					},
 					{
 						"cell_type": "code",
@@ -30548,12 +30559,100 @@
 							"collapsed": false
 						},
 						"source": [
-							"# now join the tables back together\r\n",
-							"EarlyYearsResultsTotals_df = EarlyYearsResultsTotalsPrep_df.union(EarlyYearsResultsTotalsYear1_df)\r\n",
+							"# numeracy average\r\n",
+							"\r\n",
+							"num_average_df = EarlyYearsResults_Percentile_df.groupBy('Year', 'YearLevel', 'TestLevel').agg(avg(EarlyYearsResults_Percentile_df['NumeracyTotal']).alias('NumeracyAverage'))\r\n",
+							"\r\n",
+							"num_average_df = num_average_df.withColumnRenamed('Year', 'xYear').withColumnRenamed('YearLevel', 'xYearLevel').withColumnRenamed('TestLevel', 'xTestLevel')\r\n",
+							"\r\n",
+							"EarlyYearsResults_NumAverage_df = EarlyYearsResults_Percentile_df.join(num_average_df, \r\n",
+							"                                                                        [col('Year') == col('xYear'), \r\n",
+							"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
+							"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
+							"                                                                        how='left')\r\n",
+							"\r\n",
+							"EarlyYearsResults_NumAverage_df = EarlyYearsResults_NumAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
+							"\r\n",
+							"\r\n",
+							"# literacy average \r\n",
+							"\r\n",
+							"lit_average_df = EarlyYearsResults_Percentile_df.groupBy('Year', 'YearLevel', 'TestLevel').agg(avg(EarlyYearsResults_Percentile_df['LiteracyTotal']).alias('LiteracyAverage'))\r\n",
+							"\r\n",
+							"lit_average_df = lit_average_df.withColumnRenamed('Year', 'xYear').withColumnRenamed('YearLevel', 'xYearLevel').withColumnRenamed('TestLevel', 'xTestLevel')\r\n",
+							"\r\n",
+							"EarlyYearsResults_LitAverage_df = EarlyYearsResults_NumAverage_df.join(lit_average_df, \r\n",
+							"                                                                        [col('Year') == col('xYear'), \r\n",
+							"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
+							"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
+							"                                                                        how='left')\r\n",
+							"\r\n",
+							"EarlyYearsResults_Averages_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": 90
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"# numeracy standard deviation\r\n",
+							"\r\n",
+							"num_stddev_df = EarlyYearsResults_Averages_df.groupBy('Year', 'YearLevel', 'TestLevel').agg(stddev(EarlyYearsResults_Averages_df['NumeracyTotal']).alias('NumeracyStdDev'))\r\n",
+							"\r\n",
+							"\r\n",
+							"num_stddev_df = num_stddev_df.withColumnRenamed('Year', 'xYear').withColumnRenamed('YearLevel', 'xYearLevel').withColumnRenamed('TestLevel', 'xTestLevel')\r\n",
+							"\r\n",
+							"EarlyYearsResults_NumStdDev_df = EarlyYearsResults_Averages_df.join(num_stddev_df, \r\n",
+							"                                                                        [col('Year') == col('xYear'), \r\n",
+							"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
+							"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
+							"                                                                        how='left')\r\n",
+							"\r\n",
+							"EarlyYearsResults_NumStdDev_df = EarlyYearsResults_NumStdDev_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
+							"\r\n",
+							"\r\n",
+							"# literacy average \r\n",
+							"\r\n",
+							"lit_stddev_df = EarlyYearsResults_Averages_df.groupBy('Year', 'YearLevel', 'TestLevel').agg(stddev(EarlyYearsResults_Averages_df['LiteracyTotal']).alias('LiteracyStdDev'))\r\n",
+							"\r\n",
+							"lit_stddev_df = lit_stddev_df.withColumnRenamed('Year', 'xYear').withColumnRenamed('YearLevel', 'xYearLevel').withColumnRenamed('TestLevel', 'xTestLevel')\r\n",
+							"\r\n",
+							"EarlyYearsResults_LitAverage_df = EarlyYearsResults_NumStdDev_df.join(lit_stddev_df, \r\n",
+							"                                                                        [col('Year') == col('xYear'), \r\n",
+							"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
+							"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
+							"                                                                        how='left')\r\n",
+							"\r\n",
+							"EarlyYearsResultsTotals_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 91
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Pivot Results from Wide to Long format (PREP and YEAR 1)"
+						]
 					},
 					{
 						"cell_type": "code",
@@ -30584,7 +30683,20 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 52
+						"execution_count": 92
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Remove the 'Ques' from the Question number in the results DeltaTable"
+						]
 					},
 					{
 						"cell_type": "code",
@@ -30608,7 +30720,20 @@
 							"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"SKQID\", concat_ws(\"-\", col('YearLevel'), col('Question')))"
 						],
 						"outputs": [],
-						"execution_count": 53
+						"execution_count": 93
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Convert answers table from wide to long format "
+						]
 					},
 					{
 						"cell_type": "code",
@@ -30636,7 +30761,20 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 55
+						"execution_count": 94
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Pivot Results from Wide to Long format (YEAR 2) + AUTOMARKER"
+						]
 					},
 					{
 						"cell_type": "code",
@@ -30681,7 +30819,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 56
+						"execution_count": 95
 					},
 					{
 						"cell_type": "code",
@@ -30706,7 +30844,20 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 57
+						"execution_count": null
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Create Results Totals tables (YEAR 2)"
+						]
 					},
 					{
 						"cell_type": "code",
@@ -30759,14 +30910,10 @@
 							"                                                                                .drop('xYearLevel')\\\r\n",
 							"                                                                                .drop('xTestLevel')\r\n",
 							"\r\n",
-							"\r\n",
-							"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"NumeracyPercentile\", percent_rank().over(Window.orderBy(\"NumeracyTotal\")))\r\n",
-							"\r\n",
-							"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"LiteracyPercentile\", percent_rank().over(Window.orderBy(\"LiteracyTotal\")))\r\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": 44
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -30782,12 +30929,132 @@
 							}
 						},
 						"source": [
-							"# Get the average and standard deviation result statistics for year 2\r\n",
-							"num_average = EarlyYearsResultsTotalsYear2Joined_df.groupBy().avg('NumeracyTotal').take(1)[0][0]\r\n",
-							"lit_average = EarlyYearsResultsTotalsYear2Joined_df.groupBy().avg('LiteracyTotal').take(1)[0][0]\r\n",
+							"# add the percent rank based on year, yearlevel, testlevel and numeracy/literacy groups\r\n",
 							"\r\n",
-							"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"NumeracyAverage\", lit(num_average))\r\n",
-							"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"LiteracyAverage\", lit(lit_average))"
+							"EarlyYearsResults_Percentile_df = EarlyYearsResultsTotalsYear2Joined_df.select(\"CampusID\", \r\n",
+							"                                                                                \"Ceider\", \r\n",
+							"                                                                                \"ClassID\", \r\n",
+							"                                                                                \"Year\", \r\n",
+							"                                                                                \"YearLevel\", \r\n",
+							"                                                                                \"TestLevel\", \r\n",
+							"                                                                                \"NumeracyTotal\", \r\n",
+							"                                                                                \"LiteracyTotal\",\r\n",
+							"                                                                                percent_rank().over(Window.partitionBy(EarlyYearsResultsTotalsYear2Joined_df['Year'],\r\n",
+							"                                                                                                                        EarlyYearsResultsTotalsYear2Joined_df['YearLevel'],\r\n",
+							"                                                                                                                        EarlyYearsResultsTotalsYear2Joined_df['TestLevel'])\\\r\n",
+							"                                                                                                                        .orderBy(EarlyYearsResultsTotalsYear2Joined_df['NumeracyTotal'])).alias(\"NumeracyPercentile\")\r\n",
+							"                                                                    \r\n",
+							"                                                                                )\r\n",
+							"\r\n",
+							"\r\n",
+							"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.select(\"CampusID\", \r\n",
+							"                                                                    \"Ceider\", \r\n",
+							"                                                                    \"ClassID\", \r\n",
+							"                                                                    \"Year\", \r\n",
+							"                                                                    \"YearLevel\", \r\n",
+							"                                                                    \"TestLevel\", \r\n",
+							"                                                                    \"NumeracyTotal\", \r\n",
+							"                                                                    \"LiteracyTotal\",\r\n",
+							"                                                                    \"NumeracyPercentile\",\r\n",
+							"                                                                    percent_rank().over(Window.partitionBy(EarlyYearsResults_Percentile_df['Year'],\r\n",
+							"                                                                                                            EarlyYearsResults_Percentile_df['YearLevel'],\r\n",
+							"                                                                                                            EarlyYearsResults_Percentile_df['TestLevel'])\\\r\n",
+							"                                                                                                            .orderBy(EarlyYearsResults_Percentile_df['LiteracyTotal'])).alias(\"LiteracyPercentile\")\r\n",
+							"                                                                    \r\n",
+							"                                                                )"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# numeracy average\r\n",
+							"\r\n",
+							"num_average_df = EarlyYearsResults_Percentile_df.groupBy('Year', 'YearLevel', 'TestLevel').agg(avg(EarlyYearsResults_Percentile_df['NumeracyTotal']).alias('NumeracyAverage'))\r\n",
+							"\r\n",
+							"num_average_df = num_average_df.withColumnRenamed('Year', 'xYear').withColumnRenamed('YearLevel', 'xYearLevel').withColumnRenamed('TestLevel', 'xTestLevel')\r\n",
+							"\r\n",
+							"EarlyYearsResults_NumAverage_df = EarlyYearsResults_Percentile_df.join(num_average_df, \r\n",
+							"                                                                        [col('Year') == col('xYear'), \r\n",
+							"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
+							"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
+							"                                                                        how='left')\r\n",
+							"\r\n",
+							"EarlyYearsResults_NumAverage_df = EarlyYearsResults_NumAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
+							"\r\n",
+							"\r\n",
+							"# literacy average \r\n",
+							"\r\n",
+							"lit_average_df = EarlyYearsResults_Percentile_df.groupBy('Year', 'YearLevel', 'TestLevel').agg(avg(EarlyYearsResults_Percentile_df['LiteracyTotal']).alias('LiteracyAverage'))\r\n",
+							"\r\n",
+							"lit_average_df = lit_average_df.withColumnRenamed('Year', 'xYear').withColumnRenamed('YearLevel', 'xYearLevel').withColumnRenamed('TestLevel', 'xTestLevel')\r\n",
+							"\r\n",
+							"EarlyYearsResults_LitAverage_df = EarlyYearsResults_NumAverage_df.join(lit_average_df, \r\n",
+							"                                                                        [col('Year') == col('xYear'), \r\n",
+							"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
+							"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
+							"                                                                        how='left')\r\n",
+							"\r\n",
+							"EarlyYearsResults_Averages_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# numeracy standard deviation\r\n",
+							"\r\n",
+							"num_stddev_df = EarlyYearsResults_Averages_df.groupBy('Year', 'YearLevel', 'TestLevel').agg(stddev(EarlyYearsResults_Averages_df['NumeracyTotal']).alias('NumeracyStdDev'))\r\n",
+							"\r\n",
+							"\r\n",
+							"num_stddev_df = num_stddev_df.withColumnRenamed('Year', 'xYear').withColumnRenamed('YearLevel', 'xYearLevel').withColumnRenamed('TestLevel', 'xTestLevel')\r\n",
+							"\r\n",
+							"EarlyYearsResults_NumStdDev_df = EarlyYearsResults_Averages_df.join(num_stddev_df, \r\n",
+							"                                                                        [col('Year') == col('xYear'), \r\n",
+							"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
+							"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
+							"                                                                        how='left')\r\n",
+							"\r\n",
+							"EarlyYearsResults_NumStdDev_df = EarlyYearsResults_NumStdDev_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
+							"\r\n",
+							"\r\n",
+							"# literacy average \r\n",
+							"\r\n",
+							"lit_stddev_df = EarlyYearsResults_Averages_df.groupBy('Year', 'YearLevel', 'TestLevel').agg(stddev(EarlyYearsResults_Averages_df['LiteracyTotal']).alias('LiteracyStdDev'))\r\n",
+							"\r\n",
+							"lit_stddev_df = lit_stddev_df.withColumnRenamed('Year', 'xYear').withColumnRenamed('YearLevel', 'xYearLevel').withColumnRenamed('TestLevel', 'xTestLevel')\r\n",
+							"\r\n",
+							"EarlyYearsResults_LitAverage_df = EarlyYearsResults_NumStdDev_df.join(lit_stddev_df, \r\n",
+							"                                                                        [col('Year') == col('xYear'), \r\n",
+							"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
+							"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
+							"                                                                        how='left')\r\n",
+							"\r\n",
+							"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -30853,7 +31120,7 @@
 							"saveToTarget(EarlyYearsResultsTotalsCombined_df, destination_p, f'{version}/EarlyYearsResultsTotalsCombinedYears_pseudo')"
 						],
 						"outputs": [],
-						"execution_count": 45
+						"execution_count": null
 					}
 				]
 			},

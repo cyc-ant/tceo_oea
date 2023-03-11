@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "06269974-a73a-439d-99e7-fcd24811a384"
+						"spark.autotune.trackingId": "7195a0f6-ea60-4cde-97c0-aa22b56698cd"
 					}
 				},
 				"metadata": {
@@ -30181,7 +30181,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -30233,7 +30234,26 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 83
+						"execution_count": 1
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 2
 					},
 					{
 						"cell_type": "markdown",
@@ -30273,12 +30293,13 @@
 							"EarlyYearsResultsWide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResults_pseudo\", format='delta')\r\n",
 							"EYResultsYear2Wide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
 							"EarlyYearsStudents_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents\", format='delta')\r\n",
+							"\r\n",
 							"EarlyYearsStudents_ClassIDCleaned_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents_ClassIDCleaned\", format='delta')\r\n",
 							"\r\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": 84
+						"execution_count": 3
 					},
 					{
 						"cell_type": "markdown",
@@ -30380,7 +30401,7 @@
 							"EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 86
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -30411,7 +30432,94 @@
 							"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 87
+						"execution_count": 5
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Create test completion table for Prep and Year 1"
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"# filter out prep and year 1\r\n",
+							"\r\n",
+							"EarlyYearsStudents_Y1_P_df = EarlyYearsStudents_df.filter((EarlyYearsStudents_df.YearLevel == 'P') | (EarlyYearsStudents_df.YearLevel == '1'))\r\n",
+							"\r\n",
+							"# Seperate out the Pre and Post tests\r\n",
+							"PreTest_df = EarlyYearsResults_df.select(col('Year').alias('xYear'), \r\n",
+							"                                            col('CampusID').alias('xCampusID'), \r\n",
+							"                                            col('Ceider').alias('xCeider'), \r\n",
+							"                                            col('ClassID').alias('xClassID'), \r\n",
+							"                                            col('YearLevel').alias('xYearLevel')\r\n",
+							"                                        ).filter(col('TestLevel') == \"Pre\") \\\r\n",
+							"                                        .withColumn('PreTestComplete', lit(\"1\"))\r\n",
+							"\r\n",
+							"\r\n",
+							"PostTest_df = EarlyYearsResults_df.select(col('Year').alias('xYear'), \r\n",
+							"                                            col('CampusID').alias('xCampusID'), \r\n",
+							"                                            col('Ceider').alias('xCeider'), \r\n",
+							"                                            col('ClassID').alias('xClassID'), \r\n",
+							"                                            col('YearLevel').alias('xYearLevel')\r\n",
+							"                                        ).filter(col('TestLevel') == \"Post\") \\\r\n",
+							"                                        .withColumn('PostTestComplete', lit(\"1\"))\r\n",
+							"\r\n",
+							"# if the pre and post test dataframes are not empty then join them onto the student list \r\n",
+							"if (not PreTest_df.rdd.isEmpty()):\r\n",
+							"    EarlyYearsTestCompletion_df = EarlyYearsStudents_Y1_P_df.join(PreTest_df, \r\n",
+							"                                                            [col('Year') == col('xYear'),\r\n",
+							"                                                            col('CampusID') == col('xCampusID'),\r\n",
+							"                                                            col('Ceider') == col('xCeider'),\r\n",
+							"                                                            col('ClassID') == col('xClassID'),\r\n",
+							"                                                            col('YearLevel') == col('xYearLevel')],\r\n",
+							"                                                            how=\"left\"\r\n",
+							"                                                            )\r\n",
+							"else:\r\n",
+							"    #if the pre tests are completely empty then assign false to pre test completion for every student \r\n",
+							"    EarlyYearsTestCompletion_df = EarlyYearsStudents_Y1_P_df.withColumn(\"PreTestComplete\", lit(\"0\"))\r\n",
+							"\r\n",
+							"\r\n",
+							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop('xYear').drop('xCampusID').drop('xCeider').drop('xClassID').drop('xYearLevel')\r\n",
+							"\r\n",
+							"\r\n",
+							"if (not PostTest_df.rdd.isEmpty()):\r\n",
+							"    EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.join(PostTest_df, \r\n",
+							"                                                                    [col('Year') == col('xYear'),\r\n",
+							"                                                                    col('CampusID') == col('xCampusID'),\r\n",
+							"                                                                    col('Ceider') == col('xCeider'),\r\n",
+							"                                                                    col('ClassID') == col('xClassID'),\r\n",
+							"                                                                    col('YearLevel') == col('xYearLevel')],\r\n",
+							"                                                                    how=\"left\"\r\n",
+							"                                                                    )\r\n",
+							"else:\r\n",
+							"    #if the pre tests are completely empty then assign false to pre test completion for every student \r\n",
+							"    EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn(\"PostTestComplete\", lit(\"0\"))\r\n",
+							"\r\n",
+							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop('xYear').drop('xCampusID').drop('xCeider').drop('xClassID').drop('xYearLevel')\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 32
 					},
 					{
 						"cell_type": "markdown",
@@ -31116,7 +31224,9 @@
 							"saveToTarget(EYResultsYear2LongFinal_df, destination_p, f'{version}/EarlyYearsResultsYear2Long_pseudo')\r\n",
 							"saveToTarget(EarlyYearsResultsTotalsYear2Joined_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Joined_pseudo')\r\n",
 							"\r\n",
-							"saveToTarget(EarlyYearsResultsTotalsCombined_df, destination_p, f'{version}/EarlyYearsResultsTotalsCombinedYears_pseudo')"
+							"saveToTarget(EarlyYearsResultsTotalsCombined_df, destination_p, f'{version}/EarlyYearsResultsTotalsCombinedYears_pseudo')\r\n",
+							"\r\n",
+							"saveToTarget(EarlyYearsTestCompletion_df, destination_p, f'{version}/EarlyYearsTestCompletion_pseudo')"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -45313,7 +45423,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fa8aa78c-bffb-4153-9a05-3f11079aff8f"
+						"spark.autotune.trackingId": "96c06793-a652-41e8-a69a-4802e34cf9bb"
 					}
 				},
 				"metadata": {
@@ -45338,8 +45448,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -46825,11 +46934,10 @@
 							"\r\n",
 							"ods_studentclass_df = spark.read.table('vw_ods_studentclass')\r\n",
 							"ods_studentstable_df = spark.read.table('vw_ods_studentstable')\r\n",
-							"ods_earlyyearsstudents_df = spark.read.table('vw_ods_earlyyearsstudents_addedstaff')\r\n",
+							"ods_earlyyearsstudents_df = spark.read.table('vw_ods_earlyyearsstudents_addedstaff') #need to make sure we include manually added staff\r\n",
 							"ods_earlyyearsstudents_exceptions_df = spark.read.table('vw_ods_earlyyearsstudents_exceptions')\r\n",
 							"\r\n",
 							"ods_earlyyearsstudents_classidcleaned_df = spark.read.table('vw_ods_earlyyearsstudentsclassid_cleaned')\r\n",
-							"\r\n",
 							"\r\n",
 							"ae_manual_combined_df = spark.read.table('vw_ae_manual_combined')\r\n",
 							"\r\n",

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d3d9f8de-3504-4629-b001-e8fa1b4c483e"
+				"spark.autotune.trackingId": "d93e38cf-271d-45e9-9d1e-f1abdfc9460c"
 			}
 		},
 		"metadata": {
@@ -932,7 +932,7 @@
 					"\tand ActivityName <> 'Sickbay'\r\n",
 					"\tand SubjectCode IS NOT NULL\r\n",
 					"\tand year(ActivityEnrolmentStartDate) = year(current_date)\r\n",
-					"\tand to_date(ActivityEnrolmentEndDate) < current_date\r\n",
+					"\tand to_date(ActivityEnrolmentEndDate) > current_date\r\n",
 					"\tand (ActivityCode like '%GEN%' or ActivityCode like 'PREP%')\r\n",
 					") enrolment\r\n",
 					"\r\n",

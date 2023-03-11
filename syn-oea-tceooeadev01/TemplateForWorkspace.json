@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1930b4e9-bc81-4c12-8b39-096c8d90c56f"
+						"spark.autotune.trackingId": "06269974-a73a-439d-99e7-fcd24811a384"
 					}
 				},
 				"metadata": {
@@ -30181,8 +30181,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -45314,7 +45313,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fa0947b8-fb68-47ec-9880-92f450f7a6a5"
+						"spark.autotune.trackingId": "e5abce23-e8bc-4bf0-bb82-a920fccda600"
 					}
 				},
 				"metadata": {
@@ -45339,7 +45338,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -46215,7 +46215,6 @@
 							"\t, trim(studentemail.OrganisationUserEmail) as StudentEmail\r\n",
 							"\t, trim(studentdemo.GovCode1) as Ceider\r\n",
 							"\r\n",
-							"\r\n",
 							"from\r\n",
 							"\r\n",
 							"-- Student Organisation Milestones\r\n",
@@ -46240,7 +46239,8 @@
 							"\tand ActivityName <> 'Sickbay'\r\n",
 							"\tand SubjectCode IS NOT NULL\r\n",
 							"\tand year(ActivityEnrolmentStartDate) = year(current_date)\r\n",
-							"\tand (ActivityCode like 'GEN%' or ActivityCode like 'PREP%')\r\n",
+							"\tand to_date(ActivityEnrolmentEndDate) < current_date\r\n",
+							"\tand (ActivityCode like '%GEN%' or ActivityCode like 'PREP%')\r\n",
 							") enrolment\r\n",
 							"\r\n",
 							"on students.StudentCompassPersonId = enrolment.StudentCompassPersonId\r\n",
@@ -46253,7 +46253,7 @@
 							"  where 1=1 \r\n",
 							"  and IsCurrent = 'True'\r\n",
 							"  and DioceseId = 12\r\n",
-							"  and (ActivityCode like 'GEN%' or ActivityCode like 'PREP%')\r\n",
+							"  and (ActivityCode like '%GEN%' or ActivityCode like 'PREP%')\r\n",
 							"  and year(Start) = year(current_date)\r\n",
 							"  and ManagingCompassPersonId <> '00000000-0000-0000-0000-000000000000'\r\n",
 							") instance \r\n",
@@ -46333,7 +46333,15 @@
 							"\tfrom vw_dmcampus\r\n",
 							") campus\r\n",
 							"\r\n",
-							"on campus.SchoolId = instance.CampusId"
+							"on campus.SchoolId = instance.CampusId\r\n",
+							"\r\n",
+							"-- filter out the duplicate classid's from campusid 617\r\n",
+							"WHERE 1=1\r\n",
+							"AND NOT (instance.CampusId = 617 and enrolment.ActivityCode = 'GENP_PREP')\r\n",
+							"AND NOT (instance.CampusId = 617 and enrolment.ActivityCode = 'GEN1_Year 1')\r\n",
+							"AND NOT (instance.CampusId = 617 and enrolment.ActivityCode = 'GEN2_Year 2')\r\n",
+							"\r\n",
+							""
 						],
 						"outputs": [],
 						"execution_count": null
@@ -48028,7 +48036,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e579f11d-4387-45d0-96b6-847b5d17938f"
+						"spark.autotune.trackingId": "9fe04466-9b13-42f7-a770-735f8ff6b3a8"
 					}
 				},
 				"metadata": {
@@ -48400,8 +48408,8 @@
 							"                                .otherwise(when(df[col] == 'Other response', lit('0')))))))\r\n",
 							"  \r\n",
 							"    # replace errors in classes\r\n",
-							"    df = df.withColumn('ClassID', regexp_replace('ClassID', '00GENP01', 'GENP_PREP'))\r\n",
-							"    df = df.withColumn('ClassID', regexp_replace('ClassID', '01GEN101', 'GEN1_Year 1'))\r\n",
+							"    df = df.withColumn('ClassID', regexp_replace('ClassID', 'GENP_PREP', '00GENP01'))\r\n",
+							"    df = df.withColumn('ClassID', regexp_replace('ClassID', 'GEN1_Year 1', '01GEN101'))\r\n",
 							"   \r\n",
 							"    return df\r\n",
 							"\r\n",
@@ -48432,9 +48440,9 @@
 							"\r\n",
 							"    df = df.withColumn('Ques1', when(df.Ques1.substr(1,5) == 'could', lit('could good')).otherwise(df.Ques1))\r\n",
 							"\r\n",
-							"    df = df.withColumn('ClassID', regexp_replace('ClassID', '02GEN201', 'GEN2_Year 2'))\r\n",
+							"    df = df.withColumn('ClassID', regexp_replace('ClassID', 'GEN2_Year 2', '02GEN201'))\r\n",
 							"\r\n",
-							"    df = df.withColumn('ClassId', when(df.Ceider == '769425243', lit('GEN2_02C')).otherwise(df.ClassID))\r\n",
+							"    #df = df.withColumn('ClassId', when(df.Ceider == '769425243', lit('GEN2_02C')).otherwise(df.ClassID))\r\n",
 							"\r\n",
 							"    return df\r\n",
 							"\r\n",
@@ -48634,7 +48642,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "80420ec4-9bf0-4fb0-9d35-56dde0bf572d"
+						"spark.autotune.trackingId": "c6bc5563-7ccf-4822-b0a7-fe0afcf60e85"
 					}
 				},
 				"metadata": {
@@ -48916,7 +48924,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 7
 					}
 				]
 			},

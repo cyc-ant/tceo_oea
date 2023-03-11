@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7195a0f6-ea60-4cde-97c0-aa22b56698cd"
+						"spark.autotune.trackingId": "6caaf4f8-8c9b-433f-b56d-2da493ca1f2a"
 					}
 				},
 				"metadata": {
@@ -30235,25 +30235,6 @@
 						],
 						"outputs": [],
 						"execution_count": 1
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"%run OEA_py"
-						],
-						"outputs": [],
-						"execution_count": 2
 					},
 					{
 						"cell_type": "markdown",
@@ -30595,7 +30576,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 88
+						"execution_count": 33
 					},
 					{
 						"cell_type": "code",
@@ -30614,7 +30595,7 @@
 						"source": [
 							"# add the percent rank based on year, yearlevel, testlevel and numeracy/literacy groups\r\n",
 							"\r\n",
-							"EarlyYearsResults_Percentile_df = EarlyYearsResultsTotals_df.select(\"CampusID\", \r\n",
+							"EarlyYearsResults_Numeracy_df = EarlyYearsResultsTotals_df.select(\"CampusID\", \r\n",
 							"                                                                    \"Ceider\", \r\n",
 							"                                                                    \"ClassID\", \r\n",
 							"                                                                    \"Year\", \r\n",
@@ -30630,26 +30611,35 @@
 							"                                                                )\r\n",
 							"\r\n",
 							"\r\n",
-							"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.select(\"CampusID\", \r\n",
-							"                                                                    \"Ceider\", \r\n",
-							"                                                                    \"ClassID\", \r\n",
-							"                                                                    \"Year\", \r\n",
-							"                                                                    \"YearLevel\", \r\n",
-							"                                                                    \"TestLevel\", \r\n",
-							"                                                                    \"NumeracyTotal\", \r\n",
-							"                                                                    \"LiteracyTotal\",\r\n",
-							"                                                                    \"NumeracyPercentile\",\r\n",
-							"                                                                    percent_rank().over(Window.partitionBy(EarlyYearsResults_Percentile_df['Year'],\r\n",
-							"                                                                                                            EarlyYearsResults_Percentile_df['YearLevel'],\r\n",
-							"                                                                                                            EarlyYearsResults_Percentile_df['TestLevel'])\\\r\n",
-							"                                                                                                            .orderBy(EarlyYearsResults_Percentile_df['LiteracyTotal'])).alias(\"LiteracyPercentile\")\r\n",
+							"EarlyYearsResults_Literacy_df = EarlyYearsResultsTotals_df.select(col(\"CampusID\").alias('xCampusID'), \r\n",
+							"                                                                    col(\"Ceider\").alias('xCeider'), \r\n",
+							"                                                                    col(\"ClassID\").alias('xClassID'), \r\n",
+							"                                                                    col(\"Year\").alias('xYear'), \r\n",
+							"                                                                    col(\"YearLevel\").alias('xYearLevel'), \r\n",
+							"                                                                    col(\"TestLevel\").alias('xTestLevel'), \r\n",
+							"                                                                    percent_rank().over(Window.partitionBy(EarlyYearsResultsTotals_df['Year'],\r\n",
+							"                                                                                                            EarlyYearsResultsTotals_df['YearLevel'],\r\n",
+							"                                                                                                            EarlyYearsResultsTotals_df['TestLevel'])\\\r\n",
+							"                                                                                                            .orderBy(EarlyYearsResultsTotals_df['LiteracyTotal'])).alias(\"LiteracyPercentile\")\r\n",
 							"                                                                    \r\n",
 							"                                                                )\r\n",
 							"\r\n",
+							"\r\n",
+							"EarlyYearsResults_Percentile_df = EarlyYearsResults_Numeracy_df.join(EarlyYearsResults_Literacy_df, \r\n",
+							"                                                                    [col('Year') == col('xYear'),\r\n",
+							"                                                                    col('CampusID') == col('xCampusID'),\r\n",
+							"                                                                    col('Ceider') == col('xCeider'),\r\n",
+							"                                                                    col('ClassID') == col('xClassID'),\r\n",
+							"                                                                    col('YearLevel') == col('xYearLevel'),\r\n",
+							"                                                                    col('TestLevel') == col('xTestLevel')],\r\n",
+							"                                                                    how=\"outer\"\r\n",
+							"                                                                    )\r\n",
+							"\r\n",
+							"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.drop('xYear').drop('xCampusID').drop('xCeider').drop('xClassID').drop('xYearLevel').drop('xTestLevel')\r\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": 89
+						"execution_count": 35
 					},
 					{
 						"cell_type": "code",
@@ -30697,7 +30687,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 90
+						"execution_count": 36
 					},
 					{
 						"cell_type": "code",
@@ -30746,7 +30736,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 91
+						"execution_count": 37
 					},
 					{
 						"cell_type": "markdown",
@@ -30790,7 +30780,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 92
+						"execution_count": 38
 					},
 					{
 						"cell_type": "markdown",
@@ -30827,7 +30817,7 @@
 							"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"SKQID\", concat_ws(\"-\", col('YearLevel'), col('Question')))"
 						],
 						"outputs": [],
-						"execution_count": 93
+						"execution_count": 39
 					},
 					{
 						"cell_type": "markdown",
@@ -30868,7 +30858,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 94
+						"execution_count": 40
 					},
 					{
 						"cell_type": "markdown",
@@ -30926,7 +30916,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 95
+						"execution_count": 41
 					},
 					{
 						"cell_type": "code",
@@ -30951,7 +30941,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 42
 					},
 					{
 						"cell_type": "markdown",
@@ -31020,7 +31010,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 43
 					},
 					{
 						"cell_type": "code",
@@ -31033,12 +31023,13 @@
 								"transient": {
 									"deleting": false
 								}
-							}
+							},
+							"collapsed": false
 						},
 						"source": [
 							"# add the percent rank based on year, yearlevel, testlevel and numeracy/literacy groups\r\n",
 							"\r\n",
-							"EarlyYearsResults_Percentile_df = EarlyYearsResultsTotalsYear2Joined_df.select(\"CampusID\", \r\n",
+							"EarlyYearsResultsY2_Numeracy_df = EarlyYearsResultsTotalsYear2Joined_df.select(\"CampusID\", \r\n",
 							"                                                                                \"Ceider\", \r\n",
 							"                                                                                \"ClassID\", \r\n",
 							"                                                                                \"Year\", \r\n",
@@ -31053,25 +31044,36 @@
 							"                                                                    \r\n",
 							"                                                                                )\r\n",
 							"\r\n",
+							"EarlyYearsResultsY2_Literacy_df = EarlyYearsResultsTotalsYear2Joined_df.select(col(\"CampusID\").alias('xCampusID'), \r\n",
+							"                                                                                col(\"Ceider\").alias('xCeider'), \r\n",
+							"                                                                                col(\"ClassID\").alias('xClassID'), \r\n",
+							"                                                                                col(\"Year\").alias('xYear'), \r\n",
+							"                                                                                col(\"YearLevel\").alias('xYearLevel'), \r\n",
+							"                                                                                col(\"TestLevel\").alias('xTestLevel'), \r\n",
+							"                                                                                percent_rank().over(Window.partitionBy(EarlyYearsResultsTotalsYear2Joined_df['Year'],\r\n",
+							"                                                                                                                        EarlyYearsResultsTotalsYear2Joined_df['YearLevel'],\r\n",
+							"                                                                                                                        EarlyYearsResultsTotalsYear2Joined_df['TestLevel'])\\\r\n",
+							"                                                                                                                        .orderBy(EarlyYearsResultsTotalsYear2Joined_df['LiteracyTotal'])).alias(\"LiteracyPercentile\")\r\n",
+							"                                            \r\n",
+							"                                                                                )\r\n",
 							"\r\n",
-							"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.select(\"CampusID\", \r\n",
-							"                                                                    \"Ceider\", \r\n",
-							"                                                                    \"ClassID\", \r\n",
-							"                                                                    \"Year\", \r\n",
-							"                                                                    \"YearLevel\", \r\n",
-							"                                                                    \"TestLevel\", \r\n",
-							"                                                                    \"NumeracyTotal\", \r\n",
-							"                                                                    \"LiteracyTotal\",\r\n",
-							"                                                                    \"NumeracyPercentile\",\r\n",
-							"                                                                    percent_rank().over(Window.partitionBy(EarlyYearsResults_Percentile_df['Year'],\r\n",
-							"                                                                                                            EarlyYearsResults_Percentile_df['YearLevel'],\r\n",
-							"                                                                                                            EarlyYearsResults_Percentile_df['TestLevel'])\\\r\n",
-							"                                                                                                            .orderBy(EarlyYearsResults_Percentile_df['LiteracyTotal'])).alias(\"LiteracyPercentile\")\r\n",
-							"                                                                    \r\n",
-							"                                                                )"
+							"\r\n",
+							"EarlyYearsResults_Percentile_df = EarlyYearsResults_Numeracy_df.join(EarlyYearsResults_Literacy_df, \r\n",
+							"                                                                    [col('Year') == col('xYear'),\r\n",
+							"                                                                    col('CampusID') == col('xCampusID'),\r\n",
+							"                                                                    col('Ceider') == col('xCeider'),\r\n",
+							"                                                                    col('ClassID') == col('xClassID'),\r\n",
+							"                                                                    col('YearLevel') == col('xYearLevel'),\r\n",
+							"                                                                    col('TestLevel') == col('xTestLevel')],\r\n",
+							"                                                                    how=\"outer\"\r\n",
+							"                                                                    )\r\n",
+							"\r\n",
+							"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.drop('xYear').drop('xCampusID').drop('xCeider').drop('xClassID').drop('xYearLevel').drop('xTestLevel')\r\n",
+							"\r\n",
+							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 45
 					},
 					{
 						"cell_type": "code",

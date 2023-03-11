@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e579f11d-4387-45d0-96b6-847b5d17938f"
+				"spark.autotune.trackingId": "9fe04466-9b13-42f7-a770-735f8ff6b3a8"
 			}
 		},
 		"metadata": {
@@ -383,8 +383,8 @@
 					"                                .otherwise(when(df[col] == 'Other response', lit('0')))))))\r\n",
 					"  \r\n",
 					"    # replace errors in classes\r\n",
-					"    df = df.withColumn('ClassID', regexp_replace('ClassID', '00GENP01', 'GENP_PREP'))\r\n",
-					"    df = df.withColumn('ClassID', regexp_replace('ClassID', '01GEN101', 'GEN1_Year 1'))\r\n",
+					"    df = df.withColumn('ClassID', regexp_replace('ClassID', 'GENP_PREP', '00GENP01'))\r\n",
+					"    df = df.withColumn('ClassID', regexp_replace('ClassID', 'GEN1_Year 1', '01GEN101'))\r\n",
 					"   \r\n",
 					"    return df\r\n",
 					"\r\n",
@@ -414,9 +414,9 @@
 					"\r\n",
 					"    df = df.withColumn('Ques1', when(df.Ques1.substr(1,5) == 'could', lit('could good')).otherwise(df.Ques1))\r\n",
 					"\r\n",
-					"    df = df.withColumn('ClassID', regexp_replace('ClassID', '02GEN201', 'GEN2_Year 2'))\r\n",
+					"    df = df.withColumn('ClassID', regexp_replace('ClassID', 'GEN2_Year 2', '02GEN201'))\r\n",
 					"\r\n",
-					"    df = df.withColumn('ClassId', when(df.Ceider == '769425243', lit('GEN2_02C')).otherwise(df.ClassID))\r\n",
+					"    #df = df.withColumn('ClassId', when(df.Ceider == '769425243', lit('GEN2_02C')).otherwise(df.ClassID))\r\n",
 					"\r\n",
 					"    return df\r\n",
 					"\r\n",

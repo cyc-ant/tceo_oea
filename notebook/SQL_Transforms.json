@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fa0947b8-fb68-47ec-9880-92f450f7a6a5"
+				"spark.autotune.trackingId": "d3d9f8de-3504-4629-b001-e8fa1b4c483e"
 			}
 		},
 		"metadata": {
@@ -908,7 +908,6 @@
 					"\t, trim(studentemail.OrganisationUserEmail) as StudentEmail\r\n",
 					"\t, trim(studentdemo.GovCode1) as Ceider\r\n",
 					"\r\n",
-					"\r\n",
 					"from\r\n",
 					"\r\n",
 					"-- Student Organisation Milestones\r\n",
@@ -933,7 +932,8 @@
 					"\tand ActivityName <> 'Sickbay'\r\n",
 					"\tand SubjectCode IS NOT NULL\r\n",
 					"\tand year(ActivityEnrolmentStartDate) = year(current_date)\r\n",
-					"\tand (ActivityCode like 'GEN%' or ActivityCode like 'PREP%')\r\n",
+					"\tand to_date(ActivityEnrolmentEndDate) < current_date\r\n",
+					"\tand (ActivityCode like '%GEN%' or ActivityCode like 'PREP%')\r\n",
 					") enrolment\r\n",
 					"\r\n",
 					"on students.StudentCompassPersonId = enrolment.StudentCompassPersonId\r\n",
@@ -946,7 +946,7 @@
 					"  where 1=1 \r\n",
 					"  and IsCurrent = 'True'\r\n",
 					"  and DioceseId = 12\r\n",
-					"  and (ActivityCode like 'GEN%' or ActivityCode like 'PREP%')\r\n",
+					"  and (ActivityCode like '%GEN%' or ActivityCode like 'PREP%')\r\n",
 					"  and year(Start) = year(current_date)\r\n",
 					"  and ManagingCompassPersonId <> '00000000-0000-0000-0000-000000000000'\r\n",
 					") instance \r\n",
@@ -1026,7 +1026,15 @@
 					"\tfrom vw_dmcampus\r\n",
 					") campus\r\n",
 					"\r\n",
-					"on campus.SchoolId = instance.CampusId"
+					"on campus.SchoolId = instance.CampusId\r\n",
+					"\r\n",
+					"-- filter out the duplicate classid's from campusid 617\r\n",
+					"WHERE 1=1\r\n",
+					"AND NOT (instance.CampusId = 617 and enrolment.ActivityCode = 'GENP_PREP')\r\n",
+					"AND NOT (instance.CampusId = 617 and enrolment.ActivityCode = 'GEN1_Year 1')\r\n",
+					"AND NOT (instance.CampusId = 617 and enrolment.ActivityCode = 'GEN2_Year 2')\r\n",
+					"\r\n",
+					""
 				],
 				"execution_count": null
 			},

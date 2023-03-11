@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d93e38cf-271d-45e9-9d1e-f1abdfc9460c"
+				"spark.autotune.trackingId": "96c06793-a652-41e8-a69a-4802e34cf9bb"
 			}
 		},
 		"metadata": {
@@ -1512,11 +1512,10 @@
 					"\r\n",
 					"ods_studentclass_df = spark.read.table('vw_ods_studentclass')\r\n",
 					"ods_studentstable_df = spark.read.table('vw_ods_studentstable')\r\n",
-					"ods_earlyyearsstudents_df = spark.read.table('vw_ods_earlyyearsstudents_addedstaff')\r\n",
+					"ods_earlyyearsstudents_df = spark.read.table('vw_ods_earlyyearsstudents_addedstaff') #need to make sure we include manually added staff\r\n",
 					"ods_earlyyearsstudents_exceptions_df = spark.read.table('vw_ods_earlyyearsstudents_exceptions')\r\n",
 					"\r\n",
 					"ods_earlyyearsstudents_classidcleaned_df = spark.read.table('vw_ods_earlyyearsstudentsclassid_cleaned')\r\n",
-					"\r\n",
 					"\r\n",
 					"ae_manual_combined_df = spark.read.table('vw_ae_manual_combined')\r\n",
 					"\r\n",

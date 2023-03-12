@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "809f2b60-18a1-4a5e-87f8-c262e8b12d01"
+				"spark.autotune.trackingId": "bb944014-bff3-41f6-bd3d-53cd0746fe72"
 			}
 		},
 		"metadata": {
@@ -522,7 +522,7 @@
 					"                                                                        [col('Year') == col('xYear'), \r\n",
 					"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
 					"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
-					"                                                                        how='left')\r\n",
+					"                                                                        how='outer')\r\n",
 					"\r\n",
 					"EarlyYearsResults_NumAverage_df = EarlyYearsResults_NumAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
 					"\r\n",
@@ -537,7 +537,7 @@
 					"                                                                        [col('Year') == col('xYear'), \r\n",
 					"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
 					"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
-					"                                                                        how='left')\r\n",
+					"                                                                        how='outer')\r\n",
 					"\r\n",
 					"EarlyYearsResults_Averages_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
 					""
@@ -570,7 +570,7 @@
 					"                                                                        [col('Year') == col('xYear'), \r\n",
 					"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
 					"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
-					"                                                                        how='left')\r\n",
+					"                                                                        how='outer')\r\n",
 					"\r\n",
 					"EarlyYearsResults_NumStdDev_df = EarlyYearsResults_NumStdDev_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
 					"\r\n",
@@ -585,7 +585,7 @@
 					"                                                                        [col('Year') == col('xYear'), \r\n",
 					"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
 					"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
-					"                                                                        how='left')\r\n",
+					"                                                                        how='outer')\r\n",
 					"\r\n",
 					"EarlyYearsResultsTotals_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
 					""
@@ -946,7 +946,7 @@
 					"                                                                        [col('Year') == col('xYear'), \r\n",
 					"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
 					"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
-					"                                                                        how='left')\r\n",
+					"                                                                        how='outer')\r\n",
 					"\r\n",
 					"EarlyYearsResults_NumAverage_df = EarlyYearsResults_NumAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
 					"\r\n",
@@ -961,7 +961,7 @@
 					"                                                                        [col('Year') == col('xYear'), \r\n",
 					"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
 					"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
-					"                                                                        how='left')\r\n",
+					"                                                                        how='outer')\r\n",
 					"\r\n",
 					"EarlyYearsResults_Averages_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
 				],
@@ -992,7 +992,7 @@
 					"                                                                        [col('Year') == col('xYear'), \r\n",
 					"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
 					"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
-					"                                                                        how='left')\r\n",
+					"                                                                        how='outer')\r\n",
 					"\r\n",
 					"EarlyYearsResults_NumStdDev_df = EarlyYearsResults_NumStdDev_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
 					"\r\n",
@@ -1007,7 +1007,7 @@
 					"                                                                        [col('Year') == col('xYear'), \r\n",
 					"                                                                        col('YearLevel') == col('xYearLevel'), \r\n",
 					"                                                                        col('TestLevel') == col('xTestLevel')], \r\n",
-					"                                                                        how='left')\r\n",
+					"                                                                        how='outer')\r\n",
 					"\r\n",
 					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
 				],

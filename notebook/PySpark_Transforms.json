@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "bb944014-bff3-41f6-bd3d-53cd0746fe72"
+				"spark.autotune.trackingId": "e4c6ceef-6d30-4d76-bc35-d818b98d26d1"
 			}
 		},
 		"metadata": {
@@ -97,7 +97,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 1
+				"execution_count": 29
 			},
 			{
 				"cell_type": "markdown",
@@ -142,7 +142,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 3
+				"execution_count": 31
 			},
 			{
 				"cell_type": "markdown",
@@ -195,7 +195,7 @@
 					"DMStudentDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Student\"))\r\n",
 					"DMStaffDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Staff\"))"
 				],
-				"execution_count": 85
+				"execution_count": 32
 			},
 			{
 				"cell_type": "markdown",
@@ -242,7 +242,7 @@
 					"\r\n",
 					"EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
-				"execution_count": 4
+				"execution_count": 33
 			},
 			{
 				"cell_type": "code",
@@ -272,7 +272,7 @@
 					"\r\n",
 					"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
-				"execution_count": 5
+				"execution_count": 34
 			},
 			{
 				"cell_type": "markdown",
@@ -358,7 +358,7 @@
 					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop('xYear').drop('xCampusID').drop('xCeider').drop('xClassID').drop('xYearLevel')\r\n",
 					""
 				],
-				"execution_count": 32
+				"execution_count": 35
 			},
 			{
 				"cell_type": "markdown",
@@ -433,7 +433,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 33
+				"execution_count": 36
 			},
 			{
 				"cell_type": "code",
@@ -495,7 +495,7 @@
 					"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.drop('xYear').drop('xCampusID').drop('xCeider').drop('xClassID').drop('xYearLevel').drop('xTestLevel')\r\n",
 					""
 				],
-				"execution_count": 35
+				"execution_count": 37
 			},
 			{
 				"cell_type": "code",
@@ -542,7 +542,7 @@
 					"EarlyYearsResults_Averages_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
 					""
 				],
-				"execution_count": 36
+				"execution_count": 38
 			},
 			{
 				"cell_type": "code",
@@ -590,7 +590,7 @@
 					"EarlyYearsResultsTotals_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
 					""
 				],
-				"execution_count": 37
+				"execution_count": 39
 			},
 			{
 				"cell_type": "markdown",
@@ -633,7 +633,7 @@
 					"EarlyYearsResultsLong_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 38
+				"execution_count": 40
 			},
 			{
 				"cell_type": "markdown",
@@ -669,7 +669,7 @@
 					"# Create SKQID to uniquely identify the different year levels (Prep and Year 1)\r\n",
 					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"SKQID\", concat_ws(\"-\", col('YearLevel'), col('Question')))"
 				],
-				"execution_count": 39
+				"execution_count": 41
 			},
 			{
 				"cell_type": "markdown",
@@ -709,7 +709,7 @@
 					"EYAnswers_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 40
+				"execution_count": 42
 			},
 			{
 				"cell_type": "markdown",
@@ -766,7 +766,7 @@
 					"EYResultsYear2LongFinal_df = joinedcleaned_df.withColumn('Result', when(trim(lower(joinedcleaned_df.StudentAnswer)) == trim(lower(joinedcleaned_df.Answer)), 1).otherwise(0))\r\n",
 					""
 				],
-				"execution_count": 41
+				"execution_count": 43
 			},
 			{
 				"cell_type": "code",
@@ -790,7 +790,7 @@
 					"                                                                    )\r\n",
 					""
 				],
-				"execution_count": 42
+				"execution_count": 44
 			},
 			{
 				"cell_type": "markdown",
@@ -849,16 +849,30 @@
 					"                                                                                                                                col('TestLevel') == col('xTestLevel')],\r\n",
 					"                                                                                                                                how=\"outer\")\r\n",
 					"\r\n",
-					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.drop('xCampusID')\\\r\n",
-					"                                                                                .drop('xCeider')\\\r\n",
-					"                                                                                .drop('xClassID')\\\r\n",
-					"                                                                                .drop('xYear')\\\r\n",
-					"                                                                                .drop('xYearLevel')\\\r\n",
-					"                                                                                .drop('xTestLevel')\r\n",
+					"# merge the values into single column\r\n",
+					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"newCampusID\", when(col(\"CampusID\").isNull(), col(\"xCampusID\")).otherwise(col(\"CampusID\")) )\r\n",
+					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"newCeider\", when(col(\"Ceider\").isNull(), col(\"xCeider\")).otherwise(col(\"Ceider\")) )\r\n",
+					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"newClassID\", when(col(\"ClassID\").isNull(), col(\"xClassID\")).otherwise(col(\"ClassID\")) )\r\n",
+					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"newYear\", when(col(\"Year\").isNull(), col(\"xYear\")).otherwise(col(\"Year\")) )\r\n",
+					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"newYearLevel\", when(col(\"YearLevel\").isNull(), col(\"xYearLevel\")).otherwise(col(\"YearLevel\")) )\r\n",
+					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.withColumn(\"newTestLevel\", when(col(\"TestLevel\").isNull(), col(\"xTestLevel\")).otherwise(col(\"TestLevel\")) )\r\n",
+					"\r\n",
+					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResultsTotalsYear2Joined_df.drop(\"CampusID\", \"xCampusID\", \r\n",
+					"                                                                                    \"Ceider\", \"xCeider\", \r\n",
+					"                                                                                    \"ClassID\", \"xClassID\", \r\n",
+					"                                                                                    \"Year\", \"xYear\", \r\n",
+					"                                                                                    \"YearLevel\", \"xYearLevel\", \r\n",
+					"                                                                                    \"TestLevel\", \"xTestLevel\")\\\r\n",
+					"                                                                            .withColumnRenamed(\"newCampusID\", \"CampusID\")\\\r\n",
+					"                                                                            .withColumnRenamed(\"newCeider\", \"Ceider\")\\\r\n",
+					"                                                                            .withColumnRenamed(\"newClassID\", \"ClassID\")\\\r\n",
+					"                                                                            .withColumnRenamed(\"newYear\", \"Year\")\\\r\n",
+					"                                                                            .withColumnRenamed(\"newYearLevel\", \"YearLevel\")\\\r\n",
+					"                                                                            .withColumnRenamed(\"newTestLevel\", \"TestLevel\")\r\n",
 					"\r\n",
 					""
 				],
-				"execution_count": 43
+				"execution_count": 45
 			},
 			{
 				"cell_type": "code",
@@ -916,11 +930,30 @@
 					"                                                                        how=\"outer\"\r\n",
 					"                                                                        )\r\n",
 					"\r\n",
-					"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.drop('xYear').drop('xCampusID').drop('xCeider').drop('xClassID').drop('xYearLevel').drop('xTestLevel')\r\n",
+					"# merge the values into single column\r\n",
+					"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.withColumn(\"newCampusID\", when(col(\"CampusID\").isNull(), col(\"xCampusID\")).otherwise(col(\"CampusID\")) )\r\n",
+					"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.withColumn(\"newCeider\", when(col(\"Ceider\").isNull(), col(\"xCeider\")).otherwise(col(\"Ceider\")) )\r\n",
+					"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.withColumn(\"newClassID\", when(col(\"ClassID\").isNull(), col(\"xClassID\")).otherwise(col(\"ClassID\")) )\r\n",
+					"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.withColumn(\"newYear\", when(col(\"Year\").isNull(), col(\"xYear\")).otherwise(col(\"Year\")) )\r\n",
+					"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.withColumn(\"newYearLevel\", when(col(\"YearLevel\").isNull(), col(\"xYearLevel\")).otherwise(col(\"YearLevel\")) )\r\n",
+					"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.withColumn(\"newTestLevel\", when(col(\"TestLevel\").isNull(), col(\"xTestLevel\")).otherwise(col(\"TestLevel\")) )\r\n",
+					"\r\n",
+					"EarlyYearsResults_Percentile_df = EarlyYearsResults_Percentile_df.drop(\"CampusID\", \"xCampusID\", \r\n",
+					"                                                                        \"Ceider\", \"xCeider\", \r\n",
+					"                                                                        \"ClassID\", \"xClassID\", \r\n",
+					"                                                                        \"Year\", \"xYear\", \r\n",
+					"                                                                        \"YearLevel\", \"xYearLevel\", \r\n",
+					"                                                                        \"TestLevel\", \"xTestLevel\")\\\r\n",
+					"                                                                .withColumnRenamed(\"newCampusID\", \"CampusID\")\\\r\n",
+					"                                                                .withColumnRenamed(\"newCeider\", \"Ceider\")\\\r\n",
+					"                                                                .withColumnRenamed(\"newClassID\", \"ClassID\")\\\r\n",
+					"                                                                .withColumnRenamed(\"newYear\", \"Year\")\\\r\n",
+					"                                                                .withColumnRenamed(\"newYearLevel\", \"YearLevel\")\\\r\n",
+					"                                                                .withColumnRenamed(\"newTestLevel\", \"TestLevel\")\r\n",
 					"\r\n",
 					""
 				],
-				"execution_count": 45
+				"execution_count": 46
 			},
 			{
 				"cell_type": "code",

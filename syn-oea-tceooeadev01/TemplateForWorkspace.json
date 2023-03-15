@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "40af388f-6d17-47c5-b4f9-03c54611386a"
+						"spark.autotune.trackingId": "77d2ac51-93b8-4a29-a32c-c4672b773375"
 					}
 				},
 				"metadata": {
@@ -30591,7 +30591,7 @@
 							"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.withColumn(\"PreTestNumeracyComplete\", lit(\"0\"))\r\n",
 							"\r\n",
 							"\r\n",
-							"if (not PreTesLiteracy_df.rdd.isEmpty()):\r\n",
+							"if (not PreTestLiteracy_df.rdd.isEmpty()):\r\n",
 							"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.join(PreTestLiteracy_df, \r\n",
 							"                                                            [col('Year') == col('xYear'),\r\n",
 							"                                                            col('CampusID') == col('xCampusID'),\r\n",
@@ -30608,7 +30608,7 @@
 							"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.withColumn(\"PreTestLiteracyComplete\", lit(\"0\"))\r\n",
 							"\r\n",
 							"\r\n",
-							"if (not PostTesNumeracy_df.rdd.isEmpty()):\r\n",
+							"if (not PostTestNumeracy_df.rdd.isEmpty()):\r\n",
 							"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.join(PostTestNumeracy_df, \r\n",
 							"                                                            [col('Year') == col('xYear'),\r\n",
 							"                                                            col('CampusID') == col('xCampusID'),\r\n",
@@ -30626,7 +30626,7 @@
 							"\r\n",
 							"\r\n",
 							"\r\n",
-							"if (not PostTesLiteracy_df.rdd.isEmpty()):\r\n",
+							"if (not PostTestLiteracy_df.rdd.isEmpty()):\r\n",
 							"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.join(PostTestLiteracy_df, \r\n",
 							"                                                            [col('Year') == col('xYear'),\r\n",
 							"                                                            col('CampusID') == col('xCampusID'),\r\n",
@@ -48965,7 +48965,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "bac829cc-3db1-4474-9679-edeb40b50394"
+						"spark.autotune.trackingId": "92d64e2e-b920-45e0-b7cb-c0428f141712"
 					}
 				},
 				"metadata": {
@@ -48990,8 +48990,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -49026,7 +49025,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -49045,7 +49044,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -49064,7 +49063,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -49093,7 +49092,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -49114,7 +49113,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -49157,7 +49156,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -49248,7 +49247,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 14
 					}
 				]
 			},

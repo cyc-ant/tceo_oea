@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "97048381-1187-49f4-94e7-1c914753ef04"
+				"spark.autotune.trackingId": "63ea92b9-5c39-4442-a7aa-505fa2f1dce5"
 			}
 		},
 		"metadata": {
@@ -449,7 +449,7 @@
 					"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.withColumn(\"PreTestNumeracyComplete\", lit(\"0\"))\r\n",
 					"\r\n",
 					"\r\n",
-					"if (not PreTesLiteracy_df.rdd.isEmpty()):\r\n",
+					"if (not PreTestLiteracy_df.rdd.isEmpty()):\r\n",
 					"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.join(PreTestLiteracy_df, \r\n",
 					"                                                            [col('Year') == col('xYear'),\r\n",
 					"                                                            col('CampusID') == col('xCampusID'),\r\n",
@@ -466,7 +466,7 @@
 					"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.withColumn(\"PreTestLiteracyComplete\", lit(\"0\"))\r\n",
 					"\r\n",
 					"\r\n",
-					"if (not PostTesNumeracy_df.rdd.isEmpty()):\r\n",
+					"if (not PostTestNumeracy_df.rdd.isEmpty()):\r\n",
 					"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.join(PostTestNumeracy_df, \r\n",
 					"                                                            [col('Year') == col('xYear'),\r\n",
 					"                                                            col('CampusID') == col('xCampusID'),\r\n",
@@ -484,7 +484,7 @@
 					"\r\n",
 					"\r\n",
 					"\r\n",
-					"if (not PostTesLiteracy_df.rdd.isEmpty()):\r\n",
+					"if (not PostTestLiteracy_df.rdd.isEmpty()):\r\n",
 					"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.join(PostTestLiteracy_df, \r\n",
 					"                                                            [col('Year') == col('xYear'),\r\n",
 					"                                                            col('CampusID') == col('xCampusID'),\r\n",

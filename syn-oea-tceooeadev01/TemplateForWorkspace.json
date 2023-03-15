@@ -30156,7 +30156,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4f7551c0-e901-468d-9b84-88385ace0bef"
+						"spark.autotune.trackingId": "40af388f-6d17-47c5-b4f9-03c54611386a"
 					}
 				},
 				"metadata": {
@@ -30475,12 +30475,15 @@
 							"                                                            col('YearLevel') == col('xYearLevel')],\r\n",
 							"                                                            how=\"left\"\r\n",
 							"                                                            )\r\n",
+							"\r\n",
+							"    EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop('xYear', 'xCampusID', 'xCeider', 'xClassID', 'xYearLevel')\r\n",
+							"\r\n",
 							"else:\r\n",
 							"    #if the pre tests are completely empty then assign false to pre test completion for every student \r\n",
 							"    EarlyYearsTestCompletion_df = EarlyYearsStudents_Y1_P_df.withColumn(\"PreTestComplete\", lit(\"0\"))\r\n",
 							"\r\n",
 							"\r\n",
-							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop('xYear').drop('xCampusID').drop('xCeider').drop('xClassID').drop('xYearLevel')\r\n",
+							"\r\n",
 							"\r\n",
 							"\r\n",
 							"if (not PostTest_df.rdd.isEmpty()):\r\n",
@@ -30492,15 +30495,157 @@
 							"                                                                    col('YearLevel') == col('xYearLevel')],\r\n",
 							"                                                                    how=\"left\"\r\n",
 							"                                                                    )\r\n",
+							"\r\n",
+							"    EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop('xYear', 'xCampusID', 'xCeider', 'xClassID', 'xYearLevel')\r\n",
+							"\r\n",
 							"else:\r\n",
 							"    #if the pre tests are completely empty then assign false to pre test completion for every student \r\n",
 							"    EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn(\"PostTestComplete\", lit(\"0\"))\r\n",
-							"\r\n",
-							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop('xYear').drop('xCampusID').drop('xCeider').drop('xClassID').drop('xYearLevel')\r\n",
 							""
 						],
 						"outputs": [],
 						"execution_count": 80
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Create Test Completion table YEAR 2"
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# filter out year 2\r\n",
+							"\r\n",
+							"EarlyYearsStudents_Y2_df = EarlyYearsStudents_df.filter((EarlyYearsStudents_df.YearLevel == '2'))\r\n",
+							"\r\n",
+							"# Seperate out the Pre/Post and Numeracy/Literacy tests\r\n",
+							"PreTestNumeracy_df = EYResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+							"                                                col('CampusID').alias('xCampusID'), \r\n",
+							"                                                col('Ceider').alias('xCeider'), \r\n",
+							"                                                col('ClassID').alias('xClassID'), \r\n",
+							"                                                col('YearLevel').alias('xYearLevel')\r\n",
+							"                                                ).filter((col('TestLevel') == \"Pre\") & (col('QuestionType') == \"Numeracy\")) \\\r\n",
+							"                                                .withColumn('PreTestNumeracyComplete', lit(\"1\"))\r\n",
+							"\r\n",
+							"\r\n",
+							"PreTestLiteracy_df = EYResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+							"                                                col('CampusID').alias('xCampusID'), \r\n",
+							"                                                col('Ceider').alias('xCeider'), \r\n",
+							"                                                col('ClassID').alias('xClassID'), \r\n",
+							"                                                col('YearLevel').alias('xYearLevel')\r\n",
+							"                                                ).filter((col('TestLevel') == \"Pre\") & (col('QuestionType') == \"Literacy\")) \\\r\n",
+							"                                                .withColumn('PreTestLiteracyComplete', lit(\"1\"))\r\n",
+							"\r\n",
+							"\r\n",
+							"PostTestNumeracy_df = EYResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+							"                                                col('CampusID').alias('xCampusID'), \r\n",
+							"                                                col('Ceider').alias('xCeider'), \r\n",
+							"                                                col('ClassID').alias('xClassID'), \r\n",
+							"                                                col('YearLevel').alias('xYearLevel')\r\n",
+							"                                                ).filter((col('TestLevel') == \"Post\") & (col('QuestionType') == \"Numeracy\")) \\\r\n",
+							"                                                .withColumn('PreTestNumeracyComplete', lit(\"1\"))\r\n",
+							"\r\n",
+							"\r\n",
+							"PostTestLiteracy_df = EYResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+							"                                                col('CampusID').alias('xCampusID'), \r\n",
+							"                                                col('Ceider').alias('xCeider'), \r\n",
+							"                                                col('ClassID').alias('xClassID'), \r\n",
+							"                                                col('YearLevel').alias('xYearLevel')\r\n",
+							"                                                ).filter((col('TestLevel') == \"Post\") & (col('QuestionType') == \"Literacy\")) \\\r\n",
+							"                                                .withColumn('PreTestLiteracyComplete', lit(\"1\"))\r\n",
+							"\r\n",
+							"\r\n",
+							"if (not PreTestNumeracy_df.rdd.isEmpty()):\r\n",
+							"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.join(PreTestNumeracy_df, \r\n",
+							"                                                            [col('Year') == col('xYear'),\r\n",
+							"                                                            col('CampusID') == col('xCampusID'),\r\n",
+							"                                                            col('Ceider') == col('xCeider'),\r\n",
+							"                                                            col('ClassID') == col('xClassID'),\r\n",
+							"                                                            col('YearLevel') == col('xYearLevel')],\r\n",
+							"                                                            how=\"left\"\r\n",
+							"                                                            )\r\n",
+							"\r\n",
+							"    EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.drop('xYear', 'xCampusID', 'xCeider', 'xClassID', 'xYearLevel')\r\n",
+							"\r\n",
+							"else:\r\n",
+							"    #if the pre tests are completely empty then assign false to pre test completion for every student \r\n",
+							"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.withColumn(\"PreTestNumeracyComplete\", lit(\"0\"))\r\n",
+							"\r\n",
+							"\r\n",
+							"if (not PreTesLiteracy_df.rdd.isEmpty()):\r\n",
+							"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.join(PreTestLiteracy_df, \r\n",
+							"                                                            [col('Year') == col('xYear'),\r\n",
+							"                                                            col('CampusID') == col('xCampusID'),\r\n",
+							"                                                            col('Ceider') == col('xCeider'),\r\n",
+							"                                                            col('ClassID') == col('xClassID'),\r\n",
+							"                                                            col('YearLevel') == col('xYearLevel')],\r\n",
+							"                                                            how=\"left\"\r\n",
+							"                                                            )\r\n",
+							"                                                            \r\n",
+							"    EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.drop('xYear', 'xCampusID', 'xCeider', 'xClassID', 'xYearLevel')\r\n",
+							"\r\n",
+							"else:\r\n",
+							"    #if the pre tests are completely empty then assign false to pre test completion for every student \r\n",
+							"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.withColumn(\"PreTestLiteracyComplete\", lit(\"0\"))\r\n",
+							"\r\n",
+							"\r\n",
+							"if (not PostTesNumeracy_df.rdd.isEmpty()):\r\n",
+							"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.join(PostTestNumeracy_df, \r\n",
+							"                                                            [col('Year') == col('xYear'),\r\n",
+							"                                                            col('CampusID') == col('xCampusID'),\r\n",
+							"                                                            col('Ceider') == col('xCeider'),\r\n",
+							"                                                            col('ClassID') == col('xClassID'),\r\n",
+							"                                                            col('YearLevel') == col('xYearLevel')],\r\n",
+							"                                                            how=\"left\"\r\n",
+							"                                                            )\r\n",
+							"                                                            \r\n",
+							"    EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.drop('xYear', 'xCampusID', 'xCeider', 'xClassID', 'xYearLevel')\r\n",
+							"\r\n",
+							"else:\r\n",
+							"    #if the Post tests are completely empty then assign false to Post test completion for every student \r\n",
+							"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.withColumn(\"PostTestNumeracyComplete\", lit(\"0\"))\r\n",
+							"\r\n",
+							"\r\n",
+							"\r\n",
+							"if (not PostTesLiteracy_df.rdd.isEmpty()):\r\n",
+							"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.join(PostTestLiteracy_df, \r\n",
+							"                                                            [col('Year') == col('xYear'),\r\n",
+							"                                                            col('CampusID') == col('xCampusID'),\r\n",
+							"                                                            col('Ceider') == col('xCeider'),\r\n",
+							"                                                            col('ClassID') == col('xClassID'),\r\n",
+							"                                                            col('YearLevel') == col('xYearLevel')],\r\n",
+							"                                                            how=\"left\"\r\n",
+							"                                                            )\r\n",
+							"                                                            \r\n",
+							"    EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.drop('xYear', 'xCampusID', 'xCeider', 'xClassID', 'xYearLevel')\r\n",
+							"\r\n",
+							"else:\r\n",
+							"    #if the Post tests are completely empty then assign false to Post test completion for every student \r\n",
+							"    EarlyYearsTestCompletion2_df = EarlyYearsStudents_Y2_df.withColumn(\"PostTestLiteracyComplete\", lit(\"0\"))\r\n",
+							"\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -31294,7 +31439,9 @@
 							"\r\n",
 							"saveToTarget(EarlyYearsResultsTotalsCombined_df, destination_p, f'{version}/EarlyYearsResultsTotalsCombinedYears_pseudo')\r\n",
 							"\r\n",
-							"saveToTarget(EarlyYearsTestCompletion_df, destination_p, f'{version}/EarlyYearsTestCompletion_pseudo')"
+							"# Test completion tables \r\n",
+							"saveToTarget(EarlyYearsTestCompletion_df, destination_p, f'{version}/EarlyYearsTestCompletion_pseudo')\r\n",
+							"saveToTarget(EarlyYearsTestCompletion2_df, destination_p, f'{version}/EarlyYearsTestCompletionYear2_pseudo')"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -48818,7 +48965,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c6bc5563-7ccf-4822-b0a7-fe0afcf60e85"
+						"spark.autotune.trackingId": "bac829cc-3db1-4474-9679-edeb40b50394"
 					}
 				},
 				"metadata": {
@@ -48843,7 +48990,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

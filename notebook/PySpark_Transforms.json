@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "6a9343e1-9b77-491d-becf-2d3f8b1fa89f"
+				"spark.autotune.trackingId": "2c598c8b-04bc-4ff5-8389-9d9f0a9a0cdc"
 			}
 		},
 		"metadata": {
@@ -97,7 +97,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 18
+				"execution_count": 24
 			},
 			{
 				"cell_type": "markdown",
@@ -145,7 +145,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 20
+				"execution_count": 26
 			},
 			{
 				"cell_type": "markdown",
@@ -1310,18 +1310,41 @@
 						"transient": {
 							"deleting": false
 						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"# create a new SAT Column (SBA) that provides counts instead of codes. \r\n",
+					"# Codes in the file are N - None, A - Apprenticeship, T - Traineeship\r\n",
+					"\r\n",
+					"SeniorOutcomes_df = SeniorOutcomes_df.withColumn(\"SBA\", when(SeniorOutcomes_df.sat == \"N\", lit(0)).otherwise(lit(1)))\r\n",
+					""
+				],
+				"execution_count": 27
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
 					}
 				},
 				"source": [
 					"# convert from wide to long format\r\n",
-					"SO_df = SeniorOutcomes_df.to_koalas().melt(id_vars=['year', 'school', 'last_name', 'given_names', 'sex', 'birth_date', 'indigenous', 'qcia', 'qce', 'vet', 'uni_subjects'],\r\n",
-					"                                            value_vars=['certs_i', 'certs_ii', 'certs_iii', 'certs_iv', 'diplomas', 'adv_diplomas', 'sat'],\r\n",
+					"SO_df = SeniorOutcomes_df.to_koalas().melt(id_vars=['year', 'school', 'last_name', 'given_names', 'sex', 'birth_date', 'indigenous', 'qcia', 'qce', 'vet'],\r\n",
+					"                                            value_vars=['certs_i', 'certs_ii', 'certs_iii', 'certs_iv', 'diplomas', 'adv_diplomas', 'SBA', 'uni_subjects'],\r\n",
 					"                                            var_name=\"CertificationType\",\r\n",
 					"                                            value_name = \"CertsAchieved\")\r\n",
 					"\r\n",
 					"SeniorOutcomesLong_df = SO_df.to_spark()"
 				],
-				"execution_count": 22
+				"execution_count": 28
 			},
 			{
 				"cell_type": "markdown",

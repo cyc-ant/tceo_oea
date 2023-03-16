@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d9f010f4-2674-42e5-8d01-7312939e7223"
+				"spark.autotune.trackingId": "c1fd7913-0431-4ea5-be3d-79d5aae8d03c"
 			}
 		},
 		"metadata": {
@@ -360,7 +360,15 @@
 					"else:\r\n",
 					"    #if the pre tests are completely empty then assign false to pre test completion for every student \r\n",
 					"    EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn(\"PostTestComplete\", lit(\"0\"))\r\n",
-					""
+					"\r\n",
+					"# add columns to make this table compatible with the Year 2 table \r\n",
+					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn('PreTestNumeracyComplete', col('PreTestComplete'))\r\n",
+					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn('PreTestLiteracyComplete', col('PreTestComplete'))\r\n",
+					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn('PostTestNumeracyComplete', col('PostTestComplete'))\r\n",
+					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn('PostTestLiteracyComplete', col('PostTestComplete'))\r\n",
+					"\r\n",
+					"# sort the columns\r\n",
+					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.select(sorted(EarlyYearsTestCompletion_df.columns))"
 				],
 				"execution_count": 7
 			},
@@ -500,9 +508,40 @@
 					"    #if the Post tests are completely empty then assign false to Post test completion for every student \r\n",
 					"    EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.withColumn(\"PostTestLiteracyComplete\", lit(\"0\"))\r\n",
 					"\r\n",
-					""
+					"\r\n",
+					"EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.withColumn('PreTestComplete', when( ((col('PreTestNumeracyComplete') == \"1\") & \r\n",
+					"                                                                                                    (col('PreTestLiteracyComplete') == \"1\")), lit(\"1\")).otherwise(lit(\"0\")) \r\n",
+					"                                                                                                \r\n",
+					"                                                                        )\r\n",
+					"\r\n",
+					"EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.withColumn('PostTestComplete', when( ((col('PostTestNumeracyComplete') == \"1\") & \r\n",
+					"                                                                                                    (col('PostTestLiteracyComplete') == \"1\")), lit(\"1\")).otherwise(lit(\"0\")) \r\n",
+					"                                                                                                \r\n",
+					"                                                                        )\r\n",
+					"\r\n",
+					"# sort the columns\r\n",
+					"EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.select(sorted(EarlyYearsTestCompletion2_df.columns))"
 				],
-				"execution_count": 8
+				"execution_count": 14
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# combine the prep/year1 test completion table with the year 2 table\r\n",
+					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.union(EarlyYearsTestCompletion2_df)"
+				],
+				"execution_count": 16
 			},
 			{
 				"cell_type": "markdown",
@@ -1284,7 +1323,7 @@
 					"\r\n",
 					"# Test completion tables \r\n",
 					"saveToTarget(EarlyYearsTestCompletion_df, destination_p, f'{version}/EarlyYearsTestCompletion_pseudo')\r\n",
-					"saveToTarget(EarlyYearsTestCompletion2_df, destination_p, f'{version}/EarlyYearsTestCompletionYear2_pseudo')"
+					"#saveToTarget(EarlyYearsTestCompletion2_df, destination_p, f'{version}/EarlyYearsTestCompletionYear2_pseudo')"
 				],
 				"execution_count": null
 			}

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5540b96d-c0c2-43ad-bcb4-a696d84e4ec2"
+				"spark.autotune.trackingId": "481870de-983b-4788-9d0e-fb582f442665"
 			}
 		},
 		"metadata": {
@@ -58,17 +58,15 @@
 					"    def __init__(self, source_folder='ATAR', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
-					"        self.schemas['ATAR'] = [\r\n",
-					"                                ['BKID', 'integer', 'no-op'],\r\n",
-					"                                ['SchoolId', 'string', 'no-op'],\r\n",
+					"        self.schemas['ATAR'] = [                                \r\n",
 					"                                ['Year', 'integer', 'no-op'],\r\n",
 					"                                ['LUI', 'string', 'no-op'],\r\n",
 					"                                ['Given Name', 'string', 'no-op'],\r\n",
 					"                                ['Family Name', 'string', 'no-op'],\r\n",
-					"                                ['ATAR', 'string', 'no-op']                              \r\n",
+					"                                ['ATAR', 'string', 'no-op'],\r\n",
+					"                                ['SchoolId', 'string', 'no-op'],\r\n",
+					"                                ['BKID', 'integer', 'no-op']\r\n",
 					"                                ]\r\n",
-					"\r\n",
-					"                                 \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'ATAR', self.schemas['ATAR'], None, 'BKID')\r\n",

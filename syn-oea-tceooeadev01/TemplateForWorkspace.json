@@ -17234,7 +17234,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5540b96d-c0c2-43ad-bcb4-a696d84e4ec2"
+						"spark.autotune.trackingId": "481870de-983b-4788-9d0e-fb582f442665"
 					}
 				},
 				"metadata": {
@@ -17271,17 +17271,15 @@
 							"    def __init__(self, source_folder='ATAR', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
-							"        self.schemas['ATAR'] = [\r\n",
-							"                                ['BKID', 'integer', 'no-op'],\r\n",
-							"                                ['SchoolId', 'string', 'no-op'],\r\n",
+							"        self.schemas['ATAR'] = [                                \r\n",
 							"                                ['Year', 'integer', 'no-op'],\r\n",
 							"                                ['LUI', 'string', 'no-op'],\r\n",
 							"                                ['Given Name', 'string', 'no-op'],\r\n",
 							"                                ['Family Name', 'string', 'no-op'],\r\n",
-							"                                ['ATAR', 'string', 'no-op']                              \r\n",
+							"                                ['ATAR', 'string', 'no-op'],\r\n",
+							"                                ['SchoolId', 'string', 'no-op'],\r\n",
+							"                                ['BKID', 'integer', 'no-op']\r\n",
 							"                                ]\r\n",
-							"\r\n",
-							"                                 \r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'ATAR', self.schemas['ATAR'], None, 'BKID')\r\n",
@@ -30156,7 +30154,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9ea659d7-6f3f-49f9-bde8-ec37948e09f5"
+						"spark.autotune.trackingId": "6a9343e1-9b77-491d-becf-2d3f8b1fa89f"
 					}
 				},
 				"metadata": {
@@ -30181,8 +30179,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -49090,7 +49087,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b66eb0b5-555d-4b2d-b05d-303b2c6423f4"
+						"spark.autotune.trackingId": "7901d32c-fd46-490e-9f81-ddbc4faca7f3"
 					}
 				},
 				"metadata": {
@@ -49150,7 +49147,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 25
 					},
 					{
 						"cell_type": "code",
@@ -49169,7 +49166,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": 26
 					},
 					{
 						"cell_type": "code",
@@ -49188,7 +49185,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 19
+						"execution_count": 27
 					},
 					{
 						"cell_type": "code",
@@ -49217,7 +49214,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 20
+						"execution_count": 28
 					},
 					{
 						"cell_type": "code",
@@ -49238,7 +49235,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": 29
 					},
 					{
 						"cell_type": "code",
@@ -49281,7 +49278,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 22
+						"execution_count": 30
 					},
 					{
 						"cell_type": "code",
@@ -49372,7 +49369,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 24
+						"execution_count": 31
 					}
 				]
 			},

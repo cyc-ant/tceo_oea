@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c1fd7913-0431-4ea5-be3d-79d5aae8d03c"
+				"spark.autotune.trackingId": "a104eb26-e9a0-4a57-95ca-6d87fd1173b5"
 			}
 		},
 		"metadata": {
@@ -97,7 +97,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 1
+				"execution_count": 18
 			},
 			{
 				"cell_type": "markdown",
@@ -140,9 +140,12 @@
 					"\r\n",
 					"EarlyYearsStudents_ClassIDCleaned_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents_ClassIDCleaned\", format='delta')\r\n",
 					"\r\n",
+					"#Senior Outcomes\r\n",
+					"SeniorOutcomes_df = spark.read.load(source3p + \"/pilot/StudentLevel_pseudo\", format='delta')\r\n",
+					"\r\n",
 					""
 				],
-				"execution_count": 3
+				"execution_count": 20
 			},
 			{
 				"cell_type": "markdown",
@@ -1293,6 +1296,43 @@
 					}
 				},
 				"source": [
+					"### Senior Outcomes transformation"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# convert from wide to long format\r\n",
+					"SO_df = SeniorOutcomes_df.to_koalas().melt(id_vars=['year', 'school', 'last_name', 'given_names', 'sex', 'birth_date', 'indigenous', 'qcia', 'qce', 'vet', 'uni_subjects'],\r\n",
+					"                                            value_vars=['certs_i', 'certs_ii', 'certs_iii', 'certs_iv', 'diplomas', 'adv_diplomas', 'sat'],\r\n",
+					"                                            var_name=\"CertificationType\",\r\n",
+					"                                            value_name = \"CertsAchieved\")\r\n",
+					"\r\n",
+					"SeniorOutcomesLong_df = SO_df.to_spark()"
+				],
+				"execution_count": 22
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
 					"### Save the new tables "
 				]
 			},
@@ -1323,7 +1363,9 @@
 					"\r\n",
 					"# Test completion tables \r\n",
 					"saveToTarget(EarlyYearsTestCompletion_df, destination_p, f'{version}/EarlyYearsTestCompletion_pseudo')\r\n",
-					"#saveToTarget(EarlyYearsTestCompletion2_df, destination_p, f'{version}/EarlyYearsTestCompletionYear2_pseudo')"
+					"\r\n",
+					"# Senior Outcomes tables \r\n",
+					"saveToTarget(SeniorOutcomesLong_df, destination_p, f'{version}/SeniorOutcomesLong_pseudo')"
 				],
 				"execution_count": null
 			}

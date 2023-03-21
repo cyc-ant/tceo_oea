@@ -30154,7 +30154,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0537a216-70e2-46f7-80e1-39b84d7f5ec7"
+						"spark.autotune.trackingId": "d0001821-d5e7-45cf-a287-a2a3fed3cf04"
 					}
 				},
 				"metadata": {
@@ -30179,8 +30179,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -30232,7 +30231,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 24
+						"execution_count": 9
 					},
 					{
 						"cell_type": "markdown",
@@ -30281,7 +30280,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 26
+						"execution_count": 8
 					},
 					{
 						"cell_type": "markdown",
@@ -48506,7 +48505,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9fe04466-9b13-42f7-a770-735f8ff6b3a8"
+						"spark.autotune.trackingId": "139edba1-6441-4bfb-ae23-faad93d824e0"
 					}
 				},
 				"metadata": {
@@ -48531,13 +48530,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace\r\n",
 							"from pyspark.sql.types import StringType"
@@ -48574,7 +48575,7 @@
 							"                                        .when(df.BusinessDesc == \"Pre-School\", \"Prep\")\r\n",
 							"                                        .when(df.BusinessDesc == \"OneYearBeforeYear1\", \"Prep\")\r\n",
 							"                                        .otherwise(df.BusinessDesc)\r\n",
-							"                                        )\r\n",
+							"                        )\r\n",
 							"\r\n",
 							"    return df"
 						],
@@ -48920,6 +48921,40 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def ATAR_pseudo(df):\r\n",
+							"    df = df.withColumn(\"Result_Bucket\", \r\n",
+							"                        when(ATAR_df.Given_Name == \"No Consent\", \"No Consent\")\r\n",
+							"                        .when(ATAR_df.Given_Name == \"Vocational Pathway\", \"Vocational Pathway\")\r\n",
+							"                        .otherwise(when(ATAR_df.ATAR < 30, \"< 30\")\r\n",
+							"                                    .when(((ATAR_df.ATAR < 40) & (ATAR_df.ATAR >= 30)), \"39.95 - 30\")\r\n",
+							"                                    .when(((ATAR_df.ATAR < 50) & (ATAR_df.ATAR >= 40)), \"49.95 - 40\")\r\n",
+							"                                    .when(((ATAR_df.ATAR < 60) & (ATAR_df.ATAR >= 50)), \"59.95 - 50\")\r\n",
+							"                                    .when(((ATAR_df.ATAR < 70) & (ATAR_df.ATAR >= 60)), \"69.95 - 60\")\r\n",
+							"                                    .when(((ATAR_df.ATAR < 80) & (ATAR_df.ATAR >= 70)), \"79.95 - 70\")\r\n",
+							"                                    .when(((ATAR_df.ATAR < 90) & (ATAR_df.ATAR >= 80)), \"89.95 - 80\")\r\n",
+							"                                    .when(ATAR_df.ATAR >= 90, \"99.95 - 90\")\r\n",
+							"                                )\r\n",
+							"                    )\r\n",
+							"\r\n",
+							"    return df"
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -48949,7 +48984,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d4026c89-75c0-474d-aa61-2fce52730da2"
+						"spark.autotune.trackingId": "518d5d75-73de-4552-a605-e7f2d624f8e4"
 					}
 				},
 				"metadata": {
@@ -49047,6 +49082,8 @@
 							"        final_df = EarlyYearsResults_pseudo(df)\r\n",
 							"    elif name == \"EarlyYearsResultsYear2_pseudo\":\r\n",
 							"        final_df = EarlyYearsResultsYear2_pseudo(df)\r\n",
+							"    elif name == \"ATAR_pseudo\":\r\n",
+							"        final_df = ATAR_pseudo(df)\r\n",
 							"    else:  \r\n",
 							"        final_df = df\r\n",
 							"\r\n",

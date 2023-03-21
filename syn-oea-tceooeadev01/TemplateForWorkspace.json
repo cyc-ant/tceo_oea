@@ -48505,7 +48505,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "139edba1-6441-4bfb-ae23-faad93d824e0"
+						"spark.autotune.trackingId": "024fc263-fdad-4d69-aa6f-09ad42681362"
 					}
 				},
 				"metadata": {
@@ -48938,16 +48938,16 @@
 						"source": [
 							"def ATAR_pseudo(df):\r\n",
 							"    df = df.withColumn(\"Result_Bucket\", \r\n",
-							"                        when(ATAR_df.Given_Name == \"No Consent\", \"No Consent\")\r\n",
-							"                        .when(ATAR_df.Given_Name == \"Vocational Pathway\", \"Vocational Pathway\")\r\n",
-							"                        .otherwise(when(ATAR_df.ATAR < 30, \"< 30\")\r\n",
-							"                                    .when(((ATAR_df.ATAR < 40) & (ATAR_df.ATAR >= 30)), \"39.95 - 30\")\r\n",
-							"                                    .when(((ATAR_df.ATAR < 50) & (ATAR_df.ATAR >= 40)), \"49.95 - 40\")\r\n",
-							"                                    .when(((ATAR_df.ATAR < 60) & (ATAR_df.ATAR >= 50)), \"59.95 - 50\")\r\n",
-							"                                    .when(((ATAR_df.ATAR < 70) & (ATAR_df.ATAR >= 60)), \"69.95 - 60\")\r\n",
-							"                                    .when(((ATAR_df.ATAR < 80) & (ATAR_df.ATAR >= 70)), \"79.95 - 70\")\r\n",
-							"                                    .when(((ATAR_df.ATAR < 90) & (ATAR_df.ATAR >= 80)), \"89.95 - 80\")\r\n",
-							"                                    .when(ATAR_df.ATAR >= 90, \"99.95 - 90\")\r\n",
+							"                        when(df.Given_Name == \"No Consent\", \"No Consent\")\r\n",
+							"                        .when(df.Given_Name == \"Vocational Pathway\", \"Vocational Pathway\")\r\n",
+							"                        .otherwise(when(df.ATAR < 30, \"< 30\")\r\n",
+							"                                    .when(((df.ATAR < 40) & (df.ATAR >= 30)), \"39.95 - 30\")\r\n",
+							"                                    .when(((df.ATAR < 50) & (df.ATAR >= 40)), \"49.95 - 40\")\r\n",
+							"                                    .when(((df.ATAR < 60) & (df.ATAR >= 50)), \"59.95 - 50\")\r\n",
+							"                                    .when(((df.ATAR < 70) & (df.ATAR >= 60)), \"69.95 - 60\")\r\n",
+							"                                    .when(((df.ATAR < 80) & (df.ATAR >= 70)), \"79.95 - 70\")\r\n",
+							"                                    .when(((df.ATAR < 90) & (df.ATAR >= 80)), \"89.95 - 80\")\r\n",
+							"                                    .when(df.ATAR >= 90, \"99.95 - 90\")\r\n",
 							"                                )\r\n",
 							"                    )\r\n",
 							"\r\n",

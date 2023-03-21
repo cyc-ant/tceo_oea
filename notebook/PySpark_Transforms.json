@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "2c598c8b-04bc-4ff5-8389-9d9f0a9a0cdc"
+				"spark.autotune.trackingId": "d0001821-d5e7-45cf-a287-a2a3fed3cf04"
 			}
 		},
 		"metadata": {
@@ -97,7 +97,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 24
+				"execution_count": 9
 			},
 			{
 				"cell_type": "markdown",
@@ -145,7 +145,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 26
+				"execution_count": 8
 			},
 			{
 				"cell_type": "markdown",

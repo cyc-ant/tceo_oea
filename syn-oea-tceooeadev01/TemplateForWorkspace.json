@@ -48505,7 +48505,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "024fc263-fdad-4d69-aa6f-09ad42681362"
+						"spark.autotune.trackingId": "2e5c5c8e-c07c-484a-a414-4232a921da38"
 					}
 				},
 				"metadata": {
@@ -48950,6 +48950,20 @@
 							"                                    .when(df.ATAR >= 90, \"99.95 - 90\")\r\n",
 							"                                )\r\n",
 							"                    )\r\n",
+							"\r\n",
+							"    df = df.withColumn(\"Order\", \r\n",
+							"                        when(df.Result_Bucket = \"< 30\", 8)\r\n",
+							"                        .when(df.Result_Bucket = \"39.95 - 30\", 7)\r\n",
+							"                        .when(df.Result_Bucket = \"49.95 - 40\", 6)\r\n",
+							"                        .when(df.Result_Bucket = \"59.95 - 50\", 5)\r\n",
+							"                        .when(df.Result_Bucket = \"69.95 - 60\", 4)\r\n",
+							"                        .when(df.Result_Bucket = \"79.95 - 70\", 3)\r\n",
+							"                        .when(df.Result_Bucket = \"89.95 - 80\", 2)\r\n",
+							"                        .when(df.Result_Bucket = \"99.95 - 90\", 1)\r\n",
+							"                        .when(df.Result_Bucket = \"No Consent\", 9)\r\n",
+							"                        .otherwise(10)\r\n",
+							"                    )\r\n",
+							"    \r\n",
 							"\r\n",
 							"    return df"
 						],

@@ -30154,7 +30154,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d0001821-d5e7-45cf-a287-a2a3fed3cf04"
+						"spark.autotune.trackingId": "5b748299-62b4-4c0a-87d6-0b05f10688a4"
 					}
 				},
 				"metadata": {
@@ -31473,6 +31473,39 @@
 							"# Codes in the file are N - None, A - Apprenticeship, T - Traineeship\r\n",
 							"\r\n",
 							"SeniorOutcomes_df = SeniorOutcomes_df.withColumn(\"SBA\", when(SeniorOutcomes_df.sat == \"N\", lit(0)).otherwise(lit(1)))\r\n",
+							"\r\n",
+							"\r\n",
+							"# Add GenderSifCode and AtsiSifId so we can connect this table to the filter tables \r\n",
+							"SeniorOutcomes_df = SeniorOutcomes_df.withColumn(\"GenderSifCode\", when(SeniorOutcomes_df.sex == \"F\", \"2\")\r\n",
+							"                                                                .when(SeniorOutcomes_df.sex == \"M\", \"1\")\r\n",
+							"                                                                .otherwise(\"9\")\r\n",
+							"                                                )\r\n",
+							"\r\n",
+							"\r\n",
+							"SeniorOutcomes_df = SeniorOutcomes_df.withColumn(\"AtsiSifId\", when(SeniorOutcomes_df.indigenous == \"A\", \"1\")\r\n",
+							"                                                            .when(SeniorOutcomes_df.indigenous == \"T\", \"2\")\r\n",
+							"                                                            .when(SeniorOutcomes_df.indigenous == \"B\", \"3\")\r\n",
+							"                                                            .when(SeniorOutcomes_df.indigenous == \"N\", \"4\")\r\n",
+							"                                                            .otherwise(\"9\")\r\n",
+							"                                                )\r\n",
+							"\r\n",
+							"\r\n",
+							"# replace the school column with CampusID - so we can connect to the school table\r\n",
+							"\r\n",
+							"SeniorOutcomes_df = SeniorOutcomes_df.withColumn(\"CampusID\", when(SeniorOutcomes_df.school == \"Burdekin Catholic High School (Ayr)\", 17240)\r\n",
+							"                                                            .when(SeniorOutcomes_df.school == \"Columba Catholic College (Hackett Tce - Charters Towers)\", 17253)\r\n",
+							"                                                            .when(SeniorOutcomes_df.school == \"Gilroy Santa Maria College (Ingham)\", 17227)\r\n",
+							"                                                            .when(SeniorOutcomes_df.school == \"Good Shepherd Catholic College (Mount Isa)\", 17223)\r\n",
+							"                                                            .when(SeniorOutcomes_df.school == \"Ryan Catholic College (Kirwan)\", 2529)\r\n",
+							"                                                            .when(SeniorOutcomes_df.school == \"Southern Cross Catholic College (Townsville)\", 15370)\r\n",
+							"                                                            .when(SeniorOutcomes_df.school == \"St Anthony's Catholic College (Veales Rd and Joanne St - Deeragun)\", 13492)\r\n",
+							"                                                            .when(SeniorOutcomes_df.school == \"St Catherine's Catholic College The Whitsundays (Proserpine)\", 550)\r\n",
+							"                                                            .when(SeniorOutcomes_df.school == \"St Margaret Mary's College (Hyde Park)\", 17225)\r\n",
+							"                                                            .when(SeniorOutcomes_df.school == \"St Teresa's College (Abergowrie)\", 17247)\r\n",
+							"                                                )\r\n",
+							"\r\n",
+							"# remove the school column as it is not needed once we have CampusID\r\n",
+							"SeniorOutcomes_df = SeniorOutcomes_df.drop('school')\r\n",
 							""
 						],
 						"outputs": [],
@@ -31493,7 +31526,7 @@
 						},
 						"source": [
 							"# convert from wide to long format\r\n",
-							"SO_df = SeniorOutcomes_df.to_koalas().melt(id_vars=['year', 'school', 'last_name', 'given_names', 'sex', 'birth_date', 'indigenous', 'qcia', 'qce', 'vet'],\r\n",
+							"SO_df = SeniorOutcomes_df.to_koalas().melt(id_vars=['year', 'CampusID', 'last_name', 'given_names', 'sex', 'birth_date', 'indigenous', 'qcia', 'qce', 'vet'],\r\n",
 							"                                            value_vars=['certs_i', 'certs_ii', 'certs_iii', 'certs_iv', 'diplomas', 'adv_diplomas', 'SBA', 'uni_subjects'],\r\n",
 							"                                            var_name=\"CertificationType\",\r\n",
 							"                                            value_name = \"CertsAchieved\")\r\n",
@@ -48505,7 +48538,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2e5c5c8e-c07c-484a-a414-4232a921da38"
+						"spark.autotune.trackingId": "c745013a-6c69-4191-a21e-c705b66e51e9"
 					}
 				},
 				"metadata": {
@@ -48530,15 +48563,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace\r\n",
 							"from pyspark.sql.types import StringType"
@@ -48800,41 +48831,6 @@
 							}
 						},
 						"source": [
-							"def StudentLevel_pseudo(df):\r\n",
-							"\r\n",
-							"    df = df.withColumn(\"GenderSifCode\", when(df.sex == \"F\", \"2\")\r\n",
-							"                                        .when(df.sex == \"M\", \"1\")\r\n",
-							"                                        .otherwise(\"9\")\r\n",
-							"                                        )\r\n",
-							"\r\n",
-							"\r\n",
-							"    df = df.withColumn(\"AtsiSifId\", when(df.indigenous == \"A\", \"1\")\r\n",
-							"                                        .when(df.indigenous == \"T\", \"2\")\r\n",
-							"                                        .when(df.indigenous == \"B\", \"3\")\r\n",
-							"                                        .when(df.indigenous == \"N\", \"4\")\r\n",
-							"                                        .otherwise(\"9\")\r\n",
-							"                                        )\r\n",
-							"\r\n",
-							"    return df\r\n",
-							""
-						],
-						"outputs": [],
-						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
 							"def CompassODSStudentOrganisationMilestones_pseudo(df):\r\n",
 							"\r\n",
 							"    # this will get a the first substring up to the first hyphen \r\n",
@@ -48849,6 +48845,19 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Early Years Testing"
+						]
 					},
 					{
 						"cell_type": "code",
@@ -48923,6 +48932,19 @@
 						"execution_count": null
 					},
 					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Senior Outcomes "
+						]
+					},
+					{
 						"cell_type": "code",
 						"metadata": {
 							"jupyter": {
@@ -48952,15 +48974,15 @@
 							"                    )\r\n",
 							"\r\n",
 							"    df = df.withColumn(\"Order\", \r\n",
-							"                        when(df.Result_Bucket = \"< 30\", 8)\r\n",
-							"                        .when(df.Result_Bucket = \"39.95 - 30\", 7)\r\n",
-							"                        .when(df.Result_Bucket = \"49.95 - 40\", 6)\r\n",
-							"                        .when(df.Result_Bucket = \"59.95 - 50\", 5)\r\n",
-							"                        .when(df.Result_Bucket = \"69.95 - 60\", 4)\r\n",
-							"                        .when(df.Result_Bucket = \"79.95 - 70\", 3)\r\n",
-							"                        .when(df.Result_Bucket = \"89.95 - 80\", 2)\r\n",
-							"                        .when(df.Result_Bucket = \"99.95 - 90\", 1)\r\n",
-							"                        .when(df.Result_Bucket = \"No Consent\", 9)\r\n",
+							"                        when(df.Result_Bucket == \"< 30\", 8)\r\n",
+							"                        .when(df.Result_Bucket == \"39.95 - 30\", 7)\r\n",
+							"                        .when(df.Result_Bucket == \"49.95 - 40\", 6)\r\n",
+							"                        .when(df.Result_Bucket == \"59.95 - 50\", 5)\r\n",
+							"                        .when(df.Result_Bucket == \"69.95 - 60\", 4)\r\n",
+							"                        .when(df.Result_Bucket == \"79.95 - 70\", 3)\r\n",
+							"                        .when(df.Result_Bucket == \"89.95 - 80\", 2)\r\n",
+							"                        .when(df.Result_Bucket == \"99.95 - 90\", 1)\r\n",
+							"                        .when(df.Result_Bucket == \"No Consent\", 9)\r\n",
 							"                        .otherwise(10)\r\n",
 							"                    )\r\n",
 							"    \r\n",
@@ -48998,7 +49020,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "518d5d75-73de-4552-a605-e7f2d624f8e4"
+						"spark.autotune.trackingId": "61246bdf-d6aa-417b-9339-5f1eb0c76eba"
 					}
 				},
 				"metadata": {
@@ -49023,7 +49045,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -49089,9 +49112,7 @@
 							"    elif name == \"DMPersonDemographic_pseudo\":\r\n",
 							"        final_df = DMPersonDemographic_pseudo(df)\r\n",
 							"    elif name == \"DMFactPATResults_pseudo\":\r\n",
-							"        final_df = DMFactPATResults_pseudo(df)\r\n",
-							"    elif name == \"StudentLevel_pseudo\":\r\n",
-							"        final_df = StudentLevel_pseudo(df)    \r\n",
+							"        final_df = DMFactPATResults_pseudo(df)  \r\n",
 							"    elif name == \"EarlyYearsResults_pseudo\":\r\n",
 							"        final_df = EarlyYearsResults_pseudo(df)\r\n",
 							"    elif name == \"EarlyYearsResultsYear2_pseudo\":\r\n",

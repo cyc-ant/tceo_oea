@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "560377ae-096f-4192-95dc-ff5836905266"
+				"spark.autotune.trackingId": "d88bf9ea-7ec4-4975-b68a-78d52bf1f240"
 			}
 		},
 		"metadata": {
@@ -306,40 +306,6 @@
 					}
 				},
 				"source": [
-					"def StudentLevel_pseudo(df):\r\n",
-					"\r\n",
-					"    df = df.withColumn(\"GenderSifCode\", when(df.sex == \"F\", \"2\")\r\n",
-					"                                        .when(df.sex == \"M\", \"1\")\r\n",
-					"                                        .otherwise(\"9\")\r\n",
-					"                                        )\r\n",
-					"\r\n",
-					"\r\n",
-					"    df = df.withColumn(\"AtsiSifId\", when(df.indigenous == \"A\", \"1\")\r\n",
-					"                                        .when(df.indigenous == \"T\", \"2\")\r\n",
-					"                                        .when(df.indigenous == \"B\", \"3\")\r\n",
-					"                                        .when(df.indigenous == \"N\", \"4\")\r\n",
-					"                                        .otherwise(\"9\")\r\n",
-					"                                        )\r\n",
-					"\r\n",
-					"    return df\r\n",
-					""
-				],
-				"execution_count": null
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
 					"def CompassODSStudentOrganisationMilestones_pseudo(df):\r\n",
 					"\r\n",
 					"    # this will get a the first substring up to the first hyphen \r\n",
@@ -353,6 +319,19 @@
 					""
 				],
 				"execution_count": null
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"### Early Years Testing"
+				]
 			},
 			{
 				"cell_type": "code",
@@ -425,6 +404,53 @@
 				"execution_count": null
 			},
 			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"### Senior Outcomes "
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def StudentLevel_pseudo(df):\r\n",
+					"\r\n",
+					"    df = df.withColumn(\"GenderSifCode\", when(df.sex == \"F\", \"2\")\r\n",
+					"                                        .when(df.sex == \"M\", \"1\")\r\n",
+					"                                        .otherwise(\"9\")\r\n",
+					"                                        )\r\n",
+					"\r\n",
+					"\r\n",
+					"    df = df.withColumn(\"AtsiSifId\", when(df.indigenous == \"A\", \"1\")\r\n",
+					"                                        .when(df.indigenous == \"T\", \"2\")\r\n",
+					"                                        .when(df.indigenous == \"B\", \"3\")\r\n",
+					"                                        .when(df.indigenous == \"N\", \"4\")\r\n",
+					"                                        .otherwise(\"9\")\r\n",
+					"                                        )\r\n",
+					"\r\n",
+					"    return df\r\n",
+					""
+				],
+				"execution_count": null
+			},
+			{
 				"cell_type": "code",
 				"metadata": {
 					"jupyter": {
@@ -454,15 +480,15 @@
 					"                    )\r\n",
 					"\r\n",
 					"    df = df.withColumn(\"Order\", \r\n",
-					"                        when(df.Result_Bucket = \"< 30\", 8)\r\n",
-					"                        .when(df.Result_Bucket = \"39.95 - 30\", 7)\r\n",
-					"                        .when(df.Result_Bucket = \"49.95 - 40\", 6)\r\n",
-					"                        .when(df.Result_Bucket = \"59.95 - 50\", 5)\r\n",
-					"                        .when(df.Result_Bucket = \"69.95 - 60\", 4)\r\n",
-					"                        .when(df.Result_Bucket = \"79.95 - 70\", 3)\r\n",
-					"                        .when(df.Result_Bucket = \"89.95 - 80\", 2)\r\n",
-					"                        .when(df.Result_Bucket = \"99.95 - 90\", 1)\r\n",
-					"                        .when(df.Result_Bucket = \"No Consent\", 9)\r\n",
+					"                        when(df.Result_Bucket == \"< 30\", 8)\r\n",
+					"                        .when(df.Result_Bucket == \"39.95 - 30\", 7)\r\n",
+					"                        .when(df.Result_Bucket == \"49.95 - 40\", 6)\r\n",
+					"                        .when(df.Result_Bucket == \"59.95 - 50\", 5)\r\n",
+					"                        .when(df.Result_Bucket == \"69.95 - 60\", 4)\r\n",
+					"                        .when(df.Result_Bucket == \"79.95 - 70\", 3)\r\n",
+					"                        .when(df.Result_Bucket == \"89.95 - 80\", 2)\r\n",
+					"                        .when(df.Result_Bucket == \"99.95 - 90\", 1)\r\n",
+					"                        .when(df.Result_Bucket == \"No Consent\", 9)\r\n",
 					"                        .otherwise(10)\r\n",
 					"                    )\r\n",
 					"    \r\n",

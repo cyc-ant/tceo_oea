@@ -21,7 +21,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "0015d52b-2f7a-413d-9a80-a5f46db9f9fd"
+				"spark.autotune.trackingId": "2b089c02-3e6d-4ec5-9c30-e9e6108fbd73"
 			}
 		},
 		"metadata": {
@@ -113,24 +113,6 @@
 					"%run /OEA_py"
 				],
 				"execution_count": 16
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					"%run Stage1/GeneralDataCopyAddBKID_py"
-				],
-				"execution_count": null
 			},
 			{
 				"cell_type": "code",

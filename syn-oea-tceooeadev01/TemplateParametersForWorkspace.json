@@ -44,6 +44,9 @@
 		"SharePointOnlineList2_servicePrincipalKey": {
 			"value": ""
 		},
+		"linkedService1_connectionString": {
+			"value": ""
+		},
 		"syn-oea-tceooeadev01-WorkspaceDefaultSqlServer_connectionString": {
 			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:syn-oea-tceooeadev01.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},

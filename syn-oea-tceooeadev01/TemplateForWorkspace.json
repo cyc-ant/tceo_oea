@@ -10687,6 +10687,73 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_eyquestions')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Ingest to Stage2",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "OEA_connector_EYQuestions",
+								"type": "NotebookReference"
+							},
+							"parameters": {
+								"object_name": {
+									"value": "EarlyYearsQuestions_object",
+									"type": "string"
+								},
+								"method_name": {
+									"value": "ingest",
+									"type": "string"
+								},
+								"source_folder": {
+									"value": "EarlyYearsQuestions",
+									"type": "string"
+								}
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"executorSize": null,
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"driverSize": null,
+							"numExecutors": null
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Stage2 Ingestion Pipelines"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_EYQuestions')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/ingestion_stage2_generaldata')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -22885,7 +22952,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e6c2e185-7701-4bac-b791-49fe8a648778"
+						"spark.autotune.trackingId": "c2de56e4-ad1e-47ca-887a-88fa15bf20fe"
 					}
 				},
 				"metadata": {
@@ -22910,15 +22977,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class EarlyYearsQuestions(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='EarlyYearsQuestions', pseudonymize = True):\r\n",

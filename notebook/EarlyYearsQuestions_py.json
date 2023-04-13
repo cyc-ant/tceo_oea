@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a7729455-f4fd-4054-bf46-79f0edbbee92"
+				"spark.autotune.trackingId": "c2de56e4-ad1e-47ca-887a-88fa15bf20fe"
 			}
 		},
 		"metadata": {
@@ -62,9 +62,13 @@
 					"        self.schemas['EarlyYearsQuestions'] = [\r\n",
 					"                                    ['SKID', 'string', 'no-op'],\r\n",
 					"                                    ['Year', 'integer', 'no-op'],\r\n",
-					"                                    ['Question', 'integer', 'no-op'],\r\n",
-					"                                    ['Numeracy', 'string', 'no-op'],\r\n",
-					"                                    ['Literacy', 'string', 'no-op']\r\n",
+					"                                    ['YearLevel', 'string', 'no-op'],\r\n",
+					"                                    ['QuestionNumber', 'integer', 'no-op'],\r\n",
+					"                                    ['Group', 'string', 'no-op'],\r\n",
+					"                                    ['Sub-Group', 'string', 'no-op'],\r\n",
+					"                                    ['Description', 'string', 'no-op'],\r\n",
+					"                                    ['Numbered_Description', 'string', 'no-op'],\r\n",
+					"                                    ['QuestionString', 'string', 'no-op']\r\n",
 					"                                    ]\r\n",
 					"\r\n",
 					"\r\n",

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5b748299-62b4-4c0a-87d6-0b05f10688a4"
+				"spark.autotune.trackingId": "795c24c7-a7d2-48f4-b24b-fcc868218fe5"
 			}
 		},
 		"metadata": {
@@ -97,7 +97,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 9
+				"execution_count": 30
 			},
 			{
 				"cell_type": "markdown",
@@ -145,7 +145,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 8
+				"execution_count": 32
 			},
 			{
 				"cell_type": "markdown",
@@ -198,7 +198,7 @@
 					"DMStudentDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Student\"))\r\n",
 					"DMStaffDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Staff\"))"
 				],
-				"execution_count": 4
+				"execution_count": 33
 			},
 			{
 				"cell_type": "markdown",
@@ -245,7 +245,7 @@
 					"\r\n",
 					"EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
-				"execution_count": 5
+				"execution_count": 34
 			},
 			{
 				"cell_type": "code",
@@ -275,7 +275,7 @@
 					"\r\n",
 					"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
-				"execution_count": 6
+				"execution_count": 35
 			},
 			{
 				"cell_type": "markdown",
@@ -373,7 +373,7 @@
 					"# sort the columns\r\n",
 					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.select(sorted(EarlyYearsTestCompletion_df.columns))"
 				],
-				"execution_count": 7
+				"execution_count": 36
 			},
 			{
 				"cell_type": "markdown",
@@ -525,7 +525,7 @@
 					"# sort the columns\r\n",
 					"EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.select(sorted(EarlyYearsTestCompletion2_df.columns))"
 				],
-				"execution_count": 14
+				"execution_count": 37
 			},
 			{
 				"cell_type": "code",
@@ -544,7 +544,7 @@
 					"# combine the prep/year1 test completion table with the year 2 table\r\n",
 					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.union(EarlyYearsTestCompletion2_df)"
 				],
-				"execution_count": 16
+				"execution_count": 38
 			},
 			{
 				"cell_type": "markdown",
@@ -619,7 +619,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 81
+				"execution_count": 39
 			},
 			{
 				"cell_type": "code",
@@ -701,7 +701,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 82
+				"execution_count": 40
 			},
 			{
 				"cell_type": "code",
@@ -748,7 +748,7 @@
 					"EarlyYearsResults_Averages_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
 					""
 				],
-				"execution_count": 83
+				"execution_count": 41
 			},
 			{
 				"cell_type": "code",
@@ -796,7 +796,7 @@
 					"EarlyYearsResultsTotals_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
 					""
 				],
-				"execution_count": 84
+				"execution_count": 42
 			},
 			{
 				"cell_type": "markdown",
@@ -828,7 +828,7 @@
 				"source": [
 					"# this table will pivot the early years result Questions from columns to rows \r\n",
 					"\r\n",
-					"df = EarlyYearsResults_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassID', 'Year', 'YearLevel', 'TestLevel'],\r\n",
+					"df = EarlyYearsResults_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'Status', 'ClassID', 'Year', 'YearLevel', 'TestLevel'],\r\n",
 					"                                            value_vars=['Ques1', 'Ques2', 'Ques3', 'Ques4', 'Ques5', 'Ques6', 'Ques7', 'Ques8', 'Ques9', 'Ques10',\r\n",
 					"                                                        'Ques11', 'Ques12', 'Ques13', 'Ques14', 'Ques15', 'Ques16', 'Ques17', 'Ques18', 'Ques19', 'Ques20',\r\n",
 					"                                                        'Ques21', 'Ques22', 'Ques23', 'Ques24', 'Ques25', 'Ques26', 'Ques27', 'Ques28', 'Ques29', 'Ques30',\r\n",
@@ -839,7 +839,7 @@
 					"EarlyYearsResultsLong_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 85
+				"execution_count": 56
 			},
 			{
 				"cell_type": "markdown",
@@ -851,7 +851,7 @@
 					}
 				},
 				"source": [
-					"### Remove the 'Ques' from the Question number in the results DeltaTable"
+					"### Remove the 'Ques' from the Question number in the results table"
 				]
 			},
 			{
@@ -873,9 +873,15 @@
 					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"Question\", substring(\"Question\", 5, len(\"Question\")-4))\r\n",
 					"\r\n",
 					"# Create SKQID to uniquely identify the different year levels (Prep and Year 1)\r\n",
-					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"SKQID\", concat_ws(\"-\", col('YearLevel'), col('Question')))"
+					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"SKQID\", concat_ws(\"-\", col('YearLevel'), col('Question')))\r\n",
+					"\r\n",
+					"# Add the 'QuestionType' column so we can merge with the year 2 results \r\n",
+					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"QuestionType\", when(EarlyYearsResultsLong_df['Question'] < 21, lit(\"Numeracy\")).otherwise(lit(\"Literacy\")))\r\n",
+					"\r\n",
+					"# Add the StudentAnswer and Answer Columns (with NULL values) so that we can merge this with the year 2 results \r\n",
+					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"StudentAnswer\", lit(None)).withColumn(\"Answer\", lit(None))"
 				],
-				"execution_count": 86
+				"execution_count": 57
 			},
 			{
 				"cell_type": "markdown",
@@ -915,7 +921,7 @@
 					"EYAnswers_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 87
+				"execution_count": 45
 			},
 			{
 				"cell_type": "markdown",
@@ -972,7 +978,7 @@
 					"EYResultsYear2LongFinal_df = joinedcleaned_df.withColumn('Result', when(trim(lower(joinedcleaned_df.StudentAnswer)) == trim(lower(joinedcleaned_df.Answer)), 1).otherwise(0))\r\n",
 					""
 				],
-				"execution_count": 95
+				"execution_count": 46
 			},
 			{
 				"cell_type": "code",
@@ -996,7 +1002,7 @@
 					"                                                                    )\r\n",
 					""
 				],
-				"execution_count": 89
+				"execution_count": 47
 			},
 			{
 				"cell_type": "markdown",
@@ -1078,7 +1084,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 96
+				"execution_count": 48
 			},
 			{
 				"cell_type": "code",
@@ -1159,7 +1165,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 97
+				"execution_count": 49
 			},
 			{
 				"cell_type": "code",
@@ -1204,7 +1210,7 @@
 					"\r\n",
 					"EarlyYearsResults_Averages_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
 				],
-				"execution_count": 98
+				"execution_count": 50
 			},
 			{
 				"cell_type": "code",
@@ -1250,7 +1256,7 @@
 					"\r\n",
 					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
 				],
-				"execution_count": 99
+				"execution_count": 51
 			},
 			{
 				"cell_type": "markdown",
@@ -1262,7 +1268,7 @@
 					}
 				},
 				"source": [
-					"### Join Prep/Year 1 and Year 2 datasets"
+					"### Join Prep/Year 1 and Year 2 datasets (Results totals)"
 				]
 			},
 			{
@@ -1284,7 +1290,62 @@
 					"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsYear2Joined_df.union(EarlyYearsResultsTotals_df)\r\n",
 					""
 				],
-				"execution_count": null
+				"execution_count": 52
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"### Combine the Prep/Year 1 and Year 2 student test results"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"# sort the columns for both tables\r\n",
+					"EY_Results_Sorted_df = EarlyYearsResultsLong_df.select(sorted(EarlyYearsResultsLong_df.columns))\r\n",
+					"\r\n",
+					"# remove the columns we don't need \r\n",
+					"EY_ResultsYear2_df = EYResultsYear2LongFinal_df.drop(\"StudentEmailID\", \"StudentName\", \"TeacherEmailID\", \"TeacherName\")\r\n",
+					"\r\n",
+					"EY_ResultsYear2_Sorted_df = EY_ResultsYear2_df.select(sorted(EY_ResultsYear2_df.columns))\r\n",
+					"\r\n",
+					"# combine the tables with a union \r\n",
+					"EarlyYearsResultsCombined_df = EY_Results_Sorted_df.union(EY_ResultsYear2_Sorted_df)\r\n",
+					""
+				],
+				"execution_count": 61
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"### Join Prep/Year 1 and Year 2 datasets (Results)"
+				]
 			},
 			{
 				"cell_type": "markdown",
@@ -1353,7 +1414,7 @@
 					"SeniorOutcomes_df = SeniorOutcomes_df.drop('school')\r\n",
 					""
 				],
-				"execution_count": 27
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -1377,7 +1438,7 @@
 					"\r\n",
 					"SeniorOutcomesLong_df = SO_df.to_spark()"
 				],
-				"execution_count": 28
+				"execution_count": null
 			},
 			{
 				"cell_type": "markdown",
@@ -1409,12 +1470,18 @@
 					"saveToTarget(DMStudentDemographic_df, destination_p, f'{version}/DMStudentDemographic_pseudo')\r\n",
 					"saveToTarget(DMStaffDemographic_df, destination_p, f'{version}/DMStaffDemographic_pseudo')\r\n",
 					"\r\n",
+					"# remove in next version \r\n",
 					"saveToTarget(EarlyYearsResultsLong_df, destination_p, f'{version}/EarlyYearsResultsLong_pseudo')\r\n",
 					"saveToTarget(EarlyYearsResultsTotals_df, destination_p, f'{version}/EarlyYearsResultsTotals_pseudo')\r\n",
 					"\r\n",
+					"# remove in next version \r\n",
 					"saveToTarget(EYResultsYear2LongFinal_df, destination_p, f'{version}/EarlyYearsResultsYear2Long_pseudo')\r\n",
 					"saveToTarget(EarlyYearsResultsTotalsYear2Joined_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Joined_pseudo')\r\n",
 					"\r\n",
+					"# Test result tables for all years \r\n",
+					"saveToTarget(EarlyYearsResultsCombined_df, destination_p, f'{version}/EarlyYearsResultsCombined_pseudo')\r\n",
+					"\r\n",
+					"# Test result totals (for all years)\r\n",
 					"saveToTarget(EarlyYearsResultsTotalsCombined_df, destination_p, f'{version}/EarlyYearsResultsTotalsCombinedYears_pseudo')\r\n",
 					"\r\n",
 					"# Test completion tables \r\n",

@@ -31238,7 +31238,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "bcc6c81c-09c7-4547-83a0-67a485606016"
+						"spark.autotune.trackingId": "6a705a2f-f491-4bdf-b1e5-1f630561e9d6"
 					}
 				},
 				"metadata": {
@@ -31263,8 +31263,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -49702,7 +49701,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c745013a-6c69-4191-a21e-c705b66e51e9"
+						"spark.autotune.trackingId": "06ce212c-e4e5-4198-b57a-3ffe5781c76f"
 					}
 				},
 				"metadata": {
@@ -49727,15 +49726,17 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
-							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace\r\n",
+							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split\r\n",
 							"from pyspark.sql.types import StringType"
 						],
 						"outputs": [],
@@ -49756,7 +49757,7 @@
 						},
 						"source": [
 							"def DMYearLevel_pseudo(df):\r\n",
-							"\r\n",
+							"    # create display name\r\n",
 							"    df = df.withColumn(\"DisplayName\", when(df.BusinessDesc == \"Unknown\", \"\")\r\n",
 							"                                        .when(df.BusinessDesc == \"\", \"\")\r\n",
 							"                                        .when(df.BusinessDesc == \"Ungraded\", \"\")\r\n",
@@ -49770,6 +49771,12 @@
 							"                                        .when(df.BusinessDesc == \"Pre-School\", \"Prep\")\r\n",
 							"                                        .when(df.BusinessDesc == \"OneYearBeforeYear1\", \"Prep\")\r\n",
 							"                                        .otherwise(df.BusinessDesc)\r\n",
+							"                        )\r\n",
+							"\r\n",
+							"    # create 'short' name \r\n",
+							"    df = df.withColumn(\"ShortName\", when(df.DisplayName == \"\", \"\")\r\n",
+							"                                    .when(df.DisplayName == \"Prep\", \"P\")\r\n",
+							"                                    .otherwise(split(col(\"DisplayName\"), \" \")[-1])\r\n",
 							"                        )\r\n",
 							"\r\n",
 							"    return df"
@@ -50347,7 +50354,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6f3b1c10-ff9c-4632-ba8e-aeb8bea2db12"
+						"spark.autotune.trackingId": "57a97e27-3e2a-4514-8f45-1f4da17a908d"
 					}
 				},
 				"metadata": {
@@ -50629,7 +50636,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 15
 					}
 				]
 			},

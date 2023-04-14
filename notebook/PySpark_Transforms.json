@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "795c24c7-a7d2-48f4-b24b-fcc868218fe5"
+				"spark.autotune.trackingId": "bce82fc8-49b4-4cd4-88bf-581cb607bc06"
 			}
 		},
 		"metadata": {
@@ -953,7 +953,7 @@
 				"source": [
 					"# wide to long conversion for year 2 and auto marker\r\n",
 					"\r\n",
-					"df = EYResultsYear2_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassID', 'QuestionType', 'Status', 'StudentEmailID', 'StudentName', 'TeacherEmailID', 'TeacherName', 'Year', 'YearLevel', 'TestLevel'],\r\n",
+					"df = EYResultsYear2_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassID', 'QuestionType', 'Status', 'Year', 'YearLevel', 'TestLevel'],\r\n",
 					"                                            value_vars=['Ques1', 'Ques2', 'Ques3', 'Ques4', 'Ques5', 'Ques6', 'Ques7', 'Ques8', 'Ques9', 'Ques10',\r\n",
 					"                                                        'Ques11', 'Ques12', 'Ques13', 'Ques14', 'Ques15', 'Ques16', 'Ques17', 'Ques18', 'Ques19', 'Ques20',\r\n",
 					"                                                        'Ques21', 'Ques22', 'Ques23', 'Ques24', 'Ques25'],\r\n",
@@ -1322,14 +1322,25 @@
 				"source": [
 					"# sort the columns for both tables\r\n",
 					"EY_Results_Sorted_df = EarlyYearsResultsLong_df.select(sorted(EarlyYearsResultsLong_df.columns))\r\n",
-					"\r\n",
-					"# remove the columns we don't need \r\n",
-					"EY_ResultsYear2_df = EYResultsYear2LongFinal_df.drop(\"StudentEmailID\", \"StudentName\", \"TeacherEmailID\", \"TeacherName\")\r\n",
-					"\r\n",
 					"EY_ResultsYear2_Sorted_df = EY_ResultsYear2_df.select(sorted(EY_ResultsYear2_df.columns))\r\n",
 					"\r\n",
 					"# combine the tables with a union \r\n",
 					"EarlyYearsResultsCombined_df = EY_Results_Sorted_df.union(EY_ResultsYear2_Sorted_df)\r\n",
+					"\r\n",
+					"# add a long form to describe YearLevel (ie instead of 1 - Year 1)\r\n",
+					"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"YearLevelDescription\", when(EarlyYearsResultsCombined_df['YearLevel'] == \"P\", lit(\"Prep\"))\r\n",
+					"                                                                                                .when(EarlyYearsResultsCombined_df['YearLevel'] == \"1\", lit(\"Year 1\"))\r\n",
+					"                                                                                                .when(EarlyYearsResultsCombined_df['YearLevel'] == \"2\", lit(\"Year 2\"))\r\n",
+					"                                                                                                .otherwise(lit(\"Unknown\"))\r\n",
+					"                                                                        )\r\n",
+					"\r\n",
+					"# add a Yearlevel ordering column\r\n",
+					"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"YearLevelOrdering\", when(EarlyYearsResultsCombined_df['YearLevel'] == \"P\", lit(1))\r\n",
+					"                                                                                                .when(EarlyYearsResultsCombined_df['YearLevel'] == \"1\", lit(2))\r\n",
+					"                                                                                                .when(EarlyYearsResultsCombined_df['YearLevel'] == \"2\", lit(3))\r\n",
+					"                                                                                                .otherwise(lit(0))\r\n",
+					"                                                                        )\r\n",
+					"\r\n",
 					""
 				],
 				"execution_count": 61

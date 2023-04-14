@@ -31238,7 +31238,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6a705a2f-f491-4bdf-b1e5-1f630561e9d6"
+						"spark.autotune.trackingId": "449e99c3-3d31-40c5-bf2e-1331c88a065e"
 					}
 				},
 				"metadata": {
@@ -31263,7 +31263,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -32565,21 +32566,6 @@
 							"\r\n",
 							"# combine the tables with a union \r\n",
 							"EarlyYearsResultsCombined_df = EY_Results_Sorted_df.union(EY_ResultsYear2_Sorted_df)\r\n",
-							"\r\n",
-							"# add a long form to describe YearLevel (ie instead of 1 - Year 1)\r\n",
-							"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"YearLevelDescription\", when(EarlyYearsResultsCombined_df['YearLevel'] == \"P\", lit(\"Prep\"))\r\n",
-							"                                                                                                .when(EarlyYearsResultsCombined_df['YearLevel'] == \"1\", lit(\"Year 1\"))\r\n",
-							"                                                                                                .when(EarlyYearsResultsCombined_df['YearLevel'] == \"2\", lit(\"Year 2\"))\r\n",
-							"                                                                                                .otherwise(lit(\"Unknown\"))\r\n",
-							"                                                                        )\r\n",
-							"\r\n",
-							"# add a Yearlevel ordering column\r\n",
-							"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"YearLevelOrdering\", when(EarlyYearsResultsCombined_df['YearLevel'] == \"P\", lit(1))\r\n",
-							"                                                                                                .when(EarlyYearsResultsCombined_df['YearLevel'] == \"1\", lit(2))\r\n",
-							"                                                                                                .when(EarlyYearsResultsCombined_df['YearLevel'] == \"2\", lit(3))\r\n",
-							"                                                                                                .otherwise(lit(0))\r\n",
-							"                                                                        )\r\n",
-							"\r\n",
 							""
 						],
 						"outputs": [],
@@ -49701,7 +49687,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "06ce212c-e4e5-4198-b57a-3ffe5781c76f"
+						"spark.autotune.trackingId": "4dcfef92-1648-4598-ae58-cadddc4603e3"
 					}
 				},
 				"metadata": {
@@ -49726,15 +49712,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split\r\n",
 							"from pyspark.sql.types import StringType"
@@ -50354,7 +50338,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "57a97e27-3e2a-4514-8f45-1f4da17a908d"
+						"spark.autotune.trackingId": "35b04a80-382c-47a0-aacc-c5a0aee1a813"
 					}
 				},
 				"metadata": {
@@ -50414,7 +50398,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 16
 					},
 					{
 						"cell_type": "code",
@@ -50433,7 +50417,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -50452,7 +50436,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -50481,7 +50465,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -50502,7 +50486,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -50545,7 +50529,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -50565,7 +50549,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",

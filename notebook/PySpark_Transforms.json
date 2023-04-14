@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ec01a22f-1926-46bf-915e-7ed68c37444d"
+				"spark.autotune.trackingId": "0c4c6f0e-58e0-4ff6-91c1-5bcdce085c3b"
 			}
 		},
 		"metadata": {
@@ -1331,6 +1331,25 @@
 				"execution_count": 61
 			},
 			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# create the classID dimension\r\n",
+					"EarlyYearsClassID_df = EarlyYearsResultsCombined_df.select(col(\"ClassID\")).distinct()"
+				],
+				"execution_count": null
+			},
+			{
 				"cell_type": "markdown",
 				"metadata": {
 					"nteract": {
@@ -1482,6 +1501,9 @@
 					"\r\n",
 					"# Test completion tables \r\n",
 					"saveToTarget(EarlyYearsTestCompletion_df, destination_p, f'{version}/EarlyYearsTestCompletion_pseudo')\r\n",
+					"\r\n",
+					"# Early Years ClassID Dimension\r\n",
+					"saveToTarget(EarlyYearsClassID_df, destination_p, f'{version}/DMEarlyYearsClassID_pseudo')\r\n",
 					"\r\n",
 					"# Senior Outcomes tables \r\n",
 					"saveToTarget(SeniorOutcomesLong_df, destination_p, f'{version}/SeniorOutcomesLong_pseudo')"

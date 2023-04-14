@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "bce82fc8-49b4-4cd4-88bf-581cb607bc06"
+				"spark.autotune.trackingId": "63436cff-5eeb-4ecc-9824-6d589b3559b4"
 			}
 		},
 		"metadata": {
@@ -879,7 +879,7 @@
 					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"QuestionType\", when(EarlyYearsResultsLong_df['Question'] < 21, lit(\"Numeracy\")).otherwise(lit(\"Literacy\")))\r\n",
 					"\r\n",
 					"# Add the StudentAnswer and Answer Columns (with NULL values) so that we can merge this with the year 2 results \r\n",
-					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"StudentAnswer\", lit(None)).withColumn(\"Answer\", lit(None))"
+					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"StudentAnswer\", lit(\"N/A\")).withColumn(\"Answer\", lit(\"N/A\"))"
 				],
 				"execution_count": 57
 			},
@@ -1322,7 +1322,7 @@
 				"source": [
 					"# sort the columns for both tables\r\n",
 					"EY_Results_Sorted_df = EarlyYearsResultsLong_df.select(sorted(EarlyYearsResultsLong_df.columns))\r\n",
-					"EY_ResultsYear2_Sorted_df = EY_ResultsYear2_df.select(sorted(EY_ResultsYear2_df.columns))\r\n",
+					"EY_ResultsYear2_Sorted_df = EYResultsYear2LongFinal_df.select(sorted(EYResultsYear2LongFinal_df.columns))\r\n",
 					"\r\n",
 					"# combine the tables with a union \r\n",
 					"EarlyYearsResultsCombined_df = EY_Results_Sorted_df.union(EY_ResultsYear2_Sorted_df)\r\n",

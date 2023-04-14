@@ -31238,7 +31238,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ec01a22f-1926-46bf-915e-7ed68c37444d"
+						"spark.autotune.trackingId": "ef608e91-667d-49ad-9391-6e07d6044a09"
 					}
 				},
 				"metadata": {
@@ -31263,7 +31263,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -32571,6 +32572,26 @@
 						"execution_count": 61
 					},
 					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# create the classID dimension\r\n",
+							"EarlyYearsClassID_df = EarlyYearsResultsCombined_df.select(col(\"ClassID\")).distinct()"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
 						"cell_type": "markdown",
 						"metadata": {
 							"nteract": {
@@ -32724,6 +32745,9 @@
 							"\r\n",
 							"# Test completion tables \r\n",
 							"saveToTarget(EarlyYearsTestCompletion_df, destination_p, f'{version}/EarlyYearsTestCompletion_pseudo')\r\n",
+							"\r\n",
+							"# Early Years ClassID Dimension\r\n",
+							"saveToTarget(EarlyYearsClassID_df, destination_p, f'{version}/DMEarlyYearsClassID_pseudo')\r\n",
 							"\r\n",
 							"# Senior Outcomes tables \r\n",
 							"saveToTarget(SeniorOutcomesLong_df, destination_p, f'{version}/SeniorOutcomesLong_pseudo')"
@@ -49686,7 +49710,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6d2cc96c-38df-4a54-8f50-78235072953e"
+						"spark.autotune.trackingId": "be921f7e-ace2-4771-b265-5aa46da8f4c6"
 					}
 				},
 				"metadata": {
@@ -49711,15 +49735,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split\r\n",
 							"from pyspark.sql.types import StringType"

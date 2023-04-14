@@ -31238,7 +31238,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4b02cbc5-5763-48c9-a787-afc1c8b542fe"
+						"spark.autotune.trackingId": "bcc6c81c-09c7-4547-83a0-67a485606016"
 					}
 				},
 				"metadata": {
@@ -32104,7 +32104,7 @@
 							"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"Question\", substring(\"Question\", 5, len(\"Question\")-4))\r\n",
 							"\r\n",
 							"# Create SKQID to uniquely identify the different year levels (Prep and Year 1)\r\n",
-							"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"SKQID\", concat_ws(\"-\", col('YearLevel'), col('Question')))\r\n",
+							"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"SKQID\", concat_ws(\"-\", col('Year'), col('YearLevel'), col('Question')))\r\n",
 							"\r\n",
 							"# Add the 'QuestionType' column so we can merge with the year 2 results \r\n",
 							"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"QuestionType\", when(EarlyYearsResultsLong_df['Question'] < 21, lit(\"Numeracy\")).otherwise(lit(\"Literacy\")))\r\n",
@@ -32231,8 +32231,8 @@
 						"source": [
 							"# create the SKQID to uniquely identify between literacy and numeracy test results\r\n",
 							"EYResultsYear2LongFinal_df = EYResultsYear2LongFinal_df.withColumn('SKQID', when(EYResultsYear2LongFinal_df['QuestionType'] == \"Literacy\", \r\n",
-							"                                                                                concat_ws(\"-\", col('YearLevel'), col('Question'), lit(\"Lit\")))\\\r\n",
-							"                                                                                .otherwise(concat_ws(\"-\", col('YearLevel'), col('Question'), lit(\"Num\")))\r\n",
+							"                                                                                concat_ws(\"-\", col('Year'), col('YearLevel'), col('Question'), lit(\"Lit\")))\\\r\n",
+							"                                                                                .otherwise(concat_ws(\"-\", col('Year'), col('YearLevel'), col('Question'), lit(\"Num\")))\r\n",
 							"                                                                    )\r\n",
 							""
 						],
@@ -50347,7 +50347,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e1996387-a3a7-4773-8a6d-5f5832011621"
+						"spark.autotune.trackingId": "6f3b1c10-ff9c-4632-ba8e-aeb8bea2db12"
 					}
 				},
 				"metadata": {
@@ -50407,7 +50407,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -50426,7 +50426,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -50445,7 +50445,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -50474,7 +50474,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -50495,7 +50495,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -50538,7 +50538,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -50629,7 +50629,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 14
 					}
 				]
 			},

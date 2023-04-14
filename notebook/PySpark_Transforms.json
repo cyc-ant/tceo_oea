@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "63436cff-5eeb-4ecc-9824-6d589b3559b4"
+				"spark.autotune.trackingId": "6a705a2f-f491-4bdf-b1e5-1f630561e9d6"
 			}
 		},
 		"metadata": {
@@ -873,7 +873,7 @@
 					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"Question\", substring(\"Question\", 5, len(\"Question\")-4))\r\n",
 					"\r\n",
 					"# Create SKQID to uniquely identify the different year levels (Prep and Year 1)\r\n",
-					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"SKQID\", concat_ws(\"-\", col('YearLevel'), col('Question')))\r\n",
+					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"SKQID\", concat_ws(\"-\", col('Year'), col('YearLevel'), col('Question')))\r\n",
 					"\r\n",
 					"# Add the 'QuestionType' column so we can merge with the year 2 results \r\n",
 					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"QuestionType\", when(EarlyYearsResultsLong_df['Question'] < 21, lit(\"Numeracy\")).otherwise(lit(\"Literacy\")))\r\n",
@@ -997,8 +997,8 @@
 				"source": [
 					"# create the SKQID to uniquely identify between literacy and numeracy test results\r\n",
 					"EYResultsYear2LongFinal_df = EYResultsYear2LongFinal_df.withColumn('SKQID', when(EYResultsYear2LongFinal_df['QuestionType'] == \"Literacy\", \r\n",
-					"                                                                                concat_ws(\"-\", col('YearLevel'), col('Question'), lit(\"Lit\")))\\\r\n",
-					"                                                                                .otherwise(concat_ws(\"-\", col('YearLevel'), col('Question'), lit(\"Num\")))\r\n",
+					"                                                                                concat_ws(\"-\", col('Year'), col('YearLevel'), col('Question'), lit(\"Lit\")))\\\r\n",
+					"                                                                                .otherwise(concat_ws(\"-\", col('Year'), col('YearLevel'), col('Question'), lit(\"Num\")))\r\n",
 					"                                                                    )\r\n",
 					""
 				],

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "4dcfef92-1648-4598-ae58-cadddc4603e3"
+				"spark.autotune.trackingId": "be921f7e-ace2-4771-b265-5aa46da8f4c6"
 			}
 		},
 		"metadata": {
@@ -93,7 +93,7 @@
 					"    # create 'short' name \r\n",
 					"    df = df.withColumn(\"ShortName\", when(df.DisplayName == \"\", \"\")\r\n",
 					"                                    .when(df.DisplayName == \"Prep\", \"P\")\r\n",
-					"                                    .otherwise(split(col(\"DisplayName\"), \" \")[-1])\r\n",
+					"                                    .otherwise(split(df.DisplayName, \" \")[-1])\r\n",
 					"                        )\r\n",
 					"\r\n",
 					"    return df"

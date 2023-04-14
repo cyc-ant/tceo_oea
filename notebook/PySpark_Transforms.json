@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "6a705a2f-f491-4bdf-b1e5-1f630561e9d6"
+				"spark.autotune.trackingId": "ec01a22f-1926-46bf-915e-7ed68c37444d"
 			}
 		},
 		"metadata": {
@@ -1326,21 +1326,6 @@
 					"\r\n",
 					"# combine the tables with a union \r\n",
 					"EarlyYearsResultsCombined_df = EY_Results_Sorted_df.union(EY_ResultsYear2_Sorted_df)\r\n",
-					"\r\n",
-					"# add a long form to describe YearLevel (ie instead of 1 - Year 1)\r\n",
-					"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"YearLevelDescription\", when(EarlyYearsResultsCombined_df['YearLevel'] == \"P\", lit(\"Prep\"))\r\n",
-					"                                                                                                .when(EarlyYearsResultsCombined_df['YearLevel'] == \"1\", lit(\"Year 1\"))\r\n",
-					"                                                                                                .when(EarlyYearsResultsCombined_df['YearLevel'] == \"2\", lit(\"Year 2\"))\r\n",
-					"                                                                                                .otherwise(lit(\"Unknown\"))\r\n",
-					"                                                                        )\r\n",
-					"\r\n",
-					"# add a Yearlevel ordering column\r\n",
-					"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"YearLevelOrdering\", when(EarlyYearsResultsCombined_df['YearLevel'] == \"P\", lit(1))\r\n",
-					"                                                                                                .when(EarlyYearsResultsCombined_df['YearLevel'] == \"1\", lit(2))\r\n",
-					"                                                                                                .when(EarlyYearsResultsCombined_df['YearLevel'] == \"2\", lit(3))\r\n",
-					"                                                                                                .otherwise(lit(0))\r\n",
-					"                                                                        )\r\n",
-					"\r\n",
 					""
 				],
 				"execution_count": 61

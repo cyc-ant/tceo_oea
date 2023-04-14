@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c745013a-6c69-4191-a21e-c705b66e51e9"
+				"spark.autotune.trackingId": "4dcfef92-1648-4598-ae58-cadddc4603e3"
 			}
 		},
 		"metadata": {
@@ -54,7 +54,7 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace\r\n",
+					"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split\r\n",
 					"from pyspark.sql.types import StringType"
 				],
 				"execution_count": 1
@@ -74,7 +74,7 @@
 				},
 				"source": [
 					"def DMYearLevel_pseudo(df):\r\n",
-					"\r\n",
+					"    # create display name\r\n",
 					"    df = df.withColumn(\"DisplayName\", when(df.BusinessDesc == \"Unknown\", \"\")\r\n",
 					"                                        .when(df.BusinessDesc == \"\", \"\")\r\n",
 					"                                        .when(df.BusinessDesc == \"Ungraded\", \"\")\r\n",
@@ -88,6 +88,12 @@
 					"                                        .when(df.BusinessDesc == \"Pre-School\", \"Prep\")\r\n",
 					"                                        .when(df.BusinessDesc == \"OneYearBeforeYear1\", \"Prep\")\r\n",
 					"                                        .otherwise(df.BusinessDesc)\r\n",
+					"                        )\r\n",
+					"\r\n",
+					"    # create 'short' name \r\n",
+					"    df = df.withColumn(\"ShortName\", when(df.DisplayName == \"\", \"\")\r\n",
+					"                                    .when(df.DisplayName == \"Prep\", \"P\")\r\n",
+					"                                    .otherwise(split(col(\"DisplayName\"), \" \")[-1])\r\n",
 					"                        )\r\n",
 					"\r\n",
 					"    return df"

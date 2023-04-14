@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "0c4c6f0e-58e0-4ff6-91c1-5bcdce085c3b"
+				"spark.autotune.trackingId": "d3b9ace7-88df-4485-a32e-e1be7d761984"
 			}
 		},
 		"metadata": {
@@ -1326,28 +1326,17 @@
 					"\r\n",
 					"# combine the tables with a union \r\n",
 					"EarlyYearsResultsCombined_df = EY_Results_Sorted_df.union(EY_ResultsYear2_Sorted_df)\r\n",
-					""
+					"\r\n",
+					"# create unique ID\r\n",
+					"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")))\r\n",
+					"\r\n",
+					"# create ClassID Dimension\r\n",
+					"EarlyYearsClassID_df = EarlyYearsResultsCombined_df.select(col(\"SKResultID\"), col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\"))\r\n",
+					"\r\n",
+					"# clean up the unwanted columns \r\n",
+					"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.drop(\"Year\", \"YearLevel\", \"ClassID\")"
 				],
 				"execution_count": 61
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					"# create the classID dimension\r\n",
-					"EarlyYearsClassID_df = EarlyYearsResultsCombined_df.select(col(\"ClassID\")).distinct()"
-				],
-				"execution_count": null
 			},
 			{
 				"cell_type": "markdown",

@@ -31238,7 +31238,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "449e99c3-3d31-40c5-bf2e-1331c88a065e"
+						"spark.autotune.trackingId": "ec01a22f-1926-46bf-915e-7ed68c37444d"
 					}
 				},
 				"metadata": {
@@ -31263,8 +31263,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -49687,7 +49686,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4dcfef92-1648-4598-ae58-cadddc4603e3"
+						"spark.autotune.trackingId": "6d2cc96c-38df-4a54-8f50-78235072953e"
 					}
 				},
 				"metadata": {
@@ -49712,13 +49711,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split\r\n",
 							"from pyspark.sql.types import StringType"
@@ -49760,7 +49761,7 @@
 							"    # create 'short' name \r\n",
 							"    df = df.withColumn(\"ShortName\", when(df.DisplayName == \"\", \"\")\r\n",
 							"                                    .when(df.DisplayName == \"Prep\", \"P\")\r\n",
-							"                                    .otherwise(split(col(\"DisplayName\"), \" \")[-1])\r\n",
+							"                                    .otherwise(split(df.DisplayName, \" \")[-1])\r\n",
 							"                        )\r\n",
 							"\r\n",
 							"    return df"

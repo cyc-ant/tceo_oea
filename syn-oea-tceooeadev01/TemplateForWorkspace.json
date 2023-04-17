@@ -31238,7 +31238,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "91c3342c-6fa6-4cd1-ba65-ee3f2b962741"
+						"spark.autotune.trackingId": "1d92cee2-a06c-4a8d-aa8d-b1ef5dd7c898"
 					}
 				},
 				"metadata": {
@@ -32568,17 +32568,17 @@
 							"EarlyYearsResultsCombined_df = EY_Results_Sorted_df.union(EY_ResultsYear2_Sorted_df)\r\n",
 							"\r\n",
 							"# create unique ID's\r\n",
-							"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
-							"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
-							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
+							"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
+							"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
+							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
 							"\r\n",
 							"# create ClassID Dimension\r\n",
-							"EarlyYearsClassID_df = EarlyYearsResultsCombined_df.select(col(\"SKResultID\"), col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")).distinct()\r\n",
+							"EarlyYearsClassID_df = EarlyYearsResultsCombined_df.select(col(\"SKResultID\"), col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")).distinct()\r\n",
 							"\r\n",
 							"# clean up the unwanted columns \r\n",
-							"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.drop(\"Year\", \"YearLevel\", \"ClassID\")\r\n",
-							"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.drop(\"Year\", \"YearLevel\", \"ClassID\")\r\n",
-							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop(\"Year\", \"YearLevel\", \"ClassID\")\r\n",
+							"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
+							"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
+							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
 							""
 						],
 						"outputs": [],
@@ -50354,7 +50354,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2c86bf36-52da-49b3-850d-a14bf770ae96"
+						"spark.autotune.trackingId": "ca5e408a-a894-4d26-a60d-349913e144c0"
 					}
 				},
 				"metadata": {
@@ -50414,7 +50414,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 15
 					},
 					{
 						"cell_type": "code",
@@ -50433,7 +50433,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 16
 					},
 					{
 						"cell_type": "code",
@@ -50452,7 +50452,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 17
 					},
 					{
 						"cell_type": "code",
@@ -50481,7 +50481,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 18
 					},
 					{
 						"cell_type": "code",
@@ -50502,7 +50502,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 19
 					},
 					{
 						"cell_type": "code",
@@ -50545,7 +50545,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 20
 					},
 					{
 						"cell_type": "code",
@@ -50636,7 +50636,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 21
 					}
 				]
 			},

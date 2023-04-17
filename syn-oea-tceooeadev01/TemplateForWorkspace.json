@@ -31238,7 +31238,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "28a12e0d-ff22-4c8f-9271-cd66f8325c77"
+						"spark.autotune.trackingId": "67f4f6da-0bf7-49ee-a331-f42e4e1c668a"
 					}
 				},
 				"metadata": {
@@ -32567,14 +32567,19 @@
 							"# combine the tables with a union \r\n",
 							"EarlyYearsResultsCombined_df = EY_Results_Sorted_df.union(EY_ResultsYear2_Sorted_df)\r\n",
 							"\r\n",
-							"# create unique ID\r\n",
-							"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")))\r\n",
+							"# create unique ID's\r\n",
+							"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
+							"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
+							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
 							"\r\n",
 							"# create ClassID Dimension\r\n",
 							"EarlyYearsClassID_df = EarlyYearsResultsCombined_df.select(col(\"SKResultID\"), col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")).distinct()\r\n",
 							"\r\n",
 							"# clean up the unwanted columns \r\n",
-							"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.drop(\"Year\", \"YearLevel\", \"ClassID\")"
+							"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.drop(\"Year\", \"YearLevel\", \"ClassID\")\r\n",
+							"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.drop(\"Year\", \"YearLevel\", \"ClassID\")\r\n",
+							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop(\"Year\", \"YearLevel\", \"ClassID\")\r\n",
+							""
 						],
 						"outputs": [],
 						"execution_count": 61
@@ -50349,7 +50354,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "76c730df-3a3a-4234-a551-aedf35e8ef8d"
+						"spark.autotune.trackingId": "04e011ca-a935-4b28-a020-4636ef7f13d8"
 					}
 				},
 				"metadata": {

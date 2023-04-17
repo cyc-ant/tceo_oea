@@ -31238,7 +31238,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9fd570a3-94e3-4229-8329-17530281fb33"
+						"spark.autotune.trackingId": "28a12e0d-ff22-4c8f-9271-cd66f8325c77"
 					}
 				},
 				"metadata": {
@@ -32571,7 +32571,7 @@
 							"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")))\r\n",
 							"\r\n",
 							"# create ClassID Dimension\r\n",
-							"EarlyYearsClassID_df = EarlyYearsResultsCombined_df.select(col(\"SKResultID\"), col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\"))\r\n",
+							"EarlyYearsClassID_df = EarlyYearsResultsCombined_df.select(col(\"SKResultID\"), col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")).distinct()\r\n",
 							"\r\n",
 							"# clean up the unwanted columns \r\n",
 							"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.drop(\"Year\", \"YearLevel\", \"ClassID\")"

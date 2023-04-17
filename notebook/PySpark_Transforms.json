@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e623cb56-c84c-45cf-a635-3f3acc063866"
+				"spark.autotune.trackingId": "6c2ce0e0-f086-4866-99da-f02df7b2fd18"
 			}
 		},
 		"metadata": {
@@ -93,7 +93,7 @@
 					}
 				},
 				"source": [
-					"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev\r\n",
+					"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev, upper\r\n",
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],

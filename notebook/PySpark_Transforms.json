@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "9785516b-881d-4fd9-9daf-d6bc2d2f92df"
+				"spark.autotune.trackingId": "e623cb56-c84c-45cf-a635-3f3acc063866"
 			}
 		},
 		"metadata": {
@@ -1327,14 +1327,19 @@
 					"# combine the tables with a union \r\n",
 					"EarlyYearsResultsCombined_df = EY_Results_Sorted_df.union(EY_ResultsYear2_Sorted_df)\r\n",
 					"\r\n",
-					"# create unique ID\r\n",
-					"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")))\r\n",
+					"# create unique ID's\r\n",
+					"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
+					"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
+					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
 					"\r\n",
 					"# create ClassID Dimension\r\n",
 					"EarlyYearsClassID_df = EarlyYearsResultsCombined_df.select(col(\"SKResultID\"), col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")).distinct()\r\n",
 					"\r\n",
 					"# clean up the unwanted columns \r\n",
-					"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.drop(\"Year\", \"YearLevel\", \"ClassID\")"
+					"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.drop(\"Year\", \"YearLevel\", \"ClassID\")\r\n",
+					"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.drop(\"Year\", \"YearLevel\", \"ClassID\")\r\n",
+					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop(\"Year\", \"YearLevel\", \"ClassID\")\r\n",
+					""
 				],
 				"execution_count": 61
 			},

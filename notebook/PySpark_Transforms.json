@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "9ea39b70-0d60-44a1-9b5b-337fdfebe9c6"
+				"spark.autotune.trackingId": "14011ef0-57e9-43a0-9f15-bf8dba9d7892"
 			}
 		},
 		"metadata": {
@@ -93,11 +93,29 @@
 					}
 				},
 				"source": [
-					"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev, upper\r\n",
+					"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev, upper, Row\r\n",
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 30
+				"execution_count": 1
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"%run OEA_py"
+				],
+				"execution_count": 2
 			},
 			{
 				"cell_type": "markdown",
@@ -145,7 +163,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 32
+				"execution_count": 3
 			},
 			{
 				"cell_type": "markdown",
@@ -198,7 +216,7 @@
 					"DMStudentDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Student\"))\r\n",
 					"DMStaffDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Staff\"))"
 				],
-				"execution_count": 33
+				"execution_count": 4
 			},
 			{
 				"cell_type": "markdown",
@@ -245,7 +263,7 @@
 					"\r\n",
 					"EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
-				"execution_count": 34
+				"execution_count": 5
 			},
 			{
 				"cell_type": "code",
@@ -275,7 +293,7 @@
 					"\r\n",
 					"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
-				"execution_count": 35
+				"execution_count": 6
 			},
 			{
 				"cell_type": "markdown",
@@ -373,7 +391,7 @@
 					"# sort the columns\r\n",
 					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.select(sorted(EarlyYearsTestCompletion_df.columns))"
 				],
-				"execution_count": 36
+				"execution_count": 7
 			},
 			{
 				"cell_type": "markdown",
@@ -525,7 +543,7 @@
 					"# sort the columns\r\n",
 					"EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.select(sorted(EarlyYearsTestCompletion2_df.columns))"
 				],
-				"execution_count": 37
+				"execution_count": 8
 			},
 			{
 				"cell_type": "code",
@@ -544,7 +562,7 @@
 					"# combine the prep/year1 test completion table with the year 2 table\r\n",
 					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.union(EarlyYearsTestCompletion2_df)"
 				],
-				"execution_count": 38
+				"execution_count": 9
 			},
 			{
 				"cell_type": "markdown",
@@ -619,7 +637,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 39
+				"execution_count": 10
 			},
 			{
 				"cell_type": "code",
@@ -701,7 +719,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 40
+				"execution_count": 11
 			},
 			{
 				"cell_type": "code",
@@ -748,7 +766,7 @@
 					"EarlyYearsResults_Averages_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
 					""
 				],
-				"execution_count": 41
+				"execution_count": 12
 			},
 			{
 				"cell_type": "code",
@@ -796,7 +814,7 @@
 					"EarlyYearsResultsTotals_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')\r\n",
 					""
 				],
-				"execution_count": 42
+				"execution_count": 13
 			},
 			{
 				"cell_type": "markdown",
@@ -839,7 +857,7 @@
 					"EarlyYearsResultsLong_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 56
+				"execution_count": 14
 			},
 			{
 				"cell_type": "markdown",
@@ -881,7 +899,7 @@
 					"# Add the StudentAnswer and Answer Columns (with NULL values) so that we can merge this with the year 2 results \r\n",
 					"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"StudentAnswer\", lit(\"N/A\")).withColumn(\"Answer\", lit(\"N/A\"))"
 				],
-				"execution_count": 57
+				"execution_count": 15
 			},
 			{
 				"cell_type": "markdown",
@@ -921,7 +939,7 @@
 					"EYAnswers_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 45
+				"execution_count": 16
 			},
 			{
 				"cell_type": "markdown",
@@ -978,7 +996,7 @@
 					"EYResultsYear2LongFinal_df = joinedcleaned_df.withColumn('Result', when(trim(lower(joinedcleaned_df.StudentAnswer)) == trim(lower(joinedcleaned_df.Answer)), 1).otherwise(0))\r\n",
 					""
 				],
-				"execution_count": 46
+				"execution_count": 17
 			},
 			{
 				"cell_type": "code",
@@ -1002,7 +1020,7 @@
 					"                                                                    )\r\n",
 					""
 				],
-				"execution_count": 47
+				"execution_count": 18
 			},
 			{
 				"cell_type": "markdown",
@@ -1084,7 +1102,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 48
+				"execution_count": 19
 			},
 			{
 				"cell_type": "code",
@@ -1165,7 +1183,7 @@
 					"\r\n",
 					""
 				],
-				"execution_count": 49
+				"execution_count": 20
 			},
 			{
 				"cell_type": "code",
@@ -1210,7 +1228,7 @@
 					"\r\n",
 					"EarlyYearsResults_Averages_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
 				],
-				"execution_count": 50
+				"execution_count": 21
 			},
 			{
 				"cell_type": "code",
@@ -1256,7 +1274,7 @@
 					"\r\n",
 					"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
 				],
-				"execution_count": 51
+				"execution_count": 22
 			},
 			{
 				"cell_type": "markdown",
@@ -1290,7 +1308,7 @@
 					"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsYear2Joined_df.union(EarlyYearsResultsTotals_df)\r\n",
 					""
 				],
-				"execution_count": 52
+				"execution_count": 23
 			},
 			{
 				"cell_type": "markdown",
@@ -1341,7 +1359,7 @@
 					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
 					""
 				],
-				"execution_count": 61
+				"execution_count": 24
 			},
 			{
 				"cell_type": "markdown",
@@ -1353,8 +1371,31 @@
 					}
 				},
 				"source": [
-					"### Join Prep/Year 1 and Year 2 datasets (Results)"
+					"### Create growth effect table for numeracy and literacy"
 				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# groupby year and the student and get post score - pre score\r\n",
+					"pivot_df = EarlyYearsResultsTotalsCombined_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"NumeracyTotal\": \"first\"})\r\n",
+					"\r\n",
+					"diff_df = pivot_df.withColumn(\"diff\", col(\"Post\") - col(\"Pre\")).select(\"SKResultID\", \"Ceider\", \"diff\")\r\n",
+					"\r\n",
+					"display(diff_df)"
+				],
+				"execution_count": 26
 			},
 			{
 				"cell_type": "markdown",

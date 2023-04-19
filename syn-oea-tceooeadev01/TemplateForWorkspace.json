@@ -31348,7 +31348,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fa99bc75-6fb2-42a0-b45b-5853ae8b94f1"
+						"spark.autotune.trackingId": "ce7cce41-28da-4ea3-85d1-9fb7b43d5a5c"
 					}
 				},
 				"metadata": {
@@ -31373,8 +31373,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -49965,7 +49964,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "be921f7e-ace2-4771-b265-5aa46da8f4c6"
+						"spark.autotune.trackingId": "b903125a-d868-492c-b095-d880e8756736"
 					}
 				},
 				"metadata": {
@@ -49990,13 +49989,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split\r\n",
 							"from pyspark.sql.types import StringType"
@@ -50420,6 +50421,38 @@
 							"                    )\r\n",
 							"    \r\n",
 							"\r\n",
+							"    return df"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def StudentLevel_pseudo(df):\r\n",
+							"    df = df.withColumn(\"CampusID\", \r\n",
+							"                        when(df.centre_code == 1591, 15370)\r\n",
+							"                        .when(df.centre_code == 1653, 17253)\r\n",
+							"                        .when(df.centre_code == 5328, 17227)\r\n",
+							"                        .when(df.centre_code == 5331, 2529)\r\n",
+							"                        .when(df.centre_code == 5373, 13492)\r\n",
+							"                        .when(df.centre_code == 5421, 17223)\r\n",
+							"                        .when(df.centre_code == 5422, 17240)\r\n",
+							"                        .when(df.centre_code == 5429, 17225)\r\n",
+							"                        .when(df.centre_code == 5434, 17247)\r\n",
+							"                        .when(df.centre_code == 7578, 550)\r\n",
+							"                    )\r\n",
 							"    return df"
 						],
 						"outputs": [],

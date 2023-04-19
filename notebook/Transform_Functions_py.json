@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "be921f7e-ace2-4771-b265-5aa46da8f4c6"
+				"spark.autotune.trackingId": "2a46e89d-62be-4d86-883b-7748f64f3507"
 			}
 		},
 		"metadata": {
@@ -465,6 +465,37 @@
 					"                    )\r\n",
 					"    \r\n",
 					"\r\n",
+					"    return df"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def StudentLevel_pseudo(df):\r\n",
+					"    df = df.withColumn(\"CampusID\", \r\n",
+					"                        when(df.centre_code == 1591, 15370)\r\n",
+					"                        .when(df.centre_code == 1653, 17253)\r\n",
+					"                        .when(df.centre_code == 5328, 17227)\r\n",
+					"                        .when(df.centre_code == 5331, 2529)\r\n",
+					"                        .when(df.centre_code == 5373, 13492)\r\n",
+					"                        .when(df.centre_code == 5421, 17223)\r\n",
+					"                        .when(df.centre_code == 5422, 17240)\r\n",
+					"                        .when(df.centre_code == 5429, 17225)\r\n",
+					"                        .when(df.centre_code == 5434, 17247)\r\n",
+					"                        .when(df.centre_code == 7578, 550)\r\n",
+					"                    )\r\n",
 					"    return df"
 				],
 				"execution_count": null

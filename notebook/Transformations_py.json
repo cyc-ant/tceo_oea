@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "384a1e03-dd96-4143-b1d2-9959b8ee9b8a"
+				"spark.autotune.trackingId": "d55042ea-6840-46d3-94ef-e9adb24be3ec"
 			}
 		},
 		"metadata": {
@@ -118,6 +118,8 @@
 					"        final_df = EarlyYearsResultsYear2_pseudo(df)\r\n",
 					"    elif name == \"ATAR_pseudo\":\r\n",
 					"        final_df = ATAR_pseudo(df)\r\n",
+					"    elif name == \"StudentLevel_pseudo\":\r\n",
+					"        final_df = StudentLevel_pseudo(df)\r\n",
 					"    else:  \r\n",
 					"        final_df = df\r\n",
 					"\r\n",

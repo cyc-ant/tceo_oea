@@ -49964,7 +49964,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b903125a-d868-492c-b095-d880e8756736"
+						"spark.autotune.trackingId": "2a46e89d-62be-4d86-883b-7748f64f3507"
 					}
 				},
 				"metadata": {
@@ -49989,15 +49989,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split\r\n",
 							"from pyspark.sql.types import StringType"
@@ -50486,7 +50484,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "384a1e03-dd96-4143-b1d2-9959b8ee9b8a"
+						"spark.autotune.trackingId": "908cfe5b-9c6c-4734-b00f-6c0245620a0f"
 					}
 				},
 				"metadata": {
@@ -50511,7 +50509,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -50584,6 +50583,8 @@
 							"        final_df = EarlyYearsResultsYear2_pseudo(df)\r\n",
 							"    elif name == \"ATAR_pseudo\":\r\n",
 							"        final_df = ATAR_pseudo(df)\r\n",
+							"    elif name == \"StudentLevel_pseudo\":\r\n",
+							"        final_df = StudentLevel_pseudo(df)\r\n",
 							"    else:  \r\n",
 							"        final_df = df\r\n",
 							"\r\n",

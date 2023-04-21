@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "8f6b2f64-3e89-4236-a32c-a38065c2539c"
+				"spark.autotune.trackingId": "21a21ca9-e6a0-44f1-b9b1-ac36c05f1592"
 			}
 		},
 		"metadata": {
@@ -499,9 +499,9 @@
 					"                        .when(df.centre_code == 7578, 550)\r\n",
 					"                    )\r\n",
 					"    \r\n",
-					"    df = df.withColumn(\"FirstNameOnly\", when(\"given_names\".contains(\" \"), split(\"given_names\", \" \").getItem(0)).otherwise(\"given_names\"))\r\n",
+					"    #df = df.withColumn(\"FirstNameOnly\", when(\"given_names\".contains(\" \"), split(\"given_names\", \" \").getItem(0)).otherwise(\"given_names\"))\r\n",
 					"\r\n",
-					"    df = df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"last_name\", \" \").getItem(0), \"FirstNameOnly\", \"birth_date\")))\r\n",
+					"    df = df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"last_name\", \" \").getItem(0), split(\"given_names\", \" \").getItem(0), \"birth_date\")))\r\n",
 					"\r\n",
 					"    return df"
 				],

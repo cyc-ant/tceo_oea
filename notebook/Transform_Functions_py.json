@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5cd85e46-d734-4e16-a325-e3015214f41a"
+				"spark.autotune.trackingId": "b8625c75-e703-4929-8c09-8426cc762166"
 			}
 		},
 		"metadata": {
@@ -465,7 +465,7 @@
 					"                    )\r\n",
 					"    \r\n",
 					"    # also create a SK ID that will connect to the senior outcomes table\r\n",
-					"    df = df.withColumn(\"SKShortID\", df.select(concat_ws('-', df.SchoolId, df.Year, df.Family_Name, df.Given_Name)))\r\n",
+					"    df = df.withColumn(\"SKShortID\", concat_ws(\"-\", \"SchoolId\", \"Year\", \"Family_Name\", \"Given_Name\")))\r\n",
 					"\r\n",
 					"    return df"
 				],

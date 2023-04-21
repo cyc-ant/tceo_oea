@@ -49964,7 +49964,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2a46e89d-62be-4d86-883b-7748f64f3507"
+						"spark.autotune.trackingId": "8a9f4cd8-4e18-49fc-8b94-a4c125b8dff3"
 					}
 				},
 				"metadata": {
@@ -49989,13 +49989,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split\r\n",
 							"from pyspark.sql.types import StringType"
@@ -50418,6 +50420,8 @@
 							"                        .otherwise(10)\r\n",
 							"                    )\r\n",
 							"    \r\n",
+							"    # also create a SK ID that will connect to the senior outcomes table\r\n",
+							"    df = df.withColumn(\"SKShortID\", df.select(concat_ws('-', df.SchoolId, df.Year, df.Family_Name, df.Given_Name)))\r\n",
 							"\r\n",
 							"    return df"
 						],
@@ -50484,7 +50488,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "908cfe5b-9c6c-4734-b00f-6c0245620a0f"
+						"spark.autotune.trackingId": "d55042ea-6840-46d3-94ef-e9adb24be3ec"
 					}
 				},
 				"metadata": {
@@ -50509,8 +50513,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

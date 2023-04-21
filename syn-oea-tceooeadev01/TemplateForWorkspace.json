@@ -31376,7 +31376,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "577457a1-8ccd-4a04-b5b6-806d9bbd9958"
+						"spark.autotune.trackingId": "e4a00993-b158-42c1-adcd-2ae12e4c5814"
 					}
 				},
 				"metadata": {
@@ -31401,7 +31401,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -49998,7 +49999,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8016df98-0ee2-4444-b8f2-069d80fdce85"
+						"spark.autotune.trackingId": "21a21ca9-e6a0-44f1-b9b1-ac36c05f1592"
 					}
 				},
 				"metadata": {
@@ -50023,15 +50024,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split, upper\r\n",
 							"from pyspark.sql.types import StringType"
@@ -50490,9 +50489,9 @@
 							"                        .when(df.centre_code == 7578, 550)\r\n",
 							"                    )\r\n",
 							"    \r\n",
-							"    df = df.withColumn(\"FirstNameOnly\", when(\"given_names\".contains(\" \"), split(\"given_names\", \" \").getItem(0)).otherwise(\"given_names\"))\r\n",
+							"    #df = df.withColumn(\"FirstNameOnly\", when(\"given_names\".contains(\" \"), split(\"given_names\", \" \").getItem(0)).otherwise(\"given_names\"))\r\n",
 							"\r\n",
-							"    df = df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"last_name\", \" \").getItem(0), \"FirstNameOnly\", \"birth_date\")))\r\n",
+							"    df = df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"last_name\", \" \").getItem(0), split(\"given_names\", \" \").getItem(0), \"birth_date\")))\r\n",
 							"\r\n",
 							"    return df"
 						],

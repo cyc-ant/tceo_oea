@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "37227cdf-635b-445a-8222-de307838b119"
+				"spark.autotune.trackingId": "acf9e9af-714e-457b-93e8-69941d1fff9b"
 			}
 		},
 		"metadata": {
@@ -465,7 +465,7 @@
 					"                    )\r\n",
 					"    \r\n",
 					"    # also create a SK ID that will connect to the senior outcomes table\r\n",
-					"    df = df.withColumn(\"SKShortID\", concat_ws(\"-\", \"SchoolId\", \"Year\", \"Family_Name\", \"Given_Name\"))\r\n",
+					"    df = df.withColumn(\"SKShortID\", upper(concat_ws(\"-\", \"SchoolId\", \"Year\", \"Family_Name\", \"Given_Name\")))\r\n",
 					"\r\n",
 					"    return df"
 				],
@@ -498,6 +498,11 @@
 					"                        .when(df.centre_code == 5434, 17247)\r\n",
 					"                        .when(df.centre_code == 7578, 550)\r\n",
 					"                    )\r\n",
+					"    \r\n",
+					"    df = df.withColumn(\"FirstNameOnly\", when(\"given_names\".contains(\" \"), split(\"given_names\", \" \").getItem(0)).otherwise(\"given_names\"))\r\n",
+					"\r\n",
+					"    df = df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"last_name\", \" \").getItem(0), \"FirstNameOnly\", \"birth_date\")))\r\n",
+					"\r\n",
 					"    return df"
 				],
 				"execution_count": null

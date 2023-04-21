@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ce7cce41-28da-4ea3-85d1-9fb7b43d5a5c"
+				"spark.autotune.trackingId": "577457a1-8ccd-4a04-b5b6-806d9bbd9958"
 			}
 		},
 		"metadata": {
@@ -233,7 +233,13 @@
 					"\r\n",
 					"# now split the demographic information into two tables \r\n",
 					"DMStudentDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Student\"))\r\n",
-					"DMStaffDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Staff\"))"
+					"DMStaffDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Staff\"))\r\n",
+					"\r\n",
+					"# clean up the data of birth column\r\n",
+					"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"DOB\", to_date(col(\"DateOfBirth\"), \"dd-MM-yyyy\"))\r\n",
+					"\r\n",
+					"# create a SK ID column \r\n",
+					"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"LastName\", \" \").getItem(0), split(\"FirstName\", \" \").getItem(0), \"DOB\")))"
 				],
 				"execution_count": 72
 			},

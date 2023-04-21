@@ -18785,7 +18785,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b92f9890-b237-40e1-9db5-dab523ed7682"
+						"spark.autotune.trackingId": "c05add0f-05af-48ce-a6ab-01191706c520"
 					}
 				},
 				"metadata": {
@@ -18828,7 +18828,9 @@
 							}
 						},
 						"source": [
-							"from pyspark.sql import Row"
+							"from pyspark.sql import Row\r\n",
+							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev, upper, mean\r\n",
+							""
 						],
 						"outputs": [],
 						"execution_count": null
@@ -18870,6 +18872,32 @@
 							"    new_df = spark.createDataFrame([newRow], existing_df.schema)\r\n",
 							"\r\n",
 							"    return existing_df.union(new_df)"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def standardiseString(string, case=\"upper\"):\r\n",
+							"    \"\"\"Function to standardise a string to upper or lower case and remove all spaces. Can be used when creating SK's from data \"\"\"\r\n",
+							"    if case == \"upper\":\r\n",
+							"        return upper(regexp_replace(string, \" \", \"\"))\r\n",
+							"    \r\n",
+							"    return lower(regexp_replace(string, \" \", \"\"))\r\n",
+							"    \r\n",
+							""
 						],
 						"outputs": [],
 						"execution_count": null
@@ -31348,7 +31376,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ce7cce41-28da-4ea3-85d1-9fb7b43d5a5c"
+						"spark.autotune.trackingId": "6a5ba51b-4b6f-4320-95d9-e7c29b1944b9"
 					}
 				},
 				"metadata": {
@@ -31373,7 +31401,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -31564,7 +31593,13 @@
 							"\r\n",
 							"# now split the demographic information into two tables \r\n",
 							"DMStudentDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Student\"))\r\n",
-							"DMStaffDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Staff\"))"
+							"DMStaffDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Staff\"))\r\n",
+							"\r\n",
+							"# clean up the data of birth column\r\n",
+							"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"DOB\", to_date(col(\"DateOfBirth\"), \"dd-MM-yyyy\"))\r\n",
+							"\r\n",
+							"# create a SK ID column \r\n",
+							"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"LastName\", \" \").getItem(0), split(\"FirstName\", \" \").getItem(0), \"DOB\")))"
 						],
 						"outputs": [],
 						"execution_count": 72
@@ -49964,7 +49999,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "84274ff4-0e13-4b49-987a-720db1a2a7e1"
+						"spark.autotune.trackingId": "acf9e9af-714e-457b-93e8-69941d1fff9b"
 					}
 				},
 				"metadata": {
@@ -49989,15 +50024,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split\r\n",
 							"from pyspark.sql.types import StringType"
@@ -50421,7 +50454,7 @@
 							"                    )\r\n",
 							"    \r\n",
 							"    # also create a SK ID that will connect to the senior outcomes table\r\n",
-							"    df = df.withColumn(\"SKShortID\", concat_ws(\"-\", \"SchoolId\", \"Year\", \"Family_Name\", \"Given_Name\"))\r\n",
+							"    df = df.withColumn(\"SKShortID\", upper(concat_ws(\"-\", \"SchoolId\", \"Year\", \"Family_Name\", \"Given_Name\")))\r\n",
 							"\r\n",
 							"    return df"
 						],
@@ -50455,6 +50488,11 @@
 							"                        .when(df.centre_code == 5434, 17247)\r\n",
 							"                        .when(df.centre_code == 7578, 550)\r\n",
 							"                    )\r\n",
+							"    \r\n",
+							"    df = df.withColumn(\"FirstNameOnly\", when(\"given_names\".contains(\" \"), split(\"given_names\", \" \").getItem(0)).otherwise(\"given_names\"))\r\n",
+							"\r\n",
+							"    df = df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"last_name\", \" \").getItem(0), \"FirstNameOnly\", \"birth_date\")))\r\n",
+							"\r\n",
 							"    return df"
 						],
 						"outputs": [],

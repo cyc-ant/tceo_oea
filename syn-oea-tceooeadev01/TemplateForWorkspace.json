@@ -31376,7 +31376,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ebedf60e-0196-4f87-8951-e66abdc96fef"
+						"spark.autotune.trackingId": "fe571928-ae82-4c12-b6cd-4acd0c46520a"
 					}
 				},
 				"metadata": {
@@ -32978,7 +32978,7 @@
 						},
 						"source": [
 							"# convert from wide to long format\r\n",
-							"SO_df = SeniorOutcomes_df.to_koalas().melt(id_vars=['year', 'CampusID', 'last_name', 'given_names', 'sex', 'birth_date', 'indigenous', 'qcia', 'qce', 'vet'],\r\n",
+							"SO_df = SeniorOutcomes_df.to_koalas().melt(id_vars=['SKLongID', 'year', 'CampusID', 'last_name', 'given_names', 'sex', 'birth_date', 'indigenous', 'qcia', 'qce', 'vet'],\r\n",
 							"                                            value_vars=['certs_i', 'certs_ii', 'certs_iii', 'certs_iv', 'diplomas', 'adv_diplomas', 'SBA', 'uni_subjects'],\r\n",
 							"                                            var_name=\"CertificationType\",\r\n",
 							"                                            value_name = \"CertsAchieved\")\r\n",
@@ -50691,7 +50691,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ca5e408a-a894-4d26-a60d-349913e144c0"
+						"spark.autotune.trackingId": "9fbef9a2-1bc4-4544-8271-007cb86a33c1"
 					}
 				},
 				"metadata": {
@@ -50716,7 +50716,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

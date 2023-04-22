@@ -31376,7 +31376,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fe571928-ae82-4c12-b6cd-4acd0c46520a"
+						"spark.autotune.trackingId": "fbbafdd6-f852-487b-8ff9-70513bb3ed5c"
 					}
 				},
 				"metadata": {
@@ -31449,13 +31449,13 @@
 							}
 						},
 						"source": [
-							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev, upper, mean, to_date, split\r\n",
+							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev, upper, mean, to_date, split, date_format\r\n",
 							"from pyspark.sql import Row\r\n",
 							"from pyspark.sql.window import Window\r\n",
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -31596,13 +31596,38 @@
 							"DMStaffDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Staff\"))\r\n",
 							"\r\n",
 							"# clean up the data of birth column\r\n",
-							"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"DOB\", to_date(col(\"DateOfBirth\"), \"dd-MM-yyyy\"))\r\n",
+							"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"DOB_YearFirstFormat\", to_date(col(\"DateOfBirth\")))\r\n",
+							"\r\n",
+							"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"DOB\", date_format(\"DOB_YearFirstFormat\", \"dd/MM/yyyy\"))\r\n",
 							"\r\n",
 							"# create a SK ID column \r\n",
-							"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"LastName\", \" \").getItem(0), split(\"FirstName\", \" \").getItem(0), \"DOB\")))"
+							"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"LastName\", \" \").getItem(0), split(\"FirstName\", \" \").getItem(0), \"DOB\")))\r\n",
+							"\r\n",
+							"# remove columns we don't need\r\n",
+							"DMStudentDemographic_df = DMStudentDemographic_df.drop(\"DOB_YearFirstFormat\", \"DOB\")"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 12
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"display(DMStudentDemographic_df)"
+						],
+						"outputs": [],
+						"execution_count": 13
 					},
 					{
 						"cell_type": "markdown",
@@ -50691,7 +50716,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9fbef9a2-1bc4-4544-8271-007cb86a33c1"
+						"spark.autotune.trackingId": "3ac2ba08-6977-41d7-b55e-f2657c035fdd"
 					}
 				},
 				"metadata": {
@@ -50716,8 +50741,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -50752,7 +50776,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -50771,7 +50795,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -50790,7 +50814,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -50819,7 +50843,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -50840,7 +50864,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 19
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -50883,7 +50907,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 20
+						"execution_count": 6
 					},
 					{
 						"cell_type": "code",
@@ -50968,13 +50992,14 @@
 								"transient": {
 									"deleting": false
 								}
-							}
+							},
+							"collapsed": false
 						},
 						"source": [
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": 7
 					}
 				]
 			},

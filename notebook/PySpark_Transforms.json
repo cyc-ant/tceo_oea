@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "014f4818-0382-4955-8b85-b3460300aba5"
+				"spark.autotune.trackingId": "3c1015b5-9ff9-4a8f-b05c-029e71f7a462"
 			}
 		},
 		"metadata": {
@@ -93,12 +93,12 @@
 					}
 				},
 				"source": [
-					"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev, upper, mean, to_date, split\r\n",
+					"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev, upper, mean, to_date, split, date_format\r\n",
 					"from pyspark.sql import Row\r\n",
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 7
+				"execution_count": 9
 			},
 			{
 				"cell_type": "code",
@@ -236,12 +236,36 @@
 					"DMStaffDemographic_df = cleaned_df.filter((cleaned_df.PersonType == \"Staff\"))\r\n",
 					"\r\n",
 					"# clean up the data of birth column\r\n",
-					"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"DOB\", to_date(col(\"DateOfBirth\"), \"dd-MM-yyyy\"))\r\n",
+					"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"DOB_YearFirstFormat\", to_date(col(\"DateOfBirth\")))\r\n",
+					"\r\n",
+					"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"DOB\", date_format(\"DOB_YearFirstFormat\", \"dd/MM/yyyy\"))\r\n",
 					"\r\n",
 					"# create a SK ID column \r\n",
-					"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"LastName\", \" \").getItem(0), split(\"FirstName\", \" \").getItem(0), \"DOB\")))"
+					"DMStudentDemographic_df = DMStudentDemographic_df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"LastName\", \" \").getItem(0), split(\"FirstName\", \" \").getItem(0), \"DOB\")))\r\n",
+					"\r\n",
+					"# remove columns we don't need\r\n",
+					"DMStudentDemographic_df = DMStudentDemographic_df.drop(\"DOB_YearFirstFormat\", \"DOB\")"
 				],
-				"execution_count": 8
+				"execution_count": 12
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"display(DMStudentDemographic_df)"
+				],
+				"execution_count": 13
 			},
 			{
 				"cell_type": "markdown",

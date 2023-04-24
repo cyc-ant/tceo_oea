@@ -50898,7 +50898,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "47911630-3225-405c-b1e1-acc1a6cab726"
+						"spark.autotune.trackingId": "0f550241-33bc-4c7e-97e2-90c330341fd8"
 					}
 				},
 				"metadata": {
@@ -50933,7 +50933,7 @@
 						"cell_type": "code",
 						"metadata": {},
 						"source": [
-							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split, upper\r\n",
+							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split, upper, date_format, to_date\r\n",
 							"from pyspark.sql.types import StringType"
 						],
 						"outputs": [],

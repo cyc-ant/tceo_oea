@@ -50898,7 +50898,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "633c344a-8623-47aa-9460-68d6f9e414e8"
+						"spark.autotune.trackingId": "47911630-3225-405c-b1e1-acc1a6cab726"
 					}
 				},
 				"metadata": {
@@ -51414,7 +51414,15 @@
 						},
 						"source": [
 							"def CompassODSStudentDemographicFull_pseudo(df):\r\n",
-							"    df = df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"LastName\", \" \").getItem(0), split(\"FirstName\", \" \").getItem(0), \"DateOfBirth\")))\r\n",
+							"\r\n",
+							"    # clean up the data of birth column\r\n",
+							"    df = df.withColumn(\"DOB_YearFirstFormat\", to_date(col(\"DateOfBirth\")))\r\n",
+							"\r\n",
+							"    df = df.withColumn(\"DOB\", date_format(\"DOB_YearFirstFormat\", \"dd/MM/yyyy\"))\r\n",
+							"\r\n",
+							"    df = df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"LastName\", \" \").getItem(0), split(\"FirstName\", \" \").getItem(0), \"DOB\")))\r\n",
+							"\r\n",
+							"    df = df.drop(\"DOB_YearFirstFormat\", \"DOB\")\r\n",
 							"\r\n",
 							"    # filter for isCurrent records only\r\n",
 							"    df = df.filter(col(\"Iscurrent\") == \"True\")\r\n",

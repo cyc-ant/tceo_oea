@@ -16,12 +16,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "OEA_connector_ODSStudentDemo",
+						"referenceName": "OEA_connector_ODSStudentDemoFull",
 						"type": "NotebookReference"
 					},
 					"parameters": {
 						"object_name": {
-							"value": "ods_StudentDemo_object",
+							"value": "ods_StudentDemoFull_object",
 							"type": "string"
 						},
 						"method_name": {
@@ -29,7 +29,7 @@
 							"type": "string"
 						},
 						"source_folder": {
-							"value": "ODSStudentDemographic",
+							"value": "ODSStudentDemographicFull",
 							"type": "string"
 						}
 					},

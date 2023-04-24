@@ -5812,6 +5812,87 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_ODSDemoFull')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_x82",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "Compass.ODSStudentDemographic"
+							},
+							{
+								"name": "Destination",
+								"value": "stage1np/ODSStudentDemographicFull/CompassODSStudentDemographicFull"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_ODSDemoFull",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_ODSDemoFull",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_ODSDemoFull')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_ODSDemoFull')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_ODSStudentDemo')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -12874,6 +12955,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_ODSDemoFull')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "CompassODSStudentDemographicFull",
+						"folderPath": "ODSStudentDemographicFull",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_ODSStudentDemo')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -15375,6 +15484,358 @@
 				"type": "SqlServerTable",
 				"schema": [],
 				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_ODS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_ODSDemoFull')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_ODS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "SKStudent",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BKStudent",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompassPersonId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Title",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PreferredFirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PreferredLastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SecondMiddleName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FormerFirstName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FormerLastName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EmailAddress",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AdminNotes",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UsualTransport",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HomePhoneNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MobileNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Gender",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DateOfDeath",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "DateOfBirth",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "InterpreterRequired",
+						"type": "bit"
+					},
+					{
+						"name": "IndigenousType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Nationality",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ArrivalDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "VisaSubClassCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VisaSubClassName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "VisaExpiryDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "YouthAllowance",
+						"type": "bit"
+					},
+					{
+						"name": "GovernmentFunded",
+						"type": "bit"
+					},
+					{
+						"name": "GovCode1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GovCode2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Disability",
+						"type": "bit"
+					},
+					{
+						"name": "DisabilityFunded",
+						"type": "bit"
+					},
+					{
+						"name": "LivingArrangements",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ResidentialStatus",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RefugeeStatus",
+						"type": "bit"
+					},
+					{
+						"name": "Religion",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ReligionNotes",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SchoolHistory",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AmbulanceSubscriber",
+						"type": "bit"
+					},
+					{
+						"name": "Occupation",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SchoolEducation",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NonSchoolEducation",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BirthCountry",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UserName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Contactable",
+						"type": "bit"
+					},
+					{
+						"name": "EmailAllowed",
+						"type": "bit"
+					},
+					{
+						"name": "SMSAllowed",
+						"type": "bit"
+					},
+					{
+						"name": "PublishPhotoToMedia",
+						"type": "bit"
+					},
+					{
+						"name": "PublishPhotoToInternal",
+						"type": "bit"
+					},
+					{
+						"name": "AuthenticationMode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FeeMode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ImportMode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CreateDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LastUpdateDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "EffectiveStartDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "EffectiveEndDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "Iscurrent",
+						"type": "bit"
+					},
+					{
+						"name": "SCDReason",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ReceivesESL",
+						"type": "bit"
+					},
+					{
+						"name": "RequiresESL",
+						"type": "bit"
+					},
+					{
+						"name": "LBOTE",
+						"type": "bit"
+					},
+					{
+						"name": "BirthCountryCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "GenderCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IndigenousTypeCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RelgionCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NonSchoolEducationCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "NationalityCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OccupationGroup",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Employer",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OrganisationName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SchoolEducationCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CampusId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CommunicationPreference",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TownOfBirth",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ReligiousOrLay",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Parish",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ImmunisationRecordSighted",
+						"type": "bit"
+					},
+					{
+						"name": "HomeTown",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HeadLiceCheckAllowed",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "Compass",
+					"table": "ODSStudentDemographic"
+				}
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/linkedServices/CeNet_ODS')]"
@@ -31376,7 +31837,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fbbafdd6-f852-487b-8ff9-70513bb3ed5c"
+						"spark.autotune.trackingId": "3c1015b5-9ff9-4a8f-b05c-029e71f7a462"
 					}
 				},
 				"metadata": {
@@ -31401,8 +31862,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "21a21ca9-e6a0-44f1-b9b1-ac36c05f1592"
+				"spark.autotune.trackingId": "baa28cde-3d1a-4a78-8f89-a0ab7a4a0648"
 			}
 		},
 		"metadata": {
@@ -502,6 +502,27 @@
 					"    #df = df.withColumn(\"FirstNameOnly\", when(\"given_names\".contains(\" \"), split(\"given_names\", \" \").getItem(0)).otherwise(\"given_names\"))\r\n",
 					"\r\n",
 					"    df = df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"last_name\", \" \").getItem(0), split(\"given_names\", \" \").getItem(0), \"birth_date\")))\r\n",
+					"\r\n",
+					"    return df"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def CompassODSStudentDemographicFull_pseudo(df):\r\n",
+					"    df = df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"LastName\", \" \").getItem(0), split(\"FirstName\", \" \").getItem(0), \"DateOfBirth\")))\r\n",
 					"\r\n",
 					"    return df"
 				],

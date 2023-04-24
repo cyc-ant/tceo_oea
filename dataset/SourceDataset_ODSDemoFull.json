@@ -1,0 +1,347 @@
+{
+	"name": "SourceDataset_ODSDemoFull",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CeNet_ODS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "SKStudent",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BKStudent",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CompassPersonId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Title",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FirstName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PreferredFirstName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LastName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PreferredLastName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MiddleName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SecondMiddleName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FormerFirstName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FormerLastName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EmailAddress",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AdminNotes",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UsualTransport",
+				"type": "nvarchar"
+			},
+			{
+				"name": "HomePhoneNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MobileNumber",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Gender",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DateOfDeath",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "DateOfBirth",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "InterpreterRequired",
+				"type": "bit"
+			},
+			{
+				"name": "IndigenousType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Nationality",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ArrivalDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "VisaSubClassCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VisaSubClassName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "VisaExpiryDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "YouthAllowance",
+				"type": "bit"
+			},
+			{
+				"name": "GovernmentFunded",
+				"type": "bit"
+			},
+			{
+				"name": "GovCode1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GovCode2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Disability",
+				"type": "bit"
+			},
+			{
+				"name": "DisabilityFunded",
+				"type": "bit"
+			},
+			{
+				"name": "LivingArrangements",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ResidentialStatus",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RefugeeStatus",
+				"type": "bit"
+			},
+			{
+				"name": "Religion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ReligionNotes",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SchoolHistory",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AmbulanceSubscriber",
+				"type": "bit"
+			},
+			{
+				"name": "Occupation",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SchoolEducation",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NonSchoolEducation",
+				"type": "nvarchar"
+			},
+			{
+				"name": "BirthCountry",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UserName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Contactable",
+				"type": "bit"
+			},
+			{
+				"name": "EmailAllowed",
+				"type": "bit"
+			},
+			{
+				"name": "SMSAllowed",
+				"type": "bit"
+			},
+			{
+				"name": "PublishPhotoToMedia",
+				"type": "bit"
+			},
+			{
+				"name": "PublishPhotoToInternal",
+				"type": "bit"
+			},
+			{
+				"name": "AuthenticationMode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "FeeMode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ImportMode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CreateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "LastUpdateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveStartDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveEndDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "Iscurrent",
+				"type": "bit"
+			},
+			{
+				"name": "SCDReason",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ReceivesESL",
+				"type": "bit"
+			},
+			{
+				"name": "RequiresESL",
+				"type": "bit"
+			},
+			{
+				"name": "LBOTE",
+				"type": "bit"
+			},
+			{
+				"name": "BirthCountryCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "GenderCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IndigenousTypeCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RelgionCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NonSchoolEducationCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "NationalityCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OccupationGroup",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Employer",
+				"type": "nvarchar"
+			},
+			{
+				"name": "OrganisationName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SchoolEducationCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CampusId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CommunicationPreference",
+				"type": "nvarchar"
+			},
+			{
+				"name": "TownOfBirth",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ReligiousOrLay",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Parish",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ImmunisationRecordSighted",
+				"type": "bit"
+			},
+			{
+				"name": "HomeTown",
+				"type": "nvarchar"
+			},
+			{
+				"name": "HeadLiceCheckAllowed",
+				"type": "bit"
+			}
+		],
+		"typeProperties": {
+			"schema": "Compass",
+			"table": "ODSStudentDemographic"
+		}
+	}
+}

@@ -26385,7 +26385,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0c3955d3-ee99-4694-bc66-17d02baaf64b"
+						"spark.autotune.trackingId": "481fef0f-2008-4530-9c4e-0bc8fcee7a2e"
 					}
 				},
 				"metadata": {
@@ -26410,16 +26410,18 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Ods_StudentDemoFull_object(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='ODSStudentDemographic', pseudonymize = True):\r\n",
+							"    def __init__(self, source_folder='ODSStudentDemographicFull', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
 							"        \r\n",

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "856704e0-b4eb-49fd-bbbf-aa4d9a48cf24"
+				"spark.autotune.trackingId": "4acf097d-3c3f-4493-9a55-f4cf0b3450e5"
 			}
 		},
 		"metadata": {
@@ -59,7 +59,7 @@
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        \r\n",
-					"        self.schemas['CompassODSStudentDemographic'] = [\r\n",
+					"        self.schemas['CompassODSStudentDemographicFull'] = [\r\n",
 					"                                                        ['SKStudent', 'string', 'no-op'],\r\n",
 					"                                                        ['BKStudent', 'string', 'no-op'],\r\n",
 					"                                                        ['CompassPersonId', 'string', 'no-op'],\r\n",

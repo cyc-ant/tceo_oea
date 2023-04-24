@@ -1,0 +1,23 @@
+{
+	"name": "DestinationDataset_ODSDemoFull",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_OEA",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "CompassODSStudentDemographicFull",
+				"folderPath": "ODSStudentDemographicFull",
+				"fileSystem": "stage1np"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

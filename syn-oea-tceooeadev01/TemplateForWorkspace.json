@@ -50898,7 +50898,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a38ccf88-6f74-4b57-bc9d-d63895c27c61"
+						"spark.autotune.trackingId": "633c344a-8623-47aa-9460-68d6f9e414e8"
 					}
 				},
 				"metadata": {
@@ -51415,6 +51415,9 @@
 						"source": [
 							"def CompassODSStudentDemographicFull_pseudo(df):\r\n",
 							"    df = df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"LastName\", \" \").getItem(0), split(\"FirstName\", \" \").getItem(0), \"DateOfBirth\")))\r\n",
+							"\r\n",
+							"    # filter for isCurrent records only\r\n",
+							"    df = df.filter(col(\"Iscurrent\") == \"True\")\r\n",
 							"\r\n",
 							"    return df"
 						],

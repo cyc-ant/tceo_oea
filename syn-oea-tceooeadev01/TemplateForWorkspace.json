@@ -26385,7 +26385,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b62841c7-cbc8-41c5-95ca-c53260daac04"
+						"spark.autotune.trackingId": "4acf097d-3c3f-4493-9a55-f4cf0b3450e5"
 					}
 				},
 				"metadata": {
@@ -26410,15 +26410,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Ods_StudentDemoFull_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='ODSStudentDemographicFull', pseudonymize = True):\r\n",
@@ -50900,7 +50898,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "21a21ca9-e6a0-44f1-b9b1-ac36c05f1592"
+						"spark.autotune.trackingId": "a38ccf88-6f74-4b57-bc9d-d63895c27c61"
 					}
 				},
 				"metadata": {
@@ -50925,13 +50923,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split, upper\r\n",
 							"from pyspark.sql.types import StringType"
@@ -51398,6 +51398,28 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def CompassODSStudentDemographicFull_pseudo(df):\r\n",
+							"    df = df.withColumn(\"SKLongID\", upper(concat_ws(\"-\", split(\"LastName\", \" \").getItem(0), split(\"FirstName\", \" \").getItem(0), \"DateOfBirth\")))\r\n",
+							"\r\n",
+							"    return df"
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -51427,7 +51449,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d55042ea-6840-46d3-94ef-e9adb24be3ec"
+						"spark.autotune.trackingId": "c44f4c30-4b70-4705-a59d-6843281e1c15"
 					}
 				},
 				"metadata": {
@@ -51527,6 +51549,8 @@
 							"        final_df = ATAR_pseudo(df)\r\n",
 							"    elif name == \"StudentLevel_pseudo\":\r\n",
 							"        final_df = StudentLevel_pseudo(df)\r\n",
+							"    elif name == \"CompassODSStudentDemographicFull_pseudo\":\r\n",
+							"        final_df = CompassODSStudentDemographicFull_pseudo(df)\r\n",
 							"    else:  \r\n",
 							"        final_df = df\r\n",
 							"\r\n",

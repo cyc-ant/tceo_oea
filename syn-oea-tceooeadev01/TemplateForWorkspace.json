@@ -6820,6 +6820,87 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_testclass')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_zhs",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "dbo.vwDMActivity"
+							},
+							{
+								"name": "Destination",
+								"value": "stage1np/testclass/testclass.csv"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_zhs",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_zhs",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_zhs')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_zhs')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Copy_all_from_Azure_SQL_DB')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -13817,6 +13898,35 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_zhs')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "testclass.csv",
+						"folderPath": "testclass",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Dim_ACER_Student')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -16948,6 +17058,137 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_zhs')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "SKActivity",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BKActivity",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ActivityCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ActivityName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AcamademicYear",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Status",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SubjectCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "StartDateTime",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "EndDateTime",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "ManagingCompassPersonId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DefaultLocation",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ActivityType",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ActivityTypeDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AttendanceMode",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AttendanceModeDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RunningStatus",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "RunningStatusDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CampusId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CreateDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LastUpdateDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "EffectiveStartDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "EffectiveEndDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "IsCurrent",
+						"type": "bit"
+					},
+					{
+						"name": "ScdReason",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "vwDMActivity"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/AFS_SchoolList')]",
 			"type": "Microsoft.Synapse/workspaces/linkedServices",
 			"apiVersion": "2019-06-01-preview",
@@ -17600,6 +17841,26 @@
 			"properties": {
 				"type": "ManagedIdentity",
 				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SQL script 1')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "select *\nfrom CompassODSStudentDemographicFull_pseudo",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "sqls3_pilot",
+						"poolName": "Built-in"
+					},
+					"resultLimit": -1
+				},
+				"type": "SqlQuery"
 			},
 			"dependsOn": []
 		},
@@ -50898,7 +51159,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0f550241-33bc-4c7e-97e2-90c330341fd8"
+						"spark.autotune.trackingId": "98c95b04-704f-4cd0-b164-d8ceb1840347"
 					}
 				},
 				"metadata": {
@@ -50923,15 +51184,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split, upper, date_format, to_date\r\n",
 							"from pyspark.sql.types import StringType"

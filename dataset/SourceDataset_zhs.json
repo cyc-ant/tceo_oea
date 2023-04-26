@@ -1,0 +1,126 @@
+{
+	"name": "SourceDataset_zhs",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CeNet_DataBlend",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "SKActivity",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BKActivity",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ActivityCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ActivityName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AcamademicYear",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Status",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SubjectCode",
+				"type": "nvarchar"
+			},
+			{
+				"name": "StartDateTime",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EndDateTime",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ManagingCompassPersonId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DefaultLocation",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ActivityType",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ActivityTypeDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AttendanceMode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AttendanceModeDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RunningStatus",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RunningStatusDescription",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CampusId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "LastUpdateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveStartDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveEndDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "IsCurrent",
+				"type": "bit"
+			},
+			{
+				"name": "ScdReason",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "vwDMActivity"
+		}
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"name": "Compass Student Demographic FULL",
+	"properties": {
+		"content": {
+			"query": "select COUNT(*)\nfrom dbo.CompassODSStudentDemographicFull_pseudo",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "sqls3_pilot",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

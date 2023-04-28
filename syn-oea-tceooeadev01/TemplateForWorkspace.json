@@ -17845,6 +17845,26 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/Compass Student Demographic FULL')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "select COUNT(*)\nfrom dbo.CompassODSStudentDemographicFull_pseudo",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "sqls3_pilot",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/SQL script 1')]",
 			"type": "Microsoft.Synapse/workspaces/sqlscripts",
 			"apiVersion": "2019-06-01-preview",
@@ -19574,7 +19594,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "82f24e52-3b6a-4aa6-8606-fb8c639547bc"
+						"spark.autotune.trackingId": "db79f297-62fb-447b-bb0b-8e5245a119c6"
 					}
 				},
 				"metadata": {
@@ -32525,7 +32545,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3c1015b5-9ff9-4a8f-b05c-029e71f7a462"
+						"spark.autotune.trackingId": "72571db4-0941-44a7-bbda-303248f54c55"
 					}
 				},
 				"metadata": {
@@ -32550,7 +32570,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -32603,7 +32624,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -32678,6 +32699,10 @@
 							"EYAnswers_df = spark.read.load(sourcep + \"/EarlyYearsAnswers/EarlyYearsAnswers_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"# source tables from Stage3\r\n",
+							"# General Tables\r\n",
+							"CompassODSStudentDemoFull = spark.read.load(source3p + \"/pilot/CompassODSStudentDemographicFull_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"# Early Years\r\n",
 							"EarlyYearsResultsWide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResults_pseudo\", format='delta')\r\n",
 							"EYResultsYear2Wide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
 							"EarlyYearsStudents_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents\", format='delta')\r\n",
@@ -32772,10 +32797,16 @@
 							"collapsed": false
 						},
 						"source": [
-							"display(DMStudentDemographic_df)"
+							"# Create a duplicate student table based on the sklongid from CompassODSStudentDemographics\r\n",
+							"# this is to be used in the exceptions report\r\n",
+							"\r\n",
+							"not_duplicate = CompassODSStudentDemoFull.groupBy(\"SKLongID\").count().where('count = 1').drop('count')\r\n",
+							"\r\n",
+							"CompassODSStudentDemoFull_duplicates = CompassODSStudentDemoFull.join(not_duplicate, on='SKLongID', how='left_anti')\r\n",
+							""
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 6
 					},
 					{
 						"cell_type": "markdown",
@@ -34188,8 +34219,10 @@
 							}
 						},
 						"source": [
+							"# Demographics tables \r\n",
 							"saveToTarget(DMStudentDemographic_df, destination_p, f'{version}/DMStudentDemographic_pseudo')\r\n",
 							"saveToTarget(DMStaffDemographic_df, destination_p, f'{version}/DMStaffDemographic_pseudo')\r\n",
+							"saveToTarget(CompassODSStudentDemoFull_duplicates, destination_p, f'{version}/CompassODSStudentDemographicFullDuplicates_pseudo')\r\n",
 							"\r\n",
 							"# remove in next version \r\n",
 							"saveToTarget(EarlyYearsResultsLong_df, destination_p, f'{version}/EarlyYearsResultsLong_pseudo')\r\n",
@@ -51172,7 +51205,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "98c95b04-704f-4cd0-b164-d8ceb1840347"
+						"spark.autotune.trackingId": "b39a53cf-a322-4390-b868-224f6c3c3a11"
 					}
 				},
 				"metadata": {
@@ -51686,6 +51719,7 @@
 						},
 						"source": [
 							"def CompassODSStudentDemographicFull_pseudo(df):\r\n",
+							"    \"\"\" create the SKLongID column for the ODS Student Demographics table \"\"\"\r\n",
 							"\r\n",
 							"    # clean up the data of birth column\r\n",
 							"    df = df.withColumn(\"DOB_YearFirstFormat\", to_date(col(\"DateOfBirth\")))\r\n",

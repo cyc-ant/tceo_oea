@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "98c95b04-704f-4cd0-b164-d8ceb1840347"
+				"spark.autotune.trackingId": "b39a53cf-a322-4390-b868-224f6c3c3a11"
 			}
 		},
 		"metadata": {
@@ -522,6 +522,7 @@
 				},
 				"source": [
 					"def CompassODSStudentDemographicFull_pseudo(df):\r\n",
+					"    \"\"\" create the SKLongID column for the ODS Student Demographics table \"\"\"\r\n",
 					"\r\n",
 					"    # clean up the data of birth column\r\n",
 					"    df = df.withColumn(\"DOB_YearFirstFormat\", to_date(col(\"DateOfBirth\")))\r\n",

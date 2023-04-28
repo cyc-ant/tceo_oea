@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3c1015b5-9ff9-4a8f-b05c-029e71f7a462"
+				"spark.autotune.trackingId": "eac2fd8f-cd94-4464-bbfb-ed91c3117057"
 			}
 		},
 		"metadata": {
@@ -98,7 +98,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 9
+				"execution_count": 1
 			},
 			{
 				"cell_type": "code",
@@ -171,6 +171,10 @@
 					"EYAnswers_df = spark.read.load(sourcep + \"/EarlyYearsAnswers/EarlyYearsAnswers_pseudo\", format='delta')\r\n",
 					"\r\n",
 					"# source tables from Stage3\r\n",
+					"# General Tables\r\n",
+					"CompassODSStudentDemoFull = spark.read.load(source3p + \"/pilot/CompassODSStudentDemographicFull_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"# Early Years\r\n",
 					"EarlyYearsResultsWide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResults_pseudo\", format='delta')\r\n",
 					"EYResultsYear2Wide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
 					"EarlyYearsStudents_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents\", format='delta')\r\n",
@@ -263,9 +267,15 @@
 					"collapsed": false
 				},
 				"source": [
-					"display(DMStudentDemographic_df)"
+					"# Create a duplicate student table based on the sklongid from CompassODSStudentDemographics\r\n",
+					"# this is to be used in the exceptions report\r\n",
+					"\r\n",
+					"not_duplicate = CompassODSStudentDemoFull.groupBy(\"SKLongID\").count().where('count = 1').drop('count')\r\n",
+					"\r\n",
+					"CompassODSStudentDemoFull_duplicates = CompassODSStudentDemoFull.join(not_duplicate, on='SKLongID', how='left_anti')\r\n",
+					""
 				],
-				"execution_count": 13
+				"execution_count": 6
 			},
 			{
 				"cell_type": "markdown",
@@ -1652,8 +1662,10 @@
 					}
 				},
 				"source": [
+					"# Demographics tables \r\n",
 					"saveToTarget(DMStudentDemographic_df, destination_p, f'{version}/DMStudentDemographic_pseudo')\r\n",
 					"saveToTarget(DMStaffDemographic_df, destination_p, f'{version}/DMStaffDemographic_pseudo')\r\n",
+					"saveToTarget(CompassODSStudentDemoFull_duplicates, destination_p, f'{version}/CompassODSStudentDemographicFullDuplicates_pseudo')\r\n",
 					"\r\n",
 					"# remove in next version \r\n",
 					"saveToTarget(EarlyYearsResultsLong_df, destination_p, f'{version}/EarlyYearsResultsLong_pseudo')\r\n",

@@ -51204,7 +51204,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "24a47d20-94b9-45ec-9422-afc54857a378"
+						"spark.autotune.trackingId": "ace98b9a-53eb-42a7-b8df-cb5598dd84d9"
 					}
 				},
 				"metadata": {
@@ -51229,13 +51229,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split, upper, date_format, to_date\r\n",
 							"from pyspark.sql.types import StringType"
@@ -51451,6 +51453,19 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### REMOVE THIS"
+						]
 					},
 					{
 						"cell_type": "code",
@@ -51760,7 +51775,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5bc59f54-f027-40e4-8e35-2fd4d91e869c"
+						"spark.autotune.trackingId": "3231cec2-2e22-40c9-b3b8-3a0c87a0c53e"
 					}
 				},
 				"metadata": {
@@ -51785,8 +51800,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

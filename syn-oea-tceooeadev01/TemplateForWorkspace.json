@@ -32545,7 +32545,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "72571db4-0941-44a7-bbda-303248f54c55"
+						"spark.autotune.trackingId": "eac2fd8f-cd94-4464-bbfb-ed91c3117057"
 					}
 				},
 				"metadata": {
@@ -32570,8 +32570,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -51205,7 +51204,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b39a53cf-a322-4390-b868-224f6c3c3a11"
+						"spark.autotune.trackingId": "24a47d20-94b9-45ec-9422-afc54857a378"
 					}
 				},
 				"metadata": {
@@ -51464,14 +51463,9 @@
 								"transient": {
 									"deleting": false
 								}
-							},
-							"microsoft": {
-								"language": "python"
 							}
 						},
 						"source": [
-							"%%pyspark\r\n",
-							"\r\n",
 							"def DMFactPATResults_pseudo(df):\r\n",
 							"\r\n",
 							"    sourcep = oea.stage2p\r\n",
@@ -51766,7 +51760,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c44f4c30-4b70-4705-a59d-6843281e1c15"
+						"spark.autotune.trackingId": "5bc59f54-f027-40e4-8e35-2fd4d91e869c"
 					}
 				},
 				"metadata": {
@@ -51791,7 +51785,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -51856,8 +51851,8 @@
 							"        final_df = DMNAPLAN_pseudo(df)\r\n",
 							"    elif name == \"DMPersonDemographic_pseudo\":\r\n",
 							"        final_df = DMPersonDemographic_pseudo(df)\r\n",
-							"    elif name == \"DMFactPATResults_pseudo\":\r\n",
-							"        final_df = DMFactPATResults_pseudo(df)  \r\n",
+							"    #elif name == \"DMFactPATResults_pseudo\":\r\n",
+							"    #    final_df = DMFactPATResults_pseudo(df)  \r\n",
 							"    elif name == \"EarlyYearsResults_pseudo\":\r\n",
 							"        final_df = EarlyYearsResults_pseudo(df)\r\n",
 							"    elif name == \"EarlyYearsResultsYear2_pseudo\":\r\n",

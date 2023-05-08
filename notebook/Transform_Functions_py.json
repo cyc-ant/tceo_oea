@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b39a53cf-a322-4390-b868-224f6c3c3a11"
+				"spark.autotune.trackingId": "24a47d20-94b9-45ec-9422-afc54857a378"
 			}
 		},
 		"metadata": {
@@ -273,14 +273,9 @@
 						"transient": {
 							"deleting": false
 						}
-					},
-					"microsoft": {
-						"language": "python"
 					}
 				},
 				"source": [
-					"%%pyspark\r\n",
-					"\r\n",
 					"def DMFactPATResults_pseudo(df):\r\n",
 					"\r\n",
 					"    sourcep = oea.stage2p\r\n",

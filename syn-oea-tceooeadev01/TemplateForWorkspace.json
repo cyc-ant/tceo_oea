@@ -17997,7 +17997,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "697052ac-4b7b-491f-be85-382c6014c5d0"
+						"spark.autotune.trackingId": "20409beb-4389-4873-b9db-d59a3049c689"
 					}
 				},
 				"metadata": {
@@ -18022,7 +18022,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -18976,7 +18977,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4a85a7b3-a254-489a-8df1-dbd31c07c7b4"
+						"spark.autotune.trackingId": "6aca9a58-dc3d-4747-9d21-ab68968ba5ac"
 					}
 				},
 				"metadata": {
@@ -19014,7 +19015,7 @@
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
 							"        self.schemas['DMACERStanine'] = [\r\n",
-							"                                        ['SKACERStanine', 'integer', 'no-op'],\r\n",
+							"                                        ['SKACERStanine', 'integer', 'hash'],\r\n",
 							"                                        ['BKACERStanine', 'integer', 'no-op'],\r\n",
 							"                                        ['StanineNumber', 'integer', 'no-op'],\r\n",
 							"                                        ['StanineNumberDescription', 'string', 'no-op'],\r\n",
@@ -48441,7 +48442,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b56b3298-0078-4476-9de1-50631e89d707"
+						"spark.autotune.trackingId": "5f79b999-036d-4985-9561-46a1e7530e4e"
 					}
 				},
 				"metadata": {
@@ -49306,6 +49307,19 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Early Years Students"
+						]
 					},
 					{
 						"cell_type": "code",
@@ -51204,7 +51218,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ace98b9a-53eb-42a7-b8df-cb5598dd84d9"
+						"spark.autotune.trackingId": "2b6db92f-7fe6-4702-89d3-352dfc45265d"
 					}
 				},
 				"metadata": {
@@ -51229,15 +51243,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split, upper, date_format, to_date\r\n",
 							"from pyspark.sql.types import StringType"

@@ -1,0 +1,91 @@
+{
+	"name": "AEResultsCombined_py",
+	"properties": {
+		"folder": {
+			"name": "Data Objects"
+		},
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spark3p1sm",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "7bb144b7-4af5-4191-9b53-7858e25fc534"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": true,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "python"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+				"name": "spark3p1sm",
+				"type": "Spark",
+				"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.1",
+				"nodeCount": 3,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"class AEResultsCombined_object(BaseOEAModule):\r\n",
+					"    def __init__(self, source_folder='AEResultsCombined', pseudonymize = True):\r\n",
+					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+					"\r\n",
+					"        self.schemas['AEResultsCombined'] = [\r\n",
+					"                                        ['SchoolNameAndArea', 'string', 'no-op'],\r\n",
+					"                                        ['Year', 'integer', 'no-op'],\r\n",
+					"                                        ['Semester', 'integer', 'no-op'],\r\n",
+					"                                        ['GovtCode1', 'integer', 'no-op'],\r\n",
+					"                                        ['Subject', 'string', 'no-op'],\r\n",
+					"                                        ['Result', 'string', 'no-op'],\r\n",
+					"                                        ['SKID', 'string', 'no-op']                                                                \r\n",
+					"                                        ]\r\n",
+					"\r\n",
+					"        \r\n",
+					"\r\n",
+					"                                 \r\n",
+					"\r\n",
+					"    def ingest(self):\r\n",
+					"\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'AEResultsCombined', self.schemas['AEResultsCombined'], None, 'SKID')\r\n",
+					"        \r\n",
+					"        # empty tables \r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'DMFACTAEDCStrengths', self.schemas['DMFACTAEDCStrengths'], 'LastUpdateDate', 'SKAEDCStrengths')\r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'DMFactStudentAEResult', self.schemas['DMFactStudentAEResult'], 'LastUpdateDate', 'SKFactStudentAEResultId')\r\n",
+					"\r\n",
+					"\r\n",
+					"\r\n",
+					"aeresultscombined_object = AEResultsCombined_object()"
+				],
+				"execution_count": null
+			}
+		]
+	}
+}

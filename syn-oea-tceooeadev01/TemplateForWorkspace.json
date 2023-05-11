@@ -28259,7 +28259,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "70d2e4e6-7690-4466-8429-22b6d7b761ce"
+						"spark.autotune.trackingId": "c89d7892-0776-4934-93a5-6a2b578e4ce0"
 					}
 				},
 				"metadata": {
@@ -28284,7 +28284,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -28387,7 +28388,7 @@
 							"collapsed": true
 						},
 						"source": [
-							"%run /AE_py"
+							"%run /AEResultsCombined_py"
 						],
 						"outputs": [],
 						"execution_count": 17

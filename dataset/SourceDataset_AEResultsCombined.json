@@ -1,0 +1,52 @@
+{
+	"name": "SourceDataset_AEResultsCombined",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AFS_SchoolList",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"fileName": "AEResultsCombined.csv",
+				"folderPath": "AEResultsCombined"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "SchoolNameAndArea",
+				"type": "String"
+			},
+			{
+				"name": "Year",
+				"type": "String"
+			},
+			{
+				"name": "Semester",
+				"type": "String"
+			},
+			{
+				"name": "GovtCode1",
+				"type": "String"
+			},
+			{
+				"name": "Subject",
+				"type": "String"
+			},
+			{
+				"name": "Result",
+				"type": "String"
+			},
+			{
+				"name": "SKID",
+				"type": "String"
+			}
+		]
+	}
+}

@@ -33066,7 +33066,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7d1bfc5e-5a44-46ab-82b9-c955afb7b703"
+						"spark.autotune.trackingId": "a251eeba-f95b-4137-ad5f-0cf0624a7f16"
 					}
 				},
 				"metadata": {
@@ -33139,13 +33139,13 @@
 							}
 						},
 						"source": [
-							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev, upper, mean, to_date, split, date_format, max\r\n",
+							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat, concat_ws, lit, avg, stddev, upper, mean, to_date, split, date_format, max\r\n",
 							"from pyspark.sql import Row\r\n",
 							"from pyspark.sql.window import Window\r\n",
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 14
 					},
 					{
 						"cell_type": "code",
@@ -33164,7 +33164,7 @@
 							"%run Antares_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -33183,7 +33183,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 3
 					},
 					{
 						"cell_type": "markdown",
@@ -33251,7 +33251,56 @@
 							"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 4
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"# create an extra column to combine year and semester into one value\r\n",
+							"updatedaeresults_df = aeresults_df.withColumn('YearSemesterValue', concat('Year', 'Semester'))\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 15
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"activeae_df = activestudents_df.join(updatedaeresults_df, [col('GovtCode1') == col('Ceider')], how='left')\r\n",
+							"\r\n",
+							"aelatest_df = activeae_df.groupby('Subject', 'GovtCode1').agg(max('YearSemesterValue').alias('YearSemesterValue'))\r\n",
+							"\r\n",
+							"# join back to the original table to get results\r\n",
+							"finalae_df = aelatest_df.join(activeae_df, on=['Subject', 'GovtCode1', 'YearSemesterValue'], how='left')\r\n",
+							"\r\n",
+							"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result')"
+						],
+						"outputs": [],
+						"execution_count": 17
 					},
 					{
 						"cell_type": "code",
@@ -33279,13 +33328,68 @@
 							"#finalpat_df = acerlatest_df.join(active_patresults_df, [col('SKPATTest') == col('SKPATTest'), col('Ceider') == col('Ceider'), col('SKYear') == col('SKYear')], how='left')\r\n",
 							"finalpat_df = acerlatest_df.join(active_patresults_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left')\r\n",
 							"\r\n",
-							"finalpat_df = finalpat_df.select('SKPATTest', 'Ceider', 'SKYear', 'ScaleScore')\r\n",
-							"\r\n",
-							"display(finalpat_df)\r\n",
+							"finalpat_df = finalpat_df.select('SKPATTest', 'Ceider', col('SKYear').alias('ACERSKYear'), 'ScaleScore')\r\n",
 							"                                                                                "
 						],
 						"outputs": [],
-						"execution_count": 26
+						"execution_count": 20
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"# join the active students with the naplan student results\r\n",
+							"activenaplan_df = activestudents_df.join(naplanonlinestudentresult_df, [col('Ceider') == col('PersistentIdentifier')], how='left')\r\n",
+							"\r\n",
+							"# now join to the test result\r\n",
+							"active_naplanresults_df = activenaplan_df.join(naplanonlinestudenttest_df, on='SKNAPLANOnlineStudentResult', how='inner')\r\n",
+							"\r\n",
+							"naplanlatest_df = active_naplanresults_df.groupby('SKNAPLANTest', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
+							"\r\n",
+							"# join groupings back to the original table\r\n",
+							"finalnaplan_df = naplanlatest_df.join(active_naplanresults_df, on=['SKNAPLANTest', 'Ceider', 'SKYear'], how='left')\r\n",
+							"\r\n",
+							"finalnaplan_df = finalnaplan_df.select(col('SKNAPLANTest'), col('Ceider'), col('SKYear').alias('NaplanSKYear'), col('ScaledScoreValue'))\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 19
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"# join acer and naplan tables\r\n",
+							"naplanacer_df = finalnaplan_df.join(finalpat_df, on='Ceider', how='inner')\r\n",
+							"\r\n",
+							"# join AE to table\r\n",
+							"combinedresults_df = naplanacer_df.join(finalae_df, on='Ceider', how='inner')\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": 18
 					},
 					{
 						"cell_type": "markdown",

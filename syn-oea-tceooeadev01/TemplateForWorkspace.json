@@ -33066,7 +33066,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "56164572-4525-47f8-8633-03cf5db8f4b9"
+						"spark.autotune.trackingId": "e4c53ed3-2624-4016-8ef5-330a5d633995"
 					}
 				},
 				"metadata": {
@@ -33335,7 +33335,7 @@
 							"#finalpat_df = acerlatest_df.join(active_patresults_df, [col('SKPATTest') == col('SKPATTest'), col('Ceider') == col('Ceider'), col('SKYear') == col('SKYear')], how='left')\r\n",
 							"finalpat_df = acerlatest_df.join(active_patresults_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left')\r\n",
 							"\r\n",
-							"finalpat_df = finalpat_df.select('SKPATTest', 'Ceider', col('SKYear').alias('ACERSKYear'), 'ScaleScore')\r\n",
+							"finalpat_df = finalpat_df.select('SKPATTest', 'Ceider', col('SKYear').alias('ACERSKYear'), 'ScaleScore', 'NORMMeanScaledScore', 'TestLevelNormMeanScaledScore')\r\n",
 							"                                                                                "
 						],
 						"outputs": [],
@@ -33380,7 +33380,7 @@
 							"# join groupings back to the original table\r\n",
 							"finalnaplan_df = naplanlatest_df.join(active_naplanresults_df, on=['SKNAPLANTest', 'Ceider', 'SKYear'], how='left')\r\n",
 							"\r\n",
-							"finalnaplan_df = finalnaplan_df.select(col('SKNAPLANTest'), col('Ceider'), col('SKYear').alias('NaplanSKYear'), col('ScaledScoreValue'))\r\n",
+							"finalnaplan_df = finalnaplan_df.select('SKNAPLANTest', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'ScaledScoreValue', 'DomainNationalAverage')\r\n",
 							""
 						],
 						"outputs": [],

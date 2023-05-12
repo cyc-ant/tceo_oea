@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "75ec2e44-7d9c-414d-a666-5e8ef21a843f"
+				"spark.autotune.trackingId": "58fe12fe-9f38-4058-beb4-5430398f5ec3"
 			}
 		},
 		"metadata": {
@@ -204,25 +204,17 @@
 				"execution_count": 4
 			},
 			{
-				"cell_type": "code",
+				"cell_type": "markdown",
 				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
 					"nteract": {
 						"transient": {
 							"deleting": false
 						}
-					},
-					"collapsed": false
+					}
 				},
 				"source": [
-					"# create an extra column to combine year and semester into one value\r\n",
-					"updatedaeresults_df = aeresults_df.withColumn('YearSemesterValue', concat('Year', 'Semester'))\r\n",
-					""
-				],
-				"execution_count": 15
+					"### GET latest AE Results"
+				]
 			},
 			{
 				"cell_type": "code",
@@ -239,6 +231,9 @@
 					"collapsed": false
 				},
 				"source": [
+					"# create an extra column to combine year and semester into one value\r\n",
+					"updatedaeresults_df = aeresults_df.withColumn('YearSemesterValue', concat('Year', 'Semester'))\r\n",
+					"\r\n",
 					"activeae_df = activestudents_df.join(updatedaeresults_df, [col('GovtCode1') == col('Ceider')], how='left')\r\n",
 					"\r\n",
 					"aelatest_df = activeae_df.groupby('Subject', 'GovtCode1').agg(max('YearSemesterValue').alias('YearSemesterValue'))\r\n",
@@ -249,6 +244,19 @@
 					"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result')"
 				],
 				"execution_count": 17
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"### GET Latest ACER Results"
+				]
 			},
 			{
 				"cell_type": "code",
@@ -282,6 +290,19 @@
 				"execution_count": 20
 			},
 			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"### GET Latest NAPLAN Results"
+				]
+			},
+			{
 				"cell_type": "code",
 				"metadata": {
 					"jupyter": {
@@ -311,6 +332,19 @@
 					""
 				],
 				"execution_count": 19
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"### Combine all results"
+				]
 			},
 			{
 				"cell_type": "code",
@@ -1836,7 +1870,11 @@
 					"saveToTarget(EarlyYearsClassID_df, destination_p, f'{version}/DMEarlyYearsClassID_pseudo')\r\n",
 					"\r\n",
 					"# Senior Outcomes tables \r\n",
-					"saveToTarget(SeniorOutcomesLong_df, destination_p, f'{version}/SeniorOutcomesLong_pseudo')"
+					"saveToTarget(SeniorOutcomesLong_df, destination_p, f'{version}/SeniorOutcomesLong_pseudo')\r\n",
+					"\r\n",
+					"# Combined results (ACER/Naplan/AE) for correlation visual\r\n",
+					"saveToTarget(combinedresults_df, destination_p, f'{version}/_FACTLatestResultsCorrelation')\r\n",
+					""
 				],
 				"execution_count": null
 			}

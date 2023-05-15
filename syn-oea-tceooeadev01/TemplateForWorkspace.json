@@ -33066,7 +33066,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "302a94e9-12e0-4b53-bc36-629f42ba6c88"
+						"spark.autotune.trackingId": "2be1d2bd-aac8-4dd9-bdc7-ea68be0c9313"
 					}
 				},
 				"metadata": {
@@ -33091,8 +33091,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -51929,7 +51928,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2b6db92f-7fe6-4702-89d3-352dfc45265d"
+						"spark.autotune.trackingId": "a20a9602-1c55-4179-8f25-87c68dfac7cd"
 					}
 				},
 				"metadata": {
@@ -51954,16 +51953,19 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
-							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split, upper, date_format, to_date\r\n",
-							"from pyspark.sql.types import StringType"
+							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split, upper, date_format, to_date, first\r\n",
+							"from pyspark.sql.types import StringType\r\n",
+							"from pyspark.sql.window import Window"
 						],
 						"outputs": [],
 						"execution_count": 1
@@ -52204,7 +52206,7 @@
 							}
 						},
 						"source": [
-							"def DMFactPATResults_pseudo(df):\r\n",
+							"def DMFactPATResults_pseudoREMOVE(df):\r\n",
 							"\r\n",
 							"    sourcep = oea.stage2p\r\n",
 							"\r\n",
@@ -52217,6 +52219,32 @@
 							"    final_df = spark.sql(\"select a.*, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime from vw_df_dmfactpatresults_pseudo a left join vw_df_dmpatstudenttestgrouping b on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping inner join (select skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime, max(skpatresults) as maxskpatresults from (select a.skpatresults, a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime from vw_df_dmfactpatresults_pseudo a left join vw_df_dmpatstudenttestgrouping b on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping inner join (select skyear, skacerstudent, skpattest, skcampus, combineddatetime, max(scalescore) as maxscalescore from (select a.skyear, a.skacerstudent, a.skpattest, a.skcampus,  a.ScaleScore,  b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime from vw_df_dmfactpatresults_pseudo a left join vw_df_dmpatstudenttestgrouping b on a.skpatstudenttestgrouping = b.skpatstudenttestgrouping inner join (select skyear, skacerstudent, skpattest, skcampus, max(concat(datecomplete, ' ', right(left(timecomplete, 10), 8))) as latestdate from (select a.*, orig.skpatstudenttestgrouping, orig.skacerstanine, ScaleScore, skpatresults, b.datecomplete, b.timecomplete, concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) as combineddatetime from (select skyear, skacerstudent, skpattest, skcampus, count(*) as counttotal from vw_df_dmfactpatresults_pseudo where skpattest not in (43, 54, 65, 66, 76, 79, 92, 93, 94, 95, 96, 97, 98, 99, 100, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112) group by skyear, skacerstudent, skpattest, skcampus) a left join vw_df_dmfactpatresults_pseudo orig on a.skyear = orig.skyear and a.skacerstudent = orig.skacerstudent and a.skpattest = orig.skpattest and a.skcampus = orig.skcampus left join vw_df_dmpatstudenttestgrouping b on orig.skpatstudenttestgrouping = b.skpatstudenttestgrouping) total group by skyear, skacerstudent, skpattest, skcampus) inner1 on a.skyear = inner1.skyear and a.skacerstudent = inner1.SKACERStudent and a.SKPATTest = inner1.SKPATTest and a.SKCampus = inner1.SKCampus and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner1.latestdate ) inner2 group by skyear, skacerstudent, skpattest, skcampus, combineddatetime ) inner3 on a.skyear = inner3.skyear and a.skacerstudent = inner3.SKACERStudent and a.SKPATTest = inner3.SKPATTest and a.SKCampus = inner3.SKCampus and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner3.combineddatetime ) inner4 group by skyear, skacerstudent, skpattest, skcampus, scalescore, datecomplete, timecomplete, combineddatetime ) inner5 on a.skyear = inner5.skyear and a.skacerstudent = inner5.SKACERStudent and a.SKPATTest = inner5.SKPATTest and a.SKCampus = inner5.SKCampus and concat(b.datecomplete, ' ', right(left(b.timecomplete, 10), 8)) = inner5.combineddatetime and a.SKPATResults = inner5.maxskpatresults\")\r\n",
 							"\r\n",
 							"    return final_df\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def DMFactPATResults_pseudo(df):\r\n",
+							"    # Create a window specification for ordering rows\r\n",
+							"    window_spec = Window.partitionBy('SKYear', 'SKYearLevel', 'SKPATTest').orderBy('NormMeanScaledScore')\r\n",
+							"\r\n",
+							"    df = df.withColumn('NormMeanScaledScore', when(col('NormMeanScaledScore').isNull(), first(col('NormMeanScaledScore'), ignorenulls=True).over(window_spec)).otherwise(col('NormMeanScaledScore')))\r\n",
+							"\r\n",
+							"    return df\r\n",
 							""
 						],
 						"outputs": [],

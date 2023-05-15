@@ -51928,7 +51928,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a20a9602-1c55-4179-8f25-87c68dfac7cd"
+						"spark.autotune.trackingId": "e8f1b337-e326-4964-a1ff-79bb5e958bfd"
 					}
 				},
 				"metadata": {
@@ -51953,15 +51953,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split, upper, date_format, to_date, first\r\n",
 							"from pyspark.sql.types import StringType\r\n",
@@ -52526,7 +52524,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3231cec2-2e22-40c9-b3b8-3a0c87a0c53e"
+						"spark.autotune.trackingId": "8c05e8ca-16ea-4a74-b159-3dba40e2f91f"
 					}
 				},
 				"metadata": {
@@ -52551,7 +52549,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -52616,8 +52615,8 @@
 							"        final_df = DMNAPLAN_pseudo(df)\r\n",
 							"    elif name == \"DMPersonDemographic_pseudo\":\r\n",
 							"        final_df = DMPersonDemographic_pseudo(df)\r\n",
-							"    #elif name == \"DMFactPATResults_pseudo\":\r\n",
-							"    #    final_df = DMFactPATResults_pseudo(df)  \r\n",
+							"    elif name == \"DMFactPATResults_pseudo\":\r\n",
+							"        final_df = DMFactPATResults_pseudo(df)  \r\n",
 							"    elif name == \"EarlyYearsResults_pseudo\":\r\n",
 							"        final_df = EarlyYearsResults_pseudo(df)\r\n",
 							"    elif name == \"EarlyYearsResultsYear2_pseudo\":\r\n",

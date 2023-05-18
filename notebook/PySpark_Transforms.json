@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "62bf2e46-ff14-45a5-8a7b-937aa825f769"
+				"spark.autotune.trackingId": "7ec7c8e1-dda7-47db-a016-2d0a60b61bca"
 			}
 		},
 		"metadata": {
@@ -98,7 +98,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 14
+				"execution_count": 27
 			},
 			{
 				"cell_type": "code",
@@ -116,7 +116,7 @@
 				"source": [
 					"%run Antares_py"
 				],
-				"execution_count": 8
+				"execution_count": 28
 			},
 			{
 				"cell_type": "code",
@@ -134,7 +134,7 @@
 				"source": [
 					"%run OEA_py"
 				],
-				"execution_count": 9
+				"execution_count": 29
 			},
 			{
 				"cell_type": "markdown",
@@ -202,7 +202,7 @@
 					"#Active Students\r\n",
 					"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 				],
-				"execution_count": 10
+				"execution_count": 30
 			},
 			{
 				"cell_type": "markdown",
@@ -281,20 +281,23 @@
 					"\r\n",
 					"acerlatest_df = active_patresults_df.groupby('SKPATTest', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
 					"\r\n",
-					"# also get the previous result\r\n",
+					"# also get the previous result..\r\n",
+					"# to do that, we take away the latest results from the whole set then calculate the latest results from the remainder \r\n",
 					"previous_df = active_patresults_df.join(acerlatest_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left_anti')\r\n",
-					"\r\n",
 					"acerprevious_df = previous_df.groupby('SKPATTest', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
 					"\r\n",
-					"# join back to original table \r\n",
+					"# join the results tables back to original table \r\n",
 					"finalpat_df = acerlatest_df.join(active_patresults_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left')\r\n",
+					"previous_finalpat_df = acerprevious_df.join(active_patresults_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left')\r\n",
 					"\r\n",
-					"# join with the manual acer norms uploaded data \r\n",
+					"# join with the manual acer norms uploaded data (at the moment this only replaces 2022 data norm and stddev data)\r\n",
 					"newnorms_df = finalpat_df.join(ACERNorms_df, on=['SKPATTest', 'SKYear', 'SKYearLevel'], how='left')\r\n",
 					"\r\n",
 					"# replace the existing columns values for Norm and Standard deviation \r\n",
 					"replaced_df = newnorms_df.withColumn('newNorm', coalesce(ACERNorms_df['MeanScore'], finalpat_df['NORMMeanScaledScore'] )) \\\r\n",
 					"                            .withColumn('newStdDev', coalesce(ACERNorms_df['StdDev'], finalpat_df['NORMStandardDeviation'] ))\r\n",
+					"\r\n",
+					"# calculate the growth using formula: (latest result - previous result) / previous stddev\r\n",
 					"\r\n",
 					"\r\n",
 					"finalpat_df = replaced_df.select('SKPATTest', 'Ceider', col('SKYear').alias('ACERSKYear'), 'ScaleScore', col('newNorm').alias('ACERNormScore'), col('newStdDev').alias('ACERNORMStandardDeviation'))\r\n",

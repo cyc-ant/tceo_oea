@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "9da7b5d9-26bd-4498-8bb0-953d10c40698"
+				"spark.autotune.trackingId": "958281ba-a304-44b2-86d8-7401c439072f"
 			}
 		},
 		"metadata": {
@@ -93,7 +93,7 @@
 					}
 				},
 				"source": [
-					"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat, concat_ws, lit, avg, stddev, upper, mean, to_date, split, date_format, max\r\n",
+					"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat, concat_ws, lit, avg, stddev, upper, mean, to_date, split, date_format, max, coalesce\r\n",
 					"from pyspark.sql import Row\r\n",
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
@@ -116,7 +116,7 @@
 				"source": [
 					"%run Antares_py"
 				],
-				"execution_count": 2
+				"execution_count": 8
 			},
 			{
 				"cell_type": "code",
@@ -134,7 +134,7 @@
 				"source": [
 					"%run OEA_py"
 				],
-				"execution_count": 3
+				"execution_count": 9
 			},
 			{
 				"cell_type": "markdown",
@@ -169,6 +169,7 @@
 					"# source tables from Stage2\r\n",
 					"DMPersonDemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
 					"EYAnswers_df = spark.read.load(sourcep + \"/EarlyYearsAnswers/EarlyYearsAnswers_pseudo\", format='delta')\r\n",
+					"ACERNorms_df = spark.read.load(sourcep + \"/ACERNorms/ACERNorms_pseudo\", format='delta')\r\n",
 					"\r\n",
 					"# source tables from Stage3\r\n",
 					"# General Tables\r\n",
@@ -201,7 +202,7 @@
 					"#Active Students\r\n",
 					"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 				],
-				"execution_count": 4
+				"execution_count": 10
 			},
 			{
 				"cell_type": "markdown",
@@ -280,12 +281,19 @@
 					"\r\n",
 					"acerlatest_df = active_patresults_df.groupby('SKPATTest', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
 					"\r\n",
-					"#join back to original table \r\n",
-					"#finalpat_df = acerlatest_df.join(active_patresults_df, [col('SKPATTest') == col('SKPATTest'), col('Ceider') == col('Ceider'), col('SKYear') == col('SKYear')], how='left')\r\n",
+					"# join back to original table \r\n",
 					"finalpat_df = acerlatest_df.join(active_patresults_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left')\r\n",
 					"\r\n",
-					"finalpat_df = finalpat_df.select('SKPATTest', 'Ceider', col('SKYear').alias('ACERSKYear'), 'ScaleScore', col('NORMMeanScaledScore').alias('ACERNormScore'), col('TestLevelNormMeanScaledScore').alias('TestLevelACERNormScore'))\r\n",
-					"                                                                                "
+					"# join with the manual acer norms uploaded data \r\n",
+					"newnorms_df = finalpat_df.join(ACERNorms_df, on=['SKPATTest', 'SKYear', 'SKYearLevel'], how='left')\r\n",
+					"\r\n",
+					"# replace the existing columns values for Norm and Standard deviation \r\n",
+					"replaced_df = newnorms_df.withColumn('newNorm', coalesce(ACERNorms_df['MeanScore'], finalpat_df['NORMMeanScaledScore'] )) \\\r\n",
+					"                            .withColumn('newStdDev', coalesce(ACERNorms_df['StdDev'], finalpat_df['NORMStandardDeviation'] ))\r\n",
+					"\r\n",
+					"\r\n",
+					"finalpat_df = replaced_df.select('SKPATTest', 'Ceider', col('SKYear').alias('ACERSKYear'), 'ScaleScore', col('newNorm').alias('ACERNormScore'), col('newStdDev').alias('ACERNORMStandardDeviation'))\r\n",
+					""
 				],
 				"execution_count": 20
 			},

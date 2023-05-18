@@ -1,0 +1,52 @@
+{
+	"name": "SourceDataset_ACERNorms",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AFS_SchoolList",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureFileStorageLocation",
+				"fileName": "acernorms.csv",
+				"folderPath": "ACER"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "SKID",
+				"type": "String"
+			},
+			{
+				"name": "SKPATTest",
+				"type": "String"
+			},
+			{
+				"name": "SummaryGroups",
+				"type": "String"
+			},
+			{
+				"name": "SKYearLevel",
+				"type": "String"
+			},
+			{
+				"name": "SKYear",
+				"type": "String"
+			},
+			{
+				"name": "MeanScore",
+				"type": "String"
+			},
+			{
+				"name": "StdDev",
+				"type": "String"
+			}
+		]
+	}
+}

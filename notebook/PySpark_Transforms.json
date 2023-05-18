@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "958281ba-a304-44b2-86d8-7401c439072f"
+				"spark.autotune.trackingId": "62bf2e46-ff14-45a5-8a7b-937aa825f769"
 			}
 		},
 		"metadata": {
@@ -281,6 +281,11 @@
 					"\r\n",
 					"acerlatest_df = active_patresults_df.groupby('SKPATTest', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
 					"\r\n",
+					"# also get the previous result\r\n",
+					"previous_df = active_patresults_df.join(acerlatest_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left_anti')\r\n",
+					"\r\n",
+					"acerprevious_df = previous_df.groupby('SKPATTest', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
+					"\r\n",
 					"# join back to original table \r\n",
 					"finalpat_df = acerlatest_df.join(active_patresults_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left')\r\n",
 					"\r\n",
@@ -293,9 +298,10 @@
 					"\r\n",
 					"\r\n",
 					"finalpat_df = replaced_df.select('SKPATTest', 'Ceider', col('SKYear').alias('ACERSKYear'), 'ScaleScore', col('newNorm').alias('ACERNormScore'), col('newStdDev').alias('ACERNORMStandardDeviation'))\r\n",
-					""
+					"\r\n",
+					"display(previous_df)"
 				],
-				"execution_count": 20
+				"execution_count": 26
 			},
 			{
 				"cell_type": "markdown",
@@ -1707,8 +1713,7 @@
 					"\r\n",
 					"StdDevLiteracyPivot_df = updated_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"LiteracyTotal\": \"first\"})\r\n",
 					"StdDevLiteracyDiff_df = StdDevLiteracyPivot_df.withColumn(\"LiteracyStdDev\", ((col(\"Post\") + col(\"Pre\")) / 2)).select(\"SKResultID\", \"Ceider\", \"LiteracyStdDev\")\r\n",
-					"\r\n",
-					"display(StdDevNumeracyDiff_df)"
+					""
 				],
 				"execution_count": null
 			},

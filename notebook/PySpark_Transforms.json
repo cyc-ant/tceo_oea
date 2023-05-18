@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "7ec7c8e1-dda7-47db-a016-2d0a60b61bca"
+				"spark.autotune.trackingId": "8300a4b4-567c-446b-9b55-d419dbfbcadf"
 			}
 		},
 		"metadata": {
@@ -98,7 +98,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 27
+				"execution_count": 32
 			},
 			{
 				"cell_type": "code",
@@ -116,7 +116,7 @@
 				"source": [
 					"%run Antares_py"
 				],
-				"execution_count": 28
+				"execution_count": 33
 			},
 			{
 				"cell_type": "code",
@@ -134,7 +134,7 @@
 				"source": [
 					"%run OEA_py"
 				],
-				"execution_count": 29
+				"execution_count": 34
 			},
 			{
 				"cell_type": "markdown",
@@ -202,7 +202,7 @@
 					"#Active Students\r\n",
 					"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 				],
-				"execution_count": 30
+				"execution_count": 35
 			},
 			{
 				"cell_type": "markdown",
@@ -242,9 +242,9 @@
 					"# join back to the original table to get results\r\n",
 					"finalae_df = aelatest_df.join(activeae_df, on=['Subject', 'GovtCode1', 'YearSemesterValue'], how='left')\r\n",
 					"\r\n",
-					"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result')"
+					"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result', 'SKYearLevel')"
 				],
-				"execution_count": 17
+				"execution_count": 38
 			},
 			{
 				"cell_type": "markdown",
@@ -290,6 +290,9 @@
 					"finalpat_df = acerlatest_df.join(active_patresults_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left')\r\n",
 					"previous_finalpat_df = acerprevious_df.join(active_patresults_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left')\r\n",
 					"\r\n",
+					"# get the previous score, norm and stddev \r\n",
+					"previous_finalpat_df = previous_finalpat_df.select('SKPATTest', 'Ceider', col('ScaleScore').alias('PrevScaleScore'), col('NORMMeanScaledScore').alias('PrevNORMMeanScaledScore'), col('NORMStandardDeviation').alias('PrevNORMStandardDeviation'))\r\n",
+					"\r\n",
 					"# join with the manual acer norms uploaded data (at the moment this only replaces 2022 data norm and stddev data)\r\n",
 					"newnorms_df = finalpat_df.join(ACERNorms_df, on=['SKPATTest', 'SKYear', 'SKYearLevel'], how='left')\r\n",
 					"\r\n",
@@ -297,14 +300,16 @@
 					"replaced_df = newnorms_df.withColumn('newNorm', coalesce(ACERNorms_df['MeanScore'], finalpat_df['NORMMeanScaledScore'] )) \\\r\n",
 					"                            .withColumn('newStdDev', coalesce(ACERNorms_df['StdDev'], finalpat_df['NORMStandardDeviation'] ))\r\n",
 					"\r\n",
+					"# join the previous score values to the latest \r\n",
+					"combined_df = replaced_df.join(previous_finalpat_df, on=['SKPATTest', 'Ceider'], how='left')\r\n",
+					"\r\n",
 					"# calculate the growth using formula: (latest result - previous result) / previous stddev\r\n",
+					"growth_df = combined_df.withColumn('EffectSize', (col('ScaleScore') - col('PrevScaleScore')) / col('PrevNORMStandardDeviation'))\r\n",
 					"\r\n",
-					"\r\n",
-					"finalpat_df = replaced_df.select('SKPATTest', 'Ceider', col('SKYear').alias('ACERSKYear'), 'ScaleScore', col('newNorm').alias('ACERNormScore'), col('newStdDev').alias('ACERNORMStandardDeviation'))\r\n",
-					"\r\n",
-					"display(previous_df)"
+					"finalpat_df = growth_df.select('SKPATTest', 'Ceider', col('SKYear').alias('ACERSKYear'), 'ScaleScore', col('newNorm').alias('ACERNormScore'), col('newStdDev').alias('ACERNORMStandardDeviation'), 'EffectSize')\r\n",
+					""
 				],
-				"execution_count": 26
+				"execution_count": 41
 			},
 			{
 				"cell_type": "markdown",

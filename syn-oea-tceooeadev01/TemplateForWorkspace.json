@@ -52461,7 +52461,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "22c6f5e8-ba42-4220-8822-8a7bb5e98bb3"
+						"spark.autotune.trackingId": "7ab7894d-546d-486c-86b6-2211f34d7162"
 					}
 				},
 				"metadata": {
@@ -52805,7 +52805,8 @@
 							"                                        .when(df.PATTestName == \"PAT-R Comprehension\", \"Reading\")\r\n",
 							"                                        .when(df.PATTestName == \"PAT Reading Adaptive\", \"Reading\")\r\n",
 							"                                        .otherwise(\"Other\")\r\n",
-							"                        )"
+							"                        )\r\n",
+							"    return df"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -53255,7 +53256,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4d736bb2-6fce-4c3e-8b45-b1f20b93da4e"
+						"spark.autotune.trackingId": "08245332-a805-47f0-abf4-6bba8f20d4f5"
 					}
 				},
 				"metadata": {
@@ -53315,7 +53316,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -53334,7 +53335,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -53353,7 +53354,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -53382,7 +53383,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -53403,7 +53404,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -53446,7 +53447,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -53466,7 +53467,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 14
 					},
 					{
 						"cell_type": "code",

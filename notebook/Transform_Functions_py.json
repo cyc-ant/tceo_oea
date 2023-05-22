@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "374af6e6-db45-4d37-9f43-4d4b0babdbb5"
+				"spark.autotune.trackingId": "9c62ce4c-1b5c-4185-9d83-1625fc2552b3"
 			}
 		},
 		"metadata": {
@@ -354,7 +354,8 @@
 					"                                        .when(df.PATTestName == \"PAT-R Comprehension\", \"Reading\")\r\n",
 					"                                        .when(df.PATTestName == \"PAT Reading Adaptive\", \"Reading\")\r\n",
 					"                                        .otherwise(\"Other\")\r\n",
-					"                        )"
+					"                        )\r\n",
+					"    return df"
 				],
 				"execution_count": null
 			},

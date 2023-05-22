@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e8f1b337-e326-4964-a1ff-79bb5e958bfd"
+				"spark.autotune.trackingId": "374af6e6-db45-4d37-9f43-4d4b0babdbb5"
 			}
 		},
 		"metadata": {
@@ -329,6 +329,32 @@
 					"\r\n",
 					"    return df\r\n",
 					""
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def DMPATTest_pseudo(df):\r\n",
+					"    df = df.withColumn('SummaryGroups', when(df.PATTestName == \"PAT Maths 4th Edition\", \"Maths\")\r\n",
+					"                                        .when(df.PATTestName == \"PAT Maths Plus\", \"Maths\")\r\n",
+					"                                        .when(df.PATTestName == \"PAT Maths Adaptive\", \"Maths\")\r\n",
+					"                                        .when(df.PATTestName == \"PAT Reading 5th Edition\", \"Reading\")\r\n",
+					"                                        .when(df.PATTestName == \"PAT-R Comprehension\", \"Reading\")\r\n",
+					"                                        .when(df.PATTestName == \"PAT Reading Adaptive\", \"Reading\")\r\n",
+					"                                        .otherwise(\"Other\")\r\n",
+					"                        )"
 				],
 				"execution_count": null
 			},

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "1d510f9c-7285-4a3b-b574-74aacc91f658"
+				"spark.autotune.trackingId": "8d363431-705d-466e-aa09-d97e752a82ff"
 			}
 		},
 		"metadata": {
@@ -98,7 +98,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 1
+				"execution_count": 9
 			},
 			{
 				"cell_type": "code",
@@ -116,7 +116,7 @@
 				"source": [
 					"%run Antares_py"
 				],
-				"execution_count": 2
+				"execution_count": 10
 			},
 			{
 				"cell_type": "code",
@@ -134,7 +134,7 @@
 				"source": [
 					"%run OEA_py"
 				],
-				"execution_count": 3
+				"execution_count": 11
 			},
 			{
 				"cell_type": "markdown",
@@ -202,7 +202,7 @@
 					"#Active Students\r\n",
 					"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 				],
-				"execution_count": 4
+				"execution_count": 12
 			},
 			{
 				"cell_type": "markdown",
@@ -244,7 +244,7 @@
 					"\r\n",
 					"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result', 'SKYearLevel')"
 				],
-				"execution_count": 5
+				"execution_count": 13
 			},
 			{
 				"cell_type": "markdown",
@@ -310,6 +310,97 @@
 					""
 				],
 				"execution_count": 41
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"# join the active students with the acer student table\r\n",
+					"activeacer_df = activestudents_df.join(acerstudent_df, [col('Ceider') == col('PersistentStudentId')], how='left')\r\n",
+					"\r\n",
+					"active_patresults_df = activeacer_df.join(patresults_df, on='SKACERStudent', how='inner')\r\n",
+					"\r\n",
+					"# join the PATTest table (PAT Test types) so we can group the results into the 2 main categories (Maths / Reading)\r\n",
+					"test_groups_df = active_patresults_df.join(pattest_df, on='SKPATTest', how='inner') #inner join to take only valid tests \r\n",
+					"\r\n",
+					"acerlatest_df = test_groups_df.groupby('SummaryGroups', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
+					"\r\n",
+					"# remove the 'other' category (we only needs maths and reading)\r\n",
+					"acerlatest_reduced_df = acerlatest_df.filter(acerlatest_df.SummaryGroups != \"Other\")\r\n",
+					"\r\n",
+					"# also get the previous result..\r\n",
+					"# to do that, we take away the latest results from the whole set then calculate the latest results from the remainder \r\n",
+					"\r\n",
+					"previous_df = test_groups_df.join(acerlatest_df, on=['SummaryGroups', 'Ceider', 'SKYear'], how='left_anti')\r\n",
+					"\r\n",
+					"acerprevious_df = previous_df.groupby('SummaryGroups', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
+					"\r\n",
+					"# again remove the 'other' category as we only want math and reading\r\n",
+					"acerprevious_reduced_df = acerprevious_df.filter(acerprevious_df.SummaryGroups != \"Other\")\r\n",
+					"\r\n",
+					"# join the results tables back to original table \r\n",
+					"finalpat_df = acerlatest_df.join(test_groups_df, on=['SummaryGroups', 'Ceider', 'SKYear'], how='left')\r\n",
+					"previous_finalpat_df = acerprevious_df.join(test_groups_df, on=['SummaryGroups', 'Ceider', 'SKYear'], how='left')\r\n",
+					"\r\n",
+					"# remove \"Other\" category\r\n",
+					"finalpat_df = finalpat_df.filter(finalpat_df.SummaryGroups != \"Other\")\r\n",
+					"previous_finalpat_df = previous_finalpat_df.filter(previous_finalpat_df.SummaryGroups != \"Other\")\r\n",
+					"\r\n",
+					"# get the previous score, norm and stddev \r\n",
+					"previous_finalpat_df = previous_finalpat_df.select('SKPATTest', 'SummaryGroups', 'Ceider', col('ScaleScore').alias('PrevScaleScore'), col('NORMMeanScaledScore').alias('PrevNORMMeanScaledScore'), col('NORMStandardDeviation').alias('PrevNORMStandardDeviation'))\r\n",
+					"\r\n",
+					"# join with the manual acer norms uploaded data (at the moment this only replaces 2022 data norm and stddev data)\r\n",
+					"newnorms_df = finalpat_df.join(ACERNorms_df, on=['SKPATTest', 'SKYear', 'SKYearLevel'], how='left')\r\n",
+					"\r\n",
+					"# replace the existing columns values for Norm and Standard deviation \r\n",
+					"replaced_df = newnorms_df.withColumn('newNorm', coalesce(ACERNorms_df['MeanScore'], finalpat_df['NORMMeanScaledScore'] )) \\\r\n",
+					"                            .withColumn('newStdDev', coalesce(ACERNorms_df['StdDev'], finalpat_df['NORMStandardDeviation'] ))\r\n",
+					"\r\n",
+					"#test_df = replaced_df.select(finalpat_df['SummaryGroups'], finalpat_df['SKPATTest'])\r\n",
+					"# join the previous score values to the latest \r\n",
+					"combined_df = replaced_df.join(previous_finalpat_df, on=['SummaryGroups', 'Ceider'], how='left')\r\n",
+					"\r\n",
+					"#combined_df = combined_df.select(finalpat_df['SummaryGroups'], finalpat_df['SKPATTest'])\r\n",
+					"\r\n",
+					"# calculate the growth using formula: (latest result - previous result) / previous stddev\r\n",
+					"growth_df = combined_df.withColumn('EffectSize', (col('ScaleScore') - col('PrevScaleScore')) / col('PrevNORMStandardDeviation'))\r\n",
+					"\r\n",
+					"finalpat_df = growth_df.select(finalpat_df['SummaryGroups'], finalpat_df['SKPATTest'], 'Ceider', col('SKYear').alias('ACERSKYear'), 'PrevScaleScore', 'ScaleScore', col('newNorm').alias('ACERNormScore'), col('newStdDev').alias('ACERNORMStandardDeviation'), 'EffectSize')\r\n",
+					"\r\n",
+					"display(finalpat_df)\r\n",
+					""
+				],
+				"execution_count": 36
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"display(acerlatest_reduced_df)"
+				],
+				"execution_count": 37
 			},
 			{
 				"cell_type": "markdown",

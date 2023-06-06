@@ -33578,7 +33578,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1d510f9c-7285-4a3b-b574-74aacc91f658"
+						"spark.autotune.trackingId": "2dc18b7c-714f-441b-977a-46fdbac67c0f"
 					}
 				},
 				"metadata": {
@@ -33603,7 +33603,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -33656,7 +33657,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -33675,7 +33676,7 @@
 							"%run Antares_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -33694,7 +33695,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 11
 					},
 					{
 						"cell_type": "markdown",
@@ -33763,7 +33764,7 @@
 							"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 12
 					},
 					{
 						"cell_type": "markdown",
@@ -33806,7 +33807,7 @@
 							"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result', 'SKYearLevel')"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 13
 					},
 					{
 						"cell_type": "markdown",
@@ -33841,19 +33842,34 @@
 							"\r\n",
 							"active_patresults_df = activeacer_df.join(patresults_df, on='SKACERStudent', how='inner')\r\n",
 							"\r\n",
-							"acerlatest_df = active_patresults_df.groupby('SKPATTest', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
+							"# join the PATTest table (PAT Test types) so we can group the results into the 2 main categories (Maths / Reading)\r\n",
+							"test_groups_df = active_patresults_df.join(pattest_df, on='SKPATTest', how='inner') #inner join to take only valid tests \r\n",
+							"\r\n",
+							"acerlatest_df = test_groups_df.groupby('SummaryGroups', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
+							"\r\n",
+							"# remove the 'other' category (we only needs maths and reading)\r\n",
+							"acerlatest_reduced_df = acerlatest_df.filter(acerlatest_df.SummaryGroups != \"Other\")\r\n",
 							"\r\n",
 							"# also get the previous result..\r\n",
 							"# to do that, we take away the latest results from the whole set then calculate the latest results from the remainder \r\n",
-							"previous_df = active_patresults_df.join(acerlatest_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left_anti')\r\n",
-							"acerprevious_df = previous_df.groupby('SKPATTest', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
+							"\r\n",
+							"previous_df = test_groups_df.join(acerlatest_df, on=['SummaryGroups', 'Ceider', 'SKYear'], how='left_anti')\r\n",
+							"\r\n",
+							"acerprevious_df = previous_df.groupby('SummaryGroups', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
+							"\r\n",
+							"# again remove the 'other' category as we only want math and reading\r\n",
+							"acerprevious_reduced_df = acerprevious_df.filter(acerprevious_df.SummaryGroups != \"Other\")\r\n",
 							"\r\n",
 							"# join the results tables back to original table \r\n",
-							"finalpat_df = acerlatest_df.join(active_patresults_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left')\r\n",
-							"previous_finalpat_df = acerprevious_df.join(active_patresults_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left')\r\n",
+							"finalpat_df = acerlatest_df.join(test_groups_df, on=['SummaryGroups', 'Ceider', 'SKYear'], how='left')\r\n",
+							"previous_finalpat_df = acerprevious_df.join(test_groups_df, on=['SummaryGroups', 'Ceider', 'SKYear'], how='left')\r\n",
+							"\r\n",
+							"# remove \"Other\" category\r\n",
+							"finalpat_df = finalpat_df.filter(finalpat_df.SummaryGroups != \"Other\")\r\n",
+							"previous_finalpat_df = previous_finalpat_df.filter(previous_finalpat_df.SummaryGroups != \"Other\")\r\n",
 							"\r\n",
 							"# get the previous score, norm and stddev \r\n",
-							"previous_finalpat_df = previous_finalpat_df.select('SKPATTest', 'Ceider', col('ScaleScore').alias('PrevScaleScore'), col('NORMMeanScaledScore').alias('PrevNORMMeanScaledScore'), col('NORMStandardDeviation').alias('PrevNORMStandardDeviation'))\r\n",
+							"previous_finalpat_df = previous_finalpat_df.select('SKPATTest', 'SummaryGroups', 'Ceider', col('ScaleScore').alias('PrevScaleScore'), col('NORMMeanScaledScore').alias('PrevNORMMeanScaledScore'), col('NORMStandardDeviation').alias('PrevNORMStandardDeviation'))\r\n",
 							"\r\n",
 							"# join with the manual acer norms uploaded data (at the moment this only replaces 2022 data norm and stddev data)\r\n",
 							"newnorms_df = finalpat_df.join(ACERNorms_df, on=['SKPATTest', 'SKYear', 'SKYearLevel'], how='left')\r\n",
@@ -33862,17 +33878,23 @@
 							"replaced_df = newnorms_df.withColumn('newNorm', coalesce(ACERNorms_df['MeanScore'], finalpat_df['NORMMeanScaledScore'] )) \\\r\n",
 							"                            .withColumn('newStdDev', coalesce(ACERNorms_df['StdDev'], finalpat_df['NORMStandardDeviation'] ))\r\n",
 							"\r\n",
+							"#test_df = replaced_df.select(finalpat_df['SummaryGroups'], finalpat_df['SKPATTest'])\r\n",
 							"# join the previous score values to the latest \r\n",
-							"combined_df = replaced_df.join(previous_finalpat_df, on=['SKPATTest', 'Ceider'], how='left')\r\n",
+							"combined_df = replaced_df.join(previous_finalpat_df, on=['SummaryGroups', 'Ceider'], how='left')\r\n",
+							"\r\n",
+							"#combined_df = combined_df.select(finalpat_df['SummaryGroups'], finalpat_df['SKPATTest'])\r\n",
 							"\r\n",
 							"# calculate the growth using formula: (latest result - previous result) / previous stddev\r\n",
-							"growth_df = combined_df.withColumn('EffectSize', (col('ScaleScore') - col('PrevScaleScore')) / col('PrevNORMStandardDeviation'))\r\n",
+							"# GROWTH IS DONE IN A SEPARATE TABLE\r\n",
+							"#growth_df = combined_df.withColumn('EffectSize', (col('ScaleScore') - col('PrevScaleScore')) / col('PrevNORMStandardDeviation'))\r\n",
 							"\r\n",
-							"finalpat_df = growth_df.select('SKPATTest', 'Ceider', col('SKYear').alias('ACERSKYear'), 'ScaleScore', col('newNorm').alias('ACERNormScore'), col('newStdDev').alias('ACERNORMStandardDeviation'), 'EffectSize')\r\n",
+							"finalpat_df = combined_df.select(finalpat_df['SummaryGroups'], finalpat_df['SKPATTest'], 'Ceider', col('SKYear').alias('ACERSKYear'), 'PrevScaleScore', 'ScaleScore', col('newNorm').alias('ACERNormScore'), col('newStdDev').alias('ACERNORMStandardDeviation'))\r\n",
+							"\r\n",
+							"#display(finalpat_df)\r\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": 41
+						"execution_count": 36
 					},
 					{
 						"cell_type": "markdown",
@@ -52461,7 +52483,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7ab7894d-546d-486c-86b6-2211f34d7162"
+						"spark.autotune.trackingId": "9c62ce4c-1b5c-4185-9d83-1625fc2552b3"
 					}
 				},
 				"metadata": {
@@ -52486,15 +52508,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, udf, lit, regexp_replace, split, upper, date_format, to_date, first\r\n",
 							"from pyspark.sql.types import StringType\r\n",
@@ -53256,7 +53276,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "08245332-a805-47f0-abf4-6bba8f20d4f5"
+						"spark.autotune.trackingId": "d7a4f829-0e29-4667-a3e1-9222e51d0ccc"
 					}
 				},
 				"metadata": {
@@ -53316,7 +53336,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 15
 					},
 					{
 						"cell_type": "code",
@@ -53335,7 +53355,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 16
 					},
 					{
 						"cell_type": "code",
@@ -53354,7 +53374,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 17
 					},
 					{
 						"cell_type": "code",
@@ -53383,7 +53403,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 18
 					},
 					{
 						"cell_type": "code",
@@ -53404,7 +53424,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 19
 					},
 					{
 						"cell_type": "code",
@@ -53447,7 +53467,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 20
 					},
 					{
 						"cell_type": "code",
@@ -53467,7 +53487,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 21
 					},
 					{
 						"cell_type": "code",
@@ -53486,7 +53506,7 @@
 							"stage3Transform(source_np, destination_np)"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 22
 					},
 					{
 						"cell_type": "markdown",

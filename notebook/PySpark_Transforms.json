@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "8d363431-705d-466e-aa09-d97e752a82ff"
+				"spark.autotune.trackingId": "36bbfdf7-0743-41ea-b655-a40c461e2cce"
 			}
 		},
 		"metadata": {
@@ -279,58 +279,6 @@
 					"\r\n",
 					"active_patresults_df = activeacer_df.join(patresults_df, on='SKACERStudent', how='inner')\r\n",
 					"\r\n",
-					"acerlatest_df = active_patresults_df.groupby('SKPATTest', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
-					"\r\n",
-					"# also get the previous result..\r\n",
-					"# to do that, we take away the latest results from the whole set then calculate the latest results from the remainder \r\n",
-					"previous_df = active_patresults_df.join(acerlatest_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left_anti')\r\n",
-					"acerprevious_df = previous_df.groupby('SKPATTest', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
-					"\r\n",
-					"# join the results tables back to original table \r\n",
-					"finalpat_df = acerlatest_df.join(active_patresults_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left')\r\n",
-					"previous_finalpat_df = acerprevious_df.join(active_patresults_df, on=['SKPATTest', 'Ceider', 'SKYear'], how='left')\r\n",
-					"\r\n",
-					"# get the previous score, norm and stddev \r\n",
-					"previous_finalpat_df = previous_finalpat_df.select('SKPATTest', 'Ceider', col('ScaleScore').alias('PrevScaleScore'), col('NORMMeanScaledScore').alias('PrevNORMMeanScaledScore'), col('NORMStandardDeviation').alias('PrevNORMStandardDeviation'))\r\n",
-					"\r\n",
-					"# join with the manual acer norms uploaded data (at the moment this only replaces 2022 data norm and stddev data)\r\n",
-					"newnorms_df = finalpat_df.join(ACERNorms_df, on=['SKPATTest', 'SKYear', 'SKYearLevel'], how='left')\r\n",
-					"\r\n",
-					"# replace the existing columns values for Norm and Standard deviation \r\n",
-					"replaced_df = newnorms_df.withColumn('newNorm', coalesce(ACERNorms_df['MeanScore'], finalpat_df['NORMMeanScaledScore'] )) \\\r\n",
-					"                            .withColumn('newStdDev', coalesce(ACERNorms_df['StdDev'], finalpat_df['NORMStandardDeviation'] ))\r\n",
-					"\r\n",
-					"# join the previous score values to the latest \r\n",
-					"combined_df = replaced_df.join(previous_finalpat_df, on=['SKPATTest', 'Ceider'], how='left')\r\n",
-					"\r\n",
-					"# calculate the growth using formula: (latest result - previous result) / previous stddev\r\n",
-					"growth_df = combined_df.withColumn('EffectSize', (col('ScaleScore') - col('PrevScaleScore')) / col('PrevNORMStandardDeviation'))\r\n",
-					"\r\n",
-					"finalpat_df = growth_df.select('SKPATTest', 'Ceider', col('SKYear').alias('ACERSKYear'), 'ScaleScore', col('newNorm').alias('ACERNormScore'), col('newStdDev').alias('ACERNORMStandardDeviation'), 'EffectSize')\r\n",
-					""
-				],
-				"execution_count": 41
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"# join the active students with the acer student table\r\n",
-					"activeacer_df = activestudents_df.join(acerstudent_df, [col('Ceider') == col('PersistentStudentId')], how='left')\r\n",
-					"\r\n",
-					"active_patresults_df = activeacer_df.join(patresults_df, on='SKACERStudent', how='inner')\r\n",
-					"\r\n",
 					"# join the PATTest table (PAT Test types) so we can group the results into the 2 main categories (Maths / Reading)\r\n",
 					"test_groups_df = active_patresults_df.join(pattest_df, on='SKPATTest', how='inner') #inner join to take only valid tests \r\n",
 					"\r\n",
@@ -374,33 +322,15 @@
 					"#combined_df = combined_df.select(finalpat_df['SummaryGroups'], finalpat_df['SKPATTest'])\r\n",
 					"\r\n",
 					"# calculate the growth using formula: (latest result - previous result) / previous stddev\r\n",
-					"growth_df = combined_df.withColumn('EffectSize', (col('ScaleScore') - col('PrevScaleScore')) / col('PrevNORMStandardDeviation'))\r\n",
+					"# GROWTH IS DONE IN A SEPARATE TABLE\r\n",
+					"#growth_df = combined_df.withColumn('EffectSize', (col('ScaleScore') - col('PrevScaleScore')) / col('PrevNORMStandardDeviation'))\r\n",
 					"\r\n",
-					"finalpat_df = growth_df.select(finalpat_df['SummaryGroups'], finalpat_df['SKPATTest'], 'Ceider', col('SKYear').alias('ACERSKYear'), 'PrevScaleScore', 'ScaleScore', col('newNorm').alias('ACERNormScore'), col('newStdDev').alias('ACERNORMStandardDeviation'), 'EffectSize')\r\n",
+					"finalpat_df = combined_df.select(finalpat_df['SummaryGroups'], finalpat_df['SKPATTest'], 'Ceider', col('SKYear').alias('ACERSKYear'), 'PrevScaleScore', 'ScaleScore', col('newNorm').alias('ACERNormScore'), col('newStdDev').alias('ACERNORMStandardDeviation'))\r\n",
 					"\r\n",
-					"display(finalpat_df)\r\n",
+					"#display(finalpat_df)\r\n",
 					""
 				],
 				"execution_count": 36
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"display(acerlatest_reduced_df)"
-				],
-				"execution_count": 37
 			},
 			{
 				"cell_type": "markdown",

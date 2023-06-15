@@ -33578,7 +33578,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2dc18b7c-714f-441b-977a-46fdbac67c0f"
+						"spark.autotune.trackingId": "41bd1de7-1712-4bfb-b4c1-5d12b7366665"
 					}
 				},
 				"metadata": {
@@ -33657,7 +33657,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",
@@ -33676,7 +33676,7 @@
 							"%run Antares_py"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -33695,7 +33695,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 9
 					},
 					{
 						"cell_type": "markdown",
@@ -33764,7 +33764,7 @@
 							"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 10
 					},
 					{
 						"cell_type": "markdown",
@@ -33878,23 +33878,16 @@
 							"replaced_df = newnorms_df.withColumn('newNorm', coalesce(ACERNorms_df['MeanScore'], finalpat_df['NORMMeanScaledScore'] )) \\\r\n",
 							"                            .withColumn('newStdDev', coalesce(ACERNorms_df['StdDev'], finalpat_df['NORMStandardDeviation'] ))\r\n",
 							"\r\n",
-							"#test_df = replaced_df.select(finalpat_df['SummaryGroups'], finalpat_df['SKPATTest'])\r\n",
 							"# join the previous score values to the latest \r\n",
 							"combined_df = replaced_df.join(previous_finalpat_df, on=['SummaryGroups', 'Ceider'], how='left')\r\n",
 							"\r\n",
-							"#combined_df = combined_df.select(finalpat_df['SummaryGroups'], finalpat_df['SKPATTest'])\r\n",
-							"\r\n",
-							"# calculate the growth using formula: (latest result - previous result) / previous stddev\r\n",
-							"# GROWTH IS DONE IN A SEPARATE TABLE\r\n",
-							"#growth_df = combined_df.withColumn('EffectSize', (col('ScaleScore') - col('PrevScaleScore')) / col('PrevNORMStandardDeviation'))\r\n",
-							"\r\n",
-							"finalpat_df = combined_df.select(finalpat_df['SummaryGroups'], finalpat_df['SKPATTest'], 'Ceider', col('SKYear').alias('ACERSKYear'), 'PrevScaleScore', 'ScaleScore', col('newNorm').alias('ACERNormScore'), col('newStdDev').alias('ACERNORMStandardDeviation'))\r\n",
+							"finalpat_df = combined_df.select(finalpat_df['SummaryGroups'], finalpat_df['SKPATTest'], 'Ceider', col('SKYear').alias('ACERSKYear'), 'PrevScaleScore', 'ScaleScore', 'Stanine', col('newNorm').alias('ACERNormScore'), col('newStdDev').alias('ACERNORMStandardDeviation'))\r\n",
 							"\r\n",
 							"#display(finalpat_df)\r\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": 36
+						"execution_count": 13
 					},
 					{
 						"cell_type": "markdown",

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "6b74b8dc-fce8-47bd-97c0-6f0296446992"
+				"spark.autotune.trackingId": "23b60ce0-3649-4f2d-9063-c17512c97680"
 			}
 		},
 		"metadata": {
@@ -98,7 +98,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 7
+				"execution_count": 8
 			},
 			{
 				"cell_type": "code",
@@ -116,7 +116,7 @@
 				"source": [
 					"%run Antares_py"
 				],
-				"execution_count": 8
+				"execution_count": 9
 			},
 			{
 				"cell_type": "code",
@@ -134,7 +134,7 @@
 				"source": [
 					"%run OEA_py"
 				],
-				"execution_count": 9
+				"execution_count": 10
 			},
 			{
 				"cell_type": "markdown",
@@ -202,7 +202,7 @@
 					"#Active Students\r\n",
 					"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 				],
-				"execution_count": 10
+				"execution_count": 12
 			},
 			{
 				"cell_type": "markdown",
@@ -359,15 +359,15 @@
 					"# now join to the test result\r\n",
 					"active_naplanresults_df = activenaplan_df.join(naplanonlinestudenttest_df, on='SKNAPLANOnlineStudentResult', how='inner')\r\n",
 					"\r\n",
-					"naplanlatest_df = active_naplanresults_df.groupby('SKNAPLANTest', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
+					"naplanlatest_df = active_naplanresults_df.groupby('SKNaplanAssessmentId', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
 					"\r\n",
 					"# join groupings back to the original table\r\n",
-					"finalnaplan_df = naplanlatest_df.join(active_naplanresults_df, on=['SKNAPLANTest', 'Ceider', 'SKYear'], how='left')\r\n",
+					"finalnaplan_df = naplanlatest_df.join(active_naplanresults_df, on=['SKNaplanAssessmentId', 'Ceider', 'SKYear'], how='left')\r\n",
 					"\r\n",
 					"finalnaplan_df = finalnaplan_df.select('SKNAPLANTest', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'ScaledScoreValue', col('DomainNationalAverage').alias('NAPLANDomainNationalAverage'))\r\n",
 					""
 				],
-				"execution_count": 19
+				"execution_count": 13
 			},
 			{
 				"cell_type": "markdown",

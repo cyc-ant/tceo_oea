@@ -24906,7 +24906,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5ae3f9cb-7948-4b97-9ee9-541230ca60a2"
+						"spark.autotune.trackingId": "223693be-ead2-4610-b27f-6b5e61d1d3d2"
 					}
 				},
 				"metadata": {
@@ -24931,13 +24931,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class EarlyYearsSubTeachers(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='EarlyYearsSubTeachers', pseudonymize = True):\r\n",
@@ -30709,7 +30711,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e44eab7e-3f18-45d3-9d04-528fc5724299"
+						"spark.autotune.trackingId": "8b7a400c-603b-49c0-a1f8-a24804af4844"
 					}
 				},
 				"metadata": {
@@ -30734,7 +30736,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -30798,7 +30801,7 @@
 							"collapsed": true
 						},
 						"source": [
-							"%run /OEA_py"
+							"%run OEA_py"
 						],
 						"outputs": [],
 						"execution_count": 16

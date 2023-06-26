@@ -33911,7 +33911,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e49f772a-6524-4c5f-94ba-642dbb0a65b4"
+						"spark.autotune.trackingId": "b95f7731-ce5e-4698-9f3e-43662646bb54"
 					}
 				},
 				"metadata": {
@@ -33936,7 +33936,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -34062,6 +34063,7 @@
 							"# source tables from Stage2\r\n",
 							"DMPersonDemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
 							"EYAnswers_df = spark.read.load(sourcep + \"/EarlyYearsAnswers/EarlyYearsAnswers_pseudo\", format='delta')\r\n",
+							"#EarlyYearsSubTeachers_df = spark.read.load(sourcep + \"/EarlyYearsSubTeachers/EarlyYearsSubTeachers_pseudo\", format='delta')\r\n",
 							"ACERNorms_df = spark.read.load(sourcep + \"/ACERNorms/ACERNorms_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"# source tables from Stage3\r\n",

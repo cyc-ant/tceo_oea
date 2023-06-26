@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5f79b999-036d-4985-9561-46a1e7530e4e"
+				"spark.autotune.trackingId": "0659bad6-d339-4a00-b4f9-bf81bd67f00f"
 			}
 		},
 		"metadata": {
@@ -170,6 +170,10 @@
 					"# stage 3 transform on this table\r\n",
 					"odsstudentorganisationmilestones_df = spark.read.load(source3p + \"/pilot/CompassODSStudentOrganisationMilestones_pseudo\", format='delta')\r\n",
 					"\r\n",
+					"# early years\r\n",
+					"earlyyearssubteachers_df = spark.read.load(source3p + \"/pilot/EarlyYearsSubTeachers_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"\r\n",
 					"\r\n",
 					"# create temp sql views\r\n",
 					"factsubjectenrolment_df.createOrReplaceTempView('vw_factsubjectenrolment')\r\n",
@@ -202,6 +206,8 @@
 					"\r\n",
 					"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') \r\n",
 					"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones')\r\n",
+					"\r\n",
+					"earlyyearssubteachers_df.createOrReplaceTempView('vw_EarlyYearsSubTeachers') \r\n",
 					""
 				],
 				"execution_count": null
@@ -1531,6 +1537,107 @@
 					}
 				},
 				"source": [
+					"### Add Substitute Teachers from the SharePoint Online list"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_substituteteachers;\r\n",
+					"\r\n",
+					"-- Manual entry of support staff (non teachers) that will be conducting tests\r\n",
+					"\r\n",
+					"create temp view vw_ods_earlyyearsstudents_substituteteachers\r\n",
+					"as\r\n",
+					"\r\n",
+					"select \r\n",
+					"\tYear\r\n",
+					"    ,YearLevel\r\n",
+					"    ,CampusID\r\n",
+					"    ,SchoolNameAndArea\r\n",
+					"    ,TeacherID\r\n",
+					"    ,TeacherName\r\n",
+					"    ,StudentID\r\n",
+					"    ,StudentName\r\n",
+					"    ,ClassName\r\n",
+					"    ,ClassID\r\n",
+					"    ,StaffEmail\r\n",
+					"    ,StudentEmail\r\n",
+					"    ,Ceider\r\n",
+					"    from vw_ods_earlyyearsstudents_addedstaff\r\n",
+					"\r\n",
+					"union all\r\n",
+					"\r\n",
+					"select distinct\r\n",
+					"\torg.Year\r\n",
+					"\t,org.YearLevel\r\n",
+					"\t,org.CampusID\r\n",
+					"\t,org.SchoolNameAndArea\r\n",
+					"\t,new.SubTeacherCompassID as TeacherID\r\n",
+					"\t,new.SubTeacherName as TeacherName\r\n",
+					"\t,org.StudentID\r\n",
+					"\t,org.StudentName\r\n",
+					"\t,org.ClassName\r\n",
+					"\t,org.ClassID\r\n",
+					"\t,new.SubTeacherEmail as StaffEmail\r\n",
+					"\t,org.StudentEmail\r\n",
+					"\t,org.Ceider\r\n",
+					"\r\n",
+					"    from vw_ods_earlyyearsstudents_addedstaff org\r\n",
+					"\r\n",
+					"inner join\r\n",
+					"\r\n",
+					"    (\r\n",
+					"    select distinct\r\n",
+					"        sub.Title as OriginalTeacherEmail\r\n",
+					"        ,coalesce(details.TeacherName, sub.AdditionalTeacherEmail, 'Substitute') as SubTeacherName\r\n",
+					"        ,details.TeacherID as SubTeacherCompassID\r\n",
+					"        ,sub.AdditionalTeacherEmail as SubTeacherEmail\r\n",
+					"\r\n",
+					"        from vw_EarlyYearsSubTeachers sub\r\n",
+					"        left join\r\n",
+					"        (\r\n",
+					"        select distinct\r\n",
+					"            concat(d.FirstName, ' ', d.LastName) as TeacherName\r\n",
+					"            ,d.CompassPersonId as TeacherID\r\n",
+					"            ,coalesce(so.OrganisationUserEmail, d.EmailAddress, NULL) as StaffEmail\r\n",
+					"\r\n",
+					"            from vw_CompassODSStaffDemographic d\r\n",
+					"            inner join vw_CompassODSStaffOrganisationDetails so\r\n",
+					"            on d.CompassPersonId = so.CompassPersonId\r\n",
+					"            where 1=1\r\n",
+					"            and d.Iscurrent = 'True'\r\n",
+					"            and so.Iscurrent = 'True'\r\n",
+					"        ) details\r\n",
+					"\r\n",
+					"        on sub.AdditionalTeacherEmail = details.StaffEmail\r\n",
+					"    ) new\r\n",
+					"\r\n",
+					"on org.StaffEmail = new.OriginalTeacherEmail"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
 					"#### Save the SQL Temp views created above "
 				]
 			},
@@ -1567,7 +1674,7 @@
 					"\r\n",
 					"ods_studentclass_df = spark.read.table('vw_ods_studentclass')\r\n",
 					"ods_studentstable_df = spark.read.table('vw_ods_studentstable')\r\n",
-					"ods_earlyyearsstudents_df = spark.read.table('vw_ods_earlyyearsstudents_addedstaff') #need to make sure we include manually added staff\r\n",
+					"ods_earlyyearsstudents_df = spark.read.table('vw_ods_earlyyearsstudents_substituteteachers') #need to make sure we include manually added staff\r\n",
 					"ods_earlyyearsstudents_exceptions_df = spark.read.table('vw_ods_earlyyearsstudents_exceptions')\r\n",
 					"\r\n",
 					"ods_earlyyearsstudents_classidcleaned_df = spark.read.table('vw_ods_earlyyearsstudentsclassid_cleaned')\r\n",

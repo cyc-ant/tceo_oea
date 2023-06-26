@@ -24906,7 +24906,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "223693be-ead2-4610-b27f-6b5e61d1d3d2"
+						"spark.autotune.trackingId": "5ae3f9cb-7948-4b97-9ee9-541230ca60a2"
 					}
 				},
 				"metadata": {
@@ -24931,15 +24931,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class EarlyYearsSubTeachers(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='EarlyYearsSubTeachers', pseudonymize = True):\r\n",
@@ -30711,7 +30709,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8b7a400c-603b-49c0-a1f8-a24804af4844"
+						"spark.autotune.trackingId": "1e072b1f-f95f-4116-8306-fc6630148047"
 					}
 				},
 				"metadata": {
@@ -30778,13 +30776,13 @@
 							"# These values should be passed in from the pipeline that is using this notebook as an activity.\r\n",
 							"# Note that kwargs allows you to pass in a dict of params, but the dict has to specified as a string when invoked from a pipeline.\r\n",
 							"# Also note that you can refer to attributes of an object in the params, for example: {'path':oea.stage2np}\r\n",
-							"object_name = ''\r\n",
-							"method_name = ''\r\n",
-							"source_folder = ''\r\n",
+							"object_name = 'EarlyYearsSubTeachers_object'\r\n",
+							"method_name = 'ingest'\r\n",
+							"source_folder = 'EarlyYearsSubTeachers'\r\n",
 							"kwargs = '{}'"
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -30804,7 +30802,26 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 2
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"%run Stage1/GeneralDataCopy_py"
+						],
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -30823,7 +30840,7 @@
 							"%run Data Objects/EarlyYearsSubTeachers_py"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -30846,7 +30863,7 @@
 							"mssparkutils.notebook.exit(result)"
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": 4
 					}
 				]
 			},

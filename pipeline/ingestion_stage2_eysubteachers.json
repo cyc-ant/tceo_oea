@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"notebook": {
-						"referenceName": "EarlyYearsSubTeachers_py",
+						"referenceName": "OEA_connector_EYSubTeachers",
 						"type": "NotebookReference"
 					},
 					"parameters": {

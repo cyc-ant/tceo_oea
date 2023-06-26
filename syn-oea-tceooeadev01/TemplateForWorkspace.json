@@ -11247,7 +11247,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"notebook": {
-								"referenceName": "EarlyYearsSubTeachers_py",
+								"referenceName": "OEA_connector_EYSubTeachers",
 								"type": "NotebookReference"
 							},
 							"parameters": {
@@ -11290,7 +11290,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/notebooks/EarlyYearsSubTeachers_py')]",
+				"[concat(variables('workspaceId'), '/notebooks/OEA_connector_EYSubTeachers')]",
 				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]"
 			]
 		},
@@ -30709,7 +30709,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1e072b1f-f95f-4116-8306-fc6630148047"
+						"spark.autotune.trackingId": "bf1b14d0-58d2-42f6-9d83-2596aeca5c58"
 					}
 				},
 				"metadata": {
@@ -30734,8 +30734,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

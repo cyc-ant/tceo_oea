@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "7bb144b7-4af5-4191-9b53-7858e25fc534"
+				"spark.autotune.trackingId": "f9e35654-ec5a-4419-b072-7523656eb50b"
 			}
 		},
 		"metadata": {
@@ -62,6 +62,7 @@
 					"                                        ['SchoolNameAndArea', 'string', 'no-op'],\r\n",
 					"                                        ['Year', 'integer', 'no-op'],\r\n",
 					"                                        ['Semester', 'integer', 'no-op'],\r\n",
+					"                                        ['StudentYearLevel', 'string', 'no-op'],\r\n",
 					"                                        ['GovtCode1', 'integer', 'no-op'],\r\n",
 					"                                        ['Subject', 'string', 'no-op'],\r\n",
 					"                                        ['Result', 'string', 'no-op'],\r\n",

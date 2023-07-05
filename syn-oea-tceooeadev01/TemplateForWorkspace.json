@@ -18491,7 +18491,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7bb144b7-4af5-4191-9b53-7858e25fc534"
+						"spark.autotune.trackingId": "66b38dd9-af07-42d3-b584-5f50a3822ecf"
 					}
 				},
 				"metadata": {
@@ -18516,13 +18516,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class AEResultsCombined_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='AEResultsCombined', pseudonymize = True):\r\n",
@@ -18532,6 +18534,7 @@
 							"                                        ['SchoolNameAndArea', 'string', 'no-op'],\r\n",
 							"                                        ['Year', 'integer', 'no-op'],\r\n",
 							"                                        ['Semester', 'integer', 'no-op'],\r\n",
+							"                                        ['StudentYearLevel', 'string', 'no-op'],\r\n",
 							"                                        ['GovtCode1', 'integer', 'no-op'],\r\n",
 							"                                        ['Subject', 'string', 'no-op'],\r\n",
 							"                                        ['Result', 'string', 'no-op'],\r\n",
@@ -33854,7 +33857,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "70365995-43df-474d-a584-eb018e818c7e"
+						"spark.autotune.trackingId": "6658ec5b-1640-4f3f-a2d8-b9ae0176e2e8"
 					}
 				},
 				"metadata": {
@@ -33879,8 +33882,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -33933,7 +33935,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -33952,7 +33954,7 @@
 							"%run Antares_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -33971,7 +33973,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 10
 					},
 					{
 						"cell_type": "markdown",
@@ -34041,7 +34043,7 @@
 							"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -34061,7 +34063,7 @@
 							"display(aeresults_df)"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 12
 					},
 					{
 						"cell_type": "markdown",
@@ -53711,7 +53713,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "885553dc-e019-417b-ba01-51cd970c2fb1"
+						"spark.autotune.trackingId": "d11a9a84-5a77-475c-bc7d-172e1ec5c1a6"
 					}
 				},
 				"metadata": {
@@ -53771,7 +53773,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 7
 					},
 					{
 						"cell_type": "code",
@@ -53790,7 +53792,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 8
 					},
 					{
 						"cell_type": "code",
@@ -53809,7 +53811,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -53838,7 +53840,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -53859,7 +53861,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -53902,7 +53904,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -53922,7 +53924,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -53941,7 +53943,7 @@
 							"stage3Transform(source_np, destination_np)"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 14
 					},
 					{
 						"cell_type": "markdown",

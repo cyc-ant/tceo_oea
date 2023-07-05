@@ -6998,87 +6998,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_testclass')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_zhs",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "dbo.vwDMActivity"
-							},
-							{
-								"name": "Destination",
-								"value": "stage1np/testclass/testclass.csv"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"validateDataConsistency": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_zhs",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_zhs",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/SourceDataset_zhs')]",
-				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_zhs')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('workspaceName'), '/Copy_all_from_Azure_SQL_DB')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -7132,6 +7051,12 @@
 						"name": "Set currentDateTime",
 						"type": "SetVariable",
 						"dependsOn": [],
+						"policy": {
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"variableName": "currentDateTime",
@@ -7568,6 +7493,12 @@
 						"name": "Set currentDateTime",
 						"type": "SetVariable",
 						"dependsOn": [],
+						"policy": {
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"variableName": "currentDateTime",
@@ -9666,6 +9597,12 @@
 						"name": "set sqlDBName",
 						"type": "SetVariable",
 						"dependsOn": [],
+						"policy": {
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"variableName": "sqlDBName",
@@ -9976,6 +9913,12 @@
 						"name": "set sqlDBName",
 						"type": "SetVariable",
 						"dependsOn": [],
+						"policy": {
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"variableName": "sqlDBName",
@@ -33911,7 +33854,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "71c35408-abc8-4d17-b32d-a8900a2286f0"
+						"spark.autotune.trackingId": "70365995-43df-474d-a584-eb018e818c7e"
 					}
 				},
 				"metadata": {
@@ -33936,7 +33879,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -34027,7 +33971,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 2
 					},
 					{
 						"cell_type": "markdown",
@@ -34091,13 +34035,33 @@
 							"acerstudent_df = spark.read.load(source3p + \"/pilot/DMACERStudent_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"#AE\r\n",
-							"aeresults_df = spark.read.load(sourcep + \"/AEResultsCombined/AEResultsCombined_pseudo\", format='delta')\r\n",
+							"aeresults_df = spark.read.load(source3p + \"/pilot/AEResultsCombined_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"#Active Students\r\n",
 							"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 						],
 						"outputs": [],
 						"execution_count": 4
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"display(aeresults_df)"
+						],
+						"outputs": [],
+						"execution_count": 7
 					},
 					{
 						"cell_type": "markdown",
@@ -34127,10 +34091,7 @@
 							"collapsed": false
 						},
 						"source": [
-							"# create an extra column to combine year and semester into one value\r\n",
-							"updatedaeresults_df = aeresults_df.withColumn('YearSemesterValue', concat('Year', 'Semester'))\r\n",
-							"\r\n",
-							"activeae_df = activestudents_df.join(updatedaeresults_df, [col('GovtCode1') == col('Ceider')], how='left')\r\n",
+							"activeae_df = activestudents_df.join(aeresults_df, [col('GovtCode1') == col('Ceider')], how='left')\r\n",
 							"\r\n",
 							"aelatest_df = activeae_df.groupby('Subject', 'GovtCode1').agg(max('YearSemesterValue').alias('YearSemesterValue'))\r\n",
 							"\r\n",
@@ -50033,7 +49994,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "02ea219c-e00f-4c4d-b4de-8b3b15378bf9"
+						"spark.autotune.trackingId": "0659bad6-d339-4a00-b4f9-bf81bd67f00f"
 					}
 				},
 				"metadata": {
@@ -50058,8 +50019,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -52918,7 +52878,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "da30d4d1-4e2e-4859-9da0-1e2fe3be2c76"
+						"spark.autotune.trackingId": "4d5c380e-f83f-4286-bade-2c2a7127fa32"
 					}
 				},
 				"metadata": {
@@ -53513,6 +53473,44 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def AEResultsCombined(df):\r\n",
+							"    # create an extra column to combine year and semester into one value\r\n",
+							"    df = df.withColumn('YearSemesterValue', concat('Year', 'Semester'))\r\n",
+							"    df = df.withColumn(\"YearSemesterDescription\", concat(df.Year, lit(\" Semester \"), df.Semester))\r\n",
+							"\r\n",
+							"    df = df.withColumn(\"UniversalResult\", when(df.Result == \"A\", \"A/AP\") \r\n",
+							"                                            .when(df.Result == \"B\", \"B/MC\")\r\n",
+							"                                            .when(df.Result == \"C\", \"C/WW\")\r\n",
+							"                                            .when(df.Result == \"D\", \"D/EX\")\r\n",
+							"                                            .when(df.Result == \"E\", \"E/BA\")\r\n",
+							"                                            .when(df.Result == \"AP\", \"A/AP\")\r\n",
+							"                                            .when(df.Result == \"MC\", \"B/MC\")\r\n",
+							"                                            .when(df.Result == \"WW\", \"C/WW\")\r\n",
+							"                                            .when(df.Result == \"EX\", \"D/EX\")\r\n",
+							"                                            .when(df.Result == \"BA\", \"E/BA\")\r\n",
+							"                                            .otherwise(df.Result)\r\n",
+							"                                            \r\n",
+							"                        )\r\n",
+							"\r\n",
+							"    return df"
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -53542,7 +53540,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b4fc8e03-597f-4ac6-8736-5d2c39866e17"
+						"spark.autotune.trackingId": "20009e2e-7c95-4a44-9482-681815396e97"
 					}
 				},
 				"metadata": {
@@ -53646,6 +53644,8 @@
 							"        final_df = StudentLevel_pseudo(df)\r\n",
 							"    elif name == \"CompassODSStudentDemographicFull_pseudo\":\r\n",
 							"        final_df = CompassODSStudentDemographicFull_pseudo(df)\r\n",
+							"    elif name == \"AEResultsCombined\":\r\n",
+							"        final_df = AEResultsCombined(df)\r\n",
 							"    else:  \r\n",
 							"        final_df = df\r\n",
 							"\r\n",
@@ -53711,7 +53711,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d7a4f829-0e29-4667-a3e1-9222e51d0ccc"
+						"spark.autotune.trackingId": "885553dc-e019-417b-ba01-51cd970c2fb1"
 					}
 				},
 				"metadata": {
@@ -53771,7 +53771,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -53790,7 +53790,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -53809,7 +53809,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -53838,7 +53838,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -53859,7 +53859,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 19
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -53902,7 +53902,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 20
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -53922,7 +53922,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -53941,7 +53941,7 @@
 							"stage3Transform(source_np, destination_np)"
 						],
 						"outputs": [],
-						"execution_count": 22
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",

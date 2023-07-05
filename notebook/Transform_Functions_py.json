@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "da30d4d1-4e2e-4859-9da0-1e2fe3be2c76"
+				"spark.autotune.trackingId": "4d5c380e-f83f-4286-bade-2c2a7127fa32"
 			}
 		},
 		"metadata": {
@@ -596,6 +596,43 @@
 					"\r\n",
 					"    # filter for isCurrent records only\r\n",
 					"    df = df.filter(col(\"Iscurrent\") == \"True\")\r\n",
+					"\r\n",
+					"    return df"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def AEResultsCombined(df):\r\n",
+					"    # create an extra column to combine year and semester into one value\r\n",
+					"    df = df.withColumn('YearSemesterValue', concat('Year', 'Semester'))\r\n",
+					"    df = df.withColumn(\"YearSemesterDescription\", concat(df.Year, lit(\" Semester \"), df.Semester))\r\n",
+					"\r\n",
+					"    df = df.withColumn(\"UniversalResult\", when(df.Result == \"A\", \"A/AP\") \r\n",
+					"                                            .when(df.Result == \"B\", \"B/MC\")\r\n",
+					"                                            .when(df.Result == \"C\", \"C/WW\")\r\n",
+					"                                            .when(df.Result == \"D\", \"D/EX\")\r\n",
+					"                                            .when(df.Result == \"E\", \"E/BA\")\r\n",
+					"                                            .when(df.Result == \"AP\", \"A/AP\")\r\n",
+					"                                            .when(df.Result == \"MC\", \"B/MC\")\r\n",
+					"                                            .when(df.Result == \"WW\", \"C/WW\")\r\n",
+					"                                            .when(df.Result == \"EX\", \"D/EX\")\r\n",
+					"                                            .when(df.Result == \"BA\", \"E/BA\")\r\n",
+					"                                            .otherwise(df.Result)\r\n",
+					"                                            \r\n",
+					"                        )\r\n",
 					"\r\n",
 					"    return df"
 				],

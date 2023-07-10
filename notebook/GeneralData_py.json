@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "aa8667a8-d970-4c6d-8f75-25f6f79e752d"
+				"spark.autotune.trackingId": "9876d3d7-bc72-4e2c-8313-067a438cf9b0"
 			}
 		},
 		"metadata": {
@@ -55,7 +55,7 @@
 				"cell_type": "code",
 				"source": [
 					"class GeneralData_object(BaseOEAModule):\r\n",
-					"    def __init__(self, source_folder='_GeneralData', pseudonymize = True):\r\n",
+					"    def __init__(self, source_folder='GeneralData', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        self.schemas['School List'] = [\r\n",
@@ -74,10 +74,8 @@
 					"                                        ['SchoolId', 'integer', 'no-op'],\r\n",
 					"                                        ['School Name', 'string', 'no-op'],\r\n",
 					"                                        ['Area', 'string', 'no-op'],\r\n",
-					"                                        ['2018', 'integer', 'no-op'],\r\n",
-					"                                        ['2019', 'integer', 'no-op'],\r\n",
-					"                                        ['2020', 'integer', 'no-op'],\r\n",
-					"                                        ['2021', 'integer', 'no-op']                                                            \r\n",
+					"                                        ['Year', 'integer', 'no-op'],\r\n",
+					"                                        ['ICSEA', 'integer', 'no-op'],                                                         \r\n",
 					"                                        ]\r\n",
 					"\r\n",
 					"        self.schemas['GenderImageData'] = [\r\n",
@@ -101,12 +99,12 @@
 					"\r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'School List', self.schemas['School List'], None, 'SchoolId')\r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'School List', self.schemas['School List'], None, 'SchoolId')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'ICSEA', self.schemas['ICSEA'], None, 'SchoolId')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'GenderImageData', self.schemas['GenderImageData'], None, 'Gender')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'DomainSelection', self.schemas['DomainSelection'], None, 'DomainId')\r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'GenderImageData', self.schemas['GenderImageData'], None, 'Gender')\r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'DomainSelection', self.schemas['DomainSelection'], None, 'DomainId')\r\n",
 					"        #oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag', 'json')\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag')\r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag')\r\n",
 					"\r\n",
 					"\r\n",
 					"\r\n",

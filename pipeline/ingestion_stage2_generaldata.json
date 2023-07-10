@@ -29,7 +29,7 @@
 							"type": "string"
 						},
 						"source_folder": {
-							"value": "_GeneralData",
+							"value": "GeneralData",
 							"type": "string"
 						}
 					},

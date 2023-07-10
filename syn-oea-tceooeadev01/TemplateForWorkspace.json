@@ -7052,8 +7052,6 @@
 						"type": "SetVariable",
 						"dependsOn": [],
 						"policy": {
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
 							"secureInput": false
 						},
@@ -7494,8 +7492,6 @@
 						"type": "SetVariable",
 						"dependsOn": [],
 						"policy": {
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
 							"secureInput": false
 						},
@@ -9598,8 +9594,6 @@
 						"type": "SetVariable",
 						"dependsOn": [],
 						"policy": {
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
 							"secureInput": false
 						},
@@ -9914,8 +9908,6 @@
 						"type": "SetVariable",
 						"dependsOn": [],
 						"policy": {
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
 							"secureInput": false
 						},
@@ -11270,7 +11262,7 @@
 									"type": "string"
 								},
 								"source_folder": {
-									"value": "_GeneralData",
+									"value": "GeneralData",
 									"type": "string"
 								}
 							},
@@ -25444,7 +25436,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "aa8667a8-d970-4c6d-8f75-25f6f79e752d"
+						"spark.autotune.trackingId": "9876d3d7-bc72-4e2c-8313-067a438cf9b0"
 					}
 				},
 				"metadata": {
@@ -25478,7 +25470,7 @@
 						"cell_type": "code",
 						"source": [
 							"class GeneralData_object(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='_GeneralData', pseudonymize = True):\r\n",
+							"    def __init__(self, source_folder='GeneralData', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
 							"        self.schemas['School List'] = [\r\n",
@@ -25497,10 +25489,8 @@
 							"                                        ['SchoolId', 'integer', 'no-op'],\r\n",
 							"                                        ['School Name', 'string', 'no-op'],\r\n",
 							"                                        ['Area', 'string', 'no-op'],\r\n",
-							"                                        ['2018', 'integer', 'no-op'],\r\n",
-							"                                        ['2019', 'integer', 'no-op'],\r\n",
-							"                                        ['2020', 'integer', 'no-op'],\r\n",
-							"                                        ['2021', 'integer', 'no-op']                                                            \r\n",
+							"                                        ['Year', 'integer', 'no-op'],\r\n",
+							"                                        ['ICSEA', 'integer', 'no-op'],                                                         \r\n",
 							"                                        ]\r\n",
 							"\r\n",
 							"        self.schemas['GenderImageData'] = [\r\n",
@@ -25524,12 +25514,12 @@
 							"\r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'School List', self.schemas['School List'], None, 'SchoolId')\r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'School List', self.schemas['School List'], None, 'SchoolId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'ICSEA', self.schemas['ICSEA'], None, 'SchoolId')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'GenderImageData', self.schemas['GenderImageData'], None, 'Gender')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'DomainSelection', self.schemas['DomainSelection'], None, 'DomainId')\r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'GenderImageData', self.schemas['GenderImageData'], None, 'Gender')\r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'DomainSelection', self.schemas['DomainSelection'], None, 'DomainId')\r\n",
 							"        #oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag', 'json')\r\n",
-							"        oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag')\r\n",
+							"        #oea.ingest_delta_data(self.source_folder, 'FlagImageData', self.schemas['FlagImageData'], None, 'Flag')\r\n",
 							"\r\n",
 							"\r\n",
 							"\r\n",
@@ -31206,7 +31196,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "082781c9-226d-4ebf-8fd2-caf02d7dc8a5"
+						"spark.autotune.trackingId": "4dbc6e72-47b5-4a21-88e6-2d23b2fbc3c9"
 					}
 				},
 				"metadata": {
@@ -31299,25 +31289,6 @@
 						],
 						"outputs": [],
 						"execution_count": 2
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"%run /GeneralDataCopy_py"
-						],
-						"outputs": [],
-						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -49974,7 +49945,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8de5ff29-2998-4120-b230-86625dfc8406"
+						"spark.autotune.trackingId": "ef874db6-6adc-4f6d-976e-2a0d9b3c56f2"
 					}
 				},
 				"metadata": {
@@ -49999,8 +49970,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

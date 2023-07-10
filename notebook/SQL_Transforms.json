@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ef874db6-6adc-4f6d-976e-2a0d9b3c56f2"
+				"spark.autotune.trackingId": "5bc2cbda-ff98-4d24-b792-e4571a06e8d0"
 			}
 		},
 		"metadata": {
@@ -173,6 +173,10 @@
 					"#AE\r\n",
 					"aeresults_df = spark.read.load(source3p + \"/pilot/AEResultsCombined_pseudo\", format='delta')\r\n",
 					"\r\n",
+					"#ICSEA\r\n",
+					"icsea_df = spark.read.load(source3p + \"/pilot/ICSEA_pseudo\", format='delta')\r\n",
+					"\r\n",
+					"\r\n",
 					"\r\n",
 					"\r\n",
 					"# create temp sql views\r\n",
@@ -214,6 +218,9 @@
 					"\r\n",
 					"#AE\r\n",
 					"aeresults_df.createOrReplaceTempView('vw_aeresults') \r\n",
+					"\r\n",
+					"#ICSEA\r\n",
+					"icsea_df.createOrReplaceTempView('vw_icsea') \r\n",
 					""
 				],
 				"execution_count": null

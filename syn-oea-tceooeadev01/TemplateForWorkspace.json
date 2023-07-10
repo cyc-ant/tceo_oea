@@ -49945,7 +49945,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ef874db6-6adc-4f6d-976e-2a0d9b3c56f2"
+						"spark.autotune.trackingId": "5bc2cbda-ff98-4d24-b792-e4571a06e8d0"
 					}
 				},
 				"metadata": {
@@ -50098,6 +50098,10 @@
 							"#AE\r\n",
 							"aeresults_df = spark.read.load(source3p + \"/pilot/AEResultsCombined_pseudo\", format='delta')\r\n",
 							"\r\n",
+							"#ICSEA\r\n",
+							"icsea_df = spark.read.load(source3p + \"/pilot/ICSEA_pseudo\", format='delta')\r\n",
+							"\r\n",
+							"\r\n",
 							"\r\n",
 							"\r\n",
 							"# create temp sql views\r\n",
@@ -50139,6 +50143,9 @@
 							"\r\n",
 							"#AE\r\n",
 							"aeresults_df.createOrReplaceTempView('vw_aeresults') \r\n",
+							"\r\n",
+							"#ICSEA\r\n",
+							"icsea_df.createOrReplaceTempView('vw_icsea') \r\n",
 							""
 						],
 						"outputs": [],
@@ -55132,7 +55139,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d11a9a84-5a77-475c-bc7d-172e1ec5c1a6"
+						"spark.autotune.trackingId": "f2ea9f78-6859-4dab-86f3-f0c3e6d3c005"
 					}
 				},
 				"metadata": {
@@ -55157,7 +55164,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

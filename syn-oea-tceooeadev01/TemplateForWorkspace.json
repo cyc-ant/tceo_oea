@@ -33826,7 +33826,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f15f87d1-0e56-4135-a688-751b43d2d069"
+						"spark.autotune.trackingId": "cd785c76-a716-4965-8bfa-feb6794ab824"
 					}
 				},
 				"metadata": {
@@ -33851,7 +33851,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -34471,7 +34472,7 @@
 							"    EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop('xYear', 'xCampusID', 'xCeider', 'xClassID', 'xYearLevel')\r\n",
 							"\r\n",
 							"else:\r\n",
-							"    #if the pre tests are completely empty then assign false to pre test completion for every student \r\n",
+							"    #if the post tests are completely empty then assign false to post test completion for every student \r\n",
 							"    EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn(\"PostTestComplete\", lit(\"0\"))\r\n",
 							"\r\n",
 							"# add columns to make this table compatible with the Year 2 table \r\n",
@@ -35467,59 +35468,6 @@
 							"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
 							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
 							""
-						],
-						"outputs": [],
-						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"new_row1 = Row(\r\n",
-							"                NumeracyTotal=18.0, \r\n",
-							"                LiteracyTotal=14.0,\r\n",
-							"                NumeracyPercentile=0.91, \r\n",
-							"                LiteracyPercentile=0.65, \r\n",
-							"                Ceider=\"451850777\", \r\n",
-							"                TestLevel=\"Post\", \r\n",
-							"                NumeracyAverage=9.9, \r\n",
-							"                LiteracyAverage=9.2,\r\n",
-							"                NumeracyStdDev=4.5, \r\n",
-							"                LiteracyStdDev=3.9, \r\n",
-							"                SKResultID=\"467-2023-P-GENP_PA\"\r\n",
-							"            )"
-						],
-						"outputs": [],
-						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": false
-						},
-						"source": [
-							"updated_df = addRow(EarlyYearsResultsTotalsCombined_df, new_row1)\r\n",
-							"\r\n",
-							"#display(updated_df)"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -55139,7 +55087,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f2ea9f78-6859-4dab-86f3-f0c3e6d3c005"
+						"spark.autotune.trackingId": "d11a9a84-5a77-475c-bc7d-172e1ec5c1a6"
 					}
 				},
 				"metadata": {
@@ -55164,8 +55112,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

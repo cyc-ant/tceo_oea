@@ -24394,7 +24394,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a76a174d-2444-47c5-92e2-09914d40fd7a"
+						"spark.autotune.trackingId": "0ff90775-5071-41e7-abb4-7e92b9b339b6"
 					}
 				},
 				"metadata": {
@@ -24527,11 +24527,11 @@
 							"        year2_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsResultsYear2')\r\n",
 							"\r\n",
 							"        # remove the _SUCCESS file\r\n",
-							"        if mssparkutils.fs.exists(f'{root_dir}/{self.stage1np}/EarlyYearsResults/_SUCCESS'):\r\n",
-							"            mssparkutils.fs.rm(f'{root_dir}/{self.stage1np}/EarlyYearsResults/_SUCCESS')\r\n",
+							"        if mssparkutils.fs.exists(f'{self.stage1np}/EarlyYearsResults/_SUCCESS'):\r\n",
+							"            mssparkutils.fs.rm(f'{self.stage1np}/EarlyYearsResults/_SUCCESS')\r\n",
 							"\r\n",
-							"        if mssparkutils.fs.exists(f'{root_dir}/{self.stage1np}/EarlyYearsResultsYear2/_SUCCESS'):\r\n",
-							"            mssparkutils.fs.rm(f'{root_dir}/{self.stage1np}/EarlyYearsResultsYear2/_SUCCESS')\r\n",
+							"        if mssparkutils.fs.exists(f'{self.stage1np}/EarlyYearsResultsYear2/_SUCCESS'):\r\n",
+							"            mssparkutils.fs.rm(f'{self.stage1np}/EarlyYearsResultsYear2/_SUCCESS')\r\n",
 							"     \r\n",
 							"\r\n",
 							"    def _convertJSON(self, file):\r\n",
@@ -24557,7 +24557,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 4
 					}
 				]
 			},

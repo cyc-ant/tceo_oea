@@ -24394,7 +24394,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "0ff90775-5071-41e7-abb4-7e92b9b339b6"
+						"spark.autotune.trackingId": "d6ccafe3-7327-4e59-b6e4-0643c84dbc3d"
 					}
 				},
 				"metadata": {
@@ -24419,8 +24419,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -33834,7 +33833,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "39d0f7f5-5f14-4ef8-90d0-104b79989445"
+						"spark.autotune.trackingId": "53453dcc-8716-482d-8fa2-d3acccce1ca0"
 					}
 				},
 				"metadata": {
@@ -33859,7 +33858,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -35508,22 +35508,22 @@
 						},
 						"source": [
 							"# groupby year and the student and get post score - pre score\r\n",
-							"NumeracyPivot_df = updated_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"NumeracyTotal\": \"first\"})\r\n",
+							"NumeracyPivot_df = EarlyYearsResultsTotalsCombined_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"NumeracyTotal\": \"first\"})\r\n",
 							"\r\n",
 							"NumeracyDiff_df = NumeracyPivot_df.withColumn(\"Numeracydiff\", col(\"Post\") - col(\"Pre\")).select(\"SKResultID\", \"Ceider\", \"NumeracyDiff\")\r\n",
 							"\r\n",
 							"# same thing for literacy\r\n",
-							"LiteracyPivot_df = updated_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"LiteracyTotal\": \"first\"})\r\n",
+							"LiteracyPivot_df = EarlyYearsResultsTotalsCombined_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"LiteracyTotal\": \"first\"})\r\n",
 							"\r\n",
 							"LiteracyDiff_df = LiteracyPivot_df.withColumn(\"Literacydiff\", col(\"Post\") - col(\"Pre\")).select(\"SKResultID\", \"Ceider\", \"LiteracyDiff\")\r\n",
 							"\r\n",
 							"JoinedResultDiff_df = NumeracyDiff_df.join(LiteracyDiff_df, ['SKResultID', 'Ceider'], 'inner')\r\n",
 							"\r\n",
 							"# same again for the standard deviation values\r\n",
-							"StdDevNumeracyPivot_df = updated_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"NumeracyStdDev\": \"first\"})\r\n",
+							"StdDevNumeracyPivot_df = EarlyYearsResultsTotalsCombined_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"NumeracyStdDev\": \"first\"})\r\n",
 							"StdDevNumeracyDiff_df = StdDevNumeracyPivot_df.withColumn(\"NumeracyStdDevAverage\", ((col(\"Post\") + col(\"Pre\")) / 2)).select(\"SKResultID\", \"Ceider\", \"NumeracyStdDevAverage\")\r\n",
 							"\r\n",
-							"StdDevLiteracyPivot_df = updated_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"LiteracyStdDev\": \"first\"})\r\n",
+							"StdDevLiteracyPivot_df = EarlyYearsResultsTotalsCombined_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"LiteracyStdDev\": \"first\"})\r\n",
 							"StdDevLiteracyDiff_df = StdDevLiteracyPivot_df.withColumn(\"LiteracyStdDevAverage\", ((col(\"Post\") + col(\"Pre\")) / 2)).select(\"SKResultID\", \"Ceider\", \"LiteracyStdDevAverage\")\r\n",
 							"\r\n",
 							"JoinedStdDevDiff_df = StdDevNumeracyDiff_df.join(StdDevLiteracyDiff_df, ['SKResultID', 'Ceider'], 'inner')\r\n",

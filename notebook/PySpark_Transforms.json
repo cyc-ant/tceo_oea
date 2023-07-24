@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "43b26319-35d8-4341-8790-cfe3c60f14e9"
+				"spark.autotune.trackingId": "1907bd3a-0d06-4f4d-8a1b-12b197edee73"
 			}
 		},
 		"metadata": {
@@ -98,7 +98,7 @@
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 1
+				"execution_count": 14
 			},
 			{
 				"cell_type": "code",
@@ -116,7 +116,7 @@
 				"source": [
 					"%run Antares_py"
 				],
-				"execution_count": 9
+				"execution_count": 15
 			},
 			{
 				"cell_type": "code",
@@ -134,7 +134,7 @@
 				"source": [
 					"%run OEA_py"
 				],
-				"execution_count": 2
+				"execution_count": 16
 			},
 			{
 				"cell_type": "markdown",
@@ -203,7 +203,7 @@
 					"#Active Students\r\n",
 					"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 				],
-				"execution_count": 3
+				"execution_count": 17
 			},
 			{
 				"cell_type": "markdown",
@@ -242,7 +242,7 @@
 					"\r\n",
 					"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result', 'SKYearLevel')"
 				],
-				"execution_count": 13
+				"execution_count": 18
 			},
 			{
 				"cell_type": "markdown",
@@ -321,7 +321,7 @@
 					"#display(finalpat_df)\r\n",
 					""
 				],
-				"execution_count": 13
+				"execution_count": null
 			},
 			{
 				"cell_type": "markdown",
@@ -365,7 +365,7 @@
 					"finalnaplan_df = finalnaplan_df.select('SKNAPLANTest', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'ScaledScoreValue', col('DomainNationalAverage').alias('NAPLANDomainNationalAverage'))\r\n",
 					""
 				],
-				"execution_count": 7
+				"execution_count": null
 			},
 			{
 				"cell_type": "markdown",
@@ -402,7 +402,7 @@
 					"combinedresults_df = naplanacer_df.join(finalae_df, on='Ceider', how='inner')\r\n",
 					""
 				],
-				"execution_count": 18
+				"execution_count": null
 			},
 			{
 				"cell_type": "markdown",
@@ -466,7 +466,7 @@
 					"# remove columns we don't need\r\n",
 					"DMStudentDemographic_df = DMStudentDemographic_df.drop(\"DOB_YearFirstFormat\", \"DOB\")"
 				],
-				"execution_count": 12
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -491,7 +491,7 @@
 					"CompassODSStudentDemoFull_duplicates = CompassODSStudentDemoFull.join(not_duplicate, on='SKLongID', how='left_anti')\r\n",
 					""
 				],
-				"execution_count": 6
+				"execution_count": null
 			},
 			{
 				"cell_type": "markdown",

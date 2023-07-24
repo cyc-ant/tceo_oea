@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "20009e2e-7c95-4a44-9482-681815396e97"
+				"spark.autotune.trackingId": "06b16fbd-2907-45fd-a439-63bb3eb5a766"
 			}
 		},
 		"metadata": {
@@ -124,7 +124,7 @@
 					"        final_df = StudentLevel_pseudo(df)\r\n",
 					"    elif name == \"CompassODSStudentDemographicFull_pseudo\":\r\n",
 					"        final_df = CompassODSStudentDemographicFull_pseudo(df)\r\n",
-					"    elif name == \"AEResultsCombined\":\r\n",
+					"    elif name == \"AEResultsCombined_pseudo\":\r\n",
 					"        final_df = AEResultsCombined(df)\r\n",
 					"    else:  \r\n",
 					"        final_df = df\r\n",

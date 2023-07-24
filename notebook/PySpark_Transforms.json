@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "f15f87d1-0e56-4135-a688-751b43d2d069"
+				"spark.autotune.trackingId": "43b26319-35d8-4341-8790-cfe3c60f14e9"
 			}
 		},
 		"metadata": {
@@ -654,7 +654,7 @@
 					"    EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop('xYear', 'xCampusID', 'xCeider', 'xClassID', 'xYearLevel')\r\n",
 					"\r\n",
 					"else:\r\n",
-					"    #if the pre tests are completely empty then assign false to pre test completion for every student \r\n",
+					"    #if the post tests are completely empty then assign false to post test completion for every student \r\n",
 					"    EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn(\"PostTestComplete\", lit(\"0\"))\r\n",
 					"\r\n",
 					"# add columns to make this table compatible with the Year 2 table \r\n",
@@ -1633,57 +1633,6 @@
 					"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
 					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
 					""
-				],
-				"execution_count": null
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					"new_row1 = Row(\r\n",
-					"                NumeracyTotal=18.0, \r\n",
-					"                LiteracyTotal=14.0,\r\n",
-					"                NumeracyPercentile=0.91, \r\n",
-					"                LiteracyPercentile=0.65, \r\n",
-					"                Ceider=\"451850777\", \r\n",
-					"                TestLevel=\"Post\", \r\n",
-					"                NumeracyAverage=9.9, \r\n",
-					"                LiteracyAverage=9.2,\r\n",
-					"                NumeracyStdDev=4.5, \r\n",
-					"                LiteracyStdDev=3.9, \r\n",
-					"                SKResultID=\"467-2023-P-GENP_PA\"\r\n",
-					"            )"
-				],
-				"execution_count": null
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"updated_df = addRow(EarlyYearsResultsTotalsCombined_df, new_row1)\r\n",
-					"\r\n",
-					"#display(updated_df)"
 				],
 				"execution_count": null
 			},

@@ -24394,7 +24394,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "134af855-7831-4ad1-ad87-c63990cdf777"
+						"spark.autotune.trackingId": "a76a174d-2444-47c5-92e2-09914d40fd7a"
 					}
 				},
 				"metadata": {
@@ -24419,7 +24419,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -24524,6 +24525,13 @@
 							"        # save the file\r\n",
 							"        result_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsResults')\r\n",
 							"        year2_indexed_df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/EarlyYearsResultsYear2')\r\n",
+							"\r\n",
+							"        # remove the _SUCCESS file\r\n",
+							"        if mssparkutils.fs.exists(f'{root_dir}/{self.stage1np}/EarlyYearsResults/_SUCCESS'):\r\n",
+							"            mssparkutils.fs.rm(f'{root_dir}/{self.stage1np}/EarlyYearsResults/_SUCCESS')\r\n",
+							"\r\n",
+							"        if mssparkutils.fs.exists(f'{root_dir}/{self.stage1np}/EarlyYearsResultsYear2/_SUCCESS'):\r\n",
+							"            mssparkutils.fs.rm(f'{root_dir}/{self.stage1np}/EarlyYearsResultsYear2/_SUCCESS')\r\n",
 							"     \r\n",
 							"\r\n",
 							"    def _convertJSON(self, file):\r\n",
@@ -33826,7 +33834,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2e6495ac-e51d-4c4f-947a-8379347ae97c"
+						"spark.autotune.trackingId": "39d0f7f5-5f14-4ef8-90d0-104b79989445"
 					}
 				},
 				"metadata": {
@@ -33851,8 +33859,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a2f9f8c7-86e8-4596-a8f2-5f4780803fc7"
+				"spark.autotune.trackingId": "ed4f2646-2283-45fa-9d8d-8db3544fa899"
 			}
 		},
 		"metadata": {
@@ -75,6 +75,9 @@
 					"# remove Early Years\r\n",
 					"if mssparkutils.fs.exists(f'{oea.stage1np}/EarlyYearsData'):\r\n",
 					"    mssparkutils.fs.rm(f'{oea.stage1np}/EarlyYearsData', True)\r\n",
+					"\r\n",
+					"if mssparkutils.fs.exists(f'{oea.stage1np}/EarlyYearsSubTeachers'):\r\n",
+					"    mssparkutils.fs.rm(f'{oea.stage1np}/EarlyYearsSubTeachers', True)\r\n",
 					"\r\n",
 					"if mssparkutils.fs.exists(f'{oea.stage1np}/ODS'):\r\n",
 					"    mssparkutils.fs.rm(f'{oea.stage1np}/ODS', True)\r\n",

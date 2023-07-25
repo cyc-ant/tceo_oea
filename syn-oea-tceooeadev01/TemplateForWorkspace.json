@@ -24807,7 +24807,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "35e469fc-a15c-4274-ad2b-57e0559cc6bb"
+						"spark.autotune.trackingId": "6c1f8c9a-8618-4fc7-a834-16d10ba43cfc"
 					}
 				},
 				"metadata": {
@@ -24861,7 +24861,7 @@
 							}
 						},
 						"source": [
-							"# remove Early Years\r\n",
+							"# remove Early years and ODS data from Stage 1\r\n",
 							"if mssparkutils.fs.exists(f'{oea.stage1np}/EarlyYearsData'):\r\n",
 							"    mssparkutils.fs.rm(f'{oea.stage1np}/EarlyYearsData', True)\r\n",
 							"\r\n",
@@ -24878,7 +24878,28 @@
 							"    mssparkutils.fs.rm(f'{oea.stage1np}/ODSStudentDemographic', True)\r\n",
 							"\r\n",
 							"if mssparkutils.fs.exists(f'{oea.stage1np}/ODSStudentDemographicFull'):\r\n",
-							"    mssparkutils.fs.rm(f'{oea.stage1np}/ODSStudentDemographicFull', True)"
+							"    mssparkutils.fs.rm(f'{oea.stage1np}/ODSStudentDemographicFull', True)\r\n",
+							"\r\n",
+							"\r\n",
+							"# remove Early years and ODS data from Stage 2\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage2p}/EarlyYearsData'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage2p}/EarlyYearsData', True)\r\n",
+							"\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage2p}/EarlyYearsSubTeachers'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage2p}/EarlyYearsSubTeachers', True)\r\n",
+							"\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage2p}/ODS'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage2p}/ODS', True)\r\n",
+							"\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage2p}/ODSActivityInstance'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage2p}/ODSActivityInstance', True)\r\n",
+							"\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage2p}/ODSStudentDemographic'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage2p}/ODSStudentDemographic', True)\r\n",
+							"\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage2p}/ODSStudentDemographicFull'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage2p}/ODSStudentDemographicFull', True)\r\n",
+							""
 						],
 						"outputs": [],
 						"execution_count": 5

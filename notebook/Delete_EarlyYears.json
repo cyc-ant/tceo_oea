@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ed4f2646-2283-45fa-9d8d-8db3544fa899"
+				"spark.autotune.trackingId": "fba19fc2-a599-4960-a9d0-4d30ca17dba5"
 			}
 		},
 		"metadata": {
@@ -72,7 +72,7 @@
 					}
 				},
 				"source": [
-					"# remove Early Years\r\n",
+					"# remove Early years and ODS data from Stage 1\r\n",
 					"if mssparkutils.fs.exists(f'{oea.stage1np}/EarlyYearsData'):\r\n",
 					"    mssparkutils.fs.rm(f'{oea.stage1np}/EarlyYearsData', True)\r\n",
 					"\r\n",
@@ -89,7 +89,28 @@
 					"    mssparkutils.fs.rm(f'{oea.stage1np}/ODSStudentDemographic', True)\r\n",
 					"\r\n",
 					"if mssparkutils.fs.exists(f'{oea.stage1np}/ODSStudentDemographicFull'):\r\n",
-					"    mssparkutils.fs.rm(f'{oea.stage1np}/ODSStudentDemographicFull', True)"
+					"    mssparkutils.fs.rm(f'{oea.stage1np}/ODSStudentDemographicFull', True)\r\n",
+					"\r\n",
+					"\r\n",
+					"# remove Early years and ODS data from Stage 2\r\n",
+					"if mssparkutils.fs.exists(f'{oea.stage2p}/EarlyYearsData'):\r\n",
+					"    mssparkutils.fs.rm(f'{oea.stage2p}/EarlyYearsData', True)\r\n",
+					"\r\n",
+					"if mssparkutils.fs.exists(f'{oea.stage2p}/EarlyYearsSubTeachers'):\r\n",
+					"    mssparkutils.fs.rm(f'{oea.stage2p}/EarlyYearsSubTeachers', True)\r\n",
+					"\r\n",
+					"if mssparkutils.fs.exists(f'{oea.stage2p}/ODS'):\r\n",
+					"    mssparkutils.fs.rm(f'{oea.stage2p}/ODS', True)\r\n",
+					"\r\n",
+					"if mssparkutils.fs.exists(f'{oea.stage2p}/ODSActivityInstance'):\r\n",
+					"    mssparkutils.fs.rm(f'{oea.stage2p}/ODSActivityInstance', True)\r\n",
+					"\r\n",
+					"if mssparkutils.fs.exists(f'{oea.stage2p}/ODSStudentDemographic'):\r\n",
+					"    mssparkutils.fs.rm(f'{oea.stage2p}/ODSStudentDemographic', True)\r\n",
+					"\r\n",
+					"if mssparkutils.fs.exists(f'{oea.stage2p}/ODSStudentDemographicFull'):\r\n",
+					"    mssparkutils.fs.rm(f'{oea.stage2p}/ODSStudentDemographicFull', True)\r\n",
+					""
 				],
 				"execution_count": 5
 			}

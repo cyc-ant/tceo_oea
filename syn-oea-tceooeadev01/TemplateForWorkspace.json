@@ -7822,7 +7822,7 @@
 						}
 					},
 					{
-						"name": "CopyPipeline_EarlyYearsResults",
+						"name": "Copy EarlyYearsResults",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
@@ -7843,7 +7843,7 @@
 						}
 					},
 					{
-						"name": "CopyPipeline_ODS",
+						"name": "Copy ODS",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
@@ -7864,7 +7864,7 @@
 						}
 					},
 					{
-						"name": "CopyPipeline_ODSActivityInstance",
+						"name": "Copy ODSActivityInstance",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
@@ -7885,7 +7885,7 @@
 						}
 					},
 					{
-						"name": "CopyPipeline_ODSDemoFull",
+						"name": "Copy ODSDemoFull",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
@@ -7906,7 +7906,7 @@
 						}
 					},
 					{
-						"name": "CopyPipeline_ODSStudentDemo",
+						"name": "Copy ODSStudentDemo",
 						"type": "ExecutePipeline",
 						"dependsOn": [
 							{
@@ -7927,13 +7927,197 @@
 						}
 					},
 					{
-						"name": "ingestion_stage2_earlyyears",
+						"name": "ingestion earlyyears",
 						"type": "ExecutePipeline",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "Copy EarlyYearsResults",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
 								"referenceName": "ingestion_stage2_earlyyears",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Copy EarlyYearsSubTeachers",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Delete",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "CopyPipeline_EarlyYearsSubTeachers",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "ingestion eysubteachers",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Copy EarlyYearsSubTeachers",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ingestion_stage2_eysubteachers",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "ingestion_stage2_ods",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Copy ODS",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ingestion_stage2_ods",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "ingestion_stage2_ods_activityinstance",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Copy ODSActivityInstance",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ingestion_stage2_ods_activityinstance",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "ingestion_stage2_ods_studentdemoFull",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Copy ODSDemoFull",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ingestion_stage2_ods_studentdemoFull",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "ingestion_stage2_ods_studentdemo",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Copy ODSStudentDemo",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ingestion_stage2_ods_studentdemo",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Stage3",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "ingestion eysubteachers",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "ingestion earlyyears",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "ingestion_stage2_ods",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "ingestion_stage2_ods_activityinstance",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "ingestion_stage2_ods_studentdemoFull",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "ingestion_stage2_ods_studentdemo",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Stage3",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -7958,7 +8142,14 @@
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ODSActivityInstance')]",
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ODSDemoFull')]",
 				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ODSStudentDemo')]",
-				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_earlyyears')]"
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_earlyyears')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_EarlyYearsSubTeachers')]",
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_eysubteachers')]",
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_ods')]",
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_ods_activityinstance')]",
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_ods_studentdemoFull')]",
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_ods_studentdemo')]",
+				"[concat(variables('workspaceId'), '/pipelines/Stage3')]"
 			]
 		},
 		{
@@ -24616,7 +24807,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a2f9f8c7-86e8-4596-a8f2-5f4780803fc7"
+						"spark.autotune.trackingId": "35e469fc-a15c-4274-ad2b-57e0559cc6bb"
 					}
 				},
 				"metadata": {
@@ -24641,13 +24832,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"%run OEA_py"
 						],
@@ -24671,6 +24864,9 @@
 							"# remove Early Years\r\n",
 							"if mssparkutils.fs.exists(f'{oea.stage1np}/EarlyYearsData'):\r\n",
 							"    mssparkutils.fs.rm(f'{oea.stage1np}/EarlyYearsData', True)\r\n",
+							"\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage1np}/EarlyYearsSubTeachers'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage1np}/EarlyYearsSubTeachers', True)\r\n",
 							"\r\n",
 							"if mssparkutils.fs.exists(f'{oea.stage1np}/ODS'):\r\n",
 							"    mssparkutils.fs.rm(f'{oea.stage1np}/ODS', True)\r\n",

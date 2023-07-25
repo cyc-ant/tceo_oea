@@ -4773,6 +4773,87 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_EarlyYearsSubTeachers')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_vvq",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "AdditionalTeachers"
+							},
+							{
+								"name": "Destination",
+								"value": "stage1np/EarlyYearsSubTeachers/EarlyYearsSubTeachers.csv"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SharePointOnlineListSource",
+								"httpRequestTimeout": "00:05:00"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_EarlyYearsSubTeachers",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_EarlyYearsSubTeachers",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_EarlyYearsSubTeachers')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_EarlyYearsSubTeachers')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_GeneralData_csv')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -7702,6 +7783,182 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/pipelines/create_sql_db_nohashing')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/EarlyYears Refresh Pipeline')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Delete",
+						"type": "SynapseNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebook": {
+								"referenceName": "Delete_EarlyYears",
+								"type": "NotebookReference"
+							},
+							"snapshot": true,
+							"sparkPool": {
+								"referenceName": "spark3p1sm",
+								"type": "BigDataPoolReference"
+							},
+							"conf": {
+								"spark.dynamicAllocation.enabled": null,
+								"spark.dynamicAllocation.minExecutors": null,
+								"spark.dynamicAllocation.maxExecutors": null
+							},
+							"numExecutors": null
+						}
+					},
+					{
+						"name": "CopyPipeline_EarlyYearsResults",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Delete",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "CopyPipeline_EarlyYearsResults",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "CopyPipeline_ODS",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Delete",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "CopyPipeline_ODS",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "CopyPipeline_ODSActivityInstance",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Delete",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "CopyPipeline_ODSActivityInstance",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "CopyPipeline_ODSDemoFull",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Delete",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "CopyPipeline_ODSDemoFull",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "CopyPipeline_ODSStudentDemo",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Delete",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "CopyPipeline_ODSStudentDemo",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "ingestion_stage2_earlyyears",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ingestion_stage2_earlyyears",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "Main Pipeline"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/notebooks/Delete_EarlyYears')]",
+				"[concat(variables('workspaceId'), '/bigDataPools/spark3p1sm')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_EarlyYearsResults')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ODS')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ODSActivityInstance')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ODSDemoFull')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_ODSStudentDemo')]",
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_earlyyears')]"
 			]
 		},
 		{
@@ -13335,6 +13592,35 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_EarlyYearsSubTeachers')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "EarlyYearsSubTeachers.csv",
+						"folderPath": "EarlyYearsSubTeachers",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_MySchools')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -16035,6 +16321,26 @@
 						"value": "@dataset().cw_listName",
 						"type": "Expression"
 					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/SPOnlineList_EarlyYearsResults')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_EarlyYearsSubTeachers')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SPOnlineList_EarlyYearsResults",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SharePointOnlineListResource",
+				"schema": [],
+				"typeProperties": {
+					"listName": "AdditionalTeachers"
 				}
 			},
 			"dependsOn": [
@@ -24281,6 +24587,105 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Delete_EarlyYears')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Pre-Landing"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "a2f9f8c7-86e8-4596-a8f2-5f4780803fc7"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"source": [
+							"%run OEA_py"
+						],
+						"outputs": [],
+						"execution_count": 1
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# remove Early Years\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage1np}/EarlyYearsData'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage1np}/EarlyYearsData', True)\r\n",
+							"\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage1np}/ODS'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage1np}/ODS', True)\r\n",
+							"\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage1np}/ODSActivityInstance'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage1np}/ODSActivityInstance', True)\r\n",
+							"\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage1np}/ODSStudentDemographic'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage1np}/ODSStudentDemographic', True)\r\n",
+							"\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage1np}/ODSStudentDemographicFull'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage1np}/ODSStudentDemographicFull', True)"
+						],
+						"outputs": [],
+						"execution_count": 5
 					}
 				]
 			},
@@ -33833,7 +34238,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "53453dcc-8716-482d-8fa2-d3acccce1ca0"
+						"spark.autotune.trackingId": "f2d5b429-aa73-4aec-943a-324f436f6eca"
 					}
 				},
 				"metadata": {
@@ -33858,8 +34263,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

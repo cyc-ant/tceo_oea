@@ -4779,7 +4779,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy_vvq",
+						"name": "Copy EYSubTeachers",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {

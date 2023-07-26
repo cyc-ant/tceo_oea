@@ -24807,7 +24807,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6c1f8c9a-8618-4fc7-a834-16d10ba43cfc"
+						"spark.autotune.trackingId": "fba19fc2-a599-4960-a9d0-4d30ca17dba5"
 					}
 				},
 				"metadata": {
@@ -24832,15 +24832,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"%run OEA_py"
 						],
@@ -56018,6 +56016,44 @@
 			},
 			"dependsOn": [],
 			"location": "australiasoutheast"
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/EarlyYears_Pipeline_Trigger')]",
+			"type": "Microsoft.Synapse/workspaces/triggers",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "EarlyYears Refresh Pipeline",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2023-07-26T12:21:00",
+						"timeZone": "AUS Eastern Standard Time",
+						"schedule": {
+							"minutes": [
+								0
+							],
+							"hours": [
+								2
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/pipelines/EarlyYears Refresh Pipeline')]"
+			]
 		}
 	]
 }

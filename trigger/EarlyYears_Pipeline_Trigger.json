@@ -2,7 +2,7 @@
 	"name": "EarlyYears_Pipeline_Trigger",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
 		"pipelines": [
 			{
 				"pipelineReference": {

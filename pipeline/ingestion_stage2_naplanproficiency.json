@@ -1,0 +1,57 @@
+{
+	"name": "ingestion_stage2_naplanproficiency",
+	"properties": {
+		"activities": [
+			{
+				"name": "Ingest to Stage2",
+				"type": "SynapseNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebook": {
+						"referenceName": "OEA_connector_NAPLANProficiency",
+						"type": "NotebookReference"
+					},
+					"parameters": {
+						"object_name": {
+							"value": "naplanproficiency_object",
+							"type": "string"
+						},
+						"method_name": {
+							"value": "ingest",
+							"type": "string"
+						},
+						"source_folder": {
+							"value": "NAPLANProficiency",
+							"type": "string"
+						}
+					},
+					"snapshot": true,
+					"sparkPool": {
+						"referenceName": "spark3p1sm",
+						"type": "BigDataPoolReference"
+					},
+					"executorSize": null,
+					"conf": {
+						"spark.dynamicAllocation.enabled": null,
+						"spark.dynamicAllocation.minExecutors": null,
+						"spark.dynamicAllocation.maxExecutors": null
+					},
+					"driverSize": null,
+					"numExecutors": null
+				}
+			}
+		],
+		"folder": {
+			"name": "Stage2 Ingestion Pipelines"
+		},
+		"annotations": []
+	}
+}

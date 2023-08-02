@@ -5710,6 +5710,200 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_NAPLANProficiency')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach_5sq",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.cw_items",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy_5sq",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "dbo.@{item().source.table}"
+										},
+										{
+											"name": "Destination",
+											"value": "stage1np/NAPLANProficiency/@{item().destination.fileName}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"validateDataConsistency": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "SourceDataset_NAPLANProficiency",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_table": "@item().source.table"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DestinationDataset_NAPLANProficiency",
+											"type": "DatasetReference",
+											"parameters": {
+												"cw_fileName": "@item().destination.fileName"
+											}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"cw_items": {
+						"type": "Array",
+						"defaultValue": [
+							{
+								"source": {
+									"table": "vwDMCalendarYear"
+								},
+								"destination": {
+									"fileName": "DMCalendarYear.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMFactNAPLANProficiencyStudentItemResponse"
+								},
+								"destination": {
+									"fileName": "DMFactNAPLANProficiencyStudentItemResponse.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMNAPLANAssessmentArea"
+								},
+								"destination": {
+									"fileName": "DMNAPLANAssessmentArea.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMNAPLANParticipationCode"
+								},
+								"destination": {
+									"fileName": "DMNAPLANParticipationCode.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMNAPLANProficiencyLevel"
+								},
+								"destination": {
+									"fileName": "DMNAPLANProficiencyLevel.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMNAPLANProficiencyStudentResult"
+								},
+								"destination": {
+									"fileName": "DMNAPLANProficiencyStudentResult.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMNAPLANProficiencyTest"
+								},
+								"destination": {
+									"fileName": "DMNAPLANProficiencyTest.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMNAPLANProficiencyTestItem"
+								},
+								"destination": {
+									"fileName": "DMNAPLANProficiencyTestItem.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMNAPLANProficiencyTestlet"
+								},
+								"destination": {
+									"fileName": "DMNAPLANProficiencyTestlet.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMNAPLANProficiencyTestPath"
+								},
+								"destination": {
+									"fileName": "DMNAPLANProficiencyTestPath.csv"
+								}
+							},
+							{
+								"source": {
+									"table": "vwDMYearLevel"
+								},
+								"destination": {
+									"fileName": "DMYearLevel.csv"
+								}
+							}
+						]
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_NAPLANProficiency')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_NAPLANProficiency')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_NCCD')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -13886,6 +14080,43 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_NAPLANProficiency')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_fileName": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().cw_fileName",
+							"type": "Expression"
+						},
+						"folderPath": "NAPLANProficiency",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_NCCD')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -16592,6 +16823,35 @@
 						"value": "@dataset().cw_schema",
 						"type": "Expression"
 					},
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_NAPLANProficiency')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
 					"table": {
 						"value": "@dataset().cw_table",
 						"type": "Expression"

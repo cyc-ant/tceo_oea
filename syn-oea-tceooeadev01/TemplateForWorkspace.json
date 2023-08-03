@@ -25811,6 +25811,132 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/EarlyYearsSubTeachersDataCopy_py')]",
+			"type": "Microsoft.Synapse/workspaces/notebooks",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"folder": {
+					"name": "Stage1"
+				},
+				"nbformat": 4,
+				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
+				"sessionProperties": {
+					"driverMemory": "28g",
+					"driverCores": 4,
+					"executorMemory": "28g",
+					"executorCores": 4,
+					"numExecutors": 2,
+					"conf": {
+						"spark.dynamicAllocation.enabled": "false",
+						"spark.dynamicAllocation.minExecutors": "2",
+						"spark.dynamicAllocation.maxExecutors": "2",
+						"spark.autotune.trackingId": "74f0ab88-a446-4e48-991b-8839d3d82090"
+					}
+				},
+				"metadata": {
+					"saveOutput": true,
+					"enableDebugMode": false,
+					"kernelspec": {
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
+					},
+					"language_info": {
+						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28
+					},
+					"sessionKeepAliveTimeout": 30
+				},
+				"cells": [
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"from pyspark.sql.functions import lit, monotonically_increasing_id, trim, when, col\r\n",
+							"from pyspark.sql import DataFrame\r\n",
+							"from functools import reduce"
+						],
+						"outputs": [],
+						"execution_count": 28
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"class EarlyYearsSubTeachersDataCopy(BaseOEAModule):\r\n",
+							"    def __init__(self, source_folder, pseudonymize = True):\r\n",
+							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
+							"        \r\n",
+							"    def createFoldersForAll(self):\r\n",
+							"        file_list = mssparkutils.fs.ls(self.stage1np)\r\n",
+							"        for file in file_list:\r\n",
+							"            # ignore subfolders\r\n",
+							"            if file.isDir:\r\n",
+							"                continue\r\n",
+							"\r\n",
+							"            # get the file\r\n",
+							"            filename = f'{self.stage1np}/{file.name}'\r\n",
+							"            #load the file into a spark dataframe\r\n",
+							"            df = spark.read.options(header='True', ignoreLeadingWhiteSpace='True', ignoreTrailingWhiteSpace='True').csv(filename)\r\n",
+							"            # clean empty (NULL) rows\r\n",
+							"            df = df.na.drop(\"all\")\r\n",
+							"\r\n",
+							"            # add a unique index to the combined table\r\n",
+							"            df = df.select(col(\"Title\"), col(\"AdditionalTeacherEmail\"), col(\"Id\"))\r\n",
+							"\r\n",
+							"            # save the file\r\n",
+							"            df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/{source_folder}')\r\n",
+							"\r\n",
+							"\r\n",
+							"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",
+							"earlyyearssubteachersdatacopy = EarlyYearsSubTeachersDataCopy(source_folder)\r\n",
+							"\r\n",
+							"earlyyearssubteachersdatacopy.createFoldersForAll()"
+						],
+						"outputs": [],
+						"execution_count": null
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/EarlyYearsSubTeachers_py')]",
 			"type": "Microsoft.Synapse/workspaces/notebooks",
 			"apiVersion": "2019-06-01-preview",
@@ -32073,7 +32199,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "bf1b14d0-58d2-42f6-9d83-2596aeca5c58"
+						"spark.autotune.trackingId": "35fa5e59-5c81-4b8f-96fc-a7d9ca9ee6ed"
 					}
 				},
 				"metadata": {
@@ -32098,7 +32224,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -32181,7 +32308,7 @@
 							}
 						},
 						"source": [
-							"%run Stage1/GeneralDataCopy_py"
+							"%run Stage1/EarlyYearsSubTeachersDataCopy_py"
 						],
 						"outputs": [],
 						"execution_count": null

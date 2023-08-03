@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "74f0ab88-a446-4e48-991b-8839d3d82090"
+				"spark.autotune.trackingId": "8e034e72-ca07-41b8-9367-b92c1b07cfe5"
 			}
 		},
 		"metadata": {
@@ -108,6 +108,10 @@
 					"\r\n",
 					"            # save the file\r\n",
 					"            df.coalesce(1).write.option(\"header\", True).csv(f'{self.stage1np}/{source_folder}')\r\n",
+					"\r\n",
+					"            # delete the _SUCCESS file\r\n",
+					"            if mssparkutils.fs.exists(f'{self.stage1np}/{source_folder}/_SUCCESS'):\r\n",
+					"                mssparkutils.fs.rm(f'{self.stage1np}/{source_folder}/_SUCCESS')\r\n",
 					"\r\n",
 					"\r\n",
 					"# instantiate the datacopy with a source folder that contains all the ingested data files \r\n",

@@ -51683,15 +51683,15 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5bc2cbda-ff98-4d24-b792-e4571a06e8d0"
+						"spark.autotune.trackingId": "80daadc3-fb9c-4881-97ec-ac324980c1a3"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_sparksql",
-						"display_name": "sql"
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "sql"
@@ -51762,7 +51762,7 @@
 							"from pyspark.sql.functions import split"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -51828,6 +51828,9 @@
 							"naplanonlinestudentresult_df = spark.read.load(source3p + \"/pilot/DMNAPLANOnlineStudentResult_pseudo\", format='delta')\r\n",
 							"naplantest_df = spark.read.load(source3p + \"/pilot/DMNAPLANTest_pseudo\", format='delta')\r\n",
 							"\r\n",
+							"#NAPLAN Proficiency\r\n",
+							"naplanproficiencytest_df = spark.read.load(source3p + \"/pilot/DMNAPLANProficiencyTest_pseudo\", format='delta')\r\n",
+							"\r\n",
 							"#ACER\r\n",
 							"patresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
 							"pattest_df = spark.read.load(source3p + \"/pilot/DMPATTest_pseudo\", format='delta')\r\n",
@@ -51874,6 +51877,9 @@
 							"naplanonlinestudentresult_df.createOrReplaceTempView('vw_naplanonlinestudentresult') \r\n",
 							"naplantest_df.createOrReplaceTempView('vw_naplantest') \r\n",
 							"\r\n",
+							"#NAPLAN Procifiency\r\n",
+							"naplanproficiencytest_df.createOrReplaceTempView('vw_naplanproficiencytest') \r\n",
+							"\r\n",
 							"#ACER\r\n",
 							"patresults_df.createOrReplaceTempView('vw_patresults') \r\n",
 							"pattest_df.createOrReplaceTempView('vw_pattest') \r\n",
@@ -51887,7 +51893,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 2
 					},
 					{
 						"cell_type": "markdown",
@@ -53019,7 +53025,7 @@
 							}
 						},
 						"source": [
-							"### Combine AE, NAPLAN and PAT Results"
+							"### Combine NAPLAN and NAPLAN Proficiency"
 						]
 					},
 					{
@@ -53036,6 +53042,28 @@
 							}
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_DMNAPLANTestALL;\r\n",
+							"\r\n",
+							"create temp view vw_DMNAPLANTestALL\r\n",
+							"as \r\n",
+							"\r\n",
+							"SELECT SKNAPLANTest AS SKNAPLANProficiencyTest\r\n",
+							"      ,BKNAPLANTest AS BKNAPLANProficiencyTest\r\n",
+							"\t  ,TestYear\r\n",
+							"      ,TestLevelCode\r\n",
+							"      ,Domain\r\n",
+							"    FROM vw_naplantest\r\n",
+							"\r\n",
+							"UNION\r\n",
+							"\r\n",
+							"SELECT SKNAPLANProficiencyTest\r\n",
+							"      ,BKNAPLANProficiencyTest\r\n",
+							"      ,TestYear\r\n",
+							"      ,TestLevelCode\r\n",
+							"      ,Domain\r\n",
+							"    FROM vw_naplanproficiencytest\r\n",
+							"    WHERE SKNAPLANProficiencyTest <> -1\r\n",
+							"\r\n",
 							""
 						],
 						"outputs": [],
@@ -53086,6 +53114,9 @@
 							"\r\n",
 							"ods_earlyyearsstudents_classidcleaned_df = spark.read.table('vw_ods_earlyyearsstudentsclassid_cleaned')\r\n",
 							"\r\n",
+							"#NAPLAN\r\n",
+							"naplantestall_df = spark.read.table('vw_DMNAPLANTestALL')\r\n",
+							"\r\n",
 							"\r\n",
 							"saveToTarget(classenrolment_df, destination_p, f'{version}/_DMClassEnrolment')\r\n",
 							"saveToTarget(activestudent_df, destination_p, f'{version}/_FACTActiveStudent')\r\n",
@@ -53099,6 +53130,9 @@
 							"saveToTarget(ods_earlyyearsstudents_exceptions_df, destination_p, f'{version}/_FACTODSEarlyYearsStudentsExceptions')\r\n",
 							"\r\n",
 							"saveToTarget(ods_earlyyearsstudents_classidcleaned_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents_ClassIDCleaned')\r\n",
+							"\r\n",
+							"#NAPLAN\r\n",
+							"saveToTarget(naplantestall_df, destination_p, f'{version}/DMNAPLANTestALL')\r\n",
 							"\r\n",
 							"\r\n",
 							""
@@ -56877,7 +56911,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "28f9d354-edeb-43c2-b035-05d03683e4a8"
+						"spark.autotune.trackingId": "0961b9c3-127f-4a7e-b83b-71d6acbbff91"
 					}
 				},
 				"metadata": {
@@ -56902,7 +56936,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},

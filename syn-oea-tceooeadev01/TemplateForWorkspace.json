@@ -25172,7 +25172,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fba19fc2-a599-4960-a9d0-4d30ca17dba5"
+						"spark.autotune.trackingId": "4bf7dd2b-780b-448d-8770-fdb868975c79"
 					}
 				},
 				"metadata": {
@@ -25197,13 +25197,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"%run OEA_py"
 						],
@@ -25243,6 +25245,9 @@
 							"if mssparkutils.fs.exists(f'{oea.stage1np}/ODSStudentDemographicFull'):\r\n",
 							"    mssparkutils.fs.rm(f'{oea.stage1np}/ODSStudentDemographicFull', True)\r\n",
 							"\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage1np}/student'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage1np}/student', True)\r\n",
+							"\r\n",
 							"\r\n",
 							"# remove Early years and ODS data from Stage 2\r\n",
 							"if mssparkutils.fs.exists(f'{oea.stage2p}/EarlyYearsData'):\r\n",
@@ -25262,6 +25267,9 @@
 							"\r\n",
 							"if mssparkutils.fs.exists(f'{oea.stage2p}/ODSStudentDemographicFull'):\r\n",
 							"    mssparkutils.fs.rm(f'{oea.stage2p}/ODSStudentDemographicFull', True)\r\n",
+							"\r\n",
+							"if mssparkutils.fs.exists(f'{oea.stage2p}/student'):\r\n",
+							"    mssparkutils.fs.rm(f'{oea.stage2p}/student', True)\r\n",
 							""
 						],
 						"outputs": [],
@@ -25834,7 +25842,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "488e52f3-c92d-4036-b6e0-dd06000d9888"
+						"spark.autotune.trackingId": "8e034e72-ca07-41b8-9367-b92c1b07cfe5"
 					}
 				},
 				"metadata": {
@@ -25859,8 +25867,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

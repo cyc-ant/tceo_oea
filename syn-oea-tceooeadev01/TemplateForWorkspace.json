@@ -8306,12 +8306,60 @@
 								"dependencyConditions": [
 									"Succeeded"
 								]
+							},
+							{
+								"activity": "ingestion_stage2_student_profile",
+								"dependencyConditions": [
+									"Succeeded"
+								]
 							}
 						],
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
 								"referenceName": "Stage3",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "CopyPipeline_student_object",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Delete",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "CopyPipeline_student_object",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "ingestion_stage2_student_profile",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "CopyPipeline_student_object",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ingestion_stage2_student_profile",
 								"type": "PipelineReference"
 							},
 							"waitOnCompletion": true,
@@ -8343,7 +8391,9 @@
 				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_ods_activityinstance')]",
 				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_ods_studentdemoFull')]",
 				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_ods_studentdemo')]",
-				"[concat(variables('workspaceId'), '/pipelines/Stage3')]"
+				"[concat(variables('workspaceId'), '/pipelines/Stage3')]",
+				"[concat(variables('workspaceId'), '/pipelines/CopyPipeline_student_object')]",
+				"[concat(variables('workspaceId'), '/pipelines/ingestion_stage2_student_profile')]"
 			]
 		},
 		{
@@ -25172,7 +25222,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4bf7dd2b-780b-448d-8770-fdb868975c79"
+						"spark.autotune.trackingId": "c9be4cbe-dca0-4cfb-910f-b52518e63adb"
 					}
 				},
 				"metadata": {
@@ -25197,15 +25247,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"%run OEA_py"
 						],
@@ -25273,7 +25321,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 2
 					}
 				]
 			},

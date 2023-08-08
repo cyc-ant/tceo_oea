@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fba19fc2-a599-4960-a9d0-4d30ca17dba5"
+				"spark.autotune.trackingId": "5939ff0e-b4c8-4ba9-b3d8-cf88f58da1f1"
 			}
 		},
 		"metadata": {
@@ -91,6 +91,9 @@
 					"if mssparkutils.fs.exists(f'{oea.stage1np}/ODSStudentDemographicFull'):\r\n",
 					"    mssparkutils.fs.rm(f'{oea.stage1np}/ODSStudentDemographicFull', True)\r\n",
 					"\r\n",
+					"if mssparkutils.fs.exists(f'{oea.stage1np}/student'):\r\n",
+					"    mssparkutils.fs.rm(f'{oea.stage1np}/student', True)\r\n",
+					"\r\n",
 					"\r\n",
 					"# remove Early years and ODS data from Stage 2\r\n",
 					"if mssparkutils.fs.exists(f'{oea.stage2p}/EarlyYearsData'):\r\n",
@@ -110,6 +113,9 @@
 					"\r\n",
 					"if mssparkutils.fs.exists(f'{oea.stage2p}/ODSStudentDemographicFull'):\r\n",
 					"    mssparkutils.fs.rm(f'{oea.stage2p}/ODSStudentDemographicFull', True)\r\n",
+					"\r\n",
+					"if mssparkutils.fs.exists(f'{oea.stage2p}/student'):\r\n",
+					"    mssparkutils.fs.rm(f'{oea.stage2p}/student', True)\r\n",
 					""
 				],
 				"execution_count": 5

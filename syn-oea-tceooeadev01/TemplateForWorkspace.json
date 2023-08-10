@@ -26614,7 +26614,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c6a6e9a3-c01f-4e27-ae22-2bfac63e44a2"
+						"spark.autotune.trackingId": "b59d4016-4582-4f60-99b9-c914ea6a509a"
 					}
 				},
 				"metadata": {
@@ -26639,16 +26639,18 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class GeneralData_object(BaseOEAModule):\r\n",
-							"    def __init__(self, source_folder='GeneralData', pseudonymize = True):\r\n",
+							"    def __init__(self, source_folder='General', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
 							"        self.schemas['GeneralSchoolList'] = [\r\n",
@@ -26693,11 +26695,25 @@
 							"                                        ['ATSIId', 'string', 'no-op']                                                       \r\n",
 							"                                        ]\r\n",
 							"\r\n",
+							"        self.schemas['GeneralLBOTEImageData'] = [\r\n",
+							"                                        ['Description', 'string', 'no-op'],\r\n",
+							"                                        ['Image', 'string', 'no-op'],\r\n",
+							"                                        ['LBOTE', 'string', 'no-op']                                                       \r\n",
+							"                                        ]\r\n",
+							"\r\n",
+							"        self.schemas['GeneralNCCDImageData'] = [\r\n",
+							"                                        ['Description', 'string', 'no-op'],\r\n",
+							"                                        ['Image', 'string', 'no-op'],\r\n",
+							"                                        ['NCCD', 'string', 'no-op']                                                       \r\n",
+							"                                        ]\r\n",
+							"\r\n",
 							"\r\n",
 							"    def ingest(self):\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'GeneralSchoolList', self.schemas['GeneralSchoolList'], None, 'SchoolId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'GeneralICSEA', self.schemas['GeneralICSEA'], None, 'SchoolId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'GeneralGenderImageData', self.schemas['GeneralGenderImageData'], None, 'Gender')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'GeneralLBOTEImageData', self.schemas['GeneralLBOTEImageData'], None, 'Description')\r\n",
+							"        oea.ingest_delta_data(self.source_folder, 'GeneralNCCDImageData', self.schemas['GeneralNCCDImageData'], None, 'Description')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'GeneralDomainSelection', self.schemas['GeneralDomainSelection'], None, 'DomainId')\r\n",
 							"        oea.ingest_delta_data(self.source_folder, 'GeneralFlagImageData', self.schemas['GeneralFlagImageData'], None, 'Flag')\r\n",
 							"\r\n",
@@ -32814,7 +32830,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "71679079-bd16-442a-94bb-aa37c50a3200"
+						"spark.autotune.trackingId": "4dbc6e72-47b5-4a21-88e6-2d23b2fbc3c9"
 					}
 				},
 				"metadata": {
@@ -32839,8 +32855,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

@@ -10204,7 +10204,7 @@
 						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
-							"retry": 0,
+							"retry": 3,
 							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
 							"secureInput": false
@@ -10625,7 +10625,7 @@
 						],
 						"policy": {
 							"timeout": "7.00:00:00",
-							"retry": 0,
+							"retry": 3,
 							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
 							"secureInput": false
@@ -51683,7 +51683,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9aad3dfe-8a77-455a-b927-80b5d6da2e09"
+						"spark.autotune.trackingId": "ffe6de75-8f9f-4cf7-9f39-56f70a68c1a2"
 					}
 				},
 				"metadata": {
@@ -51708,8 +51708,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

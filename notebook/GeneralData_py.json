@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c6a6e9a3-c01f-4e27-ae22-2bfac63e44a2"
+				"spark.autotune.trackingId": "d318fe30-5880-41a9-9a36-f04b974b6721"
 			}
 		},
 		"metadata": {
@@ -55,7 +55,7 @@
 				"cell_type": "code",
 				"source": [
 					"class GeneralData_object(BaseOEAModule):\r\n",
-					"    def __init__(self, source_folder='GeneralData', pseudonymize = True):\r\n",
+					"    def __init__(self, source_folder='General', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        self.schemas['GeneralSchoolList'] = [\r\n",
@@ -100,11 +100,25 @@
 					"                                        ['ATSIId', 'string', 'no-op']                                                       \r\n",
 					"                                        ]\r\n",
 					"\r\n",
+					"        self.schemas['GeneralLBOTEImageData'] = [\r\n",
+					"                                        ['Description', 'string', 'no-op'],\r\n",
+					"                                        ['Image', 'string', 'no-op'],\r\n",
+					"                                        ['LBOTE', 'string', 'no-op']                                                       \r\n",
+					"                                        ]\r\n",
+					"\r\n",
+					"        self.schemas['GeneralNCCDImageData'] = [\r\n",
+					"                                        ['Description', 'string', 'no-op'],\r\n",
+					"                                        ['Image', 'string', 'no-op'],\r\n",
+					"                                        ['NCCD', 'string', 'no-op']                                                       \r\n",
+					"                                        ]\r\n",
+					"\r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'GeneralSchoolList', self.schemas['GeneralSchoolList'], None, 'SchoolId')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'GeneralICSEA', self.schemas['GeneralICSEA'], None, 'SchoolId')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'GeneralGenderImageData', self.schemas['GeneralGenderImageData'], None, 'Gender')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'GeneralLBOTEImageData', self.schemas['GeneralLBOTEImageData'], None, 'Description')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'GeneralNCCDImageData', self.schemas['GeneralNCCDImageData'], None, 'Description')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'GeneralDomainSelection', self.schemas['GeneralDomainSelection'], None, 'DomainId')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'GeneralFlagImageData', self.schemas['GeneralFlagImageData'], None, 'Flag')\r\n",
 					"\r\n",

@@ -19395,7 +19395,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f9e35654-ec5a-4419-b072-7523656eb50b"
+						"spark.autotune.trackingId": "4e99c185-1fd7-4900-b285-978aa5df1d8e"
 					}
 				},
 				"metadata": {
@@ -19420,13 +19420,15 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class AEResultsCombined_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='AEResultsCombined', pseudonymize = True):\r\n",
@@ -19440,6 +19442,8 @@
 							"                                        ['GovtCode1', 'integer', 'no-op'],\r\n",
 							"                                        ['Subject', 'string', 'no-op'],\r\n",
 							"                                        ['Result', 'string', 'no-op'],\r\n",
+							"                                        ['SubjectCode', 'string', 'no-op'],\r\n",
+							"                                        ['ClassCode', 'string', 'no-op'],\r\n",
 							"                                        ['SKID', 'string', 'no-op']                                                                \r\n",
 							"                                        ]\r\n",
 							"\r\n",

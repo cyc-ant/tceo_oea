@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "f9e35654-ec5a-4419-b072-7523656eb50b"
+				"spark.autotune.trackingId": "e7104ada-2266-4d2a-bf12-b3e8aee1de2d"
 			}
 		},
 		"metadata": {
@@ -66,6 +66,8 @@
 					"                                        ['GovtCode1', 'integer', 'no-op'],\r\n",
 					"                                        ['Subject', 'string', 'no-op'],\r\n",
 					"                                        ['Result', 'string', 'no-op'],\r\n",
+					"                                        ['SubjectCode', 'string', 'no-op'],\r\n",
+					"                                        ['ClassCode', 'string', 'no-op'],\r\n",
 					"                                        ['SKID', 'string', 'no-op']                                                                \r\n",
 					"                                        ]\r\n",
 					"\r\n",

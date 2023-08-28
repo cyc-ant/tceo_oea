@@ -5904,6 +5904,87 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_NAPLANProficiencyMeans')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_wjq",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "dbo.vwDMFactNAPLANACARAProficiency"
+							},
+							{
+								"name": "Destination",
+								"value": "stage1np/NAPLANProficiency/"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_NAPLANProficiencyMeans",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_NAPLANProficiencyMeans",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_NAPLANProficiencyMeans')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset_NAPLANProficiencyMeans')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_NCCD')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -14234,6 +14315,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_NAPLANProficiencyMeans')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "NAPLANProficiency",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_NCCD')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -16980,6 +17089,164 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_NAPLANProficiencyMeans')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "SKNAPLANACARAProficiency",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BKNAPLANACARAProficiency",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SKYear",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SKStateTerritory",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SKYearLevel",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SKNaplanAssessmentId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SKNAPLANProficiencyLevel",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AverageAge",
+						"type": "nvarchar"
+					},
+					{
+						"name": "YearsOfSchooling",
+						"type": "varchar"
+					},
+					{
+						"name": "Participation%",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 6
+					},
+					{
+						"name": "Exempt%",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 6
+					},
+					{
+						"name": "Non-attempt%",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 6
+					},
+					{
+						"name": "Absent%",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 6
+					},
+					{
+						"name": "Withdrawn%",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 6
+					},
+					{
+						"name": "NationalMinimumStandard",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 6
+					},
+					{
+						"name": "NationalMinimumStandardCI",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 6
+					},
+					{
+						"name": "MeanScale",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 6
+					},
+					{
+						"name": "MeanScaleCI",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 6
+					},
+					{
+						"name": "NotStatedPercentage",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 5
+					},
+					{
+						"name": "ProficiencyPercentage",
+						"type": "decimal",
+						"precision": 10,
+						"scale": 6
+					},
+					{
+						"name": "CreateDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LastUpdateDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "EffectiveStartDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "EffectiveEndDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "IsCurrent",
+						"type": "bit"
+					},
+					{
+						"name": "SCDReason",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "vwDMFactNAPLANACARAProficiency"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/SourceDataset_NCCD')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -19395,7 +19662,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4e99c185-1fd7-4900-b285-978aa5df1d8e"
+						"spark.autotune.trackingId": "e7104ada-2266-4d2a-bf12-b3e8aee1de2d"
 					}
 				},
 				"metadata": {
@@ -19420,15 +19687,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class AEResultsCombined_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='AEResultsCombined', pseudonymize = True):\r\n",

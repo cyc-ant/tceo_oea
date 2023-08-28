@@ -1,0 +1,153 @@
+{
+	"name": "SourceDataset_NAPLANProficiencyMeans",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CeNet_DataBlend",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "SKNAPLANACARAProficiency",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BKNAPLANACARAProficiency",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SKYear",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SKStateTerritory",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SKYearLevel",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SKNaplanAssessmentId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SKNAPLANProficiencyLevel",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AverageAge",
+				"type": "nvarchar"
+			},
+			{
+				"name": "YearsOfSchooling",
+				"type": "varchar"
+			},
+			{
+				"name": "Participation%",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 6
+			},
+			{
+				"name": "Exempt%",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 6
+			},
+			{
+				"name": "Non-attempt%",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 6
+			},
+			{
+				"name": "Absent%",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 6
+			},
+			{
+				"name": "Withdrawn%",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 6
+			},
+			{
+				"name": "NationalMinimumStandard",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 6
+			},
+			{
+				"name": "NationalMinimumStandardCI",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 6
+			},
+			{
+				"name": "MeanScale",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 6
+			},
+			{
+				"name": "MeanScaleCI",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 6
+			},
+			{
+				"name": "NotStatedPercentage",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 5
+			},
+			{
+				"name": "ProficiencyPercentage",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 6
+			},
+			{
+				"name": "CreateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "LastUpdateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveStartDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveEndDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "IsCurrent",
+				"type": "bit"
+			},
+			{
+				"name": "SCDReason",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "vwDMFactNAPLANACARAProficiency"
+		}
+	}
+}

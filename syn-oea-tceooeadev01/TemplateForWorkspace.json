@@ -27471,7 +27471,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f6efe0fd-0b36-4f54-8510-978c80a7fd17"
+						"spark.autotune.trackingId": "6f7b4ae5-e96c-46a3-be34-ca72e0b5f6a0"
 					}
 				},
 				"metadata": {
@@ -27496,15 +27496,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class NAPLANProficiency_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NAPLANProficiency', pseudonymize = True):\r\n",
@@ -52001,7 +51999,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ffe6de75-8f9f-4cf7-9f39-56f70a68c1a2"
+						"spark.autotune.trackingId": "70474457-8649-4f14-a09b-847fe88b1ef1"
 					}
 				},
 				"metadata": {
@@ -52026,7 +52024,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -52223,7 +52222,7 @@
 							}
 						},
 						"source": [
-							"#### Create the SQL temp views from the loaded dataframes "
+							"## REMOVE (has been replaced by AllEnrolment)"
 						]
 					},
 					{
@@ -52560,6 +52559,151 @@
 							"and ms.isactive = 'True'\r\n",
 							"--and ms.iscurrentmilestone  = 'True' --this is just for 2023 (current year)\r\n",
 							"and year(MilestoneTimestamp + INTERVAL 10 HOURS) in (2021, 2022, 2023)"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "markdown",
+						"metadata": {
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"### Enrolments "
+						]
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"DROP VIEW IF EXISTS vw_allenrolments;\r\n",
+							"\r\n",
+							"CREATE TEMP VIEW vw_allenrolments\r\n",
+							"AS\r\n",
+							"\r\n",
+							"SELECT \r\n",
+							"\todse.SubjectCode\r\n",
+							"\t,odse.ActivityCode\r\n",
+							"\t,odse.CampusID\r\n",
+							"\t,odss.GovCode1 AS Ceider\r\n",
+							"\t,YEAR(odse.ActivityEnrolmentEndDate) AS Year\r\n",
+							"\tFROM vw_CompassODSActivityEnrolment odse\r\n",
+							"\tJOIN vw_CompassODSStudentDemographic odss on odse.CompassPersonId = odss.CompassPersonId\r\n",
+							"\r\n",
+							"\tWHERE SubjectCode IS NOT NULL\r\n",
+							"\tAND odse.Iscurrent = 'True'\r\n",
+							"\tAND odss.Iscurrent = 'True'"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"DROP VIEW IF EXISTS vw_currentyearenrolments;\r\n",
+							"\r\n",
+							"CREATE TEMP VIEW vw_currentyearenrolments\r\n",
+							"AS\r\n",
+							"\r\n",
+							"SELECT \r\n",
+							"\te.SubjectCode\r\n",
+							"\t,e.ActivityCode\r\n",
+							"\t,e.CampusID\r\n",
+							"\t,e.Year\r\n",
+							"\t,a.SKYearLevel\r\n",
+							"\t,a.Ceider\r\n",
+							"\r\n",
+							"\tFROM vw_allenrolments e\r\n",
+							"\tJOIN vw_activestudent a on e.Ceider = a.Ceider -- will not include active students who are not enrolled in classes\r\n",
+							"\tAND Year = YEAR(current_date())"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"DROP VIEW IF EXISTS vw_currentrollgroup;\r\n",
+							"\r\n",
+							"CREATE TEMP VIEW vw_currentrollgroup\r\n",
+							"AS\r\n",
+							"\r\n",
+							"SELECT \r\n",
+							"\tRollGroup AS SubjectCode\r\n",
+							"\t,RollGroup AS ActivityCode \r\n",
+							"\t,CampusID\r\n",
+							"\t,YEAR(current_date()) AS Year\r\n",
+							"\t,SKYearLevel\r\n",
+							"\t,Ceider\r\n",
+							"\r\n",
+							"  FROM vw_activestudent\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"DROP VIEW IF EXISTS vw_currentenrolments;\r\n",
+							"\r\n",
+							"CREATE TEMP VIEW vw_currentenrolments\r\n",
+							"AS\r\n",
+							"\r\n",
+							"SELECT *\r\n",
+							"    FROM vw_currentyearenrolments\r\n",
+							"\r\n",
+							"UNION\r\n",
+							"\r\n",
+							"SELECT *\r\n",
+							"    FROM vw_currentrollgroup"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -53129,6 +53273,9 @@
 							"#NAPLAN\r\n",
 							"naplantestall_df = spark.read.table('vw_DMNAPLANTestALL')\r\n",
 							"\r\n",
+							"# Enrolments (Current Year)\r\n",
+							"currentenrolments_df = spark.read.table('vw_currentenrolments')\r\n",
+							"\r\n",
 							"\r\n",
 							"saveToTarget(classenrolment_df, destination_p, f'{version}/_DMClassEnrolment')\r\n",
 							"saveToTarget(activestudent_df, destination_p, f'{version}/_FACTActiveStudent')\r\n",
@@ -53145,6 +53292,9 @@
 							"\r\n",
 							"#NAPLAN\r\n",
 							"saveToTarget(naplantestall_df, destination_p, f'{version}/DMNAPLANTestALL')\r\n",
+							"\r\n",
+							"# Enrolments\r\n",
+							"saveToTarget(currentenrolments_df, destination_p, f'{version}/_DIMStudentCurrentEnrolments')\r\n",
 							"\r\n",
 							"\r\n",
 							""

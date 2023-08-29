@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ffe6de75-8f9f-4cf7-9f39-56f70a68c1a2"
+				"spark.autotune.trackingId": "15ea13f6-4401-4437-8e1e-27abfbb98f4d"
 			}
 		},
 		"metadata": {
@@ -241,7 +241,7 @@
 					}
 				},
 				"source": [
-					"#### Create the SQL temp views from the loaded dataframes "
+					"## REMOVE (has been replaced by AllEnrolment)"
 				]
 			},
 			{
@@ -572,6 +572,84 @@
 					"and ms.isactive = 'True'\r\n",
 					"--and ms.iscurrentmilestone  = 'True' --this is just for 2023 (current year)\r\n",
 					"and year(MilestoneTimestamp + INTERVAL 10 HOURS) in (2021, 2022, 2023)"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"### Enrolments "
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"DROP VIEW IF EXISTS vw_allenrolments;\r\n",
+					"\r\n",
+					"CREATE TEMP VIEW vw_allenrolments\r\n",
+					"AS\r\n",
+					"SELECT \r\n",
+					"\todse.SubjectCode\r\n",
+					"\t,odse.ActivityCode\r\n",
+					"\t,odse.CampusID\r\n",
+					"\t,odss.GovCode1 AS Ceider\r\n",
+					"\t,YEAR(odse.ActivityEnrolmentEndDate) AS Year\r\n",
+					"\tFROM vw_CompassODSActivityEnrolment odse\r\n",
+					"\tJOIN vw_CompassODSStudentDemographic odss on odse.CompassPersonId = odss.CompassPersonId\r\n",
+					"\r\n",
+					"\tWHERE SubjectCode IS NOT NULL\r\n",
+					"\tAND odse.Iscurrent = 'True'\r\n",
+					"\tAND odss.Iscurrent = 'True'"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"DROP VIEW IF EXISTS vw_currentyearenrolments;\r\n",
+					"\r\n",
+					"CREATE TEMP VIEW vw_currentyearenrolments\r\n",
+					"AS\r\n",
+					"SELECT \r\n",
+					"\te.SubjectCode\r\n",
+					"\t,e.ActivityCode\r\n",
+					"\t,e.CampusID\r\n",
+					"\t,e.Year\r\n",
+					"\t,a.SKYearLevel\r\n",
+					"\t,a.Ceider\r\n",
+					"\r\n",
+					"\tFROM vw_allenrolments e\r\n",
+					"\tJOIN vw_activestudent a on e.Ceider = a.Ceider -- will not include active students who are not enrolled in classes\r\n",
+					"\tAND Year = YEAR(current_date())"
 				],
 				"execution_count": null
 			},
@@ -1133,6 +1211,9 @@
 					"#NAPLAN\r\n",
 					"naplantestall_df = spark.read.table('vw_DMNAPLANTestALL')\r\n",
 					"\r\n",
+					"# Enrolments (Current Year)\r\n",
+					"currentyearenrolments_df = spark.read.table('vw_currentyearenrolments')\r\n",
+					"\r\n",
 					"\r\n",
 					"saveToTarget(classenrolment_df, destination_p, f'{version}/_DMClassEnrolment')\r\n",
 					"saveToTarget(activestudent_df, destination_p, f'{version}/_FACTActiveStudent')\r\n",
@@ -1149,6 +1230,9 @@
 					"\r\n",
 					"#NAPLAN\r\n",
 					"saveToTarget(naplantestall_df, destination_p, f'{version}/DMNAPLANTestALL')\r\n",
+					"\r\n",
+					"# Enrolments\r\n",
+					"saveToTarget(currentyearenrolments_df, destination_p, f'{version}/_DIMStudentEnrolmentCurrentYear')\r\n",
 					"\r\n",
 					"\r\n",
 					""

@@ -35207,7 +35207,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "bd41ddb5-5d55-42f6-bcc1-ccfe93fbea65"
+						"spark.autotune.trackingId": "95ebdff6-6f4b-40fd-9cf0-a6659849a56c"
 					}
 				},
 				"metadata": {
@@ -35232,7 +35232,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -35334,7 +35335,7 @@
 							"collapsed": true
 						},
 						"source": [
-							"%run /SubjectExclusionList"
+							"%run /SubjectExclusionList_py"
 						],
 						"outputs": [],
 						"execution_count": 17
@@ -56305,7 +56306,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "d5b47c1a-2e1e-4f8d-ba8a-43c0bdc86739"
+						"spark.autotune.trackingId": "ccf0d269-75da-4955-afbf-703badbeff85"
 					}
 				},
 				"metadata": {
@@ -56330,15 +56331,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class SubjectExclusionList_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='SubjectExclusionList', pseudonymize = True):\r\n",

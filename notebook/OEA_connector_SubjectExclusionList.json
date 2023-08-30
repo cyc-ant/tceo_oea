@@ -21,7 +21,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "bd41ddb5-5d55-42f6-bcc1-ccfe93fbea65"
+				"spark.autotune.trackingId": "29b15707-771a-4c1b-8ce0-c5736973684a"
 			}
 		},
 		"metadata": {
@@ -146,7 +146,7 @@
 					"collapsed": true
 				},
 				"source": [
-					"%run /SubjectExclusionList"
+					"%run /SubjectExclusionList_py"
 				],
 				"execution_count": 17
 			},

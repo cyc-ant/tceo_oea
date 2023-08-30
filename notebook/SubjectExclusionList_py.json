@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3c219350-3604-4919-a087-59d91dd97245"
+				"spark.autotune.trackingId": "ccf0d269-75da-4955-afbf-703badbeff85"
 			}
 		},
 		"metadata": {
@@ -55,7 +55,7 @@
 				"cell_type": "code",
 				"source": [
 					"class SubjectExclusionList_object(BaseOEAModule):\r\n",
-					"    def __init__(self, source_folder='ACERNorms', pseudonymize = True):\r\n",
+					"    def __init__(self, source_folder='SubjectExclusionList', pseudonymize = True):\r\n",
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        self.schemas['SubjectExclusionList'] = [\r\n",

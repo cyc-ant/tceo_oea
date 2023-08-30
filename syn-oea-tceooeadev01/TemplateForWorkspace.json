@@ -51999,7 +51999,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "70474457-8649-4f14-a09b-847fe88b1ef1"
+						"spark.autotune.trackingId": "ef9f2347-73d8-406c-8775-9bd9fcebbd62"
 					}
 				},
 				"metadata": {
@@ -53276,6 +53276,9 @@
 							"# Enrolments (Current Year)\r\n",
 							"currentenrolments_df = spark.read.table('vw_currentenrolments')\r\n",
 							"\r\n",
+							"# ALL Enrolments\r\n",
+							"allenrolments_df = spark.read.table('vw_allenrolments')\r\n",
+							"\r\n",
 							"\r\n",
 							"saveToTarget(classenrolment_df, destination_p, f'{version}/_DMClassEnrolment')\r\n",
 							"saveToTarget(activestudent_df, destination_p, f'{version}/_FACTActiveStudent')\r\n",
@@ -53295,6 +53298,9 @@
 							"\r\n",
 							"# Enrolments\r\n",
 							"saveToTarget(currentenrolments_df, destination_p, f'{version}/_DIMStudentCurrentEnrolments')\r\n",
+							"\r\n",
+							"saveToTarget(allenrolments_df, destination_p, f'{version}/_DIMStudentAllEnrolments')\r\n",
+							"\r\n",
 							"\r\n",
 							"\r\n",
 							""

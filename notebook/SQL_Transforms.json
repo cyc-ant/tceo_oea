@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ce37668e-61bb-4926-82f1-0ecd827a7173"
+				"spark.autotune.trackingId": "ab1ad494-f811-4cee-b0fa-44a49886df3f"
 			}
 		},
 		"metadata": {
@@ -1347,7 +1347,7 @@
 					"    MAX(CR.NaplanScaledScoreValue) AS NaplanScaledScoreValue,\r\n",
 					"    MAX(CR.NAPLANDomainNationalAverage) AS NAPLANDomainNationalAverage\r\n",
 					"\r\n",
-					"FROM [dbo].[_DIMNAPLANCombinedResultsStudentsActive_TEST] AS CR\r\n",
+					"FROM vw_DIMNAPLANCombinedResultsStudentsActive AS CR\r\n",
 					"\r\n",
 					"GROUP BY \r\n",
 					"    CR.Ceider,\r\n",

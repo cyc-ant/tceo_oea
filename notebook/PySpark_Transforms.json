@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "f2d5b429-aa73-4aec-943a-324f436f6eca"
+				"spark.autotune.trackingId": "1b139fce-234e-4735-b2b2-b3d6257f52d0"
 			}
 		},
 		"metadata": {
@@ -192,6 +192,8 @@
 					"naplanonlinestudentresult_df = spark.read.load(source3p + \"/pilot/DMNAPLANOnlineStudentResult_pseudo\", format='delta')\r\n",
 					"naplantest_df = spark.read.load(source3p + \"/pilot/DMNAPLANTest_pseudo\", format='delta')\r\n",
 					"\r\n",
+					"DIMNAPLANCombinedResultsLatestStudentsActive_df = spark.read.load(source3p + \"/pilot/_DIMNAPLANCombinedResultsLatestStudentsActive\", format='delta')\r\n",
+					"\r\n",
 					"#ACER\r\n",
 					"patresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
 					"pattest_df = spark.read.load(source3p + \"/pilot/DMPATTest_pseudo\", format='delta')\r\n",
@@ -333,7 +335,7 @@
 					}
 				},
 				"source": [
-					"### GET Latest NAPLAN Results"
+					"### GET Latest NAPLAN Results (REMOVE)"
 				]
 			},
 			{
@@ -362,7 +364,9 @@
 					"# join groupings back to the original table\r\n",
 					"finalnaplan_df = naplanlatest_df.join(active_naplanresults_df, on=['SKNaplanAssessmentId', 'Ceider', 'SKYear'], how='left')\r\n",
 					"\r\n",
-					"finalnaplan_df = finalnaplan_df.select('SKNAPLANTest', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'ScaledScoreValue', col('DomainNationalAverage').alias('NAPLANDomainNationalAverage'))\r\n",
+					"#finalnaplan_df = finalnaplan_df.select('SKNAPLANTest', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'ScaledScoreValue', col('DomainNationalAverage').alias('NAPLANDomainNationalAverage'))\r\n",
+					"\r\n",
+					"finalnaplan_df = finalnaplan_df.select('SKNaplanAssessmentId', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'NaplanScaledScoreValue', col('DomainNationalAverage').alias('NAPLANDomainNationalAverage'))\r\n",
 					""
 				],
 				"execution_count": 26
@@ -396,7 +400,7 @@
 				},
 				"source": [
 					"# join acer and naplan tables\r\n",
-					"naplanacer_df = finalnaplan_df.join(finalpat_df, on='Ceider', how='inner')\r\n",
+					"naplanacer_df = DIMNAPLANCombinedResultsLatestStudentsActive_df.join(finalpat_df, on='Ceider', how='inner')\r\n",
 					"\r\n",
 					"# join AE to table\r\n",
 					"combinedresults_df = naplanacer_df.join(finalae_df, on='Ceider', how='inner')\r\n",

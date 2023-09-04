@@ -36194,7 +36194,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1b139fce-234e-4735-b2b2-b3d6257f52d0"
+						"spark.autotune.trackingId": "fb6d9fa1-89f8-479e-b28c-47da661a9d87"
 					}
 				},
 				"metadata": {
@@ -36219,7 +36219,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -36545,7 +36546,7 @@
 							"\r\n",
 							"#finalnaplan_df = finalnaplan_df.select('SKNAPLANTest', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'ScaledScoreValue', col('DomainNationalAverage').alias('NAPLANDomainNationalAverage'))\r\n",
 							"\r\n",
-							"finalnaplan_df = finalnaplan_df.select('SKNaplanAssessmentId', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'NaplanScaledScoreValue', col('DomainNationalAverage').alias('NAPLANDomainNationalAverage'))\r\n",
+							"#finalnaplan_df = finalnaplan_df.select('SKNaplanAssessmentId', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'NaplanScaledScoreValue', col('DomainNationalAverage').alias('NAPLANDomainNationalAverage'))\r\n",
 							""
 						],
 						"outputs": [],
@@ -52254,7 +52255,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "def8ba01-f5f4-42d7-b2cf-1d48335f93ce"
+						"spark.autotune.trackingId": "ab1ad494-f811-4cee-b0fa-44a49886df3f"
 					}
 				},
 				"metadata": {
@@ -52279,8 +52280,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "80c67694-70e1-4815-a8dd-d6e65c63fee3"
+				"spark.autotune.trackingId": "ce37668e-61bb-4926-82f1-0ecd827a7173"
 			}
 		},
 		"metadata": {
@@ -1295,7 +1295,7 @@
 					"    MAX(TR.DomainScaledScore) AS NaplanScaledScoreValue,\r\n",
 					"    MAX(AP.MeanScale) AS NAPLANDomainNationalAverage\r\n",
 					"\r\n",
-					"FROM vw_activestudentvw_activestudent AS A\r\n",
+					"FROM vw_activestudent AS A\r\n",
 					"\r\n",
 					"LEFT JOIN vw_naplanproficiencystudentresult AS SR \r\n",
 					"    ON A.Ceider = SR.PersistentIdentifier\r\n",

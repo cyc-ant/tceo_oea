@@ -35207,7 +35207,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "95ebdff6-6f4b-40fd-9cf0-a6659849a56c"
+						"spark.autotune.trackingId": "29b15707-771a-4c1b-8ce0-c5736973684a"
 					}
 				},
 				"metadata": {
@@ -35232,8 +35232,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -36195,7 +36194,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f2d5b429-aa73-4aec-943a-324f436f6eca"
+						"spark.autotune.trackingId": "a7c96083-884f-4ce3-bf65-e8aa1f8b45a1"
 					}
 				},
 				"metadata": {
@@ -36220,7 +36219,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -36369,6 +36369,8 @@
 							"naplanonlinestudentresult_df = spark.read.load(source3p + \"/pilot/DMNAPLANOnlineStudentResult_pseudo\", format='delta')\r\n",
 							"naplantest_df = spark.read.load(source3p + \"/pilot/DMNAPLANTest_pseudo\", format='delta')\r\n",
 							"\r\n",
+							"DIMNAPLANCombinedResultsLatestStudentsActive_df = spark.read.load(source3p + \"/pilot/_DIMNAPLANCombinedResultsLatestStudentsActive\", format='delta')\r\n",
+							"\r\n",
 							"#ACER\r\n",
 							"patresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
 							"pattest_df = spark.read.load(source3p + \"/pilot/DMPATTest_pseudo\", format='delta')\r\n",
@@ -36513,7 +36515,7 @@
 							}
 						},
 						"source": [
-							"### GET Latest NAPLAN Results"
+							"### GET Latest NAPLAN Results (REMOVE)"
 						]
 					},
 					{
@@ -36542,7 +36544,9 @@
 							"# join groupings back to the original table\r\n",
 							"finalnaplan_df = naplanlatest_df.join(active_naplanresults_df, on=['SKNaplanAssessmentId', 'Ceider', 'SKYear'], how='left')\r\n",
 							"\r\n",
-							"finalnaplan_df = finalnaplan_df.select('SKNAPLANTest', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'ScaledScoreValue', col('DomainNationalAverage').alias('NAPLANDomainNationalAverage'))\r\n",
+							"#finalnaplan_df = finalnaplan_df.select('SKNAPLANTest', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'ScaledScoreValue', col('DomainNationalAverage').alias('NAPLANDomainNationalAverage'))\r\n",
+							"\r\n",
+							"finalnaplan_df = finalnaplan_df.select('SKNaplanAssessmentId', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'NaplanScaledScoreValue', col('DomainNationalAverage').alias('NAPLANDomainNationalAverage'))\r\n",
 							""
 						],
 						"outputs": [],
@@ -36577,7 +36581,7 @@
 						},
 						"source": [
 							"# join acer and naplan tables\r\n",
-							"naplanacer_df = finalnaplan_df.join(finalpat_df, on='Ceider', how='inner')\r\n",
+							"naplanacer_df = DIMNAPLANCombinedResultsLatestStudentsActive_df.join(finalpat_df, on='Ceider', how='inner')\r\n",
 							"\r\n",
 							"# join AE to table\r\n",
 							"combinedresults_df = naplanacer_df.join(finalae_df, on='Ceider', how='inner')\r\n",
@@ -52251,7 +52255,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8fbf467f-687f-4536-b30a-9c7d9c00f1b8"
+						"spark.autotune.trackingId": "80c67694-70e1-4815-a8dd-d6e65c63fee3"
 					}
 				},
 				"metadata": {
@@ -52398,6 +52402,9 @@
 							"\r\n",
 							"#NAPLAN Proficiency\r\n",
 							"naplanproficiencytest_df = spark.read.load(source3p + \"/pilot/DMNAPLANProficiencyTest_pseudo\", format='delta')\r\n",
+							"naplanproficiencystudentresult_df = spark.read.load(source3p + \"/pilot/DMNAPLANProficiencyStudentResult_pseudo\", format='delta')\r\n",
+							"naplanproficiencystudenitemresponse_df = spark.read.load(source3p + \"/pilot/DMFactNAPLANProficiencyStudentItemResponse_pseudo\", format='delta')\r\n",
+							"naplanacaraproficiency_df = spark.read.load(source3p + \"/pilot/DMFactNAPLANACARAProficiency_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"#ACER\r\n",
 							"patresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
@@ -52447,6 +52454,9 @@
 							"\r\n",
 							"#NAPLAN Procifiency\r\n",
 							"naplanproficiencytest_df.createOrReplaceTempView('vw_naplanproficiencytest') \r\n",
+							"naplanproficiencystudentresult_df.createOrReplaceTempView('vw_naplanproficiencystudentresult') \r\n",
+							"naplanproficiencystudenitemresponse_df.createOrReplaceTempView('vw_naplanproficiencystudenitemresponse') \r\n",
+							"naplanacaraproficiency_df.createOrReplaceTempView('vw_naplanacaraproficiency') \r\n",
 							"\r\n",
 							"#ACER\r\n",
 							"patresults_df.createOrReplaceTempView('vw_patresults') \r\n",
@@ -53451,26 +53461,152 @@
 						"source": [
 							"DROP VIEW IF EXISTS vw_DMNAPLANTestALL;\r\n",
 							"\r\n",
-							"create temp view vw_DMNAPLANTestALL\r\n",
-							"as \r\n",
+							"CREATE TEMP VIEW vw_DMNAPLANTestALL AS\r\n",
 							"\r\n",
-							"SELECT SKNAPLANTest AS SKNAPLANProficiencyTest\r\n",
-							"      ,BKNAPLANTest AS BKNAPLANProficiencyTest\r\n",
-							"\t  ,TestYear\r\n",
-							"      ,TestLevelCode\r\n",
-							"      ,Domain\r\n",
-							"    FROM vw_naplantest\r\n",
+							"-- First part of the UNION\r\n",
+							"SELECT \r\n",
+							"    NT.SKNAPLANTest AS SKNAPLANProficiencyTest,\r\n",
+							"    NT.BKNAPLANTest AS BKNAPLANProficiencyTest,\r\n",
+							"    NT.TestYear,\r\n",
+							"    NT.TestLevelCode,\r\n",
+							"    NT.Domain\r\n",
+							"\r\n",
+							"FROM vw_naplantest AS NT\r\n",
 							"\r\n",
 							"UNION\r\n",
 							"\r\n",
-							"SELECT SKNAPLANProficiencyTest\r\n",
-							"      ,BKNAPLANProficiencyTest\r\n",
-							"      ,TestYear\r\n",
-							"      ,TestLevelCode\r\n",
-							"      ,Domain\r\n",
-							"    FROM vw_naplanproficiencytest\r\n",
-							"    WHERE SKNAPLANProficiencyTest <> -1\r\n",
+							"-- Second part of the UNION\r\n",
+							"SELECT \r\n",
+							"    PT.SKNAPLANProficiencyTest,\r\n",
+							"    PT.BKNAPLANProficiencyTest,\r\n",
+							"    PT.TestYear,\r\n",
+							"    PT.TestLevelCode,\r\n",
+							"    PT.Domain\r\n",
 							"\r\n",
+							"FROM vw_naplanproficiencytest AS PT\r\n",
+							"\r\n",
+							"WHERE \r\n",
+							"    PT.SKNAPLANProficiencyTest <> -1;\r\n",
+							"\r\n",
+							"\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"DROP VIEW IF EXISTS vw_DIMNAPLANCombinedResultsStudentsActive;\r\n",
+							"\r\n",
+							"CREATE TEMP VIEW vw_DIMNAPLANCombinedResultsStudentsActive AS\r\n",
+							"\r\n",
+							"-- First part of the UNION\r\n",
+							"SELECT \r\n",
+							"    TR.SKNaplanAssessmentId,\r\n",
+							"    A.Ceider,\r\n",
+							"    TR.SKYear AS NaplanSKYear,\r\n",
+							"    TR.SKYearLevel AS NaplanSKYearLevel,\r\n",
+							"    MAX(TR.ScaledScoreValue) AS NaplanScaledScoreValue,\r\n",
+							"    MAX(TR.DomainNationalAverage) AS NAPLANDomainNationalAverage\r\n",
+							"\r\n",
+							"FROM vw_activestudent AS A\r\n",
+							"\r\n",
+							"LEFT JOIN vw_naplanonlinestudentresult AS SR \r\n",
+							"    ON A.Ceider = SR.PersistentIdentifier\r\n",
+							"\r\n",
+							"JOIN vw_naplanonlinestudenttest AS TR \r\n",
+							"    ON SR.SKNAPLANOnlineStudentResult = TR.SKNAPLANOnlineStudentResult\r\n",
+							"\r\n",
+							"WHERE \r\n",
+							"    TR.ScaledScoreValue IS NOT NULL\r\n",
+							"\r\n",
+							"GROUP BY \r\n",
+							"    A.Ceider, \r\n",
+							"    TR.SKNaplanAssessmentId, \r\n",
+							"    TR.SKYear, \r\n",
+							"    TR.SKYearLevel\r\n",
+							"\r\n",
+							"UNION\r\n",
+							"\r\n",
+							"-- Second part of the UNION\r\n",
+							"SELECT \r\n",
+							"    TR.SKNaplanAssessmentId,\r\n",
+							"    A.Ceider,\r\n",
+							"    TR.SKYear AS NaplanSKYear,\r\n",
+							"    TR.SKYearLevel AS NaplanSKYearLevel,\r\n",
+							"    MAX(TR.DomainScaledScore) AS NaplanScaledScoreValue,\r\n",
+							"    MAX(AP.MeanScale) AS NAPLANDomainNationalAverage\r\n",
+							"\r\n",
+							"FROM vw_activestudentvw_activestudent AS A\r\n",
+							"\r\n",
+							"LEFT JOIN vw_naplanproficiencystudentresult AS SR \r\n",
+							"    ON A.Ceider = SR.PersistentIdentifier\r\n",
+							"\r\n",
+							"JOIN vw_naplanproficiencystudenitemresponse AS TR \r\n",
+							"    ON SR.SKNAPLANProficiencyStudentResult = TR.SKNAPLANProficiencyStudentResult\r\n",
+							"\r\n",
+							"JOIN vw_naplanacaraproficiency AS AP \r\n",
+							"    ON TR.SKYear = AP.SKYear \r\n",
+							"    AND TR.SKYearLevel = AP.SKYearLevel \r\n",
+							"    AND TR.SKNaplanAssessmentId = AP.SKNaplanAssessmentId\r\n",
+							"\r\n",
+							"WHERE \r\n",
+							"    TR.DomainScaledScore IS NOT NULL\r\n",
+							"    AND AP.SKStateTerritory = 12 --National Means\r\n",
+							"\r\n",
+							"GROUP BY \r\n",
+							"    A.Ceider, \r\n",
+							"    TR.SKNaplanAssessmentId, \r\n",
+							"    TR.SKYear, \r\n",
+							"    TR.SKYearLevel;\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"DROP VIEW IF EXISTS vw_DIMNAPLANCombinedResultsLatestStudentsActive;\r\n",
+							"\r\n",
+							"CREATE TEMP VIEW vw_DIMNAPLANCombinedResultsLatestStudentsActive AS\r\n",
+							"\r\n",
+							"SELECT \r\n",
+							"    CR.Ceider,\r\n",
+							"    CR.SKNaplanAssessmentId,\r\n",
+							"    MAX(CR.NaplanSKYear) AS NaplanSKYear,\r\n",
+							"    MAX(CR.NaplanSKYearLevel) AS NaplanSKYearLevel,\r\n",
+							"    MAX(CR.NaplanScaledScoreValue) AS NaplanScaledScoreValue,\r\n",
+							"    MAX(CR.NAPLANDomainNationalAverage) AS NAPLANDomainNationalAverage\r\n",
+							"\r\n",
+							"FROM [dbo].[_DIMNAPLANCombinedResultsStudentsActive_TEST] AS CR\r\n",
+							"\r\n",
+							"GROUP BY \r\n",
+							"    CR.Ceider,\r\n",
+							"    CR.SKNaplanAssessmentId;\r\n",
 							""
 						],
 						"outputs": [],
@@ -53523,6 +53659,9 @@
 							"\r\n",
 							"#NAPLAN\r\n",
 							"naplantestall_df = spark.read.table('vw_DMNAPLANTestALL')\r\n",
+							"DIMNAPLANCombinedResultsStudentsActive_df = spark.read.table('vw_DIMNAPLANCombinedResultsStudentsActive')\r\n",
+							"DIMNAPLANCombinedResultsLatestStudentsActive_df = spark.read.table('vw_DIMNAPLANCombinedResultsLatestStudentsActive')\r\n",
+							"\r\n",
 							"\r\n",
 							"# Enrolments (Current Year)\r\n",
 							"currentenrolments_df = spark.read.table('vw_currentenrolments')\r\n",
@@ -53546,6 +53685,8 @@
 							"\r\n",
 							"#NAPLAN\r\n",
 							"saveToTarget(naplantestall_df, destination_p, f'{version}/DMNAPLANTestALL')\r\n",
+							"saveToTarget(DIMNAPLANCombinedResultsStudentsActive_df, destination_p, f'{version}/_DIMNAPLANCombinedResultsStudentsActive')\r\n",
+							"saveToTarget(DIMNAPLANCombinedResultsLatestStudentsActive_df, destination_p, f'{version}/_DIMNAPLANCombinedResultsLatestStudentsActive')\r\n",
 							"\r\n",
 							"# Enrolments\r\n",
 							"saveToTarget(currentenrolments_df, destination_p, f'{version}/_DIMStudentCurrentEnrolments')\r\n",

@@ -36194,7 +36194,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "a7c96083-884f-4ce3-bf65-e8aa1f8b45a1"
+						"spark.autotune.trackingId": "1b139fce-234e-4735-b2b2-b3d6257f52d0"
 					}
 				},
 				"metadata": {
@@ -36219,8 +36219,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -52255,7 +52254,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "80c67694-70e1-4815-a8dd-d6e65c63fee3"
+						"spark.autotune.trackingId": "3f1b8a9a-2ab4-4c4b-9099-d023cefe00af"
 					}
 				},
 				"metadata": {
@@ -52280,7 +52279,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -53549,7 +53549,7 @@
 							"    MAX(TR.DomainScaledScore) AS NaplanScaledScoreValue,\r\n",
 							"    MAX(AP.MeanScale) AS NAPLANDomainNationalAverage\r\n",
 							"\r\n",
-							"FROM vw_activestudentvw_activestudent AS A\r\n",
+							"FROM vw_activestudent AS A\r\n",
 							"\r\n",
 							"LEFT JOIN vw_naplanproficiencystudentresult AS SR \r\n",
 							"    ON A.Ceider = SR.PersistentIdentifier\r\n",

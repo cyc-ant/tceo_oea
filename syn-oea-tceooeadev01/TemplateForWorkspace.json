@@ -5823,6 +5823,14 @@
 							},
 							{
 								"source": {
+									"table": "vwDMFactNAPLANProficiencyStudentTestResult"
+								},
+								"destination": {
+									"fileName": "DMFactNAPLANProficiencyStudentTestResult.csv"
+								}
+							},
+							{
+								"source": {
 									"table": "vwDMNAPLANAssessmentArea"
 								},
 								"destination": {
@@ -36194,7 +36202,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "fb6d9fa1-89f8-479e-b28c-47da661a9d87"
+						"spark.autotune.trackingId": "044a4bdc-091e-448b-a482-f274ae0a3053"
 					}
 				},
 				"metadata": {
@@ -36219,8 +36227,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

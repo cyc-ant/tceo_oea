@@ -106,6 +106,14 @@
 					},
 					{
 						"source": {
+							"table": "vwDMFactNAPLANProficiencyStudentTestResult"
+						},
+						"destination": {
+							"fileName": "DMFactNAPLANProficiencyStudentTestResult.csv"
+						}
+					},
+					{
+						"source": {
 							"table": "vwDMNAPLANAssessmentArea"
 						},
 						"destination": {

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "6aca9a58-dc3d-4747-9d21-ab68968ba5ac"
+				"spark.autotune.trackingId": "b23e5604-8a0f-48da-bd0f-86043eb7da34"
 			}
 		},
 		"metadata": {
@@ -59,7 +59,7 @@
 					"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 					"\r\n",
 					"        self.schemas['DMACERStanine'] = [\r\n",
-					"                                        ['SKACERStanine', 'integer', 'hash'],\r\n",
+					"                                        ['SKACERStanine', 'integer', 'no-op'],\r\n",
 					"                                        ['BKACERStanine', 'integer', 'no-op'],\r\n",
 					"                                        ['StanineNumber', 'integer', 'no-op'],\r\n",
 					"                                        ['StanineNumberDescription', 'string', 'no-op'],\r\n",

@@ -20899,7 +20899,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6aca9a58-dc3d-4747-9d21-ab68968ba5ac"
+						"spark.autotune.trackingId": "2a16024b-44b2-4ece-8f9c-33b38650a63a"
 					}
 				},
 				"metadata": {
@@ -20924,20 +20924,22 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
+						"metadata": {},
 						"source": [
 							"class Acer_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='ACER', pseudonymize = True):\r\n",
 							"        BaseOEAModule.__init__(self, source_folder, pseudonymize)\r\n",
 							"\r\n",
 							"        self.schemas['DMACERStanine'] = [\r\n",
-							"                                        ['SKACERStanine', 'integer', 'hash'],\r\n",
+							"                                        ['SKACERStanine', 'integer', 'no-op'],\r\n",
 							"                                        ['BKACERStanine', 'integer', 'no-op'],\r\n",
 							"                                        ['StanineNumber', 'integer', 'no-op'],\r\n",
 							"                                        ['StanineNumberDescription', 'string', 'no-op'],\r\n",
@@ -27546,7 +27548,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "90bd8e85-9aaa-489a-8c60-b7f40742386d"
+						"spark.autotune.trackingId": "304dea7d-eb44-4420-ab31-85a1081ac610"
 					}
 				},
 				"metadata": {
@@ -27571,15 +27573,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class NAPLANProficiency_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='NAPLANProficiency', pseudonymize = True):\r\n",

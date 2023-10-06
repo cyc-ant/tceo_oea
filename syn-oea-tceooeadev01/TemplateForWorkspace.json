@@ -116,6 +116,88 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('workspaceName'), '/CP_DMAEResults')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_vea",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "."
+							},
+							{
+								"name": "Destination",
+								"value": "stage1np/DM_AE/"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "SELECT DISTINCT\r\nstudent.CompassPersonId,\r\ncy.year AS ReportingYear,\r\nst.SchoolTermDesc AS Semester,\r\nyl.YearLevelSifDesc AS YearLevel,\r\nrg.RollGroupDesc AS RollGroup,\r\nstudent.Ceider,\r\nStudent.FirstName,\r\nStudent.LastName,\r\nsub.SubjectLongName AS [Subject],\r\n--a.ActivityName AS [Class],\r\ngi.GradingItem,\r\nv.ResultValue,\r\nstaff.Title + ' '+ staff.FirstName + ' ' +staff.LastName AS Teacher,\r\nSchoolId AS AGEID,\r\nc.SchoolSuburbAndName,\r\nc.CompassSchoolURL\r\nFROM  \r\ndbo.vwDMFactSemesterReporting f\r\nJOIN dbo.vwDMCampus c ON f.SKCampus = c.SKCampus\r\nJOIN dbo.vwDMSchoolTerm st ON f.SKSchoolSemester = st.SKSchoolTerm\r\nJOIN dbo.vwDMPersonDemographic student ON f.SKStudent = student.SKPerson\r\nJOIN dbo.vwDMPersonDemographic staff ON f.SKStaff = staff.SKPerson\r\nJOIN dbo.vwDMYearLevel yl ON f.SKYearLevel = yl.SKYearLevel\r\nJOIN dbo.vwDMCalendarYear cy ON f.SKReportingYear = cy.SkYear\r\nJOIN dbo.vwDMRollGroup rg ON f.SKRollGroup = rg.SKRollGroup\r\nJOIN dbo.vwDMGender g ON f.SKGenderId = g.SKGenderId\r\nJOIN dbo.vwDMSemesterReportSubject sub ON f.SKSemesterReportSubject = sub.SKSemesterReportSubject\r\nJOIN dbo.vwDMSemesterReportActivity a ON f.SKSemesterReportActivity = a.SKSemesterReportActivity\r\nJOIN dbo.vwDMSemesterReportGradingItem gi ON f.SKSemesterReportGradingItem = gi.SKSemesterReportGradingItem\r\nJOIN dbo.vwDMSemesterReportResultValue v ON f.SKSemesterReportResultValue = v.SKSemesterReportResultValue\r\nJOIN dbo.vwDMSemesterReportMeasure m ON f.SKSemesterReportMeasure = m.SKSemesterReportMeasure\r\nWHERE \r\ncy.year = 2023\r\nAND st.SchoolTermDesc = 'Semester 1'\r\nORDER BY\r\nageid,\r\nReportingYear,\r\nSemester,\r\nYearLevel,\r\nCeider,\r\nSubject,\r\ngi.GradingItem\r\n",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_DMAEResults",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset__DMAEResults",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/SourceDataset_DMAEResults')]",
+				"[concat(variables('workspaceId'), '/datasets/DestinationDataset__DMAEResults')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_ACERNorms')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -14715,6 +14797,34 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/DestinationDataset__DMAEResults')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "DM_AE",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/DestinationDataset_attendance_object')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -16947,6 +17057,24 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/linkedServices/CeNet_ODS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/SourceDataset_DMAEResults')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_DataBlend",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
 			]
 		},
 		{
@@ -20899,7 +21027,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2a16024b-44b2-4ece-8f9c-33b38650a63a"
+						"spark.autotune.trackingId": "b23e5604-8a0f-48da-bd0f-86043eb7da34"
 					}
 				},
 				"metadata": {
@@ -20924,15 +21052,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Acer_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='ACER', pseudonymize = True):\r\n",

@@ -1,0 +1,12 @@
+{
+	"name": "SourceDataset_DMAEResults",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CeNet_DataBlend",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}

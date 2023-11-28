@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fa470466-22a2-42bf-9d2d-322c0f6fc2d0"
+				"spark.autotune.trackingId": "b4577efd-bd64-4a47-8701-0e90dd2e42d6"
 			}
 		},
 		"metadata": {
@@ -76,7 +76,7 @@
 					"                                           \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'CompassODSActivityInstance', self.schemas['CompassODSActivityInstance'], None, 'SKStudent')\r\n",
+					"        oea.ingest_delta_data(self.source_folder, 'CompassODSActivityInstance', self.schemas['CompassODSActivityInstance'], None, 'SKActivityInstance')\r\n",
 					"\r\n",
 					"\r\n",
 					"ods_activityinstance_object = Ods_ActivityInstance_object()"

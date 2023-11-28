@@ -21293,7 +21293,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "3306f923-2034-412f-9fed-34ab3d948571"
+						"spark.autotune.trackingId": "b23e5604-8a0f-48da-bd0f-86043eb7da34"
 					}
 				},
 				"metadata": {
@@ -21318,15 +21318,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Acer_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='ACER', pseudonymize = True):\r\n",
@@ -52704,7 +52702,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ab1ad494-f811-4cee-b0fa-44a49886df3f"
+						"spark.autotune.trackingId": "421a882e-c1e1-4c10-bcb1-b17aea73ea66"
 					}
 				},
 				"metadata": {
@@ -52729,7 +52727,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -52814,6 +52813,8 @@
 							"dmsubject_df = spark.read.load(sourcep + \"/enrolment/DMSubject_pseudo\", format='delta')\r\n",
 							"dmcalendaryear_df = spark.read.load(sourcep + \"/ACER/DMCalendarYear_pseudo\", format='delta') #need to edit source\r\n",
 							"\r\n",
+							"subjectexclusionlist_df = spark.read.load(source3p + \"/pilot/SubjectExclusionList_pseudo\", format='delta')\r\n",
+							"\r\n",
 							"# stage 3 general dims\r\n",
 							"dmyearlevel_df = spark.read.load(source3p + \"/pilot/DMYearLevel_pseudo\", format='delta')\r\n",
 							"dmcampus_df = spark.read.load(source3p + \"/pilot/DMCampus_pseudo\", format='delta')\r\n",
@@ -52880,6 +52881,7 @@
 							"dmcalendaryear_df.createOrReplaceTempView('vw_dmcalendaryear')\r\n",
 							"factpersonmilestone_df.createOrReplaceTempView('vw_factpersonmilestone')\r\n",
 							"dmrollgroup_df.createOrReplaceTempView('vw_dmrollgroup')\r\n",
+							"subjectexclusionlist_df.createOrReplaceTempView('vw_subjectexclusionlist')\r\n",
 							"\r\n",
 							"odsactivity_df.createOrReplaceTempView('vw_CompassODSActivity') \r\n",
 							"odsactivityinstance_df.createOrReplaceTempView('vw_CompassODSActivityInstance') \r\n",
@@ -53351,6 +53353,49 @@
 							"\tFROM vw_allenrolments e\r\n",
 							"\tJOIN vw_activestudent a on e.Ceider = a.Ceider -- will not include active students who are not enrolled in classes\r\n",
 							"\tAND Year = YEAR(current_date())"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"DROP VIEW IF EXISTS vw_currentyearenrolments_withexclusions;\r\n",
+							"\r\n",
+							"CREATE TEMP VIEW vw_currentyearenrolments_withexclusions\r\n",
+							"AS\r\n",
+							"SELECT DISTINCT\r\n",
+							"    ce.*\r\n",
+							"    ,subject.SubjectShortName\r\n",
+							"\r\n",
+							"    FROM vw_currentyearenrolments ce\r\n",
+							"    JOIN \r\n",
+							"    (\r\n",
+							"        SELECT DISTINCT \r\n",
+							"            c.SubjectImportIdentifier AS SubjectCode\r\n",
+							"            ,c.Campusid\r\n",
+							"            ,c.SubjectShortName\r\n",
+							"        FROM vw_CompassODSCompassSubject c\r\n",
+							"        JOIN subjectexclusionlist e\r\n",
+							"        ON c.SubjectImportIdentifier = e.SubjectCode\r\n",
+							"        AND c.SubjectShortName = e.SubjectShortName\r\n",
+							"        WHERE AcademicYear = YEAR(current_date())\r\n",
+							"        AND e.Include = 'TRUE'\r\n",
+							"    ) subject\r\n",
+							"    ON ce.SubjectCode = subject.SubjectCode\r\n",
+							"    AND ce.CampusID = subject.Campusid\r\n",
+							""
 						],
 						"outputs": [],
 						"execution_count": null
@@ -54112,8 +54157,11 @@
 							"DIMNAPLANCombinedResultsLatestStudentsActive_df = spark.read.table('vw_DIMNAPLANCombinedResultsLatestStudentsActive')\r\n",
 							"\r\n",
 							"\r\n",
-							"# Enrolments (Current Year)\r\n",
+							"# Enrolments (Current Year) ALL\r\n",
 							"currentenrolments_df = spark.read.table('vw_currentenrolments')\r\n",
+							"\r\n",
+							"# Enrolments (Current Year) Removed exclusions\r\n",
+							"currentyearenrolments_df = spark.read.table('vw_currentyearenrolments_withexclusions')\r\n",
 							"\r\n",
 							"# ALL Enrolments\r\n",
 							"allenrolments_df = spark.read.table('vw_allenrolments')\r\n",
@@ -54139,7 +54187,7 @@
 							"\r\n",
 							"# Enrolments\r\n",
 							"saveToTarget(currentenrolments_df, destination_p, f'{version}/_DIMStudentCurrentEnrolments')\r\n",
-							"\r\n",
+							"saveToTarget(currentyearenrolments_df, destination_p, f'{version}/_DIMStudentCurrentYearEnrolments')\r\n",
 							"saveToTarget(allenrolments_df, destination_p, f'{version}/_DIMStudentAllEnrolments')\r\n",
 							"\r\n",
 							"\r\n",

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "6f2b843b-e1b6-4c1d-8da3-0a2d428c42a9"
+				"spark.autotune.trackingId": "bda5a0ff-dfb7-49d5-8cf0-34d3bbb5c000"
 			}
 		},
 		"metadata": {
@@ -694,7 +694,7 @@
 					"            ,c.Campusid\r\n",
 					"            ,c.SubjectShortName\r\n",
 					"        FROM vw_CompassODSCompassSubject c\r\n",
-					"        JOIN subjectexclusionlist e\r\n",
+					"        JOIN vw_subjectexclusionlist e\r\n",
 					"        ON c.SubjectImportIdentifier = e.SubjectCode\r\n",
 					"        AND c.SubjectShortName = e.SubjectShortName\r\n",
 					"        WHERE AcademicYear = YEAR(current_date())\r\n",

@@ -36642,7 +36642,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "044a4bdc-091e-448b-a482-f274ae0a3053"
+						"spark.autotune.trackingId": "3a86339c-72c4-4e7d-9c31-b8365b05b4f5"
 					}
 				},
 				"metadata": {
@@ -36667,7 +36667,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -36720,7 +36721,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 20
+						"execution_count": 37
 					},
 					{
 						"cell_type": "code",
@@ -36739,7 +36740,7 @@
 							"%run Antares_py"
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": 38
 					},
 					{
 						"cell_type": "code",
@@ -36758,7 +36759,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 22
+						"execution_count": 39
 					},
 					{
 						"cell_type": "markdown",
@@ -36830,7 +36831,7 @@
 							"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 						],
 						"outputs": [],
-						"execution_count": 23
+						"execution_count": 40
 					},
 					{
 						"cell_type": "markdown",
@@ -36870,7 +36871,7 @@
 							"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result', 'SKYearLevel')"
 						],
 						"outputs": [],
-						"execution_count": 24
+						"execution_count": 41
 					},
 					{
 						"cell_type": "markdown",
@@ -36950,7 +36951,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 25
+						"execution_count": 42
 					},
 					{
 						"cell_type": "markdown",
@@ -36997,7 +36998,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 26
+						"execution_count": 43
 					},
 					{
 						"cell_type": "markdown",
@@ -37035,7 +37036,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 27
+						"execution_count": 44
 					},
 					{
 						"cell_type": "markdown",
@@ -37100,7 +37101,7 @@
 							"DMStudentDemographic_df = DMStudentDemographic_df.drop(\"DOB_YearFirstFormat\", \"DOB\")"
 						],
 						"outputs": [],
-						"execution_count": 28
+						"execution_count": 45
 					},
 					{
 						"cell_type": "code",
@@ -37126,7 +37127,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 29
+						"execution_count": 46
 					},
 					{
 						"cell_type": "markdown",
@@ -37174,7 +37175,7 @@
 							"EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 30
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -37205,7 +37206,7 @@
 							"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 31
+						"execution_count": 12
 					},
 					{
 						"cell_type": "markdown",
@@ -37304,7 +37305,7 @@
 							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.select(sorted(EarlyYearsTestCompletion_df.columns))"
 						],
 						"outputs": [],
-						"execution_count": 32
+						"execution_count": 13
 					},
 					{
 						"cell_type": "markdown",
@@ -37457,7 +37458,7 @@
 							"EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.select(sorted(EarlyYearsTestCompletion2_df.columns))"
 						],
 						"outputs": [],
-						"execution_count": 33
+						"execution_count": 14
 					},
 					{
 						"cell_type": "code",
@@ -37477,7 +37478,7 @@
 							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.union(EarlyYearsTestCompletion2_df)"
 						],
 						"outputs": [],
-						"execution_count": 34
+						"execution_count": 15
 					},
 					{
 						"cell_type": "markdown",
@@ -37553,7 +37554,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 35
+						"execution_count": 16
 					},
 					{
 						"cell_type": "code",
@@ -37636,7 +37637,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 36
+						"execution_count": 17
 					},
 					{
 						"cell_type": "code",
@@ -37684,7 +37685,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 37
+						"execution_count": 18
 					},
 					{
 						"cell_type": "code",
@@ -37733,7 +37734,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 38
+						"execution_count": 19
 					},
 					{
 						"cell_type": "markdown",
@@ -37777,7 +37778,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 39
+						"execution_count": 20
 					},
 					{
 						"cell_type": "markdown",
@@ -37820,7 +37821,7 @@
 							"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"StudentAnswer\", lit(\"N/A\")).withColumn(\"Answer\", lit(\"N/A\"))"
 						],
 						"outputs": [],
-						"execution_count": 40
+						"execution_count": 21
 					},
 					{
 						"cell_type": "markdown",
@@ -37861,7 +37862,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 41
+						"execution_count": 22
 					},
 					{
 						"cell_type": "markdown",
@@ -37919,7 +37920,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 42
+						"execution_count": 23
 					},
 					{
 						"cell_type": "code",
@@ -37944,7 +37945,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 43
+						"execution_count": 24
 					},
 					{
 						"cell_type": "markdown",
@@ -38027,7 +38028,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 44
+						"execution_count": 25
 					},
 					{
 						"cell_type": "code",
@@ -38109,7 +38110,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 45
+						"execution_count": 26
 					},
 					{
 						"cell_type": "code",
@@ -38155,7 +38156,7 @@
 							"EarlyYearsResults_Averages_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
 						],
 						"outputs": [],
-						"execution_count": 46
+						"execution_count": 27
 					},
 					{
 						"cell_type": "code",
@@ -38202,7 +38203,7 @@
 							"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
 						],
 						"outputs": [],
-						"execution_count": 47
+						"execution_count": 28
 					},
 					{
 						"cell_type": "markdown",
@@ -38237,7 +38238,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 48
+						"execution_count": 33
 					},
 					{
 						"cell_type": "markdown",
@@ -38289,7 +38290,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 49
+						"execution_count": 30
 					},
 					{
 						"cell_type": "markdown",
@@ -38348,7 +38349,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 68
+						"execution_count": 31
 					},
 					{
 						"cell_type": "markdown",
@@ -52702,7 +52703,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "40bcfad1-4594-40ed-9697-e4524f4b1ac8"
+						"spark.autotune.trackingId": "7fbfb8b3-c9f5-425d-8539-ce3ccb58b4d6"
 					}
 				},
 				"metadata": {
@@ -52727,8 +52728,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -53535,7 +53535,8 @@
 							"\tand ActivityName <> 'Sickbay'\r\n",
 							"\tand SubjectCode IS NOT NULL\r\n",
 							"\tand year(ActivityEnrolmentStartDate) = year(current_date)\r\n",
-							"\tand to_date(ActivityEnrolmentEndDate) > current_date\r\n",
+							"\t--and to_date(ActivityEnrolmentEndDate) > current_date\r\n",
+							"\tand year(to_date(ActivityEnrolmentEndDate)) = year(current_date)\r\n",
 							"\tand (ActivityCode like '%GEN%' or ActivityCode like 'PREP%')\r\n",
 							") enrolment\r\n",
 							"\r\n",

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5692bdf1-da4d-4592-8238-fb4ef32badaa"
+				"spark.autotune.trackingId": "da4e98fd-04b0-4153-9998-213ec45f8d7c"
 			}
 		},
 		"metadata": {
@@ -242,7 +242,7 @@
 					"# join back to the original table to get results\r\n",
 					"finalae_df = aelatest_df.join(activeae_df, on=['Subject', 'GovtCode1', 'YearSemesterValue'], how='left')\r\n",
 					"\r\n",
-					"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result', 'SKYearLevel')"
+					"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result', 'SKYearLevel', 'YearSemesterDescription')"
 				],
 				"execution_count": 41
 			},

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b23e5604-8a0f-48da-bd0f-86043eb7da34"
+				"spark.autotune.trackingId": "fcfb5761-8e45-42d3-9880-aa50a35a2402"
 			}
 		},
 		"metadata": {
@@ -590,7 +590,7 @@
 					"                                 \r\n",
 					"\r\n",
 					"    def ingest(self):\r\n",
-					"        oea.ingest_delta_data(self.source_folder, 'DMACERStanine', self.schemas['DMACERStanine'], 'LastUpdateDate', 'SKACERStanine')\r\n",
+					"        #oea.ingest_delta_data(self.source_folder, 'DMACERStanine', self.schemas['DMACERStanine'], 'LastUpdateDate', 'SKACERStanine')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMACERStudent', self.schemas['DMACERStudent'], 'LastUpdateDate', 'SKACERStudent')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMFactPATResponse', self.schemas['DMFactPATResponse'], 'LastUpdateDate', 'SKPATResponse')\r\n",
 					"        oea.ingest_delta_data(self.source_folder, 'DMFactPATResults', self.schemas['DMFactPATResults'], 'LastUpdateDate', 'SKPATResults')\r\n",

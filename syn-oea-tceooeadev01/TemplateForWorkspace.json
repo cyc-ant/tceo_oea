@@ -615,14 +615,6 @@
 						"defaultValue": [
 							{
 								"source": {
-									"table": "vwDMACERStanine"
-								},
-								"destination": {
-									"fileName": "dbovwDMACERStanine.csv"
-								}
-							},
-							{
-								"source": {
 									"table": "vwDMACERStudent"
 								},
 								"destination": {
@@ -21293,7 +21285,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ffc1f24c-f589-402b-a9d6-c8243fd35e68"
+						"spark.autotune.trackingId": "fcfb5761-8e45-42d3-9880-aa50a35a2402"
 					}
 				},
 				"metadata": {
@@ -21318,15 +21310,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"class Acer_object(BaseOEAModule):\r\n",
 							"    def __init__(self, source_folder='ACER', pseudonymize = True):\r\n",

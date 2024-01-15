@@ -36634,7 +36634,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "da4e98fd-04b0-4153-9998-213ec45f8d7c"
+						"spark.autotune.trackingId": "b02b6f2c-6e74-4ca7-abec-98d5f4104a3c"
 					}
 				},
 				"metadata": {
@@ -36659,7 +36659,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -36712,7 +36713,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 56
+						"execution_count": 42
 					},
 					{
 						"cell_type": "code",
@@ -36731,7 +36732,7 @@
 							"%run Antares_py"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 43
 					},
 					{
 						"cell_type": "code",
@@ -36750,7 +36751,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 44
 					},
 					{
 						"cell_type": "markdown",
@@ -36822,7 +36823,7 @@
 							"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 45
 					},
 					{
 						"cell_type": "markdown",
@@ -36862,7 +36863,7 @@
 							"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result', 'SKYearLevel', 'YearSemesterDescription')"
 						],
 						"outputs": [],
-						"execution_count": 41
+						"execution_count": 46
 					},
 					{
 						"cell_type": "markdown",
@@ -36942,7 +36943,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 42
+						"execution_count": 47
 					},
 					{
 						"cell_type": "markdown",
@@ -36989,7 +36990,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 43
+						"execution_count": 48
 					},
 					{
 						"cell_type": "markdown",
@@ -37027,7 +37028,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 44
+						"execution_count": 49
 					},
 					{
 						"cell_type": "markdown",
@@ -37092,7 +37093,7 @@
 							"DMStudentDemographic_df = DMStudentDemographic_df.drop(\"DOB_YearFirstFormat\", \"DOB\")"
 						],
 						"outputs": [],
-						"execution_count": 45
+						"execution_count": 50
 					},
 					{
 						"cell_type": "code",
@@ -37118,7 +37119,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 46
+						"execution_count": 51
 					},
 					{
 						"cell_type": "markdown",
@@ -37166,7 +37167,7 @@
 							"EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 52
 					},
 					{
 						"cell_type": "code",
@@ -37197,7 +37198,7 @@
 							"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 53
 					},
 					{
 						"cell_type": "markdown",
@@ -37296,7 +37297,7 @@
 							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.select(sorted(EarlyYearsTestCompletion_df.columns))"
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 54
 					},
 					{
 						"cell_type": "markdown",
@@ -37449,7 +37450,7 @@
 							"EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.select(sorted(EarlyYearsTestCompletion2_df.columns))"
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 55
 					},
 					{
 						"cell_type": "code",
@@ -37469,7 +37470,7 @@
 							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.union(EarlyYearsTestCompletion2_df)"
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 56
 					},
 					{
 						"cell_type": "markdown",
@@ -37545,7 +37546,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 58
 					},
 					{
 						"cell_type": "code",
@@ -37628,7 +37629,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 60
 					},
 					{
 						"cell_type": "code",
@@ -37676,7 +37677,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": 61
 					},
 					{
 						"cell_type": "code",
@@ -37725,7 +37726,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 19
+						"execution_count": 62
 					},
 					{
 						"cell_type": "markdown",
@@ -37769,7 +37770,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 20
+						"execution_count": 63
 					},
 					{
 						"cell_type": "markdown",
@@ -37812,7 +37813,7 @@
 							"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"StudentAnswer\", lit(\"N/A\")).withColumn(\"Answer\", lit(\"N/A\"))"
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": 64
 					},
 					{
 						"cell_type": "markdown",
@@ -37853,7 +37854,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 22
+						"execution_count": 65
 					},
 					{
 						"cell_type": "markdown",
@@ -37911,7 +37912,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 23
+						"execution_count": 66
 					},
 					{
 						"cell_type": "code",
@@ -37936,7 +37937,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 24
+						"execution_count": 67
 					},
 					{
 						"cell_type": "markdown",
@@ -38019,7 +38020,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 25
+						"execution_count": 68
 					},
 					{
 						"cell_type": "code",
@@ -38101,7 +38102,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 26
+						"execution_count": 69
 					},
 					{
 						"cell_type": "code",
@@ -38147,7 +38148,7 @@
 							"EarlyYearsResults_Averages_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
 						],
 						"outputs": [],
-						"execution_count": 27
+						"execution_count": 70
 					},
 					{
 						"cell_type": "code",
@@ -38194,7 +38195,7 @@
 							"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
 						],
 						"outputs": [],
-						"execution_count": 28
+						"execution_count": 71
 					},
 					{
 						"cell_type": "markdown",
@@ -38229,7 +38230,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 33
+						"execution_count": 72
 					},
 					{
 						"cell_type": "markdown",
@@ -38281,7 +38282,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 30
+						"execution_count": 74
 					},
 					{
 						"cell_type": "markdown",
@@ -38297,22 +38298,19 @@
 						]
 					},
 					{
-						"cell_type": "code",
+						"cell_type": "markdown",
 						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
 							"nteract": {
 								"transient": {
 									"deleting": false
 								}
-							},
-							"collapsed": false
+							}
 						},
 						"source": [
 							"# groupby year and the student and get post score - pre score\r\n",
 							"NumeracyPivot_df = EarlyYearsResultsTotalsCombined_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"NumeracyTotal\": \"first\"})\r\n",
+							"\r\n",
+							"display(NumeracyPivot_df)\r\n",
 							"\r\n",
 							"NumeracyDiff_df = NumeracyPivot_df.withColumn(\"Numeracydiff\", col(\"Post\") - col(\"Pre\")).select(\"SKResultID\", \"Ceider\", \"NumeracyDiff\")\r\n",
 							"\r\n",
@@ -38338,9 +38336,7 @@
 							"growth_df = growth_df.withColumn(\"LiteracyGrowthValue\", col('LiteracyDiff')/col('LiteracyStdDevAverage'))\r\n",
 							"growth_df = growth_df.select('SKResultID', 'Ceider', 'NumeracyGrowthValue', 'LiteracyGrowthValue')\r\n",
 							""
-						],
-						"outputs": [],
-						"execution_count": 31
+						]
 					},
 					{
 						"cell_type": "markdown",
@@ -38410,7 +38406,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 75
 					},
 					{
 						"cell_type": "code",
@@ -38435,7 +38431,7 @@
 							"SeniorOutcomesLong_df = SO_df.to_spark()"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 76
 					},
 					{
 						"cell_type": "markdown",
@@ -38478,19 +38474,19 @@
 							"#saveToTarget(EarlyYearsResultsTotalsYear2Joined_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Joined_pseudo')\r\n",
 							"\r\n",
 							"# Test result tables for all years \r\n",
-							"saveToTarget(EarlyYearsResultsCombined_df, destination_p, f'{version}/EarlyYearsResultsCombined_pseudo')\r\n",
+							"###saveToTarget(EarlyYearsResultsCombined_df, destination_p, f'{version}/EarlyYearsResultsCombined_pseudo')\r\n",
 							"\r\n",
 							"# Test result totals (for all years)\r\n",
-							"saveToTarget(EarlyYearsResultsTotalsCombined_df, destination_p, f'{version}/EarlyYearsResultsTotalsCombinedYears_pseudo')\r\n",
+							"###saveToTarget(EarlyYearsResultsTotalsCombined_df, destination_p, f'{version}/EarlyYearsResultsTotalsCombinedYears_pseudo')\r\n",
 							"\r\n",
 							"# Test completion tables \r\n",
-							"saveToTarget(EarlyYearsTestCompletion_df, destination_p, f'{version}/EarlyYearsTestCompletion_pseudo')\r\n",
+							"###saveToTarget(EarlyYearsTestCompletion_df, destination_p, f'{version}/EarlyYearsTestCompletion_pseudo')\r\n",
 							"\r\n",
 							"# Early Years ClassID Dimension\r\n",
 							"saveToTarget(EarlyYearsClassID_df, destination_p, f'{version}/DMEarlyYearsClassID_pseudo')\r\n",
 							"\r\n",
 							"# Early Years Growth calculations\r\n",
-							"saveToTarget(growth_df, destination_p, f'{version}/EarlyYearsGrowth_pseudo')\r\n",
+							"###saveToTarget(growth_df, destination_p, f'{version}/EarlyYearsGrowth_pseudo')\r\n",
 							"\r\n",
 							"# Senior Outcomes tables \r\n",
 							"saveToTarget(SeniorOutcomesLong_df, destination_p, f'{version}/SeniorOutcomesLong_pseudo')\r\n",
@@ -38500,7 +38496,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 77
 					}
 				]
 			},

@@ -82,14 +82,6 @@
 				"defaultValue": [
 					{
 						"source": {
-							"table": "vwDMACERStanine"
-						},
-						"destination": {
-							"fileName": "dbovwDMACERStanine.csv"
-						}
-					},
-					{
-						"source": {
 							"table": "vwDMACERStudent"
 						},
 						"destination": {

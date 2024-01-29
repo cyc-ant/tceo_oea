@@ -36634,7 +36634,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "82fd6105-d994-4133-af93-b25dd3dff52e"
+						"spark.autotune.trackingId": "e98268c4-6ca1-4e27-b581-30ff87833c84"
 					}
 				},
 				"metadata": {
@@ -36787,7 +36787,7 @@
 							"DMPersonDemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
 							"EYAnswers_df = spark.read.load(sourcep + \"/EarlyYearsAnswers/EarlyYearsAnswers_pseudo\", format='delta')\r\n",
 							"#EarlyYearsSubTeachers_df = spark.read.load(sourcep + \"/EarlyYearsSubTeachers/EarlyYearsSubTeachers_pseudo\", format='delta')\r\n",
-							"ACERNorms_df = spark.read.load(sourcep + \"/ACERNorms/ACERNorms_pseudo\", format='delta')\r\n",
+							"\r\n",
 							"\r\n",
 							"# source tables from Stage3\r\n",
 							"# General Tables\r\n",
@@ -36815,6 +36815,7 @@
 							"patresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
 							"pattest_df = spark.read.load(source3p + \"/pilot/DMPATTest_pseudo\", format='delta')\r\n",
 							"acerstudent_df = spark.read.load(source3p + \"/pilot/DMACERStudent_pseudo\", format='delta')\r\n",
+							"ACERNorms_df = spark.read.load(sourcep + \"/ACERNorms/ACERNorms_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"#AE\r\n",
 							"aeresults_df = spark.read.load(source3p + \"/pilot/AEResultsCombined_pseudo\", format='delta')\r\n",
@@ -58043,7 +58044,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8d2118e2-7eec-4c5d-bf28-d13aced02880"
+						"spark.autotune.trackingId": "82efde6c-035b-4268-b444-a25efa6f02ae"
 					}
 				},
 				"metadata": {
@@ -58068,8 +58069,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -58123,7 +58123,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -58142,7 +58142,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -58171,7 +58171,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 19
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -58327,7 +58327,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 5
 					}
 				]
 			},

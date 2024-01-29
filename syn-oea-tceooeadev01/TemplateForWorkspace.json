@@ -36634,7 +36634,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b02b6f2c-6e74-4ca7-abec-98d5f4104a3c"
+						"spark.autotune.trackingId": "82fd6105-d994-4133-af93-b25dd3dff52e"
 					}
 				},
 				"metadata": {
@@ -36900,6 +36900,8 @@
 							"\r\n",
 							"# join the PATTest table (PAT Test types) so we can group the results into the 2 main categories (Maths / Reading)\r\n",
 							"test_groups_df = active_patresults_df.join(pattest_df, on='SKPATTest', how='inner') #inner join to take only valid tests \r\n",
+							"\r\n",
+							"display(test_groups_df)\r\n",
 							"\r\n",
 							"acerlatest_df = test_groups_df.groupby('SummaryGroups', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
 							"\r\n",
@@ -58041,7 +58043,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "28f9d354-edeb-43c2-b035-05d03683e4a8"
+						"spark.autotune.trackingId": "8d2118e2-7eec-4c5d-bf28-d13aced02880"
 					}
 				},
 				"metadata": {
@@ -58066,7 +58068,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -58101,7 +58104,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -58120,7 +58123,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",

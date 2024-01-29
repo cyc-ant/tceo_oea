@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "5ca0594a-3b58-4d3a-9581-7004c519ee0b"
+				"spark.autotune.trackingId": "8c7f04b9-88e6-41bf-950a-6d9353e1712b"
 			}
 		},
 		"metadata": {
@@ -170,7 +170,7 @@
 					"DMPersonDemographic_df = spark.read.load(sourcep + \"/student/DMPersonDemographic_pseudo\", format='delta')\r\n",
 					"EYAnswers_df = spark.read.load(sourcep + \"/EarlyYearsAnswers/EarlyYearsAnswers_pseudo\", format='delta')\r\n",
 					"#EarlyYearsSubTeachers_df = spark.read.load(sourcep + \"/EarlyYearsSubTeachers/EarlyYearsSubTeachers_pseudo\", format='delta')\r\n",
-					"ACERNorms_df = spark.read.load(sourcep + \"/ACERNorms/ACERNorms_pseudo\", format='delta')\r\n",
+					"\r\n",
 					"\r\n",
 					"# source tables from Stage3\r\n",
 					"# General Tables\r\n",
@@ -198,6 +198,7 @@
 					"patresults_df = spark.read.load(source3p + \"/pilot/DMFactPATResults_pseudo\", format='delta')\r\n",
 					"pattest_df = spark.read.load(source3p + \"/pilot/DMPATTest_pseudo\", format='delta')\r\n",
 					"acerstudent_df = spark.read.load(source3p + \"/pilot/DMACERStudent_pseudo\", format='delta')\r\n",
+					"ACERNorms_df = spark.read.load(sourcep + \"/ACERNorms/ACERNorms_pseudo\", format='delta')\r\n",
 					"\r\n",
 					"#AE\r\n",
 					"aeresults_df = spark.read.load(source3p + \"/pilot/AEResultsCombined_pseudo\", format='delta')\r\n",

@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fcf552d6-2b18-43c9-8d2f-f781db547e48"
+				"spark.autotune.trackingId": "5ca0594a-3b58-4d3a-9581-7004c519ee0b"
 			}
 		},
 		"metadata": {
@@ -281,6 +281,8 @@
 					"\r\n",
 					"# join the PATTest table (PAT Test types) so we can group the results into the 2 main categories (Maths / Reading)\r\n",
 					"test_groups_df = active_patresults_df.join(pattest_df, on='SKPATTest', how='inner') #inner join to take only valid tests \r\n",
+					"\r\n",
+					"display(test_groups_df)\r\n",
 					"\r\n",
 					"acerlatest_df = test_groups_df.groupby('SummaryGroups', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
 					"\r\n",

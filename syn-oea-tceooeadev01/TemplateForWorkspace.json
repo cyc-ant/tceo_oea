@@ -36634,7 +36634,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e98268c4-6ca1-4e27-b581-30ff87833c84"
+						"spark.autotune.trackingId": "adefc3eb-c764-468e-b70b-9fa4e0c01930"
 					}
 				},
 				"metadata": {
@@ -36659,8 +36659,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -36713,7 +36712,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 42
+						"execution_count": 21
 					},
 					{
 						"cell_type": "code",
@@ -36732,7 +36731,7 @@
 							"%run Antares_py"
 						],
 						"outputs": [],
-						"execution_count": 43
+						"execution_count": 22
 					},
 					{
 						"cell_type": "code",
@@ -36751,7 +36750,34 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 44
+						"execution_count": 23
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"source_p = oea.stage2p \r\n",
+							"source_np = oea.stage2np\r\n",
+							"\r\n",
+							"# stage3 locations defined in OEA\r\n",
+							"destination_p = oea.stage3p\r\n",
+							"destination_np = oea.stage3np\r\n",
+							"\r\n",
+							"# stage3 version (eg. pilot)\r\n",
+							"version = 'pilot'"
+						],
+						"outputs": [],
+						"execution_count": 24
 					},
 					{
 						"cell_type": "markdown",
@@ -36794,11 +36820,16 @@
 							"CompassODSStudentDemoFull = spark.read.load(source3p + \"/pilot/CompassODSStudentDemographicFull_pseudo\", format='delta')\r\n",
 							"\r\n",
 							"# Early Years\r\n",
-							"EarlyYearsResultsWide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResults_pseudo\", format='delta')\r\n",
-							"EYResultsYear2Wide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
+							"#EarlyYearsResultsWide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResults_pseudo\", format='delta')\r\n",
+							"#EYResultsYear2Wide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
+							"\r\n",
 							"EarlyYearsStudents_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents\", format='delta')\r\n",
 							"\r\n",
 							"EarlyYearsStudents_ClassIDCleaned_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents_ClassIDCleaned\", format='delta')\r\n",
+							"\r\n",
+							"EarlyYearsResultsYear2_df = spark.read.load(source3p + \"/pilot/_FACTEarlyYearsResultsYear2\", format='delta')\r\n",
+							"\r\n",
+							"EarlyYearsResults_df = spark.read.load(source3p + \"/pilot/_FACTEarlyYearsResults\", format='delta')\r\n",
 							"\r\n",
 							"#Senior Outcomes\r\n",
 							"SeniorOutcomes_df = spark.read.load(source3p + \"/pilot/StudentLevel_pseudo\", format='delta')\r\n",
@@ -36824,7 +36855,7 @@
 							"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 						],
 						"outputs": [],
-						"execution_count": 45
+						"execution_count": 25
 					},
 					{
 						"cell_type": "markdown",
@@ -37151,26 +37182,26 @@
 							}
 						},
 						"source": [
-							"# remove the test rows from the year 2 data\r\n",
-							"EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 12345)\r\n",
-							"EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 111111)\r\n",
+							"# # remove the test rows from the year 2 data\r\n",
+							"# EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 12345)\r\n",
+							"# EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 111111)\r\n",
 							"\r\n",
-							"# assign the correct class ID from the latest students list (Year 2)\r\n",
+							"# # assign the correct class ID from the latest students list (Year 2)\r\n",
 							"\r\n",
-							"EYResultsYear2_ClassUpdated_df = EYResultsYear2Wide_df.withColumnRenamed(\"Ceider\", \"xCeider\")\\\r\n",
-							"                                                        .withColumnRenamed(\"Year\", \"xYear\")\\\r\n",
-							"                                                        .withColumnRenamed(\"ClassID\", \"xClassID\")\r\n",
+							"# EYResultsYear2_ClassUpdated_df = EYResultsYear2Wide_df.withColumnRenamed(\"Ceider\", \"xCeider\")\\\r\n",
+							"#                                                         .withColumnRenamed(\"Year\", \"xYear\")\\\r\n",
+							"#                                                         .withColumnRenamed(\"ClassID\", \"xClassID\")\r\n",
 							"\r\n",
-							"EYResultsYear2_ClassUpdated_df = EYResultsYear2_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,\r\n",
-							"                                                                            [col('Year') == col('xYear'),\r\n",
-							"                                                                                col('Ceider') == col('xCeider')],\r\n",
-							"                                                                                how='inner'  #inner will also remove students that have sat the test but has since left the class/school \r\n",
-							"                                                                            )\r\n",
+							"# EYResultsYear2_ClassUpdated_df = EYResultsYear2_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,\r\n",
+							"#                                                                             [col('Year') == col('xYear'),\r\n",
+							"#                                                                                 col('Ceider') == col('xCeider')],\r\n",
+							"#                                                                                 how='left'  #inner will also remove students that have sat the test but has since left the class/school \r\n",
+							"#                                                                             )\r\n",
 							"\r\n",
-							"EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
+							"# EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 52
+						"execution_count": 38
 					},
 					{
 						"cell_type": "code",
@@ -37186,22 +37217,46 @@
 							}
 						},
 						"source": [
-							"# assign the correct class ID based on the early years students list (Prep and Year 1)\r\n",
+							"# EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 12345)\r\n",
+							"# EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 111111)\r\n",
 							"\r\n",
-							"EarlyYearsResults_ClassUpdated_df = EarlyYearsResultsWide_df.withColumnRenamed(\"Ceider\", \"xCeider\")\\\r\n",
-							"                                                        .withColumnRenamed(\"Year\", \"xYear\")\\\r\n",
-							"                                                        .withColumnRenamed(\"ClassID\", \"xClassID\")\r\n",
+							"# EYResultsYear2_ClassUpdated_df = EYResultsYear2Wide_df.join(EarlyYearsStudents_ClassIDCleaned_df, on=['Year', 'Ceider'], how='left')\r\n",
 							"\r\n",
-							"EarlyYearsResults_ClassUpdated_df = EarlyYearsResults_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,  \r\n",
-							"                                                                                [col('Year') == col('xYear'),\r\n",
-							"                                                                                col('Ceider') == col('xCeider')],\r\n",
-							"                                                                                how='inner' # remove the students with unknown classes\r\n",
-							"                                                                            )\r\n",
-							"\r\n",
-							"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
+							"# EYResultsYear2_ClassUpdated_df = EYResultsYear2_ClassUpdated_df.select('Year', 'Ceider')"
 						],
 						"outputs": [],
-						"execution_count": 53
+						"execution_count": 34
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# # assign the correct class ID based on the early years students list (Prep and Year 1)\r\n",
+							"\r\n",
+							"# EarlyYearsResults_ClassUpdated_df = EarlyYearsResultsWide_df.withColumnRenamed(\"Ceider\", \"xCeider\")\\\r\n",
+							"#                                                         .withColumnRenamed(\"Year\", \"xYear\")\\\r\n",
+							"#                                                         .withColumnRenamed(\"ClassID\", \"xClassID\")\r\n",
+							"\r\n",
+							"# EarlyYearsResults_ClassUpdated_df = EarlyYearsResults_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,  \r\n",
+							"#                                                                                 [col('Year') == col('xYear'),\r\n",
+							"#                                                                                 col('Ceider') == col('xCeider')],\r\n",
+							"#                                                                                 how='inner' # remove the students with unknown classes\r\n",
+							"#                                                                             )\r\n",
+							"\r\n",
+							"# EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
+						],
+						"outputs": [],
+						"execution_count": 12
 					},
 					{
 						"cell_type": "markdown",
@@ -37334,7 +37389,7 @@
 							"EarlyYearsStudents_Y2_df = EarlyYearsStudents_df.filter((EarlyYearsStudents_df.YearLevel == '2'))\r\n",
 							"\r\n",
 							"# Seperate out the Pre/Post and Numeracy/Literacy tests\r\n",
-							"PreTestNumeracy_df = EYResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+							"PreTestNumeracy_df = EarlyYearsResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
 							"                                                col('CampusID').alias('xCampusID'), \r\n",
 							"                                                col('Ceider').alias('xCeider'), \r\n",
 							"                                                col('ClassID').alias('xClassID'), \r\n",
@@ -37343,7 +37398,7 @@
 							"                                                .withColumn('PreTestNumeracyComplete', lit(\"1\"))\r\n",
 							"\r\n",
 							"\r\n",
-							"PreTestLiteracy_df = EYResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+							"PreTestLiteracy_df = EarlyYearsResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
 							"                                                col('CampusID').alias('xCampusID'), \r\n",
 							"                                                col('Ceider').alias('xCeider'), \r\n",
 							"                                                col('ClassID').alias('xClassID'), \r\n",
@@ -37352,7 +37407,7 @@
 							"                                                .withColumn('PreTestLiteracyComplete', lit(\"1\"))\r\n",
 							"\r\n",
 							"\r\n",
-							"PostTestNumeracy_df = EYResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+							"PostTestNumeracy_df = EarlyYearsResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
 							"                                                col('CampusID').alias('xCampusID'), \r\n",
 							"                                                col('Ceider').alias('xCeider'), \r\n",
 							"                                                col('ClassID').alias('xClassID'), \r\n",
@@ -37361,7 +37416,7 @@
 							"                                                .withColumn('PostTestNumeracyComplete', lit(\"1\"))\r\n",
 							"\r\n",
 							"\r\n",
-							"PostTestLiteracy_df = EYResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+							"PostTestLiteracy_df = EarlyYearsResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
 							"                                                col('CampusID').alias('xCampusID'), \r\n",
 							"                                                col('Ceider').alias('xCeider'), \r\n",
 							"                                                col('ClassID').alias('xClassID'), \r\n",
@@ -38301,8 +38356,12 @@
 						]
 					},
 					{
-						"cell_type": "markdown",
+						"cell_type": "code",
 						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
 							"nteract": {
 								"transient": {
 									"deleting": false
@@ -38339,7 +38398,9 @@
 							"growth_df = growth_df.withColumn(\"LiteracyGrowthValue\", col('LiteracyDiff')/col('LiteracyStdDevAverage'))\r\n",
 							"growth_df = growth_df.select('SKResultID', 'Ceider', 'NumeracyGrowthValue', 'LiteracyGrowthValue')\r\n",
 							""
-						]
+						],
+						"outputs": [],
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -52693,15 +52754,15 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7fbfb8b3-c9f5-425d-8539-ce3ccb58b4d6"
+						"spark.autotune.trackingId": "e0787dcc-ece4-4ee0-9556-723105606b7b"
 					}
 				},
 				"metadata": {
 					"saveOutput": true,
 					"enableDebugMode": false,
 					"kernelspec": {
-						"name": "synapse_sparksql",
-						"display_name": "sql"
+						"name": "synapse_pyspark",
+						"display_name": "Synapse PySpark"
 					},
 					"language_info": {
 						"name": "sql"
@@ -52718,7 +52779,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -52835,6 +52897,11 @@
 							"# early years\r\n",
 							"earlyyearssubteachers_df = spark.read.load(source3p + \"/pilot/EarlyYearsSubTeachers_pseudo\", format='delta')\r\n",
 							"\r\n",
+							"# Early Years\r\n",
+							"EarlyYearsResultsWide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResults_pseudo\", format='delta')\r\n",
+							"EYResultsYear2Wide_df = spark.read.load(source3p + \"/pilot/EarlyYearsResultsYear2_pseudo\", format='delta')\r\n",
+							"EarlyYearsStudents_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents\", format='delta')\r\n",
+							"\r\n",
 							"#NAPLAN\r\n",
 							"naplanonlinestudenttest_df = spark.read.load(source3p + \"/pilot/DMFactNAPLANOnlineStudentTestResult_pseudo\", format='delta')\r\n",
 							"naplanonlinestudentresult_df = spark.read.load(source3p + \"/pilot/DMNAPLANOnlineStudentResult_pseudo\", format='delta')\r\n",
@@ -52886,7 +52953,12 @@
 							"odsstudentorganisationdetails_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationDetails') \r\n",
 							"odsstudentorganisationmilestones_df.createOrReplaceTempView('vw_CompassODSStudentOrganisationMilestones')\r\n",
 							"\r\n",
+							"# Early Years\r\n",
 							"earlyyearssubteachers_df.createOrReplaceTempView('vw_EarlyYearsSubTeachers') \r\n",
+							"\r\n",
+							"EarlyYearsResultsWide_df.createOrReplaceTempView('vw_EarlyYearsResultsWide') \r\n",
+							"EYResultsYear2Wide_df.createOrReplaceTempView('vw_EYResultsYear2Wide') \r\n",
+							"EarlyYearsStudents_df.createOrReplaceTempView('vw_EarlyYearsStudents') \r\n",
 							"\r\n",
 							"#NAPLAN\r\n",
 							"naplanonlinestudenttest_df.createOrReplaceTempView('vw_naplanonlinestudenttest') \r\n",
@@ -53787,6 +53859,144 @@
 							}
 						},
 						"source": [
+							"DROP VIEW IF EXISTS vw_EYResultsYear2;\r\n",
+							"\r\n",
+							"CREATE TEMP VIEW vw_EYResultsYear2\r\n",
+							"AS\r\n",
+							"\r\n",
+							"select \r\n",
+							"    e.Year,\r\n",
+							"    e.Ceider,\r\n",
+							"    e.CampusID,\r\n",
+							"    coalesce(c.ClassID, e.ClassID) AS ClassID,\r\n",
+							"    e.Ques1,\r\n",
+							"    e.Ques10,\r\n",
+							"    e.Ques11,\r\n",
+							"    e.Ques12,\r\n",
+							"    e.Ques13,\r\n",
+							"    e.Ques14,\r\n",
+							"    e.Ques15,\r\n",
+							"    e.Ques16,\r\n",
+							"    e.Ques17,\r\n",
+							"    e.Ques18,\r\n",
+							"    e.Ques19,\r\n",
+							"    e.Ques2,\r\n",
+							"    e.Ques20,\r\n",
+							"    e.Ques21,\r\n",
+							"    e.Ques22,\r\n",
+							"    e.Ques23,\r\n",
+							"    e.Ques24,\r\n",
+							"    e.Ques25,\r\n",
+							"    e.Ques3,\r\n",
+							"    e.Ques4,\r\n",
+							"    e.Ques5,\r\n",
+							"    e.Ques6,\r\n",
+							"    e.Ques7,\r\n",
+							"    e.Ques8,\r\n",
+							"    e.Ques9,\r\n",
+							"    e.QuestionType,\r\n",
+							"    e.Status,\r\n",
+							"    e.StudentEmailID,\r\n",
+							"    e.StudentName,\r\n",
+							"    e.TeacherEmailID,\r\n",
+							"    e.TeacherName,\r\n",
+							"    e.YearLevel,\r\n",
+							"    e.TestLevel,\r\n",
+							"    e.BKID,\r\n",
+							"    c.ClassName\r\n",
+							"\r\n",
+							"from vw_EYResultsYear2Wide e\r\n",
+							"left join vw_ods_earlyyearsstudentsclassid_cleaned c\r\n",
+							"on e.Year = c.Year \r\n",
+							"and e.Ceider = c.Ceider\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"DROP VIEW IF EXISTS vw_EYResults;\r\n",
+							"\r\n",
+							"CREATE TEMP VIEW vw_EYResults\r\n",
+							"AS\r\n",
+							"\r\n",
+							"select \r\n",
+							"    e.Year,\r\n",
+							"    e.Ceider,\r\n",
+							"    e.CampusID,\r\n",
+							"    coalesce(c.ClassID, e.ClassID) AS ClassID,\r\n",
+							"    e.Ques1,\r\n",
+							"    e.Ques10,\r\n",
+							"    e.Ques11,\r\n",
+							"    e.Ques12,\r\n",
+							"    e.Ques13,\r\n",
+							"    e.Ques14,\r\n",
+							"    e.Ques15,\r\n",
+							"    e.Ques16,\r\n",
+							"    e.Ques17,\r\n",
+							"    e.Ques18,\r\n",
+							"    e.Ques19,\r\n",
+							"    e.Ques2,\r\n",
+							"    e.Ques20,\r\n",
+							"    e.Ques21,\r\n",
+							"    e.Ques22,\r\n",
+							"    e.Ques23,\r\n",
+							"    e.Ques24,\r\n",
+							"    e.Ques25,\r\n",
+							"    e.Ques3,\r\n",
+							"    e.Ques4,\r\n",
+							"    e.Ques5,\r\n",
+							"    e.Ques6,\r\n",
+							"    e.Ques7,\r\n",
+							"    e.Ques8,\r\n",
+							"    e.Ques9,\r\n",
+							"    e.QuestionType,\r\n",
+							"    e.Status,\r\n",
+							"    e.StudentEmailID,\r\n",
+							"    e.StudentName,\r\n",
+							"    e.TeacherEmailID,\r\n",
+							"    e.TeacherName,\r\n",
+							"    e.YearLevel,\r\n",
+							"    e.TestLevel,\r\n",
+							"    e.BKID,\r\n",
+							"    c.ClassName\r\n",
+							"\r\n",
+							"from vw_EarlyYearsResultsWide e\r\n",
+							"left join vw_ods_earlyyearsstudentsclassid_cleaned c\r\n",
+							"on e.Year = c.Year \r\n",
+							"and e.Ceider = c.Ceider\r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
 							"DROP VIEW IF EXISTS vw_ods_earlyyearsstudentsclassid_updated;\r\n",
 							"\r\n",
 							"create temp view vw_ods_earlyyearsstudentsclassid_updated\r\n",
@@ -54142,6 +54352,11 @@
 							"\r\n",
 							"ods_earlyyearsstudents_classidcleaned_df = spark.read.table('vw_ods_earlyyearsstudentsclassid_cleaned')\r\n",
 							"\r\n",
+							"# Early Years\r\n",
+							"EYResultsYear2_df = spark.read.table('vw_EYResultsYear2')\r\n",
+							"EYResults_df = spark.read.table('vw_EYResults')\r\n",
+							"\r\n",
+							"\r\n",
 							"#NAPLAN\r\n",
 							"naplantestall_df = spark.read.table('vw_DMNAPLANTestALL')\r\n",
 							"DIMNAPLANCombinedResultsStudentsActive_df = spark.read.table('vw_DIMNAPLANCombinedResultsStudentsActive')\r\n",
@@ -54170,6 +54385,10 @@
 							"saveToTarget(ods_earlyyearsstudents_exceptions_df, destination_p, f'{version}/_FACTODSEarlyYearsStudentsExceptions')\r\n",
 							"\r\n",
 							"saveToTarget(ods_earlyyearsstudents_classidcleaned_df, destination_p, f'{version}/_FACTODSEarlyYearsStudents_ClassIDCleaned')\r\n",
+							"\r\n",
+							"# Early Years\r\n",
+							"saveToTarget(EYResultsYear2_df, destination_p, f'{version}/_FACTEarlyYearsResultsYear2')\r\n",
+							"saveToTarget(EYResults_df, destination_p, f'{version}/_FACTEarlyYearsResults')\r\n",
 							"\r\n",
 							"#NAPLAN\r\n",
 							"saveToTarget(naplantestall_df, destination_p, f'{version}/DMNAPLANTestALL')\r\n",

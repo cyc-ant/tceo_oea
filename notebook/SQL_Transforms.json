@@ -20,15 +20,15 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e45da62c-31ee-413f-b9b0-3e139b8037d5"
+				"spark.autotune.trackingId": "fe2f35c0-353b-4991-8a6a-a289b857bad0"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
 			"enableDebugMode": false,
 			"kernelspec": {
-				"name": "synapse_sparksql",
-				"display_name": "sql"
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
 				"name": "sql"
@@ -1203,6 +1203,21 @@
 					"    e.Ques23,\r\n",
 					"    e.Ques24,\r\n",
 					"    e.Ques25,\r\n",
+					"    e.Ques26,\r\n",
+					"    e.Ques27,\r\n",
+					"    e.Ques28,\r\n",
+					"    e.Ques29,\r\n",
+					"    e.Ques30,\r\n",
+					"    e.Ques31,\r\n",
+					"    e.Ques32,\r\n",
+					"    e.Ques33,\r\n",
+					"    e.Ques34,\r\n",
+					"    e.Ques35,\r\n",
+					"    e.Ques36,\r\n",
+					"    e.Ques37,\r\n",
+					"    e.Ques38,\r\n",
+					"    e.Ques39,\r\n",
+					"    e.Ques40,\r\n",
 					"    e.Ques3,\r\n",
 					"    e.Ques4,\r\n",
 					"    e.Ques5,\r\n",
@@ -1210,14 +1225,12 @@
 					"    e.Ques7,\r\n",
 					"    e.Ques8,\r\n",
 					"    e.Ques9,\r\n",
-					"    e.QuestionType,\r\n",
 					"    e.Status,\r\n",
 					"    e.StudentEmailID,\r\n",
 					"    e.StudentName,\r\n",
 					"    e.TeacherEmailID,\r\n",
 					"    e.TeacherName,\r\n",
 					"    e.YearLevel,\r\n",
-					"    e.TestLevel,\r\n",
 					"    e.BKID,\r\n",
 					"    c.ClassName\r\n",
 					"\r\n",

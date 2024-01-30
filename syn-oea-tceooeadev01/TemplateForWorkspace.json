@@ -36634,7 +36634,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "94341011-2eed-4525-822a-6746bd63a4dc"
+						"spark.autotune.trackingId": "29e9d966-9429-42c9-a718-f405a1508c70"
 					}
 				},
 				"metadata": {
@@ -36659,7 +36659,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -38538,19 +38539,19 @@
 							"#saveToTarget(EarlyYearsResultsTotalsYear2Joined_df, destination_p, f'{version}/EarlyYearsResultsTotalsYear2Joined_pseudo')\r\n",
 							"\r\n",
 							"# Test result tables for all years \r\n",
-							"###saveToTarget(EarlyYearsResultsCombined_df, destination_p, f'{version}/EarlyYearsResultsCombined_pseudo')\r\n",
+							"saveToTarget(EarlyYearsResultsCombined_df, destination_p, f'{version}/EarlyYearsResultsCombined_pseudo')\r\n",
 							"\r\n",
 							"# Test result totals (for all years)\r\n",
-							"###saveToTarget(EarlyYearsResultsTotalsCombined_df, destination_p, f'{version}/EarlyYearsResultsTotalsCombinedYears_pseudo')\r\n",
+							"saveToTarget(EarlyYearsResultsTotalsCombined_df, destination_p, f'{version}/EarlyYearsResultsTotalsCombinedYears_pseudo')\r\n",
 							"\r\n",
 							"# Test completion tables \r\n",
-							"###saveToTarget(EarlyYearsTestCompletion_df, destination_p, f'{version}/EarlyYearsTestCompletion_pseudo')\r\n",
+							"saveToTarget(EarlyYearsTestCompletion_df, destination_p, f'{version}/EarlyYearsTestCompletion_pseudo')\r\n",
 							"\r\n",
 							"# Early Years ClassID Dimension\r\n",
 							"saveToTarget(EarlyYearsClassID_df, destination_p, f'{version}/DMEarlyYearsClassID_pseudo')\r\n",
 							"\r\n",
 							"# Early Years Growth calculations\r\n",
-							"###saveToTarget(growth_df, destination_p, f'{version}/EarlyYearsGrowth_pseudo')\r\n",
+							"saveToTarget(growth_df, destination_p, f'{version}/EarlyYearsGrowth_pseudo')\r\n",
 							"\r\n",
 							"# Senior Outcomes tables \r\n",
 							"saveToTarget(SeniorOutcomesLong_df, destination_p, f'{version}/SeniorOutcomesLong_pseudo')\r\n",
@@ -52754,7 +52755,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "33d3658b-5b21-4d1e-b9be-ba17b4612d66"
+						"spark.autotune.trackingId": "be8d3d30-e41e-4126-af4d-aef090a0c079"
 					}
 				},
 				"metadata": {
@@ -52779,8 +52780,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

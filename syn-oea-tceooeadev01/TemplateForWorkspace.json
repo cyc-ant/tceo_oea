@@ -36634,7 +36634,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "adefc3eb-c764-468e-b70b-9fa4e0c01930"
+						"spark.autotune.trackingId": "94341011-2eed-4525-822a-6746bd63a4dc"
 					}
 				},
 				"metadata": {
@@ -52754,7 +52754,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "e0787dcc-ece4-4ee0-9556-723105606b7b"
+						"spark.autotune.trackingId": "336f1799-b9ce-49b3-850b-39ec6ed548eb"
 					}
 				},
 				"metadata": {
@@ -53956,6 +53956,21 @@
 							"    e.Ques23,\r\n",
 							"    e.Ques24,\r\n",
 							"    e.Ques25,\r\n",
+							"    e.Ques26,\r\n",
+							"    e.Ques27,\r\n",
+							"    e.Ques28,\r\n",
+							"    e.Ques29,\r\n",
+							"    e.Ques30,\r\n",
+							"    e.Ques31,\r\n",
+							"    e.Ques32,\r\n",
+							"    e.Ques33,\r\n",
+							"    e.Ques34,\r\n",
+							"    e.Ques35,\r\n",
+							"    e.Ques36,\r\n",
+							"    e.Ques37,\r\n",
+							"    e.Ques38,\r\n",
+							"    e.Ques39,\r\n",
+							"    e.Ques40,\r\n",
 							"    e.Ques3,\r\n",
 							"    e.Ques4,\r\n",
 							"    e.Ques5,\r\n",
@@ -53963,14 +53978,12 @@
 							"    e.Ques7,\r\n",
 							"    e.Ques8,\r\n",
 							"    e.Ques9,\r\n",
-							"    e.QuestionType,\r\n",
 							"    e.Status,\r\n",
 							"    e.StudentEmailID,\r\n",
 							"    e.StudentName,\r\n",
 							"    e.TeacherEmailID,\r\n",
 							"    e.TeacherName,\r\n",
 							"    e.YearLevel,\r\n",
-							"    e.TestLevel,\r\n",
 							"    e.BKID,\r\n",
 							"    c.ClassName\r\n",
 							"\r\n",
@@ -58263,7 +58276,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "82efde6c-035b-4268-b444-a25efa6f02ae"
+						"spark.autotune.trackingId": "a9086c2b-3579-452b-862f-0544d641c348"
 					}
 				},
 				"metadata": {
@@ -58526,7 +58539,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 23
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -58546,7 +58559,7 @@
 							"%run Stage3/PySpark_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": null
 					}
 				]
 			},

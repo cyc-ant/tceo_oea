@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fe2f35c0-353b-4991-8a6a-a289b857bad0"
+				"spark.autotune.trackingId": "7aea1b6c-cfbb-4d97-a97e-aa51112af7c0"
 			}
 		},
 		"metadata": {
@@ -1231,6 +1231,7 @@
 					"    e.TeacherEmailID,\r\n",
 					"    e.TeacherName,\r\n",
 					"    e.YearLevel,\r\n",
+					"    e.TestLevel,\r\n",
 					"    e.BKID,\r\n",
 					"    c.ClassName\r\n",
 					"\r\n",

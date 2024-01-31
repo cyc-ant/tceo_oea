@@ -1,5 +1,5 @@
 {
-	"name": "PySpark_Transforms",
+	"name": "PySpark_Transforms_Copy_Jan24",
 	"properties": {
 		"folder": {
 			"name": "Stage3"
@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3551c2b1-2f05-4b4f-9fdd-01c118def45e"
+				"spark.autotune.trackingId": "b23ef920-c8c9-4679-9c3a-740868784fe8"
 			}
 		},
 		"metadata": {
@@ -367,6 +367,52 @@
 					}
 				},
 				"source": [
+					"### GET Latest NAPLAN Results (REMOVE)"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"# join the active students with the naplan student results\r\n",
+					"activenaplan_df = activestudents_df.join(naplanonlinestudentresult_df, [col('Ceider') == col('PersistentIdentifier')], how='left')\r\n",
+					"\r\n",
+					"# now join to the test result\r\n",
+					"active_naplanresults_df = activenaplan_df.join(naplanonlinestudenttest_df, on='SKNAPLANOnlineStudentResult', how='inner')\r\n",
+					"\r\n",
+					"naplanlatest_df = active_naplanresults_df.groupby('SKNaplanAssessmentId', 'Ceider').agg(max('SKYear').alias('SKYear'))\r\n",
+					"\r\n",
+					"# join groupings back to the original table\r\n",
+					"finalnaplan_df = naplanlatest_df.join(active_naplanresults_df, on=['SKNaplanAssessmentId', 'Ceider', 'SKYear'], how='left')\r\n",
+					"\r\n",
+					"#finalnaplan_df = finalnaplan_df.select('SKNAPLANTest', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'ScaledScoreValue', col('DomainNationalAverage').alias('NAPLANDomainNationalAverage'))\r\n",
+					"\r\n",
+					"#finalnaplan_df = finalnaplan_df.select('SKNaplanAssessmentId', 'Ceider', col('SKYear').alias('NaplanSKYear'), 'NaplanScaledScoreValue', col('DomainNationalAverage').alias('NAPLANDomainNationalAverage'))\r\n",
+					""
+				],
+				"execution_count": 65
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
 					"### Combine all results"
 				]
 			},
@@ -482,6 +528,106 @@
 					""
 				],
 				"execution_count": 68
+			},
+			{
+				"cell_type": "markdown",
+				"metadata": {
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"### Clean up the classID's (Join to clean classID table)"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# # remove the test rows from the year 2 data\r\n",
+					"# EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 12345)\r\n",
+					"# EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 111111)\r\n",
+					"\r\n",
+					"# # assign the correct class ID from the latest students list (Year 2)\r\n",
+					"\r\n",
+					"# EYResultsYear2_ClassUpdated_df = EYResultsYear2Wide_df.withColumnRenamed(\"Ceider\", \"xCeider\")\\\r\n",
+					"#                                                         .withColumnRenamed(\"Year\", \"xYear\")\\\r\n",
+					"#                                                         .withColumnRenamed(\"ClassID\", \"xClassID\")\r\n",
+					"\r\n",
+					"# EYResultsYear2_ClassUpdated_df = EYResultsYear2_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,\r\n",
+					"#                                                                             [col('Year') == col('xYear'),\r\n",
+					"#                                                                                 col('Ceider') == col('xCeider')],\r\n",
+					"#                                                                                 how='left'  #inner will also remove students that have sat the test but has since left the class/school \r\n",
+					"#                                                                             )\r\n",
+					"\r\n",
+					"# EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
+				],
+				"execution_count": 69
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 12345)\r\n",
+					"# EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 111111)\r\n",
+					"\r\n",
+					"# EYResultsYear2_ClassUpdated_df = EYResultsYear2Wide_df.join(EarlyYearsStudents_ClassIDCleaned_df, on=['Year', 'Ceider'], how='left')\r\n",
+					"\r\n",
+					"# EYResultsYear2_ClassUpdated_df = EYResultsYear2_ClassUpdated_df.select('Year', 'Ceider')"
+				],
+				"execution_count": 70
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"# # assign the correct class ID based on the early years students list (Prep and Year 1)\r\n",
+					"\r\n",
+					"# EarlyYearsResults_ClassUpdated_df = EarlyYearsResultsWide_df.withColumnRenamed(\"Ceider\", \"xCeider\")\\\r\n",
+					"#                                                         .withColumnRenamed(\"Year\", \"xYear\")\\\r\n",
+					"#                                                         .withColumnRenamed(\"ClassID\", \"xClassID\")\r\n",
+					"\r\n",
+					"# EarlyYearsResults_ClassUpdated_df = EarlyYearsResults_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,  \r\n",
+					"#                                                                                 [col('Year') == col('xYear'),\r\n",
+					"#                                                                                 col('Ceider') == col('xCeider')],\r\n",
+					"#                                                                                 how='inner' # remove the students with unknown classes\r\n",
+					"#                                                                             )\r\n",
+					"\r\n",
+					"# EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
+				],
+				"execution_count": 71
 			},
 			{
 				"cell_type": "markdown",
@@ -1032,18 +1178,20 @@
 					"collapsed": false
 				},
 				"source": [
-					"id_vars = ['CampusID', 'Ceider', 'Status', 'ClassID', 'Year', 'YearLevel', 'TestLevel']\r\n",
-					"value_vars = ['Ques1', 'Ques2', 'Ques3', 'Ques4', 'Ques5', 'Ques6', 'Ques7', 'Ques8', 'Ques9', 'Ques10',\r\n",
-					"            'Ques11', 'Ques12', 'Ques13', 'Ques14', 'Ques15', 'Ques16', 'Ques17', 'Ques18', 'Ques19', 'Ques20',\r\n",
-					"            'Ques21', 'Ques22', 'Ques23', 'Ques24', 'Ques25', 'Ques26', 'Ques27', 'Ques28', 'Ques29', 'Ques30',\r\n",
-					"            'Ques31', 'Ques32', 'Ques33', 'Ques34', 'Ques35', 'Ques36', 'Ques37', 'Ques38', 'Ques39', 'Ques40']\r\n",
-					"var_name = \"Question\"\r\n",
-					"value_name = \"Result\"\r\n",
+					"# this table will pivot the early years result Questions from columns to rows \r\n",
 					"\r\n",
-					"EarlyYearsResultsLong_df = unpivot_dataframe(EarlyYearsResults_df, id_vars, value_vars, var_name, value_name)\r\n",
+					"df = EarlyYearsResults_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'Status', 'ClassID', 'Year', 'YearLevel', 'TestLevel'],\r\n",
+					"                                            value_vars=['Ques1', 'Ques2', 'Ques3', 'Ques4', 'Ques5', 'Ques6', 'Ques7', 'Ques8', 'Ques9', 'Ques10',\r\n",
+					"                                                        'Ques11', 'Ques12', 'Ques13', 'Ques14', 'Ques15', 'Ques16', 'Ques17', 'Ques18', 'Ques19', 'Ques20',\r\n",
+					"                                                        'Ques21', 'Ques22', 'Ques23', 'Ques24', 'Ques25', 'Ques26', 'Ques27', 'Ques28', 'Ques29', 'Ques30',\r\n",
+					"                                                        'Ques31', 'Ques32', 'Ques33', 'Ques34', 'Ques35', 'Ques36', 'Ques37', 'Ques38', 'Ques39', 'Ques40'],\r\n",
+					"                                            var_name=\"Question\",\r\n",
+					"                                            value_name = \"Result\")\r\n",
+					"\r\n",
+					"EarlyYearsResultsLong_df = df.to_spark()\r\n",
 					""
 				],
-				"execution_count": 85
+				"execution_count": 79
 			},
 			{
 				"cell_type": "markdown",
@@ -1115,13 +1263,64 @@
 					"collapsed": false
 				},
 				"source": [
+					"# convert the answer table to long format (same as the year 2 student answers)\r\n",
+					"\r\n",
+					"# df = EYAnswers_df.to_koalas().melt(id_vars=['Year', 'Question'],\r\n",
+					"#                                             value_vars=['Numeracy', 'Literacy'],\r\n",
+					"#                                             var_name=\"QuestionType\",\r\n",
+					"#                                             value_name = \"Answer\")\r\n",
+					"\r\n",
+					"# EYAnswers_df = df.to_spark()\r\n",
+					""
+				],
+				"execution_count": 81
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					},
+					"collapsed": false
+				},
+				"source": [
+					"# convert using new method\r\n",
+					"\r\n",
 					"id_vars=['Year', 'Question']\r\n",
 					"value_vars=['Numeracy', 'Literacy']\r\n",
 					"variable_colname = \"QuestionType\"\r\n",
 					"value_colname = \"Answer\"\r\n",
 					"\r\n",
-					"EYAnswers_df = unpivot_dataframe(EYAnswers_df, id_vars, value_vars, variable_colname, value_colname)\r\n",
-					""
+					"\r\n",
+					"tolong_df = unpivot_dataframe(EYAnswers_df, id_vars, value_vars, variable_colname, value_colname)\r\n",
+					"\r\n",
+					"# # Create an array of column expressions for the stack function\r\n",
+					"# select_expr = \", \".join([\"'{}', {}\".format(c, c) for c in value_vars])\r\n",
+					"\r\n",
+					"# # Construct the SQL expression for the stack function\r\n",
+					"# stack_expr = \"stack({}, {}) as ({}, {})\".format(len(value_vars), select_expr, variable_colname, value_colname)\r\n",
+					"\r\n",
+					"# # Combine id_vars with the stack expression\r\n",
+					"# #select_cols = \", \".join(id_vars) + \", \" + stack_expr\r\n",
+					"# #select_cols = '\"' + '\", \"'.join(id_vars) + '\", ' + '\"' + stack_expr + '\"'\r\n",
+					"\r\n",
+					"# selected_cols = [col(c) for c in id_vars] + [expr(stack_expr)]\r\n",
+					"\r\n",
+					"# print(selected_cols)\r\n",
+					"\r\n",
+					"# # Apply the constructed expression to unpivot the DataFrame\r\n",
+					"# tolong_df = EYAnswers_df2.select(selected_cols)\r\n",
+					"\r\n",
+					"\r\n",
+					"# #tolong_df = unpivot_dataframe2(EYAnswers_df2, id_vars, value_vars)\r\n",
+					"\r\n",
+					"display(tolong_df)"
 				],
 				"execution_count": 82
 			},
@@ -1149,45 +1348,20 @@
 						"transient": {
 							"deleting": false
 						}
-					}
-				},
-				"source": [
-					"id_vars = ['CampusID', 'Ceider', 'ClassID', 'QuestionType', 'Status', 'Year', 'YearLevel', 'TestLevel']\r\n",
-					"value_vars = ['Ques1', 'Ques2', 'Ques3', 'Ques4', 'Ques5', 'Ques6', 'Ques7', 'Ques8', 'Ques9', 'Ques10',\r\n",
-					"            'Ques11', 'Ques12', 'Ques13', 'Ques14', 'Ques15', 'Ques16', 'Ques17', 'Ques18', 'Ques19', 'Ques20',\r\n",
-					"            'Ques21', 'Ques22', 'Ques23', 'Ques24', 'Ques25']\r\n",
-					"var_name = \"Question\"\r\n",
-					"value_name = \"StudentAnswer\"\r\n",
-					"\r\n",
-					"EYResultsYear2Long_df = unpivot_dataframe(EarlyYearsResultsYear2_df, id_vars, value_vars, var_name, value_name)"
-				],
-				"execution_count": null
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
 					},
 					"collapsed": false
 				},
 				"source": [
-					"# # wide to long conversion for year 2 and auto marker\r\n",
+					"# wide to long conversion for year 2 and auto marker\r\n",
 					"\r\n",
-					"# df = EarlyYearsResultsYear2_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassID', 'QuestionType', 'Status', 'Year', 'YearLevel', 'TestLevel'],\r\n",
-					"#                                             value_vars=['Ques1', 'Ques2', 'Ques3', 'Ques4', 'Ques5', 'Ques6', 'Ques7', 'Ques8', 'Ques9', 'Ques10',\r\n",
-					"#                                                         'Ques11', 'Ques12', 'Ques13', 'Ques14', 'Ques15', 'Ques16', 'Ques17', 'Ques18', 'Ques19', 'Ques20',\r\n",
-					"#                                                         'Ques21', 'Ques22', 'Ques23', 'Ques24', 'Ques25'],\r\n",
-					"#                                             var_name=\"Question\",\r\n",
-					"#                                             value_name = \"StudentAnswer\")\r\n",
+					"df = EarlyYearsResultsYear2_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassID', 'QuestionType', 'Status', 'Year', 'YearLevel', 'TestLevel'],\r\n",
+					"                                            value_vars=['Ques1', 'Ques2', 'Ques3', 'Ques4', 'Ques5', 'Ques6', 'Ques7', 'Ques8', 'Ques9', 'Ques10',\r\n",
+					"                                                        'Ques11', 'Ques12', 'Ques13', 'Ques14', 'Ques15', 'Ques16', 'Ques17', 'Ques18', 'Ques19', 'Ques20',\r\n",
+					"                                                        'Ques21', 'Ques22', 'Ques23', 'Ques24', 'Ques25'],\r\n",
+					"                                            var_name=\"Question\",\r\n",
+					"                                            value_name = \"StudentAnswer\")\r\n",
 					"\r\n",
-					"# EYResultsYear2Long_df = df.to_spark()\r\n",
+					"EYResultsYear2Long_df = df.to_spark()\r\n",
 					"\r\n",
 					"# extract the numeral from the Ques## column names\r\n",
 					"EYResultsYear2Long_df = EYResultsYear2Long_df.withColumn(\"Question\", substring(\"Question\", 5, len(\"Question\")-4))\r\n",
@@ -1599,6 +1773,8 @@
 				"source": [
 					"# groupby year and the student and get post score - pre score\r\n",
 					"NumeracyPivot_df = EarlyYearsResultsTotalsCombined_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"NumeracyTotal\": \"first\"})\r\n",
+					"\r\n",
+					"display(NumeracyPivot_df)\r\n",
 					"\r\n",
 					"NumeracyDiff_df = NumeracyPivot_df.withColumn(\"Numeracydiff\", col(\"Post\") - col(\"Pre\")).select(\"SKResultID\", \"Ceider\", \"NumeracyDiff\")\r\n",
 					"\r\n",

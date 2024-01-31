@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a262a8b0-60ae-4962-808e-53b12e15e106"
+				"spark.autotune.trackingId": "b2fe0386-777d-42ed-8a91-23a57c06f129"
 			}
 		},
 		"metadata": {
@@ -188,6 +188,36 @@
 					"    \r\n",
 					"    return unpivoted_df\r\n",
 					"\r\n",
+					""
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"def unpivot_dataframe2(df, id_vars, value_vars):\r\n",
+					"    # Create an array of column expressions for the stack function\r\n",
+					"    select_expr = \", \".join([\"'{}', {}\".format(c, c) for c in value_vars])\r\n",
+					"    \r\n",
+					"    # Construct the SQL expression for the stack function\r\n",
+					"    stack_expr = \"stack({}, {}) as (Variable, Value)\".format(len(value_vars), select_expr)\r\n",
+					"    \r\n",
+					"    # Combine id_vars with the stack expression\r\n",
+					"    select_cols = \", \".join(id_vars) + \", \" + stack_expr\r\n",
+					"    \r\n",
+					"    # Apply the constructed expression to unpivot the DataFrame\r\n",
+					"    return df.selectExpr(select_cols)\r\n",
 					""
 				],
 				"execution_count": null

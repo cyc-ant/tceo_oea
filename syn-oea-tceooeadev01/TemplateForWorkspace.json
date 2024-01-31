@@ -21893,6 +21893,10 @@
 			"properties": {
 				"nbformat": 4,
 				"nbformat_minor": 2,
+				"bigDataPool": {
+					"referenceName": "spark3p1sm",
+					"type": "BigDataPoolReference"
+				},
 				"sessionProperties": {
 					"driverMemory": "28g",
 					"driverCores": 4,
@@ -21903,7 +21907,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "db79f297-62fb-447b-bb0b-8e5245a119c6"
+						"spark.autotune.trackingId": "fd5221bc-ab99-44e5-824a-a6ce99872345"
 					}
 				},
 				"metadata": {
@@ -21915,6 +21919,21 @@
 					},
 					"language_info": {
 						"name": "python"
+					},
+					"a365ComputeOptions": {
+						"id": "/subscriptions/09921ef6-5d34-4a25-a233-84ffa9485571/resourceGroups/rg-oea-tceooeadev01/providers/Microsoft.Synapse/workspaces/syn-oea-tceooeadev01/bigDataPools/spark3p1sm",
+						"name": "spark3p1sm",
+						"type": "Spark",
+						"endpoint": "https://syn-oea-tceooeadev01.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spark3p1sm",
+						"auth": {
+							"type": "AAD",
+							"authResource": "https://dev.azuresynapse.net"
+						},
+						"sparkVersion": "3.1",
+						"nodeCount": 3,
+						"cores": 4,
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -21946,8 +21965,8 @@
 							}
 						},
 						"source": [
-							"from pyspark.sql import Row\r\n",
-							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev, upper, mean\r\n",
+							"from pyspark.sql import Row, SparkSession\r\n",
+							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev, upper, mean, expr\r\n",
 							""
 						],
 						"outputs": [],
@@ -22015,6 +22034,54 @@
 							"    \r\n",
 							"    return lower(regexp_replace(string, \" \", \"\"))\r\n",
 							"    \r\n",
+							""
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"def unpivot_dataframe(df, id_vars, value_vars):\r\n",
+							"    \"\"\"\r\n",
+							"    Unpivot a DataFrame from wide to long format.\r\n",
+							"    \r\n",
+							"    Parameters:\r\n",
+							"    - df: The DataFrame to unpivot.\r\n",
+							"    - id_vars: A list of columns to use as identifier variables.\r\n",
+							"    - value_vars: A list of columns to unpivot.\r\n",
+							"    \r\n",
+							"    Returns:\r\n",
+							"    A DataFrame in long format.\r\n",
+							"    \"\"\"\r\n",
+							"    # Create a Spark session if not already created\r\n",
+							"    spark = SparkSession.builder.getOrCreate()\r\n",
+							"    \r\n",
+							"    # Create an array of columns for the stack function\r\n",
+							"    select_expr = \", \".join([f\"'{col}', {col}\" for col in value_vars])\r\n",
+							"    \r\n",
+							"    # Create the SQL expression for the stack function\r\n",
+							"    stack_expr = f\"stack({len(value_vars)}, {select_expr}) as (Variable, Value)\"\r\n",
+							"    \r\n",
+							"    # Construct the select expression including id_vars\r\n",
+							"    select_cols = \", \".join(id_vars) + \", \" + stack_expr\r\n",
+							"    \r\n",
+							"    # Apply the stack expression to unpivot the DataFrame\r\n",
+							"    unpivoted_df = df.selectExpr(select_cols)\r\n",
+							"    \r\n",
+							"    return unpivoted_df\r\n",
+							"\r\n",
 							""
 						],
 						"outputs": [],
@@ -36634,7 +36701,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "29e9d966-9429-42c9-a718-f405a1508c70"
+						"spark.autotune.trackingId": "a571b479-99c6-4990-b83c-bee2412959b0"
 					}
 				},
 				"metadata": {
@@ -36659,8 +36726,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -36707,7 +36773,7 @@
 							}
 						},
 						"source": [
-							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat, concat_ws, lit, avg, stddev, upper, mean, to_date, split, date_format, max, coalesce\r\n",
+							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat, concat_ws, lit, avg, stddev, upper, mean, to_date, split, date_format, max, coalesce, expr\r\n",
 							"from pyspark.sql import Row\r\n",
 							"from pyspark.sql.window import Window\r\n",
 							"import databricks.koalas as ks"

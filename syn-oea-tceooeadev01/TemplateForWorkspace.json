@@ -21907,7 +21907,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c64b28cb-bfcc-4033-b008-4e1fa9cbce1d"
+						"spark.autotune.trackingId": "5148ef0b-4a1b-4155-8ae1-d44b0b7b8c1e"
 					}
 				},
 				"metadata": {
@@ -21932,8 +21932,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -22053,7 +22052,7 @@
 							}
 						},
 						"source": [
-							"def unpivot_dataframe(df, id_vars, value_vars):\r\n",
+							"def unpivot_dataframe(df, id_vars, value_vars, variable_colname, value_colname):\r\n",
 							"    \"\"\"\r\n",
 							"    Unpivot a DataFrame from wide to long format.\r\n",
 							"    \r\n",
@@ -22061,58 +22060,24 @@
 							"    - df: The DataFrame to unpivot.\r\n",
 							"    - id_vars: A list of columns to use as identifier variables.\r\n",
 							"    - value_vars: A list of columns to unpivot.\r\n",
+							"    - variable_colname: The name of the variable column on the result table\r\n",
+							"    - value_colname: The name of the value column on the result table\r\n",
 							"    \r\n",
 							"    Returns:\r\n",
 							"    A DataFrame in long format.\r\n",
 							"    \"\"\"\r\n",
-							"    # Create a Spark session if not already created\r\n",
-							"    spark = SparkSession.builder.getOrCreate()\r\n",
-							"    \r\n",
-							"    # Create an array of columns for the stack function\r\n",
-							"    select_expr = \", \".join([f\"'{col}', {col}\" for col in value_vars])\r\n",
-							"    \r\n",
-							"    # Create the SQL expression for the stack function\r\n",
-							"    stack_expr = f\"stack({len(value_vars)}, {select_expr}) as (Variable, Value)\"\r\n",
-							"    \r\n",
-							"    # Construct the select expression including id_vars\r\n",
-							"    select_cols = \", \".join(id_vars) + \", \" + stack_expr\r\n",
-							"    \r\n",
-							"    # Apply the stack expression to unpivot the DataFrame\r\n",
-							"    unpivoted_df = df.selectExpr(select_cols)\r\n",
-							"    \r\n",
-							"    return unpivoted_df\r\n",
-							"\r\n",
-							""
-						],
-						"outputs": [],
-						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
-							"def unpivot_dataframe2(df, id_vars, value_vars):\r\n",
 							"    # Create an array of column expressions for the stack function\r\n",
 							"    select_expr = \", \".join([\"'{}', {}\".format(c, c) for c in value_vars])\r\n",
 							"    \r\n",
 							"    # Construct the SQL expression for the stack function\r\n",
-							"    stack_expr = \"stack({}, {}) as (Variable, Value)\".format(len(value_vars), select_expr)\r\n",
+							"    stack_expr = \"stack({}, {}) as ({}, {})\".format(len(value_vars), select_expr, variable_colname, value_colname)\r\n",
 							"    \r\n",
-							"    # Combine id_vars with the stack expression\r\n",
-							"    select_cols = \", \".join(id_vars) + \", \" + stack_expr\r\n",
+							"    # Select the identifier variables using col and stack expression using expr\r\n",
+							"    selected_cols = [col(c) for c in id_vars] + [expr(stack_expr)]\r\n",
 							"    \r\n",
 							"    # Apply the constructed expression to unpivot the DataFrame\r\n",
-							"    return df.selectExpr(select_cols)\r\n",
+							"    return df.select(*selected_cols)\r\n",
+							"\r\n",
 							""
 						],
 						"outputs": [],
@@ -36732,7 +36697,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "f550ee02-3362-46f7-911f-44124a914852"
+						"spark.autotune.trackingId": "1e9b3abc-0ecd-4c81-93e2-f4d3b031c2cd"
 					}
 				},
 				"metadata": {
@@ -36757,7 +36722,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -37993,13 +37959,22 @@
 								"transient": {
 									"deleting": false
 								}
-							}
+							},
+							"collapsed": false
 						},
 						"source": [
-							"EYAnswers_df2 = EYAnswers_df.toDF()"
+							"# convert the answer table to long format (same as the year 2 student answers)\r\n",
+							"\r\n",
+							"df = EYAnswers_df.to_koalas().melt(id_vars=['Year', 'Question'],\r\n",
+							"                                            value_vars=['Numeracy', 'Literacy'],\r\n",
+							"                                            var_name=\"QuestionType\",\r\n",
+							"                                            value_name = \"Answer\")\r\n",
+							"\r\n",
+							"EYAnswers_df = df.to_spark()\r\n",
+							""
 						],
 						"outputs": [],
-						"execution_count": 24
+						"execution_count": 28
 					},
 					{
 						"cell_type": "code",
@@ -38016,46 +37991,40 @@
 							"collapsed": false
 						},
 						"source": [
-							"# convert the answer table to long format (same as the year 2 student answers)\r\n",
-							"\r\n",
-							"df = EYAnswers_df.to_koalas().melt(id_vars=['Year', 'Question'],\r\n",
-							"                                            value_vars=['Numeracy', 'Literacy'],\r\n",
-							"                                            var_name=\"QuestionType\",\r\n",
-							"                                            value_name = \"Answer\")\r\n",
-							"\r\n",
-							"EYAnswers_df = df.to_spark()\r\n",
-							"\r\n",
-							"display(EYAnswers_df)\r\n",
-							""
-						],
-						"outputs": [],
-						"execution_count": 25
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							}
-						},
-						"source": [
 							"# convert using new method\r\n",
 							"\r\n",
 							"id_vars=['Year', 'Question']\r\n",
 							"value_vars=['Numeracy', 'Literacy']\r\n",
+							"variable_colname = \"QuestionType\"\r\n",
+							"value_colname = \"Answer\"\r\n",
 							"\r\n",
-							"tolong_df = unpivot_dataframe(EYAnswers_df2, id_vars, value_vars)\r\n",
+							"\r\n",
+							"tolong_df = unpivot_dataframe(EYAnswers_df, id_vars, value_vars, variable_colname, value_colname)\r\n",
+							"\r\n",
+							"# # Create an array of column expressions for the stack function\r\n",
+							"# select_expr = \", \".join([\"'{}', {}\".format(c, c) for c in value_vars])\r\n",
+							"\r\n",
+							"# # Construct the SQL expression for the stack function\r\n",
+							"# stack_expr = \"stack({}, {}) as ({}, {})\".format(len(value_vars), select_expr, variable_colname, value_colname)\r\n",
+							"\r\n",
+							"# # Combine id_vars with the stack expression\r\n",
+							"# #select_cols = \", \".join(id_vars) + \", \" + stack_expr\r\n",
+							"# #select_cols = '\"' + '\", \"'.join(id_vars) + '\", ' + '\"' + stack_expr + '\"'\r\n",
+							"\r\n",
+							"# selected_cols = [col(c) for c in id_vars] + [expr(stack_expr)]\r\n",
+							"\r\n",
+							"# print(selected_cols)\r\n",
+							"\r\n",
+							"# # Apply the constructed expression to unpivot the DataFrame\r\n",
+							"# tolong_df = EYAnswers_df2.select(selected_cols)\r\n",
+							"\r\n",
+							"\r\n",
+							"# #tolong_df = unpivot_dataframe2(EYAnswers_df2, id_vars, value_vars)\r\n",
 							"\r\n",
 							"display(tolong_df)"
 						],
 						"outputs": [],
-						"execution_count": 26
+						"execution_count": 55
 					},
 					{
 						"cell_type": "markdown",

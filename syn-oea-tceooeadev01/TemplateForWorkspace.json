@@ -36697,7 +36697,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "1e9b3abc-0ecd-4c81-93e2-f4d3b031c2cd"
+						"spark.autotune.trackingId": "4b0173fb-e729-42a7-954d-5427601fd238"
 					}
 				},
 				"metadata": {
@@ -36776,7 +36776,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 1
+						"execution_count": 58
 					},
 					{
 						"cell_type": "code",
@@ -36795,7 +36795,7 @@
 							"%run Antares_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 59
 					},
 					{
 						"cell_type": "code",
@@ -36814,7 +36814,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 60
 					},
 					{
 						"cell_type": "code",
@@ -36841,7 +36841,7 @@
 							"version = 'pilot'"
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 61
 					},
 					{
 						"cell_type": "markdown",
@@ -36919,7 +36919,7 @@
 							"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 62
 					},
 					{
 						"cell_type": "markdown",
@@ -36959,7 +36959,7 @@
 							"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result', 'SKYearLevel', 'YearSemesterDescription')"
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 63
 					},
 					{
 						"cell_type": "markdown",
@@ -37039,7 +37039,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 64
 					},
 					{
 						"cell_type": "markdown",
@@ -37086,7 +37086,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 65
 					},
 					{
 						"cell_type": "markdown",
@@ -37124,7 +37124,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 66
 					},
 					{
 						"cell_type": "markdown",
@@ -37189,7 +37189,7 @@
 							"DMStudentDemographic_df = DMStudentDemographic_df.drop(\"DOB_YearFirstFormat\", \"DOB\")"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 67
 					},
 					{
 						"cell_type": "code",
@@ -37215,7 +37215,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 68
 					},
 					{
 						"cell_type": "markdown",
@@ -37263,7 +37263,7 @@
 							"# EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 69
 					},
 					{
 						"cell_type": "code",
@@ -37287,7 +37287,7 @@
 							"# EYResultsYear2_ClassUpdated_df = EYResultsYear2_ClassUpdated_df.select('Year', 'Ceider')"
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 70
 					},
 					{
 						"cell_type": "code",
@@ -37318,7 +37318,7 @@
 							"# EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 14
+						"execution_count": 71
 					},
 					{
 						"cell_type": "markdown",
@@ -37417,7 +37417,7 @@
 							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.select(sorted(EarlyYearsTestCompletion_df.columns))"
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 72
 					},
 					{
 						"cell_type": "markdown",
@@ -37570,7 +37570,7 @@
 							"EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.select(sorted(EarlyYearsTestCompletion2_df.columns))"
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 73
 					},
 					{
 						"cell_type": "code",
@@ -37590,7 +37590,7 @@
 							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.union(EarlyYearsTestCompletion2_df)"
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 74
 					},
 					{
 						"cell_type": "markdown",
@@ -37666,7 +37666,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": 75
 					},
 					{
 						"cell_type": "code",
@@ -37749,7 +37749,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 19
+						"execution_count": 76
 					},
 					{
 						"cell_type": "code",
@@ -37797,7 +37797,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 20
+						"execution_count": 77
 					},
 					{
 						"cell_type": "code",
@@ -37846,7 +37846,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": 78
 					},
 					{
 						"cell_type": "markdown",
@@ -37890,7 +37890,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 22
+						"execution_count": 79
 					},
 					{
 						"cell_type": "markdown",
@@ -37933,7 +37933,7 @@
 							"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"StudentAnswer\", lit(\"N/A\")).withColumn(\"Answer\", lit(\"N/A\"))"
 						],
 						"outputs": [],
-						"execution_count": 23
+						"execution_count": 80
 					},
 					{
 						"cell_type": "markdown",
@@ -37965,16 +37965,16 @@
 						"source": [
 							"# convert the answer table to long format (same as the year 2 student answers)\r\n",
 							"\r\n",
-							"df = EYAnswers_df.to_koalas().melt(id_vars=['Year', 'Question'],\r\n",
-							"                                            value_vars=['Numeracy', 'Literacy'],\r\n",
-							"                                            var_name=\"QuestionType\",\r\n",
-							"                                            value_name = \"Answer\")\r\n",
+							"# df = EYAnswers_df.to_koalas().melt(id_vars=['Year', 'Question'],\r\n",
+							"#                                             value_vars=['Numeracy', 'Literacy'],\r\n",
+							"#                                             var_name=\"QuestionType\",\r\n",
+							"#                                             value_name = \"Answer\")\r\n",
 							"\r\n",
-							"EYAnswers_df = df.to_spark()\r\n",
+							"# EYAnswers_df = df.to_spark()\r\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": 28
+						"execution_count": 81
 					},
 					{
 						"cell_type": "code",
@@ -38024,7 +38024,7 @@
 							"display(tolong_df)"
 						],
 						"outputs": [],
-						"execution_count": 55
+						"execution_count": 82
 					},
 					{
 						"cell_type": "markdown",
@@ -38056,7 +38056,7 @@
 						"source": [
 							"# wide to long conversion for year 2 and auto marker\r\n",
 							"\r\n",
-							"df = EYResultsYear2_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassID', 'QuestionType', 'Status', 'Year', 'YearLevel', 'TestLevel'],\r\n",
+							"df = EarlyYearsResultsYear2_df.to_koalas().melt(id_vars=['CampusID', 'Ceider', 'ClassID', 'QuestionType', 'Status', 'Year', 'YearLevel', 'TestLevel'],\r\n",
 							"                                            value_vars=['Ques1', 'Ques2', 'Ques3', 'Ques4', 'Ques5', 'Ques6', 'Ques7', 'Ques8', 'Ques9', 'Ques10',\r\n",
 							"                                                        'Ques11', 'Ques12', 'Ques13', 'Ques14', 'Ques15', 'Ques16', 'Ques17', 'Ques18', 'Ques19', 'Ques20',\r\n",
 							"                                                        'Ques21', 'Ques22', 'Ques23', 'Ques24', 'Ques25'],\r\n",
@@ -38082,7 +38082,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 83
 					},
 					{
 						"cell_type": "code",

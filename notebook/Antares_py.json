@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "b2fe0386-777d-42ed-8a91-23a57c06f129"
+				"spark.autotune.trackingId": "5148ef0b-4a1b-4155-8ae1-d44b0b7b8c1e"
 			}
 		},
 		"metadata": {
@@ -159,7 +159,7 @@
 					}
 				},
 				"source": [
-					"def unpivot_dataframe(df, id_vars, value_vars):\r\n",
+					"def unpivot_dataframe(df, id_vars, value_vars, variable_colname, value_colname):\r\n",
 					"    \"\"\"\r\n",
 					"    Unpivot a DataFrame from wide to long format.\r\n",
 					"    \r\n",
@@ -167,57 +167,24 @@
 					"    - df: The DataFrame to unpivot.\r\n",
 					"    - id_vars: A list of columns to use as identifier variables.\r\n",
 					"    - value_vars: A list of columns to unpivot.\r\n",
+					"    - variable_colname: The name of the variable column on the result table\r\n",
+					"    - value_colname: The name of the value column on the result table\r\n",
 					"    \r\n",
 					"    Returns:\r\n",
 					"    A DataFrame in long format.\r\n",
 					"    \"\"\"\r\n",
-					"    # Create a Spark session if not already created\r\n",
-					"    spark = SparkSession.builder.getOrCreate()\r\n",
-					"    \r\n",
-					"    # Create an array of columns for the stack function\r\n",
-					"    select_expr = \", \".join([f\"'{col}', {col}\" for col in value_vars])\r\n",
-					"    \r\n",
-					"    # Create the SQL expression for the stack function\r\n",
-					"    stack_expr = f\"stack({len(value_vars)}, {select_expr}) as (Variable, Value)\"\r\n",
-					"    \r\n",
-					"    # Construct the select expression including id_vars\r\n",
-					"    select_cols = \", \".join(id_vars) + \", \" + stack_expr\r\n",
-					"    \r\n",
-					"    # Apply the stack expression to unpivot the DataFrame\r\n",
-					"    unpivoted_df = df.selectExpr(select_cols)\r\n",
-					"    \r\n",
-					"    return unpivoted_df\r\n",
-					"\r\n",
-					""
-				],
-				"execution_count": null
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					}
-				},
-				"source": [
-					"def unpivot_dataframe2(df, id_vars, value_vars):\r\n",
 					"    # Create an array of column expressions for the stack function\r\n",
 					"    select_expr = \", \".join([\"'{}', {}\".format(c, c) for c in value_vars])\r\n",
 					"    \r\n",
 					"    # Construct the SQL expression for the stack function\r\n",
-					"    stack_expr = \"stack({}, {}) as (Variable, Value)\".format(len(value_vars), select_expr)\r\n",
+					"    stack_expr = \"stack({}, {}) as ({}, {})\".format(len(value_vars), select_expr, variable_colname, value_colname)\r\n",
 					"    \r\n",
-					"    # Combine id_vars with the stack expression\r\n",
-					"    select_cols = \", \".join(id_vars) + \", \" + stack_expr\r\n",
+					"    # Select the identifier variables using col and stack expression using expr\r\n",
+					"    selected_cols = [col(c) for c in id_vars] + [expr(stack_expr)]\r\n",
 					"    \r\n",
 					"    # Apply the constructed expression to unpivot the DataFrame\r\n",
-					"    return df.selectExpr(select_cols)\r\n",
+					"    return df.select(*selected_cols)\r\n",
+					"\r\n",
 					""
 				],
 				"execution_count": null

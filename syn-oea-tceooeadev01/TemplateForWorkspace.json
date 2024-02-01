@@ -38535,7 +38535,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8ebabb97-0ae3-4609-81c1-37fc126ada68"
+						"spark.autotune.trackingId": "65c39e17-f78b-4022-88de-cc5581418a53"
 					}
 				},
 				"metadata": {
@@ -38729,7 +38729,7 @@
 							"\r\n",
 							"### NEW EARLY YEARS\r\n",
 							"\r\n",
-							"# EarlyYearsStudents_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents\", format='delta')\r\n",
+							"EarlyYearsStudents_df = spark.read.load(source3p + \"/pilot/_FACTODSEarlyYearsStudents\", format='delta')\r\n",
 							"\r\n",
 							"# EarlyYearsResultsYear2_df = spark.read.load(source3p + \"/pilot/_FACTEarlyYearsResultsYear2\", format='delta')\r\n",
 							"# EarlyYearsResults_df = spark.read.load(source3p + \"/pilot/_FACTEarlyYearsResults\", format='delta')\r\n",
@@ -60228,7 +60228,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6e4b6208-115e-4cbc-bb4f-720f6c6c81d1"
+						"spark.autotune.trackingId": "1519491b-695a-4eec-a11d-6c3091c6fb2b"
 					}
 				},
 				"metadata": {
@@ -60253,8 +60253,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -60308,7 +60307,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 2
+						"execution_count": 9
 					},
 					{
 						"cell_type": "code",
@@ -60327,7 +60326,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 3
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -60356,7 +60355,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 4
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -60377,7 +60376,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -60420,7 +60419,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 6
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",
@@ -60512,7 +60511,7 @@
 							"%run Stage3/PySpark_Transforms_Copy_Jan24"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 14
 					}
 				]
 			},

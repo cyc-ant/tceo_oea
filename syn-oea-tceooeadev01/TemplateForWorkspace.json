@@ -38535,7 +38535,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "76047e58-4d85-483c-972e-6a0ba8fc5aa3"
+						"spark.autotune.trackingId": "7cac98e0-586a-4fae-9f62-06a2320b7614"
 					}
 				},
 				"metadata": {
@@ -39150,7 +39150,7 @@
 							"EarlyYearsResults_ClassUpdated_df = EarlyYearsResults_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,  \r\n",
 							"                                                                                [col('Year') == col('xYear'),\r\n",
 							"                                                                                col('Ceider') == col('xCeider')],\r\n",
-							"                                                                                how='inner' # remove the students with unknown classes\r\n",
+							"                                                                                how='left' # remove the students with unknown classes\r\n",
 							"                                                                            )\r\n",
 							"\r\n",
 							"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
@@ -60226,7 +60226,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7d0d387e-d875-4366-acfc-1079f695d918"
+						"spark.autotune.trackingId": "52744e54-2b4a-4ea6-8767-7bc181e5bf18"
 					}
 				},
 				"metadata": {
@@ -60251,8 +60251,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

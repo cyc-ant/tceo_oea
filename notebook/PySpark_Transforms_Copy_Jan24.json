@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ce828769-d0c9-4338-abb6-a5c5a362ee9c"
+				"spark.autotune.trackingId": "7085ed8d-395d-4ca4-9e80-73193f2e3bec"
 			}
 		},
 		"metadata": {
@@ -622,7 +622,7 @@
 					"EarlyYearsResults_ClassUpdated_df = EarlyYearsResults_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,  \r\n",
 					"                                                                                [col('Year') == col('xYear'),\r\n",
 					"                                                                                col('Ceider') == col('xCeider')],\r\n",
-					"                                                                                how='inner' # remove the students with unknown classes\r\n",
+					"                                                                                how='left' # remove the students with unknown classes\r\n",
 					"                                                                            )\r\n",
 					"\r\n",
 					"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"

@@ -38535,7 +38535,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "8218fbf0-1cf1-4882-9e9c-f4bc2d09fd34"
+						"spark.autotune.trackingId": "af7ad292-a19f-4015-914a-d21499cb81c1"
 					}
 				},
 				"metadata": {
@@ -39803,14 +39803,14 @@
 							"collapsed": false
 						},
 						"source": [
-							"# convert the answer table to long format (same as the year 2 student answers)\r\n",
+							"convert the answer table to long format (same as the year 2 student answers)\r\n",
 							"\r\n",
-							"# df = EYAnswers_df.to_koalas().melt(id_vars=['Year', 'Question'],\r\n",
-							"#                                             value_vars=['Numeracy', 'Literacy'],\r\n",
-							"#                                             var_name=\"QuestionType\",\r\n",
-							"#                                             value_name = \"Answer\")\r\n",
+							"df = EYAnswers_df.to_koalas().melt(id_vars=['Year', 'Question'],\r\n",
+							"                                            value_vars=['Numeracy', 'Literacy'],\r\n",
+							"                                            var_name=\"QuestionType\",\r\n",
+							"                                            value_name = \"Answer\")\r\n",
 							"\r\n",
-							"# EYAnswers_df = df.to_spark()\r\n",
+							"EYAnswers_df = df.to_spark()\r\n",
 							""
 						],
 						"outputs": [],
@@ -39859,9 +39859,7 @@
 							"# tolong_df = EYAnswers_df2.select(selected_cols)\r\n",
 							"\r\n",
 							"\r\n",
-							"# #tolong_df = unpivot_dataframe2(EYAnswers_df2, id_vars, value_vars)\r\n",
-							"\r\n",
-							"display(tolong_df)"
+							"# #tolong_df = unpivot_dataframe2(EYAnswers_df2, id_vars, value_vars)"
 						],
 						"outputs": [],
 						"execution_count": 82
@@ -60228,7 +60226,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "4f1f909a-2278-418f-9ca5-3464c956f263"
+						"spark.autotune.trackingId": "108988c0-301d-41de-8010-3814cb082fc7"
 					}
 				},
 				"metadata": {
@@ -60511,7 +60509,7 @@
 							"%run Stage3/PySpark_Transforms_Copy_Jan24"
 						],
 						"outputs": [],
-						"execution_count": 15
+						"execution_count": 16
 					}
 				]
 			},

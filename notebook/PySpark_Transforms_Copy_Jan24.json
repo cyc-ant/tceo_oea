@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "d7aebb7f-9cd8-4762-88c8-41b0ac6cb742"
+				"spark.autotune.trackingId": "a700ddc2-b4c6-409e-a706-5775c6a7b0ee"
 			}
 		},
 		"metadata": {
@@ -574,7 +574,7 @@
 					"                                                                                how='left'  #inner will also remove students that have sat the test but has since left the class/school \r\n",
 					"                                                                            )\r\n",
 					"\r\n",
-					"EYResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
+					"EarlyYearsResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 				],
 				"execution_count": 69
 			},

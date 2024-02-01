@@ -21907,7 +21907,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5148ef0b-4a1b-4155-8ae1-d44b0b7b8c1e"
+						"spark.autotune.trackingId": "e2dd8cb0-1016-4a08-ad2a-8150af362e56"
 					}
 				},
 				"metadata": {
@@ -21932,7 +21932,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -21966,7 +21967,7 @@
 						"source": [
 							"from pyspark.sql import Row, SparkSession\r\n",
 							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat_ws, lit, avg, stddev, upper, mean, expr\r\n",
-							""
+							"#from mssparkutils.fs import ls, rm"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -22084,8 +22085,12 @@
 						"execution_count": null
 					},
 					{
-						"cell_type": "markdown",
+						"cell_type": "code",
 						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
 							"nteract": {
 								"transient": {
 									"deleting": false
@@ -22093,8 +22098,18 @@
 							}
 						},
 						"source": [
-							"### this is my new change"
-						]
+							"def removeFilesOnlyFromDir(self, directory_path):\r\n",
+							"    # List all items in the directory\r\n",
+							"    items = mssparkutils.fs.ls(directory_path)\r\n",
+							"\r\n",
+							"    # Loop through the items and remove only the files\r\n",
+							"    for item in items:\r\n",
+							"        if not item.isDir:  # Check if the item is not a directory\r\n",
+							"            file_path = item.path\r\n",
+							"            mssparkutils.fs.rm(file_path)  # Remove the file"
+						],
+						"outputs": [],
+						"execution_count": null
 					}
 				]
 			},
@@ -36697,7 +36712,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ce6d8084-a133-4844-94e0-75cdf1deed56"
+						"spark.autotune.trackingId": "3551c2b1-2f05-4b4f-9fdd-01c118def45e"
 					}
 				},
 				"metadata": {
@@ -36722,8 +36737,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

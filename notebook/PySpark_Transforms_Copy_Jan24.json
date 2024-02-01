@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a700ddc2-b4c6-409e-a706-5775c6a7b0ee"
+				"spark.autotune.trackingId": "e94515e0-d83c-4897-9f46-f1687448d074"
 			}
 		},
 		"metadata": {
@@ -1265,14 +1265,14 @@
 					"collapsed": false
 				},
 				"source": [
-					"# convert the answer table to long format (same as the year 2 student answers)\r\n",
+					"convert the answer table to long format (same as the year 2 student answers)\r\n",
 					"\r\n",
-					"# df = EYAnswers_df.to_koalas().melt(id_vars=['Year', 'Question'],\r\n",
-					"#                                             value_vars=['Numeracy', 'Literacy'],\r\n",
-					"#                                             var_name=\"QuestionType\",\r\n",
-					"#                                             value_name = \"Answer\")\r\n",
+					"df = EYAnswers_df.to_koalas().melt(id_vars=['Year', 'Question'],\r\n",
+					"                                            value_vars=['Numeracy', 'Literacy'],\r\n",
+					"                                            var_name=\"QuestionType\",\r\n",
+					"                                            value_name = \"Answer\")\r\n",
 					"\r\n",
-					"# EYAnswers_df = df.to_spark()\r\n",
+					"EYAnswers_df = df.to_spark()\r\n",
 					""
 				],
 				"execution_count": 81
@@ -1320,9 +1320,7 @@
 					"# tolong_df = EYAnswers_df2.select(selected_cols)\r\n",
 					"\r\n",
 					"\r\n",
-					"# #tolong_df = unpivot_dataframe2(EYAnswers_df2, id_vars, value_vars)\r\n",
-					"\r\n",
-					"display(tolong_df)"
+					"# #tolong_df = unpivot_dataframe2(EYAnswers_df2, id_vars, value_vars)"
 				],
 				"execution_count": 82
 			},

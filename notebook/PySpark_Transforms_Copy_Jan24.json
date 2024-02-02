@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "e94515e0-d83c-4897-9f46-f1687448d074"
+				"spark.autotune.trackingId": "1e1727cb-791b-4f99-812b-c82c4941fedf"
 			}
 		},
 		"metadata": {
@@ -1265,7 +1265,7 @@
 					"collapsed": false
 				},
 				"source": [
-					"convert the answer table to long format (same as the year 2 student answers)\r\n",
+					"#convert the answer table to long format (same as the year 2 student answers)\r\n",
 					"\r\n",
 					"df = EYAnswers_df.to_koalas().melt(id_vars=['Year', 'Question'],\r\n",
 					"                                            value_vars=['Numeracy', 'Literacy'],\r\n",
@@ -1294,13 +1294,13 @@
 				"source": [
 					"# convert using new method\r\n",
 					"\r\n",
-					"id_vars=['Year', 'Question']\r\n",
-					"value_vars=['Numeracy', 'Literacy']\r\n",
-					"variable_colname = \"QuestionType\"\r\n",
-					"value_colname = \"Answer\"\r\n",
+					"# id_vars=['Year', 'Question']\r\n",
+					"# value_vars=['Numeracy', 'Literacy']\r\n",
+					"# variable_colname = \"QuestionType\"\r\n",
+					"# value_colname = \"Answer\"\r\n",
 					"\r\n",
 					"\r\n",
-					"tolong_df = unpivot_dataframe(EYAnswers_df, id_vars, value_vars, variable_colname, value_colname)\r\n",
+					"# tolong_df = unpivot_dataframe(EYAnswers_df, id_vars, value_vars, variable_colname, value_colname)\r\n",
 					"\r\n",
 					"# # Create an array of column expressions for the stack function\r\n",
 					"# select_expr = \", \".join([\"'{}', {}\".format(c, c) for c in value_vars])\r\n",

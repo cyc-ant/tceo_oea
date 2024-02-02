@@ -38535,7 +38535,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "37469cd2-904a-40b1-a824-c9654ab2673e"
+						"spark.autotune.trackingId": "8cb3b5d3-3f9a-4fc6-95ab-e4b9d392943f"
 					}
 				},
 				"metadata": {
@@ -38614,7 +38614,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 56
+						"execution_count": 105
 					},
 					{
 						"cell_type": "code",
@@ -38633,7 +38633,7 @@
 							"%run Antares_py"
 						],
 						"outputs": [],
-						"execution_count": 43
+						"execution_count": 106
 					},
 					{
 						"cell_type": "code",
@@ -38652,7 +38652,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 44
+						"execution_count": 107
 					},
 					{
 						"cell_type": "code",
@@ -38679,7 +38679,7 @@
 							"version = 'pilot'"
 						],
 						"outputs": [],
-						"execution_count": 45
+						"execution_count": 108
 					},
 					{
 						"cell_type": "markdown",
@@ -38759,7 +38759,7 @@
 							"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 						],
 						"outputs": [],
-						"execution_count": 46
+						"execution_count": 109
 					},
 					{
 						"cell_type": "markdown",
@@ -38799,7 +38799,7 @@
 							"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result', 'SKYearLevel', 'YearSemesterDescription')"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 110
 					},
 					{
 						"cell_type": "markdown",
@@ -38879,7 +38879,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 111
 					},
 					{
 						"cell_type": "markdown",
@@ -38926,7 +38926,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 112
 					},
 					{
 						"cell_type": "markdown",
@@ -38964,7 +38964,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 113
 					},
 					{
 						"cell_type": "markdown",
@@ -39029,7 +39029,7 @@
 							"DMStudentDemographic_df = DMStudentDemographic_df.drop(\"DOB_YearFirstFormat\", \"DOB\")"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 114
 					},
 					{
 						"cell_type": "code",
@@ -39055,7 +39055,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 115
 					},
 					{
 						"cell_type": "markdown",
@@ -39103,7 +39103,7 @@
 							"# EarlyYearsResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 116
 					},
 					{
 						"cell_type": "code",
@@ -39138,7 +39138,7 @@
 							"# display(TEST_EYResultsYear2_ClassUpdated_df)"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 117
 					},
 					{
 						"cell_type": "code",
@@ -39169,7 +39169,7 @@
 							"# EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 118
 					},
 					{
 						"cell_type": "markdown",
@@ -39272,7 +39272,7 @@
 							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.select(sorted(EarlyYearsTestCompletion_df.columns))"
 						],
 						"outputs": [],
-						"execution_count": 60
+						"execution_count": 119
 					},
 					{
 						"cell_type": "markdown",
@@ -39428,7 +39428,7 @@
 							"EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.select(sorted(EarlyYearsTestCompletion2_df.columns))"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 120
 					},
 					{
 						"cell_type": "code",
@@ -39448,7 +39448,7 @@
 							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.union(EarlyYearsTestCompletion2_df)"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 121
 					},
 					{
 						"cell_type": "markdown",
@@ -39524,7 +39524,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 122
 					},
 					{
 						"cell_type": "code",
@@ -39607,7 +39607,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 123
 					},
 					{
 						"cell_type": "code",
@@ -39655,7 +39655,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 124
 					},
 					{
 						"cell_type": "code",
@@ -39704,7 +39704,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 125
 					},
 					{
 						"cell_type": "markdown",
@@ -39748,7 +39748,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 126
 					},
 					{
 						"cell_type": "markdown",
@@ -39791,7 +39791,7 @@
 							"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"StudentAnswer\", lit(\"N/A\")).withColumn(\"Answer\", lit(\"N/A\"))"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 127
 					},
 					{
 						"cell_type": "markdown",
@@ -39832,7 +39832,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 128
 					},
 					{
 						"cell_type": "code",
@@ -39880,7 +39880,7 @@
 							"# #tolong_df = unpivot_dataframe2(EYAnswers_df2, id_vars, value_vars)"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 129
 					},
 					{
 						"cell_type": "markdown",
@@ -39938,7 +39938,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 130
 					},
 					{
 						"cell_type": "code",
@@ -39963,7 +39963,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 131
 					},
 					{
 						"cell_type": "markdown",
@@ -40046,7 +40046,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 132
 					},
 					{
 						"cell_type": "code",
@@ -40128,7 +40128,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 133
 					},
 					{
 						"cell_type": "code",
@@ -40174,7 +40174,7 @@
 							"EarlyYearsResults_Averages_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 134
 					},
 					{
 						"cell_type": "code",
@@ -40221,7 +40221,7 @@
 							"EarlyYearsResultsTotalsYear2Joined_df = EarlyYearsResults_LitAverage_df.drop('xYear').drop('xYearLevel').drop('xTestLevel')"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 135
 					},
 					{
 						"cell_type": "markdown",
@@ -40256,7 +40256,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 136
 					},
 					{
 						"cell_type": "markdown",
@@ -40309,6 +40309,68 @@
 						],
 						"outputs": [],
 						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"# sort the columns for both tables\r\n",
+							"EY_Results_Sorted_df = EarlyYearsResultsLong_df.select(sorted(EarlyYearsResultsLong_df.columns))\r\n",
+							"EY_ResultsYear2_Sorted_df = EYResultsYear2LongFinal_df.select(sorted(EYResultsYear2LongFinal_df.columns))\r\n",
+							"\r\n",
+							"# combine the tables with a union \r\n",
+							"EarlyYearsResultsCombined_df = EY_Results_Sorted_df.union(EY_ResultsYear2_Sorted_df)\r\n",
+							"\r\n",
+							"# create unique ID's\r\n",
+							"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
+							"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
+							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
+							"\r\n",
+							"# create ClassID Dimension\r\n",
+							"EarlyYearsClassID1_df = EarlyYearsResultsCombined_df.select(col(\"SKResultID\"), col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")).distinct()\r\n",
+							"EarlyYearsClassID2_df = EarlyYearsTestCompletion_df.select(col(\"SKResultID\"), col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")).distinct()\r\n",
+							"\r\n",
+							"EarlyYearsClassID3_df = EarlyYearsClassID1_df.union(EarlyYearsClassID2_df)\r\n",
+							"\r\n",
+							"EarlyYearsClassID_df = EarlyYearsClassID3_df.select(col(\"SKResultID\"), col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")).distinct()\r\n",
+							"\r\n",
+							"# clean up the unwanted columns \r\n",
+							"# EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
+							"# EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
+							"# EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")"
+						],
+						"outputs": [],
+						"execution_count": 138
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"display(EarlyYearsClassID_df)"
+						],
+						"outputs": [],
+						"execution_count": 139
 					},
 					{
 						"cell_type": "markdown",
@@ -40526,7 +40588,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 137
 					}
 				]
 			},

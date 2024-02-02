@@ -38535,7 +38535,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ce372489-41a2-47f6-838e-607a57f930a7"
+						"spark.autotune.trackingId": "05b0d462-491e-4d95-a7bd-a5a8c0af171f"
 					}
 				},
 				"metadata": {
@@ -38608,13 +38608,13 @@
 							}
 						},
 						"source": [
-							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat, concat_ws, lit, avg, stddev, upper, mean, to_date, split, date_format, max, coalesce, expr\r\n",
+							"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat, concat_ws, lit, avg, stddev, upper, mean, to_date, split, date_format, max, coalesce, expr, year, current_date\r\n",
 							"from pyspark.sql import Row\r\n",
 							"from pyspark.sql.window import Window\r\n",
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 38
+						"execution_count": 56
 					},
 					{
 						"cell_type": "code",
@@ -38633,7 +38633,7 @@
 							"%run Antares_py"
 						],
 						"outputs": [],
-						"execution_count": 39
+						"execution_count": 43
 					},
 					{
 						"cell_type": "code",
@@ -38652,7 +38652,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 40
+						"execution_count": 44
 					},
 					{
 						"cell_type": "code",
@@ -38679,7 +38679,7 @@
 							"version = 'pilot'"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 45
 					},
 					{
 						"cell_type": "markdown",
@@ -38759,27 +38759,7 @@
 							"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 						],
 						"outputs": [],
-						"execution_count": null
-					},
-					{
-						"cell_type": "code",
-						"metadata": {
-							"jupyter": {
-								"source_hidden": false,
-								"outputs_hidden": false
-							},
-							"nteract": {
-								"transient": {
-									"deleting": false
-								}
-							},
-							"collapsed": false
-						},
-						"source": [
-							"display(EarlyYearsResults_df)"
-						],
-						"outputs": [],
-						"execution_count": null
+						"execution_count": 46
 					},
 					{
 						"cell_type": "markdown",
@@ -39220,11 +39200,15 @@
 						},
 						"source": [
 							"# filter out prep and year 1\r\n",
-							"\r\n",
 							"EarlyYearsStudents_Y1_P_df = EarlyYearsStudents_df.filter((EarlyYearsStudents_df.YearLevel == 'P') | (EarlyYearsStudents_df.YearLevel == '1'))\r\n",
 							"\r\n",
+							"# filter for current year only\r\n",
+							"current_year = year(current_date())\r\n",
+							"\r\n",
+							"EarlyYearsResultsCurrentYear_df = EarlyYearsResults_df.filter(EarlyYearsResults_df[\"Year\"] == current_year)\r\n",
+							"\r\n",
 							"# Seperate out the Pre and Post tests\r\n",
-							"PreTest_df = EarlyYearsResults_df.select(col('Year').alias('xYear'), \r\n",
+							"PreTest_df = EarlyYearsResultsCurrentYear_df.select(col('Year').alias('xYear'), \r\n",
 							"                                            col('CampusID').alias('xCampusID'), \r\n",
 							"                                            col('Ceider').alias('xCeider'), \r\n",
 							"                                            col('ClassID').alias('xClassID'), \r\n",
@@ -39233,7 +39217,7 @@
 							"                                        .withColumn('PreTestComplete', lit(\"1\"))\r\n",
 							"\r\n",
 							"\r\n",
-							"PostTest_df = EarlyYearsResults_df.select(col('Year').alias('xYear'), \r\n",
+							"PostTest_df = EarlyYearsResultsCurrentYear_df.select(col('Year').alias('xYear'), \r\n",
 							"                                            col('CampusID').alias('xCampusID'), \r\n",
 							"                                            col('Ceider').alias('xCeider'), \r\n",
 							"                                            col('ClassID').alias('xClassID'), \r\n",
@@ -39288,7 +39272,7 @@
 							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.select(sorted(EarlyYearsTestCompletion_df.columns))"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 60
 					},
 					{
 						"cell_type": "markdown",
@@ -39317,12 +39301,15 @@
 							}
 						},
 						"source": [
-							"# filter out year 2\r\n",
-							"\r\n",
+							"# filter for year 2\r\n",
 							"EarlyYearsStudents_Y2_df = EarlyYearsStudents_df.filter((EarlyYearsStudents_df.YearLevel == '2'))\r\n",
 							"\r\n",
+							"# filter for current year only\r\n",
+							"current_year = year(current_date())\r\n",
+							"EarlyYearsResultsYear2CurrentYear_df = EarlyYearsResultsYear2_df.filter(EarlyYearsResultsYear2_df[\"Year\"] == current_year)\r\n",
+							"\r\n",
 							"# Seperate out the Pre/Post and Numeracy/Literacy tests\r\n",
-							"PreTestNumeracy_df = EarlyYearsResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+							"PreTestNumeracy_df = EarlyYearsResultsYear2CurrentYear_df.select(col('Year').alias('xYear'), \r\n",
 							"                                                col('CampusID').alias('xCampusID'), \r\n",
 							"                                                col('Ceider').alias('xCeider'), \r\n",
 							"                                                col('ClassID').alias('xClassID'), \r\n",
@@ -39331,7 +39318,7 @@
 							"                                                .withColumn('PreTestNumeracyComplete', lit(\"1\"))\r\n",
 							"\r\n",
 							"\r\n",
-							"PreTestLiteracy_df = EarlyYearsResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+							"PreTestLiteracy_df = EarlyYearsResultsYear2CurrentYear_df.select(col('Year').alias('xYear'), \r\n",
 							"                                                col('CampusID').alias('xCampusID'), \r\n",
 							"                                                col('Ceider').alias('xCeider'), \r\n",
 							"                                                col('ClassID').alias('xClassID'), \r\n",
@@ -39340,7 +39327,7 @@
 							"                                                .withColumn('PreTestLiteracyComplete', lit(\"1\"))\r\n",
 							"\r\n",
 							"\r\n",
-							"PostTestNumeracy_df = EarlyYearsResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+							"PostTestNumeracy_df = EarlyYearsResultsYear2CurrentYear_df.select(col('Year').alias('xYear'), \r\n",
 							"                                                col('CampusID').alias('xCampusID'), \r\n",
 							"                                                col('Ceider').alias('xCeider'), \r\n",
 							"                                                col('ClassID').alias('xClassID'), \r\n",
@@ -39349,7 +39336,7 @@
 							"                                                .withColumn('PostTestNumeracyComplete', lit(\"1\"))\r\n",
 							"\r\n",
 							"\r\n",
-							"PostTestLiteracy_df = EarlyYearsResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+							"PostTestLiteracy_df = EarlyYearsResultsYear2CurrentYear_df.select(col('Year').alias('xYear'), \r\n",
 							"                                                col('CampusID').alias('xCampusID'), \r\n",
 							"                                                col('Ceider').alias('xCeider'), \r\n",
 							"                                                col('ClassID').alias('xClassID'), \r\n",
@@ -60257,7 +60244,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "10175b53-25b8-4f5c-83bd-8d10778aff0c"
+						"spark.autotune.trackingId": "bd38c7e4-a7b7-4f1c-8164-3d9dcdc1ceef"
 					}
 				},
 				"metadata": {
@@ -60317,7 +60304,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 25
+						"execution_count": 32
 					},
 					{
 						"cell_type": "code",
@@ -60336,7 +60323,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 26
+						"execution_count": 33
 					},
 					{
 						"cell_type": "code",
@@ -60355,7 +60342,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 27
+						"execution_count": 34
 					},
 					{
 						"cell_type": "code",
@@ -60384,7 +60371,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 28
+						"execution_count": 35
 					},
 					{
 						"cell_type": "code",
@@ -60405,7 +60392,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 29
+						"execution_count": 36
 					},
 					{
 						"cell_type": "code",
@@ -60448,7 +60435,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 30
+						"execution_count": 37
 					},
 					{
 						"cell_type": "code",
@@ -60540,7 +60527,7 @@
 							"%run Stage3/PySpark_Transforms_Copy_Jan24"
 						],
 						"outputs": [],
-						"execution_count": 31
+						"execution_count": 38
 					}
 				]
 			},

@@ -38535,7 +38535,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ac056147-a4f3-439f-be2c-311f95692c15"
+						"spark.autotune.trackingId": "16dad496-7258-4a15-8371-202af52472ca"
 					}
 				},
 				"metadata": {
@@ -38614,7 +38614,7 @@
 							"import databricks.koalas as ks"
 						],
 						"outputs": [],
-						"execution_count": 58
+						"execution_count": 10
 					},
 					{
 						"cell_type": "code",
@@ -38633,7 +38633,7 @@
 							"%run Antares_py"
 						],
 						"outputs": [],
-						"execution_count": 59
+						"execution_count": 11
 					},
 					{
 						"cell_type": "code",
@@ -38652,7 +38652,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 60
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -38679,7 +38679,7 @@
 							"version = 'pilot'"
 						],
 						"outputs": [],
-						"execution_count": 61
+						"execution_count": 13
 					},
 					{
 						"cell_type": "markdown",
@@ -38759,7 +38759,7 @@
 							"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 						],
 						"outputs": [],
-						"execution_count": 62
+						"execution_count": 14
 					},
 					{
 						"cell_type": "markdown",
@@ -38799,7 +38799,7 @@
 							"finalae_df = finalae_df.select('Subject', 'Ceider', 'Result', 'SKYearLevel', 'YearSemesterDescription')"
 						],
 						"outputs": [],
-						"execution_count": 63
+						"execution_count": 15
 					},
 					{
 						"cell_type": "markdown",
@@ -38879,7 +38879,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 64
+						"execution_count": 16
 					},
 					{
 						"cell_type": "markdown",
@@ -38926,7 +38926,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 65
+						"execution_count": 17
 					},
 					{
 						"cell_type": "markdown",
@@ -38964,7 +38964,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 66
+						"execution_count": 18
 					},
 					{
 						"cell_type": "markdown",
@@ -39029,7 +39029,7 @@
 							"DMStudentDemographic_df = DMStudentDemographic_df.drop(\"DOB_YearFirstFormat\", \"DOB\")"
 						],
 						"outputs": [],
-						"execution_count": 67
+						"execution_count": 19
 					},
 					{
 						"cell_type": "code",
@@ -39055,7 +39055,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 68
+						"execution_count": 20
 					},
 					{
 						"cell_type": "markdown",
@@ -39097,13 +39097,33 @@
 							"EYResultsYear2_ClassUpdated_df = EYResultsYear2_ClassUpdated_df.join(EarlyYearsStudents_ClassIDCleaned_df,\r\n",
 							"                                                                            [col('Year') == col('xYear'),\r\n",
 							"                                                                                col('Ceider') == col('xCeider')],\r\n",
-							"                                                                                how='left'  #inner will also remove students that have sat the test but has since left the class/school \r\n",
+							"                                                                                how='inner'  #inner will also remove students that have sat the test but has since left the class/school \r\n",
 							"                                                                            )\r\n",
 							"\r\n",
 							"EarlyYearsResultsYear2_df = EYResultsYear2_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 69
+						"execution_count": 21
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							},
+							"collapsed": false
+						},
+						"source": [
+							"display(EarlyYearsResultsYear2_df)"
+						],
+						"outputs": [],
+						"execution_count": 22
 					},
 					{
 						"cell_type": "code",
@@ -39119,15 +39139,15 @@
 							}
 						},
 						"source": [
-							"EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 12345)\r\n",
-							"EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 111111)\r\n",
+							"# EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 12345)\r\n",
+							"# EYResultsYear2Wide_df = EYResultsYear2Wide_df.filter(EYResultsYear2Wide_df.Ceider != 111111)\r\n",
 							"\r\n",
-							"EYResultsYear2_ClassUpdated_df = EYResultsYear2Wide_df.join(EarlyYearsStudents_ClassIDCleaned_df, on=['Year', 'Ceider'], how='left')\r\n",
+							"# EYResultsYear2_ClassUpdated_df = EYResultsYear2Wide_df.join(EarlyYearsStudents_ClassIDCleaned_df, on=['Year', 'Ceider'], how='left')\r\n",
 							"\r\n",
-							"EYResultsYear2_ClassUpdated_df = EYResultsYear2_ClassUpdated_df.select('Year', 'Ceider')"
+							"# EYResultsYear2_ClassUpdated_df = EYResultsYear2_ClassUpdated_df.select('Year', 'Ceider')"
 						],
 						"outputs": [],
-						"execution_count": 70
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -39158,7 +39178,7 @@
 							"EarlyYearsResults_df = EarlyYearsResults_ClassUpdated_df.drop(\"xCeider\").drop(\"xClassID\").drop(\"xYear\")"
 						],
 						"outputs": [],
-						"execution_count": 71
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -39257,7 +39277,7 @@
 							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.select(sorted(EarlyYearsTestCompletion_df.columns))"
 						],
 						"outputs": [],
-						"execution_count": 72
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -39410,7 +39430,7 @@
 							"EarlyYearsTestCompletion2_df = EarlyYearsTestCompletion2_df.select(sorted(EarlyYearsTestCompletion2_df.columns))"
 						],
 						"outputs": [],
-						"execution_count": 73
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -39430,7 +39450,7 @@
 							"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.union(EarlyYearsTestCompletion2_df)"
 						],
 						"outputs": [],
-						"execution_count": 74
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -39506,7 +39526,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 75
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -39589,7 +39609,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 76
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -39637,7 +39657,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 77
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -39686,7 +39706,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 78
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -39730,7 +39750,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 79
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -39773,7 +39793,7 @@
 							"EarlyYearsResultsLong_df = EarlyYearsResultsLong_df.withColumn(\"StudentAnswer\", lit(\"N/A\")).withColumn(\"Answer\", lit(\"N/A\"))"
 						],
 						"outputs": [],
-						"execution_count": 80
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -39814,7 +39834,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 81
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -39862,7 +39882,7 @@
 							"# #tolong_df = unpivot_dataframe2(EYAnswers_df2, id_vars, value_vars)"
 						],
 						"outputs": [],
-						"execution_count": 82
+						"execution_count": null
 					},
 					{
 						"cell_type": "markdown",
@@ -39920,7 +39940,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 83
+						"execution_count": null
 					},
 					{
 						"cell_type": "code",
@@ -60226,7 +60246,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "262c2262-1f62-4ef1-b879-fee3b2b831ce"
+						"spark.autotune.trackingId": "9a59ec79-8e8c-4fa1-9f90-c95b440d86cf"
 					}
 				},
 				"metadata": {
@@ -60286,7 +60306,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 18
 					},
 					{
 						"cell_type": "code",
@@ -60305,7 +60325,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 19
 					},
 					{
 						"cell_type": "code",
@@ -60324,7 +60344,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 20
 					},
 					{
 						"cell_type": "code",
@@ -60353,7 +60373,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 21
 					},
 					{
 						"cell_type": "code",
@@ -60374,7 +60394,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 22
 					},
 					{
 						"cell_type": "code",
@@ -60417,7 +60437,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 23
 					},
 					{
 						"cell_type": "code",
@@ -60509,7 +60529,7 @@
 							"%run Stage3/PySpark_Transforms_Copy_Jan24"
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 24
 					}
 				]
 			},

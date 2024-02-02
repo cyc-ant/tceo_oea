@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c713ed48-6ff5-4722-8718-b39140cb0a8a"
+				"spark.autotune.trackingId": "26d13cc5-2894-43c8-b118-43ac6ff90c4f"
 			}
 		},
 		"metadata": {
@@ -1791,8 +1791,6 @@
 				"source": [
 					"# groupby year and the student and get post score - pre score\r\n",
 					"NumeracyPivot_df = EarlyYearsResultsTotalsCombined_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"NumeracyTotal\": \"first\"})\r\n",
-					"\r\n",
-					"display(NumeracyPivot_df)\r\n",
 					"\r\n",
 					"NumeracyDiff_df = NumeracyPivot_df.withColumn(\"Numeracydiff\", col(\"Post\") - col(\"Pre\")).select(\"SKResultID\", \"Ceider\", \"NumeracyDiff\")\r\n",
 					"\r\n",

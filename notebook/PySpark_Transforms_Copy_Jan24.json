@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c86af3e8-e144-43e7-b2c1-2ed7449d3ccb"
+				"spark.autotune.trackingId": "f650f75f-b3b3-42ff-b9ea-cac4e325564f"
 			}
 		},
 		"metadata": {
@@ -1739,25 +1739,25 @@
 					"collapsed": false
 				},
 				"source": [
-					"# sort the columns for both tables\r\n",
-					"EY_Results_Sorted_df = EarlyYearsResultsLong_df.select(sorted(EarlyYearsResultsLong_df.columns))\r\n",
-					"EY_ResultsYear2_Sorted_df = EYResultsYear2LongFinal_df.select(sorted(EYResultsYear2LongFinal_df.columns))\r\n",
+					"# # sort the columns for both tables\r\n",
+					"# EY_Results_Sorted_df = EarlyYearsResultsLong_df.select(sorted(EarlyYearsResultsLong_df.columns))\r\n",
+					"# EY_ResultsYear2_Sorted_df = EYResultsYear2LongFinal_df.select(sorted(EYResultsYear2LongFinal_df.columns))\r\n",
 					"\r\n",
-					"# combine the tables with a union \r\n",
-					"EarlyYearsResultsCombined_df = EY_Results_Sorted_df.union(EY_ResultsYear2_Sorted_df)\r\n",
+					"# # combine the tables with a union \r\n",
+					"# EarlyYearsResultsCombined_df = EY_Results_Sorted_df.union(EY_ResultsYear2_Sorted_df)\r\n",
 					"\r\n",
-					"# create unique ID's\r\n",
-					"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
-					"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
-					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
+					"# # create unique ID's\r\n",
+					"# EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
+					"# EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
+					"# EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.withColumn(\"SKResultID\", concat_ws(\"-\", col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), upper(regexp_replace(col(\"ClassID\"), \" \", \"\"))))\r\n",
 					"\r\n",
-					"# create ClassID Dimension\r\n",
-					"EarlyYearsClassID_df = EarlyYearsResultsCombined_df.select(col(\"SKResultID\"), col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")).distinct()\r\n",
+					"# # create ClassID Dimension\r\n",
+					"# EarlyYearsClassID_df = EarlyYearsResultsCombined_df.select(col(\"SKResultID\"), col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")).distinct()\r\n",
 					"\r\n",
-					"# clean up the unwanted columns \r\n",
-					"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
-					"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
-					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
+					"# # clean up the unwanted columns \r\n",
+					"# EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
+					"# EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
+					"# EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
 					""
 				],
 				"execution_count": null
@@ -1797,30 +1797,11 @@
 					"EarlyYearsClassID_df = EarlyYearsClassID3_df.select(col(\"SKResultID\"), col(\"CampusID\"), col(\"Year\"), col(\"YearLevel\"), col(\"ClassID\")).distinct()\r\n",
 					"\r\n",
 					"# clean up the unwanted columns \r\n",
-					"# EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
-					"# EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
-					"# EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")"
+					"EarlyYearsResultsCombined_df = EarlyYearsResultsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
+					"EarlyYearsResultsTotalsCombined_df = EarlyYearsResultsTotalsCombined_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")\r\n",
+					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.drop(\"CampusID\", \"Year\", \"YearLevel\", \"ClassID\")"
 				],
 				"execution_count": 138
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"display(EarlyYearsClassID_df)"
-				],
-				"execution_count": 139
 			},
 			{
 				"cell_type": "markdown",

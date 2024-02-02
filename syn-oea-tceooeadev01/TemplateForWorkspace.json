@@ -38535,7 +38535,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "05b0d462-491e-4d95-a7bd-a5a8c0af171f"
+						"spark.autotune.trackingId": "37469cd2-904a-40b1-a824-c9654ab2673e"
 					}
 				},
 				"metadata": {
@@ -40339,8 +40339,6 @@
 						"source": [
 							"# groupby year and the student and get post score - pre score\r\n",
 							"NumeracyPivot_df = EarlyYearsResultsTotalsCombined_df.groupby(\"SKResultID\", \"Ceider\").pivot(\"TestLevel\").agg({\"NumeracyTotal\": \"first\"})\r\n",
-							"\r\n",
-							"display(NumeracyPivot_df)\r\n",
 							"\r\n",
 							"NumeracyDiff_df = NumeracyPivot_df.withColumn(\"Numeracydiff\", col(\"Post\") - col(\"Pre\")).select(\"SKResultID\", \"Ceider\", \"NumeracyDiff\")\r\n",
 							"\r\n",
@@ -60244,7 +60242,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "bd38c7e4-a7b7-4f1c-8164-3d9dcdc1ceef"
+						"spark.autotune.trackingId": "8f02f894-842e-40e6-a9d2-435f23190937"
 					}
 				},
 				"metadata": {
@@ -60304,7 +60302,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 32
+						"execution_count": 39
 					},
 					{
 						"cell_type": "code",
@@ -60323,7 +60321,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 33
+						"execution_count": 40
 					},
 					{
 						"cell_type": "code",
@@ -60342,7 +60340,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 34
+						"execution_count": 41
 					},
 					{
 						"cell_type": "code",
@@ -60371,7 +60369,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 35
+						"execution_count": 42
 					},
 					{
 						"cell_type": "code",
@@ -60392,7 +60390,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 36
+						"execution_count": 43
 					},
 					{
 						"cell_type": "code",
@@ -60435,7 +60433,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 37
+						"execution_count": 44
 					},
 					{
 						"cell_type": "code",
@@ -60527,7 +60525,7 @@
 							"%run Stage3/PySpark_Transforms_Copy_Jan24"
 						],
 						"outputs": [],
-						"execution_count": 38
+						"execution_count": 45
 					}
 				]
 			},

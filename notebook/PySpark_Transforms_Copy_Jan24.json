@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "8dfbf7c9-64df-4016-8347-10bb679eb248"
+				"spark.autotune.trackingId": "c713ed48-6ff5-4722-8718-b39140cb0a8a"
 			}
 		},
 		"metadata": {
@@ -93,12 +93,12 @@
 					}
 				},
 				"source": [
-					"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat, concat_ws, lit, avg, stddev, upper, mean, to_date, split, date_format, max, coalesce, expr\r\n",
+					"from pyspark.sql.functions import when, col, sum, percent_rank, substring, trim, regexp_replace, length, lower, concat, concat_ws, lit, avg, stddev, upper, mean, to_date, split, date_format, max, coalesce, expr, year, current_date\r\n",
 					"from pyspark.sql import Row\r\n",
 					"from pyspark.sql.window import Window\r\n",
 					"import databricks.koalas as ks"
 				],
-				"execution_count": 38
+				"execution_count": 56
 			},
 			{
 				"cell_type": "code",
@@ -116,7 +116,7 @@
 				"source": [
 					"%run Antares_py"
 				],
-				"execution_count": 39
+				"execution_count": 43
 			},
 			{
 				"cell_type": "code",
@@ -134,7 +134,7 @@
 				"source": [
 					"%run OEA_py"
 				],
-				"execution_count": 40
+				"execution_count": 44
 			},
 			{
 				"cell_type": "code",
@@ -160,7 +160,7 @@
 					"# stage3 version (eg. pilot)\r\n",
 					"version = 'pilot'"
 				],
-				"execution_count": null
+				"execution_count": 45
 			},
 			{
 				"cell_type": "markdown",
@@ -239,26 +239,7 @@
 					"#Active Students\r\n",
 					"activestudents_df = spark.read.load(source3p + \"/pilot/_FACTActiveStudent\", format='delta')"
 				],
-				"execution_count": null
-			},
-			{
-				"cell_type": "code",
-				"metadata": {
-					"jupyter": {
-						"source_hidden": false,
-						"outputs_hidden": false
-					},
-					"nteract": {
-						"transient": {
-							"deleting": false
-						}
-					},
-					"collapsed": false
-				},
-				"source": [
-					"display(EarlyYearsResults_df)"
-				],
-				"execution_count": null
+				"execution_count": 46
 			},
 			{
 				"cell_type": "markdown",
@@ -690,11 +671,15 @@
 				},
 				"source": [
 					"# filter out prep and year 1\r\n",
-					"\r\n",
 					"EarlyYearsStudents_Y1_P_df = EarlyYearsStudents_df.filter((EarlyYearsStudents_df.YearLevel == 'P') | (EarlyYearsStudents_df.YearLevel == '1'))\r\n",
 					"\r\n",
+					"# filter for current year only\r\n",
+					"current_year = year(current_date())\r\n",
+					"\r\n",
+					"EarlyYearsResultsCurrentYear_df = EarlyYearsResults_df.filter(EarlyYearsResults_df[\"Year\"] == current_year)\r\n",
+					"\r\n",
 					"# Seperate out the Pre and Post tests\r\n",
-					"PreTest_df = EarlyYearsResults_df.select(col('Year').alias('xYear'), \r\n",
+					"PreTest_df = EarlyYearsResultsCurrentYear_df.select(col('Year').alias('xYear'), \r\n",
 					"                                            col('CampusID').alias('xCampusID'), \r\n",
 					"                                            col('Ceider').alias('xCeider'), \r\n",
 					"                                            col('ClassID').alias('xClassID'), \r\n",
@@ -703,7 +688,7 @@
 					"                                        .withColumn('PreTestComplete', lit(\"1\"))\r\n",
 					"\r\n",
 					"\r\n",
-					"PostTest_df = EarlyYearsResults_df.select(col('Year').alias('xYear'), \r\n",
+					"PostTest_df = EarlyYearsResultsCurrentYear_df.select(col('Year').alias('xYear'), \r\n",
 					"                                            col('CampusID').alias('xCampusID'), \r\n",
 					"                                            col('Ceider').alias('xCeider'), \r\n",
 					"                                            col('ClassID').alias('xClassID'), \r\n",
@@ -757,7 +742,7 @@
 					"# sort the columns\r\n",
 					"EarlyYearsTestCompletion_df = EarlyYearsTestCompletion_df.select(sorted(EarlyYearsTestCompletion_df.columns))"
 				],
-				"execution_count": null
+				"execution_count": 60
 			},
 			{
 				"cell_type": "markdown",
@@ -786,12 +771,15 @@
 					}
 				},
 				"source": [
-					"# filter out year 2\r\n",
-					"\r\n",
+					"# filter for year 2\r\n",
 					"EarlyYearsStudents_Y2_df = EarlyYearsStudents_df.filter((EarlyYearsStudents_df.YearLevel == '2'))\r\n",
 					"\r\n",
+					"# filter for current year only\r\n",
+					"current_year = year(current_date())\r\n",
+					"EarlyYearsResultsYear2CurrentYear_df = EarlyYearsResultsYear2_df.filter(EarlyYearsResultsYear2_df[\"Year\"] == current_year)\r\n",
+					"\r\n",
 					"# Seperate out the Pre/Post and Numeracy/Literacy tests\r\n",
-					"PreTestNumeracy_df = EarlyYearsResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+					"PreTestNumeracy_df = EarlyYearsResultsYear2CurrentYear_df.select(col('Year').alias('xYear'), \r\n",
 					"                                                col('CampusID').alias('xCampusID'), \r\n",
 					"                                                col('Ceider').alias('xCeider'), \r\n",
 					"                                                col('ClassID').alias('xClassID'), \r\n",
@@ -800,7 +788,7 @@
 					"                                                .withColumn('PreTestNumeracyComplete', lit(\"1\"))\r\n",
 					"\r\n",
 					"\r\n",
-					"PreTestLiteracy_df = EarlyYearsResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+					"PreTestLiteracy_df = EarlyYearsResultsYear2CurrentYear_df.select(col('Year').alias('xYear'), \r\n",
 					"                                                col('CampusID').alias('xCampusID'), \r\n",
 					"                                                col('Ceider').alias('xCeider'), \r\n",
 					"                                                col('ClassID').alias('xClassID'), \r\n",
@@ -809,7 +797,7 @@
 					"                                                .withColumn('PreTestLiteracyComplete', lit(\"1\"))\r\n",
 					"\r\n",
 					"\r\n",
-					"PostTestNumeracy_df = EarlyYearsResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+					"PostTestNumeracy_df = EarlyYearsResultsYear2CurrentYear_df.select(col('Year').alias('xYear'), \r\n",
 					"                                                col('CampusID').alias('xCampusID'), \r\n",
 					"                                                col('Ceider').alias('xCeider'), \r\n",
 					"                                                col('ClassID').alias('xClassID'), \r\n",
@@ -818,7 +806,7 @@
 					"                                                .withColumn('PostTestNumeracyComplete', lit(\"1\"))\r\n",
 					"\r\n",
 					"\r\n",
-					"PostTestLiteracy_df = EarlyYearsResultsYear2_df.select(col('Year').alias('xYear'), \r\n",
+					"PostTestLiteracy_df = EarlyYearsResultsYear2CurrentYear_df.select(col('Year').alias('xYear'), \r\n",
 					"                                                col('CampusID').alias('xCampusID'), \r\n",
 					"                                                col('Ceider').alias('xCeider'), \r\n",
 					"                                                col('ClassID').alias('xClassID'), \r\n",

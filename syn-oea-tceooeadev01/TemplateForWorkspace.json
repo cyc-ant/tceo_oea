@@ -6725,6 +6725,86 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_ODSLearningTasks_TEST')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_0ke",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "Compass.ODSLearningTaskResult"
+							},
+							{
+								"name": "Destination",
+								"value": "stage1np/ODSLearningTasks_TEST/ODSLearningTasks.csv"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Source_ODSLearningTasks_TEST",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Destination_ODSLearningTasks_TEST",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/datasets/Source_ODSLearningTasks_TEST')]",
+				"[concat(variables('workspaceId'), '/datasets/Destination_ODSLearningTasks_TEST')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/CopyPipeline_ODSStudentDemo')]",
 			"type": "Microsoft.Synapse/workspaces/pipelines",
 			"apiVersion": "2019-06-01-preview",
@@ -15629,6 +15709,35 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/Destination_ODSLearningTasks_TEST')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS_OEA",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "ODSLearningTasks.csv",
+						"folderPath": "ODSLearningTasks_TEST",
+						"fileSystem": "stage1np"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/LS_ADLS_OEA')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/Dim_ACER_Student')]",
 			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
@@ -19274,6 +19383,121 @@
 			},
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/linkedServices/CeNet_DataBlend')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/Source_ODSLearningTasks_TEST')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "CeNet_ODS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "SKLearningTaskResult",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "BKLearningTaskResult",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LearningTaskName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LearningTaskId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SubjectId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ActivityId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompassPersonId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "EnrolmentId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "GradingItemId",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "GradingItemName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "MeasureUniqueId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Value",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CampusId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CreateDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "LastUpdateDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "EffectiveStartDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "EffectiveEndDate",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "IsCurrent",
+						"type": "bit"
+					},
+					{
+						"name": "SCDReason",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HashbytesCompare",
+						"type": "varbinary"
+					},
+					{
+						"name": "IsChanged",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "Compass",
+					"table": "ODSLearningTaskResult"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/CeNet_ODS')]"
 			]
 		},
 		{
@@ -38535,7 +38759,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5c12f84e-29cb-4593-9cb2-ee8755f203ea"
+						"spark.autotune.trackingId": "f650f75f-b3b3-42ff-b9ea-cac4e325564f"
 					}
 				},
 				"metadata": {
@@ -38560,8 +38784,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},

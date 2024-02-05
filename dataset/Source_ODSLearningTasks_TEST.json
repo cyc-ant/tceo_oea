@@ -1,0 +1,110 @@
+{
+	"name": "Source_ODSLearningTasks_TEST",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CeNet_ODS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "SKLearningTaskResult",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "BKLearningTaskResult",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LearningTaskName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LearningTaskId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SubjectId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ActivityId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CompassPersonId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EnrolmentId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "GradingItemId",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "GradingItemName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "MeasureUniqueId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Value",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CampusId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CreateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "LastUpdateDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveStartDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "EffectiveEndDate",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "IsCurrent",
+				"type": "bit"
+			},
+			{
+				"name": "SCDReason",
+				"type": "nvarchar"
+			},
+			{
+				"name": "HashbytesCompare",
+				"type": "varbinary"
+			},
+			{
+				"name": "IsChanged",
+				"type": "bit"
+			}
+		],
+		"typeProperties": {
+			"schema": "Compass",
+			"table": "ODSLearningTaskResult"
+		}
+	}
+}

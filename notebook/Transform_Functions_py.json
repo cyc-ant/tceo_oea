@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "3053e60b-ce98-427b-b4d0-b7a70da6fa6b"
+				"spark.autotune.trackingId": "fe5acfb8-b2b8-4cc3-b3ca-14f27f012b73"
 			}
 		},
 		"metadata": {
@@ -136,7 +136,7 @@
 					"                                col(\"Team\"), col(\"SchoolType\"), col(\"Boarding\"), col(\"SMYL\"), col(\"LastICSEA\"), \\\r\n",
 					"                                col(\"SKCampus\"), col(\"BKCampusId\"), col(\"CampusSuburbAndName\"), col(\"SchoolSuburbAndName\"))\r\n",
 					"\r\n",
-					"        final_df = final_df.withColumn(\"SchoolNameAndArea\", concat_ws(\" - \", \"SchoolName\", \"Area\"))\r\n",
+					"        final_df = final_df.withColumn(\"SchoolNameAndArea\", concat_ws(\" - \", trim(col(\"SchoolName\")), trim(col(\"Area\"))))\r\n",
 					"\r\n",
 					"        return final_df\r\n",
 					""

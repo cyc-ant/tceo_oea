@@ -1,0 +1,12 @@
+{
+	"name": "SourceDataset_wm1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CeNet_ODS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}

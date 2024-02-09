@@ -6754,7 +6754,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "select * from Compass.ODSLearningTaskResult\r\nwhere CampusId = 2529",
+								"sqlReaderQuery": "select * from Compass.ODSLearningTaskResult l\r\nleft join Compass.ODSCompassSubject s on l.SubjectId = s.SubjectId\r\n\r\nwhere CampusId = 2529",
 								"partitionOption": "None"
 							},
 							"sink": {

@@ -26,7 +26,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
-						"sqlReaderQuery": "select \n    l.*,\n    s.SubjectLongName,\n    s.AcademicYear,\n    s.SubjectYearLevel\n    \nfrom Compass.ODSLearningTaskResult l\nleft join Compass.ODSCompassSubject s on l.SubjectId = s.SubjectId\n\nwhere l.CampusId = 2529",
+						"sqlReaderQuery": "select \n    l.*,\n    s.SubjectLongName,\n    s.AcademicYear,\n    s.SubjectYearLevel\n    \nfrom Compass.ODSLearningTaskResult l\nleft join Compass.ODSCompassSubject s on l.SubjectId = s.SubjectId\n\nwhere l.CampusId = 2529\nand l.IsCurrent = 1\nand s.Iscurrent = 1",
 						"partitionOption": "None"
 					},
 					"sink": {

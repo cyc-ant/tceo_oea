@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "c3bf3fc6-f7f1-48d0-a106-5f2a1d90638f"
+				"spark.autotune.trackingId": "5d2ae508-adef-4028-b67d-db9402fcd7e1"
 			}
 		},
 		"metadata": {
@@ -667,7 +667,6 @@
 					"\t,e.ActivityCode\r\n",
 					"\t,e.CampusID\r\n",
 					"\t,e.Year\r\n",
-					"\t,e.SkYear\r\n",
 					"\t,a.SKYearLevel\r\n",
 					"\t,a.Ceider\r\n",
 					"\r\n",

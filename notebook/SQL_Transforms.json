@@ -20,15 +20,15 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "be8d3d30-e41e-4126-af4d-aef090a0c079"
+				"spark.autotune.trackingId": "f8d49205-8bcb-41be-a513-ab2bd1a3f678"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
 			"enableDebugMode": false,
 			"kernelspec": {
-				"name": "synapse_pyspark",
-				"display_name": "Synapse PySpark"
+				"name": "synapse_sparksql",
+				"display_name": "sql"
 			},
 			"language_info": {
 				"name": "sql"
@@ -631,9 +631,11 @@
 					"\t,odse.ActivityCode\r\n",
 					"\t,odse.CampusID\r\n",
 					"\t,odss.GovCode1 AS Ceider\r\n",
-					"\t,YEAR(odse.ActivityEnrolmentEndDate) AS Year\r\n",
+					"\t--,YEAR(odse.ActivityEnrolmentEndDate) AS Year\r\n",
+					"\t,c.SkYear\r\n",
 					"\tFROM vw_CompassODSActivityEnrolment odse\r\n",
 					"\tJOIN vw_CompassODSStudentDemographic odss on odse.CompassPersonId = odss.CompassPersonId\r\n",
+					"\tJOIN vw_dmcalendaryear c on YEAR(odse.ActivityEnrolmentEndDate) = c.Year\r\n",
 					"\r\n",
 					"\tWHERE SubjectCode IS NOT NULL\r\n",
 					"\tAND odse.Iscurrent = 'True'\r\n",

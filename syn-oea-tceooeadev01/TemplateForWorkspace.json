@@ -55194,7 +55194,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "47e0ff99-1891-4a1e-a236-888d2f1d57b3"
+						"spark.autotune.trackingId": "7c1f944b-925e-4d0e-b8fa-c7c0b12d4c1c"
 					}
 				},
 				"metadata": {
@@ -55851,7 +55851,6 @@
 							"\t,e.ActivityCode\r\n",
 							"\t,e.CampusID\r\n",
 							"\t,e.Year\r\n",
-							"\t,e.SkYear\r\n",
 							"\t,a.SKYearLevel\r\n",
 							"\t,a.Ceider\r\n",
 							"\r\n",

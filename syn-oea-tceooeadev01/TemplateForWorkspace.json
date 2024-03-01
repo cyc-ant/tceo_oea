@@ -55194,7 +55194,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "06a9b489-3154-4cfd-bb8b-b725124e3e6d"
+						"spark.autotune.trackingId": "47e0ff99-1891-4a1e-a236-888d2f1d57b3"
 					}
 				},
 				"metadata": {
@@ -55814,7 +55814,7 @@
 							"\t,odse.ActivityCode\r\n",
 							"\t,odse.CampusID\r\n",
 							"\t,odss.GovCode1 AS Ceider\r\n",
-							"\t--,YEAR(odse.ActivityEnrolmentEndDate) AS Year\r\n",
+							"\t,YEAR(odse.ActivityEnrolmentEndDate) AS Year\r\n",
 							"\t,c.SkYear\r\n",
 							"\tFROM vw_CompassODSActivityEnrolment odse\r\n",
 							"\tJOIN vw_CompassODSStudentDemographic odss on odse.CompassPersonId = odss.CompassPersonId\r\n",
@@ -55851,6 +55851,7 @@
 							"\t,e.ActivityCode\r\n",
 							"\t,e.CampusID\r\n",
 							"\t,e.Year\r\n",
+							"\t,e.SkYear\r\n",
 							"\t,a.SKYearLevel\r\n",
 							"\t,a.Ceider\r\n",
 							"\r\n",

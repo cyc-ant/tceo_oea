@@ -7980,6 +7980,9 @@
 									"name": "Copy_from_Azure_SQL_DB",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -8345,6 +8348,9 @@
 									"name": "Copy_from_URL",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -8447,6 +8453,9 @@
 						"name": "Execute Pipeline1",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8483,6 +8492,9 @@
 						"name": "Execute Pipeline1",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8519,6 +8531,9 @@
 						"name": "Create SQL DB",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8556,6 +8571,9 @@
 						"name": "Create SQL DB",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8630,6 +8648,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8651,6 +8672,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8672,6 +8696,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8693,6 +8720,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8714,6 +8744,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8735,6 +8768,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8756,6 +8792,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8777,6 +8816,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8798,6 +8840,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8819,6 +8864,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8840,6 +8888,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8861,6 +8912,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8918,6 +8972,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8939,6 +8996,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -8960,6 +9020,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -9009,6 +9072,9 @@
 						"name": "Execute Pipeline1",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -9432,6 +9498,9 @@
 											]
 										}
 									],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -9548,6 +9617,9 @@
 									"description": "Execute another pipeline to copy one batch of objects. The objects belonging to this batch will be copied parallelly.",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -9630,6 +9702,9 @@
 						"name": "Copy Data to Stage1",
 						"type": "ExecutePipeline",
 						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -9651,6 +9726,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -9672,6 +9750,9 @@
 								]
 							}
 						],
+						"policy": {
+							"secureInput": false
+						},
 						"userProperties": [],
 						"typeProperties": {
 							"pipeline": {
@@ -9874,6 +9955,9 @@
 									"name": "Copy ACER part1",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -9895,6 +9979,9 @@
 											]
 										}
 									],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -9923,6 +10010,9 @@
 									"name": "Copy Pipeline Attendance",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -9951,6 +10041,9 @@
 									"name": "Copy Pipeline class_period",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -9979,6 +10072,9 @@
 									"name": "Copy Pipeline enrolment",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10007,6 +10103,9 @@
 									"name": "Copy Pipeline MySchools",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10035,6 +10134,9 @@
 									"name": "Copy Pipeline NAPLAN",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10063,6 +10165,9 @@
 									"name": "Copy Pipeline NCCD",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10091,6 +10196,9 @@
 									"name": "CopyPipeline student_object",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10112,6 +10220,9 @@
 											]
 										}
 									],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10206,6 +10317,9 @@
 									"name": "ingestion_stage2_acer",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10234,6 +10348,9 @@
 									"name": "ingestion_stage2_ae",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10262,6 +10379,9 @@
 									"name": "ingestion_stage2_attendance",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10290,6 +10410,9 @@
 									"name": "ingestion_stage2_class_period",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10318,6 +10441,9 @@
 									"name": "ingestion_stage2_enrolment",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10346,6 +10472,9 @@
 									"name": "ingestion_stage2_myschools",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10374,6 +10503,9 @@
 									"name": "ingestion_stage2_naplan",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10402,6 +10534,9 @@
 									"name": "ingestion_stage2_nccd",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10430,6 +10565,9 @@
 									"name": "ingestion_stage2_student_profile",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10458,6 +10596,9 @@
 									"name": "ingestion_stage2_ae_manual",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10486,6 +10627,9 @@
 									"name": "ingestion_stage2_supportingdata",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10628,6 +10772,9 @@
 									"name": "Create_SQLDB_nohashing",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -10663,6 +10810,9 @@
 									"name": "Create_LakeDB_nohashing",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
+									"policy": {
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
@@ -55194,7 +55344,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "7c1f944b-925e-4d0e-b8fa-c7c0b12d4c1c"
+						"spark.autotune.trackingId": "9eaed978-9480-40d6-bc3b-1b68705aec56"
 					}
 				},
 				"metadata": {
@@ -56745,19 +56895,66 @@
 							"\r\n",
 							"CREATE TEMP VIEW vw_DIMNAPLANCombinedResultsLatestStudentsActive AS\r\n",
 							"\r\n",
+							"-- SELECT \r\n",
+							"--     CR.Ceider,\r\n",
+							"--     CR.SKNaplanAssessmentId,\r\n",
+							"--     MAX(CR.NaplanSKYear) AS NaplanSKYear,\r\n",
+							"--     MAX(CR.NaplanSKYearLevel) AS NaplanSKYearLevel,\r\n",
+							"--     MAX(CR.NaplanScaledScoreValue) AS NaplanScaledScoreValue,\r\n",
+							"--     MAX(CR.NAPLANDomainNationalAverage) AS NAPLANDomainNationalAverage\r\n",
+							"\r\n",
+							"-- FROM vw_DIMNAPLANCombinedResultsStudentsActive AS CR\r\n",
+							"\r\n",
+							"-- GROUP BY \r\n",
+							"--     CR.Ceider,\r\n",
+							"--     CR.SKNaplanAssessmentId;\r\n",
+							"\r\n",
+							"WITH MaxYear AS (\r\n",
+							"    SELECT \r\n",
+							"        Ceider,\r\n",
+							"        SKNaplanAssessmentId,\r\n",
+							"        MAX(NaplanSKYear) AS MaxNaplanSKYear\r\n",
+							"    FROM \r\n",
+							"        [dbo].[_DIMNAPLANCombinedResultsStudentsActive]\r\n",
+							"    GROUP BY \r\n",
+							"        Ceider,\r\n",
+							"        SKNaplanAssessmentId\r\n",
+							"),\r\n",
+							"MaxYearLevel AS (\r\n",
+							"    SELECT \r\n",
+							"        MY.Ceider,\r\n",
+							"        MY.SKNaplanAssessmentId,\r\n",
+							"        MY.MaxNaplanSKYear,\r\n",
+							"        MAX(CR.NaplanSKYearLevel) AS MaxNaplanSKYearLevel\r\n",
+							"    FROM \r\n",
+							"        MaxYear MY\r\n",
+							"    JOIN \r\n",
+							"        [dbo].[_DIMNAPLANCombinedResultsStudentsActive] CR\r\n",
+							"    ON \r\n",
+							"        MY.Ceider = CR.Ceider\r\n",
+							"        AND MY.SKNaplanAssessmentId = CR.SKNaplanAssessmentId\r\n",
+							"        AND MY.MaxNaplanSKYear = CR.NaplanSKYear\r\n",
+							"    GROUP BY \r\n",
+							"        MY.Ceider,\r\n",
+							"        MY.SKNaplanAssessmentId,\r\n",
+							"        MY.MaxNaplanSKYear\r\n",
+							")\r\n",
 							"SELECT \r\n",
 							"    CR.Ceider,\r\n",
 							"    CR.SKNaplanAssessmentId,\r\n",
-							"    MAX(CR.NaplanSKYear) AS NaplanSKYear,\r\n",
-							"    MAX(CR.NaplanSKYearLevel) AS NaplanSKYearLevel,\r\n",
-							"    MAX(CR.NaplanScaledScoreValue) AS NaplanScaledScoreValue,\r\n",
-							"    MAX(CR.NAPLANDomainNationalAverage) AS NAPLANDomainNationalAverage\r\n",
-							"\r\n",
-							"FROM vw_DIMNAPLANCombinedResultsStudentsActive AS CR\r\n",
-							"\r\n",
-							"GROUP BY \r\n",
-							"    CR.Ceider,\r\n",
-							"    CR.SKNaplanAssessmentId;\r\n",
+							"    CR.NaplanSKYear,\r\n",
+							"    CR.NaplanSKYearLevel,\r\n",
+							"    CR.NaplanScaledScoreValue,\r\n",
+							"    CR.NAPLANDomainNationalAverage\r\n",
+							"FROM \r\n",
+							"    [dbo].[_DIMNAPLANCombinedResultsStudentsActive] AS CR\r\n",
+							"JOIN \r\n",
+							"    MaxYearLevel MYL\r\n",
+							"ON \r\n",
+							"    CR.Ceider = MYL.Ceider\r\n",
+							"    AND CR.SKNaplanAssessmentId = MYL.SKNaplanAssessmentId\r\n",
+							"    AND CR.NaplanSKYear = MYL.MaxNaplanSKYear\r\n",
+							"    AND CR.NaplanSKYearLevel = MYL.MaxNaplanSKYearLevel;\r\n",
 							""
 						],
 						"outputs": [],

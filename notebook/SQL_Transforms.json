@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "28049d5e-b335-4485-8883-eed197188682"
+				"spark.autotune.trackingId": "09ef57f5-b706-40c0-a6bd-2580dcecb8d0"
 			}
 		},
 		"metadata": {
@@ -1567,7 +1567,7 @@
 					"        SKNaplanAssessmentId,\r\n",
 					"        MAX(NaplanSKYear) AS MaxNaplanSKYear\r\n",
 					"    FROM \r\n",
-					"        [dbo].[_DIMNAPLANCombinedResultsStudentsActive]\r\n",
+					"        vw_DIMNAPLANCombinedResultsStudentsActive\r\n",
 					"    GROUP BY \r\n",
 					"        Ceider,\r\n",
 					"        SKNaplanAssessmentId\r\n",
@@ -1581,7 +1581,7 @@
 					"    FROM \r\n",
 					"        MaxYear MY\r\n",
 					"    JOIN \r\n",
-					"        [dbo].[_DIMNAPLANCombinedResultsStudentsActive] CR\r\n",
+					"        vw_DIMNAPLANCombinedResultsStudentsActive CR\r\n",
 					"    ON \r\n",
 					"        MY.Ceider = CR.Ceider\r\n",
 					"        AND MY.SKNaplanAssessmentId = CR.SKNaplanAssessmentId\r\n",
@@ -1599,7 +1599,7 @@
 					"    CR.NaplanScaledScoreValue,\r\n",
 					"    CR.NAPLANDomainNationalAverage\r\n",
 					"FROM \r\n",
-					"    [dbo].[_DIMNAPLANCombinedResultsStudentsActive] AS CR\r\n",
+					"    vw_DIMNAPLANCombinedResultsStudentsActive AS CR\r\n",
 					"JOIN \r\n",
 					"    MaxYearLevel MYL\r\n",
 					"ON \r\n",

@@ -55368,7 +55368,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "63acf60a-d7fc-48b4-943c-070a48609b96"
+						"spark.autotune.trackingId": "2c11412a-b6b1-4730-90d5-6ce29b036ae5"
 					}
 				},
 				"metadata": {
@@ -56345,7 +56345,7 @@
 							"\tyear(current_date) as Year\n",
 							"\t, replace(YearLevel, '0', 'P') as YearLevel\n",
 							"\t, instance.CampusId as CampusID\n",
-							"\t, campus.SchoolNameAndArea\n",
+							"\t--, campus.SchoolNameAndArea\n",
 							"\t, ManagingCompassPersonId as TeacherID\n",
 							"\t, concat(staffdemo.TeacherFirstName, ' ', staffdemo.TeacherLastName) as TeacherName\n",
 							"\t, students.StudentCompassPersonId as StudentID\n",
@@ -61113,7 +61113,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "ef3fb9ab-5715-4267-a5d3-70e08a26eba5"
+						"spark.autotune.trackingId": "dae594b2-5826-49df-8a5e-2717e06e39b3"
 					}
 				},
 				"metadata": {
@@ -61138,8 +61138,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -61174,7 +61173,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 7
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -61241,7 +61240,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 16
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -61262,7 +61261,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 17
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -61305,7 +61304,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 18
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -61377,7 +61376,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 20
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",

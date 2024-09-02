@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "743da0d3-7a02-4282-835a-25eb488ba2db"
+				"spark.autotune.trackingId": "c8bf5afc-f5ed-429b-9d17-6bf25aa158c5"
 			}
 		},
 		"metadata": {
@@ -982,7 +982,7 @@
 					"\tyear(current_date) as Year\n",
 					"\t, replace(YearLevel, '0', 'P') as YearLevel\n",
 					"\t, instance.CampusId as CampusID\n",
-					"\t, campus.SchoolNameAndArea\n",
+					"\t--, campus.SchoolNameAndArea\n",
 					"\t, ManagingCompassPersonId as TeacherID\n",
 					"\t, concat(staffdemo.TeacherFirstName, ' ', staffdemo.TeacherLastName) as TeacherName\n",
 					"\t, students.StudentCompassPersonId as StudentID\n",

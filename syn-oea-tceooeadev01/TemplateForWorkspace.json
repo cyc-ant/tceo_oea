@@ -55368,7 +55368,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "6f47dda9-807b-4578-bbce-0aeffbdceae1"
+						"spark.autotune.trackingId": "63acf60a-d7fc-48b4-943c-070a48609b96"
 					}
 				},
 				"metadata": {
@@ -55393,7 +55393,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -56334,7 +56335,138 @@
 							}
 						},
 						"source": [
-							"select count(*) from vw_ods_earlyyearsstudents"
+							"DROP VIEW IF EXISTS vw_ods_earlyyearsstudents_testing;\n",
+							"\n",
+							"create temp view vw_ods_earlyyearsstudents_testing\n",
+							"as\n",
+							"\n",
+							"select distinct \n",
+							"\n",
+							"\tyear(current_date) as Year\n",
+							"\t, replace(YearLevel, '0', 'P') as YearLevel\n",
+							"\t, instance.CampusId as CampusID\n",
+							"\t, campus.SchoolNameAndArea\n",
+							"\t, ManagingCompassPersonId as TeacherID\n",
+							"\t, concat(staffdemo.TeacherFirstName, ' ', staffdemo.TeacherLastName) as TeacherName\n",
+							"\t, students.StudentCompassPersonId as StudentID\n",
+							"\t, concat(studentdemo.FirstName, ' ', studentdemo.LastName) as StudentName\n",
+							"\t, enrolment.ActivityName as ClassName\n",
+							"\t, enrolment.ActivityCode as ClassID\n",
+							"\t, trim(coalesce(staffemail.TeacherOrganisationUserEmail, staffdemo.TeacherEmailAddress)) as StaffEmail\n",
+							"\t, trim(studentemail.OrganisationUserEmail) as StudentEmail\n",
+							"\t, trim(studentdemo.GovCode1) as Ceider\n",
+							"\n",
+							"from\n",
+							"\n",
+							"-- Student Organisation Milestones\n",
+							"(select distinct CompassPersonId as StudentCompassPersonId, YearLevel, OrganisationName, CampusId\n",
+							"  from vw_CompassODSStudentOrganisationMilestones\n",
+							"  where 1=1\n",
+							"  and IsActive = 'True'\n",
+							"  and IsCurrent = 'True'\n",
+							"  and IsCurrentMilestone = 'True'\n",
+							"  and DioceseId = 12\n",
+							"  and (YearLevel = '0' or YearLevel = '1' or YearLevel = '2')\n",
+							") students\n",
+							"\n",
+							"left join\n",
+							"\n",
+							"-- Compass Activity Enrolment\n",
+							"(select distinct CompassPersonId as StudentCompassPersonId, ActivityCode, ActivityName, CampusID\n",
+							"\tfrom vw_CompassODSActivityEnrolment\n",
+							"\twhere 1=1\n",
+							"\tand IsCurrent = 'True'\n",
+							"\tand RoleDescription = 'Student'\n",
+							"\tand ActivityName <> 'Sickbay'\n",
+							"\tand SubjectCode IS NOT NULL\n",
+							"\tand year(ActivityEnrolmentStartDate) = year(current_date)\n",
+							"\t--and to_date(ActivityEnrolmentEndDate) > current_date\n",
+							"\tand year(to_date(ActivityEnrolmentEndDate)) = year(current_date)\n",
+							"\tand (ActivityCode like '%GEN%' or ActivityCode like 'PREP%')\n",
+							") enrolment\n",
+							"\n",
+							"on students.StudentCompassPersonId = enrolment.StudentCompassPersonId\n",
+							"\n",
+							"left join\n",
+							"\n",
+							"-- Compass Activity Instance\n",
+							"(select distinct ActivityCode, ManagingCompassPersonId, CampusId\n",
+							"  from vw_CompassODSActivityInstance\n",
+							"  where 1=1 \n",
+							"  and IsCurrent = 'True'\n",
+							"  and DioceseId = 12\n",
+							"  and (ActivityCode like '%GEN%' or ActivityCode like 'PREP%')\n",
+							"  and year(Start) = year(current_date)\n",
+							"  and ManagingCompassPersonId <> '00000000-0000-0000-0000-000000000000'\n",
+							") instance \n",
+							"\n",
+							"on enrolment.ActivityCode = instance.ActivityCode\n",
+							"and enrolment.CampusID = instance.CampusId\n",
+							"\n",
+							"inner join\n",
+							"\n",
+							"-- Staff Organisation Milestones\n",
+							"(select distinct CompassPersonId as StaffCompassPersonId, OrganisationName\n",
+							"\tfrom vw_CompassODSStaffOrganisationMilestones\n",
+							"\twhere 1=1\n",
+							"\tand DioceseId = 12\n",
+							"\tand IsCurrentMilestone = 'True'\n",
+							"\tand Iscurrent = 'True'\n",
+							"\tand IsActive = 'True'\n",
+							") staffmilestone\n",
+							"\n",
+							"on instance.ManagingCompassPersonId = staffmilestone.StaffCompassPersonId\n",
+							"\n",
+							"inner join\n",
+							"\n",
+							"-- Staff Demographic\n",
+							"-- only getting the personal email here because some schools have accidentally \n",
+							"-- put the org user email in this field in compass\n",
+							"(select distinct CompassPersonId as StaffCompassPersonId, FirstName as TeacherFirstName, LastName as TeacherLastName, EmailAddress as TeacherEmailAddress\n",
+							"\tfrom vw_CompassODSStaffDemographic\n",
+							"\twhere 1=1\n",
+							"\tand IsCurrent = 'True'\n",
+							") staffdemo\n",
+							"\n",
+							"on staffmilestone.StaffCompassPersonId = staffdemo.StaffCompassPersonId\n",
+							"\n",
+							"inner join\n",
+							"\n",
+							"-- Staff Organisation Details (email)\n",
+							"(select distinct CompassPersonId as TeacherCompassPersonId, OrganisationUserEmail as TeacherOrganisationUserEmail, OrganisationName\n",
+							"\tfrom vw_CompassODSStaffOrganisationDetails\n",
+							"\twhere 1=1\n",
+							"\tand Iscurrent = 'True'\n",
+							"\tand OrganisationUserEmail NOT LIKE '%supply%'\n",
+							") staffemail\n",
+							"\n",
+							"on staffmilestone.StaffCompassPersonId = staffemail.TeacherCompassPersonId\n",
+							"and staffmilestone.OrganisationName = staffemail.OrganisationName\n",
+							"and staffemail.OrganisationName like students.OrganisationName\n",
+							"\n",
+							"inner join -- inner join will remove students without demographic information\n",
+							"\n",
+							"-- Student Demographic\n",
+							"(select distinct CompassPersonId as StudentCompassPersonId, FirstName, LastName, GovCode1\n",
+							"\tfrom vw_CompassODSStudentDemographic\n",
+							"\twhere 1=1\n",
+							"\tand Iscurrent = 'True'\n",
+							") studentdemo\n",
+							"\n",
+							"on students.StudentCompassPersonId = studentdemo.StudentCompassPersonId\n",
+							"\n",
+							"inner join  -- inner join will remove students without email\n",
+							"\n",
+							"-- Student Organisation Details (Email)\n",
+							"(select distinct CompassPersonId as StudentCompassPersonId, OrganisationUserEmail, OrganisationName\n",
+							"\tfrom vw_CompassODSStudentOrganisationDetails\n",
+							"\twhere 1=1\n",
+							"\tand Iscurrent = 'True'\n",
+							"\tand OrganisationUserEmail IS NOT NULL --these are all duplicate students that have emails in other records\n",
+							") studentemail\n",
+							"\n",
+							"on studentdemo.StudentCompassPersonId = studentemail.StudentCompassPersonId\n",
+							"and students.OrganisationName = studentemail.OrganisationName"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -56353,7 +56485,7 @@
 							}
 						},
 						"source": [
-							"select * from vw_dmcampus"
+							"select count(*) from vw_ods_earlyyearsstudents_testing"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -60808,7 +60940,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "b0135cce-6690-4b6c-8f60-26de8104d321"
+						"spark.autotune.trackingId": "89dcf358-1d5b-4ce9-b736-668ac175318d"
 					}
 				},
 				"metadata": {
@@ -60833,8 +60965,7 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -60982,7 +61113,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "2a5da384-e86d-446d-b0e9-9f7e31421a1e"
+						"spark.autotune.trackingId": "ef3fb9ab-5715-4267-a5d3-70e08a26eba5"
 					}
 				},
 				"metadata": {
@@ -61007,7 +61138,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -61061,7 +61193,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 12
+						"execution_count": 14
 					},
 					{
 						"cell_type": "code",
@@ -61080,7 +61212,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 15
 					},
 					{
 						"cell_type": "code",
@@ -61109,7 +61241,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 10
+						"execution_count": 16
 					},
 					{
 						"cell_type": "code",
@@ -61130,7 +61262,7 @@
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 5
+						"execution_count": 17
 					},
 					{
 						"cell_type": "code",
@@ -61173,7 +61305,7 @@
 							""
 						],
 						"outputs": [],
-						"execution_count": 51
+						"execution_count": 18
 					},
 					{
 						"cell_type": "code",
@@ -61193,7 +61325,7 @@
 							"stage3Transform(source_p, destination_p)"
 						],
 						"outputs": [],
-						"execution_count": 13
+						"execution_count": 19
 					},
 					{
 						"cell_type": "code",
@@ -61245,7 +61377,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 11
+						"execution_count": 20
 					},
 					{
 						"cell_type": "code",

@@ -55368,7 +55368,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "c35769ad-acea-4dad-9176-9c724345f080"
+						"spark.autotune.trackingId": "cd064f70-e538-4ea2-9c2b-59bcc424feb7"
 					}
 				},
 				"metadata": {
@@ -56336,6 +56336,25 @@
 						},
 						"source": [
 							"select count(*) from vw_ods_earlyyearsstudents"
+						],
+						"outputs": [],
+						"execution_count": null
+					},
+					{
+						"cell_type": "code",
+						"metadata": {
+							"jupyter": {
+								"source_hidden": false,
+								"outputs_hidden": false
+							},
+							"nteract": {
+								"transient": {
+									"deleting": false
+								}
+							}
+						},
+						"source": [
+							"select * from vw_dmcampus"
 						],
 						"outputs": [],
 						"execution_count": null
@@ -60959,7 +60978,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "5b136625-256a-46d3-865f-15d6be2ed0d5"
+						"spark.autotune.trackingId": "c7380ba1-ac24-4ca7-be13-0360c5901115"
 					}
 				},
 				"metadata": {
@@ -61019,7 +61038,7 @@
 							"%run OEA_py"
 						],
 						"outputs": [],
-						"execution_count": 46
+						"execution_count": 1
 					},
 					{
 						"cell_type": "code",
@@ -61038,7 +61057,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 47
+						"execution_count": 2
 					},
 					{
 						"cell_type": "code",
@@ -61057,7 +61076,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 48
+						"execution_count": 3
 					},
 					{
 						"cell_type": "code",
@@ -61073,20 +61092,20 @@
 							}
 						},
 						"source": [
-							"# stage2 locations defined in the base OEA\r\n",
-							"source_p = oea.stage2p \r\n",
-							"source_np = oea.stage2np\r\n",
-							"\r\n",
-							"# stage3 locations defined in OEA\r\n",
-							"destination_p = oea.stage3p\r\n",
-							"destination_np = oea.stage3np\r\n",
-							"\r\n",
-							"# stage3 version (eg. pilot)\r\n",
-							"version = 'pilot'\r\n",
+							"# stage2 locations defined in the base OEA\n",
+							"source_p = oea.stage2p \n",
+							"source_np = oea.stage2np\n",
+							"\n",
+							"# stage3 locations defined in OEA\n",
+							"destination_p = oea.stage3p\n",
+							"destination_np = oea.stage3np\n",
+							"\n",
+							"# stage3 version (eg. pilot)\n",
+							"version = 'pilot'\n",
 							""
 						],
 						"outputs": [],
-						"execution_count": 49
+						"execution_count": 4
 					},
 					{
 						"cell_type": "code",
@@ -61102,12 +61121,12 @@
 							}
 						},
 						"source": [
-							"def saveToTarget(df, target_system, target_path):\r\n",
-							"    path = f'{target_system}/{target_path}'\r\n",
+							"def saveToTarget(df, target_system, target_path):\n",
+							"    path = f'{target_system}/{target_path}'\n",
 							"    df.write.format('delta').option(\"overwriteSchema\", \"true\").save(path, header=True, mode=\"overwrite\")"
 						],
 						"outputs": [],
-						"execution_count": 50
+						"execution_count": 5
 					},
 					{
 						"cell_type": "code",
@@ -61123,30 +61142,30 @@
 							}
 						},
 						"source": [
-							"# load data, transform then save from each source folder to the destination \r\n",
-							"def stage3Transform(source, destination):\r\n",
-							"    # source - for each major folder, iterate through each subfolder\r\n",
-							"    folders = mssparkutils.fs.ls(source)\r\n",
-							"    for folder in folders:\r\n",
-							"        #ignore files\r\n",
-							"        if folder.isFile:\r\n",
-							"            continue\r\n",
-							"        # iterate through each subfolder\r\n",
-							"        subfolders = mssparkutils.fs.ls(folder.path)\r\n",
-							"        for subfolder in subfolders:\r\n",
-							"            #There shouldn't be any files at this directory level \r\n",
-							"            if subfolder.isFile:\r\n",
-							"                continue\r\n",
-							"\r\n",
-							"            # run transformations\r\n",
-							"            transformed_df = transform(subfolder)\r\n",
-							"            # if transformation has worked..\r\n",
-							"            if transformed_df:\r\n",
-							"                saveToTarget(transformed_df, destination, f'{version}/{subfolder.name}')\r\n",
-							"            else:\r\n",
-							"                print(f'Errors in Transform - Skipping: {folder.name}/{subfolder.name}')\r\n",
-							"\r\n",
-							"\r\n",
+							"# load data, transform then save from each source folder to the destination \n",
+							"def stage3Transform(source, destination):\n",
+							"    # source - for each major folder, iterate through each subfolder\n",
+							"    folders = mssparkutils.fs.ls(source)\n",
+							"    for folder in folders:\n",
+							"        #ignore files\n",
+							"        if folder.isFile:\n",
+							"            continue\n",
+							"        # iterate through each subfolder\n",
+							"        subfolders = mssparkutils.fs.ls(folder.path)\n",
+							"        for subfolder in subfolders:\n",
+							"            #There shouldn't be any files at this directory level \n",
+							"            if subfolder.isFile:\n",
+							"                continue\n",
+							"\n",
+							"            # run transformations\n",
+							"            transformed_df = transform(subfolder)\n",
+							"            # if transformation has worked..\n",
+							"            if transformed_df:\n",
+							"                saveToTarget(transformed_df, destination, f'{version}/{subfolder.name}')\n",
+							"            else:\n",
+							"                print(f'Errors in Transform - Skipping: {folder.name}/{subfolder.name}')\n",
+							"\n",
+							"\n",
 							""
 						],
 						"outputs": [],
@@ -61222,7 +61241,7 @@
 							"%run Stage3/SQL_Transforms"
 						],
 						"outputs": [],
-						"execution_count": 23
+						"execution_count": 6
 					},
 					{
 						"cell_type": "code",

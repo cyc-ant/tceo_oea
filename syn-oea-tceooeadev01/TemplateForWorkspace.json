@@ -60144,7 +60144,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "39f80490-1c00-4df4-b49d-eab5e1662488"
+						"spark.autotune.trackingId": "dba70b87-bd76-487e-8c2a-d8ba4d57fbd5"
 					}
 				},
 				"metadata": {
@@ -60169,15 +60169,13 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28,
-						"automaticScaleJobs": false
+						"memory": 28
 					},
 					"sessionKeepAliveTimeout": 30
 				},
 				"cells": [
 					{
 						"cell_type": "code",
-						"metadata": {},
 						"source": [
 							"from pyspark.sql.functions import when, max, regexp_replace, col, concat_ws, concat, udf, lit, regexp_replace, split, upper, date_format, to_date, first, trim\n",
 							"from pyspark.sql.types import StringType\n",
@@ -60810,7 +60808,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "06b16fbd-2907-45fd-a439-63bb3eb5a766"
+						"spark.autotune.trackingId": "b0135cce-6690-4b6c-8f60-26de8104d321"
 					}
 				},
 				"metadata": {
@@ -60835,7 +60833,8 @@
 						"sparkVersion": "3.1",
 						"nodeCount": 3,
 						"cores": 4,
-						"memory": 28
+						"memory": 28,
+						"automaticScaleJobs": false
 					},
 					"sessionKeepAliveTimeout": 30
 				},
@@ -60886,39 +60885,41 @@
 							}
 						},
 						"source": [
-							"def transformation(df, name):\r\n",
-							"\r\n",
-							"    if name == \"DMYearLevel_pseudo\":\r\n",
-							"        final_df = DMYearLevel_pseudo(df)\r\n",
-							"    elif name == \"DMCampus_pseudo\":\r\n",
-							"        final_df = DMCampus_pseudo(df)\r\n",
-							"    elif name == \"DMDate_pseudo\":\r\n",
-							"        final_df = DMDate_pseudo(df)\r\n",
-							"    elif name == \"DMStudent_pseudo\":\r\n",
-							"        final_df = DMStudent_pseudo(df)\r\n",
-							"    elif name == \"DMNAPLAN_pseudo\":\r\n",
-							"        final_df = DMNAPLAN_pseudo(df)\r\n",
-							"    elif name == \"DMPersonDemographic_pseudo\":\r\n",
-							"        final_df = DMPersonDemographic_pseudo(df)\r\n",
-							"    elif name == \"DMFactPATResults_pseudo\":\r\n",
-							"        final_df = DMFactPATResults_pseudo(df)  \r\n",
-							"    elif name == \"DMPATTest_pseudo\":\r\n",
-							"        final_df = DMPATTest_pseudo(df)  \r\n",
-							"    elif name == \"EarlyYearsResults_pseudo\":\r\n",
-							"        final_df = EarlyYearsResults_pseudo(df)\r\n",
-							"    elif name == \"EarlyYearsResultsYear2_pseudo\":\r\n",
-							"        final_df = EarlyYearsResultsYear2_pseudo(df)\r\n",
-							"    elif name == \"ATAR_pseudo\":\r\n",
-							"        final_df = ATAR_pseudo(df)\r\n",
-							"    elif name == \"StudentLevel_pseudo\":\r\n",
-							"        final_df = StudentLevel_pseudo(df)\r\n",
-							"    elif name == \"CompassODSStudentDemographicFull_pseudo\":\r\n",
-							"        final_df = CompassODSStudentDemographicFull_pseudo(df)\r\n",
-							"    elif name == \"AEResultsCombined_pseudo\":\r\n",
-							"        final_df = AEResultsCombined(df)\r\n",
-							"    else:  \r\n",
-							"        final_df = df\r\n",
-							"\r\n",
+							"def transformation(df, name):\n",
+							"\n",
+							"    print(name)\n",
+							"\n",
+							"    if name == \"DMYearLevel_pseudo\":\n",
+							"        final_df = DMYearLevel_pseudo(df)\n",
+							"    elif name == \"DMCampus_pseudo\":\n",
+							"        final_df = DMCampus_pseudo(df)\n",
+							"    elif name == \"DMDate_pseudo\":\n",
+							"        final_df = DMDate_pseudo(df)\n",
+							"    elif name == \"DMStudent_pseudo\":\n",
+							"        final_df = DMStudent_pseudo(df)\n",
+							"    elif name == \"DMNAPLAN_pseudo\":\n",
+							"        final_df = DMNAPLAN_pseudo(df)\n",
+							"    elif name == \"DMPersonDemographic_pseudo\":\n",
+							"        final_df = DMPersonDemographic_pseudo(df)\n",
+							"    elif name == \"DMFactPATResults_pseudo\":\n",
+							"        final_df = DMFactPATResults_pseudo(df)  \n",
+							"    elif name == \"DMPATTest_pseudo\":\n",
+							"        final_df = DMPATTest_pseudo(df)  \n",
+							"    elif name == \"EarlyYearsResults_pseudo\":\n",
+							"        final_df = EarlyYearsResults_pseudo(df)\n",
+							"    elif name == \"EarlyYearsResultsYear2_pseudo\":\n",
+							"        final_df = EarlyYearsResultsYear2_pseudo(df)\n",
+							"    elif name == \"ATAR_pseudo\":\n",
+							"        final_df = ATAR_pseudo(df)\n",
+							"    elif name == \"StudentLevel_pseudo\":\n",
+							"        final_df = StudentLevel_pseudo(df)\n",
+							"    elif name == \"CompassODSStudentDemographicFull_pseudo\":\n",
+							"        final_df = CompassODSStudentDemographicFull_pseudo(df)\n",
+							"    elif name == \"AEResultsCombined_pseudo\":\n",
+							"        final_df = AEResultsCombined(df)\n",
+							"    else:  \n",
+							"        final_df = df\n",
+							"\n",
 							"    return final_df"
 						],
 						"outputs": [],
@@ -60938,16 +60939,16 @@
 							}
 						},
 						"source": [
-							"# call this function with the name of the table to transform\r\n",
-							"def transform(tableName):\r\n",
-							"\r\n",
-							"    try:\r\n",
-							"        df = spark.read.load(f\"{tableName.path}\", format='delta')\r\n",
-							"        return transformation(df, tableName.name)\r\n",
-							"\r\n",
-							"    except AnalysisException as e:\r\n",
-							"        raise ValueError(f\"Failed to load {tableName.path}. Check the paths.\\nMore info below:\\n\" + str(e)) \r\n",
-							"    \r\n",
+							"# call this function with the name of the table to transform\n",
+							"def transform(tableName):\n",
+							"\n",
+							"    try:\n",
+							"        df = spark.read.load(f\"{tableName.path}\", format='delta')\n",
+							"        return transformation(df, tableName.name)\n",
+							"\n",
+							"    except AnalysisException as e:\n",
+							"        raise ValueError(f\"Failed to load {tableName.path}. Check the paths.\\nMore info below:\\n\" + str(e)) \n",
+							"    \n",
 							"    return None"
 						],
 						"outputs": [],
@@ -60981,7 +60982,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "9093315a-1bf6-42b1-8675-e9ac8978dc1a"
+						"spark.autotune.trackingId": "2a5da384-e86d-446d-b0e9-9f7e31421a1e"
 					}
 				},
 				"metadata": {
@@ -61060,7 +61061,7 @@
 							"%run Stage3/Transformations_py"
 						],
 						"outputs": [],
-						"execution_count": 8
+						"execution_count": 12
 					},
 					{
 						"cell_type": "code",
@@ -61079,7 +61080,7 @@
 							"%run Stage3/Transform_Functions_py"
 						],
 						"outputs": [],
-						"execution_count": 9
+						"execution_count": 13
 					},
 					{
 						"cell_type": "code",

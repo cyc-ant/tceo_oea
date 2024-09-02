@@ -20,7 +20,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "eecce8a3-67d6-4cae-ba2a-d5177c9da0d9"
+				"spark.autotune.trackingId": "6f47dda9-807b-4578-bbce-0aeffbdceae1"
 			}
 		},
 		"metadata": {
@@ -973,6 +973,24 @@
 				},
 				"source": [
 					"select count(*) from vw_ods_earlyyearsstudents"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"select * from vw_dmcampus"
 				],
 				"execution_count": null
 			},
